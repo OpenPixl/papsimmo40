@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity\GestApp;
+namespace App\Entity\Gestapp\choice;
 
-use App\Repository\GestApp\HouseTypeRepository;
+use App\Repository\Gestapp\choice\HouseTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HouseTypeRepository::class)]

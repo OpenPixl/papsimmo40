@@ -2,8 +2,13 @@
 
 namespace App\Entity\Admin;
 
+use App\Entity\Gestapp\Customers;
+use App\Entity\Gestapp\Project;
+use App\Entity\Gestapp\Property;
 use App\Repository\Admin\EmployedRepository;
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -51,6 +56,22 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'datetime_immutable')]
     private $updatedAt;
+
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Customers::class)]
+    private $customers;
+
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Property::class)]
+    private $properties;
+
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Project::class)]
+    private $projects;
+
+    public function __construct()
+    {
+        $this->customers = new ArrayCollection();
+        $this->properties = new ArrayCollection();
+        $this->projects = new ArrayCollection();
+    }
 
     /**
      * Permet d'initialiser le slug !
@@ -235,5 +256,95 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function __toString()
     {
         return $this->firstName." ".$this->lastName;
+    }
+
+    /**
+     * @return Collection<int, Customers>
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(Customers $customer): self
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers[] = $customer;
+            $customer->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(Customers $customer): self
+    {
+        if ($this->customers->removeElement($customer)) {
+            // set the owning side to null (unless already changed)
+            if ($customer->getRefEmployed() === $this) {
+                $customer->setRefEmployed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Property>
+     */
+    public function getProperties(): Collection
+    {
+        return $this->properties;
+    }
+
+    public function addProperty(Property $property): self
+    {
+        if (!$this->properties->contains($property)) {
+            $this->properties[] = $property;
+            $property->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProperty(Property $property): self
+    {
+        if ($this->properties->removeElement($property)) {
+            // set the owning side to null (unless already changed)
+            if ($property->getRefEmployed() === $this) {
+                $property->setRefEmployed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Project>
+     */
+    public function getProjects(): Collection
+    {
+        return $this->projects;
+    }
+
+    public function addProject(Project $project): self
+    {
+        if (!$this->projects->contains($project)) {
+            $this->projects[] = $project;
+            $project->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeProject(Project $project): self
+    {
+        if ($this->projects->removeElement($project)) {
+            // set the owning side to null (unless already changed)
+            if ($project->getRefEmployed() === $this) {
+                $project->setRefEmployed(null);
+            }
+        }
+
+        return $this;
     }
 }

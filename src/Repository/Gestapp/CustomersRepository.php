@@ -1,31 +1,31 @@
 <?php
 
-namespace App\Repository\GestApp;
+namespace App\Repository\Gestapp;
 
-use App\Entity\GestApp\LandType;
+use App\Entity\Gestapp\Customers;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method LandType|null find($id, $lockMode = null, $lockVersion = null)
- * @method LandType|null findOneBy(array $criteria, array $orderBy = null)
- * @method LandType[]    findAll()
- * @method LandType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Customers|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Customers|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Customers[]    findAll()
+ * @method Customers[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class LandTypeRepository extends ServiceEntityRepository
+class CustomersRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, LandType::class);
+        parent::__construct($registry, Customers::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(LandType $entity, bool $flush = true): void
+    public function add(Customers $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class LandTypeRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(LandType $entity, bool $flush = true): void
+    public function remove(Customers $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,15 +46,15 @@ class LandTypeRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return LandType[] Returns an array of LandType objects
+    //  * @return Customers[] Returns an array of Customers objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('l.id', 'ASC')
+            ->orderBy('c.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -63,10 +63,10 @@ class LandTypeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?LandType
+    public function findOneBySomeField($value): ?Customers
     {
-        return $this->createQueryBuilder('l')
-            ->andWhere('l.exampleField = :val')
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

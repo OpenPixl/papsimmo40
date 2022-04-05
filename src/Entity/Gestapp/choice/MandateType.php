@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Entity\GestApp;
+namespace App\Entity\Gestapp\choice;
 
-use App\Repository\GestApp\ApartmentTypeRepository;
+use App\Repository\Gestapp\choice\MandateTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ApartmentTypeRepository::class)]
-class ApartmentType
+#[ORM\Entity(repositoryClass: MandateTypeRepository::class)]
+class MandateType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -1,31 +1,31 @@
 <?php
 
-namespace App\Repository\GestApp;
+namespace App\Repository\Gestapp;
 
-use App\Entity\GestApp\ApartmentType;
+use App\Entity\Gestapp\publication;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method ApartmentType|null find($id, $lockMode = null, $lockVersion = null)
- * @method ApartmentType|null findOneBy(array $criteria, array $orderBy = null)
- * @method ApartmentType[]    findAll()
- * @method ApartmentType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method publication|null find($id, $lockMode = null, $lockVersion = null)
+ * @method publication|null findOneBy(array $criteria, array $orderBy = null)
+ * @method publication[]    findAll()
+ * @method publication[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ApartmentTypeRepository extends ServiceEntityRepository
+class publicationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, ApartmentType::class);
+        parent::__construct($registry, publication::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(ApartmentType $entity, bool $flush = true): void
+    public function add(publication $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class ApartmentTypeRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(ApartmentType $entity, bool $flush = true): void
+    public function remove(publication $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,15 +46,15 @@ class ApartmentTypeRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Apartment[] Returns an array of Apartment objects
+    //  * @return publication[] Returns an array of publication objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('a.id', 'ASC')
+            ->orderBy('p.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -63,10 +63,10 @@ class ApartmentTypeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Apartment
+    public function findOneBySomeField($value): ?publication
     {
-        return $this->createQueryBuilder('a')
-            ->andWhere('a.exampleField = :val')
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

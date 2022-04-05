@@ -1,31 +1,31 @@
 <?php
 
-namespace App\Repository\GestApp;
+namespace App\Repository\Gestapp\choice;
 
-use App\Entity\GestApp\HouseType;
+use App\Entity\Gestapp\choice\Denomination;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method HouseType|null find($id, $lockMode = null, $lockVersion = null)
- * @method HouseType|null findOneBy(array $criteria, array $orderBy = null)
- * @method HouseType[]    findAll()
- * @method HouseType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Denomination|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Denomination|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Denomination[]    findAll()
+ * @method Denomination[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class HouseTypeRepository extends ServiceEntityRepository
+class DenominationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, HouseType::class);
+        parent::__construct($registry, Denomination::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(HouseType $entity, bool $flush = true): void
+    public function add(Denomination $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class HouseTypeRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(HouseType $entity, bool $flush = true): void
+    public function remove(Denomination $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,15 +46,15 @@ class HouseTypeRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return House[] Returns an array of House objects
+    //  * @return Denomination[] Returns an array of Denomination objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('h.id', 'ASC')
+            ->orderBy('d.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -63,10 +63,10 @@ class HouseTypeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?House
+    public function findOneBySomeField($value): ?Denomination
     {
-        return $this->createQueryBuilder('h')
-            ->andWhere('h.exampleField = :val')
+        return $this->createQueryBuilder('d')
+            ->andWhere('d.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

@@ -1,12 +1,12 @@
 <?php
 
-namespace App\Entity\GestApp;
+namespace App\Entity\Gestapp\choice;
 
-use App\Repository\GestApp\TradeTypeRepository;
+use App\Repository\Gestapp\choice\LandTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: TradeTypeRepository::class)]
-class TradeType
+#[ORM\Entity(repositoryClass: LandTypeRepository::class)]
+class LandType
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

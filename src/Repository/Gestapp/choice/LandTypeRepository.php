@@ -1,31 +1,31 @@
 <?php
 
-namespace App\Repository\GestApp;
+namespace App\Repository\Gestapp\choice;
 
-use App\Entity\GestApp\TradeType;
+use App\Entity\Gestapp\choice\LandType;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method TradeType|null find($id, $lockMode = null, $lockVersion = null)
- * @method TradeType|null findOneBy(array $criteria, array $orderBy = null)
- * @method TradeType[]    findAll()
- * @method TradeType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method LandType|null find($id, $lockMode = null, $lockVersion = null)
+ * @method LandType|null findOneBy(array $criteria, array $orderBy = null)
+ * @method LandType[]    findAll()
+ * @method LandType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class TradeTypeRepository extends ServiceEntityRepository
+class LandTypeRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, TradeType::class);
+        parent::__construct($registry, LandType::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(TradeType $entity, bool $flush = true): void
+    public function add(LandType $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class TradeTypeRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(TradeType $entity, bool $flush = true): void
+    public function remove(LandType $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,15 +46,15 @@ class TradeTypeRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return TradeType[] Returns an array of TradeType objects
+    //  * @return House[] Returns an array of House objects
     //  */
     /*
     public function findByExampleField($value)
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+        return $this->createQueryBuilder('h')
+            ->andWhere('h.exampleField = :val')
             ->setParameter('val', $value)
-            ->orderBy('t.id', 'ASC')
+            ->orderBy('h.id', 'ASC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()
@@ -63,10 +63,10 @@ class TradeTypeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?TradeType
+    public function findOneBySomeField($value): ?House
     {
-        return $this->createQueryBuilder('t')
-            ->andWhere('t.exampleField = :val')
+        return $this->createQueryBuilder('h')
+            ->andWhere('h.exampleField = :val')
             ->setParameter('val', $value)
             ->getQuery()
             ->getOneOrNullResult()

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity\GestApp;
+namespace App\Entity\Gestapp\choice;
 
-use App\Repository\GestApp\CustomerTypeRepository;
+use App\Repository\Gestapp\choice\CustomerTypeRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerTypeRepository::class)]

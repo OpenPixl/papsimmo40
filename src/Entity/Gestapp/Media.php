@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity\GestApp;
+namespace App\Entity\Gestapp;
 
-use App\Repository\GestApp\MediaRepository;
+use App\Repository\Gestapp\MediaRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -28,7 +28,7 @@ class Media
     #[ORM\PreUpdate]
     public function initializeSlug() {
         $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->firstName."_".$this->lastName);
+        $this->slug = $slugify->slugify($this->name);
     }
 
     public function getId(): ?int
