@@ -5,15 +5,15 @@ namespace App\Entity\Gestapp;
 use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\CustomerType;
-use App\Repository\Gestapp\CustomersRepository;
+use App\Repository\Gestapp\CustomerRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CustomersRepository::class)]
+#[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Customers
+class Customer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
