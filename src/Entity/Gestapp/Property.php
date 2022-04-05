@@ -117,7 +117,7 @@ class Property
     #[ORM\PreUpdate]
     public function initializeSlug() {
         $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->firstName."_".$this->lastName);
+        $this->slug = $slugify->slugify($this->name);
     }
 
     public function getId(): ?int

@@ -5,6 +5,9 @@ namespace App\Entity\Admin;
 use App\Entity\Gestapp\Customers;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
+use App\Entity\Webapp\Articles;
+use App\Entity\Webapp\Page;
+use App\Entity\Webapp\Section;
 use App\Repository\Admin\EmployedRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -66,11 +69,23 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Project::class)]
     private $projects;
 
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Articles::class)]
+    private $articles;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Section::class)]
+    private $sections;
+
+    #[ORM\OneToMany(mappedBy: 'author', targetEntity: Page::class)]
+    private $pages;
+
     public function __construct()
     {
         $this->customers = new ArrayCollection();
         $this->properties = new ArrayCollection();
         $this->projects = new ArrayCollection();
+        $this->articles = new ArrayCollection();
+        $this->sections = new ArrayCollection();
+        $this->pages = new ArrayCollection();
     }
 
     /**
@@ -342,6 +357,96 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($project->getRefEmployed() === $this) {
                 $project->setRefEmployed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Articles>
+     */
+    public function getArticles(): Collection
+    {
+        return $this->articles;
+    }
+
+    public function addArticle(Articles $article): self
+    {
+        if (!$this->articles->contains($article)) {
+            $this->articles[] = $article;
+            $article->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeArticle(Articles $article): self
+    {
+        if ($this->articles->removeElement($article)) {
+            // set the owning side to null (unless already changed)
+            if ($article->getAuthor() === $this) {
+                $article->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Section>
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(Section $section): self
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+            $section->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(Section $section): self
+    {
+        if ($this->sections->removeElement($section)) {
+            // set the owning side to null (unless already changed)
+            if ($section->getAuthor() === $this) {
+                $section->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Page>
+     */
+    public function getPages(): Collection
+    {
+        return $this->pages;
+    }
+
+    public function addPage(Page $page): self
+    {
+        if (!$this->pages->contains($page)) {
+            $this->pages[] = $page;
+            $page->setAuthor($this);
+        }
+
+        return $this;
+    }
+
+    public function removePage(Page $page): self
+    {
+        if ($this->pages->removeElement($page)) {
+            // set the owning side to null (unless already changed)
+            if ($page->getAuthor() === $this) {
+                $page->setAuthor(null);
             }
         }
 
