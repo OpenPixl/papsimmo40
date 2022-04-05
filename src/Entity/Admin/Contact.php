@@ -2,7 +2,7 @@
 
 namespace App\Entity\Admin;
 
-use App\Entity\Gestapp\Customers;
+use App\Entity\Gestapp\Customer;
 use App\Repository\Admin\ContactRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -41,7 +41,7 @@ class Contact
     #[ORM\ManyToOne(targetEntity: Employed::class)]
     private $employed;
 
-    #[ORM\ManyToOne(targetEntity: Customers::class, inversedBy: 'contacts')]
+    #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'contacts')]
     #[ORM\JoinColumn(nullable: false)]
     private $customers;
 
@@ -158,12 +158,12 @@ class Contact
         return $this;
     }
 
-    public function getCustomers(): ?Customers
+    public function getCustomers(): ?Customer
     {
         return $this->customers;
     }
 
-    public function setCustomers(?Customers $customers): self
+    public function setCustomers(?Customer $customers): self
     {
         $this->customers = $customers;
 

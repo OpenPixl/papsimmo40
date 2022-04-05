@@ -103,7 +103,7 @@ class Property
     #[ORM\Column(type: 'datetime_immutable')]
     private $updateAt;
 
-    #[ORM\OneToOne(targetEntity: Complements::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Complement::class, cascade: ['persist', 'remove'])]
     private $options;
 
     #[ORM\OneToOne(targetEntity: publication::class, cascade: ['persist', 'remove'])]
@@ -453,6 +453,29 @@ class Property
     {
         return $this->createAt;
     }
+    public function getOptions(): ?Complement
+    {
+        return $this->options;
+    }
+
+    public function setOptions(?Complement $options): self
+    {
+        $this->options = $options;
+
+        return $this;
+    }
+
+    public function getPublication(): ?publication
+    {
+        return $this->publication;
+    }
+
+    public function setPublication(?publication $publication): self
+    {
+        $this->publication = $publication;
+
+        return $this;
+    }
 
     #[ORM\PrePersist]
     public function setCreateAt(\DateTimeImmutable $createAt): self
@@ -476,27 +499,8 @@ class Property
         return $this;
     }
 
-    public function getOptions(): ?Complements
+    public function __toString()
     {
-        return $this->options;
-    }
-
-    public function setOptions(?Complements $options): self
-    {
-        $this->options = $options;
-
-        return $this;
-    }
-
-    public function getPublication(): ?publication
-    {
-        return $this->publication;
-    }
-
-    public function setPublication(?publication $publication): self
-    {
-        $this->publication = $publication;
-
-        return $this;
+        return $this->name;
     }
 }
