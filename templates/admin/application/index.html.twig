@@ -2,7 +2,7 @@
 
 {% block title %}Application index{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Application index</h1>
 
     <table class="table">
@@ -51,8 +51,8 @@
                 <td>{{ application.createdAt ? application.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ application.updatedAt ? application.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_admin_application_show', {'id': application.id}) }}">show</a>
-                    <a href="{{ path('app_admin_application_edit', {'id': application.id}) }}">edit</a>
+                    <a href="{{ path('op_admin_application_show', {'id': application.id}) }}">show</a>
+                    <a href="{{ path('op_admin_application_edit', {'id': application.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -63,5 +63,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_application_new') }}">Create new</a>
+    <a href="{{ path('op_admin_application_new') }}">Create new</a>
 {% endblock %}

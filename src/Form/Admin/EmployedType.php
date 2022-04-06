@@ -13,15 +13,13 @@ class EmployedType extends AbstractType
     {
         $builder
             ->add('email')
-            ->add('roles')
+            //->add('roles')
             ->add('password')
             ->add('firstName')
             ->add('lastName')
             ->add('slug')
             ->add('sector')
             ->add('isVerified')
-            ->add('createdAt')
-            ->add('updatedAt')
             ->add('referent')
         ;
     }

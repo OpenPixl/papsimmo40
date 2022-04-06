@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/employed')]
+#[Route('/opadmin/employed')]
 class EmployedController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_employed_index', methods: ['GET'])]
+    #[Route('/', name: 'op_admin_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
         return $this->render('admin/employed/index.html.twig', [
@@ -21,7 +21,7 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_employed_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_admin_employed_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EmployedRepository $employedRepository): Response
     {
         $employed = new Employed();
@@ -30,7 +30,7 @@ class EmployedController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $employedRepository->add($employed);
-            return $this->redirectToRoute('app_admin_employed_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/employed/new.html.twig', [
@@ -39,7 +39,7 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_employed_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'op_admin_employed_show', methods: ['GET'])]
     public function show(Employed $employed): Response
     {
         return $this->render('admin/employed/show.html.twig', [
@@ -47,7 +47,7 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_employed_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
     {
         $form = $this->createForm(EmployedType::class, $employed);
@@ -55,7 +55,7 @@ class EmployedController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $employedRepository->add($employed);
-            return $this->redirectToRoute('app_admin_employed_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/employed/edit.html.twig', [
@@ -64,13 +64,13 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_employed_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'op_admin_employed_delete', methods: ['POST'])]
     public function delete(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$employed->getId(), $request->request->get('_token'))) {
             $employedRepository->remove($employed);
         }
 
-        return $this->redirectToRoute('app_admin_employed_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
     }
 }

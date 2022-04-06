@@ -10,10 +10,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/admin/application')]
+#[Route('/opadmin/application')]
 class ApplicationController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_application_index', methods: ['GET'])]
+    #[Route('/', name: 'op_admin_application_index', methods: ['GET'])]
     public function index(ApplicationRepository $applicationRepository): Response
     {
         return $this->render('admin/application/index.html.twig', [
@@ -21,7 +21,7 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_admin_application_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_admin_application_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ApplicationRepository $applicationRepository): Response
     {
         $application = new Application();
@@ -30,7 +30,7 @@ class ApplicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $applicationRepository->add($application);
-            return $this->redirectToRoute('app_admin_application_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_admin_application_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/application/new.html.twig', [
@@ -39,7 +39,7 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_application_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'op_admin_application_show', methods: ['GET'])]
     public function show(Application $application): Response
     {
         return $this->render('admin/application/show.html.twig', [
@@ -47,7 +47,7 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_application_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'op_admin_application_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
     {
         $form = $this->createForm(ApplicationType::class, $application);
@@ -55,7 +55,7 @@ class ApplicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $applicationRepository->add($application);
-            return $this->redirectToRoute('app_admin_application_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_admin_application_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/application/edit.html.twig', [
@@ -64,13 +64,13 @@ class ApplicationController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_application_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'op_admin_application_delete', methods: ['POST'])]
     public function delete(Request $request, Application $application, ApplicationRepository $applicationRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$application->getId(), $request->request->get('_token'))) {
             $applicationRepository->remove($application);
         }
 
-        return $this->redirectToRoute('app_admin_application_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('op_admin_application_index', [], Response::HTTP_SEE_OTHER);
     }
 }

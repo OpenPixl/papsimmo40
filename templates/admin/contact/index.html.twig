@@ -2,7 +2,7 @@
 
 {% block title %}Contact index{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Contact index</h1>
 
     <table class="table">
@@ -33,8 +33,8 @@
                 <td>{{ contact.instagram }}</td>
                 <td>{{ contact.linkedin }}</td>
                 <td>
-                    <a href="{{ path('app_admin_contact_show', {'id': contact.id}) }}">show</a>
-                    <a href="{{ path('app_admin_contact_edit', {'id': contact.id}) }}">edit</a>
+                    <a href="{{ path('op_admin_contact_show', {'id': contact.id}) }}">show</a>
+                    <a href="{{ path('op_admin_contact_edit', {'id': contact.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -45,5 +45,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_admin_contact_new') }}">Create new</a>
+    <a href="{{ path('op_admin_contact_new') }}">Create new</a>
 {% endblock %}

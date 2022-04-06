@@ -2,10 +2,10 @@
 
 {% block title %}New Application{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Create new Application</h1>
 
     {{ include('admin/application/_form.html.twig') }}
 
-    <a href="{{ path('app_admin_application_index') }}">back to list</a>
+    <a href="{{ path('op_admin_application_index') }}">back to list</a>
 {% endblock %}
