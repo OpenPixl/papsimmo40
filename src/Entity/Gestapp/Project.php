@@ -25,10 +25,10 @@ class Project
     #[ORM\Column(type: 'string', length: 100)]
     private $slug;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Customers::class)]
+    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Customer::class)]
     private $refApplicant;
 
-    #[ORM\OneToMany(mappedBy: 'acquirer', targetEntity: Customers::class)]
+    #[ORM\OneToMany(mappedBy: 'acquirer', targetEntity: Customer::class)]
     private $refAcquirer;
 
     #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'projects')]
@@ -99,14 +99,14 @@ class Project
     }
 
     /**
-     * @return Collection<int, Customers>
+     * @return Collection<int, Customer>
      */
     public function getRefApplicant(): Collection
     {
         return $this->refApplicant;
     }
 
-    public function addRefApplicant(Customers $refApplicant): self
+    public function addRefApplicant(Customer $refApplicant): self
     {
         if (!$this->refApplicant->contains($refApplicant)) {
             $this->refApplicant[] = $refApplicant;
@@ -116,7 +116,7 @@ class Project
         return $this;
     }
 
-    public function removeRefApplicant(Customers $refApplicant): self
+    public function removeRefApplicant(Customer $refApplicant): self
     {
         if ($this->refApplicant->removeElement($refApplicant)) {
             // set the owning side to null (unless already changed)
@@ -129,14 +129,14 @@ class Project
     }
 
     /**
-     * @return Collection<int, Customers>
+     * @return Collection<int, Customer>
      */
     public function getRefAcquirer(): Collection
     {
         return $this->refAcquirer;
     }
 
-    public function addRefAcquirer(Customers $refAcquirer): self
+    public function addRefAcquirer(Customer $refAcquirer): self
     {
         if (!$this->refAcquirer->contains($refAcquirer)) {
             $this->refAcquirer[] = $refAcquirer;
@@ -146,7 +146,7 @@ class Project
         return $this;
     }
 
-    public function removeRefAcquirer(Customers $refAcquirer): self
+    public function removeRefAcquirer(Customer $refAcquirer): self
     {
         if ($this->refAcquirer->removeElement($refAcquirer)) {
             // set the owning side to null (unless already changed)

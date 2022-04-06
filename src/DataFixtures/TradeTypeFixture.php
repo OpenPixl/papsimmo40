@@ -2,17 +2,17 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Webapp\choice\Category;
+use App\Entity\Gestapp\choice\TradeType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class CategoryFixtures extends Fixture
+class TradeTypeFixture extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $category = new Category();
-        $category->setName('Sans catégorie');
-        $manager->persist($category);
+        $CustomerType = new TradeType();
+        $CustomerType->setName('Entrepot');
+        $manager->persist($CustomerType);
 
         $manager->flush();
     }

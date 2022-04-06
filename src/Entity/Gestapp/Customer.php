@@ -5,15 +5,15 @@ namespace App\Entity\Gestapp;
 use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\CustomerType;
-use App\Repository\Gestapp\CustomersRepository;
+use App\Repository\Gestapp\CustomerRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CustomersRepository::class)]
+#[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-class Customers
+class Customer
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -50,10 +50,10 @@ class Customers
     #[ORM\Column(type: 'boolean')]
     private $isArchived = false;
 
-    #[ORM\OneToMany(mappedBy: 'customers', targetEntity: Contact::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'Customer', targetEntity: Contact::class, orphanRemoval: true)]
     private $contacts;
 
-    #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'customers')]
+    #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'Customer')]
     #[ORM\JoinColumn(nullable: false)]
     private $refEmployed;
 
@@ -222,7 +222,7 @@ class Customers
     {
         if (!$this->contacts->contains($contact)) {
             $this->contacts[] = $contact;
-            $contact->setCustomers($this);
+            $contact->setCustomer($this);
         }
 
         return $this;
@@ -232,8 +232,8 @@ class Customers
     {
         if ($this->contacts->removeElement($contact)) {
             // set the owning side to null (unless already changed)
-            if ($contact->getCustomers() === $this) {
-                $contact->setCustomers(null);
+            if ($contact->getCustomer() === $this) {
+                $contact->setCustomer(null);
             }
         }
 

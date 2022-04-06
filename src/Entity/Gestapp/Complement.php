@@ -10,11 +10,11 @@ use App\Entity\Gestapp\choice\LandType;
 use App\Entity\Gestapp\choice\OtherOption;
 use App\Entity\Gestapp\choice\TradeType;
 use App\Entity\Gestapp\choice\houseEquipment;
-use App\Repository\Gestapp\ComplementsRepository;
+use App\Repository\Gestapp\ComplementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ComplementsRepository::class)]
-class Complements
+#[ORM\Entity(repositoryClass: ComplementRepository::class)]
+class Complement
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

@@ -2,30 +2,30 @@
 
 namespace App\Repository\Gestapp;
 
-use App\Entity\Gestapp\Customers;
+use App\Entity\Gestapp\Complements;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Customers|null find($id, $lockMode = null, $lockVersion = null)
- * @method Customers|null findOneBy(array $criteria, array $orderBy = null)
- * @method Customers[]    findAll()
- * @method Customers[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Complements|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Complements|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Complements[]    findAll()
+ * @method Complements[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CustomersRepository extends ServiceEntityRepository
+class ComplementRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Customers::class);
+        parent::__construct($registry, Complements::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Customers $entity, bool $flush = true): void
+    public function add(Complements $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class CustomersRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Customers $entity, bool $flush = true): void
+    public function remove(Complements $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class CustomersRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return Customers[] Returns an array of Customers objects
+    //  * @return Complements[] Returns an array of Complements objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class CustomersRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?Customers
+    public function findOneBySomeField($value): ?Complements
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

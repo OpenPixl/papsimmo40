@@ -13,7 +13,7 @@ class MandateType
     #[ORM\Column(type: 'integer')]
     private $id;
 
-    #[ORM\Column(type: 'string', length: 25)]
+    #[ORM\Column(type: 'string', length: 50)]
     private $name;
 
     public function getId(): ?int
