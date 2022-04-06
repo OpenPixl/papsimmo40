@@ -2,51 +2,51 @@
 
 namespace App\DataFixtures;
 
-use App\Entity\Gestapp\choice\HouseType;
+use App\Entity\Gestapp\choice\houseEquipment;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 
-class HouseTypeFixture extends Fixture
+class HouseEquipementFixture extends Fixture
 {
     public function load(ObjectManager $manager)
     {
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Cheminée');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Piscine');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Climatisation');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Four');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Lave vaisselle');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Lave linge');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('alarme');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Congélateur');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Sèche linge');
         $manager->persist($house);
 
-        $house = new HouseType();
+        $house = new houseEquipment();
         $house->setName('Micro-ondes');
         $manager->persist($house);
 

@@ -43,7 +43,7 @@ class Contact
 
     #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'contacts')]
     #[ORM\JoinColumn(nullable: false)]
-    private $customers;
+    private $Customer;
 
     public function getId(): ?int
     {
@@ -158,14 +158,14 @@ class Contact
         return $this;
     }
 
-    public function getCustomers(): ?Customer
+    public function getCustomer(): ?Customer
     {
-        return $this->customers;
+        return $this->Customer;
     }
 
-    public function setCustomers(?Customer $customers): self
+    public function setCustomer(?Customer $Customer): self
     {
-        $this->customers = $customers;
+        $this->Customer = $Customer;
 
         return $this;
     }

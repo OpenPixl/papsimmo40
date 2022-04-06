@@ -2,7 +2,7 @@
 
 namespace App\Entity\Admin;
 
-use App\Entity\Gestapp\Customers;
+use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
 use App\Entity\Webapp\Articles;
@@ -60,8 +60,8 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
-    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Customers::class)]
-    private $customers;
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Customer::class)]
+    private $Customer;
 
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Property::class)]
     private $properties;
@@ -80,7 +80,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     public function __construct()
     {
-        $this->customers = new ArrayCollection();
+        $this->Customer = new ArrayCollection();
         $this->properties = new ArrayCollection();
         $this->projects = new ArrayCollection();
         $this->articles = new ArrayCollection();
@@ -274,26 +274,26 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     }
 
     /**
-     * @return Collection<int, Customers>
+     * @return Collection<int, Customer>
      */
-    public function getCustomers(): Collection
+    public function getCustomer(): Collection
     {
-        return $this->customers;
+        return $this->Customer;
     }
 
-    public function addCustomer(Customers $customer): self
+    public function addCustomer(Customer $customer): self
     {
-        if (!$this->customers->contains($customer)) {
-            $this->customers[] = $customer;
+        if (!$this->Customer->contains($customer)) {
+            $this->Customer[] = $customer;
             $customer->setRefEmployed($this);
         }
 
         return $this;
     }
 
-    public function removeCustomer(Customers $customer): self
+    public function removeCustomer(Customer $customer): self
     {
-        if ($this->customers->removeElement($customer)) {
+        if ($this->Customer->removeElement($customer)) {
             // set the owning side to null (unless already changed)
             if ($customer->getRefEmployed() === $this) {
                 $customer->setRefEmployed(null);

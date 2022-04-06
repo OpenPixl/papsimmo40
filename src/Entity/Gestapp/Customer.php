@@ -50,10 +50,10 @@ class Customer
     #[ORM\Column(type: 'boolean')]
     private $isArchived = false;
 
-    #[ORM\OneToMany(mappedBy: 'customers', targetEntity: Contact::class, orphanRemoval: true)]
+    #[ORM\OneToMany(mappedBy: 'Customer', targetEntity: Contact::class, orphanRemoval: true)]
     private $contacts;
 
-    #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'customers')]
+    #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'Customer')]
     #[ORM\JoinColumn(nullable: false)]
     private $refEmployed;
 
@@ -222,7 +222,7 @@ class Customer
     {
         if (!$this->contacts->contains($contact)) {
             $this->contacts[] = $contact;
-            $contact->setCustomers($this);
+            $contact->setCustomer($this);
         }
 
         return $this;
@@ -232,8 +232,8 @@ class Customer
     {
         if ($this->contacts->removeElement($contact)) {
             // set the owning side to null (unless already changed)
-            if ($contact->getCustomers() === $this) {
-                $contact->setCustomers(null);
+            if ($contact->getCustomer() === $this) {
+                $contact->setCustomer(null);
             }
         }
 
