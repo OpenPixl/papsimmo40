@@ -1,0 +1,67 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Application index{% endblock %}
+
+{% block body %}
+    <h1>Application index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>NameSite</th>
+                <th>SloganSite</th>
+                <th>DescrSite</th>
+                <th>IsOnline</th>
+                <th>AdminEmail</th>
+                <th>AdminWebmaster</th>
+                <th>IsBlockmenufluid</th>
+                <th>OfflineMessage</th>
+                <th>IsShowofflinemessage</th>
+                <th>IsShowofflinelogo</th>
+                <th>IsShowtitlesitehome</th>
+                <th>UrlFacebook</th>
+                <th>UrlInstagram</th>
+                <th>UrlLinkedin</th>
+                <th>UrlGooglebusiness</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for application in applications %}
+            <tr>
+                <td>{{ application.id }}</td>
+                <td>{{ application.nameSite }}</td>
+                <td>{{ application.sloganSite }}</td>
+                <td>{{ application.descrSite }}</td>
+                <td>{{ application.isOnline ? 'Yes' : 'No' }}</td>
+                <td>{{ application.adminEmail }}</td>
+                <td>{{ application.adminWebmaster }}</td>
+                <td>{{ application.isBlockmenufluid ? 'Yes' : 'No' }}</td>
+                <td>{{ application.offlineMessage }}</td>
+                <td>{{ application.isShowofflinemessage ? 'Yes' : 'No' }}</td>
+                <td>{{ application.isShowofflinelogo ? 'Yes' : 'No' }}</td>
+                <td>{{ application.isShowtitlesitehome ? 'Yes' : 'No' }}</td>
+                <td>{{ application.urlFacebook }}</td>
+                <td>{{ application.urlInstagram }}</td>
+                <td>{{ application.urlLinkedin }}</td>
+                <td>{{ application.urlGooglebusiness }}</td>
+                <td>{{ application.createdAt ? application.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ application.updatedAt ? application.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_application_show', {'id': application.id}) }}">show</a>
+                    <a href="{{ path('app_admin_application_edit', {'id': application.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="19">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_application_new') }}">Create new</a>
+{% endblock %}

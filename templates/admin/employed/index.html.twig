@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employed index{% endblock %}
+
+{% block body %}
+    <h1>Employed index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>Password</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Slug</th>
+                <th>Sector</th>
+                <th>IsVerified</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for employed in employeds %}
+            <tr>
+                <td>{{ employed.id }}</td>
+                <td>{{ employed.email }}</td>
+                <td>{{ employed.roles ? employed.roles|json_encode : '' }}</td>
+                <td>{{ employed.password }}</td>
+                <td>{{ employed.firstName }}</td>
+                <td>{{ employed.lastName }}</td>
+                <td>{{ employed.slug }}</td>
+                <td>{{ employed.sector }}</td>
+                <td>{{ employed.isVerified ? 'Yes' : 'No' }}</td>
+                <td>{{ employed.createdAt ? employed.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ employed.updatedAt ? employed.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_admin_employed_show', {'id': employed.id}) }}">show</a>
+                    <a href="{{ path('app_admin_employed_edit', {'id': employed.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_employed_new') }}">Create new</a>
+{% endblock %}

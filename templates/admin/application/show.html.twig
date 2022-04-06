@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Application{% endblock %}
+
+{% block body %}
+    <h1>Application</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ application.id }}</td>
+            </tr>
+            <tr>
+                <th>NameSite</th>
+                <td>{{ application.nameSite }}</td>
+            </tr>
+            <tr>
+                <th>SloganSite</th>
+                <td>{{ application.sloganSite }}</td>
+            </tr>
+            <tr>
+                <th>DescrSite</th>
+                <td>{{ application.descrSite }}</td>
+            </tr>
+            <tr>
+                <th>IsOnline</th>
+                <td>{{ application.isOnline ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>AdminEmail</th>
+                <td>{{ application.adminEmail }}</td>
+            </tr>
+            <tr>
+                <th>AdminWebmaster</th>
+                <td>{{ application.adminWebmaster }}</td>
+            </tr>
+            <tr>
+                <th>IsBlockmenufluid</th>
+                <td>{{ application.isBlockmenufluid ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>OfflineMessage</th>
+                <td>{{ application.offlineMessage }}</td>
+            </tr>
+            <tr>
+                <th>IsShowofflinemessage</th>
+                <td>{{ application.isShowofflinemessage ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsShowofflinelogo</th>
+                <td>{{ application.isShowofflinelogo ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsShowtitlesitehome</th>
+                <td>{{ application.isShowtitlesitehome ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>UrlFacebook</th>
+                <td>{{ application.urlFacebook }}</td>
+            </tr>
+            <tr>
+                <th>UrlInstagram</th>
+                <td>{{ application.urlInstagram }}</td>
+            </tr>
+            <tr>
+                <th>UrlLinkedin</th>
+                <td>{{ application.urlLinkedin }}</td>
+            </tr>
+            <tr>
+                <th>UrlGooglebusiness</th>
+                <td>{{ application.urlGooglebusiness }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ application.createdAt ? application.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ application.updatedAt ? application.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_application_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_application_edit', {'id': application.id}) }}">edit</a>
+
+    {{ include('admin/application/_delete_form.html.twig') }}
+{% endblock %}
