@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/gestapp/property')]
 class PropertyController extends AbstractController
 {
-    #[Route('/', name: 'app_gestapp_property_index', methods: ['GET'])]
+    #[Route('/', name: 'op_gestapp_property_index', methods: ['GET'])]
     public function index(PropertyRepository $propertyRepository): Response
     {
         return $this->render('gestapp/property/index.html.twig', [
@@ -21,7 +21,7 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_property_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_property_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PropertyRepository $propertyRepository): Response
     {
         $property = new Property();
@@ -30,7 +30,7 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyRepository->add($property);
-            return $this->redirectToRoute('app_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('gestapp/property/new.html.twig', [
@@ -39,7 +39,7 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_gestapp_property_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'op_gestapp_property_show', methods: ['GET'])]
     public function show(Property $property): Response
     {
         return $this->render('gestapp/property/show.html.twig', [
@@ -47,7 +47,7 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_gestapp_property_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'op_gestapp_property_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Property $property, PropertyRepository $propertyRepository): Response
     {
         $form = $this->createForm(PropertyType::class, $property);
@@ -55,7 +55,7 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyRepository->add($property);
-            return $this->redirectToRoute('app_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('gestapp/property/edit.html.twig', [
@@ -64,13 +64,13 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_gestapp_property_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'op_gestapp_property_delete', methods: ['POST'])]
     public function delete(Request $request, Property $property, PropertyRepository $propertyRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$property->getId(), $request->request->get('_token'))) {
             $propertyRepository->remove($property);
         }
 
-        return $this->redirectToRoute('app_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
     }
 }

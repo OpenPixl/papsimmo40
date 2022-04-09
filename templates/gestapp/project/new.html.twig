@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}New Project{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Create new Project</h1>
 
     {{ include('gestapp/project/_form.html.twig') }}
 
-    <a href="{{ path('app_gestapp_project_index') }}">back to list</a>
+    <a href="{{ path('op_gestapp_project_index') }}">back to list</a>
 {% endblock %}

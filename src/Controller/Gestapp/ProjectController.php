@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/gestapp/project')]
 class ProjectController extends AbstractController
 {
-    #[Route('/', name: 'app_gestapp_project_index', methods: ['GET'])]
+    #[Route('/', name: 'op_gestapp_project_index', methods: ['GET'])]
     public function index(ProjectRepository $projectRepository): Response
     {
         return $this->render('gestapp/project/index.html.twig', [
@@ -21,7 +21,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_project_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_project_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ProjectRepository $projectRepository): Response
     {
         $project = new Project();
@@ -30,7 +30,7 @@ class ProjectController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $projectRepository->add($project);
-            return $this->redirectToRoute('app_gestapp_project_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_gestapp_project_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('gestapp/project/new.html.twig', [
@@ -39,7 +39,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_gestapp_project_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'op_gestapp_project_show', methods: ['GET'])]
     public function show(Project $project): Response
     {
         return $this->render('gestapp/project/show.html.twig', [
@@ -47,7 +47,7 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_gestapp_project_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'op_gestapp_project_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Project $project, ProjectRepository $projectRepository): Response
     {
         $form = $this->createForm(ProjectType::class, $project);
@@ -55,7 +55,7 @@ class ProjectController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $projectRepository->add($project);
-            return $this->redirectToRoute('app_gestapp_project_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_gestapp_project_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('gestapp/project/edit.html.twig', [
@@ -64,13 +64,13 @@ class ProjectController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_gestapp_project_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'op_gestapp_project_delete', methods: ['POST'])]
     public function delete(Request $request, Project $project, ProjectRepository $projectRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$project->getId(), $request->request->get('_token'))) {
             $projectRepository->remove($project);
         }
 
-        return $this->redirectToRoute('app_gestapp_project_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('op_gestapp_project_index', [], Response::HTTP_SEE_OTHER);
     }
 }

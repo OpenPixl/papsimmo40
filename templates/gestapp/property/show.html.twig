@@ -1,8 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Property{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Property</h1>
 
     <table class="table">
@@ -126,9 +126,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_gestapp_property_index') }}">back to list</a>
+    <a href="{{ path('op_gestapp_property_index') }}">back to list</a>
 
-    <a href="{{ path('app_gestapp_property_edit', {'id': property.id}) }}">edit</a>
+    <a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}">edit</a>
 
     {{ include('gestapp/property/_delete_form.html.twig') }}
 {% endblock %}

@@ -1,8 +1,8 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Customer index{% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Customer index</h1>
 
     <table class="table">
@@ -39,8 +39,8 @@
                 <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_gestapp_customer_show', {'id': customer.id}) }}">show</a>
-                    <a href="{{ path('app_gestapp_customer_edit', {'id': customer.id}) }}">edit</a>
+                    <a href="{{ path('op_gestapp_customer_show', {'id': customer.id}) }}">show</a>
+                    <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -51,5 +51,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_gestapp_customer_new') }}">Create new</a>
+    <a href="{{ path('op_gestapp_customer_new') }}">Create new</a>
 {% endblock %}
