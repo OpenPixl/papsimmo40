@@ -1,0 +1,47 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nom & Prénom</th>
+        <th>Email</th>
+        <th>Roles</th>
+        <th>Sector</th>
+        <th>IsVerified</th>
+        <th>CreatedAt</th>
+        <th>UpdatedAt</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for employed in employeds %}
+        <tr>
+            <td>{{ employed.id }}</td>
+            <td>{{ employed.firstName }} {{ employed.lastName }}</td>
+            <td>{{ employed.email }}</td>
+            <td>
+                {% for role in employed.roles %}
+                    <div class="badge bg-primary">{% if role == "ROLE_ADMIN" %}Administrateur{% endif %}{% if role == "ROLE_USER" %}Membre{% endif %}</div>
+                {% endfor %}
+            </td>
+            <td>{{ employed.sector }}</td>
+            <td>
+                {% if employed.isVerified == 1 %}
+                    <a class="js-publish" href=""><i class="far fa-check-circle text-success"></i></a>
+                {% else %}
+                    <a class="js-publish" href=""><i class="far fa-times-circle text-danger"></i></a>
+                {% endif %}
+            </td>
+            <td>{{ employed.createdAt ? employed.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
+            <td>{{ employed.updatedAt ? employed.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
+            <td>
+                <a href="{{ path('op_admin_employed_show', {'id': employed.id}) }}">show</a>
+                <a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}">edit</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="12">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

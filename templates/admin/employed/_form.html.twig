@@ -1,4 +1,41 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="row">
+    <div class="col-12">
+        {% include('include/form/input2field.html.twig') with {
+            'form_label':form_label(form.firstName, 'Prénom', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+            'form_input1':form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}}),
+            'form_input2':form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}})
+        }
+        %}
+
+
+        {% include('include/form/input.html.twig') with {
+            'form_label':form_label(form.email, 'Email', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+            'form_input':form_widget(form.email, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email'}})
+        }
+        %}
+
+
+        {% include('include/form/input.html.twig') with {
+            'form_label':form_label(form.sector, 'Prénom', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+            'form_input':form_widget(form.sector, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre de la page'}})
+        }
+        %}
+
+        {% include('include/form/select.html.twig') with {
+            'form_label':form_label(form.referent, 'Référent', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+            'form_select':form_widget(form.referent, {'attr': {'class': 'form-control form-control-sm','placeholder':'titre de la page'}})
+        }
+        %}
+
+
+        <fieldset>
+            <legend>Contact</legend>
+        </fieldset>
+        {{ form_rest(form) }}
+        <button class="btn">{{ button_label|default('Save') }}</button>
+    </div>
+</div>
+
 {{ form_end(form) }}

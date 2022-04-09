@@ -3,6 +3,8 @@
 namespace App\Form\Admin;
 
 use App\Entity\Admin\Employed;
+use App\Repository\Admin\EmployedRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -14,13 +16,19 @@ class EmployedType extends AbstractType
         $builder
             ->add('email')
             //->add('roles')
-            ->add('password')
+            //->add('password')
             ->add('firstName')
             ->add('lastName')
-            ->add('slug')
+            //->add('slug')
             ->add('sector')
             ->add('isVerified')
-            ->add('referent')
+            ->add('referent', EntityType::class, [
+                'class' => Employed::class,
+                'placeholder' => '--- Aucun collorateur responsable ---',
+                'query_builder' => function(EmployedRepository $employedRepository){
+                    return $employedRepository->createQueryBuilder('e')->orderBy('e.lastName', 'ASC');
+                }
+            ])
         ;
     }
 

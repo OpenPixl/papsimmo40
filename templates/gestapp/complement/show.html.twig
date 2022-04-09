@@ -1,0 +1,94 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Complement{% endblock %}
+
+{% block body %}
+    <h1>Complement</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ complement.id }}</td>
+            </tr>
+            <tr>
+                <th>Banner</th>
+                <td>{{ complement.banner }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ complement.location }}</td>
+            </tr>
+            <tr>
+                <th>Disponibility</th>
+                <td>{{ complement.disponibility }}</td>
+            </tr>
+            <tr>
+                <th>DisponibilityAt</th>
+                <td>{{ complement.disponibilityAt ? complement.disponibilityAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>ConstructionAt</th>
+                <td>{{ complement.constructionAt ? complement.constructionAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>PropertyTax</th>
+                <td>{{ complement.propertyTax }}</td>
+            </tr>
+            <tr>
+                <th>Orientation</th>
+                <td>{{ complement.orientation }}</td>
+            </tr>
+            <tr>
+                <th>HouseState</th>
+                <td>{{ complement.houseState }}</td>
+            </tr>
+            <tr>
+                <th>Level</th>
+                <td>{{ complement.level }}</td>
+            </tr>
+            <tr>
+                <th>Jointness</th>
+                <td>{{ complement.jointness }}</td>
+            </tr>
+            <tr>
+                <th>Washroom</th>
+                <td>{{ complement.washroom }}</td>
+            </tr>
+            <tr>
+                <th>Bathroom</th>
+                <td>{{ complement.bathroom }}</td>
+            </tr>
+            <tr>
+                <th>Wc</th>
+                <td>{{ complement.wc }}</td>
+            </tr>
+            <tr>
+                <th>Terrace</th>
+                <td>{{ complement.terrace }}</td>
+            </tr>
+            <tr>
+                <th>Balcony</th>
+                <td>{{ complement.balcony }}</td>
+            </tr>
+            <tr>
+                <th>Sanitation</th>
+                <td>{{ complement.sanitation }}</td>
+            </tr>
+            <tr>
+                <th>IsFurnished</th>
+                <td>{{ complement.isFurnished ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>Energy</th>
+                <td>{{ complement.energy }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_complement_index') }}">back to list</a>
+
+    <a href="{{ path('app_gestapp_complement_edit', {'id': complement.id}) }}">edit</a>
+
+    {{ include('gestapp/complement/_delete_form.html.twig') }}
+{% endblock %}

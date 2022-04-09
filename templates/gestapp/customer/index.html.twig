@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Customer index{% endblock %}
+
+{% block body %}
+    <h1>Customer index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>RefCustomer</th>
+                <th>FirstName</th>
+                <th>LastName</th>
+                <th>Slug</th>
+                <th>Adress</th>
+                <th>Complement</th>
+                <th>Zipcode</th>
+                <th>City</th>
+                <th>IsArchived</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for customer in customers %}
+            <tr>
+                <td>{{ customer.id }}</td>
+                <td>{{ customer.RefCustomer }}</td>
+                <td>{{ customer.firstName }}</td>
+                <td>{{ customer.lastName }}</td>
+                <td>{{ customer.slug }}</td>
+                <td>{{ customer.adress }}</td>
+                <td>{{ customer.complement }}</td>
+                <td>{{ customer.zipcode }}</td>
+                <td>{{ customer.city }}</td>
+                <td>{{ customer.isArchived ? 'Yes' : 'No' }}</td>
+                <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('app_gestapp_customer_show', {'id': customer.id}) }}">show</a>
+                    <a href="{{ path('app_gestapp_customer_edit', {'id': customer.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_customer_new') }}">Create new</a>
+{% endblock %}
