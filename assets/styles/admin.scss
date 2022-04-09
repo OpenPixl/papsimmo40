@@ -1,8 +1,10 @@
+//*** ------------- Import Styles from admin ---------------- ***//
+@import "scss/admin/common";
 
+//*** ------------- Import Styles from FrameWork ---------------- ***//
 @import "~bootstrap/scss/bootstrap";
-
-//*** ------------- Import Variables of icons ---------------- ***//
 @import '~@fortawesome/fontawesome-free/css/all.css';
+
 
 body {
     background-color: lightgray;

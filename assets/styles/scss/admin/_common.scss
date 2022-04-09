@@ -1,0 +1,22 @@
+//*** ------------- définition des règles pouir les Div "side" et "content" ---------------- ***//
+$side-small: 2rem;
+$side-large: 6rem;
+//*** ------------- Screen de type "sm" et inférieur ---------------- ***//
+@media (max-width: 575.98px) {
+  #side{
+    background-color: rosybrown;
+    width: 2rem;
+  }
+  #content{
+    background-color: aliceblue;
+    width: calc(100% - 2rem);
+  }
+}
+//*** ------------- Screen de type "sm" et inférieur ---------------- ***//
+#side{
+  background-color: rosybrown;
+  width: 6rem;
+}
+#content{
+  width: calc(100% - 6rem)
+}
