@@ -106,7 +106,7 @@ class Property
     #[ORM\OneToOne(targetEntity: Complement::class, cascade: ['persist', 'remove'])]
     private $options;
 
-    #[ORM\OneToOne(targetEntity: publication::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Publication::class, cascade: ['persist', 'remove'])]
     private $publication;
 
     /**

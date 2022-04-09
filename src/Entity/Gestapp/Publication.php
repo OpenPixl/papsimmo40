@@ -2,11 +2,11 @@
 
 namespace App\Entity\Gestapp;
 
-use App\Repository\Gestapp\publicationRepository;
+use App\Repository\Gestapp\PublicationRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: publicationRepository::class)]
-class publication
+#[ORM\Entity(repositoryClass: PublicationRepository::class)]
+class Publication
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

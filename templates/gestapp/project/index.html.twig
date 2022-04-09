@@ -1,0 +1,47 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Project index{% endblock %}
+
+{% block content %}
+    <h1>Project index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>RefMandate</th>
+                <th>Slug</th>
+                <th>State</th>
+                <th>Notes</th>
+                <th>MandateLength</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for project in projects %}
+            <tr>
+                <td>{{ project.id }}</td>
+                <td>{{ project.refMandate }}</td>
+                <td>{{ project.slug }}</td>
+                <td>{{ project.state }}</td>
+                <td>{{ project.notes }}</td>
+                <td>{{ project.mandateLength }}</td>
+                <td>{{ project.createdAt ? project.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ project.updatedAt ? project.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <a href="{{ path('op_gestapp_project_show', {'id': project.id}) }}">show</a>
+                    <a href="{{ path('op_gestapp_project_edit', {'id': project.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_project_new') }}">Create new</a>
+{% endblock %}

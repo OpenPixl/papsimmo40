@@ -2,30 +2,30 @@
 
 namespace App\Repository\Gestapp;
 
-use App\Entity\Gestapp\publication;
+use App\Entity\Gestapp\Publication;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method publication|null find($id, $lockMode = null, $lockVersion = null)
- * @method publication|null findOneBy(array $criteria, array $orderBy = null)
- * @method publication[]    findAll()
- * @method publication[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Publication|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Publication|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Publication[]    findAll()
+ * @method Publication[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class publicationRepository extends ServiceEntityRepository
+class PublicationRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, publication::class);
+        parent::__construct($registry, Publication::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(publication $entity, bool $flush = true): void
+    public function add(Publication $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class publicationRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(publication $entity, bool $flush = true): void
+    public function remove(Publication $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -63,7 +63,7 @@ class publicationRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?publication
+    public function findOneBySomeField($value): ?Publication
     {
         return $this->createQueryBuilder('p')
             ->andWhere('p.exampleField = :val')

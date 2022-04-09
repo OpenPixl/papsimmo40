@@ -1,0 +1,11 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}New Complement{% endblock %}
+
+{% block content %}
+    <h1>Create new Complement</h1>
+
+    {{ include('gestapp/complement/_form.html.twig') }}
+
+    <a href="{{ path('op_gestapp_complement_index') }}">back to list</a>
+{% endblock %}

@@ -1,0 +1,134 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Property{% endblock %}
+
+{% block content %}
+    <h1>Property</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ property.id }}</td>
+            </tr>
+            <tr>
+                <th>Ref</th>
+                <td>{{ property.ref }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ property.name }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ property.slug }}</td>
+            </tr>
+            <tr>
+                <th>Annonce</th>
+                <td>{{ property.annonce }}</td>
+            </tr>
+            <tr>
+                <th>Ppiece</th>
+                <td>{{ property.ppiece }}</td>
+            </tr>
+            <tr>
+                <th>Room</th>
+                <td>{{ property.room }}</td>
+            </tr>
+            <tr>
+                <th>IsHome</th>
+                <td>{{ property.isHome ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsApartment</th>
+                <td>{{ property.isApartment ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsLand</th>
+                <td>{{ property.isLand ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>IsOther</th>
+                <td>{{ property.isOther ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>OtherDescription</th>
+                <td>{{ property.otherDescription }}</td>
+            </tr>
+            <tr>
+                <th>SurfaceLand</th>
+                <td>{{ property.surfaceLand }}</td>
+            </tr>
+            <tr>
+                <th>SurfaceHome</th>
+                <td>{{ property.surfaceHome }}</td>
+            </tr>
+            <tr>
+                <th>DpeAt</th>
+                <td>{{ property.dpeAt ? property.dpeAt|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>DiagDpe</th>
+                <td>{{ property.diagDpe }}</td>
+            </tr>
+            <tr>
+                <th>DiagGpe</th>
+                <td>{{ property.diagGpe }}</td>
+            </tr>
+            <tr>
+                <th>Adress</th>
+                <td>{{ property.adress }}</td>
+            </tr>
+            <tr>
+                <th>Complement</th>
+                <td>{{ property.complement }}</td>
+            </tr>
+            <tr>
+                <th>Zipcode</th>
+                <td>{{ property.zipcode }}</td>
+            </tr>
+            <tr>
+                <th>City</th>
+                <td>{{ property.city }}</td>
+            </tr>
+            <tr>
+                <th>NotaryEstimate</th>
+                <td>{{ property.notaryEstimate }}</td>
+            </tr>
+            <tr>
+                <th>ApplicantEstimate</th>
+                <td>{{ property.applicantEstimate }}</td>
+            </tr>
+            <tr>
+                <th>CadasterZone</th>
+                <td>{{ property.cadasterZone }}</td>
+            </tr>
+            <tr>
+                <th>CadasterNum</th>
+                <td>{{ property.cadasterNum }}</td>
+            </tr>
+            <tr>
+                <th>CadasterSurface</th>
+                <td>{{ property.cadasterSurface }}</td>
+            </tr>
+            <tr>
+                <th>CadasterCariez</th>
+                <td>{{ property.cadasterCariez }}</td>
+            </tr>
+            <tr>
+                <th>CreateAt</th>
+                <td>{{ property.createAt ? property.createAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdateAt</th>
+                <td>{{ property.updateAt ? property.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_property_index') }}">back to list</a>
+
+    <a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}">edit</a>
+
+    {{ include('gestapp/property/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,11 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Employed index{% endblock %}
+
+{% block content %}
+    <h1>Employed index</h1>
+
+    {% include('admin/employed/_list.html.twig') %}
+
+    <a href="{{ path('op_admin_employed_new') }}">Create new</a>
+{% endblock %}

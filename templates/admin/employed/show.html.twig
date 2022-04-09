@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Employed{% endblock %}
+
+{% block body %}
+    <h1>Employed</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ employed.id }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ employed.email }}</td>
+            </tr>
+            <tr>
+                <th>Roles</th>
+                <td>{{ employed.roles ? employed.roles|json_encode : '' }}</td>
+            </tr>
+            <tr>
+                <th>Password</th>
+                <td>{{ employed.password }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ employed.firstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ employed.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ employed.slug }}</td>
+            </tr>
+            <tr>
+                <th>Sector</th>
+                <td>{{ employed.sector }}</td>
+            </tr>
+            <tr>
+                <th>IsVerified</th>
+                <td>{{ employed.isVerified ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ employed.createdAt ? employed.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ employed.updatedAt ? employed.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_admin_employed_index') }}">back to list</a>
+
+    <a href="{{ path('app_admin_employed_edit', {'id': employed.id}) }}">edit</a>
+
+    {{ include('admin/employed/_delete_form.html.twig') }}
+{% endblock %}

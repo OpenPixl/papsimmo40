@@ -1,0 +1,69 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Complement index{% endblock %}
+
+{% block content %}
+    <h1>Complement index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Banner</th>
+                <th>Location</th>
+                <th>Disponibility</th>
+                <th>DisponibilityAt</th>
+                <th>ConstructionAt</th>
+                <th>PropertyTax</th>
+                <th>Orientation</th>
+                <th>HouseState</th>
+                <th>Level</th>
+                <th>Jointness</th>
+                <th>Washroom</th>
+                <th>Bathroom</th>
+                <th>Wc</th>
+                <th>Terrace</th>
+                <th>Balcony</th>
+                <th>Sanitation</th>
+                <th>IsFurnished</th>
+                <th>Energy</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for complement in complements %}
+            <tr>
+                <td>{{ complement.id }}</td>
+                <td>{{ complement.banner }}</td>
+                <td>{{ complement.location }}</td>
+                <td>{{ complement.disponibility }}</td>
+                <td>{{ complement.disponibilityAt ? complement.disponibilityAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ complement.constructionAt ? complement.constructionAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ complement.propertyTax }}</td>
+                <td>{{ complement.orientation }}</td>
+                <td>{{ complement.houseState }}</td>
+                <td>{{ complement.level }}</td>
+                <td>{{ complement.jointness }}</td>
+                <td>{{ complement.washroom }}</td>
+                <td>{{ complement.bathroom }}</td>
+                <td>{{ complement.wc }}</td>
+                <td>{{ complement.terrace }}</td>
+                <td>{{ complement.balcony }}</td>
+                <td>{{ complement.sanitation }}</td>
+                <td>{{ complement.isFurnished ? 'Yes' : 'No' }}</td>
+                <td>{{ complement.energy }}</td>
+                <td>
+                    <a href="{{ path('op_gestapp_complement_show', {'id': complement.id}) }}">show</a>
+                    <a href="{{ path('op_gestapp_complement_edit', {'id': complement.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="20">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_complement_new') }}">Create new</a>
+{% endblock %}
