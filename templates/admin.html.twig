@@ -7,18 +7,33 @@
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
         {% block stylesheets %}
             {{ encore_entry_link_tags('admin') }}
+            <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
         {% endblock %}
 
         {% block javascripts %}
             {{ encore_entry_script_tags('admin') }}
+            <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
         {% endblock %}
     </head>
     <body>
-        <header></header>
-        <main class="container-fluid">
-            {% block content %}
+        <header>
+            {% block header %}
             {% endblock %}
+        </header>
+        <main>
+            <div id="side" class="container-fluid">
+                {% block side %}
+                    <h1>Présent</h1>
+                {% endblock %}
+            </div>
+            <div id="content" class="container-fluid">
+                {% block content %}
+                {% endblock %}
+            </div>
         </main>
-        <footer></footer>
+        <footer>
+            {% block footer %}
+            {% endblock %}
+        </footer>
     </body>
 </html>
