@@ -32,7 +32,7 @@ class Property
     private $annonce;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private $ppiece;
+    private $piece;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $room;
@@ -185,14 +185,14 @@ class Property
         return $this;
     }
 
-    public function getPpiece(): ?int
+    public function getPiece(): ?int
     {
-        return $this->ppiece;
+        return $this->piece;
     }
 
-    public function setPpiece(?int $ppiece): self
+    public function setPiece(?int $piece): self
     {
-        $this->ppiece = $ppiece;
+        $this->piece = $piece;
 
         return $this;
     }

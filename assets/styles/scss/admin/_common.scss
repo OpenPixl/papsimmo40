@@ -1,22 +1,35 @@
 //*** ------------- définition des règles pouir les Div "side" et "content" ---------------- ***//
-$side-small: 2rem;
-$side-large: 6rem;
+$side-small: 4rem;
+$side-large: 12rem;
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
-@media (max-width: 575.98px) {
+@media (max-width: 767.98px) {
+  body{
+    font-size: 0.8rem;
+  }
   #side{
     background-color: rosybrown;
-    width: 2rem;
+    width: $side-small;
+    height: 100vh;
   }
   #content{
     background-color: aliceblue;
-    width: calc(100% - 2rem);
+    width: calc(100% - $side-small);
+    height: 100vh;
   }
 }
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
-#side{
-  background-color: rosybrown;
-  width: 6rem;
+@media (min-width: 768px) {
+  body{
+    font-size: 0.9rem;
+  }
+  #side{
+    background-color: rosybrown;
+    width: $side-large;
+    height: 100vh;
+  }
+  #content{
+    width: calc(100% - $side-large);
+    height: 100vh;
+  }
 }
-#content{
-  width: calc(100% - 6rem)
-}
+
