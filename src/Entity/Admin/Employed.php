@@ -54,12 +54,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
-    #[ORM\Column(type: 'datetime')]
-    private $createdAt;
-
-    #[ORM\Column(type: 'datetime')]
-    private $updatedAt;
-
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Customer::class)]
     private $Customer;
 
@@ -77,6 +71,12 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Page::class)]
     private $pages;
+
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
+
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
 
     public function __construct()
     {

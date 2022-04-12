@@ -2,30 +2,30 @@
 
 namespace App\Repository\Gestapp;
 
-use App\Entity\Gestapp\Complements;
+use App\Entity\Gestapp\Complement;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method Complements|null find($id, $lockMode = null, $lockVersion = null)
- * @method Complements|null findOneBy(array $criteria, array $orderBy = null)
- * @method Complements[]    findAll()
- * @method Complements[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Complement|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Complement|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Complement[]    findAll()
+ * @method Complement[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
 class ComplementRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, Complements::class);
+        parent::__construct($registry, Complement::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(Complements $entity, bool $flush = true): void
+    public function add(Complement $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class ComplementRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(Complements $entity, bool $flush = true): void
+    public function remove(Complement $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {

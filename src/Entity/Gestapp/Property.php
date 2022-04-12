@@ -97,17 +97,17 @@ class Property
     #[ORM\Column(type: 'integer', nullable: true)]
     private $cadasterCariez;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private $createAt;
-
-    #[ORM\Column(type: 'datetime_immutable')]
-    private $updateAt;
-
     #[ORM\OneToOne(targetEntity: Complement::class, cascade: ['persist', 'remove'])]
     private $options;
 
     #[ORM\OneToOne(targetEntity: Publication::class, cascade: ['persist', 'remove'])]
     private $publication;
+
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
+
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
 
     /**
      * Permet d'initialiser le slug !
@@ -477,24 +477,29 @@ class Property
         return $this;
     }
 
-    #[ORM\PrePersist]
-    public function setCreateAt(\DateTimeImmutable $createAt): self
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        $this->createAt = $createAt;
+        return $this->createdAt;
+    }
+
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
+    {
+        $this->createdAt = new \DateTime('now');
 
         return $this;
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function getUpdateAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdateAt(\DateTimeImmutable $updateAt): self
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): self
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = new \DateTime('now');
 
         return $this;
     }

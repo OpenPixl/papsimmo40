@@ -4,6 +4,7 @@ namespace App\Form\Gestapp;
 
 use App\Entity\Gestapp\Property;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -14,9 +15,8 @@ class PropertyType extends AbstractType
         $builder
             ->add('ref')
             ->add('name')
-            ->add('slug')
             ->add('annonce')
-            ->add('ppiece')
+            ->add('piece')
             ->add('room')
             ->add('isHome')
             ->add('isApartment')
@@ -25,7 +25,13 @@ class PropertyType extends AbstractType
             ->add('otherDescription')
             ->add('surfaceLand')
             ->add('surfaceHome')
-            ->add('dpeAt')
+            ->add('dpeAt', DateType::class, [
+                    'widget' => 'single_text',
+                    'html5' => false,
+                    // this is actually the default format for single_text
+                    'format' => 'dd-MM-yyyy',
+                    'attr' => ['class' => 'js-datepicker form-control form-control-sm'],
+                ])
             ->add('diagDpe')
             ->add('diagGpe')
             ->add('adress')
@@ -38,8 +44,6 @@ class PropertyType extends AbstractType
             ->add('cadasterNum')
             ->add('cadasterSurface')
             ->add('cadasterCariez')
-            ->add('createAt')
-            ->add('updateAt')
             ->add('refEmployed')
             ->add('options')
             ->add('publication')

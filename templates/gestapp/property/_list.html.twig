@@ -1,0 +1,79 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Ref</th>
+        <th>Name</th>
+        <th>Slug</th>
+        <th>Annonce</th>
+        <th>Ppiece</th>
+        <th>Room</th>
+        <th>IsHome</th>
+        <th>IsApartment</th>
+        <th>IsLand</th>
+        <th>IsOther</th>
+        <th>OtherDescription</th>
+        <th>SurfaceLand</th>
+        <th>SurfaceHome</th>
+        <th>DpeAt</th>
+        <th>DiagDpe</th>
+        <th>DiagGpe</th>
+        <th>Adress</th>
+        <th>Complement</th>
+        <th>Zipcode</th>
+        <th>City</th>
+        <th>NotaryEstimate</th>
+        <th>ApplicantEstimate</th>
+        <th>CadasterZone</th>
+        <th>CadasterNum</th>
+        <th>CadasterSurface</th>
+        <th>CadasterCariez</th>
+        <th>CreateAt</th>
+        <th>UpdateAt</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for property in properties %}
+        <tr>
+            <td>{{ property.id }}</td>
+            <td>{{ property.ref }}</td>
+            <td>{{ property.name }}</td>
+            <td>{{ property.slug }}</td>
+            <td>{{ property.annonce }}</td>
+            <td>{{ property.ppiece }}</td>
+            <td>{{ property.room }}</td>
+            <td>{{ property.isHome ? 'Yes' : 'No' }}</td>
+            <td>{{ property.isApartment ? 'Yes' : 'No' }}</td>
+            <td>{{ property.isLand ? 'Yes' : 'No' }}</td>
+            <td>{{ property.isOther ? 'Yes' : 'No' }}</td>
+            <td>{{ property.otherDescription }}</td>
+            <td>{{ property.surfaceLand }}</td>
+            <td>{{ property.surfaceHome }}</td>
+            <td>{{ property.dpeAt ? property.dpeAt|date('Y-m-d') : '' }}</td>
+            <td>{{ property.diagDpe }}</td>
+            <td>{{ property.diagGpe }}</td>
+            <td>{{ property.adress }}</td>
+            <td>{{ property.complement }}</td>
+            <td>{{ property.zipcode }}</td>
+            <td>{{ property.city }}</td>
+            <td>{{ property.notaryEstimate }}</td>
+            <td>{{ property.applicantEstimate }}</td>
+            <td>{{ property.cadasterZone }}</td>
+            <td>{{ property.cadasterNum }}</td>
+            <td>{{ property.cadasterSurface }}</td>
+            <td>{{ property.cadasterCariez }}</td>
+            <td>{{ property.createAt ? property.createAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ property.updateAt ? property.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>
+                <a href="{{ path('op_gestapp_property_show', {'id': property.id}) }}">show</a>
+                <a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}">edit</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="30">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
