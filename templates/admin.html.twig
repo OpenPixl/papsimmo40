@@ -18,17 +18,31 @@
     <body>
         <header>
             {% block header %}
+                {% include('include/admin/navbar_admin.html.twig') %}
             {% endblock %}
         </header>
         <main>
-            <div id="side" class="container-fluid">
-                {% block side %}
-                    <h1>Présent</h1>
-                {% endblock %}
+            <div id="side" class="float-start">
+                <div class="container-fluid">
+                    {% block side %}
+                        {% include('include/admin/side.html.twig') %}
+                    {% endblock %}
+                </div>
             </div>
-            <div id="content" class="container-fluid">
-                {% block content %}
-                {% endblock %}
+            <div id="content" class="float-end">
+                <div class="container-fluid">
+                    <section id="content_header">
+                        {% block contentTitle %}{% endblock %}
+                    </section>
+                    <section id="content_main">
+                        {% block content %}
+                        {% endblock %}
+                    </section>
+                    <section id="content_footer">
+                        {% block contentFooter %}
+                        {% endblock %}
+                    </section>
+                </div>
             </div>
         </main>
         <footer>
