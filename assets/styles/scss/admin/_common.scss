@@ -1,10 +1,14 @@
 //*** ------------- définition des règles pouir les Div "side" et "content" ---------------- ***//
 $side-small: 4rem;
 $side-large: 12rem;
+
+
+
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
 @media (max-width: 767.98px) {
   body{
     font-size: 0.8rem;
+    background-color: $body-background;
   }
   #side{
     background-color: rosybrown;
@@ -21,6 +25,7 @@ $side-large: 12rem;
 @media (min-width: 768px) {
   body{
     font-size: 0.9rem;
+    background-color: $body-background;
   }
   #side{
     background-color: rosybrown;

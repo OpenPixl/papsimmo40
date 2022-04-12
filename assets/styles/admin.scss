@@ -1,3 +1,5 @@
+$body-background: #f7f7f7;
+
 //*** ------------- Import Styles from FrameWork ---------------- ***//
 @import "~bootstrap/scss/bootstrap";
 @import '~@fortawesome/fontawesome-free/css/all.css';
@@ -8,6 +10,4 @@
 //*** ------------- Import Styles from FrameWork ---------------- ***//
 //@import "scss/mixins/fontface";
 
-body {
-    background-color: lightgray;
-}
+

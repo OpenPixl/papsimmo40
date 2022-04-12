@@ -18,7 +18,7 @@
 
 
         {% include('include/form/input.html.twig') with {
-            'form_label':form_label(form.sector, 'Prénom', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+            'form_label':form_label(form.sector, 'Secteur', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
             'form_input':form_widget(form.sector, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre de la page'}})
         }
         %}
@@ -34,7 +34,8 @@
             <legend>Contact</legend>
         </fieldset>
         {{ form_rest(form) }}
-        <button class="btn">{{ button_label|default('Save') }}</button>
+        <a href="{{ path('op_admin_employed_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp;
+        <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Save') }}</button>
     </div>
 </div>
 
