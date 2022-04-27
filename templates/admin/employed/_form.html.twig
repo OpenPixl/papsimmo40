@@ -2,6 +2,8 @@
 
 <div class="row">
     <div class="col-12">
+
+
         {% include('include/form/input2field.html.twig') with {
             'form_label':form_label(form.firstName, 'Prénom', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
             'form_input1':form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}}),
@@ -25,17 +27,23 @@
 
         {% include('include/form/select.html.twig') with {
             'form_label':form_label(form.referent, 'Référent', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-            'form_select':form_widget(form.referent, {'attr': {'class': 'form-control form-control-sm','placeholder':'titre de la page'}})
+            'form_select':form_widget(form.referent)
         }
         %}
 
 
         <fieldset>
             <legend>Contact</legend>
+            {{ render(controller('App\\Controller\\Admin\\ContactController::showByEmployed', {'idEmployed': idemployed})) }}
         </fieldset>
+
         {{ form_rest(form) }}
-        <a href="{{ path('op_admin_employed_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp;
-        <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Save') }}</button>
+        <div class="row mt-2">
+            <div class="col-sm-12">
+                <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp
+                <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
+            </div>
+        </div>
     </div>
 </div>
 

@@ -21,6 +21,14 @@ class CustomerController extends AbstractController
         ]);
     }
 
+    #[Route('/byproperty/{property}', name: 'op_gestapp_customer_listbyproperty', methods: ['GET'])]
+    public function listByProperty(CustomerRepository $customerRepository, $property): Response
+    {
+        return $this->render('gestapp/customer/listByProperty.html.twig', [
+            'customers' => $customerRepository->listByProperty($property),
+        ]);
+    }
+
     #[Route('/new', name: 'op_gestapp_customer_new', methods: ['GET', 'POST'])]
     public function new(Request $request, CustomerRepository $customerRepository): Response
     {

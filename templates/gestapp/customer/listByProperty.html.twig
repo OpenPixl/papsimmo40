@@ -1,43 +1,24 @@
-{% extends 'admin.html.twig' %}
-
-{% block title %}Customer index{% endblock %}
-
-{% block content %}
-    <h1>Customer index</h1>
-
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>RefCustomer</th>
-                <th>FirstName</th>
-                <th>LastName</th>
-                <th>Slug</th>
-                <th>Adress</th>
-                <th>Complement</th>
-                <th>Zipcode</th>
-                <th>City</th>
-                <th>IsArchived</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
+                <th>Nom & Prénom</th>
+                <th>Adresse</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for customer in customers %}
             <tr>
-                <td>{{ customer.id }}</td>
                 <td>{{ customer.RefCustomer }}</td>
-                <td>{{ customer.firstName }}</td>
-                <td>{{ customer.lastName }}</td>
-                <td>{{ customer.slug }}</td>
-                <td>{{ customer.adress }}</td>
-                <td>{{ customer.complement }}</td>
-                <td>{{ customer.zipcode }}</td>
+                <td>{{ customer.firstName }} {{ customer.lastName }}</td>
+                <td>
+                    {{ customer.adress }}<br>
+                    {{ customer.complement }}<br>
+                    {{ customer.zipcode }} {{ customer.city }}
+                </td>
+
                 <td>{{ customer.city }}</td>
-                <td>{{ customer.isArchived ? 'Yes' : 'No' }}</td>
-                <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('op_gestapp_customer_show', {'id': customer.id}) }}">show</a>
                     <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}">edit</a>
@@ -51,5 +32,3 @@
         </tbody>
     </table>
 
-    <a href="{{ path('op_gestapp_customer_new') }}">Create new</a>
-{% endblock %}

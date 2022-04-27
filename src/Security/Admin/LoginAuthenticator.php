@@ -19,7 +19,7 @@ class LoginAuthenticator extends AbstractLoginFormAuthenticator
 {
     use TargetPathTrait;
 
-    public const LOGIN_ROUTE = 'op_webapp_public_homepage';
+    public const LOGIN_ROUTE = 'op_admin_security_login';
 
     private UrlGeneratorInterface $urlGenerator;
 

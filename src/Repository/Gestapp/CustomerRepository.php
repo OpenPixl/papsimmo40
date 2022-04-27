@@ -45,6 +45,18 @@ class CustomerRepository extends ServiceEntityRepository
         }
     }
 
+    public function listbyproperty($property)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.properties', 'p')
+            ->andWhere('p.id = :property')
+            ->setParameter('property', $property)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Customer[] Returns an array of Customer objects
     //  */

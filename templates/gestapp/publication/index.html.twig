@@ -1,0 +1,39 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Publication index{% endblock %}
+
+{% block content %}
+    <h1>Publication index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>IsWebpublish</th>
+                <th>IsSocialNetwork</th>
+                <th>Sector</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for publication in publications %}
+            <tr>
+                <td>{{ publication.id }}</td>
+                <td>{{ publication.isWebpublish ? 'Yes' : 'No' }}</td>
+                <td>{{ publication.isSocialNetwork ? 'Yes' : 'No' }}</td>
+                <td>{{ publication.sector }}</td>
+                <td>
+                    <a href="{{ path('op_gestapp_publication_show', {'id': publication.id}) }}">show</a>
+                    <a href="{{ path('op_gestapp_publication_edit', {'id': publication.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_publication_new') }}">Create new</a>
+{% endblock %}

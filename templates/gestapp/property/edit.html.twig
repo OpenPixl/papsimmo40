@@ -2,12 +2,51 @@
 
 {% block title %}Edit Property{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        window.onload = function(){
+
+            new TomSelect("#property_refEmployed",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+            // mise en place du datapicker flatpickr sur les champs de date
+            flatpickr(".flatpickr", {
+                "locale": "fr",
+                enableTime: true,
+                altFormat: "j F Y",
+                dateFormat: "d/m/Y",
+            });
+            // mise en place du datapicker flatpickr sur les champs de date
+            flatpickr(".flatpickrtime", {
+                "locale": "fr",
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true
+            });
+        }
+    </script>
+{%  endblock %}
+
 {% block content %}
     <h1>Edit Property</h1>
 
-    {{ include('gestapp/property/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('gestapp/property/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 
-    <a href="{{ path('op_gestapp_property_index') }}">back to list</a>
-
-    {{ include('gestapp/property/_delete_form.html.twig') }}
 {% endblock %}

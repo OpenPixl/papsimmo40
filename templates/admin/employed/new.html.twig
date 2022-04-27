@@ -1,8 +1,28 @@
 {% extends 'admin.html.twig' %}
 
 {% block title %}New Employed{% endblock %}
-{% block stylesheets%}
+{% block javascripts%}
     {{ parent() }}
+    <script>
+        window.onload = function(){
+            new TomSelect("#employed_referent",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+        }
+    </script>
 {% endblock %}
 {% block content %}
     <h1>Create new Employed</h1>

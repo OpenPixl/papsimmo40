@@ -29,7 +29,7 @@
             </tr>
             <tr>
                 <th>Ppiece</th>
-                <td>{{ property.ppiece }}</td>
+                <td>{{ property.piece }}</td>
             </tr>
             <tr>
                 <th>Room</th>
@@ -117,11 +117,11 @@
             </tr>
             <tr>
                 <th>CreateAt</th>
-                <td>{{ property.createAt ? property.createAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ property.createdAt ? property.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
                 <th>UpdateAt</th>
-                <td>{{ property.updateAt ? property.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ property.updatedAt ? property.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>

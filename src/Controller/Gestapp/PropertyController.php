@@ -24,7 +24,10 @@ class PropertyController extends AbstractController
     #[Route('/new', name: 'op_gestapp_property_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PropertyRepository $propertyRepository): Response
     {
+        //$user = $this->getUser()->getId();
+
         $property = new Property();
+        //$property->setRefEmployed($user);
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
 
@@ -60,6 +63,7 @@ class PropertyController extends AbstractController
 
         return $this->renderForm('gestapp/property/edit.html.twig', [
             'property' => $property,
+            'idProperty' => $property->getId(),
             'form' => $form,
         ]);
     }

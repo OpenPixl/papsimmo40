@@ -42,8 +42,18 @@ class ContactController extends AbstractController
     #[Route('/{id}', name: 'op_admin_contact_show', methods: ['GET'])]
     public function show(Contact $contact): Response
     {
+
         return $this->render('admin/contact/show.html.twig', [
             'contact' => $contact,
+        ]);
+    }
+
+    #[Route('/showbyemployed/{idEmployed}', name: 'op_admin_contact_showbyemployed', methods: ['GET'])]
+    public function showByEmployed(ContactRepository $contactRepository, $idEmployed): Response
+    {
+        $contacts = $contactRepository->findBy(array('employed' => $idEmployed));
+        return $this->render('admin/contact/showbyemployed.html.twig', [
+            'contacts' => $contacts,
         ]);
     }
 

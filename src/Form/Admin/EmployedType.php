@@ -6,6 +6,7 @@ use App\Entity\Admin\Employed;
 use App\Repository\Admin\EmployedRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -24,10 +25,9 @@ class EmployedType extends AbstractType
             ->add('isVerified')
             ->add('referent', EntityType::class, [
                 'class' => Employed::class,
-                'placeholder' => '--- Aucun collorateur responsable ---',
-                'query_builder' => function(EmployedRepository $employedRepository){
-                    return $employedRepository->createQueryBuilder('e')->orderBy('e.lastName', 'ASC');
-                }
+                'choice_attr' => ChoiceList::attr($this, function (?Employed $category) {
+                    return $category ? ['data-data' => $category->getFirstName()] : [];
+                }),
             ])
         ;
     }

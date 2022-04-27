@@ -13,6 +13,13 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/opadmin/employed')]
 class EmployedController extends AbstractController
 {
+
+    #[Route('/api/users', name: 'op_admin_employeds')]
+    public function employeds(Request $request, EmployedRepository $repository)
+    {
+        return $this->json($repository->search($request->query->get('e')));
+    }
+
     #[Route('/', name: 'op_admin_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
@@ -61,6 +68,7 @@ class EmployedController extends AbstractController
         return $this->renderForm('admin/employed/edit.html.twig', [
             'employed' => $employed,
             'form' => $form,
+            'idemployed' => $employed->getId()
         ]);
     }
 
