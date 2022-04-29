@@ -56,13 +56,12 @@ class PropertyType extends AbstractType
             ->add('cadasterNum')
             ->add('cadasterSurface')
             ->add('cadasterCariez')
-            ->add('refEmployed', EntityType::class, [
-                'class' => Employed::class,
-                'choice_attr' => ChoiceList::attr($this, function (?Employed $category) {
-                    return $category ? ['data-data' => $category->getFirstName()] : [];
-                }),
-            ])
-            ->add('options')
+            //->add('refEmployed', EntityType::class, [
+            //    'class' => Employed::class,
+            //    'choice_attr' => ChoiceList::attr($this, function (?Employed $category) {
+            //        return $category ? ['data-data' => $category->getFirstName()] : [];
+            //    }),
+            //])
         ;
     }
 

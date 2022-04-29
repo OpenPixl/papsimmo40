@@ -2,10 +2,10 @@
     {# Etiquettes du panel #}
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <button class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h4>Informations</h4></button>
+            <button class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h4><i class="fa-duotone fa-memo-circle-info"></i> Informations</h4></button>
         </li>
         <li class="nav-item">
-            <button class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Vendeurs" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h4>Vendeurs</h4></button>
+            <button class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Vendeurs" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h4><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h4></button>
         </li>
         <li class="nav-item">
             <button class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimations" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h4>Estimations</h4></button>
@@ -14,10 +14,10 @@
             <button class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Complements" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h4>Complements</h4></button>
         </li>
         <li class="nav-item">
-            <button class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Galerie" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h4>Galerie</h4></button>
+            <button class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Galerie" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h4><i class="fa-light fa-gallery-thumbnails"></i> Galerie</h4></button>
         </li>
         <li class="nav-item">
-            <button class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h4>Publication</h4></button>
+            <button class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h4><i class="fa-duotone fa-browser"></i> Publication</h4></button>
         </li>
     </ul>
 
@@ -201,22 +201,25 @@
             </div>
         </div>
         <div class="tab-pane" id="Complements" role="tabpanel" aria-labelledby="profile-tab">
-            {{ form_label(form.options) }}
-            {{ form_widget(form.options) }}
+            {{ render(controller('App\\Controller\\Gestapp\\ComplementController::Edit', {'id' : complement})) }}
+        </div>
+        <div class="tab-pane" id="Galerie" role="tabpanel" aria-labelledby="profile-tab">
         </div>
         <div class="tab-pane" id="Publication" role="tabpanel" aria-labelledby="profile-tab">
             {{ render(controller('App\\Controller\\Gestapp\\PublicationController::showByProperty', {'idProperty' : idProperty})) }}
         </div>
-        <div class="tab-pane" id="Galerie" role="tabpanel" aria-labelledby="profile-tab">
-        </div>
+
     </div>
 
 
     {{ form_rest(form) }}
     <div class="row mt-2">
-        <div class="col-sm-12">
+        <div class="col-sm-6">
             <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp
             <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
+        </div>
+        <div class="col-6 d-flex justify-content-end">
+            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</button>
         </div>
     </div>
 {{ form_end(form) }}

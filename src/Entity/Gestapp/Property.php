@@ -40,45 +40,45 @@ class Property
     private $room;
 
     #[ORM\Column(type: 'boolean')]
-    private $isHome;
+    private $isHome = false;
 
     #[ORM\Column(type: 'boolean')]
-    private $isApartment;
+    private $isApartment = false;
 
     #[ORM\Column(type: 'boolean')]
-    private $isLand;
+    private $isLand = false;
 
     #[ORM\Column(type: 'boolean')]
-    private $isOther;
+    private $isOther = false;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $otherDescription;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private $surfaceLand;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2)]
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private $surfaceHome;
 
     #[ORM\Column(type: 'date', nullable: true)]
     private $dpeAt;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $diagDpe;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $diagGpe;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $adress;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $complement;
 
-    #[ORM\Column(type: 'string', length: 10)]
+    #[ORM\Column(type: 'string', length: 10, nullable: true)]
     private $zipcode;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $city;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
@@ -113,6 +113,9 @@ class Property
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'properties')]
     private $Customer;
+
+    #[ORM\Column(type: 'boolean')]
+    private $isIncreating = true;
 
     public function __construct()
     {
@@ -460,10 +463,6 @@ class Property
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeImmutable
-    {
-        return $this->createAt;
-    }
     public function getOptions(): ?Complement
     {
         return $this->options;
@@ -558,6 +557,18 @@ class Property
     public function removeCustomer(Customer $customer): self
     {
         $this->Customer->removeElement($customer);
+
+        return $this;
+    }
+
+    public function getIsIncreating(): ?bool
+    {
+        return $this->isIncreating;
+    }
+
+    public function setIsIncreating(bool $isIncreating): self
+    {
+        $this->isIncreating = $isIncreating;
 
         return $this;
     }

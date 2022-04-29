@@ -11,7 +11,8 @@
 {% endblock %}
 
 {% block content %}
-    <a href="{{ path('op_gestapp_property_new') }}" class="btn btn-sm btn-outline-secondary">Ajouter un nouveau bien</a>
+    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::inCreating')) }}
+    <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-secondary">Ajouter un nouveau bien</a>
     <div class="row">
         <div id="list" class="col-sm-12">
             {% include('gestapp/property/_list.html.twig') %}

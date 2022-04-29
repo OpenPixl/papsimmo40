@@ -1,4 +1,18 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
+    <div class="row">
+        <div class="col-4">
+
+        </div>
+        <div class="col-4">
+
+        </div>
+        <div class="col-4">
+           {% include('include/form/oneSwitch.html.twig') with {
+               'form_label':form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}),
+               'form_switch':form_widget(form.isFurnished, {'attr': {'class': 'form-check-input'}})
+           }
+           %}
+        </div>
+    </div>
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

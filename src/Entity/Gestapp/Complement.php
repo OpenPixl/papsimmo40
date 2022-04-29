@@ -30,13 +30,13 @@ class Complement
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $location;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $disponibility;
 
     #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $disponibilityAt;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
     private $constructionAt;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
@@ -94,7 +94,7 @@ class Complement
     private $sanitation;
 
     #[ORM\Column(type: 'boolean')]
-    private $isFurnished;
+    private $isFurnished = false;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $energy;
