@@ -1,11 +1,11 @@
 <div class="row">
     {% if form_label is not defined %}
-        <div class="col-sm-2">
+        <div class="col-sm-9">
         </div>
     {% else %}
     {{ form_label|raw }}
     {% endif %}
-    <div class="col-sm-8">
+    <div class="col-sm-3">
         {{ form_input|raw }}
     </div>
 </div>

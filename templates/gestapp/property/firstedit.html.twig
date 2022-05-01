@@ -1,0 +1,140 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Edit Property{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        window.onload = function(){
+            // récupération des id des panels
+            const navInformations = document.getElementById("navInformations");
+            const navCustomers = document.getElementById("navCustomers");
+            const navEstimate = document.getElementById("navEstimate");
+            const navOptions = document.getElementById("navOptions");
+            const navGallery = document.getElementById("navGallery");
+            const navPublication = document.getElementById("navPublication");
+
+            // récupération des div de chaque panel
+
+            // récupération des boutons de navigation entre panel
+            const stepBack = document.getElementById("stepCustomers");
+            const stepInformations = document.getElementById("stepInformations");
+            const stepCustomers = document.getElementById("stepCustomers");
+            const stepEstimate = document.getElementById("stepEstimate");
+            const stepOptions = document.getElementById("stepOptions");
+            const stepGallery = document.getElementById("stepGallery");
+            const stepPublication = document.getElementById("stepPublication");
+
+            // fixer les éléments opérationnel au chargement de la page
+            const Informations = document.getElementById("Informations");
+            const Customers = document.getElementById("Customers");
+            const Estimate = document.getElementById("Estimate");
+            const Options = document.getElementById("Options");
+            const Gallery = document.getElementById("Gallery");
+            const Publication = document.getElementById("Publication");
+            // Panels
+
+            // boutons pour chaque panel
+            stepBack.style.display="block";
+            stepInformations.style.display="block";
+            stepCustomers.style.display="none";
+            stepEstimate.style.display="none";
+            stepOptions.style.display="none";
+            stepGallery.style.display="none";
+            stepPublication.style.display="none";
+
+            // évenement sur le boutons stepInformations
+            stepInformations.onclick = function () {
+                stepCustomers.style.display = "block";
+                stepInformations.style.display="none";
+                navInformations.className = "nav-link disabled";
+                navCustomers.className = "nav-link active";
+                Informations.className = "tab-pane";
+                Customers.className += " active";
+            }
+
+            // évenement sur le boutons stepCustomers
+            stepCustomers.onclick = function () {
+                stepCustomers.style.display = "none";
+                stepEstimate.style.display="block";
+                navCustomers.className = "nav-link disabled";
+                navEstimate.className = "nav-link active";
+                Customers.className = "tab-pane";
+                Estimate.className += " active";
+            }
+
+            // évenement sur le boutons stepCustomers
+            stepEstimate.onclick = function () {
+                stepEstimate.style.display = "none";
+                stepOptions.style.display="block";
+                navEstimate.className = "nav-link disabled";
+                navOptions.className = "nav-link active";
+                Estimate.className = "tab-pane";
+                Options.className += " active";
+            }
+
+            // évenement sur le boutons stepOptions
+            stepOptions.onclick = function () {
+                stepOptions.style.display = "none";
+                stepGallery.style.display="block";
+                navOptions.className = "nav-link disabled";
+                navGallery.className = "nav-link active";
+                Options.className = "tab-pane";
+                Gallery.className += " active";
+            }
+
+            // évenement sur le boutons stepGallery
+            stepGallery.onclick = function () {
+                stepGallery.style.display = "none";
+                stepPublication.style.display="block";
+                navGallery.className = "nav-link disabled";
+                navPublication.className = "nav-link active";
+                Gallery.className = "tab-pane";
+                Publication.className += " active";
+            }
+
+            //new TomSelect("#property_refEmployed",{
+            //    plugins: ['remove_button'],
+            //    create: true,
+            //    onItemAdd:function(){
+            //        this.setTextboxValue('');
+            //        this.refreshOptions();
+            //    },
+            //    render:{
+            //        option:function(data,escape){
+            //            return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+            //        },
+            //        item:function(data,escape){
+            //            return '<div>' + escape(data.data) + '</div>';
+            //        }
+            //    }
+            //});
+
+            // mise en place du datapicker flatpickr sur les champs de date
+            flatpickr(".flatpickr", {
+                "locale": "fr",
+                enableTime: true,
+                altFormat: "j F Y",
+                dateFormat: "d/m/Y",
+            });
+            // mise en place du datapicker flatpickr sur les champs de date
+            flatpickr(".flatpickrtime", {
+                "locale": "fr",
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true
+            });
+
+
+        }
+    </script>
+{%  endblock %}
+
+{% block content %}
+    <h1>Créer un nouveau bien Paps Immo</h1>
+
+    {{ include('gestapp/property/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+
+{% endblock %}

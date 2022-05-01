@@ -1,9 +1,61 @@
 {{ form_start(form) }}
     <div class="row">
-        <div class="col-4">
-
+        <div class="col-3">
+            <div class="card">
+                <div class="card-header">
+                    Pièces
+                </div>
+                <div class="card-body">
+                    {% include('include/form/input-numerique.html.twig') with {
+                        'form_label':form_label(form.terrace, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.terrace, {'attr': {'class': 'form-control form-control-sm'}})
+                    }
+                    %}
+                    {% include('include/form/input-numerique.html.twig') with {
+                        'form_label':form_label(form.washroom, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.washroom, {'attr': {'class': 'form-control form-control-sm'}})
+                    }
+                    %}
+                    {% include('include/form/input-numerique.html.twig') with {
+                        'form_label':form_label(form.bathroom, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.bathroom, {'attr': {'class': 'form-control form-control-sm'}})
+                    }
+                    %}
+                    {% include('include/form/input-numerique.html.twig') with {
+                        'form_label':form_label(form.wc, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.wc, {'attr': {'class': 'form-control form-control-sm'}})
+                    }
+                    %}
+                    {% include('include/form/input-numerique.html.twig') with {
+                        'form_label':form_label(form.balcony, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.balcony, {'attr': {'class': 'form-control form-control-sm'}})
+                    }
+                    %}
+                    {% include('include/form/input-numerique.html.twig') with {
+                        'form_label':form_label(form.sanitation, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.sanitation, {'attr': {'class': 'form-control form-control-sm'}})
+                    }
+                    %}
+                </div>
+            </div>
         </div>
         <div class="col-4">
+            <div class="card">
+                <div class="card-header">
+                    Le bien
+                </div>
+                <div class="card-body">
+                    {% include('include/form/date.html.twig') with {
+                        'form_label':form_label(form.disponibilityAt, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.disponibilityAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}})
+                    }
+                    %}{% include('include/form/date.html.twig') with {
+                        'form_label':form_label(form.constructionAt, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.constructionAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}})
+                    }
+                    %}
+                </div>
+            </div>
 
         </div>
         <div class="col-4">
