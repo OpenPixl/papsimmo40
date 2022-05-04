@@ -201,16 +201,27 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/steppublication/{id}', name: 'op_gestapp_property_steppublication', methods: ['GET', 'POST'])]
-    public function stepPublication(Request $request, Property $property, PropertyRepository $propertyRepository)
+    public function stepPublication(
+        Request $request,
+        Property $property,
+        PropertyRepository $propertyRepository,
+        PublicationRepository $publicationRepository
+    )
     {
-        //dd($property);
+        // récupération de l'objet Publication correspodant à la Propriété
+        $idpublication = $property->getPublication();
+        $publication = $publicationRepository->find($idpublication);
+        // Extraction des datas d'Axios
         $data = json_decode($request->getContent(), true);
-
+        // hydratation de l'objet Publication
+        $publication->setIsSocialNetwork($data['isWebpublish']);
+        $publication->setIsWebpublish($data['isSocialNetwork']);
+        $publication->setSector($data['sector']);
+        // Flush de l'objet Publication
+        $publicationRepository->add($publication);
+        // Finalisation des étapes de Créations de lma propriété et Flush
         $property->setIsIncreating(0);
-
         $propertyRepository->add($property);
-
-        //dd($property);
 
         return $this->json([
             'code'=> 200,

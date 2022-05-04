@@ -216,12 +216,32 @@
             }
 
             // évenement sur le boutons stepPublication
-            stepPublication.onclick = function () {
+            stepPublication.onclick = function (event) {
+                event.preventDefault()
+                // visibilité des éléments
                 stepPublication.className = "btn btn-sm btn-outline-primary";
                 navGallery.className = "nav-link disabled";
                 navPublication.className = "nav-link active";
                 Gallery.className = "tab-pane";
                 Publication.className += " active";
+                // Elements de formulaire à transmettre
+                const url = this.href;
+                const isWebpublish = document.getElementById('publication_isWebpublish').checked
+                const isSocialNetwork = document.getElementById('publication_isSocialNetwork').checked
+                const sector = document.getElementById('publication_sector').value
+                let data =
+                    {
+                        isWebpublish:isWebpublish,isSocialNetwork:isSocialNetwork,sector:sector
+                    }
+                axios
+                    .post(url, data)
+                    .then(function(response){
+                        document.location.href= "{{ path('op_gestapp_property_index') }}";
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
             }
 
             // Modal d'ajout d'un vendeur à la fiche
@@ -305,6 +325,23 @@
             });
 
             new TomSelect("#complement_orientation",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+            new TomSelect("#publication_sector",{
                 plugins: ['remove_button'],
                 create: true,
                 onItemAdd:function(){
