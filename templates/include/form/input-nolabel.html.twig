@@ -1,10 +1,17 @@
-<div class="row">
+
     {% if form_label is not defined %}
-        <div class="col-sm-2">
+    <div class="row mb-1">
+        <div class="{{ class }}">
         </div>
-    {% else %}
-    {% endif %}
-    <div class="col-sm-8">
-        {{ form_input|raw }}
+        <div class="col-sm-8">
+            {{ form_input|raw }}
+        </div>
     </div>
-</div>
+    {% else %}
+        <div class="row">
+            {{ form_label|raw }}
+            <div class="col-sm-8">
+                {{ form_input|raw }}
+            </div>
+        </div>
+    {% endif %}

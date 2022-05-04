@@ -2,30 +2,30 @@
 
 namespace App\Repository\Gestapp\choice;
 
-use App\Entity\Gestapp\choice\CustomerType;
+use App\Entity\Gestapp\choice\CustomerChoice;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method CustomerType|null find($id, $lockMode = null, $lockVersion = null)
- * @method CustomerType|null findOneBy(array $criteria, array $orderBy = null)
- * @method CustomerType[]    findAll()
- * @method CustomerType[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method CustomerChoice|null find($id, $lockMode = null, $lockVersion = null)
+ * @method CustomerChoice|null findOneBy(array $criteria, array $orderBy = null)
+ * @method CustomerChoice[]    findAll()
+ * @method CustomerChoice[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class CustomerTypeRepository extends ServiceEntityRepository
+class CustomerChoiceRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, CustomerType::class);
+        parent::__construct($registry, CustomerChoice::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(CustomerType $entity, bool $flush = true): void
+    public function add(CustomerChoice $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class CustomerTypeRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(CustomerType $entity, bool $flush = true): void
+    public function remove(CustomerChoice $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class CustomerTypeRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return CustomerType[] Returns an array of CustomerType objects
+    //  * @return CustomerChoice[] Returns an array of CustomerChoice objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class CustomerTypeRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?CustomerType
+    public function findOneBySomeField($value): ?CustomerChoice
     {
         return $this->createQueryBuilder('c')
             ->andWhere('c.exampleField = :val')

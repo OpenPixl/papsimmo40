@@ -2,11 +2,11 @@
 
 namespace App\Entity\Gestapp\choice;
 
-use App\Repository\Gestapp\choice\houseEquipmentRepository;
+use App\Repository\Gestapp\choice\HouseEquipmentRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: houseEquipmentRepository::class)]
-class houseEquipment
+#[ORM\Entity(repositoryClass: HouseEquipmentRepository::class)]
+class HouseEquipment
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

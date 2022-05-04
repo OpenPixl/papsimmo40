@@ -1,4 +1,18 @@
 {{ form_start(form) }}
+    <div class="mb-1">
+        {% include('include/form/select.html.twig') with {
+            'form_label':form_label(form.banner, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+            'form_select':form_widget(form.banner)
+        }
+        %}
+    </div>
+    <div class="mb-1">
+        {% include('include/form/select.html.twig') with {
+            'form_label':form_label(form.denomination, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+            'form_select':form_widget(form.denomination)
+        }
+        %}
+    </div>
     <div class="row">
         <div class="col-3">
             <div class="card">
@@ -7,33 +21,38 @@
                 </div>
                 <div class="card-body">
                     {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.terrace, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.terrace, {'attr': {'class': 'form-control form-control-sm'}})
+                        'form_label':form_label(form.terrace, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
+                        'form_input':form_widget(form.terrace, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
                     {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.washroom, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.washroom, {'attr': {'class': 'form-control form-control-sm'}})
+                        'form_label':form_label(form.washroom, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
+                        'form_input':form_widget(form.washroom, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
                     {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.bathroom, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.bathroom, {'attr': {'class': 'form-control form-control-sm'}})
+                        'form_label':form_label(form.bathroom, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
+                        'form_input':form_widget(form.bathroom, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
                     {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.wc, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.wc, {'attr': {'class': 'form-control form-control-sm'}})
+                        'form_label':form_label(form.wc, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
+                        'form_input':form_widget(form.wc, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
                     {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.balcony, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.balcony, {'attr': {'class': 'form-control form-control-sm'}})
+                        'form_label':form_label(form.balcony, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
+                        'form_input':form_widget(form.balcony, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
                     {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.sanitation, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.sanitation, {'attr': {'class': 'form-control form-control-sm'}})
+                        'form_label':form_label(form.sanitation, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
+                        'form_input':form_widget(form.sanitation, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
+                    }
+                    %}
+                    {% include('include/form/input-numerique.html.twig') with {
+                        'form_label':form_label(form.jointness, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
+                        'form_input':form_widget(form.jointness, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
                 </div>
@@ -45,6 +64,43 @@
                     Le bien
                 </div>
                 <div class="card-body">
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.houseState, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.houseState)
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.energy, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.energy)
+                    }
+                    %}
+
+                    {% include('include/form/input.html.twig') with {
+                        'form_label':form_label(form.propertyTax, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.propertyTax, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.orientation, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.orientation)
+                    }
+                    %}
+
+                    {% include('include/form/input.html.twig') with {
+                        'form_label':form_label(form.disponibility, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.disponibility, {'attr': {'class': 'form-control form-control-sm'}})
+                    }
+                    %}
+
+                    {% include('include/form/input.html.twig') with {
+                        'form_label':form_label(form.location, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.location, {'attr': {'class': 'form-control form-control-sm'}})
+                    }
+                    %}
+
                     {% include('include/form/date.html.twig') with {
                         'form_label':form_label(form.disponibilityAt, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
                         'form_input':form_widget(form.disponibilityAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}})
@@ -58,13 +114,68 @@
             </div>
 
         </div>
-        <div class="col-4">
-           {% include('include/form/oneSwitch.html.twig') with {
-               'form_label':form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}),
-               'form_switch':form_widget(form.isFurnished, {'attr': {'class': 'form-check-input'}})
-           }
-           %}
+        <div class="col-5">
+            <div class="card">
+                <div class="card-header">
+                    Equipements
+                </div>
+                <div class="card-body">
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isFurnished, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.houseType, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.houseType)
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.apartmentType, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.apartmentType)
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.landType, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.landType)
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.tradeType, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.tradeType)
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.houseEquipment, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.houseEquipment)
+                    }
+                    %}
+
+                    {% include('include/form/input-numerique.html.twig') with {
+                        'form_label':form_label(form.level, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
+                        'form_input':form_widget(form.level, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.buildingEquipment, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.buildingEquipment)
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.otherOption, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.otherOption)
+                    }
+                    %}
+                </div>
+            </div>
+
         </div>
     </div>
-    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

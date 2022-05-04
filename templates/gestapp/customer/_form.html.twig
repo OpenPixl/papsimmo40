@@ -1,49 +1,37 @@
 {{ form_start(form) }}
-
 <div class="row">
     <div class="col-12">
-        <div class="row mt-1">
-            <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-12">
             {% include('include/form/input2field.html.twig') with {
-                'form_label':form_label(form.firstName, 'Prénom', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-                'form_input1':form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}}),
-                'form_input2':form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom'}})
+                'form_label':form_label(form.firstName, 'Nom et Prénom', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                'form_input1':form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom'}}),
+                'form_input2':form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}})
             }
             %}
             </div>
-            <div class="col-sm-6"></div>
         </div>
 
-        <div class="row mt-1">
-            <div class="col-sm-6">
+        <div class="row">
+            <div class="col-sm-12">
                 {% include('include/form/input.html.twig') with {
-                    'form_label':form_label(form.adress, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+                    'form_label':form_label(form.adress, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
                     'form_input':form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse'}})
                 }
                 %}
 
-                {% include('include/form/input.html.twig') with {
-                    'form_input':form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Complément'}})
+                {% include('include/form/input-nolabel.html.twig') with {
+                    'form_input':form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Complément'}}),
+                    'class': 'col-sm-4'
                 }
                 %}
 
                 {% include('include/form/input2field.html.twig') with {
-                    'form_label':form_label(form.city, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+                    'form_label':form_label(form.city, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
                     'form_input1':form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'CP'}}),
                     'form_input2':form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}})
                 }
                 %}
-            </div>
-            <div class="col-sm-6">
-
-            </div>
-        </div>
-
-        {{ form_rest(form) }}
-        <div class="row mt-2">
-            <div class="col-sm-12">
-                <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp
-                <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
             </div>
         </div>
     </div>

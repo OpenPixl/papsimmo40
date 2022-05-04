@@ -1,34 +1,16 @@
-    <table class="table">
-        <thead>
-            <tr>
-                <th>RefCustomer</th>
-                <th>Nom & Prénom</th>
-                <th>Adresse</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for customer in customers %}
-            <tr>
-                <td>{{ customer.RefCustomer }}</td>
-                <td>{{ customer.firstName }} {{ customer.lastName }}</td>
-                <td>
-                    {{ customer.adress }}<br>
-                    {{ customer.complement }}<br>
-                    {{ customer.zipcode }} {{ customer.city }}
-                </td>
+<div class="row mt-2">
+    <div class="col-sm-2">
+        <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
+            Ajouter un vendeur<br>
+            sur ce bien.
+        </button>
+    </div>
+    <div class="col-sm-10">
+        <div id="listeCustormers" class="row">
+            {{ include('gestapp/customer/_listecustomers.html.twig') }}
+        </div>
+    </div>
+</div>
 
-                <td>{{ customer.city }}</td>
-                <td>
-                    <a href="{{ path('op_gestapp_customer_show', {'id': customer.id}) }}">show</a>
-                    <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="13">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+
 

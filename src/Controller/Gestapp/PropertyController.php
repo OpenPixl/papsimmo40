@@ -14,6 +14,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Validator\Constraints\Date;
 
 #[Route('/gestapp/property')]
 class PropertyController extends AbstractController
@@ -110,6 +111,7 @@ class PropertyController extends AbstractController
             'property' => $property,
             'idProperty' => $property->getId(),
             'complement' => $complement->getId(),
+            'publication' => $property->getPublication(),
             'form' => $form,
         ]);
     }
@@ -137,6 +139,85 @@ class PropertyController extends AbstractController
         ]);
     }
 
+    #[Route('/stepinformations/{id}', name: 'op_gestapp_property_stepinformations', methods: ['GET', 'POST'])]
+    public function stepInformations(Request $request, Property $property, PropertyRepository $propertyRepository)
+    {
+        //dd($property);
+        $data = json_decode($request->getContent(), true);
+
+        $property->setName($data['name']);
+        $property->setRef($data['ref']);
+        $property->setAdress($data['adress']);
+        $property->setComplement($data['complement']);
+        $property->setZipcode($data['zipcode']);
+        $property->setCity($data['city']);
+        $property->setAnnonce($data['annonce']);
+        $property->setPiece($data['piece']);
+        $property->setRoom($data['room']);
+        $property->setIsHome($data['isHome']);
+        $property->setIsApartment($data['isApartment']);
+        $property->setIsLand($data['isLand']);
+        $property->setIsOther($data['isOther']);
+        $property->setOtherDescription($data['otherDescription']);
+
+        $propertyRepository->add($property);
+
+        //dd($property);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les informations du bien ont été correctement ajoutées."
+        ], 200);
+    }
+
+    #[Route('/stepchiffres/{id}', name: 'op_gestapp_property_stepchiffres', methods: ['GET', 'POST'])]
+    public function stepChiffres(Request $request, Property $property, PropertyRepository $propertyRepository)
+    {
+        //dd($property);
+        $data = json_decode($request->getContent(), true);
+
+        $dpeAt = new \DateTime($data['dpeAt']);
+
+        $property->setSurfaceLand($data['surfaceLand']);
+        $property->setSurfaceHome($data['surfaceHome']);
+        $property->setNotaryEstimate($data['notaryEstimate']);
+        $property->setApplicantEstimate($data['applicantEstimate']);
+        $property->setDpeAt($dpeAt);
+        $property->setDiagDpe($data['diagDpe']);
+        $property->setDiagGpe($data['diagGpe']);
+        $property->setCadasterZone($data['cadasterZone']);
+        $property->setCadasterNum($data['cadasterNum']);
+        $property->setCadasterSurface($data['cadastersurface']);
+        $property->setCadasterCariez($data['cadasterCariez']);
+
+        $propertyRepository->add($property);
+
+        //dd($property);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les informations du bien ont été correctement ajoutées."
+        ], 200);
+    }
+
+    #[Route('/steppublication/{id}', name: 'op_gestapp_property_steppublication', methods: ['GET', 'POST'])]
+    public function stepPublication(Request $request, Property $property, PropertyRepository $propertyRepository)
+    {
+        //dd($property);
+        $data = json_decode($request->getContent(), true);
+
+        $property->setIsIncreating(0);
+
+        $propertyRepository->add($property);
+
+        //dd($property);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les informations du bien ont été correctement ajoutées."
+        ], 200);
+    }
+
     #[Route('/{id}', name: 'op_gestapp_property_delete', methods: ['POST'])]
     public function delete(Request $request, Property $property, PropertyRepository $propertyRepository): Response
     {
@@ -146,4 +227,21 @@ class PropertyController extends AbstractController
 
         return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/increatingdel/{id}', name:'op_gestapp_property_increatingdel', methods: ['POST'] )]
+    public function increatingDel(Property $property, PropertyRepository $propertyRepository)
+    {
+        $propertyRepository->remove($property);
+
+        $properties = $propertyRepository->findBy(array('isIncreating' => 1));
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les informations du bien ont été correctement ajoutées.",
+            'liste' => $this->renderView('gestapp/property/_increating.html.twig', [
+                'properties' => $properties
+                ])
+        ], 200);
+    }
+
 }

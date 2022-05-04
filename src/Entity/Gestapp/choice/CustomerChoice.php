@@ -2,11 +2,11 @@
 
 namespace App\Entity\Gestapp\choice;
 
-use App\Repository\Gestapp\choice\CustomerTypeRepository;
+use App\Repository\Gestapp\choice\CustomerChoiceRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: CustomerTypeRepository::class)]
-class CustomerType
+#[ORM\Entity(repositoryClass: CustomerChoiceRepository::class)]
+class CustomerChoice
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]

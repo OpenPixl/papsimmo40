@@ -1,0 +1,11 @@
+{% for property in properties %}
+    <div class="card border-warning mb-3">
+        <div class="card-header">{{property.ref}}</div>
+        <div class="card-body">
+            <h4 class="card-title">{{ property.name }}</h4>
+            <p class="card-text">Ce bien est en cours d'édition. Pensez à le finaliser :
+                <a href="{{path('op_gestapp_property_firstedit', {'id' : property.id})}}" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
+                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button></p>
+        </div>
+    </div>
+{% endfor %}
