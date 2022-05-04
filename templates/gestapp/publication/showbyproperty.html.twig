@@ -1,26 +1,3 @@
-<table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>IsWebpublish</th>
-                <th>IsSocialNetwork</th>
-                <th>Sector</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for publication in publications %}
-            <tr>
-                <td>{{ publication.id }}</td>
-                <td>{{ publication.isWebpublish ? 'Yes' : 'No' }}</td>
-                <td>{{ publication.isSocialNetwork ? 'Yes' : 'No' }}</td>
-                <td>{{ publication.sector }}</td>
+{{ include('gestapp/publication/_form.html.twig', {'button_label': 'Update'}) }}
 
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 

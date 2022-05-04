@@ -14,16 +14,13 @@ class Publication
     private $id;
 
     #[ORM\Column(type: 'boolean')]
-    private $isWebpublish;
+    private $isWebpublish = false;
 
     #[ORM\Column(type: 'boolean')]
-    private $isSocialNetwork;
+    private $isSocialNetwork = false;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $sector;
-
-    #[ORM\OneToOne(targetEntity: Property::class, cascade: ['persist', 'remove'])]
-    private $property;
 
     public function getId(): ?int
     {
@@ -62,18 +59,6 @@ class Publication
     public function setSector(?string $sector): self
     {
         $this->sector = $sector;
-
-        return $this;
-    }
-
-    public function getProperty(): ?Property
-    {
-        return $this->property;
-    }
-
-    public function setProperty(?Property $property): self
-    {
-        $this->property = $property;
 
         return $this;
     }

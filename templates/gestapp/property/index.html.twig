@@ -2,6 +2,69 @@
 
 {% block title %}Property index{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+
+            function DelPropertyIncreating(event)
+            {
+                event.preventDefault();
+                const id = document.getElementById('recipient-name').value;
+                axios
+                    .post('/gestapp/property/increatingdel/'+ id)
+                    .then(function(response) {
+                        // rafraichissement du tableau
+                        const liste = document.getElementById('listeIncreating').innerHTML = response.data.liste;
+                        // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
+                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
+                            link.addEventListener('click', DelPropertyIncreating)
+                        })
+                        // préparation du toaster
+                        var option = {
+                            animation : true,
+                            autohide: true,
+                            delay : 3000,
+                        };
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                        toastElement.show();
+                    });
+            }
+
+            // Code d'ouverture de la modale de suppression d'une ligne
+            var Suppr = document.getElementById('Suppr')
+            Suppr.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var a = event.relatedTarget
+                // Extract info from data-bs-* attributes
+                var recipient = a.getAttribute('data-bs-whatever')
+                // If necessary, you could initiate an AJAX request here
+                // and then do the updating in a callback.
+                //
+                // Update the modal's content.
+                var modalTitle = Suppr.querySelector('.modal-title')
+                var modalText = Suppr.querySelector('.modal-text')
+                var modalBodyInput = Suppr.querySelector('.modal-body input')
+
+                modalTitle.textContent = "Suppression d'un bien en cours de création"
+                modalBodyInput.value = recipient
+                modalText.innerHTML = "Vous êtes sur le point de supprimer le bien en cours de création.<br><b>Etes-vous sur de vouloir continuer ?</b>"
+            })
+
+            // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
+            document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
+                link.addEventListener('click', DelPropertyIncreating)
+            })
+
+        }
+    </script>
+{% endblock %}
+
 {% block contentTitle %}
     <div class="row">
         <div class="col-sm-12">
@@ -12,11 +75,54 @@
 
 {% block content %}
     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::inCreating')) }}
-    <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-secondary">Ajouter un nouveau bien</a>
+    <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
     <div class="row">
         <div id="list" class="col-sm-12">
             {% include('gestapp/property/_list.html.twig') %}
         </div>
     </div>
-    <a href="{{ path('op_gestapp_property_new') }}" class="btn btn-sm btn-outline-secondary">Ajouter un nouveau bien</a>
+    <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    <section id="modals">
+        {# Modal de suppression #}
+        <div class="modal fade" id="Suppr" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                        <input type="hidden" id="recipient-name">
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-warning jsModalDelPropertyIncreating" data-bs-dismiss="modal">Supprimer</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# annonce toaster #}
+        <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative">
+            <div class="toast-container position-absolute bottom-100 end-0 p-3">
+                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="..." class="rounded me-2" alt="...">
+                        <strong class="me-auto">Bootstrap</strong>
+                        <small class="text-muted">A l'instant</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
 {% endblock %}

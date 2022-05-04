@@ -4,6 +4,7 @@ namespace App\Controller\Gestapp;
 
 use App\Entity\Gestapp\Publication;
 use App\Form\Gestapp\PublicationType;
+use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,12 +48,20 @@ class PublicationController extends AbstractController
         ]);
     }
 
-    #[Route('/showbyproperty/{idproperty}', name: 'op_admin_contact_showbyproperty', methods: ['GET'])]
-    public function showByProperty(PublicationRepository $publicationRepository, $idProperty): Response
+    #[Route('/showbyproperty/{id}', name: 'op_admin_contact_showbyproperty', methods: ['GET'])]
+    public function showByProperty(Request $request, Publication $publication, PublicationRepository $publicationRepository): Response
     {
-        $publications = $publicationRepository->findBy(array('property' => $idProperty));
-        return $this->render('gestapp/publication/showbyproperty.html.twig', [
-            'publications' => $publications,
+        $form = $this->createForm(PublicationType::class, $publication);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $publicationRepository->add($publication);
+            return $this->redirectToRoute('app_gestapp_publication_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('gestapp/publication/showbyproperty.html.twig', [
+            'publication' => $publication,
+            'form' => $form,
         ]);
     }
 

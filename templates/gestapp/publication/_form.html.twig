@@ -1,4 +1,21 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {% include('include/form/oneSwitch.html.twig') with {
+        'form_label':form_label(form.isWebpublish, '', {'label_attr': {'class':'form-check-label'}}),
+        'form_switch':form_widget(form.isWebpublish, {'attr': {'class': 'form-check-input'}})
+    }
+    %}
+
+{% include('include/form/oneSwitch.html.twig') with {
+    'form_label':form_label(form.isSocialNetwork, '', {'label_attr': {'class':'form-check-label'}}),
+    'form_switch':form_widget(form.isSocialNetwork, {'attr': {'class': 'form-check-input'}})
+}
+%}
+
+<div class="mb-1">
+    {% include('include/form/select.html.twig') with {
+        'form_label':form_label(form.sector, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+        'form_select':form_widget(form.sector)
+    }
+    %}
+</div>
 {{ form_end(form) }}

@@ -117,6 +117,10 @@ class Property
     #[ORM\Column(type: 'boolean')]
     private $isIncreating = true;
 
+    #[ORM\OneToOne(targetEntity: Publication::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private $publication;
+
     public function __construct()
     {
         $this->Media = new ArrayCollection();
@@ -569,6 +573,18 @@ class Property
     public function setIsIncreating(bool $isIncreating): self
     {
         $this->isIncreating = $isIncreating;
+
+        return $this;
+    }
+
+    public function getPublication(): ?Publication
+    {
+        return $this->publication;
+    }
+
+    public function setPublication(Publication $publication): self
+    {
+        $this->publication = $publication;
 
         return $this;
     }

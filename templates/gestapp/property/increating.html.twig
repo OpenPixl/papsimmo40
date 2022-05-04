@@ -1,21 +1,7 @@
 {% if properties %}
 <div class="row">
-    <div id="list" class="col-sm-12">
-        <div class="alert alert-info">
-            <p>Remarque : un bien est en cours d'édition, merci de le finaliser</p>
-            <table class="table">
-            {% for property in properties %}
-                <tr>
-                    <td>{{property.ref}}</td>
-                    <td>{{ property.name }}</td>
-                    <td class="text-end">
-                        <a href="{{path('op_gestapp_property_edit', {'id' : property.id})}}" class="btn btn-sm btn-outline-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
-                        <a href="" class="btn btn-sm btn-outline-danger"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</a>
-                    </td>
-                </tr>
-            {% endfor %}
-            </table>
-        </div>
+    <div id="listeIncreating" class="col-sm-12">
+        {{ include('gestapp/property/_increating.html.twig') }}
     </div>
 </div>
 {% else %}

@@ -1,0 +1,24 @@
+{% if form_label is not defined %}
+<div class="row">
+    <div class="{{ class }}">
+    </div>
+    <div class="col-sm-4">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
+            {{ form_input|raw }}
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="row">
+    {{ form_label|raw }}
+    <div class="col-sm-4">
+        <div class="input-group">
+            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
+            {{ form_input|raw }}
+        </div>
+    </div>
+</div>
+{% endif %}
+
+

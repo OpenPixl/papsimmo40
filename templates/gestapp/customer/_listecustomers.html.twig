@@ -1,0 +1,28 @@
+{% for customer in customers %}
+<div class="col-sm-3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">{{ customer.firstName }} {{ customer.lastName }}</h4>
+            <h6 class="card-subtitle mb-2 text-muted">vendeur</h6>
+            <p class="card-text">{{ customer.RefCustomer }}
+                {{ customer.adress }}<br>
+                {{ customer.complement }}<br>
+                {{ customer.zipcode }} {{ customer.city }}</p>
+            <a href="#" class="card-link"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
+            <a href="#" class="card-link"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="col-sm-3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Nom Prénom</h4>
+            <h6 class="card-subtitle mb-2 text-muted">Futur vendeur</h6>
+            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+            <a href="#" class="card-link">Card link</a>
+            <a href="#" class="card-link">Another link</a>
+        </div>
+    </div>
+</div>
+{% endfor %}

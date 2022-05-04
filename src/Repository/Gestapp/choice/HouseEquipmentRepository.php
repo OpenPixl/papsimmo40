@@ -2,30 +2,30 @@
 
 namespace App\Repository\Gestapp\choice;
 
-use App\Entity\Gestapp\choice\houseEquipment;
+use App\Entity\Gestapp\choice\HouseEquipment;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
- * @method houseEquipment|null find($id, $lockMode = null, $lockVersion = null)
- * @method houseEquipment|null findOneBy(array $criteria, array $orderBy = null)
- * @method houseEquipment[]    findAll()
- * @method houseEquipment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method HouseEquipment|null find($id, $lockMode = null, $lockVersion = null)
+ * @method HouseEquipment|null findOneBy(array $criteria, array $orderBy = null)
+ * @method HouseEquipment[]    findAll()
+ * @method HouseEquipment[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class houseEquipmentRepository extends ServiceEntityRepository
+class HouseEquipmentRepository extends ServiceEntityRepository
 {
     public function __construct(ManagerRegistry $registry)
     {
-        parent::__construct($registry, houseEquipment::class);
+        parent::__construct($registry, HouseEquipment::class);
     }
 
     /**
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function add(houseEquipment $entity, bool $flush = true): void
+    public function add(HouseEquipment $entity, bool $flush = true): void
     {
         $this->_em->persist($entity);
         if ($flush) {
@@ -37,7 +37,7 @@ class houseEquipmentRepository extends ServiceEntityRepository
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function remove(houseEquipment $entity, bool $flush = true): void
+    public function remove(HouseEquipment $entity, bool $flush = true): void
     {
         $this->_em->remove($entity);
         if ($flush) {
@@ -46,7 +46,7 @@ class houseEquipmentRepository extends ServiceEntityRepository
     }
 
     // /**
-    //  * @return houseEquipment[] Returns an array of houseEquipment objects
+    //  * @return HouseEquipment[] Returns an array of HouseEquipment objects
     //  */
     /*
     public function findByExampleField($value)
@@ -63,7 +63,7 @@ class houseEquipmentRepository extends ServiceEntityRepository
     */
 
     /*
-    public function findOneBySomeField($value): ?houseEquipment
+    public function findOneBySomeField($value): ?HouseEquipment
     {
         return $this->createQueryBuilder('h')
             ->andWhere('h.exampleField = :val')

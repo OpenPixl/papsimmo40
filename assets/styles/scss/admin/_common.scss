@@ -6,15 +6,12 @@ $side-large: 12rem;
 @media (max-width: 767.98px) {
   body{
     font-size: 0.8rem;
-    background-color: $body-background;
   }
   #side{
-    background-color: rosybrown;
     width: $side-small;
     height: 100vh;
   }
   #content{
-    background-color: aliceblue;
     width: calc(100% - $side-small);
     height: 100vh;
   }
@@ -23,10 +20,8 @@ $side-large: 12rem;
 @media (min-width: 768px) {
   body{
     font-size: 0.9rem;
-    background-color: $body-background;
   }
   #side{
-    background-color: rosybrown;
     width: $side-large;
     height: 100vh;
   }

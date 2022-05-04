@@ -9,7 +9,7 @@ use App\Entity\Gestapp\choice\HouseType;
 use App\Entity\Gestapp\choice\LandType;
 use App\Entity\Gestapp\choice\OtherOption;
 use App\Entity\Gestapp\choice\TradeType;
-use App\Entity\Gestapp\choice\houseEquipment;
+use App\Entity\Gestapp\choice\HouseEquipment;
 use App\Repository\Gestapp\ComplementRepository;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -33,10 +33,10 @@ class Complement
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $disponibility;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
     private $disponibilityAt;
 
-    #[ORM\Column(type: 'datetime_immutable', nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
     private $constructionAt;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
@@ -58,16 +58,16 @@ class Complement
     private $orientation;
 
     #[ORM\ManyToOne(targetEntity: BuildingEquipment::class)]
-    private $buildingEquipment;
+    private $BuildingEquipment;
 
-    #[ORM\ManyToOne(targetEntity: houseEquipment::class)]
-    private $houseEquipment;
+    #[ORM\ManyToOne(targetEntity: HouseEquipment::class)]
+    private $HouseEquipment;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $houseState;
 
     #[ORM\ManyToOne(targetEntity: OtherOption::class)]
-    private $otherOption;
+    private $OtherOption;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $level;
@@ -152,24 +152,24 @@ class Complement
         return $this;
     }
 
-    public function getDisponibilityAt(): ?\DateTimeImmutable
+    public function getDisponibilityAt(): ?\DateTimeInterface
     {
         return $this->disponibilityAt;
     }
 
-    public function setDisponibilityAt(?\DateTimeImmutable $disponibilityAt): self
+    public function setDisponibilityAt(?\DateTimeInterface $disponibilityAt): self
     {
         $this->disponibilityAt = $disponibilityAt;
 
         return $this;
     }
 
-    public function getConstructionAt(): ?\DateTimeImmutable
+    public function getConstructionAt(): ?\DateTimeInterface
     {
         return $this->constructionAt;
     }
 
-    public function setConstructionAt(\DateTimeImmutable $constructionAt): self
+    public function setConstructionAt(\DateTimeInterface $constructionAt): self
     {
         $this->constructionAt = $constructionAt;
 
@@ -250,24 +250,24 @@ class Complement
 
     public function getBuildingEquipment(): ?BuildingEquipment
     {
-        return $this->buildingEquipment;
+        return $this->BuildingEquipment;
     }
 
-    public function setBuildingEquipment(?BuildingEquipment $buildingEquipment): self
+    public function setBuildingEquipment(?BuildingEquipment $BuildingEquipment): self
     {
-        $this->buildingEquipment = $buildingEquipment;
+        $this->BuildingEquipment = $BuildingEquipment;
 
         return $this;
     }
 
-    public function getHouseEquipment(): ?houseEquipment
+    public function getHouseEquipment(): ?HouseEquipment
     {
-        return $this->houseEquipment;
+        return $this->HouseEquipment;
     }
 
-    public function setHouseEquipment(?houseEquipment $houseEquipment): self
+    public function setHouseEquipment(?HouseEquipment $HouseEquipment): self
     {
-        $this->houseEquipment = $houseEquipment;
+        $this->HouseEquipment = $HouseEquipment;
 
         return $this;
     }
@@ -286,12 +286,12 @@ class Complement
 
     public function getOtherOption(): ?OtherOption
     {
-        return $this->otherOption;
+        return $this->OtherOption;
     }
 
-    public function setOtherOption(?OtherOption $otherOption): self
+    public function setOtherOption(?OtherOption $OtherOption): self
     {
-        $this->otherOption = $otherOption;
+        $this->OtherOption = $OtherOption;
 
         return $this;
     }

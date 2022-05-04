@@ -4,7 +4,7 @@ namespace App\Entity\Gestapp;
 
 use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
-use App\Entity\Gestapp\choice\CustomerType;
+use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Repository\Gestapp\CustomerRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -29,11 +29,11 @@ class Customer
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
     private $lastName;
 
-    #[ORM\Column(type: 'string', length: 125, nullable: true)]
+    #[ORM\Column(type: 'string', length: 125)]
     private $slug;
 
-    #[ORM\ManyToOne(targetEntity: CustomerType::class)]
-    private $CustomerType;
+    #[ORM\ManyToOne(targetEntity: CustomerChoice::class)]
+    private $CustomerChoice;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $adress;
@@ -63,10 +63,10 @@ class Customer
     #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'refAcquirer')]
     private $acquirer;
 
-    #[ORM\Column(type: 'datetime_immutable')]
-    private $CreatedAt;
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Property::class, mappedBy: 'Customer')]
@@ -142,14 +142,14 @@ class Customer
         return $this;
     }
 
-    public function getCustomerType(): ?CustomerType
+    public function getCustomerChoice(): ?CustomerChoice
     {
-        return $this->CustomerType;
+        return $this->customerChoice;
     }
 
-    public function setCustomerType(?CustomerType $CustomerType): self
+    public function setCustomerChoice(?CustomerChoice $customerChoice): self
     {
-        $this->CustomerType = $CustomerType;
+        $this->customerChoice = $customerChoice;
 
         return $this;
     }
@@ -256,29 +256,29 @@ class Customer
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->CreatedAt;
+        return $this->createdAt;
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt(\DateTimeImmutable $CreatedAt): self
+    public function setCreatedAt(): self
     {
-        $this->CreatedAt = $CreatedAt;
+        $this->createdAt = new \DateTime('now');
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTime('now');
 
         return $this;
     }

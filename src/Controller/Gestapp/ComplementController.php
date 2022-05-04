@@ -4,6 +4,14 @@ namespace App\Controller\Gestapp;
 
 use App\Entity\Gestapp\Complement;
 use App\Form\Gestapp\ComplementType;
+use App\Repository\Gestapp\choice\ApartmentTypeRepository;
+use App\Repository\Gestapp\choice\BuildingEquipmentRepository;
+use App\Repository\Gestapp\choice\DenominationRepository;
+use App\Repository\Gestapp\choice\HouseEquipmentRepository;
+use App\Repository\Gestapp\choice\HouseTypeRepository;
+use App\Repository\Gestapp\choice\LandTypeRepository;
+use App\Repository\Gestapp\choice\OtherOptionRepository;
+use App\Repository\Gestapp\choice\TradeTypeRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -37,6 +45,89 @@ class ComplementController extends AbstractController
             'complement' => $complement,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/addcomplemet/{id}', name: 'op_gestapp_customer_addcomplement',  methods: ['GET', 'POST'])]
+    public function addComplement(
+        Request $request,
+        Complement $complement,
+        ComplementRepository $complementRepository,
+        DenominationRepository $denominationRepository,
+        HouseTypeRepository $houseTypeRepository,
+        ApartmentTypeRepository $apartmentTypeRepository,
+        LandTypeRepository $landTypeRepository,
+        TradeTypeRepository $tradeTypeRepository,
+        HouseEquipmentRepository $houseEquipmentRepository,
+        BuildingEquipmentRepository $buildingEquipmentRepository,
+        OtherOptionRepository $otherOptionRepository,
+    )
+    {
+        //Récupération des variables das le data d'Axios
+        $data = json_decode($request->getContent(), true);
+
+        $idDenomination = $data['denomination'];
+        $denomination = $denominationRepository->find($idDenomination);
+
+        $disponibilityAt = new \DateTime($data['disponibilityAt']);
+        $constructionAt = new \DateTime($data['constructionAt']);
+
+        $idhouseType = $data['houseType'];
+        $houseType = $houseTypeRepository->find($idhouseType);
+
+        $idapartmentType = $data['apartmentType'];
+        $apartmentType = $apartmentTypeRepository->find($idapartmentType);
+
+        $idlandType = $data['landType'];
+        $landType = $landTypeRepository->find($idlandType);
+
+        $idtradeType = $data['tradeType'];
+        $tradeType = $tradeTypeRepository->find($idtradeType);
+
+        $idhouseEquipment = $data['houseEquipment'];
+        $houseEquipment = $houseEquipmentRepository->find($idhouseEquipment);
+
+        $idbuildingEquipment = $data['buildingEquipment'];
+        $buildingEquipment = $buildingEquipmentRepository->find($idbuildingEquipment);
+
+        $idotherOption = $data['otherOption'];
+        $otherOption = $otherOptionRepository->find($idotherOption);
+
+        // hydratation de l'objet Complement
+        $complement->setBanner($data['banner']);
+        $complement->setDenomination($denomination);
+        $complement->setTerrace($data['terrace']);
+        $complement->setWashroom($data['washroom']);
+        $complement->setBathroom($data['bathroom']);
+        $complement->setWc($data['wc']);
+        $complement->setBalcony($data['balcony']);
+        $complement->setSanitation($data['sanitation']);
+        $complement->setJointness($data['jointness']);
+        $complement->setHouseState($data['houseState']);
+        $complement->setEnergy($data['energy']);
+        $complement->setPropertyTax($data['propertyTax']);
+        $complement->setOrientation($data['orientation']);
+        $complement->setDisponibility($data['disponibility']);
+        $complement->setLocation($data['location']);
+        $complement->setDisponibilityAt($disponibilityAt);
+        $complement->setConstructionAt($constructionAt);
+        $complement->setIsFurnished($data['isFurnished']);
+        $complement->setHouseType($houseType);
+        $complement->setApartmentType($apartmentType);
+        $complement->setLandType($landType);
+        $complement->setTradeType($tradeType);
+        $complement->setHouseEquipment($houseEquipment);
+        $complement->setLevel($data['level']);
+        $complement->setBuildingEquipment($buildingEquipment);
+        $complement->setOtherOption($otherOption);
+
+        // flush
+        $complementRepository->add($complement);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les options ont été correctement ajoutées."
+        ], 200);
+
     }
 
     #[Route('/{id}', name: 'op_gestapp_complement_show', methods: ['GET'])]
