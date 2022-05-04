@@ -19,19 +19,28 @@ class EmployedFixtures extends Fixture
     {
         $employed = new Employed();
         $employed->setRoles(array('ROLE_ADMIN'));
-        $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'admin123'));
-        $employed->setEmail('contact@openpixl.fr');
-        $employed->setFirstName('admin');
-        $employed->setLastName('Dév');
+        $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'demo'));
+        $employed->setEmail('contact@papsimmo.fr');
+        $employed->setFirstName('demo');
+        $employed->setLastName('denis');
         $employed->setIsVerified(1);
         $manager->persist($employed);
 
         $employed = new Employed();
-        $employed->setRoles(array('ROLE_USER'));
-        $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'Corwin_40'));
-        $employed->setEmail('xavier.burke@gmail.fr');
-        $employed->setFirstName('xavier');
-        $employed->setLastName('Burke');
+        $employed->setRoles(array('ROLE_ADMIN'));
+        $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'ddehez40'));
+        $employed->setEmail('ddzhez40@gmail.com');
+        $employed->setFirstName('Denis');
+        $employed->setLastName('DEHEZ');
+        $employed->setIsVerified(1);
+        $manager->persist($employed);
+
+        $employed = new Employed();
+        $employed->setRoles(array('ROLE_ADMIN'));
+        $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'utilisateur'));
+        $employed->setEmail('utilisateur@papsimmo.fr');
+        $employed->setFirstName('utilisateur');
+        $employed->setLastName('test');
         $employed->setIsVerified(1);
         $manager->persist($employed);
 
