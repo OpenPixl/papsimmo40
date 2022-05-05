@@ -18,18 +18,18 @@
     </thead>
     <tbody>
     {% for property in properties %}
-        <tr>
+        <tr class="align-middle">
             <td>{{ property.id }}</td>
             <td>{{ property.ref }}</td>
             <td>
                 {% if property.isHome == 1 %}
-                    <p class="badge bg-primary">Maison</p>
+                    <p class="badge bg-primary mb-0">Maison</p>
                 {% elseif property.isApartment == 1 %}
-                    <p class="badge bg-primary">Appartement</p>
+                    <p class="badge bg-primary mb-0">Appartement</p>
                 {% elseif property.isLand == 1 %}
-                    <p class="badge bg-primary">Terrain</p>
+                    <p class="badge bg-primary mb-0">Terrain</p>
                 {% elseif property.isOther == 1 %}
-                    <p class="badge bg-primary">{{ property.otherDescription }}</p>
+                    <p class="badge bg-primary mb-0">{{ property.otherDescription }}</p>
                 {% endif %}
             </td>
             <td>{{ property.name }}</td>
@@ -41,8 +41,8 @@
             <td>{{ property.createdAt ? property.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ property.updatedAt ? property.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
-                <a href="{{ path('op_gestapp_property_show', {'id': property.id}) }}">show</a>
-                <a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}">edit</a>
+                <a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-file-pen"></i> voir</a>
+                <a type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#Suppr2" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> supprimer</a>
             </td>
         </tr>
     {% else %}

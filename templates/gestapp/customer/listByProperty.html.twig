@@ -1,6 +1,16 @@
 <div class="row mt-2">
     <div class="col-sm-2">
-        <button type="button" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
+        <p>
+            <b>Rechercher </b>un vendeur
+        </p>
+        <form action="">
+            <div class="input-group mb-3">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-magnifying-glass"></i></span>
+                <input type="text" class="form-control" placeholder="Nom ou prénom" aria-label="Username" aria-describedby="basic-addon1">
+            </div>
+        </form>
+        <hr>
+        <button type="button" class="btn btn-sm btn-outline-warning mb-1" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
             Ajouter un vendeur<br>
             sur ce bien.
         </button>

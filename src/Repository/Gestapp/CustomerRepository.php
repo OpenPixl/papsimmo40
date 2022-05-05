@@ -57,6 +57,22 @@ class CustomerRepository extends ServiceEntityRepository
             ;
     }
 
+    /**
+     * Rechercher un client depuis le search
+     * @return void
+     */
+    public function SearchCustomers($keys)
+    {
+        $query = $this->createQueryBuilder('c');
+        $query->where('c.isArchived = 0');
+        if($keys != null){
+            $query
+                ->andWhere('MATCH_AGAINST(a.fisrtName, a.lastName) AGAINST (:keys boolean)>0')
+                ->setParameter('keys', $keys);
+        }
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Customer[] Returns an array of Customer objects
     //  */

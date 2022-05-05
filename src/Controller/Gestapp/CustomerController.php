@@ -128,6 +128,12 @@ class CustomerController extends AbstractController
         ]);
     }
 
+    #[Route('/serchCustomers', name: 'op_gestapp_customers_searchcustomer', methods: ['POST'])]
+    public function searchCustomer()
+    {
+
+    }
+
     #[Route('/{id}', name: 'op_gestapp_customer_show', methods: ['GET'])]
     public function show(Customer $customer): Response
     {

@@ -255,4 +255,20 @@ class PropertyController extends AbstractController
         ], 200);
     }
 
+    #[Route('/del/{id}', name:'op_gestapp_property_del', methods: ['POST'] )]
+    public function Del(Property $property, PropertyRepository $propertyRepository)
+    {
+        $propertyRepository->remove($property);
+
+        $properties = $propertyRepository->findBy(array('isIncreating' => 0));
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les informations du bien ont été correctement ajoutées.",
+            'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+                'properties' => $properties
+            ])
+        ], 200);
+    }
+
 }
