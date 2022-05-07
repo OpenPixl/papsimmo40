@@ -28,13 +28,11 @@
             {% endblock %}
         </header>
         <main>
-            <div id="side" class="float-start">
-                <div class="container-fluid">
-                    {% block side %}
-                        {% include('include/admin/side.html.twig') %}
-                    {% endblock %}
-                </div>
-            </div>
+
+            {% block side %}
+                {% include('include/admin/side.html.twig') %}
+            {% endblock %}
+
             <div id="content" class="float-end">
                 <div class="container-fluid">
                     <section id="content_header">
