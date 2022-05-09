@@ -1,0 +1,57 @@
+$admin-color : linear-gradient(90deg, rgba(28,113,216,1) 0%, rgba(48,200,119,1) 100%);
+body{
+  font-family: "CerebriSans-Light";
+  //border-top : 2px solid;
+  //border-image-source: $admin-color;
+  //border-image-slice: 1;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6{
+  font-family: "CerebriSans-Light";
+}
+p{
+  font-family: "CerebriSans-Light";
+}
+
+.bg-cover {
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover;
+}
+.min-vh-100 {
+  min-height: 100vh !important;
+}
+
+.pl-lg-6, .px-lg-6 {
+  padding-left: 4.5rem !important;
+  padding-right: 4.5rem !important;
+}
+
+#block_login_image{
+  background-image: $background-image;
+  min-width: 100%;
+  min-height: 99vh;
+}
+
+.form-control {
+  border: 1px solid;
+  border-image-source: $admin-color;
+  border-image-slice: 1;
+}
+
+.row > * {
+  padding-right: 0;
+  padding-left: 0;
+}
+.form-control-sm {
+  min-height: calc(1.5em + 0.5rem + 2px);
+  padding: 0.25rem 0.5rem;
+  font-size: 0.875rem;
+  border-radius: 0.2rem;
+  margin: 0rem 0.25rem;
+}

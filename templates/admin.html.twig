@@ -35,6 +35,13 @@
 
             <div id="content" class="float-end">
                 <div class="container-fluid">
+                    <section id="content_breadcumb" class="mt-3">
+                        {% block breadcrumb %}
+                        <ol class="breadcrumb">
+                            <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
+                        </ol>
+                        {% endblock %}
+                    </section>
                     <section id="content_header">
                         {% block contentTitle %}{% endblock %}
                     </section>

@@ -128,6 +128,14 @@
     </script>
 {% endblock %}
 
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
+        <li class="breadcrumb-item active">Transaction</li>
+        <li class="breadcrumb-item active"><a href="{{ path('op_gestapp_property_index') }}">Biens immobilier</a></li>
+    </ol>
+{% endblock %}
+
 {% block contentTitle %}
     <div class="row">
         <div class="col-sm-12">

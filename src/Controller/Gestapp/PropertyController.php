@@ -14,7 +14,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Validator\Constraints\Date;
 
 #[Route('/gestapp/property')]
 class PropertyController extends AbstractController
@@ -72,8 +71,11 @@ class PropertyController extends AbstractController
         $publication = new Publication();
         $publicationRepository->add($publication);
 
+        $date = new \DateTime();
+
         $property = new Property();
         $property->setName('Nouveau bien');
+        $property->setRef('PAPS-'. $date->format('Y').$date->format('m'));
         $property->setRefEmployed($employed);
         $property->setOptions($complement);
         $property->setPublication($publication);
@@ -130,7 +132,7 @@ class PropertyController extends AbstractController
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/property/firstedit.html.twig', [
+        return $this->renderForm('gestapp/property/edit.html.twig', [
             'property' => $property,
             'idProperty' => $property->getId(),
             'complement' => $complement->getId(),

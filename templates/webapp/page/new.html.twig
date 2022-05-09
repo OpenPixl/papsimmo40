@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}New Page{% endblock %}
 
 {% block content %}
-    <h1>Create new Page</h1>
+    <h1>Créer une nouvelle page.</h1>
 
     {{ include('webapp/page/_form.html.twig') }}
 
-    <a href="{{ path('op_webapp_page_index') }}">back to list</a>
+    <a href="{{ path('op_webapp_page_index') }}">Retour à la liste</a>
 {% endblock %}

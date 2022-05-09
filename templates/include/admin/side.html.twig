@@ -1,11 +1,12 @@
 <div id="side" class="float-start">
-    <div>
-        <h5>Avatar Customer</h5>
+    <div class="container" id="bloc_avatar">
+        <img class="img-fluid img-rounded" src="{{ asset('images/jpeg/avartar.jpeg') }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}">
+        <h6 class="text-center">{{ app.user.firstName }} {{ app.user.lastName }}</h6>
     </div>
     <div class="menu-items">
         <h6>TRANSACTION</h6>
         <ul>
-            <li><a href="{{ path('op_gestapp_property_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_property_index' %}active{% endif %}"><i class="fa-duotone fa-house-building"></i> Biens</a></li>
+            <li><a href="{{ path('op_gestapp_property_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_property_index'%}active{% elseif app.request.attributes.get("_route") == 'op_gestapp_property_edit' %}active{% elseif app.request.attributes.get("_route") == 'op_gestapp_property_firstedit' %}active{% endif %}"><i class="fa-duotone fa-house-building"></i> Biens</a></li>
             <li><a href="{{ path('op_gestapp_customer_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-people-arrows-left-right"></i> Clients</a></li>
         </ul>
     </div>
@@ -19,7 +20,7 @@
         <h6>APPLICATION</h6>
         <ul>
             <li><a href="{{ path('op_admin_employed_index') }}" class="{% if app.request.attributes.get("_route") == 'op_admin_employed_index' %}active{% endif %}">Membres de Paps</a></li>
-            <li><a href="{{ path('op_admin_application_index') }}" class="{% if app.request.attributes.get("_route") == 'op_admin_application_index' %}active{% endif %}">Paramètres</a></li>
+            <li><a href="{{ path('op_admin_application_edit', {'id':1}) }}" class="{% if app.request.attributes.get("_route") == 'op_admin_application_index' %}active{% endif %}">Paramètres</a></li>
         </ul>
     </div>
 </div>

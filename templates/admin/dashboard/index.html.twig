@@ -8,26 +8,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="text/javascript">
-        window.onload = function(){
-            new TomSelect("#select-tags",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.value) + '</span><span class="ms-auto text-muted">' + escape(data.date) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.value) + '</div>';
-                    }
-                }
-            });
-        }
-    </script>
+
 {% endblock %}
 
 {% block content %}
@@ -35,22 +16,7 @@
         <div class="row">
             <div class="col-12">
                 <h1>Admin Dashboard</h1>
-                <div class="p-4">
-                    <select id="select-tags" multiple placeholder="Best movies and TV shows">
-                        <optgroup label="TV Shows">
-                            <option value="Blue Bloods" data-date="2010-2021">Blue Bloods (2010-2021)</option>
-                            <option value="Magnum P.I." data-date="1980-1988" selected>Magnum P.I. (1980-1988)</option>
-                        </optgroup>
-                        <optgroup label="Movies">
-                            <option value="An Innocent Man" data-date="1989">An Innocent Man (1989)</option>
-                            <option value="In & Out" data-date="1997">In & Out (1997)</option>
-                            <option value="Lassiter" data-date="1984">Lassiter (1984)</option>
-                            <option value="Mr. Baseball" data-date="1992">Mr. Baseball (1992)</option>
-                            <option value="Quigley Down Under" data-date="1990">Quigley Down Under (1990)</option>
-                            <option value="Three Men and a Baby" data-date="1987">Three Men and a Baby (1987)</option>
-                        </optgroup>
-                    </select>
-                </div>
+
             </div>
         </div>
     </div>

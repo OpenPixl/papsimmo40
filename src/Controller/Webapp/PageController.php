@@ -4,6 +4,7 @@ namespace App\Controller\Webapp;
 
 use App\Entity\Webapp\Page;
 use App\Form\Webapp\PageType;
+use App\Repository\Admin\EmployedRepository;
 use App\Repository\Webapp\PageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -22,9 +23,13 @@ class PageController extends AbstractController
     }
 
     #[Route('/new', name: 'op_webapp_page_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PageRepository $pageRepository): Response
+    public function new(Request $request, PageRepository $pageRepository, EmployedRepository $employedRepository): Response
     {
+        $user = $this->getUser()->getId();
+        $employed = $employedRepository->find($user);
+
         $page = new Page();
+        $page->setAuthor($employed);
         $form = $this->createForm(PageType::class, $page);
         $form->handleRequest($request);
 

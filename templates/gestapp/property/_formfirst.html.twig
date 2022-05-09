@@ -214,7 +214,7 @@
 
     {{ form_rest(form) }}
 
-    {% if app.request.get('_route') == 'op_gestapp_property_edit' %}
+    {% if app.request.attributes.get('_route') == 'op_gestapp_property_edit' %}
     <div class="row mt-2">
         <div class="col-sm-6">
             <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp

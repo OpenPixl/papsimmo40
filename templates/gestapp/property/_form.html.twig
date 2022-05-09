@@ -25,7 +25,7 @@
     <div class="tab-content">
         {# Panel INFORMATIONS #}
         <div class="tab-pane active" id="Informations" role="tabpanel" aria-labelledby="home-tab">
-            <div class="row">
+            <div class="row mt-2">
                 <div class="col-sm-8">
                     {% include('include/form/input.html.twig') with {
                         'form_label':form_label(form.name, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
@@ -208,17 +208,6 @@
 
     {{ form_rest(form) }}
 
-    {% if app.request.get('_route') == 'op_gestapp_property_edit' %}
-    <div class="row mt-2">
-        <div class="col-sm-6">
-            <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp
-            <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
-        </div>
-        <div class="col-6 d-flex justify-content-end">
-            <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</button>
-        </div>
-    </div>
-    {% else %}
     <div class="row mt-2">
         <div class="col-sm-12">
             <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
@@ -230,5 +219,5 @@
             <a id="stepPublication" href="{{ path('op_gestapp_property_steppublication', {'id': idProperty}) }}" class="btn btn-sm btn-outline-primary">Valider la publication et finaliser l'ajout <i class="fa-duotone fa-forward-step"></i></a>
         </div>
     </div>
-    {% endif %}
+
 {{ form_end(form) }}

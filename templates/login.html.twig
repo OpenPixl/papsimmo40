@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}name of site | login{% endblock %}</title>
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('login') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('login') }}
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+            <script src="{{ asset('bundles/ckeditor5/build/ckeditor.js') }}"></script>
+        {% endblock %}
+    </head>
+    <body class="d-flex align-items-center bg-auth" style="display: block;">
+        <div class="container-fluid">
+            <main class="row justify-content-center" id="content">
+                {% block content %}
+                {% endblock %}
+            </main>
+        </div>
+    </body>
+</html>
