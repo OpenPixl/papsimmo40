@@ -29,7 +29,7 @@ class ComplementType extends AbstractType
     {
         $builder
             ->add('banner', ChoiceType::class, [
-                'label' => 'Bannière',
+                'label' => 'Bannière sur vignette',
                 'choices'  => [
                     'Coup de coeur' => "coup-de-coeur",
                     'A saisir' => 'a-saisir',
@@ -121,6 +121,7 @@ class ComplementType extends AbstractType
                 ],
             ])
             ->add('denomination', EntityType::class, [
+                'label'=> 'Type de bien',
                 'class' => Denomination::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('d')
