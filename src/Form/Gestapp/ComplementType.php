@@ -121,7 +121,7 @@ class ComplementType extends AbstractType
                 ],
             ])
             ->add('denomination', EntityType::class, [
-                'label'=> 'Type de bien',
+                'label'=> 'Catégorie de bien',
                 'class' => Denomination::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('d')
@@ -130,6 +130,7 @@ class ComplementType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('houseType', EntityType::class, [
+                'label'=>"Type de maison",
                 'class' => HouseType::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('h')
@@ -138,6 +139,7 @@ class ComplementType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('apartmentType', EntityType::class, [
+                'label'=>"Type d'appartement",
                 'class' => ApartmentType::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('a')
@@ -146,6 +148,7 @@ class ComplementType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('landType', EntityType::class, [
+                'label'=>"Type de terrain",
                 'class' => LandType::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('l')
@@ -154,6 +157,7 @@ class ComplementType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('tradeType', EntityType::class, [
+                'label'=>"Type de local",
                 'class' => TradeType::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('t')
@@ -162,6 +166,7 @@ class ComplementType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('buildingEquipment', EntityType::class, [
+                'label'=>"Equipement de l'immeuble",
                 'class' => BuildingEquipment::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('b')
@@ -170,6 +175,7 @@ class ComplementType extends AbstractType
                 'choice_label' => 'name',
             ])
             ->add('houseEquipment', EntityType::class, [
+                'label'=>'Equipement du bien',
                 'class' => HouseEquipment::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('h')

@@ -64,18 +64,53 @@
                     Le bien
                 </div>
                 <div class="card-body">
+                    {# bloc House State #}
+                    <div class="row">
+                        {% if is_granted('ROLE_ADMIN') %}
+                        <div class="col-11">
+                            {% include('include/form/select.html.twig') with {
+                                'form_label':form_label(form.houseState, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                'form_select':form_widget(form.houseState)
+                            }
+                            %}
+                        </div>
+                        <div class="col-1">
+                            <button id="addHouseState" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                        </div>
+                        {% else%}
+                        <div class="col-12">
+                            {% include('include/form/select.html.twig') with {
+                                'form_label':form_label(form.houseState, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                'form_select':form_widget(form.houseState)
+                            }
+                            %}
+                        </div>
+                        {% endif %}
+                    </div>
 
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.houseState, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.houseState)
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.energy, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.energy)
-                    }
-                    %}
+                    {# bloc House State #}
+                    <div class="row">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <div class="col-11">
+                                {% include('include/form/select.html.twig') with {
+                                    'form_label':form_label(form.energy, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_select':form_widget(form.energy)
+                                }
+                                %}
+                            </div>
+                            <div class="col-1">
+                                <button id="addEnergy" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                            </div>
+                        {% else%}
+                            <div class="col-12">
+                                {% include('include/form/select.html.twig') with {
+                                    'form_label':form_label(form.energy, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_select':form_widget(form.energy)
+                                }
+                                %}
+                            </div>
+                        {% endif %}
+                    </div>
 
                     {% include('include/form/input.html.twig') with {
                         'form_label':form_label(form.propertyTax, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
@@ -83,11 +118,31 @@
                     }
                     %}
 
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.orientation, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.orientation)
-                    }
-                    %}
+                    {# bloc Orientation  #}
+                    <div class="row">
+                        {% if is_granted('ROLE_ADMIN') %}
+                            <div class="col-11">
+                                {% include('include/form/select.html.twig') with {
+                                    'form_label':form_label(form.orientation, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_select':form_widget(form.orientation)
+                                }
+                                %}
+                            </div>
+                            <div class="col-1">
+                                <button id="addOrientation" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                            </div>
+                        {% else%}
+                            <div class="col-12">
+                                {% include('include/form/select.html.twig') with {
+                                    'form_label':form_label(form.orientation, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_select':form_widget(form.orientation)
+                                }
+                                %}
+                            </div>
+                        {% endif %}
+                    </div>
+
+
 
                     {% include('include/form/input.html.twig') with {
                         'form_label':form_label(form.disponibility, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
