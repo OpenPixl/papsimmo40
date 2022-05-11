@@ -29,7 +29,7 @@ class EmployedFixtures extends Fixture
         $employed = new Employed();
         $employed->setRoles(array('ROLE_ADMIN'));
         $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'admin123'));
-        $employed->setEmail('contact@openpixl.fr.fr');
+        $employed->setEmail('contact@openpixl.fr');
         $employed->setFirstName('admin');
         $employed->setLastName('dev');
         $employed->setIsVerified(1);
