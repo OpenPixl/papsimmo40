@@ -18,7 +18,7 @@ class EmployedFixtures extends Fixture
     public function load(ObjectManager $manager): void
     {
         $employed = new Employed();
-        $employed->setRoles(array('ROLE_ADMIN'));
+        $employed->setRoles(array('ROLE_EMPLOYED'));
         $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'demo'));
         $employed->setEmail('contact@papsimmo.fr');
         $employed->setFirstName('demo');
@@ -28,7 +28,7 @@ class EmployedFixtures extends Fixture
         
         $employed = new Employed();
         $employed->setRoles(array('ROLE_ADMIN'));
-        $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'demo'));
+        $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'admin123'));
         $employed->setEmail('contact@openpixl.fr.fr');
         $employed->setFirstName('admin');
         $employed->setLastName('dev');
@@ -38,14 +38,14 @@ class EmployedFixtures extends Fixture
         $employed = new Employed();
         $employed->setRoles(array('ROLE_ADMIN'));
         $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'ddehez40'));
-        $employed->setEmail('ddzhez40@gmail.com');
+        $employed->setEmail('ddehez40@gmail.com');
         $employed->setFirstName('Denis');
         $employed->setLastName('DEHEZ');
         $employed->setIsVerified(1);
         $manager->persist($employed);
 
         $employed = new Employed();
-        $employed->setRoles(array('ROLE_ADMIN'));
+        $employed->setRoles(array('ROLE_EMPLOYED'));
         $employed->setPassword($this->passwordEncoder->hashPassword($employed, 'utilisateur'));
         $employed->setEmail('utilisateur@papsimmo.fr');
         $employed->setFirstName('utilisateur');
