@@ -4,9 +4,13 @@ namespace App\Entity\Admin;
 
 use App\Repository\Admin\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
+use Symfony\Component\Serializer\Annotation\Ignore;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[Vich\Uploadable]
 class Application
 {
     #[ORM\Id]
@@ -58,6 +62,29 @@ class Application
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $urlGooglebusiness;
+
+
+    #[Vich\UploadableField(mapping: 'logosite_front', fileNameProperty:"logoFile", size:"logoSize")]
+    #[Ignore]
+    private $logoFile;
+    
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $logoName;
+
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $logoSize;
+
+
+    #[Vich\UploadableField(mapping: 'favicon_front', fileNameProperty:"faviconName", size:"faviconSize")]
+    #[Ignore]
+    private $faviconFile;
+
+    #[ORM\Column(type: 'string', nullable: true)]
+    private $faviconName;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $faviconSize;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -249,6 +276,96 @@ class Application
 
         return $this;
     }
+
+    /**
+     * Si vous téléchargez manuellement un fichier (c'est-à-dire sans utiliser Symfony Form),
+     * assurez-vous qu'une instance de "UploadedFile" est injectée dans ce paramètre pour déclencher la mise à jour.
+     * Si le paramètre de configuration 'inject_on_load' de ce bundle est défini sur 'true', ce setter doit être
+     * capable d'accepter une instance de 'File' car le bundle en injectera une ici pendant l'hydratation de Doctrine.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $logoFile
+     */
+    public function setLogoFile(?File $logoFile = null): void
+    {
+        $this->logoFile = $logoFile;
+
+        if (null !== $logoFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getLogoFile(): ?File
+    {
+        return $this->logoFile;
+    }
+
+    public function setLogoName(?string $logoName): void
+    {
+        $this->logoName = $logoName;
+    }
+
+    public function getLogoName(): ?string
+    {
+        return $this->logoName;
+    }
+
+    public function setLogoSize(?int $logoSize): void
+    {
+        $this->logoSize = $logoSize;
+    }
+
+    public function getLogoSize(): ?int
+    {
+        return $this->logoSize;
+    }
+
+    /**
+     * Si vous téléchargez manuellement un fichier (c'est-à-dire sans utiliser Symfony Form),
+     * assurez-vous qu'une instance de "UploadedFile" est injectée dans ce paramètre pour déclencher la mise à jour.
+     * Si le paramètre de configuration 'inject_on_load' de ce bundle est défini sur 'true', ce setter doit être
+     * capable d'accepter une instance de 'File' car le bundle en injectera une ici pendant l'hydratation de Doctrine.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $faviconFile
+     */
+    public function setfaviconFile(?File $faviconFile = null): void
+    {
+        $this->faviconFile = $faviconFile;
+
+        if (null !== $faviconFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getfaviconFile(): ?File
+    {
+        return $this->faviconFile;
+    }
+
+    public function setfaviconName(?string $faviconName): void
+    {
+        $this->faviconName = $faviconName;
+    }
+
+    public function getfaviconName(): ?string
+    {
+        return $this->faviconName;
+    }
+
+    public function setfaviconSize(?int $faviconSize): void
+    {
+        $this->faviconSize = $faviconSize;
+    }
+
+    public function getfaviconSize(): ?int
+    {
+        return $this->faviconSize;
+    }
+
+
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;

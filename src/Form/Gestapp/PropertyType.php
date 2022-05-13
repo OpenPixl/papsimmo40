@@ -32,7 +32,7 @@ class PropertyType extends AbstractType
                 'label' => 'Référence'
             ])
             ->add('name', TextType::class, [
-                'label' => 'Titre du bine'
+                'label' => 'Titre du bien'
             ])
             ->add('annonce', TextareaType::class, [
                 'label' => 'Annonce'
