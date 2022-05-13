@@ -80,18 +80,7 @@
                     .post(url, data)
                     .then(function(response){
                         // préparation du toaster
-                        var option = {
-                            animation : true,
-                            autohide: true,
-                            delay : 3000,
-                        };
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                        toastElement.show();
+                        console.log('Ok')
                     })
                     .catch(function (error) {
                         // handle error
@@ -142,7 +131,6 @@
                     surfaceLand:surfaceLand, surfaceHome:surfaceHome, notaryEstimate:notaryEstimate, applicantEstimate:applicantEstimate, dpeAt:dpeAt,
                     diagDpe: diagDpe, diagGpe:diagGpe, cadasterZone:cadasterZone, cadasterNum:cadasterNum, cadastersurface:cadastersurface, cadasterCariez:cadasterCariez
                 }
-                console.log(data)
                 // envoie des données
                 axios
                     .post(url, data)
@@ -210,7 +198,7 @@
                 axios
                     .post(url, data)
                     .then(function(response){
-                        console.log('chiffres ajoutées')
+                        console.log('Options ajoutées')
                     })
                     .catch(function (error) {
                         // handle error
@@ -287,7 +275,7 @@
                 let data = {
                     firstName:firstName, lastName:lastName, adress:adress, complement:complement, zipcode:zipcode, city:city
                 }
-                console.log(url)
+                console.log(data)
                 // envoie des données
                 axios
                     .post(url, data)
@@ -295,7 +283,6 @@
                         console.log('vendeur ajouté')
                         const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
                         modalAddCustomer.addEventListener('hide.bs.modal')
-
                     })
                     .catch(function (error) {
                         // handle error
@@ -445,6 +432,7 @@
                     </div>
                     <div class="modal-body">
                         {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
+                        <input id="idProperty" type="hidden" value="">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>

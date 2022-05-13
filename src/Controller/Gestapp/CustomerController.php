@@ -86,14 +86,14 @@ class CustomerController extends AbstractController
 
         $customerRepository->add($customer);
 
-        $liste = $customerRepository->findBy(array('properties'=>array($idproperty)));
+        $customers = $customerRepository->findBy(array('properties'=>array($idproperty)));
         //dd($liste);
 
         return $this->json([
             'code'=> 200,
             'message' => "Le vendeurs a été correctement ajouté.",
-            'liste' => $this->renderView('Gestapp/customer/_listecustomers.html.twig', [
-                'customers' => $liste
+            'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                'customers' => $customers
             ])
         ], 200);
     }
@@ -103,7 +103,7 @@ class CustomerController extends AbstractController
         Request $request,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
-        PropertyRepository $propertyRepository
+        PropertyRepository $propertyRepository,
     )
     {
         $user = $this->getUser()->getId();

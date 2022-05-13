@@ -116,21 +116,23 @@
                 </div>
             </div>
         </div>
+        {# Panel CLIENTS #}
         <div class="tab-pane" id="Customers" role="tabpanel" aria-labelledby="profile-tab">
             {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listByProperty', {'property' : idProperty})) }}
         </div>
+        {# Panel CHIFFRES #}
         <div class="tab-pane" id="Estimate" role="tabpanel" aria-labelledby="profile-tab">
             <div class="row mt-1">
                 <div class="col-sm-6">
                     {% include('include/form/input-numerique.html.twig') with {
                         'form_label':form_label(form.surfaceLand, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.surfaceLand, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email'}})
+                        'form_input':form_widget(form.surfaceLand, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
 
                     {% include('include/form/input-numerique.html.twig') with {
                         'form_label':form_label(form.surfaceHome, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.surfaceHome, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Titre du bien'}})
+                        'form_input':form_widget(form.surfaceHome, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
                 </div>
@@ -143,13 +145,13 @@
 
                     {% include('include/form/input-numerique.html.twig') with {
                         'form_label':form_label(form.diagDpe, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.diagDpe, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Titre du bien'}})
+                        'form_input':form_widget(form.diagDpe, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
 
                     {% include('include/form/input-numerique.html.twig') with {
                         'form_label':form_label(form.diagGpe, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.diagGpe, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Titre du bien'}})
+                        'form_input':form_widget(form.diagGpe, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
                     }
                     %}
 
@@ -197,11 +199,14 @@
                 </div>
             </div>
         </div>
+        {# Panel OPTIONS #}
         <div class="tab-pane" id="Options" role="tabpanel" aria-labelledby="profile-tab">
             {{ render(controller('App\\Controller\\Gestapp\\ComplementController::Edit', {'id' : complement})) }}
         </div>
+        {# Panel GALERIE #}
         <div class="tab-pane" id="Gallery" role="tabpanel" aria-labelledby="profile-tab">
         </div>
+        {# Panel PUBLICATIO ET RS #}
         <div class="tab-pane" id="Publication" role="tabpanel" aria-labelledby="profile-tab">
             {{ render(controller('App\\Controller\\Gestapp\\PublicationController::showByProperty', {'id' : publication})) }}
         </div>
