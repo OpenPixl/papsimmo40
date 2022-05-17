@@ -64,13 +64,12 @@ class Application
     private $urlGooglebusiness;
 
 
-    #[Vich\UploadableField(mapping: 'logosite_front', fileNameProperty:"logoFile", size:"logoSize")]
+    #[Vich\UploadableField(mapping: 'logosite_front', fileNameProperty:"logoName", size:"logoSize")]
     #[Ignore]
     private $logoFile;
-    
+
     #[ORM\Column(type: 'string', nullable: true)]
     private $logoName;
-
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $logoSize;
@@ -85,6 +84,7 @@ class Application
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $faviconSize;
+
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;

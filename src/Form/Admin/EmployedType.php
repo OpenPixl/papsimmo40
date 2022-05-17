@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class EmployedType extends AbstractType
 {
@@ -28,6 +29,12 @@ class EmployedType extends AbstractType
                 'choice_attr' => ChoiceList::attr($this, function (?Employed $category) {
                     return $category ? ['data-data' => $category->getFirstName()] : [];
                 }),
+            ])
+            ->add('logoFile', VichImageType::class, [
+                'required' => false,
+                'allow_delete' => true,
+                'delete_label' => 'Supprimer',
+                'download_label' => 'Télecharger',
             ])
         ;
     }

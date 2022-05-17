@@ -75,73 +75,17 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Page::class)]
     private $pages;
 
-    /**
-     * Insertion de l'image mise en avant liée à un article
-     * NOTE : Il ne s'agit pas d'un champ mappé des métadonnées de l'entité, mais d'une simple propriété.
-     *
-     * @var File|null
-     */
     #[Vich\UploadableField(mapping: 'avatar_image', fileNameProperty:"avatarName", size:"avatarSize")]
     #[Ignore]
     private $avatarFile;
 
-    /**
-     *
-     * @var string|null
-     */
     #[ORM\Column(type: 'string', nullable: true)]
     private $avatarName;
 
-    /**
-     *
-     * @var int|null
-     */
     #[ORM\Column(type: 'integer', nullable: true)]
     private $avatarSize;
 
-    /**
-     * Si vous téléchargez manuellement un fichier (c'est-à-dire sans utiliser Symfony Form),
-     * assurez-vous qu'une instance de "UploadedFile" est injectée dans ce paramètre pour déclencher la mise à jour.
-     * Si le paramètre de configuration 'inject_on_load' de ce bundle est défini sur 'true', ce setter doit être
-     * capable d'accepter une instance de 'File' car le bundle en injectera une ici pendant l'hydratation de Doctrine.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $avatarFile
-     */
-    public function setAvatarFile(?File $avatarFile = null): void
-    {
-        $this->avatarFile = $avatarFile;
 
-        if (null !== $avatarFile) {
-            // It is required that at least one field changes if you are using doctrine
-            // otherwise the event listeners won't be called and the file is lost
-            $this->updatedAt = new \DateTimeImmutable();
-        }
-    }
-
-    public function getAvatarFile(): ?File
-    {
-        return $this->avatarFile;
-    }
-
-    public function setAvatarName(?string $avatarName): void
-    {
-        $this->avatarName = $avatarName;
-    }
-
-    public function getAvatarName(): ?string
-    {
-        return $this->avatarName;
-    }
-
-    public function setAvatarSize(?int $avatarSize): void
-    {
-        $this->avatarSize = $avatarSize;
-    }
-
-    public function getAvatarSize(): ?int
-    {
-        return $this->avatarSize;
-    }
 
 
     #[ORM\Column(type: 'datetime')]
@@ -311,6 +255,50 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->isVerified = $isVerified;
 
         return $this;
+    }
+
+    /**
+     * Si vous téléchargez manuellement un fichier (c'est-à-dire sans utiliser Symfony Form),
+     * assurez-vous qu'une instance de "UploadedFile" est injectée dans ce paramètre pour déclencher la mise à jour.
+     * Si le paramètre de configuration 'inject_on_load' de ce bundle est défini sur 'true', ce setter doit être
+     * capable d'accepter une instance de 'File' car le bundle en injectera une ici pendant l'hydratation de Doctrine.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $avatarFile
+     */
+    public function setAvatarFile(?File $avatarFile = null): void
+    {
+        $this->avatarFile = $avatarFile;
+
+        if (null !== $avatarFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getAvatarFile(): ?File
+    {
+        return $this->avatarFile;
+    }
+
+    public function setAvatarName(?string $avatarName): void
+    {
+        $this->avatarName = $avatarName;
+    }
+
+    public function getAvatarName(): ?string
+    {
+        return $this->avatarName;
+    }
+
+    public function setAvatarSize(?int $avatarSize): void
+    {
+        $this->avatarSize = $avatarSize;
+    }
+
+    public function getAvatarSize(): ?int
+    {
+        return $this->avatarSize;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface
