@@ -72,9 +72,11 @@
                 const isLand = document.getElementById('property_isLand').checked
                 const isOther = document.getElementById('property_isOther').checked
                 const otherDescription = document.getElementById('property_otherDescription').value
+                const image = document.getElementById('property_imageFile_file')
                 let data = { name: name, ref: ref, adress: adress, complement:complement, zipcode:zipcode, city: city, annonce: annonce,
                     piece: piece, room: room, isHome: isHome, isApartment: isApartment, isLand: isLand, isOther: isOther, otherDescription: otherDescription
                 }
+                console.log(image)
                 // envoie des données
                 axios
                     .post(url, data)

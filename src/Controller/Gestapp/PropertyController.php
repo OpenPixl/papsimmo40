@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
+use App\Form\Gestapp\PropertyImageType;
 use App\Form\Gestapp\PropertyType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\ComplementRepository;
@@ -84,6 +85,19 @@ class PropertyController extends AbstractController
 
         return $this->redirectToRoute('op_gestapp_property_firstedit', [
             'id' => $property->getId()
+        ]);
+    }
+
+    #[Route('/property/image/{id}', name: 'op_gestapp_property_editimage', methods: ['POST'])]
+    public function editImage(Property $property, Request $request){
+
+        $form = $this->$this->createForm(PropertyImageType::class, $property);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+        }
+
+        return $this->render('gestapp/property/editimage.html.twig', [
+            'form' => $form,
         ]);
     }
 

@@ -30,7 +30,7 @@ class EmployedType extends AbstractType
                     return $category ? ['data-data' => $category->getFirstName()] : [];
                 }),
             ])
-            ->add('logoFile', VichImageType::class, [
+            ->add('avatarFile', VichImageType::class, [
                 'required' => false,
                 'allow_delete' => true,
                 'delete_label' => 'Supprimer',

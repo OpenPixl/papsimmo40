@@ -1,7 +1,10 @@
 //*** ------------- définition des règles pouir les Div "side" et "content" ---------------- ***//
-$side-small: 4rem;
-$side-large: 12rem;
+$side-small: calc(100% - 4rem);
+$side-large: calc(100% - 12rem);
 
+a {
+  color: $primary-color;
+}
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
 @media (max-width: 767.98px) {
   body{
@@ -12,7 +15,7 @@ $side-large: 12rem;
     height: 100vh;
   }
   #content{
-    width: calc(100% - $side-small);
+    width: auto;
     height: 100vh;
   }
 }
@@ -26,7 +29,7 @@ $side-large: 12rem;
     height: 100vh;
   }
   #content{
-    width: calc(100% - $side-large);
+    width: auto;
     height: 100vh;
   }
 }

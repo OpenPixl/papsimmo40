@@ -1,6 +1,10 @@
 <div id="side" class="float-start">
     <div class="container" id="bloc_avatar">
-        <img class="img-fluid img-rounded" src="{{ asset('images/jpeg/avartar.jpeg') }}" alt="{{ app.user.firstName }} {{ app.user.lastName }}">
+        {% if app.user %}
+        <img class="img-fluid" src="{{asset('images/avatar/')}}{{app.user.avatarName}}" alt="{{app.user.avatarName}}">
+        {% else %}
+        <img class="img-fluid img-rounded" src="{{ asset('images/png/LogoPAPSimmo.png') }}">
+        {% endif%}
         <h6 class="text-center">{{ app.user.firstName }} {{ app.user.lastName }}</h6>
     </div>
     <div class="menu-items">

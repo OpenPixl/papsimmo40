@@ -1,8 +1,7 @@
 {{ form_start(form) }}
 
 <div class="row">
-    <div class="col-12">
-
+    <div class="col-8">
 
         {% include('include/form/input2field.html.twig') with {
             'form_label':form_label(form.firstName, 'Prénom', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
@@ -32,6 +31,16 @@
         %}
 
 
+
+    </div>
+    <div class="col-4">
+
+        {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
         <fieldset>
             <legend>Contact</legend>
             {{ render(controller('App\\Controller\\Admin\\ContactController::showByEmployed', {'idEmployed': idemployed})) }}
@@ -46,5 +55,4 @@
         </div>
     </div>
 </div>
-
 {{ form_end(form) }}
