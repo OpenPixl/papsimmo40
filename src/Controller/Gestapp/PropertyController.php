@@ -71,7 +71,7 @@ class PropertyController extends AbstractController
         $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);
         $lastRefDate = $lastproperty->getRefnumdate();
         if(!$lastproperty){
-            
+
         }
         if($lastRefDate == $refNumDate){
             $lastRefNum = $lastproperty->getReflastnumber()+1;
