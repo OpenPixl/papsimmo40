@@ -65,6 +65,19 @@ class PropertyController extends AbstractController
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
+        // Contruction de la référence pour chaque propriété
+        $date = new \DateTime();
+        $refNumDate = $date->format('Y').'/'.$date->format('m');
+        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);
+        $lastRefDate = $lastproperty->getRefnumdate();
+        if(!$lastproperty){
+            
+        }
+        if($lastRefDate == $refNumDate){
+            $lastRefNum = $lastproperty->getReflastnumber()+1;
+        }else{
+            $lastRefNum = 1;
+        }
 
         $complement = new Complement();
         $complementRepository->add($complement);
@@ -72,11 +85,11 @@ class PropertyController extends AbstractController
         $publication = new Publication();
         $publicationRepository->add($publication);
 
-        $date = new \DateTime();
-
         $property = new Property();
         $property->setName('Nouveau bien');
-        $property->setRef('PAPS-'. $date->format('Y').$date->format('m'));
+        $property->setRefnumdate($refNumDate);
+        $property->setReflastnumber($lastRefNum);
+        $property->setRef($refNumDate.'-'.$lastRefNum);
         $property->setRefEmployed($employed);
         $property->setOptions($complement);
         $property->setPublication($publication);

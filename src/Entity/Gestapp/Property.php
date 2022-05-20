@@ -136,6 +136,12 @@ class Property
     #[ORM\JoinColumn(nullable: false)]
     private $publication;
 
+    #[ORM\Column(type: 'integer')]
+    private $reflastnumber;
+
+    #[ORM\Column(type: 'string', length: 7)]
+    private $refnumdate;
+
     public function __construct()
     {
         $this->Media = new ArrayCollection();
@@ -644,6 +650,30 @@ class Property
     public function setPublication(Publication $publication): self
     {
         $this->publication = $publication;
+
+        return $this;
+    }
+
+    public function getReflastnumber(): ?int
+    {
+        return $this->reflastnumber;
+    }
+
+    public function setReflastnumber(int $reflastnumber): self
+    {
+        $this->reflastnumber = $reflastnumber;
+
+        return $this;
+    }
+
+    public function getRefnumdate(): ?string
+    {
+        return $this->refnumdate;
+    }
+
+    public function setRefnumdate(string $refnumdate): self
+    {
+        $this->refnumdate = $refnumdate;
 
         return $this;
     }

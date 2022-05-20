@@ -1,6 +1,8 @@
 //*** ------------- définition des règles pouir les Div "side" et "content" ---------------- ***//
-$side-small: calc(100% - 4rem);
-$side-large: calc(100% - 12rem);
+$width-side-small: 4rem;
+$width-side-large: 12rem;
+$width-content-small : calc(100% - 4rem);
+$width-content-large: calc(100% - 12rem);
 
 a {
   color: $primary-color;
@@ -10,8 +12,9 @@ a {
   body{
     font-size: 0.8rem;
   }
+
   #side{
-    width: $side-small;
+    width: $width-content-small;
     height: 100vh;
   }
   #content{
@@ -25,11 +28,11 @@ a {
     font-size: 0.9rem;
   }
   #side{
-    width: $side-large;
+    width: $width-side-large;
     height: 100vh;
   }
   #content{
-    width: auto;
+    width: $width-content-large;
     height: 100vh;
   }
 }
