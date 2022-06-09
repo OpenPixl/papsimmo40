@@ -1,4 +1,4 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <a class="btn btn-sm btn-outline-dark" href="{{ path('op_webapp_page_index') }}">Retour à la liste</a> <button class="btn btn-sm btn-outline-warning">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

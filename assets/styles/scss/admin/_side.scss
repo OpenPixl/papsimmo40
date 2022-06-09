@@ -27,7 +27,9 @@
   padding-top:10px;
   padding-bottom:10px;
   padding-left:10px;
-  border: 1px solid #333;
+  border-radius: 5px 0 0 5px;
+  background: #4f5050;
+  border: 2px solid #333;
   display: inline-block;
   width: 100%;
   color: $primary-color;
@@ -36,10 +38,10 @@
 #side ul>li>a:hover,#side ul>li>.active
 {
   background-color: #fff;
-  border-top: 1px solid #4f5050;
-  border-left: 1px solid #4f5050;
-  border-bottom: 1px solid #4f5050;
-  border-right: 1px solid #fff;
+  border-top: 2px solid #4f5050;
+  border-left: 2px solid #4f5050;
+  border-bottom: 2px solid #4f5050;
+  border-right: 2px solid #fff;
   border-radius: 5px 0 0 5px;
   transition-duration: 500ms;
 }

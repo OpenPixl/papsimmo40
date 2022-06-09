@@ -49,11 +49,19 @@ class Page
     #[ORM\Column(type: 'array', nullable: true)]
     private $tag = [];
 
+    #[ORM\ManyToOne(targetEntity: self::class)]
+    private $parent;
+
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $seoTitle;
+
+
 
 
     /**
@@ -203,6 +211,17 @@ class Page
 
         return $this;
     }
+    public function getParent(): ?self
+    {
+        return $this->parent;
+    }
+
+    public function setParent(?self $parent): self
+    {
+        $this->parent = $parent;
+
+        return $this;
+    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {
@@ -234,5 +253,17 @@ class Page
     public function __tostring()
     {
         return $this->name;
+    }
+
+    public function getSeoTitle(): ?string
+    {
+        return $this->seoTitle;
+    }
+
+    public function setSeoTitle(?string $seoTitle): self
+    {
+        $this->seoTitle = $seoTitle;
+
+        return $this;
     }
 }

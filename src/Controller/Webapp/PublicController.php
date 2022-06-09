@@ -3,10 +3,13 @@
 namespace App\Controller\Webapp;
 
 use App\Entity\Admin\Application;
+use App\Repository\Admin\ApplicationRepository;
+use App\Repository\Webapp\PageRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 class PublicController extends AbstractController
 {
@@ -67,6 +70,26 @@ class PublicController extends AbstractController
 
         return $this->render('include/meta.html.twig', [
             'parameter' => $parameter
+        ]);
+    }
+
+    /**
+     * Affiche mles différents menus sur la page d'accueil
+     */
+    #[Route("/webapp/public/menus/{route}", name:'op_webapp_public_listmenus')]
+    public function BlocMenu(PageRepository $pageRepository, ApplicationRepository $applicationRepository,Request $request, $route): Response
+    {
+        // on récupère l'utilisateur courant
+        $user = $this->getUser();
+
+        // préparation des éléments d'interactivité du menu
+        $parameter = $applicationRepository->findFirstReccurence();
+        $menus = $pageRepository->listMenu();
+
+        return $this->render('include/public/navbar_webapp.html.twig', [
+            'parameter' => $parameter,
+            'menus' => $menus,
+            'route' => $route
         ]);
     }
 

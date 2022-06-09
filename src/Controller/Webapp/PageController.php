@@ -78,4 +78,18 @@ class PageController extends AbstractController
 
         return $this->redirectToRoute('op_webapp_page_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    /**
+     * affiche la page en front office selon le slug
+     */
+    #[Route('/slug/{slug}', name:'op_webapp_page_slug' , methods: ["GET"])]
+    public function slug($slug, Page $page, PageRepository $pageRepository) : response
+    {
+        $page = $pageRepository->findbyslug($slug);
+
+        return $this->render('webapp/page/page.html.twig', [
+            'page' => $page
+        ]);
+    }
+
 }

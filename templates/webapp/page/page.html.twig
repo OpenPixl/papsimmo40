@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    {% if not page.seoTitle %}
+        {{ page.name }}
+    {% else %}
+        {{ page.seoTitle }}
+    {% endif %}
+{% endblock %}
+
+{% block content %}
+
+{% endblock %}

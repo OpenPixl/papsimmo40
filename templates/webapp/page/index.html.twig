@@ -3,55 +3,52 @@
 {% block title %}Page index{% endblock %}
 
 {% block content %}
-    <h1>Page index</h1>
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <h1>Page index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Description</th>
-                <th>IsShowtitle</th>
-                <th>IsShowdate</th>
-                <th>IsMenu</th>
-                <th>State</th>
-                <th>MetaKeywords</th>
-                <th>MetaDescrition</th>
-                <th>Tag</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for page in pages %}
-            <tr>
-                <td>{{ page.id }}</td>
-                <td>{{ page.name }}</td>
-                <td>{{ page.slug }}</td>
-                <td>{{ page.description }}</td>
-                <td>{{ page.isShowtitle ? 'Yes' : 'No' }}</td>
-                <td>{{ page.isShowdate ? 'Yes' : 'No' }}</td>
-                <td>{{ page.isMenu ? 'Yes' : 'No' }}</td>
-                <td>{{ page.state }}</td>
-                <td>{{ page.metaKeywords ? page.metaKeywords|join(', ') : '' }}</td>
-                <td>{{ page.MetaDescrition }}</td>
-                <td>{{ page.tag ? page.tag|join(', ') : '' }}</td>
-                <td>{{ page.createdAt ? page.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('op_webapp_page_show', {'id': page.id}) }}">show</a>
-                    <a href="{{ path('op_webapp_page_edit', {'id': page.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="14">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Nom</th>
+                            <th>Menu</th>
+                            <th>Etat</th>
+                            <th>Créé le</th>
+                            <th>MàJ</th>
+                            <th>actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for page in pages %}
+                        <tr>
+                            <td>{{ page.id }}</td>
+                            <td><a href="{{ path('op_webapp_page_edit', {'id': page.id}) }}">{{ page.name }}</a></td>
+                            <td>{{ page.isMenu ? 'Yes' : 'No' }}</td>
+                            <td><span class="badge bg-secondary">{{ page.state }}</span></td>
+                            <td>{{ page.createdAt ? page.createdAt|date('Y-m-d') : '' }}</td>
+                            <td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d') : '' }}</td>
+                            <td>
+                                <a href="{{ path('op_webapp_page_edit', {'id': page.id}) }}"><i class="fa-duotone fa-eye"></i></a>
+                            </td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            <td colspan="14">no records found</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
 
-    <a href="{{ path('op_webapp_page_new') }}">Create new</a>
+                <a href="{{ path('op_webapp_page_new') }}">Create new</a>
+            </div>
+        </div>
+    </section>
 {% endblock %}

@@ -12,10 +12,11 @@
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
+    {% set route_name = app.request.attributes.get('_route') %}
     <body>
         <header>
             {% block header %}
-                {% include('include/public/navbar_webapp.html.twig') %}
+                {{ render(controller('App\\Controller\\Webapp\\PublicController::BlocMenu', {'route': route_name})) }}
             {% endblock %}
         </header>
         <main>

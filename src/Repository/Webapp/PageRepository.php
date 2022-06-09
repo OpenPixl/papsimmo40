@@ -45,6 +45,37 @@ class PageRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Liste les pages qui s'afficheront dans le bloc menu.
+     */
+    public function listMenu()
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.id, p.name, p.slug, p.state, p.isMenu, pa.id AS parent')
+            ->leftJoin('p.parent', 'pa')
+            ->andWhere('p.state = :state')
+            ->andWhere('p.isMenu = :isMenu')
+            ->setParameter('state', 'publiée')
+            ->setParameter('isMenu', 1)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    /**
+     * Liste la page qui s'affichera selon son slug.
+     */
+    public function findbyslug($slug)
+    {
+        return $this->createQueryBuilder('p')
+            ->select('p.id, p.name, p.slug, p.state, p.isMenu, p.seoTitle')
+            ->andWhere('p.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     // /**
     //  * @return Page[] Returns an array of Page objects
     //  */
