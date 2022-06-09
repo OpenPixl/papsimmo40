@@ -28,93 +28,99 @@
         <div class="tab-pane active" id="Informations" role="tabpanel" aria-labelledby="home-tab">
             <form id="form_informations">
                 <div class="row mt-2">
-                    <div class="col-sm-8">
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.name, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-                            'form_input':form_widget(form.name, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Titre du bien'}})
-                        }
-                        %}
+                    <div class="col-sm-2">
+                        {{ render(controller('App\\Controller\\Gestapp\\PropertyController::editImage', {'id': property.id})) }}
                     </div>
-                    <div class="col-sm-4">
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.ref, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-                            'form_input':form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Référence du bien'}})
-                        }
-                        %}
+                    <div class="col-sm-10">
+                        <div class="row g-0">
+                            <div class="col-sm-8">
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.name, '', {'label_attr': {'class':'col-sm-3 col-form-label'}}),
+                                    'form_input':form_widget(form.name, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Titre du bien'}})
+                                }
+                                %}
+                            </div>
+                            <div class="col-sm-4">
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.ref, '', {'label_attr': {'class':'col-sm-3 col-form-label'}}),
+                                    'form_input':form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Référence du bien'}})
+                                }
+                                %}
+                            </div>
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-sm-8">
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.adress, '', {'label_attr': {'class':'col-sm-3 col-form-label'}}),
+                                    'form_input':form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse'}})
+                                }
+                                %}
+
+                                {% include('include/form/input.html.twig') with {
+                                    'form_input':form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Complément'}})
+                                }
+                                %}
+
+                                {% include('include/form/input2field.html.twig') with {
+                                    'form_label':form_label(form.city, '', {'label_attr': {'class':'col-sm-3 col-form-label'}}),
+                                    'form_input1':form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'CP'}}),
+                                    'form_input2':form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}})
+                                }
+                                %}
+                            </div>
+                        </div>
+                        <div class="row g-0">
+                            <div class="col-sm-8">
+
+                                {% include('include/form/textarea.html.twig') with {
+                                    'form_label':form_label(form.annonce, '', {'label_attr': {'class':'col-sm-3 col-form-label'}}),
+                                    'form_text':form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Description'}})
+                                }
+                                %}
+
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.piece, '', {'label_attr': {'class':'col-sm-3 col-form-label'}}),
+                                    'form_input':form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'0'}})
+                                }
+                                %}
+
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.room, '', {'label_attr': {'class':'col-sm-3 col-form-label'}}),
+                                    'form_input':form_widget(form.room, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'0'}})
+                                }
+                                %}
+                            </div>
+                            <div class="col-sm-4">
+                                {% include('include/form/oneSwitch.html.twig') with {
+                                    'form_label':form_label(form.isHome, '', {'label_attr': {'class':'form-check-label'}}),
+                                    'form_switch':form_widget(form.isHome, {'attr': {'class': 'form-check-input'}})
+                                }
+                                %}
+
+                                {% include('include/form/oneSwitch.html.twig') with {
+                                    'form_label':form_label(form.isApartment, '', {'label_attr': {'class':'form-check-label'}}),
+                                    'form_switch':form_widget(form.isApartment, {'attr': {'class': 'form-check-input'}})
+                                }
+                                %}
+
+                                {% include('include/form/oneSwitch.html.twig') with {
+                                    'form_label':form_label(form.isLand, '', {'label_attr': {'class':'form-check-label'}}),
+                                    'form_switch':form_widget(form.isLand, {'attr': {'class': 'form-check-input'}})
+                                }
+                                %}
+
+                                {% include('include/form/oneSwitch-input.html.twig') with {
+                                    'form_label':form_label(form.isOther, '', {'label_attr': {'class':'form-check-label'}}),
+                                    'form_switch':form_widget(form.isOther, {'attr': {'class': 'form-check-input'}}),
+                                    'form_input':form_widget(form.otherDescription, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Autres'}})
+                                }
+                                %}
+                            </div>
+                        </div>
                     </div>
+
                 </div>
-                <div class="row">
-                    <div class="col-sm-8">
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.adress, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-                            'form_input':form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse'}})
-                        }
-                        %}
 
-                        {% include('include/form/input.html.twig') with {
-                            'form_input':form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Complément'}})
-                        }
-                        %}
-
-                        {% include('include/form/input2field.html.twig') with {
-                            'form_label':form_label(form.city, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-                            'form_input1':form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'CP'}}),
-                            'form_input2':form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}})
-                        }
-                        %}
-                    </div>
-                    <div class="col-sm-4">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8">
-
-                        {% include('include/form/textarea.html.twig') with {
-                            'form_label':form_label(form.annonce, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-                            'form_text':form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Description'}})
-                        }
-                        %}
-
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.piece, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-                            'form_input':form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'0'}})
-                        }
-                        %}
-
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.room, '', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-                            'form_input':form_widget(form.room, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'0'}})
-                        }
-                        %}
-                    </div>
-                    <div class="col-sm-4">
-                        {% include('include/form/oneSwitch.html.twig') with {
-                            'form_label':form_label(form.isHome, '', {'label_attr': {'class':'form-check-label'}}),
-                            'form_switch':form_widget(form.isHome, {'attr': {'class': 'form-check-input'}})
-                        }
-                        %}
-
-                        {% include('include/form/oneSwitch.html.twig') with {
-                            'form_label':form_label(form.isApartment, '', {'label_attr': {'class':'form-check-label'}}),
-                            'form_switch':form_widget(form.isApartment, {'attr': {'class': 'form-check-input'}})
-                        }
-                        %}
-
-                        {% include('include/form/oneSwitch.html.twig') with {
-                            'form_label':form_label(form.isLand, '', {'label_attr': {'class':'form-check-label'}}),
-                            'form_switch':form_widget(form.isLand, {'attr': {'class': 'form-check-input'}})
-                        }
-                        %}
-
-                        {% include('include/form/oneSwitch-input.html.twig') with {
-                            'form_label':form_label(form.isOther, '', {'label_attr': {'class':'form-check-label'}}),
-                            'form_switch':form_widget(form.isOther, {'attr': {'class': 'form-check-input'}}),
-                            'form_input':form_widget(form.otherDescription, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Autres'}})
-                        }
-                        %}
-                    </div>
-                </div>
             </form>
         </div>
         {# Panel CLIENTS #}

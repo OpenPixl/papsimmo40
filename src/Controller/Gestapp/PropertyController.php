@@ -63,6 +63,7 @@ class PropertyController extends AbstractController
         ComplementRepository $complementRepository,
         PublicationRepository $publicationRepository)
     {
+        // Récupération du collaborateur
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
         // Contruction de la référence pour chaque propriété
@@ -81,19 +82,42 @@ class PropertyController extends AbstractController
 
         $complement = new Complement();
         $complementRepository->add($complement);
-
+        // création d'une fiche Publication
         $publication = new Publication();
         $publicationRepository->add($publication);
+        // ---
+        // Contruction de la référence pour chaque propriété
+        // ---
+        $date = new \DateTime();
+        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);           // Récupération de la dernière propriété enregistrée
+        $refNumDate = $date->format('Y').'/'.$date->format('m');        // contruction de la première partie de référence
 
+        // Création de l'entité Property
         $property = new Property();
         $property->setName('Nouveau bien');
-        $property->setRefnumdate($refNumDate);
-        $property->setReflastnumber($lastRefNum);
+        if(!$lastproperty){
+            $lastRefNum = 1;
+            $property->setRefnumdate($refNumDate);
+            $property->setReflastnumber($lastRefNum);
+        }else{
+            $lastRefDate = $lastproperty->getRefnumdate();
+            if($lastRefDate == $refNumDate){
+                $lastRefNum = $lastproperty->getReflastnumber()+1;
+                $property->setRefnumdate($refNumDate);
+                $property->setReflastnumber($lastRefNum);
+            }else{
+                $lastRefNum = 1;
+                $property->setRefnumdate($refNumDate);
+                $property->setReflastnumber($lastRefNum);
+            }
+        }
         $property->setRef($refNumDate.'-'.$lastRefNum);
         $property->setRefEmployed($employed);
         $property->setOptions($complement);
         $property->setPublication($publication);
         $property->setIsIncreating(1);
+        $property->setImageName('mod_maison.png');
+        $property->setImageSize(59755);
         $propertyRepository->add($property);
 
         return $this->redirectToRoute('op_gestapp_property_firstedit', [
@@ -102,15 +126,23 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/property/image/{id}', name: 'op_gestapp_property_editimage', methods: ['POST'])]
-    public function editImage(Property $property, Request $request){
+    public function editImage(Property $property, Request $request, PropertyRepository $propertyRepository){
 
-        $form = $this->$this->createForm(PropertyImageType::class, $property);
+        //dd($property);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+        $formimage = $this->createForm(PropertyImageType::class, $property);
+        $formimage->handleRequest($request);
+
+        if ($formimage->isSubmitted() && $formimage->isValid()) {
+            $propertyRepository->add($property);
+            return $this->json([
+                'code'=> 200,
+                'message' => "La ,photo du bine a correctement éét modifiées."
+            ], 200);
         }
 
-        return $this->render('gestapp/property/editimage.html.twig', [
-            'form' => $form,
+        return $this->renderForm('gestapp/property/editimage.html.twig', [
+            'formimage' => $formimage,
         ]);
     }
 
