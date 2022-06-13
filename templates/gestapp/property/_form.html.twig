@@ -57,6 +57,7 @@
                                 %}
 
                                 {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.complement, '', {'label_attr': {'class':'col-sm-3 col-form-label'}}),
                                     'form_input':form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Complément'}})
                                 }
                                 %}

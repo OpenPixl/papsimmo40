@@ -27,9 +27,12 @@
   padding-top:10px;
   padding-bottom:10px;
   padding-left:10px;
+  border-top: 2px solid #4f5050;
+  border-left: 2px solid #4f5050;
+  border-bottom: 2px solid #4f5050;
+  border-right: 2px solid #8f96a3;
   border-radius: 5px 0 0 5px;
-  background: #4f5050;
-  border: 2px solid #333;
+  background: #8f96a3;
   display: inline-block;
   width: 100%;
   color: $primary-color;

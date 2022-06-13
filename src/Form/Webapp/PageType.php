@@ -44,9 +44,12 @@ class PageType extends AbstractType
                     'Publiée' => ['data-data' => 'Publiée'],
                 ],
             ])
-            ->add('metaKeywords')
+            //->add('metaKeywords')
             ->add('MetaDescrition')
-            ->add('tag')
+            //->add('tag')
+            ->add('seoTitle', TextType::class, [
+                'label' => 'Balise Titre'
+            ])
         ;
     }
 

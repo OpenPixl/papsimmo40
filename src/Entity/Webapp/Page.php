@@ -5,6 +5,8 @@ namespace App\Entity\Webapp;
 use App\Entity\Admin\Employed;
 use App\Repository\Webapp\PageRepository;
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PageRepository::class)]
@@ -60,6 +62,14 @@ class Page
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $seoTitle;
+
+    #[ORM\OneToMany(mappedBy: 'page', targetEntity: Section::class)]
+    private $sections;
+
+    public function __construct()
+    {
+        $this->sections = new ArrayCollection();
+    }
 
 
 
@@ -263,6 +273,36 @@ class Page
     public function setSeoTitle(?string $seoTitle): self
     {
         $this->seoTitle = $seoTitle;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Section>
+     */
+    public function getSections(): Collection
+    {
+        return $this->sections;
+    }
+
+    public function addSection(Section $section): self
+    {
+        if (!$this->sections->contains($section)) {
+            $this->sections[] = $section;
+            $section->setPage($this);
+        }
+
+        return $this;
+    }
+
+    public function removeSection(Section $section): self
+    {
+        if ($this->sections->removeElement($section)) {
+            // set the owning side to null (unless already changed)
+            if ($section->getPage() === $this) {
+                $section->setPage(null);
+            }
+        }
 
         return $this;
     }

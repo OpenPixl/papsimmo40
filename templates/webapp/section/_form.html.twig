@@ -1,0 +1,16 @@
+{{ form_start(form, {'attr': {'id': 'sectionbypage'}}) }}
+{{ form_errors(form) }}
+    <tr>
+        <td>{{ form_widget(form.name) }}</td>
+        <td>
+            {{ form_widget(form.isShowtitle) }}</td>
+        <td>{{ form_widget(form.isShowdescription) }}</td>
+        <td>{{ form_widget(form.isShowdate) }}</td>
+        <td></td>
+        <td>{{ form_widget(form.isSectionfluid) }}</td>
+        <td></td>
+        <td></td>
+        <td><button id="addsection" class="btn btn-sm btn-outline-primary"> {{ button_label|default('Save') }}</button></td>
+    </tr>
+{{ form_errors(form) }}
+{{ form_end(form) }}

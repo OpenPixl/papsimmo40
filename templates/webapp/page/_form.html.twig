@@ -1,4 +1,77 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <a class="btn btn-sm btn-outline-dark" href="{{ path('op_webapp_page_index') }}">Retour à la liste</a> <button class="btn btn-sm btn-outline-warning">{{ button_label|default('Save') }}</button>
+
+<div class="row g-0">
+    <h4>PARAMETRES de la page</h4>
+    <hr>
+    <div class="col-sm-12">
+        {% include('include/form/input.html.twig') with {
+            'form_label':form_label(form.name, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+            'form_input':form_widget(form.name, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Titre du bien'}})
+        }
+        %}
+    </div>
+</div>
+<div class="row g-0">
+    <div class="col-sm-12">
+        {% include('include/form/textarea.html.twig') with {
+            'form_label':form_label(form.description, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+            'form_text':form_widget(form.description, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
+        }
+        %}
+    </div>
+</div>
+<div class="row g-0">
+    <div class="col-sm-12">
+        {% include('include/form/select.html.twig') with {
+            'form_label':form_label(form.state, 'Etat', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+            'form_select':form_widget(form.state, {'attr': {'class': 'form-select form-select-sm'}})
+        }
+        %}
+    </div>
+</div>
+<div class="row g-0">
+    <div class="col-sm-12">
+        {% include('include/form/oneSwitch.html.twig') with {
+            'form_label':form_label(form.isShowtitle, 'Afficher le titre', {'label_attr': {'class':'form-check-label'}}),
+            'form_switch':form_widget(form.isShowtitle, {'attr': {'class': 'form-check-input'}})
+        }
+        %}
+
+        {% include('include/form/oneSwitch.html.twig') with {
+            'form_label':form_label(form.isShowdate, 'Afficher la date', {'label_attr': {'class':'form-check-label'}}),
+            'form_switch':form_widget(form.isShowdate, {'attr': {'class': 'form-check-input'}})
+        }
+        %}
+
+        {% include('include/form/oneSwitch.html.twig') with {
+            'form_label':form_label(form.isMenu, 'Faire de la page un menu', {'label_attr': {'class':'form-check-label'}}),
+            'form_switch':form_widget(form.isMenu, {'attr': {'class': 'form-check-input'}})
+        }
+        %}
+    </div>
+    <h4>SEO de la page</h4>
+    <hr>
+    <div class="row g-0">
+        <div class="col-sm-12">
+            {% include('include/form/textarea.html.twig') with {
+                'form_label':form_label(form.MetaDescrition, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                'form_text':form_widget(form.MetaDescrition, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
+            }
+            %}
+        </div>
+        <div class="col-sm-12">
+            {% include('include/form/input.html.twig') with {
+                'form_label':form_label(form.seoTitle, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                'form_input':form_widget(form.seoTitle, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Titre du bien'}})
+            }
+            %}
+        </div>
+    </div>
+
+</div>
+<div class="row g-0 mt-2">
+    <div class="col-12">
+        <a class="btn btn-sm btn-outline-dark" href="{{ path('op_webapp_page_index') }}">Retour à la liste</a> <button class="btn btn-sm btn-outline-warning">{{ button_label|default('Save') }}</button>
+    </div>
+</div>
 {{ form_end(form) }}
