@@ -5,6 +5,7 @@ namespace App\Controller\Webapp;
 use App\Entity\Admin\Application;
 use App\Repository\Admin\ApplicationRepository;
 use App\Repository\Webapp\PageRepository;
+use App\Repository\Webapp\SectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -14,9 +15,14 @@ use Symfony\Component\HttpFoundation\Request;
 class PublicController extends AbstractController
 {
     #[Route('/webapp/public', name: 'op_webapp_public_homepage')]
-    public function homepage(): Response
+    public function homepage(SectionRepository $sectionRepository, ApplicationRepository $applicationRepository): Response
     {
-        return $this->render('webapp/public/index.html.twig');
+        $sections = $sectionRepository->findBy(['isfavorite' => 1]);
+        $application = $applicationRepository->find(1);
+        return $this->render('webapp/public/index.html.twig', [
+            'application' => $application,
+            'sections' => $sections
+        ]);
     }
 
     #[Route('/', name: 'op_webapp_public_index')]

@@ -2,11 +2,8 @@
     <thead>
     <tr>
         <td>nom</td>
-        <td>Titre ?</td>
-        <td>Description ?</td>
-        <td>Date ?</td>
+        <td>Contenu</td>
         <td>Position</td>
-        <td>fluide ?</td>
         <td>Créer le</td>
         <td>MàJ</td>
         <td>actions</td>
@@ -17,11 +14,8 @@
     {% for section in sections %}
         <tr>
             <td>{{ section.name }}</td>
-            <td>{{ section.isShowtitle ? 'Yes' : 'No' }}</td>
-            <td>{{ section.isShowdescription ? 'Yes' : 'No' }}</td>
-            <td>{{ section.isShowdate ? 'Yes' : 'No' }}</td>
+            <td>{{ section.content }}</td>
             <td>{{ section.position }}</td>
-            <td>{{ section.isSectionfluid ? 'Yes' : 'No' }}</td>
             <td>{{ section.createdAt ? section.createdAt|date('Y-m-d') : '' }}</td>
             <td>{{ section.updatedAt ? section.updatedAt|date('Y-m-d') : '' }}</td>
             <td>

@@ -68,7 +68,7 @@ class PageRepository extends ServiceEntityRepository
     public function findbyslug($slug)
     {
         return $this->createQueryBuilder('p')
-            ->select('p.id, p.name, p.slug, p.description, p.state, p.isMenu, p.seoTitle')
+            ->select('p.id, p.name, p.slug, p.description, p.state, p.isMenu, p.seoTitle, p.isShowtitle')
             ->andWhere('p.slug = :slug')
             ->setParameter('slug', $slug)
             ->getQuery()

@@ -1,13 +1,64 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello PublicController!{% endblock %}
+{% block title %}
+    {% if app.request.get('_route') == 'op_webapp_public_homepage'%}
+    Accueil - {{ application.nameSite }}
+    {% else %}
+        {% if not page.seoTitle %}
+            {{ page.name }}
+        {% else %}
+            {{ page.seoTitle }}
+        {% endif %}
+    {% endif %}
+{% endblock %}
 
 {% block content %}
-<section class="container">
-    <div class="row">
+<section class="container" id="op_page_header">
+    {% if app.request.get('_route') == 'op_webapp_public_homepage'%}
+    <div class="row mt-2">
         <div class="col-12">
-            <h1>Hello World</h1>
+            {% if application.IsShowTitleSiteHome == 1 %}
+                <h1 class="text-center title">{{ application.nameSite }}</h1>
+            {% else %}
+                <h1>Accueil</h1>
+            {% endif %}
         </div>
     </div>
+    {% else %}
+    <div class="row mt-2">
+    {% if page.isShowtitle == 1 %}
+        <div class="row">
+            <div class="col-12">
+                <h1>{{ page.name }}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <article>{{ page.description|raw }}</article>
+            </div>
+        </div>
+    {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<section id="op_page_content">
+    {# modèle de la page sans aucune section affichée #}
+    {% if not sections %}
+    {# modèle de la page avec des sections affichées #}
+    {% else %}
+    {# si le vlient est sur la page d'accueil #}
+    {% if app.request.get('_route') == 'op_webapp_public_homepage'%}
+    {# on classe les sections par ordre de positionnement en "home page" #}
+    {% for section in sections|sort((a, b) => a.positionfavorite <=> b.positionfavorite) %}
+    {% include('webapp/public/section/_onesection.html.twig') %}
+    {% endfor %}
+    {# pour toutes les autres routes, on classe par ordre de positionnement ASC #}
+    {% else %}
+    {% for section in sections %}
+    {% include('webapp/public/section/_onesection.html.twig') %}
+    {% endfor %}
+    {% endif %}
+    {% endif %}
 </section>
 {% endblock %}

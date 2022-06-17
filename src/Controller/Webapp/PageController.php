@@ -6,6 +6,7 @@ use App\Entity\Webapp\Page;
 use App\Form\Webapp\PageType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Webapp\PageRepository;
+use App\Repository\Webapp\SectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,12 +84,14 @@ class PageController extends AbstractController
      * affiche la page en front office selon le slug
      */
     #[Route('/slug/{slug}', name:'op_webapp_page_slug' , methods: ["GET"])]
-    public function slug($slug, Page $page, PageRepository $pageRepository) : response
+    public function slug($slug, Page $page, PageRepository $pageRepository, SectionRepository $sectionRepository) : response
     {
         $page = $pageRepository->findbyslug($slug);
+        $sections = $sectionRepository->findBy(['page'=>$page]);
 
-        return $this->render('webapp/page/page.html.twig', [
-            'page' => $page
+        return $this->render('webapp/public/index.html.twig', [
+            'page' => $page,
+            'sections' => $sections
         ]);
     }
 

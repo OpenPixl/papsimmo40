@@ -53,7 +53,10 @@ class Section
     #[ORM\Column(type: 'boolean', nullable: true)]
     private $isSectionfluid = false;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'boolean')]
+    private $isfavorite = false;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $baliseClass;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
@@ -76,6 +79,11 @@ class Section
 
     #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'sections')]
     private $page;
+
+    #[ORM\Column(type: 'string', length: 30, nullable: true)]
+    private $content;
+
+
 
     /**
      * Permet d'initialiser le slug !
@@ -237,6 +245,18 @@ class Section
         return $this;
     }
 
+    public function getIsfavorite(): ?bool
+    {
+        return $this->isfavorite;
+    }
+
+    public function setIsfavorite(bool $isfavorite): self
+    {
+        $this->isfavorite = $isfavorite;
+
+        return $this;
+    }
+
     public function getBaliseClass(): ?string
     {
         return $this->baliseClass;
@@ -332,6 +352,18 @@ class Section
     public function setPage(?Page $page): self
     {
         $this->page = $page;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
 
         return $this;
     }

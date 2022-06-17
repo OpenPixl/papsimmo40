@@ -62,27 +62,23 @@ class SectionController extends AbstractController
         $page = $pageRepository->find($idpage);
         $user = $this->getUser();
 
-        // Partie incrémlentation dans la base de données
+        // Partie incrémentation dans la base de données
         $section = new Section();
-        $form = $this->createForm(SectionbypageType::class, $section);
+
+        $form = $this->createForm(SectionbypageType::class, $section, [
+            'action' => $this->generateUrl('app_webapp_section_newpage', ['idpage' => $idpage]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $section->setPage($page);
             $section->setAuthor($user);
             $sectionRepository->add($section);
-            return $this->json([
-                'code' => 200,
-                'message' => 'La section a été correctement ajoutée',
-                'liste' => $this->renderView('webapp/section/_liste.html.twig', [
-                    'page' => $page,
-                    'sections' => $sectionRepository->findBy(['page'=>$page])
-                ])
-            ]);
 
-            //return $this->redirectToRoute('app_webapp_page_edit', [
-            //    'page' => $idpage
-            //], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_webapp_page_edit', [
+                'id' => $idpage
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('webapp/section/new.html.twig', [
