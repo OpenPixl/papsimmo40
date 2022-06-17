@@ -44,16 +44,19 @@ class Section
     #[ORM\Column(type: 'boolean')]
     private $isShowdate = false;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $position;
 
-    #[ORM\Column(type: 'integer')]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $positionFavorite;
 
-    #[ORM\Column(type: 'boolean')]
+    #[ORM\Column(type: 'boolean', nullable: true)]
     private $isSectionfluid = false;
 
-    #[ORM\Column(type: 'string', length: 100)]
+    #[ORM\Column(type: 'boolean')]
+    private $isfavorite = false;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $baliseClass;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
@@ -68,11 +71,19 @@ class Section
     #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'sections')]
     private $author;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
-    #[ORM\Column(type: 'datetime_immutable')]
+    #[ORM\Column(type: 'datetime')]
     private $updatedAt;
+
+    #[ORM\ManyToOne(targetEntity: Page::class, inversedBy: 'sections')]
+    private $page;
+
+    #[ORM\Column(type: 'string', length: 30, nullable: true)]
+    private $content;
+
+
 
     /**
      * Permet d'initialiser le slug !
@@ -234,6 +245,18 @@ class Section
         return $this;
     }
 
+    public function getIsfavorite(): ?bool
+    {
+        return $this->isfavorite;
+    }
+
+    public function setIsfavorite(bool $isfavorite): self
+    {
+        $this->isfavorite = $isfavorite;
+
+        return $this;
+    }
+
     public function getBaliseClass(): ?string
     {
         return $this->baliseClass;
@@ -294,29 +317,53 @@ class Section
         return $this;
     }
 
-    public function getCreatedAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt(\DateTimeImmutable $createdAt): self
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime('now');
 
         return $this;
     }
 
-    public function getUpdatedAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
         return $this->updatedAt;
     }
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): self
+    public function setUpdatedAt(): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTime('now');
+
+        return $this;
+    }
+
+    public function getPage(): ?Page
+    {
+        return $this->page;
+    }
+
+    public function setPage(?Page $page): self
+    {
+        $this->page = $page;
+
+        return $this;
+    }
+
+    public function getContent(): ?string
+    {
+        return $this->content;
+    }
+
+    public function setContent(?string $content): self
+    {
+        $this->content = $content;
 
         return $this;
     }

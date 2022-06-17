@@ -2,12 +2,41 @@
 
 {% block title %}Edit Page{% endblock %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+
+
+
+        }
+    </script>
+{% endblock %}
+
 {% block content %}
-    <h1>Edit Page</h1>
-
-    {{ include('webapp/page/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('op_webapp_page_index') }}">back to list</a>
-
-    {{ include('webapp/page/_delete_form.html.twig') }}
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <h1>Gestion de la page</h1>
+            </div>
+        </div>
+    </section>
+    <section>
+        <div class="row">
+            <div class="col-4">
+                <div class="card text-dark bg-light">
+                    <div class="card-body">
+                        {{ include('webapp/page/_form.html.twig', {'button_label': 'Update'}) }}
+                    </div>
+                </div>
+            </div>
+            <dic class="col-8">
+                {{ render(controller('App\\Controller\\Webapp\\SectionController::bypage', {'idpage':page.id})) }}
+            </dic>
+        </div>
+    </section>
 {% endblock %}

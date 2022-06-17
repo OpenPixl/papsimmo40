@@ -66,25 +66,13 @@ class PropertyController extends AbstractController
         // Récupération du collaborateur
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
-        // Contruction de la référence pour chaque propriété
-        $date = new \DateTime();
-        $refNumDate = $date->format('Y').'/'.$date->format('m');
-        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);
-        $lastRefDate = $lastproperty->getRefnumdate();
-        if(!$lastproperty){
-
-        }
-        if($lastRefDate == $refNumDate){
-            $lastRefNum = $lastproperty->getReflastnumber()+1;
-        }else{
-            $lastRefNum = 1;
-        }
 
         $complement = new Complement();
         $complementRepository->add($complement);
         // création d'une fiche Publication
         $publication = new Publication();
         $publicationRepository->add($publication);
+
         // ---
         // Contruction de la référence pour chaque propriété
         // ---
@@ -137,7 +125,7 @@ class PropertyController extends AbstractController
             $propertyRepository->add($property);
             return $this->json([
                 'code'=> 200,
-                'message' => "La ,photo du bine a correctement éét modifiées."
+                'message' => "La photo du bien a été correctement modifiée."
             ], 200);
         }
 

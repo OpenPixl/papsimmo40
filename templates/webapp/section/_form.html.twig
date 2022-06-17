@@ -1,0 +1,15 @@
+{{ form_start(form) }}
+{{ form_errors(form) }}
+    <tr>
+        <td>{{ form_widget(form.name, {'attr' : {'class': 'form-control form-control-sm'}}) }}</td>
+        <td>{{ form_widget(form.content, {'attr' : {'class': 'form-select form-select-sm'}}) }}</td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td><button id="addsection" class="btn btn-sm btn-outline-primary"> {{ button_label|default('Save') }}</button></td>
+    </tr>
+{{ form_errors(form) }}
+{{ form_end(form) }}

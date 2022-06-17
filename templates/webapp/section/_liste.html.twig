@@ -1,0 +1,32 @@
+<table class="table">
+    <thead>
+    <tr>
+        <td>nom</td>
+        <td>Contenu</td>
+        <td>Position</td>
+        <td>Créer le</td>
+        <td>MàJ</td>
+        <td>actions</td>
+    </tr>
+    </thead>
+    <tbody>
+    {{ render(controller('App\\Controller\\Webapp\\SectionController::newpage', {'idpage':page.id})) }}
+    {% for section in sections %}
+        <tr>
+            <td>{{ section.name }}</td>
+            <td>{{ section.content }}</td>
+            <td>{{ section.position }}</td>
+            <td>{{ section.createdAt ? section.createdAt|date('Y-m-d') : '' }}</td>
+            <td>{{ section.updatedAt ? section.updatedAt|date('Y-m-d') : '' }}</td>
+            <td>
+                <a href="{{ path('app_webapp_section_show', {'id': section.id}) }}">show</a>
+                <a href="{{ path('app_webapp_section_edit', {'id': section.id}) }}">edit</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="17">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
