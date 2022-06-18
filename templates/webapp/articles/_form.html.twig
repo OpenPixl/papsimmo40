@@ -1,4 +1,90 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+<div class="modal-body">
+    <div class="row">
+        <div class="col-8">
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    {% include('include/form/textarea.html.twig') with {
+                        'form_label':form_label(form.name, "titre de l'article", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_text':form_widget(form.name, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                    }
+                    %}
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    {% include('include/form/textarea.html.twig') with {
+                        'form_label':form_label(form.content, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_text':form_widget(form.content, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
+                    }
+                    %}
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    {% include('include/form/textarea.html.twig') with {
+                        'form_label':form_label(form.category, 'Catégorie', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_text':form_widget(form.category, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
+                    }
+                    %}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-4">
+            OPTIONS
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    <div class="col-sm-12">
+                        {% include('include/form/select.html.twig') with {
+                            'form_label':form_label(form.state, 'Etat', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                            'form_select':form_widget(form.state, {'attr': {'class': 'form-select form-select-sm'}})
+                        }
+                        %}
+                    </div>
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isShowtitle, 'Afficher le titre', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isShowtitle, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isShowdate, 'Afficher la date', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isShowdate, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isShowreadmore, 'Afficher Lire la suite ...', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isShowreadmore, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isLink, 'Ajouter un lien', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isLink, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+
+                    {% include('include/form/textarea.html.twig') with {
+                        'form_label':form_label(form.linkText, "Lien", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_text':form_widget(form.linkText, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                    }
+                    %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Retour</button>
+    <button type="button" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
+</div>
 {{ form_end(form) }}

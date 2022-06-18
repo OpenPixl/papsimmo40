@@ -24,7 +24,10 @@ class ArticlesController extends AbstractController
     #[Route('/new', name: 'op_webapp_articles_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ArticlesRepository $articlesRepository): Response
     {
+        $user = $this->getUser();
+
         $article = new Articles();
+        $article->setAuthor($user);
         $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
 
