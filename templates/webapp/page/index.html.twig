@@ -18,6 +18,7 @@
                         <tr>
                             <th>Id</th>
                             <th>Nom</th>
+                            <th>slug</th>
                             <th>Menu</th>
                             <th>Etat</th>
                             <th>Créé le</th>
@@ -30,6 +31,7 @@
                         <tr>
                             <td>{{ page.id }}</td>
                             <td><a href="{{ path('op_webapp_page_edit', {'id': page.id}) }}">{{ page.name }}</a></td>
+                            <td>{{ page.slug }}</td>
                             <td>{{ page.isMenu ? 'Yes' : 'No' }}</td>
                             <td><span class="badge bg-secondary">{{ page.state }}</span></td>
                             <td>{{ page.createdAt ? page.createdAt|date('Y-m-d') : '' }}</td>
@@ -46,7 +48,7 @@
                     </tbody>
                 </table>
 
-                <a href="{{ path('op_webapp_page_new') }}">Create new</a>
+                <a href="{{ path('op_webapp_page_new') }}">Nouvelle page</a>
             </div>
         </div>
     </section>

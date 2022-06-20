@@ -32,17 +32,27 @@ class SectionController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_webapp_section_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, SectionRepository $sectionRepository): Response
+    #[Route('/new/{idpage}', name: 'op_webapp_section_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, SectionRepository $sectionRepository, $idpage, PageRepository $pageRepository): Response
     {
+        $page = $pageRepository->find($idpage);
+        $user = $this->getUser();
+
         $section = new Section();
-        $form = $this->createForm(SectionType::class, $section);
+        $section->setPage($page);
+        $section->setAuthor($user);
+        $form = $this->createForm(SectionType::class, $section, [
+            'action' => $this->generateUrl('op_webapp_section_new', ['idpage'=>$idpage]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
             $sectionRepository->add($section);
-            return $this->redirectToRoute('app_webapp_section_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_webapp_page_edit', [
+                'id' => $idpage
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('webapp/section/new.html.twig', [
@@ -125,15 +135,21 @@ class SectionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_webapp_section_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'op_webapp_section_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Section $section, SectionRepository $sectionRepository): Response
     {
-        $form = $this->createForm(SectionType::class, $section);
+        $page = $section->getPage();
+        $idpage = $page->getId();
+
+        $form = $this->createForm(SectionType::class, $section, [
+            'action' => $this->generateUrl('op_webapp_section_edit', ['id' => $section->getId()]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $sectionRepository->add($section);
-            return $this->redirectToRoute('app_webapp_section_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_webapp_page_edit', ['id'=> $idpage], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('webapp/section/edit.html.twig', [
@@ -150,5 +166,31 @@ class SectionController extends AbstractController
         }
 
         return $this->redirectToRoute('app_webapp_section_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/del/{id}', name: 'op_webapp_section_del', methods: ['POST'])]
+    public function del(Request $request, Section $section, SectionRepository $sectionRepository)
+    {
+        $idpage = $section->getPage();
+        $sectionRepository->remove($section);
+
+        $listsection = $sectionRepository->findBy(['page'=>$idpage]);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "La photo du bien a été correctement modifiée.",
+            'liste' => $this->renderView('webapp/section/_liste.html.twig', [
+                'sections' => $listsection
+            ])
+        ], 200);
+    }
+
+    #[Route('/frontbypage/{idpage}', name: 'op_webapp_section_frontbypage', methods: ['POST'])]
+    public function frontByPage(SectionRepository $sectionRepository, $idpage): Response
+    {
+        $sections = $sectionRepository->findBy(array('page' => $idpage), array('position' => 'ASC'));
+        return $this->render('webapp/section/frontbypage.html.twig', [
+            'sections' => $sections,
+        ]);
     }
 }

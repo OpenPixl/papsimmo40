@@ -17,7 +17,7 @@
     <div class="menu-items">
         <h6>WEB</h6>
         <ul>
-            <li><a href="{{ path('op_webapp_page_index') }}" class="{% if app.request.attributes.get("_route") == 'op_webapp_page_index' %}active{% endif %}">Pages</a></li>
+            <li><a href="{{ path('op_webapp_page_index') }}" class="{% if app.request.attributes.get("_route") == 'op_webapp_page_index' or app.request.attributes.get("_route") == 'op_webapp_page_edit'%}active{% endif %}">Pages</a></li>
             <li><a href="{{ path('op_webapp_articles_index') }}" class="{% if app.request.attributes.get("_route") == 'op_webapp_articles_index' %}active{% endif %}">Articles</a></li>
         </ul>
     </div>

@@ -28,7 +28,10 @@ class ArticlesController extends AbstractController
 
         $article = new Articles();
         $article->setAuthor($user);
-        $form = $this->createForm(ArticlesType::class, $article);
+        $form = $this->createForm(ArticlesType::class, $article, [
+            'action' => $this->generateUrl('op_webapp_articles_new'),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -53,7 +56,10 @@ class ArticlesController extends AbstractController
     #[Route('/{id}/edit', name: 'op_webapp_articles_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Articles $article, ArticlesRepository $articlesRepository): Response
     {
-        $form = $this->createForm(ArticlesType::class, $article);
+        $form = $this->createForm(ArticlesType::class, $article, [
+            'action' => $this->generateUrl('op_webapp_articles_edit', ['id'=> $article->getId()]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -73,7 +79,33 @@ class ArticlesController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$article->getId(), $request->request->get('_token'))) {
             $articlesRepository->remove($article);
         }
-
         return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/del/{id}', name: 'op_webapp_articles_del', methods: ['POST'])]
+    public function del(Request $request, Articles $articles,ArticlesRepository $articlesRepository)
+    {
+        $articlesRepository->remove($articles);
+
+        $listarticles = $articlesRepository->findAll();
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "La photo du bien a été correctement modifiée.",
+            'liste' => $this->renderView('webapp/articles/include/_liste.html.twig', [
+                'articles' => $listarticles
+            ])
+        ], 200);
+    }
+
+    #[Route('/fivelstproperty', name: 'op_webapp_articles_fivelastproperty', methods: ['GET'])]
+    public function fiveLastProperty(ArticlesRepository $articlesRepository)
+    {
+        $articles = $articlesRepository->fivelastproperty();
+
+        return $this->renderForm('webapp/articles/edit.html.twig', [
+            'articles' => $articles,
+        ]);
+
     }
 }

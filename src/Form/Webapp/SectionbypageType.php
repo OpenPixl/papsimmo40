@@ -29,6 +29,7 @@ class SectionbypageType extends AbstractType
                     'Propriétés' => [
                         'Liste des proporiétés' => 'All_properties',
                         "liste des avis" => "Sector_ofProperties",
+                        'Les dernières propriétés' => 'Last_property'
                     ],
                 ],
             ])

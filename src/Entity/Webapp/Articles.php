@@ -7,8 +7,12 @@ use App\Entity\Webapp\choice\Category;
 use App\Repository\Webapp\ArticlesRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\ORM\Mapping as ORM;
+use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ArticlesRepository::class)]
+#[Vich\Uploadable]
 #[ORM\HasLifecycleCallbacks]
 class Articles
 {
@@ -49,6 +53,25 @@ class Articles
 
     #[ORM\Column(type: 'string', length: 25, nullable: true)]
     private $state;
+
+    /**
+     * Insertion de l'image mise en avant liée à un article
+     * NOTE : Il ne s'agit pas d'un champ mappé des métadonnées de l'entité, mais d'une simple propriété.
+     **/
+    #[UploadableField(mapping: "article_front", fileNameProperty: 'articleFrontName', size: 'articleFrontSize')]
+    private $articleFrontFile;
+
+    /**
+     * Nom du fichier
+     */
+    #[ORM\Column(type:'string', nullable: true)]
+    private $articleFrontName;
+
+    /**
+     * Taille du fichier
+     */
+    #[ORM\Column(type:'integer', nullable: true)]
+    private $articleFrontSize;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -202,6 +225,50 @@ class Articles
         $this->state = $state;
 
         return $this;
+    }
+
+    /**
+     * Si vous téléchargez manuellement un fichier (c'est-à-dire sans utiliser Symfony Form),
+     * assurez-vous qu'une instance de "UploadedFile" est injectée dans ce paramètre pour déclencher la mise à jour.
+     * Si le paramètre de configuration 'inject_on_load' de ce bundle est défini sur 'true', ce setter doit être
+     * capable d'accepter une instance de 'File' car le bundle en injectera une ici pendant l'hydratation de Doctrine.
+     *
+     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $articleFrontFile
+     */
+    public function setArticleFrontFile(?File $articleFrontFile = null): void
+    {
+        $this->articleFrontFile = $articleFrontFile;
+
+        if (null !== $articleFrontFile) {
+            // It is required that at least one field changes if you are using doctrine
+            // otherwise the event listeners won't be called and the file is lost
+            $this->updatedAt = new \DateTimeImmutable();
+        }
+    }
+
+    public function getArticleFrontFile(): ?File
+    {
+        return $this->articleFrontFile;
+    }
+
+    public function setArticleFrontName(?string $articleFrontName): void
+    {
+        $this->articleFrontName = $articleFrontName;
+    }
+
+    public function getArticleFrontName(): ?string
+    {
+        return $this->articleFrontName;
+    }
+
+    public function setArticleFrontSize(?int $articleFrontSize): void
+    {
+        $this->articleFrontSize = $articleFrontSize;
+    }
+
+    public function getArticleFrontSize(): ?int
+    {
+        return $this->articleFrontSize;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface

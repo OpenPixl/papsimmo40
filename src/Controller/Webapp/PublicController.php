@@ -99,5 +99,37 @@ class PublicController extends AbstractController
         ]);
     }
 
+    /**
+     * Affiche le bottom footer
+     */
+    #[Route("/webapp/public/footer/top", name:'op_webapp_public_topfooter')]
+    public function topFooter(PageRepository $pageRepository, ApplicationRepository $applicationRepository,Request $request): Response
+    {
+        // préparation des éléments d'interactivité du menu
+        $parameter = $applicationRepository->findFirstReccurence();
+
+        $pages = $pageRepository->findAll();
+
+        return $this->render('include/public/topfooter.html.twig', [
+            'parameter' => $parameter,
+            'pages' => $pages
+        ]);
+    }
+
+    /**
+     * Affiche le bottom footer
+     */
+    #[Route("/webapp/public/footer/bottom", name:'op_webapp_public_bottomfooter')]
+    public function bottomFooter(ApplicationRepository $applicationRepository,Request $request): Response
+    {
+
+        // préparation des éléments d'interactivité du menu
+        $parameter = $applicationRepository->findFirstReccurence();
+
+        return $this->render('include/public/bottomfooter.html.twig', [
+            'parameter' => $parameter,
+        ]);
+    }
+
 
 }

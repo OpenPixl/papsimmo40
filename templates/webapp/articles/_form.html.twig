@@ -14,8 +14,8 @@
             <div class="row g-0">
                 <div class="col-sm-12">
                     {% include('include/form/textarea.html.twig') with {
-                        'form_label':form_label(form.content, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_text':form_widget(form.content, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
+                        'form_label':form_label(form.category, 'Catégorie', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_text':form_widget(form.category, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
                     }
                     %}
                 </div>
@@ -23,12 +23,13 @@
             <div class="row g-0">
                 <div class="col-sm-12">
                     {% include('include/form/textarea.html.twig') with {
-                        'form_label':form_label(form.category, 'Catégorie', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_text':form_widget(form.category, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
+                        'form_label':form_label(form.content, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_text':form_widget(form.content, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
                     }
                     %}
                 </div>
             </div>
+
 
         </div>
         <div class="col-4">
@@ -80,11 +81,20 @@
                     %}
                 </div>
             </div>
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.articleFrontFile, 'Ajouter une image', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.articleFrontFile, {'attr': {'class': 'form-control-file form-control-sm'}})
+                    }
+                    %}
+                </div>
+            </div>
         </div>
     </div>
 </div>
 <div class="modal-footer">
-    <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Retour</button>
-    <button type="button" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
+    <a class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Retour</a>
+    <button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
 </div>
 {{ form_end(form) }}

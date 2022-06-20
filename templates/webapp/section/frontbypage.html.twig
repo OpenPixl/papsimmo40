@@ -1,0 +1,14 @@
+{% for section in sections %}
+    {% include('webapp/section/include/_onesection.html.twig') %}
+{% else %}
+    <section class="container">
+        <div class="row">
+            <div class="col">
+                <article>
+                    <h2>Exemple de titre d'article</h2>
+                    <p>Exemple de contenu d'article</p>
+                </article>
+            </div>
+        </div>
+    </section>
+{% endfor %}

@@ -1,6 +1,8 @@
 
 @import "~bootstrap/scss/bootstrap";
+//*** ------------- Import Styles from admin ---------------- ***//
+@import "scss/public/header";
+@import "scss/public/main";
+@import "scss/public/footer";
 
-body {
-    background-color: lightgray;
-}
+@import '~@fortawesome/fontawesome-free/css/all.css';

@@ -1,15 +1,27 @@
 <div class="card text-black bg-light">
     <div class="card-body">
         <div class="row">
-            <div class="col-12">
+            <div class="col-4">
                 <h4>Les SECTIONS de la page</h4>
-                <hr>
+            </div>
+            <div class="col-4">
+                <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addSection-{{ page.id }}" data-bs-whatever="{{ page.id }}">Ajouter une section</button>
+                <div class="modal fade" id="addSection-{{ page.id }}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Ajouter une section</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            {{ render(controller('App\\Controller\\Webapp\\SectionController::new', {'idpage':2})) }}
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div id="liste">
             {% include('webapp/section/_liste.html.twig') %}
         </div>
-
     </div>
 </div>
 

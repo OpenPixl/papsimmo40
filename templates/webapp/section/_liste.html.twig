@@ -10,7 +10,6 @@
     </tr>
     </thead>
     <tbody>
-    {{ render(controller('App\\Controller\\Webapp\\SectionController::newpage', {'idpage':page.id})) }}
     {% for section in sections %}
         <tr>
             <td>{{ section.name }}</td>
@@ -19,8 +18,19 @@
             <td>{{ section.createdAt ? section.createdAt|date('Y-m-d') : '' }}</td>
             <td>{{ section.updatedAt ? section.updatedAt|date('Y-m-d') : '' }}</td>
             <td>
-                <a href="{{ path('app_webapp_section_show', {'id': section.id}) }}">show</a>
-                <a href="{{ path('app_webapp_section_edit', {'id': section.id}) }}">edit</a>
+                <button id="btnEditArticle" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editArticle-{{ section.id }}" data-bs-whatever="{{ section.id }}"><i class="fa-duotone fa-pen-to-square"></i></button>
+                <div class="modal fade" id="editArticle-{{ section.id }}" tabindex="-1" aria-labelledby="addArticle" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edition d'un nouvel article </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            {{ render(controller('App\\Controller\\Webapp\\SectionController::edit', {'id': section.id})) }}
+                        </div>
+                    </div>
+                </div>
+                <a href="" class="btn btn-sm btn-outline-danger delarticle" type="button" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ section.id }}"><i class="fa-duotone fa-file-xmark"></i></a>
             </td>
         </tr>
     {% else %}

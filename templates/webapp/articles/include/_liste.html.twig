@@ -1,0 +1,44 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>titre</th>
+        <th>Contenu</th>
+        <th>Etat</th>
+        <th>CreatedAt</th>
+        <th>UpdatedAt</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for article in articles %}
+        <tr>
+            <td>{{ article.id }}</td>
+            <td>{{ article.name }}</td>
+            <td>{{ article.slug }}</td>
+            <td>{{ article.state }}</td>
+            <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>
+                <button id="btnEditArticle" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editArticle-{{ article.id }}" data-bs-whatever="{{ article.id }}"><i class="fa-duotone fa-pen-to-square"></i></button>
+                <div class="modal fade" id="editArticle-{{ article.id }}" tabindex="-1" aria-labelledby="addArticle" aria-hidden="true">
+                    <div class="modal-dialog modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Edition d'un nouvel article </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            {{ render(controller('App\\Controller\\Webapp\\ArticlesController::edit', {'id': article.id})) }}
+                        </div>
+                    </div>
+                </div>
+                <a href="" class="btn btn-sm btn-outline-danger delarticle" type="button" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ article.id }}"><i class="fa-duotone fa-file-xmark"></i></a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="13">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

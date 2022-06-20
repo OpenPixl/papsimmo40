@@ -1,0 +1,37 @@
+<section id="top_footer" class="container-fluid">
+    <div class="row">
+        <div class="col-3">
+            <h6>Plan du site</h6>
+            <ul>
+                <li><a href="{{ path('op_webapp_public_homepage') }}">Accueil</a></li>
+                {% for page in pages %}
+                <li><a href="{{ page.slug }}">{{ page.name }}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-6">
+
+        </div>
+        <div class="col-3">
+            <div class="row">
+                <div class="offset-3 col-6">
+                    {% if parameter.logoName %}
+                        <img class="img-fluid" src="{{ vich_uploader_asset(application, 'logoFile') }}" alt="{{ parameter.logoName }}">
+                    {% else %}
+                        <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ parameter.nameSite }}" height="100px">
+                    {% endif %}
+                </div>
+                <div class="col-3"></div>
+            </div>
+            <div class="row">
+                <div class="offset-3 col-6">
+                    <h5 class="text-center">SAS {{ parameter.nameSite }}</h5>
+                    <p class="text-center">24 Boulevard Marcel DASSAULT <br>64200 BIARRITZ</p>
+                    <p class="text-center">contact@papsimmo.fr</p>
+                    <p class="text-center">06 77 31 26 39</p>
+                </div>
+                <div class="col-3"></div>
+            </div>
+        </div>
+    </div>
+</section>

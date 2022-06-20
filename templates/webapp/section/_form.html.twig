@@ -1,15 +1,126 @@
 {{ form_start(form) }}
 {{ form_errors(form) }}
-    <tr>
-        <td>{{ form_widget(form.name, {'attr' : {'class': 'form-control form-control-sm'}}) }}</td>
-        <td>{{ form_widget(form.content, {'attr' : {'class': 'form-select form-select-sm'}}) }}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td><button id="addsection" class="btn btn-sm btn-outline-primary"> {{ button_label|default('Save') }}</button></td>
-    </tr>
+
+<div class="modal-body">
+    <div class="row">
+        <div class="col-8">
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    {% include('include/form/input.html.twig') with {
+                        'form_label':form_label(form.name, "Titre de l'article", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.name, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                    }
+                    %}
+                </div>
+                <div class="col-sm-12">
+                    {% include('include/form/textarea.html.twig') with {
+                        'form_label':form_label(form.description, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_text':form_widget(form.description, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
+                    }
+                    %}
+                </div>
+            </div>
+            <div class="row g-0">
+                <h6>STYLE</h6>
+                <hr>
+                <div class="col-sm-12">
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isSectionfluid, "rendre la section fluide", {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isSectionfluid, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+                </div>
+                <div class="col-sm-12">
+                    {% include('include/form/input.html.twig') with {
+                        'form_label':form_label(form.baliseClass, "Class", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.baliseClass, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                    }
+                    %}
+                </div>
+                <div class="col-sm-12">
+                    {% include('include/form/input.html.twig') with {
+                        'form_label':form_label(form.baliseId, "Id", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.baliseId, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                    }
+                    %}
+                </div>
+                <div class="col-sm-12">
+                    {% include('include/form/input.html.twig') with {
+                        'form_label':form_label(form.baliseName, "Titre de l'article", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_input':form_widget(form.baliseName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                    }
+                    %}
+                </div>
+            </div>
+
+
+        </div>
+        <div class="col-4">
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    <h6>CONTENU DE SECTION</h6>
+                    <hr>
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.content, 'Contenu', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.content, {'attr': {'class': 'form-select form-select-sm'}})
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.oneArticle, 'Article', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.oneArticle, {'attr': {'class': 'form-select form-select-sm'}})
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.OneCategory, 'Catégorie', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.OneCategory, {'attr': {'class': 'form-select form-select-sm'}})
+                    }
+                    %}
+
+                    {% include('include/form/select.html.twig') with {
+                        'form_label':form_label(form.oneEmployed, 'Collaborateur', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                        'form_select':form_widget(form.oneEmployed, {'attr': {'class': 'form-select form-select-sm'}})
+                    }
+                    %}
+                </div>
+            </div>
+            <div class="row g-0">
+                <div class="col-sm-12">
+                    <h6>OPTIONS</h6>
+                    <hr>
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isShowtitle, 'Afficher le titre', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isShowtitle, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isShowdate, 'Afficher la date', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isShowdate, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isShowdescription, 'Afficher la description', {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isShowdescription, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+                    {% include('include/form/oneSwitch.html.twig') with {
+                        'form_label':form_label(form.isfavorite, "Mettre cette section en page d'acceuil", {'label_attr': {'class':'form-check-label'}}),
+                        'form_switch':form_widget(form.isfavorite, {'attr': {'class': 'form-check-input'}})
+                    }
+                    %}
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div class="modal-footer">
+    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+    <button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
+</div>
+
 {{ form_errors(form) }}
 {{ form_end(form) }}

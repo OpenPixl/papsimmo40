@@ -15,7 +15,7 @@
 {% endfor%}
 
 {# Partie de rendu #}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar fixed-top navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('op_webapp_public_homepage')}}">
             {% if parameter.logoName %}
@@ -59,7 +59,6 @@
                     </li>
                 {% endfor %}
             </ul>
-
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
@@ -80,3 +79,21 @@
         </div>
     </div>
 </nav>
+{# Jumbotron #}
+
+<div class="banner-image w-100 d-flex justify-content-center align-items-center">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <img src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="">
+            </div>
+            <div class="col">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-magnifying-glass"></i></span>
+                    <input type="text" class="form-control" placeholder="Ou voulez-vous habiter ?" aria-label="Username" aria-describedby="basic-addon1">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

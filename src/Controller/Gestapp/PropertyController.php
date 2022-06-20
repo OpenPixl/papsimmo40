@@ -118,7 +118,11 @@ class PropertyController extends AbstractController
 
         //dd($property);
 
-        $formimage = $this->createForm(PropertyImageType::class, $property);
+        $formimage = $this->createForm(PropertyImageType::class, $property, [
+            'action' => $this->generateUrl('op_gestapp_property_editimage', ['id'=>$property->getId()]),
+            'method'=> 'POST'
+        ]);
+
         $formimage->handleRequest($request);
 
         if ($formimage->isSubmitted() && $formimage->isValid()) {
@@ -318,6 +322,17 @@ class PropertyController extends AbstractController
                 'properties' => $properties
             ])
         ], 200);
+    }
+
+    #[Route('/fivelastproperty', name: 'op_gestapp_properties_fivelastproperty', methods: ['GET'])]
+    public function fiveLastProperty(PropertyRepository $propertyRepository)
+    {
+        $properties = $propertyRepository->fivelastproperties();
+
+        return $this->renderForm('gestapp/property/fivelastproperties.html.twig', [
+            'properties' => $properties,
+        ]);
+
     }
 
 }

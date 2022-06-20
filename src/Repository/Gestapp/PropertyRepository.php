@@ -45,6 +45,16 @@ class PropertyRepository extends ServiceEntityRepository
         }
     }
 
+    public function fivelastproperties()
+    {
+        return $this->createQueryBuilder('p')
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Property[] Returns an array of Property objects
     //  */

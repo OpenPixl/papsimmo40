@@ -1,0 +1,13 @@
+<section id="bottom_footer" class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <p class="text-start">&copy;{{ "now"|date("Y") }} {% if parameter %}{{ parameter.nameSite }}{% else %}OpenGaia{% endif%} | Tous droits réservés | Créer par OpenPixl</p></div>
+        <div class="col-6">
+            <p class="text-end">
+                <a href="{{ path('op_webapp_page_slug', {'slug': 'mentions-legales'}) }}"> Mentions légales</a>
+                <a href="{{ path('op_webapp_page_slug', {'slug': 'politique-de-confidentialite'}) }}"> Politiques de confidentialité</a>
+                <a href="{{ path('op_webapp_page_slug', {'slug': 'conditions-generales'}) }}"> Conditions générales de ventes</a>
+            </p>
+        </div>
+    </div>
+</section>
