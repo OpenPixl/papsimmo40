@@ -46,6 +46,7 @@
                 </div>
                 {# Affiche un article #}
                 {% elseif section.content == 'One_article' %}
+                    {{ render(controller('App\\Controller\\Webapp\\ArticlesController::OneArticle', {'id': section.oneArticle})) }}
                 {# Affiche une catégorie d'articles #}
                 {% elseif section.content == 'Category'%}
                 {# Affiche un collaborateur et ses biens #}

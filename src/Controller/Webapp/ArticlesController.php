@@ -108,4 +108,12 @@ class ArticlesController extends AbstractController
         ]);
 
     }
+
+    #[Route('/onearticle/{id}', name: 'op_webapp_articles_onearticle', methods: ['GET'])]
+    public function OneArticle(Articles $article): Response
+    {
+        return $this->render('webapp/articles/onearticle.html.twig', [
+            'article' => $article,
+        ]);
+    }
 }

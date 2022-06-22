@@ -1,0 +1,13 @@
+<article id="onearticle">
+    {% if article.isShowtitle == 1 %}
+    <div id="title_article">
+        <h3>{{ article.name }}</h3>
+    </div>
+    {% endif %}
+    <div id="content_article">
+        {{ article.content|raw }}
+    </div>
+    <div id="img_article">
+
+    </div>
+</article>
