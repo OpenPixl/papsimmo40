@@ -18,12 +18,12 @@
 
             // récupération des boutons de navigation entre panel
             const stepBack = document.getElementById("stepCustomers");
-            const stepInformations = document.getElementById("stepInformations");
-            const stepCustomers = document.getElementById("stepCustomers");
-            const stepEstimate = document.getElementById("stepEstimate");
-            const stepOptions = document.getElementById("stepOptions");
-            const stepGallery = document.getElementById("stepGallery");
-            const stepPublication = document.getElementById("stepPublication");
+            const nextStepInformations = document.getElementById("stepInformations");
+            const nextStepCustomers = document.getElementById("stepCustomers");
+            const nextStepEstimate = document.getElementById("stepEstimate");
+            const nextStepOptions = document.getElementById("stepOptions");
+            const nextStepGallery = document.getElementById("stepGallery");
+            const nextStepPublication = document.getElementById("stepPublication");
 
             // fixer les éléments opérationnel au chargement de la page
             const Informations = document.getElementById("Informations");
@@ -37,21 +37,32 @@
             const focus = document.getElementById('property_name');
             focus.focus()
 
-            // boutons pour chaque panel
-            stepCustomers.className += " d-none";
-            stepEstimate.className += " d-none";
-            stepOptions.className += " d-none";
-            stepGallery.className += " d-none";
-            stepPublication.className += " d-none";
+            // -------------
+            // STEP 0 : Mise en place des styles de démarrage
+            // -------------
+            // Désactivation des onglets d'accueil de la page d'édition
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            // Masquage des boutons de navigation sous le formulaire
+            nextStepCustomers.className += " d-none";
+            nextStepEstimate.className += " d-none";
+            nextStepOptions.className += " d-none";
+            nextStepGallery.className += " d-none";
+            nextStepPublication.className += " d-none";
+
 
             // -------------
-            // évenement sur le boutons stepInformations
+            // STEP 1 : enregistrement des informations initiales du bien sur clic du boutons next
             // -------------
             stepInformations.onclick = function (event) {
                 event.preventDefault()
-                // visibilité des éléments
-                stepCustomers.className = "btn btn-sm btn-outline-primary";
-                stepInformations.className += " d-none";
+                // action sur
+                nextStepCustomers.className = "btn btn-sm btn-outline-primary";
+                nextStepInformations.className += " d-none";
                 navInformations.className = "nav-link disabled";
                 navCustomers.className = "nav-link active";
                 Informations.className = "tab-pane";
@@ -406,7 +417,12 @@
 
 {% block content %}
 
-    <h1>Créer un nouveau bien Paps Immo</h1>
+    {% if app.request.attributes.get('_route') == 'op_gestapp_property_edit'%}
+        <h1>Edition du bien Paps Immo</h1>
+    {% else %}
+        <h1>Créer un nouveau bien Paps Immo</h1>
+    {% endif %}
+
 
     {# read and display several types of flash messages #}
     {% for label, messages in app.flashes(['success', 'warning']) %}
@@ -417,7 +433,11 @@
         {% endfor %}
     {% endfor %}
 
-    {{ include('gestapp/property/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    {% if app.request.attributes.get('_route') == 'op_gestapp_property_edit'%}
+        {{ include('gestapp/property/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+    {% else %}
+        {{ include('gestapp/property/_formfirst.html.twig', {'button_label': 'Finaliser la création de ce nouveau bien'}) }}
+    {% endif %}
 
 {% endblock %}
 

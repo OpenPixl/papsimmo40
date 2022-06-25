@@ -33,7 +33,7 @@ class Customer
     private $slug;
 
     #[ORM\ManyToOne(targetEntity: CustomerChoice::class)]
-    private $CustomerChoice;
+    private $customerChoice;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $adress;

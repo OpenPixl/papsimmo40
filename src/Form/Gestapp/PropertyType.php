@@ -29,6 +29,9 @@ class PropertyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('refMandat', TextType::class, [
+                'label' => 'Numéro de Mandat'
+            ])
             ->add('ref', TextType::class, [
                 'label' => 'Référence'
             ])

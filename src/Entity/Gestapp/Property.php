@@ -142,6 +142,9 @@ class Property
     #[ORM\Column(type: 'string', length: 7)]
     private $refnumdate;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $RefMandat;
+
     public function __construct()
     {
         $this->Media = new ArrayCollection();
@@ -677,4 +680,17 @@ class Property
 
         return $this;
     }
+
+    public function getRefMandat(): ?string
+    {
+        return $this->RefMandat;
+    }
+
+    public function setRefMandat(string $RefMandat): self
+    {
+        $this->RefMandat = $RefMandat;
+
+        return $this;
+    }
+
 }

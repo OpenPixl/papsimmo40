@@ -10,7 +10,9 @@ use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\choice\CustomerChoiceRepository;
 use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -23,6 +25,20 @@ class CustomerController extends AbstractController
     {
         return $this->render('gestapp/customer/index.html.twig', [
             'customers' => $customerRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/searchcustomer', name: 'op_gestapp_customer_searchforproperty')]
+    public function searchCustomer(CustomerRepository $customerRepository){
+
+        $form = $this->createFormBuilder($task)
+            ->add('task', EntityType::class, [
+                'class' => Customer::class
+            ])
+            ->getForm();
+
+        return $this->render('gestapp/customer/_searchform.html.twig', [
+            'form' => $form,
         ]);
     }
 
@@ -69,11 +85,16 @@ class CustomerController extends AbstractController
         $employed = $employedRepository->find($user);
         $property = $propertyRepository->find($idproperty);
         $customerChoice = $customerChoiceRepository->find(1);
-
+        // Récupération des données stockées
         $data = json_decode($request->getContent(), true);
+
+        // Contruction de la référence pour chaque propriété
+        $date = new \DateTime();
+        $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($data['lastName'], 0,4 );
         //dd($employed, $property, $data);
 
         $customer = new Customer();
+        $customer->setRefCustomer($refCustomer);
         $customer->setFirstName($data['firstName']);
         $customer->setLastName($data['lastName']);
         $customer->setAdress($data['adress']);
@@ -126,12 +147,6 @@ class CustomerController extends AbstractController
             'customer' => $customer,
             'form' => $form,
         ]);
-    }
-
-    #[Route('/serchCustomers', name: 'op_gestapp_customers_searchcustomer', methods: ['POST'])]
-    public function searchCustomer()
-    {
-
     }
 
     #[Route('/{id}', name: 'op_gestapp_customer_show', methods: ['GET'])]

@@ -36,6 +36,7 @@ class SectionController extends AbstractController
     public function new(Request $request, SectionRepository $sectionRepository, $idpage, PageRepository $pageRepository): Response
     {
         $page = $pageRepository->find($idpage);
+        //dd($idpage);
         $user = $this->getUser();
 
         $section = new Section();
@@ -45,10 +46,12 @@ class SectionController extends AbstractController
             'action' => $this->generateUrl('op_webapp_section_new', ['idpage'=>$idpage]),
             'method' => 'POST'
         ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            //dd($section);
             $sectionRepository->add($section);
             return $this->redirectToRoute('op_webapp_page_edit', [
                 'id' => $idpage
