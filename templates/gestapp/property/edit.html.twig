@@ -14,7 +14,6 @@
             const navGallery = document.getElementById("navGallery");
             const navPublication = document.getElementById("navPublication");
 
-            // récupération des div de chaque panel
 
             // récupération des boutons de navigation entre panel
             const stepBack = document.getElementById("stepCustomers");
@@ -32,8 +31,8 @@
             const Options = document.getElementById("Options");
             const Gallery = document.getElementById("Gallery");
             const Publication = document.getElementById("Publication");
-            // Panels
 
+            // Panels
             const focus = document.getElementById('property_name');
             focus.focus()
 
@@ -68,32 +67,30 @@
                 Informations.className = "tab-pane";
                 Customers.className += " active";
                 // Elements de formulaire à transmettre
-                const url = this.href;
-                const name = document.getElementById('property_name').value
-                const ref = document.getElementById('property_ref').value
-                const adress = document.getElementById('property_adress').value
-                const complement = document.getElementById('property_complement').value
-                const zipcode = document.getElementById('property_zipcode').value
-                const city = document.getElementById('property_city').value
-                const annonce = document.getElementById('property_annonce').value
-                const piece = parseInt(document.getElementById('property_piece').value)
-                const room = parseInt(document.getElementById('property_room').value)
-                const isHome = document.getElementById('property_isHome').checked
-                const isApartment = document.getElementById('property_isApartment').checked
-                const isLand = document.getElementById('property_isLand').checked
-                const isOther = document.getElementById('property_isOther').checked
-                const otherDescription = document.getElementById('property_otherDescription').value
-                const image = document.getElementById('property_imageFile_file')
+                let url = this.href;
+                let name = document.getElementById('property_name').value
+                let ref = document.getElementById('property_ref').value
+                let adress = document.getElementById('property_adress').value
+                let complement = document.getElementById('property_complement').value
+                let zipcode = document.getElementById('property_zipcode').value
+                let city = document.getElementById('property_city').value
+                let annonce = document.getElementById('property_annonce').value
+                let piece = parseInt(document.getElementById('property_piece').value)
+                let room = parseInt(document.getElementById('property_room').value)
+                let isHome = document.getElementById('property_isHome').checked
+                let isApartment = document.getElementById('property_isApartment').checked
+                let isLand = document.getElementById('property_isLand').checked
+                let isOther = document.getElementById('property_isOther').checked
+                let otherDescription = document.getElementById('property_otherDescription').value
+                let image = document.getElementById('property_imageFile_file')
                 let data = { name: name, ref: ref, adress: adress, complement:complement, zipcode:zipcode, city: city, annonce: annonce,
                     piece: piece, room: room, isHome: isHome, isApartment: isApartment, isLand: isLand, isOther: isOther, otherDescription: otherDescription
                 }
-                console.log(image)
                 // envoie des données
                 axios
                     .post(url, data)
                     .then(function(response){
                         // préparation du toaster
-                        console.log('Ok')
                     })
                     .catch(function (error) {
                         // handle error
@@ -149,6 +146,7 @@
                     .post(url, data)
                     .then(function(response){
                         console.log('chiffres ajoutées')
+
                     })
                     .catch(function (error) {
                         // handle error
@@ -272,7 +270,7 @@
             })
 
             // -------------
-            // Evenement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
+            // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
             // -------------
             const btnAddCustomer = document.getElementById('btnAddCustomer')
             btnAddCustomer.onclick = function(event){
