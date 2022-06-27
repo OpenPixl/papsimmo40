@@ -313,8 +313,12 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/del/{id}', name:'op_gestapp_property_del', methods: ['POST'] )]
-    public function Del(Property $property, PropertyRepository $propertyRepository)
+    public function Del(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository)
     {
+        $photos = $photoRepository->findby(['property' => $property]);
+        foreach($photos as $photo){
+            $property->removePhoto($photo);
+        }
         $propertyRepository->remove($property);
 
         $properties = $propertyRepository->findBy(array('isIncreating' => 0));

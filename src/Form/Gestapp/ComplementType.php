@@ -57,7 +57,7 @@ class ComplementType extends AbstractType
                 'html5' => false,
                 'required' => false,
                 'by_reference' => true,
-                'label' => 'Dès le'
+                'label' => 'A partir du'
                 ])
             ->add('propertyTax', NumberType::class, [
                 'label' => 'Charge de propriété'
@@ -151,6 +151,7 @@ class ComplementType extends AbstractType
                 'choice_attr' => function (OtherOption $product, $key, $index) {
                     return ['data-data' => $product->getName() ];
                 },
+                'label' => 'Autres options'
             ])
             ->add('propertyTypology', EntityType::class, [
                 'class' => PropertyTypology::class,
