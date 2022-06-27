@@ -45,6 +45,23 @@ class PropertyType extends AbstractType
                 'label' => 'Nombre de pièce',
                 'empty_data' => 0
             ])
+            ->add('dpeEstimateEnergyDown', IntegerType::class,[
+                'label' => 'Basse',
+                'empty_data' => 0
+            ])
+            ->add('dpeEstimateEnergyUp', IntegerType::class,[
+                'label' => 'Elevée',
+                'empty_data' => 0
+            ])
+            ->add('constructionAt', DateType::class, [
+                'label' => 'Année de contruction',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => false,
+                'by_reference' => true,
+            ])
             ->add('room', IntegerType::class, [
                 'label' => 'Nombre de chambre',
             ])
@@ -68,8 +85,12 @@ class PropertyType extends AbstractType
             ->add('otherDescription', TextType::class, [
                 'label' => 'Autre...'
             ])
-            ->add('surfaceLand', IntegerType::class)
-            ->add('surfaceHome', IntegerType::class)
+            ->add('surfaceLand', IntegerType::class,[
+                'label'=>'Surface de terrain'
+            ])
+            ->add('surfaceHome', IntegerType::class,[
+                'label'=>'Surface habitable'
+            ])
             ->add('dpeAt', DateType::class, [
                 'label'=> 'Date du DPE',
                 'widget' => 'single_text',
@@ -111,9 +132,6 @@ class PropertyType extends AbstractType
             ])
             ->add('cadasterSurface', IntegerType::class, [
                 'label' => 'surface cadastrale'
-            ])
-            ->add('cadasterCariez', IntegerType::class, [
-                'label' => 'Surface Cariez cadastrale'
             ])
 
             //->add('refEmployed', EntityType::class, [

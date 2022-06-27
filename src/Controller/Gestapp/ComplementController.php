@@ -2,6 +2,7 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Gestapp\choice\PropertyEquipement;
 use App\Entity\Gestapp\Complement;
 use App\Form\Gestapp\ComplementType;
 use App\Repository\Gestapp\choice\ApartmentTypeRepository;
@@ -11,6 +12,10 @@ use App\Repository\Gestapp\choice\HouseEquipmentRepository;
 use App\Repository\Gestapp\choice\HouseTypeRepository;
 use App\Repository\Gestapp\choice\LandTypeRepository;
 use App\Repository\Gestapp\choice\OtherOptionRepository;
+use App\Repository\Gestapp\choice\PropertyEnergyRepository;
+use App\Repository\Gestapp\choice\PropertyEquipementRepository;
+use App\Repository\Gestapp\choice\PropertyStateRepository;
+use App\Repository\Gestapp\choice\PropertyTypologyRepository;
 use App\Repository\Gestapp\choice\TradeTypeRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -53,41 +58,32 @@ class ComplementController extends AbstractController
         Complement $complement,
         ComplementRepository $complementRepository,
         DenominationRepository $denominationRepository,
-        HouseTypeRepository $houseTypeRepository,
-        ApartmentTypeRepository $apartmentTypeRepository,
-        LandTypeRepository $landTypeRepository,
-        TradeTypeRepository $tradeTypeRepository,
-        HouseEquipmentRepository $houseEquipmentRepository,
-        BuildingEquipmentRepository $buildingEquipmentRepository,
         OtherOptionRepository $otherOptionRepository,
+        PropertyEquipementRepository $propertyEquipementRepository,
+        PropertyStateRepository $propertyStateRepository,
+        PropertyEnergyRepository $propertyEnergyRepository,
+        PropertyTypologyRepository $propertyTypologyRepository
     )
     {
         //Récupération des variables das le data d'Axios
         $data = json_decode($request->getContent(), true);
+        //dd($data);
 
         $idDenomination = $data['denomination'];
         $denomination = $denominationRepository->find($idDenomination);
 
         $disponibilityAt = new \DateTime($data['disponibilityAt']);
-        $constructionAt = new \DateTime($data['constructionAt']);
 
-        $idhouseType = $data['houseType'];
-        $houseType = $houseTypeRepository->find($idhouseType);
+        $idpropertyState = $data['propertyState'];
+        $propertyState = $propertyStateRepository->find($idpropertyState);
 
-        $idapartmentType = $data['apartmentType'];
-        $apartmentType = $apartmentTypeRepository->find($idapartmentType);
+        $idpropertyEnergy = $data['propertyEnergy'];
+        $propertyEnergy = $propertyEnergyRepository->find($idpropertyEnergy);
 
-        $idlandType = $data['landType'];
-        $landType = $landTypeRepository->find($idlandType);
+        $propertiesEquipment = $data['propertyEquipment'];
 
-        $idtradeType = $data['tradeType'];
-        $tradeType = $tradeTypeRepository->find($idtradeType);
-
-        $idhouseEquipment = $data['houseEquipment'];
-        $houseEquipment = $houseEquipmentRepository->find($idhouseEquipment);
-
-        $idbuildingEquipment = $data['buildingEquipment'];
-        $buildingEquipment = $buildingEquipmentRepository->find($idbuildingEquipment);
+        $idpropertyTypology = $data['propertyTypology'];
+        $propertyTypology = $propertyTypologyRepository->find($idpropertyTypology);
 
         $idotherOption = $data['otherOption'];
         $otherOption = $otherOptionRepository->find($idotherOption);
@@ -95,31 +91,30 @@ class ComplementController extends AbstractController
         // hydratation de l'objet Complement
         $complement->setBanner($data['banner']);
         $complement->setDenomination($denomination);
+
         $complement->setTerrace($data['terrace']);
         $complement->setWashroom($data['washroom']);
         $complement->setBathroom($data['bathroom']);
         $complement->setWc($data['wc']);
         $complement->setBalcony($data['balcony']);
-        $complement->setSanitation($data['sanitation']);
-        $complement->setJointness($data['jointness']);
-        $complement->setHouseState($data['houseState']);
-        $complement->setEnergy($data['energy']);
+
+        $complement->setPropertyState($propertyState);
+        $complement->setPropertyEnergy($propertyEnergy);
         $complement->setPropertyTax($data['propertyTax']);
         $complement->setOrientation($data['orientation']);
         $complement->setDisponibility($data['disponibility']);
         $complement->setLocation($data['location']);
         $complement->setDisponibilityAt($disponibilityAt);
-        $complement->setConstructionAt($constructionAt);
-        $complement->setIsFurnished($data['isFurnished']);
-        $complement->setHouseType($houseType);
-        $complement->setApartmentType($apartmentType);
-        $complement->setLandType($landType);
-        $complement->setTradeType($tradeType);
-        $complement->setHouseEquipment($houseEquipment);
-        $complement->setLevel($data['level']);
-        $complement->setBuildingEquipment($buildingEquipment);
-        $complement->setOtherOption($otherOption);
 
+        $complement->setIsFurnished($data['isFurnished']);
+
+        $complement->setPropertyTypology($propertyTypology);
+        $complement->setLevel($data['level']);
+        $complement->setOtherOption($otherOption);
+        foreach ($propertiesEquipment as $equip){
+            $equipement = $propertyEquipementRepository->find($equip);
+            $complement->addPropertyEquipment($equipement);
+        }
         // flush
         $complementRepository->add($complement);
 

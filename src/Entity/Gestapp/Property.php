@@ -101,9 +101,6 @@ class Property
     #[ORM\Column(type: 'integer', nullable: true)]
     private $cadasterSurface;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $cadasterCariez;
-
     #[ORM\OneToOne(targetEntity: Complement::class, cascade: ['persist', 'remove'])]
     private $options;
 
@@ -122,9 +119,6 @@ class Property
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
-
-    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Media::class)]
-    private $Media;
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'properties')]
     private $Customer;
@@ -145,10 +139,25 @@ class Property
     #[ORM\Column(type: 'string', length: 255)]
     private $RefMandat;
 
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $dpeEstimateEnergyDown;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $dpeEstimateEnergyUp;
+
+    #[ORM\Column(type: 'datetime', nullable: true)]
+    private $constructionAt;
+
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
+    private $photos;
+
+
+
     public function __construct()
     {
-        $this->Media = new ArrayCollection();
+        $this->Galery = new ArrayCollection();
         $this->Customer = new ArrayCollection();
+        $this->photos = new ArrayCollection();
     }
 
     /**
@@ -479,18 +488,6 @@ class Property
         return $this;
     }
 
-    public function getCadasterCariez(): ?int
-    {
-        return $this->cadasterCariez;
-    }
-
-    public function setCadasterCariez(?int $cadasterCariez): self
-    {
-        $this->cadasterCariez = $cadasterCariez;
-
-        return $this;
-    }
-
     public function getOptions(): ?Complement
     {
         return $this->options;
@@ -580,36 +577,6 @@ class Property
     }
 
     /**
-     * @return Collection<int, Media>
-     */
-    public function getMedia(): Collection
-    {
-        return $this->Media;
-    }
-
-    public function addMedium(Media $medium): self
-    {
-        if (!$this->Media->contains($medium)) {
-            $this->Media[] = $medium;
-            $medium->setProperty($this);
-        }
-
-        return $this;
-    }
-
-    public function removeMedium(Media $medium): self
-    {
-        if ($this->Media->removeElement($medium)) {
-            // set the owning side to null (unless already changed)
-            if ($medium->getProperty() === $this) {
-                $medium->setProperty(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, Customer>
      */
     public function getCustomer(): Collection
@@ -689,6 +656,72 @@ class Property
     public function setRefMandat(string $RefMandat): self
     {
         $this->RefMandat = $RefMandat;
+
+        return $this;
+    }
+
+    public function getDpeEstimateEnergyDown(): ?int
+    {
+        return $this->dpeEstimateEnergyDown;
+    }
+
+    public function setDpeEstimateEnergyDown(?int $dpeEstimateEnergyDown): self
+    {
+        $this->dpeEstimateEnergyDown = $dpeEstimateEnergyDown;
+
+        return $this;
+    }
+
+    public function getConstructionAt(): ?\DateTimeInterface
+    {
+        return $this->constructionAt;
+    }
+
+    public function setConstructionAt(?\DateTimeInterface $constructionAt): self
+    {
+        $this->constructionAt = $constructionAt;
+
+        return $this;
+    }
+
+    public function getDpeEstimateEnergyUp(): ?int
+    {
+        return $this->dpeEstimateEnergyUp;
+    }
+
+    public function setDpeEstimateEnergyUp(?int $dpeEstimateEnergyUp): self
+    {
+        $this->dpeEstimateEnergyUp = $dpeEstimateEnergyUp;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Photo>
+     */
+    public function getPhotos(): Collection
+    {
+        return $this->photos;
+    }
+
+    public function addPhoto(Photo $photo): self
+    {
+        if (!$this->photos->contains($photo)) {
+            $this->photos[] = $photo;
+            $photo->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removePhoto(Photo $photo): self
+    {
+        if ($this->photos->removeElement($photo)) {
+            // set the owning side to null (unless already changed)
+            if ($photo->getProperty() === $this) {
+                $photo->setProperty(null);
+            }
+        }
 
         return $this;
     }

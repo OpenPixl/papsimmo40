@@ -106,6 +106,7 @@ class PropertyController extends AbstractController
         $property->setIsIncreating(1);
         $property->setImageName('mod_maison.png');
         $property->setImageSize(59755);
+        $property->setRefMandat('numéro de mandat');
         $propertyRepository->add($property);
 
         return $this->redirectToRoute('op_gestapp_property_firstedit', [
@@ -198,6 +199,7 @@ class PropertyController extends AbstractController
         //dd($property);
         $data = json_decode($request->getContent(), true);
 
+        $property->setRefMandat($data['refMandat']);
         $property->setName($data['name']);
         $property->setRef($data['ref']);
         $property->setAdress($data['adress']);
@@ -212,6 +214,7 @@ class PropertyController extends AbstractController
         $property->setIsLand($data['isLand']);
         $property->setIsOther($data['isOther']);
         $property->setOtherDescription($data['otherDescription']);
+        $property->setConstructionAt($data['constructionAt']);
 
         $propertyRepository->add($property);
 
@@ -241,7 +244,8 @@ class PropertyController extends AbstractController
         $property->setCadasterZone($data['cadasterZone']);
         $property->setCadasterNum($data['cadasterNum']);
         $property->setCadasterSurface($data['cadastersurface']);
-        $property->setCadasterCariez($data['cadasterCariez']);
+        $property->setDpeEstimateEnergyDown($data['dpeEstimateEnergyDown']);
+        $property->setDpeEstimateEnergyUp($data['dpeEstimateEnergyUp']);
 
         $propertyRepository->add($property);
 

@@ -68,6 +68,7 @@
                 Customers.className += " active";
                 // Elements de formulaire à transmettre
                 let url = this.href;
+                let refMandat =document.getElementById('property_refMandat').value
                 let name = document.getElementById('property_name').value
                 let ref = document.getElementById('property_ref').value
                 let adress = document.getElementById('property_adress').value
@@ -82,9 +83,12 @@
                 let isLand = document.getElementById('property_isLand').checked
                 let isOther = document.getElementById('property_isOther').checked
                 let otherDescription = document.getElementById('property_otherDescription').value
+                let constructionAt = new Date(document.getElementById('property_constructionAt').value)
                 let image = document.getElementById('property_imageFile_file')
-                let data = { name: name, ref: ref, adress: adress, complement:complement, zipcode:zipcode, city: city, annonce: annonce,
-                    piece: piece, room: room, isHome: isHome, isApartment: isApartment, isLand: isLand, isOther: isOther, otherDescription: otherDescription
+                let data = {
+                    name: name, ref: ref, adress: adress, complement:complement, zipcode:zipcode, city: city, annonce: annonce,
+                    piece: piece, room: room, isHome: isHome, isApartment: isApartment, isLand: isLand, isOther: isOther,
+                    otherDescription: otherDescription, constructionAt:constructionAt, refMandat:refMandat
                 }
                 // envoie des données
                 axios
@@ -99,7 +103,7 @@
             }
 
             // -------------
-            // évenement sur le boutons stepCustomers
+            // STEP 2 : Enregistrement du ou des acheteurs
             // -------------
             stepCustomers.onclick = function (event) {
                 event.preventDefault()
@@ -112,8 +116,64 @@
                 Estimate.className += " active";
             }
 
+            // Modal d'ajout d'un vendeur à la fiche
+            const modalAddCustomer = document.getElementById('addCustomer')
+            modalAddCustomer.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget
+                // extraction de la variable
+                var recipient = button.getAttribute('data-bs-whatever')
+                // mise à jour du lien de soumission du formulaire.
+                var modalContent = modalAddCustomer.querySelector('.modal-footer')
+                var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
+                modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
+            })
+
+            // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
+            const btnAddCustomer = document.getElementById('btnAddCustomer')
+            btnAddCustomer.onclick = function(event){
+                event.preventDefault()
+                const firstName = document.getElementById('customer_firstName').value
+                const lastName = document.getElementById('customer_lastName').value
+                const adress = document.getElementById('customer_adress').value
+                const complement = document.getElementById('customer_complement').value
+                const zipcode = document.getElementById('customer_zipcode').value
+                const city = document.getElementById('customer_city').value
+                const url = this.href
+                // construction des data à transmettre
+                let data = {
+                    firstName:firstName, lastName:lastName, adress:adress, complement:complement, zipcode:zipcode, city:city
+                }
+                console.log(data)
+                // envoie des données
+                axios
+                    .post(url, data)
+                    .then(function(response){
+                        console.log('vendeur ajouté')
+                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
+                        modalAddCustomer.addEventListener('hide.bs.modal')
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            }
+
+            // Fonction de suppression d'un client
+            function SupprCustomer (event){
+                event.preventDefault()
+                const url = this.href
+                axios
+                    .post(url)
+                    .then(function(response){
+                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
+                    })
+            }
+
+
+
             // -------------
-            // évenement sur le boutons stepEstimate
+            // STEP 3 : Enregistrement des chiffres
             // -------------
             stepEstimate.onclick = function (event) {
                 event.preventDefault()
@@ -125,28 +185,29 @@
                 Estimate.className = "tab-pane";
                 Options.className += " active";
                 // Elements de formulaire à transmettre
-                const url = this.href;
-                const surfaceLand = parseInt(document.getElementById('property_surfaceLand').value)
-                const surfaceHome = parseInt(document.getElementById('property_surfaceHome').value)
-                const notaryEstimate = parseInt(document.getElementById('property_notaryEstimate').value)
-                const applicantEstimate = parseInt(document.getElementById('property_applicantEstimate').value)
-                const dpeAt = document.getElementById('property_dpeAt').value
-                const diagDpe = parseInt(document.getElementById('property_diagDpe').value)
-                const diagGpe = parseInt(document.getElementById('property_diagGpe').value)
-                const cadasterZone = document.getElementById('property_cadasterZone').value
-                const cadasterNum = parseInt(document.getElementById('property_cadasterNum').value)
-                const cadastersurface = parseInt(document.getElementById('property_cadasterSurface').value)
-                const cadasterCariez = parseInt(document.getElementById('property_cadasterCariez').value)
+                let url = this.href;
+                let surfaceLand = parseInt(document.getElementById('property_surfaceLand').value)
+                let surfaceHome = parseInt(document.getElementById('property_surfaceHome').value)
+                let notaryEstimate = parseInt(document.getElementById('property_notaryEstimate').value)
+                let applicantEstimate = parseInt(document.getElementById('property_applicantEstimate').value)
+                let dpeAt = new Date(document.getElementById('property_dpeAt').value);
+                let diagDpe = parseInt(document.getElementById('property_diagDpe').value)
+                let diagGpe = parseInt(document.getElementById('property_diagGpe').value)
+                let dpeEstimateEnergyDown = parseInt(document.getElementById('property_dpeEstimateEnergyDown').value)
+                let dpeEstimateEnergyUp = parseInt(document.getElementById('property_dpeEstimateEnergyUp').value)
+                let cadasterZone = document.getElementById('property_cadasterZone').value
+                let cadasterNum = parseInt(document.getElementById('property_cadasterNum').value)
+                let cadastersurface = parseInt(document.getElementById('property_cadasterSurface').value)
                 let data = {
-                    surfaceLand:surfaceLand, surfaceHome:surfaceHome, notaryEstimate:notaryEstimate, applicantEstimate:applicantEstimate, dpeAt:dpeAt,
-                    diagDpe: diagDpe, diagGpe:diagGpe, cadasterZone:cadasterZone, cadasterNum:cadasterNum, cadastersurface:cadastersurface, cadasterCariez:cadasterCariez
+                    surfaceLand:surfaceLand, surfaceHome:surfaceHome, notaryEstimate:notaryEstimate, applicantEstimate:applicantEstimate,
+                    dpeAt:dpeAt, diagDpe: diagDpe, diagGpe:diagGpe, dpeEstimateEnergyDown:dpeEstimateEnergyDown, dpeEstimateEnergyUp:dpeEstimateEnergyUp,
+                    cadasterZone:cadasterZone, cadasterNum:cadasterNum, cadastersurface:cadastersurface
                 }
                 // envoie des données
                 axios
                     .post(url, data)
                     .then(function(response){
-                        console.log('chiffres ajoutées')
-
+                        // préparation du toaster
                     })
                     .catch(function (error) {
                         // handle error
@@ -154,10 +215,10 @@
                     })
             }
 
-            // -------------
-            // évenement sur le boutons stepOptions
-            // -------------
 
+            // -------------
+            // STEP 4 : Enregistrement des options
+            // -------------
             stepOptions.onclick = function (event) {
                 event.preventDefault()
                 // visibilité des éléments
@@ -178,54 +239,183 @@
                 const bathroom = parseInt(document.getElementById('complement_bathroom').value)
                 const wc = parseInt(document.getElementById('complement_wc').value)
                 const balcony = parseInt(document.getElementById('complement_balcony').value)
-                const sanitation = parseInt(document.getElementById('complement_sanitation').value)
-                const jointness = parseInt(document.getElementById('complement_jointness').value)
 
-                const houseState = document.getElementById('complement_houseState').value
-                const energy = document.getElementById('complement_energy').value
+                const propertyState = document.getElementById('complement_propertyState').value
+                const propertyEnergy = document.getElementById('complement_propertyEnergy').value
                 const propertyTax = document.getElementById('complement_propertyTax').value
                 const orientation = document.getElementById('complement_orientation').value
                 const disponibility = document.getElementById('complement_disponibility').value
                 const location = document.getElementById('complement_location').value
-                const disponibilityAt = document.getElementById('complement_disponibilityAt').value
-                const constructionAt = document.getElementById('complement_constructionAt').value
+                const disponibilityAt = new Date(document.getElementById('complement_disponibilityAt').value)
 
                 const isFurnished = document.getElementById('complement_isFurnished').checked
-                const houseType = document.getElementById('complement_houseType').value
-                const apartmentType = document.getElementById('complement_apartmentType').value
-                const landType = document.getElementById('complement_landType').value
-                const tradeType = document.getElementById('complement_tradeType').value
-                const houseEquipment = document.getElementById('complement_houseEquipment').value
+                const propertyEquipment = []
+                for (let option of document.getElementById('complement_propertyEquipment').options)
+                {
+                    if (option.selected) {
+                        propertyEquipment.push(parseInt(option.value))
+                    }
+                }
+                const propertyTypology = document.getElementById('complement_propertyTypology').value
                 const level = parseInt(document.getElementById('complement_level').value)
-                const buildingEquipment = document.getElementById('complement_buildingEquipment').value
                 const otherOption = document.getElementById('complement_otherOption').value
                 let data = {
                     banner:banner,denomination:denomination,
-                    terrace:terrace,washroom:washroom,bathroom:bathroom,wc:wc,balcony:balcony,sanitation:sanitation,jointness:jointness,
-                    houseState:houseState,energy:energy,propertyTax:propertyTax,orientation:orientation,disponibility:disponibility,location:location,disponibilityAt:disponibilityAt,constructionAt:constructionAt,
-                    isFurnished:isFurnished,houseType:houseType,apartmentType:apartmentType,landType:landType,tradeType:tradeType,houseEquipment:houseEquipment,level:level,buildingEquipment:buildingEquipment,otherOption:otherOption
+                    terrace:terrace,washroom:washroom,bathroom:bathroom,wc:wc,balcony:balcony,
+                    propertyState:propertyState,propertyEnergy:propertyEnergy,propertyTax:propertyTax,orientation:orientation,disponibility:disponibility,location:location,disponibilityAt:disponibilityAt,
+                    isFurnished:isFurnished,propertyEquipment:propertyEquipment,propertyTypology:propertyTypology,level:level,otherOption:otherOption
                 }
-                console.log(data)
+                // envoie des données
                 axios
                     .post(url, data)
                     .then(function(response){
-                        console.log('Options ajoutées')
+                        // préparation du toaster
                     })
                     .catch(function (error) {
                         // handle error
                         console.log(error);
                     })
-            }
 
-            // évenement sur le boutons stepGallery
-            stepGallery.onclick = function () {
+            }
+            // SELECT Bannière
+            new TomSelect("#complement_banner",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // SELECT Etat du bien
+            new TomSelect("#complement_propertyState",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // SELECT Energie du bien
+            new TomSelect("#complement_propertyEnergy",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // SELECT Orientation
+            new TomSelect("#complement_orientation",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // SELECT Orientation
+            new TomSelect("#complement_propertyEquipment",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // SELECT Orientation
+            new TomSelect("#complement_propertyTypology",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // SELECT Orientation
+            new TomSelect("#complement_otherOption",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+
+            // -------------
+            // STEP 5 : Enregistrement des images du bien
+            // -------------
+            stepGallery.onclick = function (event) {
+                event.preventDefault()
                 stepGallery.className += " d-none";
                 stepPublication.className = "btn btn-sm btn-outline-primary";
                 navGallery.className = "nav-link disabled";
                 navPublication.className = "nav-link active";
                 Gallery.className = "tab-pane";
                 Publication.className += " active";
+                const form = document.getElementById('add_photo')
+                console.log(form.action)
             }
+
+
+
+
 
             // évenement sur le boutons stepPublication
             stepPublication.onclick = function (event) {
@@ -256,58 +446,7 @@
                     })
             }
 
-            // Modal d'ajout d'un vendeur à la fiche
-            const modalAddCustomer = document.getElementById('addCustomer')
-            modalAddCustomer.addEventListener('show.bs.modal', function (event) {
-                // Button that triggered the modal
-                var button = event.relatedTarget
-                // extraction de la variable
-                var recipient = button.getAttribute('data-bs-whatever')
-                // mise à jour du lien de soumission du formulaire.
-                var modalContent = modalAddCustomer.querySelector('.modal-footer')
-                var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
-                modalSubmit.href = '/gestapp/customer/addcustomer/' + recipient
-            })
 
-            // -------------
-            // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
-            // -------------
-            const btnAddCustomer = document.getElementById('btnAddCustomer')
-            btnAddCustomer.onclick = function(event){
-                event.preventDefault()
-                const firstName = document.getElementById('customer_firstName').value
-                const lastName = document.getElementById('customer_lastName').value
-                const adress = document.getElementById('customer_adress').value
-                const complement = document.getElementById('customer_complement').value
-                const zipcode = document.getElementById('customer_zipcode').value
-                const city = document.getElementById('customer_city').value
-                const url = this.href
-                // construction des data à transmettre
-                let data = {
-                    firstName:firstName, lastName:lastName, adress:adress, complement:complement, zipcode:zipcode, city:city
-                }
-                console.log(data)
-                // envoie des données
-                axios
-                    .post(url, data)
-                    .then(function(response){
-                        console.log('vendeur ajouté')
-                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
-                        modalAddCustomer.addEventListener('hide.bs.modal')
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        console.log(error);
-                    })
-            }
-
-            // ----------
-            // Formulaire de recherche
-            // ----------
-            function searchCustomersSubmitform(){
-                document.getElementById("myForm").submit();
-                console.log('Ok')
-            }
             //new TomSelect("#property_refEmployed",{
             //    plugins: ['remove_button'],
             //    create: true,
@@ -325,39 +464,9 @@
             //    }
             //});
 
-            new TomSelect("#complement_banner",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
 
-            new TomSelect("#complement_orientation",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
+
+
 
             new TomSelect("#publication_sector",{
                 plugins: ['remove_button'],
@@ -380,6 +489,7 @@
             flatpickr(".flatpickr", {
                 "locale": "fr",
                 enableTime: true,
+                allowInput:true,
                 altFormat: "j F Y",
                 dateFormat: "d/m/Y",
             });
@@ -400,7 +510,14 @@
                     console.error(error);
                 });
 
+            // --------
+            // Ajouts des éléments Events
+            // --------
 
+            // Création de l'event sur le lien supprcustomer
+            document.querySelectorAll('a.supprcustomer').forEach(function(link){
+                link.addEventListener('click', SupprCustomer)
+            })
         }
     </script>
 {%  endblock %}

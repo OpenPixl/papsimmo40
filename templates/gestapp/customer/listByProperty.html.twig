@@ -1,10 +1,15 @@
 <div class="row mt-2">
     <div class="col-sm-2">
-        <p>
-            <b>Rechercher </b>un vendeur
-        </p>
-        {{ render(controller('App\\Controller\\Gestapp\\CustomerController::searchcustomer'))}}
+        <div class="card text-dark bg-light">
+            <div class="card-body">
+                <p>
+                    <b>Rechercher </b>un vendeur
+                </p>
+                {{ form(form) }}
+            </div>
+        </div>
         <hr>
+
         <button type="button" class="btn btn-sm btn-outline-warning mb-1" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
             Ajouter un vendeur<br>
             sur ce bien.
@@ -12,7 +17,7 @@
     </div>
     <div class="col-sm-10">
         <div id="listeCustormers" class="row">
-            {{ include('gestapp/customer/_listecustomers.html.twig') }}
+            {% include 'gestapp/customer/_listecustomers.html.twig' with {'idproperty': idproperty} %}
         </div>
     </div>
 </div>

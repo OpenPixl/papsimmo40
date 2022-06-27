@@ -8,9 +8,15 @@ use App\Entity\Gestapp\choice\Denomination;
 use App\Entity\Gestapp\choice\HouseType;
 use App\Entity\Gestapp\choice\LandType;
 use App\Entity\Gestapp\choice\OtherOption;
+use App\Entity\Gestapp\choice\PropertyEnergy;
+use App\Entity\Gestapp\choice\PropertyEquipement;
+use App\Entity\Gestapp\choice\PropertyState;
+use App\Entity\Gestapp\choice\PropertyTypology;
 use App\Entity\Gestapp\choice\TradeType;
 use App\Entity\Gestapp\choice\HouseEquipment;
 use App\Repository\Gestapp\ComplementRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ComplementRepository::class)]
@@ -36,15 +42,6 @@ class Complement
     #[ORM\Column(type: 'date', nullable: true)]
     private $disponibilityAt;
 
-    #[ORM\Column(type: 'date', nullable: true)]
-    private $constructionAt;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private $propertyTax;
-
-    #[ORM\ManyToOne(targetEntity: HouseType::class)]
-    private $houseType;
-
     #[ORM\ManyToOne(targetEntity: ApartmentType::class)]
     private $apartmentType;
 
@@ -62,9 +59,6 @@ class Complement
 
     #[ORM\ManyToOne(targetEntity: HouseEquipment::class)]
     private $HouseEquipment;
-
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private $houseState;
 
     #[ORM\ManyToOne(targetEntity: OtherOption::class)]
     private $OtherOption;
@@ -96,8 +90,26 @@ class Complement
     #[ORM\Column(type: 'boolean')]
     private $isFurnished = false;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private $energy;
+    #[ORM\ManyToOne(targetEntity: PropertyState::class)]
+    private $propertyState;
+
+    #[ORM\ManyToOne(targetEntity: PropertyEnergy::class)]
+    private $propertyEnergy;
+
+    #[ORM\ManyToMany(targetEntity: PropertyEquipement::class, inversedBy: 'complements')]
+    private $propertyEquipment;
+
+    #[ORM\ManyToOne(targetEntity: PropertyTypology::class)]
+    private $propertyTypology;
+
+    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    private $propertyTax;
+
+    public function __construct()
+    {
+        $this->propertyEquipment = new ArrayCollection();
+    }
+
 
     public function getId(): ?int
     {
@@ -160,42 +172,6 @@ class Complement
     public function setDisponibilityAt(?\DateTimeInterface $disponibilityAt): self
     {
         $this->disponibilityAt = $disponibilityAt;
-
-        return $this;
-    }
-
-    public function getConstructionAt(): ?\DateTimeInterface
-    {
-        return $this->constructionAt;
-    }
-
-    public function setConstructionAt(\DateTimeInterface $constructionAt): self
-    {
-        $this->constructionAt = $constructionAt;
-
-        return $this;
-    }
-
-    public function getPropertyTax(): ?string
-    {
-        return $this->propertyTax;
-    }
-
-    public function setPropertyTax(?string $propertyTax): self
-    {
-        $this->propertyTax = $propertyTax;
-
-        return $this;
-    }
-
-    public function getHouseType(): ?HouseType
-    {
-        return $this->houseType;
-    }
-
-    public function setHouseType(?HouseType $houseType): self
-    {
-        $this->houseType = $houseType;
 
         return $this;
     }
@@ -268,18 +244,6 @@ class Complement
     public function setHouseEquipment(?HouseEquipment $HouseEquipment): self
     {
         $this->HouseEquipment = $HouseEquipment;
-
-        return $this;
-    }
-
-    public function getHouseState(): ?string
-    {
-        return $this->houseState;
-    }
-
-    public function setHouseState(?string $houseState): self
-    {
-        $this->houseState = $houseState;
 
         return $this;
     }
@@ -404,14 +368,74 @@ class Complement
         return $this;
     }
 
-    public function getEnergy(): ?string
+    public function getPropertyState(): ?PropertyState
     {
-        return $this->energy;
+        return $this->propertyState;
     }
 
-    public function setEnergy(?string $energy): self
+    public function setPropertyState(?PropertyState $propertyState): self
     {
-        $this->energy = $energy;
+        $this->propertyState = $propertyState;
+
+        return $this;
+    }
+
+    public function getPropertyEnergy(): ?PropertyEnergy
+    {
+        return $this->propertyEnergy;
+    }
+
+    public function setPropertyEnergy(?PropertyEnergy $propertyEnergy): self
+    {
+        $this->propertyEnergy = $propertyEnergy;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PropertyEquipement>
+     */
+    public function getPropertyEquipment(): Collection
+    {
+        return $this->propertyEquipment;
+    }
+
+    public function addPropertyEquipment(PropertyEquipement $propertyEquipment): self
+    {
+        if (!$this->propertyEquipment->contains($propertyEquipment)) {
+            $this->propertyEquipment[] = $propertyEquipment;
+        }
+
+        return $this;
+    }
+
+    public function removePropertyEquipment(PropertyEquipement $propertyEquipment): self
+    {
+        $this->propertyEquipment->removeElement($propertyEquipment);
+
+        return $this;
+    }
+
+    public function getPropertyTypology(): ?PropertyTypology
+    {
+        return $this->propertyTypology;
+    }
+
+    public function setPropertyTypology(?PropertyTypology $propertyTypology): self
+    {
+        $this->propertyTypology = $propertyTypology;
+
+        return $this;
+    }
+
+    public function getPropertyTax(): ?string
+    {
+        return $this->propertyTax;
+    }
+
+    public function setPropertyTax(?string $propertyTax): self
+    {
+        $this->propertyTax = $propertyTax;
 
         return $this;
     }

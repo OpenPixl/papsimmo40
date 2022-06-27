@@ -13,133 +13,97 @@
         }
         %}
     </div>
-    <div class="row">
+    <hr>
+    <div class="row g-1">
         <div class="col-3">
-            <div class="card">
-                <div class="card-header">
-                    Pièces
-                </div>
+            <div class="card text-dark bg-light">
                 <div class="card-body">
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.terrace, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
-                        'form_input':form_widget(form.terrace, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.washroom, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
-                        'form_input':form_widget(form.washroom, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.bathroom, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
-                        'form_input':form_widget(form.bathroom, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.wc, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
-                        'form_input':form_widget(form.wc, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.balcony, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
-                        'form_input':form_widget(form.balcony, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.sanitation, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
-                        'form_input':form_widget(form.sanitation, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.jointness, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
-                        'form_input':form_widget(form.jointness, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
+                    PIECES
+                    <hr>
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-6">
+                            {{ form_label(form.terrace, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.terrace, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.washroom, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.washroom, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.bathroom, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.bathroom, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.wc, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.wc, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.balcony, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.balcony, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-4">
-            <div class="card">
-                <div class="card-header">
-                    Le bien
-                </div>
+            <div class="card text-dark bg-light">
                 <div class="card-body">
+                    LE BIEN
+                    <hr>
                     {# bloc House State #}
-                    <div class="row">
-                        {% if is_granted('ROLE_ADMIN') %}
-                        <div class="col-11">
-                            {% include('include/form/select.html.twig') with {
-                                'form_label':form_label(form.houseState, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                                'form_select':form_widget(form.houseState)
-                            }
-                            %}
+
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-4">
+                            {{ form_label(form.propertyState, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-7">
+                            {{ form_widget(form.propertyState) }}
                         </div>
                         <div class="col-1">
                             <button id="addHouseState" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
                         </div>
-                        {% else%}
-                        <div class="col-12">
-                            {% include('include/form/select.html.twig') with {
-                                'form_label':form_label(form.houseState, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                                'form_select':form_widget(form.houseState)
-                            }
-                            %}
+                        <div class="col-4">
+                            {{ form_label(form.propertyEnergy, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
-                        {% endif %}
+                        <div class="col-7">
+                            {{ form_widget(form.propertyEnergy) }}
+                        </div>
+                        <div class="col-1">
+                            <button id="addHouseState" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                        </div>
                     </div>
 
-                    {# bloc House State #}
-                    <div class="row">
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <div class="col-11">
-                                {% include('include/form/select.html.twig') with {
-                                    'form_label':form_label(form.energy, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                                    'form_select':form_widget(form.energy)
-                                }
-                                %}
+                    <div class="row mb-1 mt-1 g-1">
+                        {{ form_label(form.propertyTax, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                        <div class="col-sm-4">
+                            <div class="input-group input-group-sm">
+                                {{ form_widget(form.propertyTax, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                <span class="input-group-text" id="basic-addon1">€</span>
                             </div>
-                            <div class="col-1">
-                                <button id="addEnergy" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                            </div>
-                        {% else%}
-                            <div class="col-12">
-                                {% include('include/form/select.html.twig') with {
-                                    'form_label':form_label(form.energy, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                                    'form_select':form_widget(form.energy)
-                                }
-                                %}
-                            </div>
-                        {% endif %}
+                        </div>
                     </div>
 
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.propertyTax, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.propertyTax, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
 
-                    {# bloc Orientation  #}
-                    <div class="row">
-                        {% if is_granted('ROLE_ADMIN') %}
-                            <div class="col-11">
-                                {% include('include/form/select.html.twig') with {
-                                    'form_label':form_label(form.orientation, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                                    'form_select':form_widget(form.orientation)
-                                }
-                                %}
-                            </div>
-                            <div class="col-1">
-                                <button id="addOrientation" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                            </div>
-                        {% else%}
-                            <div class="col-12">
-                                {% include('include/form/select.html.twig') with {
-                                    'form_label':form_label(form.orientation, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                                    'form_select':form_widget(form.orientation)
-                                }
-                                %}
-                            </div>
-                        {% endif %}
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-4">
+                            {{ form_label(form.orientation, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-7">
+                            {{ form_widget(form.orientation) }}
+                        </div>
+                        <div class="col-1">
+                            <button id="addOrientation" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                        </div>
                     </div>
 
 
@@ -160,74 +124,64 @@
                         'form_label':form_label(form.disponibilityAt, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
                         'form_input':form_widget(form.disponibilityAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}})
                     }
-                    %}{% include('include/form/date.html.twig') with {
-                        'form_label':form_label(form.constructionAt, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.constructionAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}})
-                    }
                     %}
                 </div>
             </div>
 
         </div>
         <div class="col-5">
-            <div class="card">
-                <div class="card-header">
-                    Equipements
-                </div>
+            <div class="card text-dark bg-light">
                 <div class="card-body">
+                    EQUIPEMENTS
+                    <hr>
                     {% include('include/form/oneSwitch.html.twig') with {
                         'form_label':form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}),
                         'form_switch':form_widget(form.isFurnished, {'attr': {'class': 'form-check-input'}})
                     }
                     %}
 
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.houseType, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.houseType)
-                    }
-                    %}
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-4">
+                            {{ form_label(form.propertyEquipment, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-7">
+                            {{ form_widget(form.propertyEquipment) }}
+                        </div>
+                        <div class="col-1">
+                            <button id="addEquipment" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-4">
+                            {{ form_label(form.propertyTypology, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-7">
+                            {{ form_widget(form.propertyTypology) }}
+                        </div>
+                        <div class="col-1">
+                            <button id="addEquipment" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                        </div>
+                    </div>
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-4">
+                            {{ form_label(form.level, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-2">
+                            {{ form_widget(form.level, {'attr': {'class': 'form-control form-control-sm', 'value': 0}}) }}
+                        </div>
+                    </div>
 
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.apartmentType, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.apartmentType)
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.landType, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.landType)
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.tradeType, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.tradeType)
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.houseEquipment, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.houseEquipment)
-                    }
-                    %}
-
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.level, '', {'label_attr': {'class':'col-sm-7 col-form-label'}}),
-                        'form_input':form_widget(form.level, {'attr': {'class': 'form-control form-control-sm', 'value': 0}})
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.buildingEquipment, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.buildingEquipment)
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.otherOption, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.otherOption)
-                    }
-                    %}
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-4">
+                            {{ form_label(form.otherOption, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-4">
+                            {{ form_widget(form.otherOption) }}
+                        </div>
+                        <div class="col-1">
+                            <button id="addOrientation" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                        </div>
+                    </div>
                 </div>
             </div>
 

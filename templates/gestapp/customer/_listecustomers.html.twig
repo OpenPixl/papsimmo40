@@ -8,8 +8,8 @@
                 {{ customer.adress }}<br>
                 {{ customer.complement }}<br>
                 {{ customer.zipcode }} {{ customer.city }}</p>
-            <a href="#" class="card-link"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
-            <a href="#" class="card-link"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
+            <a href="{{ path('op_gestapp_customer_show', {'id': customer.id}) }}" class="card-link"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
+            <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="card-link supprcustomer"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
         </div>
     </div>
 </div>
@@ -19,9 +19,9 @@
         <div class="card-body">
             <h4 class="card-title">Nom Prénom</h4>
             <h6 class="card-subtitle mb-2 text-muted">Futur vendeur</h6>
-            <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-            <a href="#" class="card-link">Card link</a>
-            <a href="#" class="card-link">Another link</a>
+            <p class="card-text">Adresse<br>Complément<br>CP Ville</p>
+            <a href="#" class="card-link"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
+            <a href="#" class="card-link"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
         </div>
     </div>
 </div>

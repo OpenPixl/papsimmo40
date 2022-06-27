@@ -23,7 +23,7 @@
 
     {# Div's du panel #}
     <div class="tab-content">
-        {# Panel INFORMATIONS #}
+        {# STEP 1 : INFORMATIONS #}
         <div class="tab-pane active" id="Informations" role="tabpanel" aria-labelledby="home-tab">
             <div class="mt-2">
                 <div class="row">
@@ -42,18 +42,19 @@
                     </div>
                     <hr>
                     <div class="col-sm-8">
+
                         <div class="card text-dark bg-light">
                             <div class="card-body">
                                 INFORMATIONS DU BIEN
                                 <hr>
+                                {# STEP 1 : Ligne du titre de l'annonce du bien #}
                                 <div class="row mb-1 mt-1 g-1">
-                                    <div class="col-2">
-                                        {{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}
-                                    </div>
+                                    {{ form_label(form.name, '', {'label_attr': {'class':'col-sm-2  form-label'}}) }}
                                     <div class="col-10">
                                         {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                     </div>
                                 </div>
+                                {# STEP 1 : Ligne de l'adresse physique du bien #}
                                 <div class="row mb-1 mt-1 g-1">
                                     <div class="col-2">
                                         {{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}
@@ -61,14 +62,13 @@
                                     <div class="col-8">
                                         {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ligne 1'}}) }}
                                     </div>
-                                    <div class="col-2">
-                                    </div>
-                                    <div class="col-2">
-                                    </div>
-                                    <div class="col-8">
+                                </div>
+                                <div class="row mb-1 mt-1 g-1">
+                                    <div class="offset-2 col-8">
                                         {{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ligne 2'}}) }}
                                     </div>
                                 </div>
+                                {# STEP 1 : Ligne de l'adresse physique du bien - Cp  #}
                                 <div class="row mb-1 mt-1 g-1">
                                     <div class="col-2">
                                         {{ form_label(form.city, '', {'label_attr': {'class':'form-label'}}) }}
@@ -80,28 +80,38 @@
                                         {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
                                     </div>
                                 </div>
+                                {# STEP 1 : Ligna de l'annonce #}
                                 <div class="row mb-1 mt-1 g-1">
                                     <div class="col-2">
                                         {{ form_label(form.annonce, '', {'label_attr': {'class':'form-label'}}) }}
                                     </div>
-                                    <div class="col-8">
+                                    <div class="col-10">
                                         {{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm', 'placeholder':"Description de l'annonce"}}) }}
                                     </div>
                                 </div>
+                                {# STEP 1 : Ligne des Pièces et chambres #}
                                 <div class="row mb-1 mt-1 g-1">
                                     <div class="col-2">
                                         {{ form_label(form.piece, '', {'label_attr': {'class':'form-label'}}) }}
                                     </div>
-                                    <div class="col-8">
-                                        {{ form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    <div class="col-2">
+                                        {{ form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
                                     </div>
-                                </div>
-                                <div class="row mb-1 mt-1 g-1">
+                                    <div class="col-1"></div>
                                     <div class="col-2">
                                         {{ form_label(form.room, '', {'label_attr': {'class':'form-label'}}) }}
                                     </div>
-                                    <div class="col-8">
-                                        {{ form_widget(form.room, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    <div class="col-2">
+                                        {{ form_widget(form.room, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-1 mt-1 g-1">
+                                    {{ form_label(form.constructionAt, '', {'label_attr': {'class':'col-sm-2  form-label'}}) }}
+                                    <div class="col-sm-3">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
+                                            {{ form_widget(form.constructionAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}
+                                        </div>
                                     </div>
                                 </div>
 
@@ -121,50 +131,30 @@
                                     </div>
                                 </div>
                                 <hr>
-                                {% include('include/form/oneSwitch.html.twig') with {
-                                    'form_label':form_label(form.isHome, '', {'label_attr': {'class':'form-check-label'}}),
-                                    'form_switch':form_widget(form.isHome, {'attr': {'class': 'form-check-input'}})
-                                }
-                                %}
-
-                                {% include('include/form/oneSwitch.html.twig') with {
-                                    'form_label':form_label(form.isApartment, '', {'label_attr': {'class':'form-check-label'}}),
-                                    'form_switch':form_widget(form.isApartment, {'attr': {'class': 'form-check-input'}})
-                                }
-                                %}
-
-                                {% include('include/form/oneSwitch.html.twig') with {
-                                    'form_label':form_label(form.isLand, '', {'label_attr': {'class':'form-check-label'}}),
-                                    'form_switch':form_widget(form.isLand, {'attr': {'class': 'form-check-input'}})
-                                }
-                                %}
-
-                                {% include('include/form/oneSwitch-input.html.twig') with {
-                                    'form_label':form_label(form.isOther, '', {'label_attr': {'class':'form-check-label'}}),
-                                    'form_switch':form_widget(form.isOther, {'attr': {'class': 'form-check-input'}}),
-                                    'form_input':form_widget(form.otherDescription, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Autres'}})
-                                }
-                                %}
+                                <div class="row mb-1 mt-1 g-1">
+                                    <p><small>Séléctionner le type de bien à vendre</small></p>
+                                    <fieldset>
+                                        <div class="form-check form-switch">
+                                            {{ form_widget(form.isHome, {'attr': {'class': 'form-check-input'}}) }}
+                                            {{ form_label(form.isHome, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            {{ form_widget(form.isApartment, {'attr': {'class': 'form-check-input'}}) }}
+                                            {{ form_label(form.isApartment, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            {{ form_widget(form.isLand, {'attr': {'class': 'form-check-input'}}) }}
+                                            {{ form_label(form.isLand, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                        </div>
+                                        <div class="form-check form-switch">
+                                            {{ form_widget(form.isOther, {'attr': {'class': 'form-check-input'}}) }}
+                                            {{ form_label(form.isOther, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                            {{ form_widget(form.otherDescription, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Autre...'}}) }}
+                                        </div>
+                                    </fieldset>
+                                </div>
                             </div>
                         </div>
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8">
-
-                    </div>
-                    <div class="col-sm-4">
-
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-8">
-
-
-                    </div>
-                    <div class="col-sm-4">
-
 
                     </div>
                 </div>
@@ -176,79 +166,121 @@
         </div>
         <div class="tab-pane" id="Estimate" role="tabpanel" aria-labelledby="profile-tab">
             <div class="mt-2">
-                <div class="row">
-                    <div class="col-sm-6">
-                        {% include('include/form/input-numerique.html.twig') with {
-                            'form_label':form_label(form.surfaceLand, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.surfaceLand, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
-
-                        {% include('include/form/input-numerique.html.twig') with {
-                            'form_label':form_label(form.surfaceHome, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.surfaceHome, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
+                <div class="row g-1">
+                    <div class="col-3">
+                        {# Bloc des surfaces #}
+                        <div class="card text-dark bg-light">
+                            <div class="card-body">
+                                SURFACES
+                                <hr>
+                                <div class="row mb-1 mt-1 g-1">
+                                    <div class="col-6">
+                                        {{ form_label(form.surfaceLand, 'Terrain', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_widget(form.surfaceLand, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_label(form.surfaceHome, 'Habitation', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_widget(form.surfaceHome, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
-                        {% include('include/form/date.html.twig') with {
-                            'form_label':form_label(form.dpeAt, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.dpeAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}})
-                        }
-                        %}
-
-                        {% include('include/form/input-numerique.html.twig') with {
-                            'form_label':form_label(form.diagDpe, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.diagDpe, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
-
-                        {% include('include/form/input-numerique.html.twig') with {
-                            'form_label':form_label(form.diagGpe, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.diagGpe, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
+                    <div class="col-3">
+                        <div class="card text-dark bg-light">
+                            <div class="card-body">
+                                ESTIMATIONS
+                                <hr>
+                                <div class="row mb-1 mt-1 g-1">
+                                    <div class="col-6">
+                                        <span class="align-middle">{{ form_label(form.notaryEstimate, 'Notaire', {'label_attr': {'class':'form-label'}}) }}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_widget(form.notaryEstimate, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_label(form.applicantEstimate, 'Vendeur', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_widget(form.applicantEstimate, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <div class="card text-dark bg-light">
+                            <div class="card-body">
+                                DPE & GPE
+                                <hr>
+                                <div class="row mb-1 mt-1 g-1">
+                                    {{ form_label(form.dpeAt, 'Date', {'label_attr': {'class':'col-sm-6  form-label'}}) }}
+                                    <div class="col-sm-6">
+                                        <div class="input-group">
+                                            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
+                                            {{ form_widget(form.dpeAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row mb-1 mt-1 g-1">
+                                    <div class="col-6">
+                                        <span class="align-middle">{{ form_label(form.diagDpe, 'Notaire', {'label_attr': {'class':'form-label'}}) }}</span>
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_widget(form.diagDpe, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_label(form.diagGpe, 'Vendeur', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_widget(form.diagGpe, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                    <div class="col-12"><p><b>Estimation énergétique annuelle</b></p></div>
+                                    <div class="col-6">
+                                        {{ form_label(form.dpeEstimateEnergyDown, '', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_widget(form.dpeEstimateEnergyDown, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_label(form.dpeEstimateEnergyUp, '', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-6">
+                                        {{ form_widget(form.dpeEstimateEnergyUp, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
 
                     </div>
-                </div>
-                <div class="row">
-                    <div class="col-sm-6">
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.notaryEstimate, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.notaryEstimate, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
+                    <div class="col-3">
+                        <div class="card text-dark bg-light">
+                            <div class="card-body">
+                                CADASTRE
+                                <hr>
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.cadasterZone, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_input':form_widget(form.cadasterZone, {'attr': {'class': 'form-control form-control-sm'}})
+                                }
+                                %}
 
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.applicantEstimate, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.applicantEstimate, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
-                    </div>
-                    <div class="col-sm-6">
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.cadasterZone, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.cadasterZone, {'attr': {'class': 'form-control form-control-sm'}})
-                        }
-                        %}
+                                {% include('include/form/input-numerique.html.twig') with {
+                                    'form_label':form_label(form.cadasterNum, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_input':form_widget(form.cadasterNum, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
+                                }
+                                %}
 
-                        {% include('include/form/input-numerique.html.twig') with {
-                            'form_label':form_label(form.cadasterNum, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.cadasterNum, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
-
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.cadasterSurface, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.cadasterSurface, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
-
-                        {% include('include/form/input.html.twig') with {
-                            'form_label':form_label(form.cadasterCariez, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                            'form_input':form_widget(form.cadasterCariez, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
-                        }
-                        %}
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.cadasterSurface, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_input':form_widget(form.cadasterSurface, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}})
+                                }
+                                %}
+                            </div>
+                        </div>
 
                     </div>
                 </div>
@@ -258,7 +290,7 @@
             {{ render(controller('App\\Controller\\Gestapp\\ComplementController::Edit', {'id' : complement})) }}
         </div>
         <div class="tab-pane" id="Gallery" role="tabpanel" aria-labelledby="profile-tab">
-
+            {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byProperty', {'idproperty': idProperty})) }}
         </div>
         <div class="tab-pane" id="Publication" role="tabpanel" aria-labelledby="profile-tab">
             {{ render(controller('App\\Controller\\Gestapp\\PublicationController::showByProperty', {'id' : publication})) }}

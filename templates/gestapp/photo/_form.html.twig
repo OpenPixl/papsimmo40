@@ -1,0 +1,13 @@
+<div class="card text-dark bg-light">
+    <div class="card-body">
+        {{ form_start(form, {'attr': {'id': 'add_photo'}}) }}
+
+        {{ form_widget(form) }}
+        <div class="mt-1">
+            <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+
+

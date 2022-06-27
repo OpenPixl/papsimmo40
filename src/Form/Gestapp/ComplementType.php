@@ -9,6 +9,10 @@ use App\Entity\Gestapp\choice\HouseEquipment;
 use App\Entity\Gestapp\choice\HouseType;
 use App\Entity\Gestapp\choice\LandType;
 use App\Entity\Gestapp\choice\OtherOption;
+use App\Entity\Gestapp\choice\PropertyEnergy;
+use App\Entity\Gestapp\choice\PropertyEquipement;
+use App\Entity\Gestapp\choice\PropertyState;
+use App\Entity\Gestapp\choice\PropertyTypology;
 use App\Entity\Gestapp\choice\TradeType;
 use App\Entity\Gestapp\Complement;
 use Doctrine\ORM\EntityRepository;
@@ -19,7 +23,8 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
-use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -42,7 +47,9 @@ class ComplementType extends AbstractType
                 ],
             ])
             ->add('location')
-            ->add('disponibility')
+            ->add('disponibility', TextType::class,[
+                'label' => 'Disponibilité'
+            ])
             ->add('disponibilityAt', DateType::class, [
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',
@@ -50,18 +57,10 @@ class ComplementType extends AbstractType
                 'html5' => false,
                 'required' => false,
                 'by_reference' => true,
+                'label' => 'Dès le'
                 ])
-            ->add('constructionAt', DateType::class, [
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
-                'required' => false,
-                'by_reference' => true,
-            ])
-            ->add('propertyTax', MoneyType::class, [
-                'divisor' => 100,
-                'label' => 'Taxe foncière'
+            ->add('propertyTax', NumberType::class, [
+                'label' => 'Charge de propriété'
             ])
             ->add('orientation', ChoiceType::class, [
                 'label' => 'Orientation',
@@ -80,18 +79,21 @@ class ComplementType extends AbstractType
                     'Est'=> ['data-data' => 'Est'],
                 ],
             ])
-            ->add('houseState', ChoiceType::class, [
+            ->add('propertyState', EntityType::class, [
+                'class' => PropertyState::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'choice_label' => 'name',
                 'label' => 'Etat du bien',
-                'choices'  => [
-                    'neuf' => "neuf",
-                    'A rénover' => 'a-saisir',
-                    'Quelques travaux' => 'quelques-travaux'
-                ],
+                'choice_attr' => function (PropertyState $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                }
             ])
             ->add('level', IntegerType::class, [
                 'label' => "Etage"
             ])
-            ->add('jointness')
             ->add('washroom', IntegerType::class, [
                 'label' => "salle d'eau"
             ])
@@ -107,18 +109,20 @@ class ComplementType extends AbstractType
             ->add('balcony', IntegerType::class, [
                 'label' => "Balcon"
             ])
-            ->add('sanitation', IntegerType::class, [
-                'label' => "Sanitaire"
-            ])
             ->add('isFurnished', CheckboxType::class, [
-                'label' => 'est-il équipé ?'
+                'label' => 'Le bien est-il meublé ?'
             ])
-            ->add('energy', ChoiceType::class, [
+            ->add('propertyEnergy', EntityType::class, [
+                'class' => PropertyEnergy::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'choice_label' => 'name',
                 'label' => 'Energie',
-                'choices'  => [
-                    'chauffage électrique' => "électrique",
-                    'chauffage au fuel' => 'fuel',
-                ],
+                'choice_attr' => function (PropertyEnergy $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                }
             ])
             ->add('denomination', EntityType::class, [
                 'label'=> 'Catégorie de bien',
@@ -129,59 +133,13 @@ class ComplementType extends AbstractType
                 },
                 'choice_label' => 'name',
             ])
-            ->add('houseType', EntityType::class, [
-                'label'=>"Type de maison",
-                'class' => HouseType::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('h')
-                        ->orderBy('h.name', 'ASC');
-                },
-                'choice_label' => 'name',
-            ])
-            ->add('apartmentType', EntityType::class, [
-                'label'=>"Type d'appartement",
-                'class' => ApartmentType::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('a')
-                        ->orderBy('a.name', 'ASC');
-                },
-                'choice_label' => 'name',
-            ])
-            ->add('landType', EntityType::class, [
-                'label'=>"Type de terrain",
-                'class' => LandType::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('l')
-                        ->orderBy('l.name', 'ASC');
-                },
-                'choice_label' => 'name',
-            ])
-            ->add('tradeType', EntityType::class, [
-                'label'=>"Type de local",
-                'class' => TradeType::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('t')
-                        ->orderBy('t.name', 'ASC');
-                },
-                'choice_label' => 'name',
-            ])
-            ->add('buildingEquipment', EntityType::class, [
-                'label'=>"Equipement de l'immeuble",
-                'class' => BuildingEquipment::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('b')
-                        ->orderBy('b.name', 'ASC');
-                },
-                'choice_label' => 'name',
-            ])
-            ->add('houseEquipment', EntityType::class, [
-                'label'=>'Equipement du bien',
-                'class' => HouseEquipment::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('h')
-                        ->orderBy('h.name', 'ASC');
-                },
-                'choice_label' => 'name',
+            ->add('propertyEquipment',EntityType::class, [
+                'class' => PropertyEquipement::class,
+                'label' => 'Equipement du bien',
+                'multiple' => true,
+                'choice_attr' => ChoiceList::attr($this, function (?PropertyEquipement $propertyEquipement) {
+                    return $propertyEquipement ? ['data-data' => $propertyEquipement->getName()] : [];
+                })
             ])
             ->add('otherOption', EntityType::class, [
                 'class' => OtherOption::class,
@@ -190,6 +148,21 @@ class ComplementType extends AbstractType
                         ->orderBy('o.name', 'ASC');
                 },
                 'choice_label' => 'name',
+                'choice_attr' => function (OtherOption $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                },
+            ])
+            ->add('propertyTypology', EntityType::class, [
+                'class' => PropertyTypology::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'choice_attr' => function (PropertyTypology $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                },
+                'label' => 'Typologie du bien'
             ])
         ;
     }
