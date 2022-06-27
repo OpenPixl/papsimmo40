@@ -9,7 +9,7 @@
         <div class="col-9">
             <div class="row">
                 {% for photo in photos %}
-                    <div class="col-2">
+                    <div class="col-3">
                         <div class="card">
                             <img src="{{ vich_uploader_asset(photo) }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}">
                             <div class="card-body">
@@ -19,7 +19,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <div class="col-2">
+                    <div class="col-3">
                         <div class="card">
                             <img src="{{ asset('images/png/mod_maison.png') }}" class="card-img-top img-fluid" alt="mod_maison">
                             <div class="card-body">

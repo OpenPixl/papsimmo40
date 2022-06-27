@@ -26,8 +26,9 @@ class PhotoController extends AbstractController
     public function byProperty(PhotoRepository $photoRepository, PropertyRepository $propertyRepository, $idproperty): Response
     {
         $property = $propertyRepository->find($idproperty);
+        //dd($idproperty);
         $photos = $photoRepository->findBy(['property'=>$property]);
-
+        //dd($photos);
         return $this->render('gestapp/photo/byproperty.html.twig', [
             'photos' => $photos,
             'idproperty' => $idproperty
@@ -35,17 +36,23 @@ class PhotoController extends AbstractController
     }
 
     #[Route('/new/{idproperty}', name: 'op_gestapp_photo_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PhotoRepository $photoRepository, $idproperty): Response
+    public function new(Request $request, PhotoRepository $photoRepository, $idproperty, PropertyRepository $propertyRepository): Response
     {
+        $property = $propertyRepository->find($idproperty);
         $photo = new Photo();
+        $photo->setProperty($property);
         $form = $this->createForm(PhotoType::class, $photo, [
-            'action' => $this->generateUrl('op_gestapp_photo_new', ['idproperty'=>$idproperty])
+            'action' => $this->generateUrl('op_gestapp_photo_new', ['idproperty'=>$idproperty]),
+            'method' => 'POST'
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $photoRepository->add($photo);
-            return $this->redirectToRoute('op_gestapp_photo_byproperty', ['idproperty'=>$idproperty], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code'=> 200,
+                'message' => "La photo du bien a été ajoutée"
+            ], 200);
         }
 
         return $this->renderForm('gestapp/photo/new.html.twig', [
@@ -71,7 +78,10 @@ class PhotoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $photoRepository->add($photo);
-            return $this->redirectToRoute('app_gestapp_photo_index', [], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code'=> 200,
+                'message' => "La photo du bien a été correctement modifiée."
+            ], 200);
         }
 
         return $this->renderForm('gestapp/photo/edit.html.twig', [

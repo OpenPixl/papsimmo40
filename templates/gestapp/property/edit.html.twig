@@ -409,10 +409,14 @@
                 navPublication.className = "nav-link active";
                 Gallery.className = "tab-pane";
                 Publication.className += " active";
-                const form = document.getElementById('add_photo')
-                console.log(form.action)
             }
 
+            const btnAddPhoto = document.getElementById('btnAddPhoto')
+            btnAddPhoto.onclick = function(event){
+                event.preventDefault()
+                let form = document.getElementById('addPhoto')
+                form.submit()
+            }
 
 
 

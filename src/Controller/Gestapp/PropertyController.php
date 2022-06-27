@@ -11,6 +11,7 @@ use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
+use App\Repository\Gestapp\PhotoRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -317,7 +318,7 @@ class PropertyController extends AbstractController
     {
         $photos = $photoRepository->findby(['property' => $property]);
         foreach($photos as $photo){
-            $property->removePhoto($photo);
+            $photoRepository->remove($photo);
         }
         $propertyRepository->remove($property);
 

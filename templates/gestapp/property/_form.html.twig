@@ -291,7 +291,7 @@
         {{ render(controller('App\\Controller\\Gestapp\\ComplementController::Edit', {'id' : complement})) }}
     </div>
     <div class="tab-pane" id="Gallery" role="tabpanel" aria-labelledby="profile-tab">
-
+        {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byProperty', {'idproperty': idProperty})) }}
     </div>
     <div class="tab-pane" id="Publication" role="tabpanel" aria-labelledby="profile-tab">
         {{ render(controller('App\\Controller\\Gestapp\\PublicationController::showByProperty', {'id' : publication})) }}
