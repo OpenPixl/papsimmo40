@@ -277,6 +277,7 @@
                     })
 
             }
+
             // SELECT Bannière
             new TomSelect("#complement_banner",{
                 plugins: ['remove_button'],
@@ -410,13 +411,12 @@
                 Gallery.className = "tab-pane";
                 Publication.className += " active";
             }
-
-            const btnAddPhoto = document.getElementById('btnAddPhoto')
-            btnAddPhoto.onclick = function(event){
+            let form = document.getElementById('addPhoto')
+            form.addEventListener('submit', function (event) {
                 event.preventDefault()
-                let form = document.getElementById('addPhoto')
-                form.submit()
-            }
+                console.log('OK')
+            })
+
 
 
 
@@ -578,6 +578,24 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
                         <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseState #}
+        <div class="modal fade" id="modalHouseState" tabindex="-1" aria-labelledby="addHouseState" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une catégorie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-primary js-add-category" data-bs-dismiss="modal">Publier</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </div>
             </div>

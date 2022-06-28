@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PropertyState index{% endblock %}
+
+{% block body %}
+    <h1>PropertyState index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for property_state in property_states %}
+            <tr>
+                <td>{{ property_state.id }}</td>
+                <td>{{ property_state.name }}</td>
+                <td>
+                    <a href="{{ path('op_gestapp_choice_property_state_show', {'id': property_state.id}) }}">show</a>
+                    <a href="{{ path('op_gestapp_choice_property_state_edit', {'id': property_state.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_choice_property_state_new') }}">Create new</a>
+{% endblock %}

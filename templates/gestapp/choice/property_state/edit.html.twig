@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PropertyState{% endblock %}
+
+{% block body %}
+    <h1>Edit PropertyState</h1>
+
+    {{ include('gestapp/choice/property_state/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('op_gestapp_choice_property_state_index') }}">back to list</a>
+
+    {{ include('gestapp/choice/property_state/_delete_form.html.twig') }}
+{% endblock %}
