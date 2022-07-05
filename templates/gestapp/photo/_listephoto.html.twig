@@ -1,0 +1,20 @@
+{% for photo in photos %}
+    <div class="col-3">
+        <div class="card">
+            <img src="{{ vich_uploader_asset(photo) }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}">
+            <div class="card-img-overlay">
+                <a class="btn btn-sm btn-light" href="{{ path('app_gestapp_photo_show', {'id': photo.id}) }}"><i class="fa-duotone fa-image-landscape"></i></a>
+                <a class="btn btn-sm btn-light" href="{{ path('app_gestapp_photo_del', {'id': photo.id, 'idproperty': idproperty}) }}"><i class="fa-duotone fa-camera-slash"></i></a>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="col-3">
+        <div class="card">
+            <img src="{{ asset('images/png/mod_maison.png') }}" class="card-img-top img-fluid" alt="mod_maison">
+            <div class="card-body">
+                <p>Pas de photo enregistré pour le moment</p>
+            </div>
+        </div>
+    </div>
+{% endfor %}

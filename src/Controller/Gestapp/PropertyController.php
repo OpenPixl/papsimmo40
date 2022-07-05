@@ -6,6 +6,7 @@ use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
 use App\Form\Gestapp\PropertyImageType;
+use App\Form\Gestapp\PropertyStep1Type;
 use App\Form\Gestapp\PropertyType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\ComplementRepository;
@@ -105,8 +106,6 @@ class PropertyController extends AbstractController
         $property->setOptions($complement);
         $property->setPublication($publication);
         $property->setIsIncreating(1);
-        $property->setImageName('mod_maison.png');
-        $property->setImageSize(59755);
         $property->setRefMandat('numéro de mandat');
         $propertyRepository->add($property);
 
@@ -115,36 +114,33 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/property/image/{id}', name: 'op_gestapp_property_editimage', methods: ['POST'])]
-    public function editImage(Property $property, Request $request, PropertyRepository $propertyRepository){
-
-        //dd($property);
-
-        $formimage = $this->createForm(PropertyImageType::class, $property, [
+    #[Route('/property/editimage/{id}', name: 'op_gestapp_property_editimage', methods: ['POST','GET'])]
+    public function editImage(Property $property, Request $request, PropertyRepository $propertyRepository)
+    {
+        $form = $this->createForm(PropertyImageType::class, $property, [
             'action' => $this->generateUrl('op_gestapp_property_editimage', ['id'=>$property->getId()]),
-            'method'=> 'POST'
+            'method' => 'POST'
         ]);
+        $form->handleRequest($request);
 
-        $formimage->handleRequest($request);
-
-        if ($formimage->isSubmitted() && $formimage->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
             $propertyRepository->add($property);
-            return $this->json([
-                'code'=> 200,
-                'message' => "La photo du bien a été correctement modifiée."
-            ], 200);
+            return $this->redirectToRoute('op_gestapp_property_firstedit', ['id'=>$property->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('gestapp/property/editimage.html.twig', [
-            'formimage' => $formimage,
+            'form' => $form,
         ]);
     }
 
     #[Route('/{id}', name: 'op_gestapp_property_show', methods: ['GET'])]
     public function show(Property $property): Response
     {
+        $complement = $property->getOptions();
+
         return $this->render('gestapp/property/show.html.twig', [
             'property' => $property,
+            'complement' => $complement->getId()
         ]);
     }
 
@@ -174,6 +170,7 @@ class PropertyController extends AbstractController
     #[Route('/{id}/firstedit', name: 'op_gestapp_property_firstedit', methods: ['GET', 'POST'])]
     public function firstedit(Request $request, Property $property, PropertyRepository $propertyRepository): Response
     {
+
         $complement = $property->getOptions();
         //dd($complement->getId());
 
@@ -194,12 +191,35 @@ class PropertyController extends AbstractController
         ]);
     }
 
+
+    #[Route('/firststep/{id}', name: 'op_gestapp_property_firststep', methods: ['GET', 'POST'])]
+    public function firstStep(Request $request, Property $property, PropertyRepository $propertyRepository)
+    {
+        //dd($property);
+        $form = $this->createForm(PropertyStep1Type::class, $property, [
+            'action' => $this->generateUrl('op_gestapp_property_firststep',['id'=>$property->getId()]),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+        //dd($request->getContent());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $propertyRepository->add($property);
+            return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
+        }
+        return $this->renderform('gestapp/property/Step/firststep.html.twig',[
+            'form'=>$form,
+            'property'=>$property
+        ]);
+    }
+
     #[Route('/stepinformations/{id}', name: 'op_gestapp_property_stepinformations', methods: ['GET', 'POST'])]
     public function stepInformations(Request $request, Property $property, PropertyRepository $propertyRepository)
     {
+
         //dd($property);
         $data = json_decode($request->getContent(), true);
-
+        //dd($data['image']);
         $property->setRefMandat($data['refMandat']);
         $property->setName($data['name']);
         $property->setRef($data['ref']);
@@ -219,6 +239,21 @@ class PropertyController extends AbstractController
 
         $propertyRepository->add($property);
 
+        //dd($property);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les informations du bien ont été correctement ajoutées."
+        ], 200);
+    }
+
+    #[Route('/stepinformationsimg/{id}', name: 'op_gestapp_property_stepinformationsimg', methods: ['GET', 'POST'])]
+    public function stepInformationsImag(Request $request, Property $property, PropertyRepository $propertyRepository)
+    {
+
+        //dd($request->files->get('file'));
+        $property->setImageFile($request->files->get('file'));
+        $propertyRepository->add($property);
         //dd($property);
 
         return $this->json([

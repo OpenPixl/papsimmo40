@@ -7,27 +7,8 @@
             {{ render(controller('App\\Controller\\Gestapp\\PhotoController::new', {'idproperty': idproperty})) }}
         </div>
         <div class="col-9">
-            <div class="row">
-                {% for photo in photos %}
-                    <div class="col-3">
-                        <div class="card">
-                            <img src="{{ vich_uploader_asset(photo) }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}">
-                            <div class="card-body">
-                                <a href="{{ path('app_gestapp_photo_show', {'id': photo.id}) }}">show</a>
-                                <a href="{{ path('app_gestapp_photo_edit', {'id': photo.id}) }}">edit</a>
-                            </div>
-                        </div>
-                    </div>
-                {% else %}
-                    <div class="col-3">
-                        <div class="card">
-                            <img src="{{ asset('images/png/mod_maison.png') }}" class="card-img-top img-fluid" alt="mod_maison">
-                            <div class="card-body">
-                                <p>Pas de photo enregistré pour le moment</p>
-                            </div>
-                        </div>
-                    </div>
-                {% endfor %}
+            <div class="row" id="listephoto">
+                {% include('gestapp/photo/_listephoto.html.twig') %}
             </div>
         </div>
     </div>

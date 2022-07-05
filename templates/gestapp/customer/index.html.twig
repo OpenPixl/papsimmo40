@@ -18,7 +18,8 @@
             </tr>
         </thead>
         <tbody>
-        {% for customer in customers %}
+        {% set user = app.user.id %}
+        {% for customer in customers|filter(c => c.refEmployed.id == user) %}
             <tr>
                 <td>{{ customer.RefCustomer }}</td>
                 <td><strong>{{ customer.lastName }} {{ customer.firstName }}</strong></td>
@@ -34,11 +35,11 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="13">no records found</td>
+                <td colspan="13">Vous n'avez pas de client actuellement enregistré sur la plateforme.</td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ path('op_gestapp_customer_new') }}">Create new</a>
+    <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
 {% endblock %}

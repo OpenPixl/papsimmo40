@@ -20,7 +20,7 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class PropertyType extends AbstractType
+class PropertyStep1Type extends AbstractType
 {
     public function __construct(private UrlGeneratorInterface $url){
 
@@ -39,19 +39,13 @@ class PropertyType extends AbstractType
                 'label' => 'Titre du bien'
             ])
             ->add('annonce', TextareaType::class, [
-                'label' => 'Annonce'
+                'label' => 'Annonce',
+                'required' => false,
             ])
             ->add('piece', IntegerType::class,[
                 'label' => 'Nombre de pièce',
-                'empty_data' => 0
-            ])
-            ->add('dpeEstimateEnergyDown', IntegerType::class,[
-                'label' => 'Basse',
-                'empty_data' => 0
-            ])
-            ->add('dpeEstimateEnergyUp', IntegerType::class,[
-                'label' => 'Elevée',
-                'empty_data' => 0
+                'empty_data' => 0,
+                'required' => false,
             ])
             ->add('constructionAt', DateType::class, [
                 'label' => 'Année de contruction',
@@ -64,6 +58,7 @@ class PropertyType extends AbstractType
             ])
             ->add('room', IntegerType::class, [
                 'label' => 'Nombre de chambre',
+                'required' => false,
             ])
 
             ->add('isHome', CheckboxType::class, [
@@ -83,64 +78,30 @@ class PropertyType extends AbstractType
                 'required' => false,
             ])
             ->add('otherDescription', TextType::class, [
-                'label' => 'Autre...'
-            ])
-            ->add('surfaceLand', IntegerType::class,[
-                'label'=>'Surface de terrain'
-            ])
-            ->add('surfaceHome', IntegerType::class,[
-                'label'=>'Surface habitable'
-            ])
-            ->add('dpeAt', DateType::class, [
-                'label'=> 'Date du DPE',
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
+                'label' => 'Autre...',
                 'required' => false,
-                'by_reference' => true,
-                ])
-            ->add('diagDpe', IntegerType::class,[
-                'label'=>'résultat DPE'
-            ])
-            ->add('diagGpe', IntegerType::class, [
-                'label'=>'résultat GPE'
             ])
             ->add('adress',TextType::class, [
-                'label' => 'Adresse'
+                'label' => 'Adresse',
+                'required' => false,
             ])
             ->add('complement',TextType::class, [
-                'label' => 'Complément'
+                'label' => 'Complément',
+                'required' => false,
             ])
             ->add('zipcode',TextType::class, [
-                'label' => 'Code postal'
+                'label' => 'Code postal',
+                'required' => false,
             ])
             ->add('city',TextType::class, [
-                'label' => 'Commune'
+                'label' => 'Commune',
+                'required' => false,
             ])
-            ->add('notaryEstimate', IntegerType::class, [
-                'label' => 'Estimation du notaire'
+            ->add('imageFile',VichImageType::class, [
+                'label'=> '',
+                'required' => false,
             ])
-            ->add('applicantEstimate', IntegerType::class, [
-                'label' => 'Estimation du vendeur'
-            ])
-            ->add('cadasterZone',TextType::class, [
-                'label' => 'Zone du cadastre'
-            ])
-            ->add('cadasterNum', IntegerType::class, [
-                'label' => 'immatriculation du cadastre'
-            ])
-            ->add('cadasterSurface', IntegerType::class, [
-                'label' => 'surface cadastrale'
-            ])
-            ->add('imageFile', VichImageType::class)
 
-            //->add('refEmployed', EntityType::class, [
-            //    'class' => Employed::class,
-            //    'choice_attr' => ChoiceList::attr($this, function (?Employed $category) {
-            //        return $category ? ['data-data' => $category->getFirstName()] : [];
-            //    }),
-            //])
         ;
     }
 

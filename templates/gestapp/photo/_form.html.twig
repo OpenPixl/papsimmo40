@@ -1,13 +1,13 @@
 <div class="card text-dark bg-light">
     <div class="card-body">
+        <p><b>Attention :</b><br>Ne sont accepté que les photos au format JPEG, JPG.</p>
         {{ form_start(form, {'attr': {'id': 'addPhoto'}}) }}
 
-        {{ form_widget(form) }}
-
-        {{ form_end(form) }}
+        {{ form_widget(form.galeryFrontFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
         <div class="mt-1">
-            <button type="button" id="btnAddPhoto" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
+            <button type="submit" id="btnAddPhoto" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
         </div>
+        {{ form_end(form) }}
     </div>
 </div>
 

@@ -27,7 +27,7 @@ class PhotoController extends AbstractController
     {
         $property = $propertyRepository->find($idproperty);
         //dd($idproperty);
-        $photos = $photoRepository->findBy(['property'=>$property]);
+        $photos = $photoRepository->findBy(['property'=>$property], ['id'=>'DESC']);
         //dd($photos);
         return $this->render('gestapp/photo/byproperty.html.twig', [
             'photos' => $photos,
@@ -49,9 +49,14 @@ class PhotoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $photoRepository->add($photo);
+            $photos = $photoRepository->findBy(['property'=>$property], ['id'=>'DESC']);
             return $this->json([
                 'code'=> 200,
-                'message' => "La photo du bien a été ajoutée"
+                'message' => "La photo du bien a été ajoutée",
+                'listephoto' => $this->renderView('gestapp/photo/_listephoto.html.twig', [
+                    'photos' => $photos,
+                    'idproperty' => $idproperty
+                ])
             ], 200);
         }
 
@@ -98,5 +103,22 @@ class PhotoController extends AbstractController
         }
 
         return $this->redirectToRoute('app_gestapp_photo_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/del/{id}', name: 'app_gestapp_photo_del', methods: ['POST'])]
+    public function del(Request $request, Photo $photo, PhotoRepository $photoRepository, PropertyRepository $propertyRepository, $idproperty): Response
+    {
+        $photoRepository->remove($photo);
+        $property = $propertyRepository->find($idproperty);
+        $photos = $photoRepository->findBy(['property'=>$property], ['id'=>'DESC']);
+        return $this->json([
+            'code'=> 200,
+            'message' => "La photo du bien a été supprimée",
+            'listephoto' => $this->renderView('gestapp/photo/_listephoto.html.twig', [
+                'photos' => $photos,
+                'idproperty' => $idproperty
+            ])
+        ], 200);
+
     }
 }

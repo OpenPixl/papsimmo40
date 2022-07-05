@@ -12,6 +12,14 @@ a {
   padding: 6px 6px !important;
 }
 
+.card-img-overlay {
+  position: absolute;
+  right: 0 !important;
+  bottom: 0 !important;
+  padding: 0.5rem !important;
+  border-radius: 0;
+}
+
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
 @media (max-width: 767.98px) {
   body{
@@ -25,6 +33,16 @@ a {
   #content{
     width: auto;
     height: 100vh;
+  }
+
+  #listephoto{
+    .card-img-overlay {
+      position: absolute;
+      right: 0 !important;
+      bottom: 0 !important;
+      padding: 0.5rem !important;
+      border-radius: 0;
+    }
   }
 }
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
@@ -40,6 +58,15 @@ a {
     width: $width-content-large;
     height: 100vh;
     overflow-y: scroll;
+  }
+  #listephoto{
+    .card-img-overlay {
+      position: absolute;
+      right: 0 !important;
+      bottom: 0 !important;
+      padding: 0.5rem !important;
+      border-radius: 0;
+    }
   }
 }
 

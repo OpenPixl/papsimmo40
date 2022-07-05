@@ -2,7 +2,6 @@ vich_uploader:
     db_driver: orm
     metadata:
         type: attribute
-
     mappings:
         logosite_front:
             uri_prefix: /images/application
@@ -33,8 +32,15 @@ vich_uploader:
             delete_on_update: true
             delete_on_remove: true
         article_front:
-            uri_prefix: /images/articles
-            upload_destination: '%kernel.project_dir%/public/images/articles'
+            uri_prefix: /images/article
+            upload_destination: '%kernel.project_dir%/public/images/article'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true
+        galery_front:
+            uri_prefix: /images/galery
+            upload_destination: '%kernel.project_dir%/public/images/galery'
             namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
             inject_on_load: false
             delete_on_update: true

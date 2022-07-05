@@ -2,133 +2,232 @@
 
 {% block title %}Property{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+            // récupération des id des panels
+            const navInformations = document.getElementById("navInformations");
+            const navCustomers = document.getElementById("navCustomers");
+            const navEstimate = document.getElementById("navEstimate");
+            const navOptions = document.getElementById("navOptions");
+            const navGallery = document.getElementById("navGallery");
+            const navPublication = document.getElementById("navPublication");
+
+            // récupération des boutons de navigation entre panel
+            const stepBack = document.getElementById("stepCustomers");
+            const nextStepInformations = document.getElementById("stepInformations");
+            const nextStepCustomers = document.getElementById("stepCustomers");
+            const nextStepEstimate = document.getElementById("stepEstimate");
+            const nextStepOptions = document.getElementById("stepOptions");
+            const nextStepGallery = document.getElementById("stepGallery");
+            const nextStepPublication = document.getElementById("stepPublication");
+
+            // fixer les éléments opérationnel au chargement de la page
+            const Informations = document.getElementById("Informations");
+            const Customers = document.getElementById("Customers");
+            const Estimate = document.getElementById("Estimate");
+            const Options = document.getElementById("Options");
+            const Gallery = document.getElementById("Gallery");
+            const Publication = document.getElementById("Publication");
+
+            // -------------
+            // STEP 0 : Mise en place des styles de démarrage
+            // -------------
+            // Désactivation des onglets d'accueil de la page d'édition
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            navCustomers.className = "nav-link disabled";
+            // Masquage des boutons de navigation sous le formulaire
+            nextStepCustomers.className += " d-none";
+            nextStepEstimate.className += " d-none";
+            nextStepOptions.className += " d-none";
+            nextStepGallery.className += " d-none";
+            nextStepPublication.className += " d-none";
+
+            // mise en place du datapicker flatpickr sur les champs de date
+            flatpickr(".flatpickr", {
+                "locale": "fr",
+                enableTime: true,
+                allowInput:true,
+                altFormat: "j F Y",
+                dateFormat: "d/m/Y",
+            });
+            // mise en place du datapicker flatpickr sur les champs de date
+            flatpickr(".flatpickrtime", {
+                "locale": "fr",
+                enableTime: true,
+                noCalendar: true,
+                dateFormat: "H:i",
+                time_24hr: true
+            });
+
+            // -------------
+            // STEP 1 : enregistrement des informations initiales du bien sur clic du boutons next
+            // -------------
+            let form = document.getElementById('addInformation')
+            form.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url = form.action
+                let data = new FormData(form)
+                axios
+                    .post(url, data)
+                    .then(function(response)
+                    {
+                        navInformations.className = "nav-link disabled";
+                        navCustomers.className = "nav-link active";
+                        Informations.className = "tab-pane";
+                        Customers.className += " active";
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+
+        }
+    </script>
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
+        <li class="breadcrumb-item active">Transaction</li>
+        <li class="breadcrumb-item active"><a href="{{ path('op_gestapp_property_index') }}">Biens immobilier</a></li>
+    </ol>
+{% endblock %}
+
 {% block content %}
-    <h1>Property</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ property.id }}</td>
-            </tr>
-            <tr>
-                <th>Ref</th>
-                <td>{{ property.ref }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ property.name }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ property.slug }}</td>
-            </tr>
-            <tr>
-                <th>Annonce</th>
-                <td>{{ property.annonce }}</td>
-            </tr>
-            <tr>
-                <th>Ppiece</th>
-                <td>{{ property.piece }}</td>
-            </tr>
-            <tr>
-                <th>Room</th>
-                <td>{{ property.room }}</td>
-            </tr>
-            <tr>
-                <th>IsHome</th>
-                <td>{{ property.isHome ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>IsApartment</th>
-                <td>{{ property.isApartment ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>IsLand</th>
-                <td>{{ property.isLand ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>IsOther</th>
-                <td>{{ property.isOther ? 'Yes' : 'No' }}</td>
-            </tr>
-            <tr>
-                <th>OtherDescription</th>
-                <td>{{ property.otherDescription }}</td>
-            </tr>
-            <tr>
-                <th>SurfaceLand</th>
-                <td>{{ property.surfaceLand }}</td>
-            </tr>
-            <tr>
-                <th>SurfaceHome</th>
-                <td>{{ property.surfaceHome }}</td>
-            </tr>
-            <tr>
-                <th>DpeAt</th>
-                <td>{{ property.dpeAt ? property.dpeAt|date('Y-m-d') : '' }}</td>
-            </tr>
-            <tr>
-                <th>DiagDpe</th>
-                <td>{{ property.diagDpe }}</td>
-            </tr>
-            <tr>
-                <th>DiagGpe</th>
-                <td>{{ property.diagGpe }}</td>
-            </tr>
-            <tr>
-                <th>Adress</th>
-                <td>{{ property.adress }}</td>
-            </tr>
-            <tr>
-                <th>Complement</th>
-                <td>{{ property.complement }}</td>
-            </tr>
-            <tr>
-                <th>Zipcode</th>
-                <td>{{ property.zipcode }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ property.city }}</td>
-            </tr>
-            <tr>
-                <th>NotaryEstimate</th>
-                <td>{{ property.notaryEstimate }}</td>
-            </tr>
-            <tr>
-                <th>ApplicantEstimate</th>
-                <td>{{ property.applicantEstimate }}</td>
-            </tr>
-            <tr>
-                <th>CadasterZone</th>
-                <td>{{ property.cadasterZone }}</td>
-            </tr>
-            <tr>
-                <th>CadasterNum</th>
-                <td>{{ property.cadasterNum }}</td>
-            </tr>
-            <tr>
-                <th>CadasterSurface</th>
-                <td>{{ property.cadasterSurface }}</td>
-            </tr>
-            <tr>
-                <th>CadasterCariez</th>
-                <td>{{ property.cadasterCariez }}</td>
-            </tr>
-            <tr>
-                <th>CreateAt</th>
-                <td>{{ property.createdAt ? property.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdateAt</th>
-                <td>{{ property.updatedAt ? property.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+    {% if property.isIncreating == 1 %}
+        <h1>Edition du bien Paps Immo</h1>
+    {% else %}
+        <h1>Créer un nouveau bien Paps Immo</h1>
+    {% endif %}
 
-    <a href="{{ path('op_gestapp_property_index') }}">back to list</a>
 
-    <a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}">edit</a>
+    {# read and display several types of flash messages #}
+    {% for label, messages in app.flashes(['success', 'warning']) %}
+        {% for message in messages %}
+            <div class="flash-{{ label }}">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endfor %}
 
-    {{ include('gestapp/property/_delete_form.html.twig') }}
+    {# Etiquettes du panel #}
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a id="navInformations" class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
+        </li>
+        <li class="nav-item">
+            <a id="navCustomers" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
+        </li>
+        <li class="nav-item">
+            <a id="navEstimate" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimate" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h5>Chiffres</h5></a>
+        </li>
+        <li class="nav-item">
+            <a id="navOptions" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Options" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h5>Complements</h5></a>
+        </li>
+        <li class="nav-item">
+            <a id="navGallery" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
+        </li>
+        <li class="nav-item">
+            <a id="navPublication" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5><i class="fa-duotone fa-browser"></i> Publication</h5></a>
+        </li>
+    </ul>
+
+    {# Div's du panel #}
+    <div class="tab-content">
+        {# STEP 1 : INFORMATIONS #}
+        <div class="tab-pane active" id="Informations" role="tabpanel" aria-labelledby="home-tab">
+            {{ render(controller('App\\Controller\\Gestapp\\PropertyController::firstStep', {'id':property.id})) }}
+        </div>
+    </div>
+
+    {% if property.isIncreating == 1 %}
+        <div class="row mt-2">
+            <div class="col-sm-12">
+                <a id="stepInformations" href="{{ path('op_gestapp_property_firststep', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Vendeurs <i class="fa-duotone fa-forward-step"></i></a>
+                <a id="stepCustomers" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Estimation <i class="fa-duotone fa-forward-step"></i></a>
+                <a id="stepEstimate" href="{{ path('op_gestapp_property_stepchiffres', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Options <i class="fa-duotone fa-forward-step"></i></a>
+                <a id="stepOptions" href="{{ path('op_gestapp_customer_addcomplement', {'id' : complement}) }}" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Galerie <i class="fa-duotone fa-forward-step"></i></a>
+                <a id="stepGallery" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Publication <i class="fa-duotone fa-forward-step"></i></a>
+                <a id="stepPublication" href="{{ path('op_gestapp_property_steppublication', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary">Valider la publication et finaliser l'ajout <i class="fa-duotone fa-forward-step"></i></a>
+            </div>
+        </div>
+    {% else %}
+        <div class="row mt-2">
+            <div class="col-sm-6">
+                <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp
+                <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
+            </div>
+            <div class="col-6 d-flex justify-content-end">
+                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</button>
+            </div>
+        </div>
+
+    {% endif %}
+
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    <section id="modals">
+        <!-- Ajout d'un vendeur sur un bien -->
+        <div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un client à cette fiche</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
+                        <input id="idProperty" type="hidden" value="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseState #}
+        <div class="modal fade" id="modalHouseState" tabindex="-1" aria-labelledby="addHouseState" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une catégorie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-primary js-add-category" data-bs-dismiss="modal">Publier</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative">
+            <div class="toast-container position-absolute bottom-100 end-0 p-3">
+                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <img src="..." class="rounded me-2" alt="...">
+                        <strong class="me-auto">Paps Immo 40</strong>
+                        <small class="text-muted">A l'instant</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

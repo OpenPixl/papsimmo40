@@ -14,7 +14,6 @@
             const navGallery = document.getElementById("navGallery");
             const navPublication = document.getElementById("navPublication");
 
-
             // récupération des boutons de navigation entre panel
             const stepBack = document.getElementById("stepCustomers");
             const nextStepInformations = document.getElementById("stepInformations");
@@ -33,7 +32,7 @@
             const Publication = document.getElementById("Publication");
 
             // Panels
-            const focus = document.getElementById('property_name');
+            const focus = document.getElementById('property_refMandat');
             focus.focus()
 
             // -------------
@@ -68,6 +67,7 @@
                 Customers.className += " active";
                 // Elements de formulaire à transmettre
                 let url = this.href;
+                let id = document.getElementById('property_id').value
                 let refMandat =document.getElementById('property_refMandat').value
                 let name = document.getElementById('property_name').value
                 let ref = document.getElementById('property_ref').value
@@ -84,7 +84,7 @@
                 let isOther = document.getElementById('property_isOther').checked
                 let otherDescription = document.getElementById('property_otherDescription').value
                 let constructionAt = new Date(document.getElementById('property_constructionAt').value)
-                let image = document.getElementById('property_imageFile_file')
+                let imageFile = document.getElementById('property_imageFile_file')
                 let data = {
                     name: name, ref: ref, adress: adress, complement:complement, zipcode:zipcode, city: city, annonce: annonce,
                     piece: piece, room: room, isHome: isHome, isApartment: isApartment, isLand: isLand, isOther: isOther,
@@ -100,6 +100,22 @@
                         // handle error
                         console.log(error);
                     })
+                // Envoie de l'image
+                let formData = new FormData();
+                formData.append("file", imageFile.files[0]);
+                axios
+                    .post('/gestapp/property/stepinformationsimg/'+id, formData)
+                    .then(function(response){
+                        console.log('image envoyée')
+                        // préparation du toaster
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+
+
+
             }
 
             // -------------
@@ -346,7 +362,7 @@
                     }
                 }
             });
-            // SELECT Orientation
+            // SELECT Equipement
             new TomSelect("#complement_propertyEquipment",{
                 plugins: ['remove_button'],
                 create: true,
@@ -363,7 +379,7 @@
                     }
                 }
             });
-            // SELECT Orientation
+            // SELECT Typology
             new TomSelect("#complement_propertyTypology",{
                 plugins: ['remove_button'],
                 create: true,
@@ -380,7 +396,7 @@
                     }
                 }
             });
-            // SELECT Orientation
+            // SELECT other options
             new TomSelect("#complement_otherOption",{
                 plugins: ['remove_button'],
                 create: true,
@@ -404,8 +420,8 @@
             // -------------
             stepGallery.onclick = function (event) {
                 event.preventDefault()
-                stepGallery.className += " d-none";
-                stepPublication.className = "btn btn-sm btn-outline-primary";
+                nextStepGallery.className += " d-none";
+                nextStepPublication.className = "btn btn-sm btn-outline-primary";
                 navGallery.className = "nav-link disabled";
                 navPublication.className = "nav-link active";
                 Gallery.className = "tab-pane";
@@ -414,11 +430,24 @@
             let form = document.getElementById('addPhoto')
             form.addEventListener('submit', function (event) {
                 event.preventDefault()
-                console.log('OK')
+                let url = form.action
+                let data = new FormData(form)
+                axios
+                    .post(url, data)
+                    .then(function(response)
+                    {
+                        // rafraichissement du tableau
+                        const listephoto = document.getElementById('listephoto').innerHTML = response.data.listephoto;
+
+                        // rechargement des events
+                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
+                            link.addEventListener('click', onClickDelEvent)
+                        })
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
             })
-
-
-
 
 
             // évenement sur le boutons stepPublication

@@ -151,8 +151,6 @@ class Property
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
     private $photos;
 
-
-
     public function __construct()
     {
         $this->Galery = new ArrayCollection();

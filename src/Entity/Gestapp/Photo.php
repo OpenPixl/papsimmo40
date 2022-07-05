@@ -32,7 +32,7 @@ class Photo
      * Insertion de l'image mise en avant liée à un article
      * NOTE : Il ne s'agit pas d'un champ mappé des métadonnées de l'entité, mais d'une simple propriété.
      **/
-    #[UploadableField(mapping: "article_front", fileNameProperty: 'galeryFrontName', size: 'galeryFrontSize')]
+    #[UploadableField(mapping: "galery_front", fileNameProperty: 'galeryFrontName', size: 'galeryFrontSize')]
     private $galeryFrontFile;
 
     /**

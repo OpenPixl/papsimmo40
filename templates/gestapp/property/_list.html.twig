@@ -1,25 +1,32 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Id</th>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <th>Collaborateur</th>
+        {% else %}
+        <th></th>
+        {% endif %}
         <th>Ref</th>
         <th>Type de bien</th>
+        <th></th>
         <th>Titre annonce</th>
         <th>Piece</th>
         <th>chambre</th>
-
         <th>Adresse</th>
-
-
         <th>Ajouté le</th>
         <th>Modifié le</th>
         <th>actions</th>
     </tr>
     </thead>
     <tbody>
-    {% for property in properties %}
+    {% set user = app.user.id %}
+    {% for property in properties|filter(p => p.refEmployed.id == user) %}
         <tr class="align-middle">
-            <td>{{ property.id }}</td>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <td>{{ property.refEmployed }}</td>
+            {% else %}
+            <th>{{ property.id }}</th>
+            {% endif %}
             <td>{{ property.ref }}</td>
             <td>
                 {% if property.isHome == 1 %}
@@ -32,22 +39,50 @@
                     <p class="badge bg-primary mb-0">{{ property.otherDescription }}</p>
                 {% endif %}
             </td>
+            {% if property.imageName is not null %}
+            <td>
+                <img class="img-fluid" src="{{ vich_uploader_asset(property) }}" alt="{{ property.name }}" style="height: 50px;">
+            </td>
+            {% else %}
+            <td>
+                <img class="img-fluid" src="{{ asset('images/png/mod_maison.png') }}" alt="{{ property.name }}" style="height: 50px;">
+            </td>
+            {% endif %}
             <td>{{ property.name }}</td>
             <td>{{ property.piece }}</td>
             <td>{{ property.room }}</td>
-
+            {% if property.adress =="" %}
+            <td>à complèter</td>
+            {% else %}
             <td>{{ property.adress }}<br>{{ property.complement }}<br>{{ property.zipcode }} {{ property.city }}</td>
-
+            {% endif %}
             <td>{{ property.createdAt ? property.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ property.updatedAt ? property.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
+                <div class="btn-group btn-sm">
+                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        Action
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-file-pen"></i><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
+                        <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a></li>
+                        <li><a class="dropdown-item" href="#">Something else here</a></li>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <li><hr class="dropdown-divider"></li>
+                            <a type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#Suppr2" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> supprimer</a>
+                        {% endif %}
+                    </ul>
+                </div>
                 <a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-file-pen"></i> voir</a>
+                <a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <a type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#Suppr2" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> supprimer</a>
+                {% endif %}
             </td>
         </tr>
     {% else %}
         <tr>
-            <td colspan="30">no records found</td>
+            <td colspan="30">Aucun bien ne sont actuellement enregistré sur la plateforme.</td>
         </tr>
     {% endfor %}
     </tbody>

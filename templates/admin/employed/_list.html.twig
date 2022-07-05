@@ -20,7 +20,7 @@
             <td>{{ employed.email }}</td>
             <td>
                 {% for role in employed.roles %}
-                    <div class="badge bg-primary">{% if role == "ROLE_ADMIN" %}Administrateur{% endif %}{% if role == "ROLE_USER" %}Membre{% endif %}</div>
+                    <div class="badge bg-primary">{% if role == "ROLE_SUPER_ADMIN" %}Administrateur{% endif %}{% if role == "ROLE_USER" %}Membre{% endif %}</div>
                 {% endfor %}
             </td>
             <td>{{ employed.sector }}</td>

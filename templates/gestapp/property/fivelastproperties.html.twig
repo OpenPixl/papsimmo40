@@ -10,7 +10,11 @@
             <div class="carousel-inner">
                 {% for property in properties %}
                 <div class="carousel-item active">
-                    <img src="..." class="d-block w-100" alt="...">
+                    {% if property.imageName is not null %}
+                    <img class="img-fluid" src="{{ vich_uploader_asset(property) }}" alt="{{ property.name }}" height="100px">
+                    {% else %}
+                    <img class="img-fluid" src="{{ asset('images/png/mod_maison.png') }}" alt="{{ property.name }}" height="100px">
+                    {% endif %}
                     <div class="carousel-caption d-none d-md-block">
                         <h5>{{ property.name }}</h5>
                         <p>{{ property.annonce }}</p>

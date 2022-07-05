@@ -17,14 +17,8 @@ class SearchCustomersType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'class' => 'form-control form-control-sm',
-                    'placeholder' => 'entrez le nom ou le prénom'
+                    'placeholder' => 'Entrez le nom ou le prénom'
                 ],
-
-            ])
-            ->add('Rechercher', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-sm btn-outline-primary mt-1'
-                ]
             ])
         ;
     }
