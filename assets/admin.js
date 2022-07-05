@@ -3,7 +3,7 @@ import './styles/admin.scss';
 window.bootstrap = require('bootstrap/dist/js/bootstrap.bundle.js');
 
 // You can specify which plugins you need
-import { Tooltip, Toast, Popover } from 'bootstrap';
+import { Tooltip, Toast, Popover } from './bootstrap';
 
 // start the Stimulus application
 import './bootstrap';

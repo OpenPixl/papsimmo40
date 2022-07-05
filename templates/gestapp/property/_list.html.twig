@@ -59,25 +59,19 @@
             <td>{{ property.createdAt ? property.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ property.updatedAt ? property.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
-                <div class="btn-group btn-sm">
-                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                <div id="action_property" class="btn-group">
+                    <button type="button" id="action_property" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
                         Action
                     </button>
-                    <ul class="dropdown-menu">
-                        <li><a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-file-pen"></i><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
+                    <ul  class="dropdown-menu" aria-labelledby="action_property">
+                        <li><a class="dropdown-item" href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}"><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a></li>
-                        <li><a class="dropdown-item" href="#">Something else here</a></li>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><hr class="dropdown-divider"></li>
-                            <a type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#Suppr2" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> supprimer</a>
+                            <a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#Suppr2" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> supprimer</a>
                         {% endif %}
                     </ul>
                 </div>
-                <a href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-file-pen"></i> voir</a>
-                <a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <a type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#Suppr2" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> supprimer</a>
-                {% endif %}
             </td>
         </tr>
     {% else %}
