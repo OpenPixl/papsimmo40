@@ -25,7 +25,7 @@
     <body>
         <header>
             {% block header %}
-                {% include('include/admin/navbar_admin.html.twig') %}
+                {{ render(controller('App\\Controller\\Admin\\DashboardController::NavBar')) }}
             {% endblock %}
         </header>
         <main>

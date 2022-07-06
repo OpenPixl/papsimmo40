@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PropertyEnergy index{% endblock %}
+
+{% block body %}
+    <h1>PropertyEnergy index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for property_energy in property_energies %}
+            <tr>
+                <td>{{ property_energy.id }}</td>
+                <td>{{ property_energy.name }}</td>
+                <td>
+                    <a href="{{ path('app_gestapp_choice_property_energy_show', {'id': property_energy.id}) }}">show</a>
+                    <a href="{{ path('app_gestapp_choice_property_energy_edit', {'id': property_energy.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_choice_property_energy_new') }}">Create new</a>
+{% endblock %}

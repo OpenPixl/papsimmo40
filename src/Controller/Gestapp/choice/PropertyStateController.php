@@ -39,6 +39,31 @@ class PropertyStateController extends AbstractController
         ]);
     }
 
+    #[Route('/new2', name: 'op_gestapp_choice_property_state_new2', methods: ['GET', 'POST'])]
+    public function new2(Request $request, PropertyStateRepository $propertyStateRepository): Response
+    {
+
+        $propertyState = new PropertyState();
+        $form = $this->createForm(PropertyStateType::class, $propertyState);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $propertyStateRepository->add($propertyState);
+            $state = $propertyState->getName();
+            return $this->json([
+                'code' => 200,
+                'state' => $state,
+                'message' => "Un nouvezl état a été ajoutée."
+            ], 200);
+        }
+
+        return $this->renderForm('gestapp/choice/property_state/new.html.twig', [
+            'property_state' => $propertyState,
+            'form' => $form,
+        ]);
+
+    }
+
     #[Route('/{id}', name: 'op_gestapp_choice_property_state_show', methods: ['GET'])]
     public function show(PropertyState $propertyState): Response
     {

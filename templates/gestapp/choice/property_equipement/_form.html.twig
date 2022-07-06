@@ -1,9 +1,9 @@
-{{ form_start(form, {'attr': {'id': 'FormHouseState'}}) }}
+{{ form_start(form, {'attr': {'id': 'FormHouseEquipment'}}) }}
 <div class="modal-body">
     {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
 </div>
 <div class="modal-footer">
-    <button class="btn btn-sm btn-outline-primary">{{ button_label|default("Ajouter l'état du bien") }}</button>
+    <button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default("Ajouter l'équipement'") }}</button>
     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
 </div>
 {{ form_end(form) }}

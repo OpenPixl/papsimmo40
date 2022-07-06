@@ -113,9 +113,6 @@
                         // handle error
                         console.log(error);
                     })
-
-
-
             }
 
             // -------------
@@ -259,7 +256,7 @@
                 const propertyState = document.getElementById('complement_propertyState').value
                 const propertyEnergy = document.getElementById('complement_propertyEnergy').value
                 const propertyTax = document.getElementById('complement_propertyTax').value
-                const orientation = document.getElementById('complement_orientation').value
+                const propertyOrientation = document.getElementById('complement_propertyOrientation').value
                 const disponibility = document.getElementById('complement_disponibility').value
                 const location = document.getElementById('complement_location').value
                 const disponibilityAt = new Date(document.getElementById('complement_disponibilityAt').value)
@@ -278,7 +275,7 @@
                 let data = {
                     banner:banner,denomination:denomination,
                     terrace:terrace,washroom:washroom,bathroom:bathroom,wc:wc,balcony:balcony,
-                    propertyState:propertyState,propertyEnergy:propertyEnergy,propertyTax:propertyTax,orientation:orientation,disponibility:disponibility,location:location,disponibilityAt:disponibilityAt,
+                    propertyState:propertyState,propertyEnergy:propertyEnergy,propertyTax:propertyTax,propertyOrientation:propertyOrientation,disponibility:disponibility,location:location,disponibilityAt:disponibilityAt,
                     isFurnished:isFurnished,propertyEquipment:propertyEquipment,propertyTypology:propertyTypology,level:level,otherOption:otherOption
                 }
                 // envoie des données
@@ -311,7 +308,8 @@
                     }
                 }
             });
-            // SELECT Etat du bien
+
+            // PARTIE Etat du bien - SELECT
             new TomSelect("#complement_propertyState",{
                 plugins: ['remove_button'],
                 create: true,
@@ -328,6 +326,36 @@
                     }
                 }
             });
+            // PARTIE Etat du bien - Ouverture de la modal
+            const modalHouseState = document.getElementById('modalHouseState')
+            const HouseState = new bootstrap.Modal(modalHouseState, { keyboard: true })
+            const addHouseState = document.getElementById('addHouseState')
+            addHouseState.addEventListener('click', function(event){
+                console.log('ok')
+                HouseState.show()
+            })
+            // PARTIE Etat du bien - Envoi du formulaire
+            let property_state = document.getElementById('FormHouseState')
+            property_state.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_state = '/gestapp/choice/property/state/new2'
+                let data_property_state = new FormData(property_state)
+                axios
+                    .post(url_property_state, data_property_state)
+                    .then(function(response)
+                    {
+                        const select = document.getElementById('complement_propertyState');
+                        const options = document.createElement("option");
+                        options.text = response.data.unit;
+                        console.log(response.data.unit)
+                        HouseState.hide()
+
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
             // SELECT Energie du bien
             new TomSelect("#complement_propertyEnergy",{
                 plugins: ['remove_button'],
@@ -346,7 +374,7 @@
                 }
             });
             // SELECT Orientation
-            new TomSelect("#complement_orientation",{
+            new TomSelect("#complement_propertyOrientation",{
                 plugins: ['remove_button'],
                 create: true,
                 onItemAdd:function(){
@@ -616,16 +644,58 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une catégorie :</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un état :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseEnergy #}
+        <div class="modal fade" id="modalHouseEnergy" tabindex="-1" aria-labelledby="addHouseEnergy" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-footer">
-                        <a href="#" type="button" class="btn btn-primary js-add-category" data-bs-dismiss="modal">Publier</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyEnergyController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseState #}
+        <div class="modal fade" id="modalHouseOrientation" tabindex="-1" aria-labelledby="addHouseOrientation" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseTypology #}
+        <div class="modal fade" id="modalHouseTypology" tabindex="-1" aria-labelledby="addHouseTypology" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyTypologyController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseState #}
+        <div class="modal fade" id="modalHouseOther" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
                 </div>
             </div>
         </div>

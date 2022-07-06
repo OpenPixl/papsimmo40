@@ -14,6 +14,7 @@ use App\Repository\Gestapp\choice\LandTypeRepository;
 use App\Repository\Gestapp\choice\OtherOptionRepository;
 use App\Repository\Gestapp\choice\PropertyEnergyRepository;
 use App\Repository\Gestapp\choice\PropertyEquipementRepository;
+use App\Repository\Gestapp\choice\PropertyOrientationRepository;
 use App\Repository\Gestapp\choice\PropertyStateRepository;
 use App\Repository\Gestapp\choice\PropertyTypologyRepository;
 use App\Repository\Gestapp\choice\TradeTypeRepository;
@@ -62,7 +63,8 @@ class ComplementController extends AbstractController
         PropertyEquipementRepository $propertyEquipementRepository,
         PropertyStateRepository $propertyStateRepository,
         PropertyEnergyRepository $propertyEnergyRepository,
-        PropertyTypologyRepository $propertyTypologyRepository
+        PropertyTypologyRepository $propertyTypologyRepository,
+        PropertyOrientationRepository $propertyOrientationRepository
     )
     {
         //Récupération des variables das le data d'Axios
@@ -79,6 +81,9 @@ class ComplementController extends AbstractController
 
         $idpropertyEnergy = $data['propertyEnergy'];
         $propertyEnergy = $propertyEnergyRepository->find($idpropertyEnergy);
+
+        $idpropertyOrientation = $data['propertyOrientation'];
+        $propertyOrientation = $propertyOrientationRepository->find($idpropertyOrientation);
 
         $propertiesEquipment = $data['propertyEquipment'];
 
@@ -101,7 +106,7 @@ class ComplementController extends AbstractController
         $complement->setPropertyState($propertyState);
         $complement->setPropertyEnergy($propertyEnergy);
         $complement->setPropertyTax($data['propertyTax']);
-        $complement->setOrientation($data['orientation']);
+        $complement->setPropertyOrientation($propertyOrientation);
         $complement->setDisponibility($data['disponibility']);
         $complement->setLocation($data['location']);
         $complement->setDisponibilityAt($disponibilityAt);

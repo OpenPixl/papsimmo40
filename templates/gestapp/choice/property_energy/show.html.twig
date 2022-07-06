@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PropertyEnergy{% endblock %}
+
+{% block body %}
+    <h1>PropertyEnergy</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ property_energy.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ property_energy.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_choice_property_energy_index') }}">back to list</a>
+
+    <a href="{{ path('app_gestapp_choice_property_energy_edit', {'id': property_energy.id}) }}">edit</a>
+
+    {{ include('gestapp/choice/property_energy/_delete_form.html.twig') }}
+{% endblock %}

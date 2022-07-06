@@ -1,0 +1,35 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PropertyOrientation index{% endblock %}
+
+{% block body %}
+    <h1>PropertyOrientation index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for property_orientation in property_orientations %}
+            <tr>
+                <td>{{ property_orientation.id }}</td>
+                <td>{{ property_orientation.name }}</td>
+                <td>
+                    <a href="{{ path('app_gestapp_choice_property_orientation_show', {'id': property_orientation.id}) }}">show</a>
+                    <a href="{{ path('app_gestapp_choice_property_orientation_edit', {'id': property_orientation.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="3">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_choice_property_orientation_new') }}">Create new</a>
+{% endblock %}

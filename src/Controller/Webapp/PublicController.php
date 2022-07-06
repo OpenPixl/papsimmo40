@@ -28,13 +28,13 @@ class PublicController extends AbstractController
     #[Route('/', name: 'op_webapp_public_index')]
     public function index(EntityManagerInterface $em): Response
     {
-        $parameter = $em->getRepository(Application::class)->findFirstReccurence();
+        $application = $em->getRepository(Application::class)->findFirstReccurence();
         // boucle : verifie si le site est installé
-        if(!$parameter){
+        if(!$application){
             return $this->redirectToRoute('op_admin_dashboard_first_install');
         }
         else {
-            $isOnline = $parameter->getIsOnline();
+            $isOnline = $application->getIsOnline();
             if(!$isOnline) {
                 return $this->redirectToRoute('op_webapp_public_offline');
             }
@@ -50,18 +50,18 @@ class PublicController extends AbstractController
     #[route("/webapp/public/offline", name:'op_webapp_public_offline')]
     public function Offline(EntityManagerInterface $em) : Response
     {
-        $parameter = $em->getRepository(Application::class)->findFirstReccurence();
+        $application = $em->getRepository(Application::class)->findFirstReccurence();
         $sections = $em->getRepository(Section::class)->findBy(array('favorites' => 1));
-        $isOnline = $parameter->getIsOnline();
+        $isOnline = $application->getIsOnline();
 
         if ($isOnline == 1){
             return $this->render('webapp/public/index.html.twig', [
-                'parameter' => $parameter,
+                'application' => $application,
                 'sections' => $sections,
             ]);
         }
         return $this->render('webapp/public/offline.html.twig', [
-            'parameter' => $parameter
+            'application' => $application
         ]);
     }
 
@@ -72,10 +72,10 @@ class PublicController extends AbstractController
      */
     public function meta(EntityManagerInterface $em) : Response
     {
-        $parameter = $em->getRepository(Application::class)->find(1);
+        $application = $em->getRepository(Application::class)->find(1);
 
         return $this->render('include/meta.html.twig', [
-            'parameter' => $parameter
+            'application' => $application
         ]);
     }
 
@@ -89,11 +89,11 @@ class PublicController extends AbstractController
         $user = $this->getUser();
 
         // préparation des éléments d'interactivité du menu
-        $parameter = $applicationRepository->findFirstReccurence();
+        $application = $applicationRepository->findFirstReccurence();
         $menus = $pageRepository->listMenu();
 
         return $this->render('include/public/navbar_webapp.html.twig', [
-            'parameter' => $parameter,
+            'application' => $application,
             'menus' => $menus,
             'route' => $route
         ]);
@@ -106,12 +106,12 @@ class PublicController extends AbstractController
     public function topFooter(PageRepository $pageRepository, ApplicationRepository $applicationRepository,Request $request): Response
     {
         // préparation des éléments d'interactivité du menu
-        $parameter = $applicationRepository->findFirstReccurence();
+        $application = $applicationRepository->findFirstReccurence();
 
         $pages = $pageRepository->findAll();
 
         return $this->render('include/public/topfooter.html.twig', [
-            'parameter' => $parameter,
+            'application' => $application,
             'pages' => $pages
         ]);
     }
@@ -124,10 +124,10 @@ class PublicController extends AbstractController
     {
 
         // préparation des éléments d'interactivité du menu
-        $parameter = $applicationRepository->findFirstReccurence();
+        $application = $applicationRepository->findFirstReccurence();
 
         return $this->render('include/public/bottomfooter.html.twig', [
-            'parameter' => $parameter,
+            'application' => $application,
         ]);
     }
 

@@ -11,6 +11,7 @@ use App\Entity\Gestapp\choice\LandType;
 use App\Entity\Gestapp\choice\OtherOption;
 use App\Entity\Gestapp\choice\PropertyEnergy;
 use App\Entity\Gestapp\choice\PropertyEquipement;
+use App\Entity\Gestapp\choice\PropertyOrientation;
 use App\Entity\Gestapp\choice\PropertyState;
 use App\Entity\Gestapp\choice\PropertyTypology;
 use App\Entity\Gestapp\choice\TradeType;
@@ -62,22 +63,17 @@ class ComplementType extends AbstractType
             ->add('propertyTax', NumberType::class, [
                 'label' => 'Charge de propriété'
             ])
-            ->add('orientation', ChoiceType::class, [
+            ->add('propertyOrientation', EntityType::class, [
+                'class' => PropertyOrientation::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('p')
+                        ->orderBy('p.name', 'ASC');
+                },
+                'choice_label' => 'name',
                 'label' => 'Orientation',
-                'choices'  => [
-                    'Sud' => "sud",
-                    'Plein sud' => 'plein-sud',
-                    'Sud-ouest' => 'Sud-ouest',
-                    'ouest' => 'ouest',
-                    'Est'=> 'est'
-                ],
-                'choice_attr' => [
-                    'Sud' => ['data-data' => 'Sud'],
-                    'Plein sud' => ['data-data' => 'Plein sud'],
-                    'Sud-ouest' => ['data-data' => 'Sud-ouest'],
-                    'ouest' => ['data-data' => 'ouest'],
-                    'Est'=> ['data-data' => 'Est'],
-                ],
+                'choice_attr' => function (PropertyOrientation $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                }
             ])
             ->add('propertyState', EntityType::class, [
                 'class' => PropertyState::class,

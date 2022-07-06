@@ -10,6 +10,7 @@ use App\Entity\Gestapp\choice\LandType;
 use App\Entity\Gestapp\choice\OtherOption;
 use App\Entity\Gestapp\choice\PropertyEnergy;
 use App\Entity\Gestapp\choice\PropertyEquipement;
+use App\Entity\Gestapp\choice\PropertyOrientation;
 use App\Entity\Gestapp\choice\PropertyState;
 use App\Entity\Gestapp\choice\PropertyTypology;
 use App\Entity\Gestapp\choice\TradeType;
@@ -50,9 +51,6 @@ class Complement
 
     #[ORM\ManyToOne(targetEntity: TradeType::class)]
     private $tradeType;
-
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    private $orientation;
 
     #[ORM\ManyToOne(targetEntity: BuildingEquipment::class)]
     private $BuildingEquipment;
@@ -104,6 +102,9 @@ class Complement
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private $propertyTax;
+
+    #[ORM\ManyToOne(targetEntity: PropertyOrientation::class)]
+    private $propertyOrientation;
 
     public function __construct()
     {
@@ -208,18 +209,6 @@ class Complement
     public function setTradeType(?TradeType $tradeType): self
     {
         $this->tradeType = $tradeType;
-
-        return $this;
-    }
-
-    public function getOrientation(): ?string
-    {
-        return $this->orientation;
-    }
-
-    public function setOrientation(?string $orientation): self
-    {
-        $this->orientation = $orientation;
 
         return $this;
     }
@@ -436,6 +425,18 @@ class Complement
     public function setPropertyTax(?string $propertyTax): self
     {
         $this->propertyTax = $propertyTax;
+
+        return $this;
+    }
+
+    public function getPropertyOrientation(): ?PropertyOrientation
+    {
+        return $this->propertyOrientation;
+    }
+
+    public function setPropertyOrientation(?PropertyOrientation $propertyOrientation): self
+    {
+        $this->propertyOrientation = $propertyOrientation;
 
         return $this;
     }

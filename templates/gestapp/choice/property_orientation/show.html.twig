@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PropertyOrientation{% endblock %}
+
+{% block body %}
+    <h1>PropertyOrientation</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ property_orientation.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ property_orientation.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_choice_property_orientation_index') }}">back to list</a>
+
+    <a href="{{ path('app_gestapp_choice_property_orientation_edit', {'id': property_orientation.id}) }}">edit</a>
+
+    {{ include('gestapp/choice/property_orientation/_delete_form.html.twig') }}
+{% endblock %}
