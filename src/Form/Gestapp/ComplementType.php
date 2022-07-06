@@ -25,6 +25,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -47,9 +48,31 @@ class ComplementType extends AbstractType
                     'Dernière entrée' => ['data-data' => 'Dernière entrée'],
                 ],
             ])
-            ->add('location')
-            ->add('disponibility', TextType::class,[
-                'label' => 'Disponibilité'
+            ->add('disponibility', ChoiceType::class,[
+                'label' => 'Disponibilité',
+                'choices'  => [
+                    'A définir' => "a-definir",
+                    'Immédiatement' => 'immédiatement',
+                    'A partir de' => 'a-partir-de'
+                ],
+                'choice_attr' => [
+                    'A définir' => ['data-data' => 'A définir'],
+                    'Immédiatement' => ['data-data' => 'Immédiatement'],
+                    'A partir de' => ['data-data' => 'A partir de'],
+                ],
+            ])
+            ->add('location', ChoiceType::class, [
+                'label' => 'Location',
+                'choices'  => [
+                    'A définir' => "a-definir",
+                    'Immédiatement' => 'immédiatement',
+                    'A partir de' => 'a-partir-de'
+                ],
+                'choice_attr' => [
+                    'A définir' => ['data-data' => 'A définir'],
+                    'Immédiatement' => ['data-data' => 'Immédiatement'],
+                    'A partir de' => ['data-data' => 'A partir de'],
+                ],
             ])
             ->add('disponibilityAt', DateType::class, [
                 'widget' => 'single_text',
@@ -105,7 +128,7 @@ class ComplementType extends AbstractType
             ->add('balcony', IntegerType::class, [
                 'label' => "Balcon"
             ])
-            ->add('isFurnished', CheckboxType::class, [
+            ->add('isFurnished', RadioType::class, [
                 'label' => 'Le bien est-il meublé ?'
             ])
             ->add('propertyEnergy', EntityType::class, [

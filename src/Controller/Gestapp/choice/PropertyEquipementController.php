@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp\choice;
 use App\Entity\Gestapp\choice\PropertyEquipement;
 use App\Form\Gestapp\choice\PropertyEquipementType;
 use App\Repository\Gestapp\choice\PropertyEquipementRepository;
+use App\Repository\Gestapp\ComplementRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -21,8 +22,8 @@ class PropertyEquipementController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_choice_property_equipement_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PropertyEquipementRepository $propertyEquipementRepository): Response
+    #[Route('/new/{id}', name: 'app_gestapp_choice_property_equipement_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, PropertyEquipementRepository $propertyEquipementRepository, ComplementRepository $complementRepository): Response
     {
         $propertyEquipement = new PropertyEquipement();
         $form = $this->createForm(PropertyEquipementType::class, $propertyEquipement);
@@ -31,6 +32,29 @@ class PropertyEquipementController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyEquipementRepository->add($propertyEquipement);
             return $this->redirectToRoute('app_gestapp_choice_property_equipement_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('gestapp/choice/property_equipement/new.html.twig', [
+            'property_equipement' => $propertyEquipement,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/new2', name: 'app_gestapp_choice_property_equipement_new2', methods: ['GET', 'POST'])]
+    public function new2(Request $request, PropertyEquipementRepository $propertyEquipementRepository): Response
+    {
+        $propertyEquipement = new PropertyEquipement();
+        $form = $this->createForm(PropertyEquipementType::class, $propertyEquipement);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $propertyEquipementRepository->add($propertyEquipement);
+            $Equipement = $propertyEquipement->getName();
+            return $this->json([
+                'code' => 200,
+                'orientation' => $Equipement,
+                'message' => "Une nouvelle orientation a été ajoutée."
+            ], 200);
         }
 
         return $this->renderForm('gestapp/choice/property_equipement/new.html.twig', [

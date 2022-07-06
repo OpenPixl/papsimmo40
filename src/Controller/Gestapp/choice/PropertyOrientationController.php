@@ -39,6 +39,29 @@ class PropertyOrientationController extends AbstractController
         ]);
     }
 
+    #[Route('/new2', name: 'app_gestapp_choice_property_orientation_new2', methods: ['GET', 'POST'])]
+    public function new2(Request $request, PropertyOrientationRepository $propertyOrientationRepository): Response
+    {
+        $propertyOrientation = new PropertyOrientation();
+        $form = $this->createForm(PropertyOrientationType::class, $propertyOrientation);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $propertyOrientationRepository->add($propertyOrientation);
+            $Orientation = $propertyOrientation->getName();
+            return $this->json([
+                'code' => 200,
+                'orientation' => $Orientation,
+                'message' => "Une nouvelle orientation a été ajoutée."
+            ], 200);
+        }
+
+        return $this->renderForm('gestapp/choice/property_orientation/new.html.twig', [
+            'property_orientation' => $propertyOrientation,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'app_gestapp_choice_property_orientation_show', methods: ['GET'])]
     public function show(PropertyOrientation $propertyOrientation): Response
     {

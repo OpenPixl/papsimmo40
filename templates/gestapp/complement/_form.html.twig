@@ -59,6 +59,7 @@
             <div class="card text-dark bg-light">
                 <div class="card-body">
                     LE BIEN
+                    <input type="hidden" value="">
                     <hr>
                     {# bloc House State #}
 
@@ -74,7 +75,9 @@
                             <button id="addHouseState" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
                         </div>
                         {% else %}
-                        <div class="col-1"></div>
+                        <div class="col-1">
+                            <button id="addHouseState" class="btn btn-sm btn-secondary" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                        </div>
                         {% endif %}
                         <div class="col-4">
                             {{ form_label(form.propertyEnergy, '', {'label_attr': {'class':'form-label'}}) }}
@@ -87,7 +90,9 @@
                                 <button id="addHouseEnergy" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
                             </div>
                         {% else %}
-                            <div class="col-1"></div>
+                            <div class="col-1">
+                                <button id="addHouseEnergy" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                            </div>
                         {% endif %}
                     </div>
 
@@ -113,7 +118,9 @@
                                 <button id="addHouseOrientation" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
                             </div>
                         {% else %}
-                            <div class="col-1"></div>
+                            <div class="col-1">
+                                <button id="addHouseOrientation" class="btn btn-sm btn-light text-light" disabled><i class="fa-duotone fa-circle-plus"></i></button>
+                            </div>
                         {% endif %}
                     </div>
 
@@ -145,11 +152,15 @@
                 <div class="card-body">
                     EQUIPEMENTS
                     <hr>
-                    {% include('include/form/oneSwitch.html.twig') with {
-                        'form_label':form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}),
-                        'form_switch':form_widget(form.isFurnished, {'attr': {'class': 'form-check-input'}})
-                    }
-                    %}
+                    <div class="row">
+                        <fieldset>
+                            <div class="form-check form-check-inline">
+                                {{ form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                {{ form_widget(form.isFurnished, {'attr': {'class': 'form-check-input'}}) }}
+                            </div>
+                        </fieldset>
+                    </div>
+
 
                     <div class="row mb-1 mt-1 g-1">
                         <div class="col-4">
@@ -163,7 +174,9 @@
                             <button id="addHouseEquipment" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
                         </div>
                         {% else %}
-                        <div class="col-1"></div>
+                        <div class="col-1">
+                            <button id="addHouseEquipment" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                        </div>
                         {% endif %}
                     </div>
                     <div class="row mb-1 mt-1 g-1">
@@ -178,7 +191,9 @@
                                 <button id="addHouseTypology" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
                             </div>
                         {% else %}
-                            <div class="col-1"></div>
+                            <div class="col-1">
+                                <button id="addHouseTypology" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                            </div>
                         {% endif %}
                     </div>
                     <div class="row mb-1 mt-1 g-1">
@@ -202,7 +217,9 @@
                                 <button id="addHouseOther" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
                             </div>
                         {% else %}
-                            <div class="col-1"></div>
+                            <div class="col-1">
+                                <button id="addHouseOther" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                            </div>
                         {% endif %}
                     </div>
                 </div>

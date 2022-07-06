@@ -13,8 +13,6 @@ class PropertyEquipementType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('Cat')
-            ->add('complements')
         ;
     }
 

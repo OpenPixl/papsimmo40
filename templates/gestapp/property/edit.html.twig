@@ -356,7 +356,7 @@
                     })
             })
 
-            // SELECT Energie du bien
+            // PARTIE Energy du bien - SELECT
             new TomSelect("#complement_propertyEnergy",{
                 plugins: ['remove_button'],
                 create: true,
@@ -373,7 +373,37 @@
                     }
                 }
             });
-            // SELECT Orientation
+            // PARTIE Energy du bien - Ouverture de la modal
+            const modalHouseEnergy = document.getElementById('modalHouseEnergy')
+            const HouseEnergy = new bootstrap.Modal(modalHouseEnergy, { keyboard: true })
+            const addHouseEnergy = document.getElementById('addHouseEnergy')
+            addHouseEnergy.addEventListener('click', function(event){
+                console.log('ok')
+                HouseEnergy.show()
+            })
+            // PARTIE Energy du bien - Envoi du formulaire
+            let FormHouseEnergy = document.getElementById('FormHouseEnergy')
+            FormHouseEnergy.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_energy = '/gestapp/choice/property/energy/new2'
+                let data_property_energy = new FormData(FormHouseEnergy)
+                axios
+                    .post(url_property_energy, data_property_energy)
+                    .then(function(response)
+                    {
+                        const select = document.getElementById('complement_propertyEnergy');
+                        const options = document.createElement("option");
+                        options.text = response.data.unit;
+                        console.log(response.data.unit)
+                        HouseEnergy.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+
+            // PARTIE Orientation du bien - SELECT
             new TomSelect("#complement_propertyOrientation",{
                 plugins: ['remove_button'],
                 create: true,
@@ -390,7 +420,36 @@
                     }
                 }
             });
-            // SELECT Equipement
+            // PARTIE Orientation du bien - Ouverture de la modal
+            const modalHouseOrientation = document.getElementById('modalHouseOrientation')
+            const HouseOrientation = new bootstrap.Modal(modalHouseOrientation, { keyboard: true })
+            const addHouseOrientation = document.getElementById('addHouseOrientation')
+            addHouseOrientation.addEventListener('click', function(event){
+                console.log('ok')
+                HouseOrientation.show()
+            })
+            // PARTIE Orientation du bien - Envoi du formulaire
+            let FormHouseOrientation = document.getElementById('FormHouseOrientation')
+            FormHouseOrientation.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_orientation = '/gestapp/choice/property/orientation/new2'
+                let data_property_orientation = new FormData(FormHouseOrientation)
+                axios
+                    .post(url_property_orientation, data_property_orientation)
+                    .then(function(response)
+                    {
+                        const select = document.getElementById('complement_propertyOrientation');
+                        const options = document.createElement("option");
+                        options.text = response.data.orientation;
+                        console.log(response.data.orientation)
+                        HouseOrientation.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+            // PARTIE Equipement du bien - SELECT
             new TomSelect("#complement_propertyEquipment",{
                 plugins: ['remove_button'],
                 create: true,
@@ -407,6 +466,37 @@
                     }
                 }
             });
+            // PARTIE Equipement du bien - Ouverture de la modal
+            const modalHouseEquipment = document.getElementById('modalHouseEquipment')
+            const HouseEquipment = new bootstrap.Modal(modalHouseEquipment, { keyboard: true })
+            const addHouseEquipment = document.getElementById('addHouseEquipment')
+            addHouseEquipment.addEventListener('click', function(event){
+                console.log('ok')
+                HouseEquipment.show()
+            })
+            // PARTIE Orientation du bien - Envoi du formulaire
+            let FormHouseEquipment = document.getElementById('FormHouseEquipment')
+            FormHouseEquipment.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_equipment = '/gestapp/choice/property/orientation/new2/'
+                let data_property_equipment = new FormData(FormHouseEquipment)
+                axios
+                    .post(url_property_equipment, data_property_equipment)
+                    .then(function(response)
+                    {
+                        const select = document.getElementById('complement_propertyEquipment');
+                        const options = document.createElement("option");
+                        options.text = response.data.orientation;
+                        console.log(response.data.orientation)
+                        HouseOrientation.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+
+
             // SELECT Typology
             new TomSelect("#complement_propertyTypology",{
                 plugins: ['remove_button'],
@@ -663,7 +753,7 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout HouseState #}
+        {# Modal d'ajout HouseOrientation #}
         <div class="modal fade" id="modalHouseOrientation" tabindex="-1" aria-labelledby="addHouseOrientation" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -671,7 +761,19 @@
                         <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyOrientationController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseEquipement #}
+        <div class="modal fade" id="modalHouseEquipment" tabindex="-1" aria-labelledby="addHouseEquipment" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouvel équipement :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyEquipementController::new')) }}
                 </div>
             </div>
         </div>
