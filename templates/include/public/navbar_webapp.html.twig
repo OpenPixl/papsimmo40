@@ -18,10 +18,10 @@
 <nav class="navbar fixed-top navbar-expand-lg navbar-light">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('op_webapp_public_homepage')}}">
-            {% if parameter.logoName %}
-                <img src="{{ vich_uploader_asset(application, 'faviconFile') }}" alt="{{ parameter.logoName }}" width="24">
+            {% if application.logoName %}
+                <img src="{{ vich_uploader_asset(application, 'faviconFile') }}" alt="{{ application.logoName }}" width="24">
             {% else %}
-                <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ parameter.nameSite }}" width="40">
+                <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" width="40">
             {% endif %}
 
         </a>

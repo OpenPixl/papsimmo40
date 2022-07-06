@@ -15,17 +15,17 @@
         <div class="col-3">
             <div class="row">
                 <div class="offset-3 col-6">
-                    {% if parameter.logoName %}
-                        <img class="img-fluid" src="{{ vich_uploader_asset(application, 'logoFile') }}" alt="{{ parameter.logoName }}">
+                    {% if application.logoName %}
+                        <img class="img-fluid" src="{{ vich_uploader_asset(application, 'logoFile') }}" alt="{{ application.logoName }}">
                     {% else %}
-                        <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ parameter.nameSite }}" height="100px">
+                        <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" height="100px">
                     {% endif %}
                 </div>
                 <div class="col-3"></div>
             </div>
             <div class="row">
                 <div class="offset-3 col-6">
-                    <h5 class="text-center">SAS {{ parameter.nameSite }}</h5>
+                    <h5 class="text-center">SAS {{ application.nameSite }}</h5>
                     <p class="text-center">24 Boulevard Marcel DASSAULT <br>64200 BIARRITZ</p>
                     <p class="text-center">contact@papsimmo.fr</p>
                     <p class="text-center">06 77 31 26 39</p>
