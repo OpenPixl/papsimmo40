@@ -48,6 +48,7 @@ class PropertyRepository extends ServiceEntityRepository
     public function fivelastproperties()
     {
         return $this->createQueryBuilder('p')
+            ->where('p.isIncreating = 0')
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(5)
             ->getQuery()

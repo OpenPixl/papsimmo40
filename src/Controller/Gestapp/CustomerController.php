@@ -36,13 +36,30 @@ class CustomerController extends AbstractController
         $idproperty = $property->getId();
 
         // intégration dans ce controller du formulaire de recherche des clients
-        $form = $this->createForm(SearchCustomersType::class);
-        $search = $form->handleRequest($request);
 
         return $this->render('gestapp/customer/listByProperty.html.twig', [
             'customers' => $customerRepository->listByProperty($property),
             'idproperty' => $idproperty,
-            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/byproperty/searchcustomer', name: 'op_gestapp_customer_searchcustomer', methods: ['GET'])]
+    public function listsearchcustomer(CustomerRepository $customerRepository, Request $request): Response
+    {
+        // récupération de la liste
+        $customers = $customerRepository->findAll();
+
+        $form = $this->createForm(SearchCustomersType::class);
+        $search = $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $customers = $customerRepository->SearchCustomers($search->get('word')->getData());
+        }
+        // intégration dans ce controller du formulaire de recherche des clients
+
+        return $this->render('gestapp/customer/search/_listsearch.html.twig', [
+            'customers' => $customers
         ]);
     }
 

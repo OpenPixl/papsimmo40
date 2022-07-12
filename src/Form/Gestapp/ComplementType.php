@@ -128,8 +128,14 @@ class ComplementType extends AbstractType
             ->add('balcony', IntegerType::class, [
                 'label' => "Balcon"
             ])
-            ->add('isFurnished', RadioType::class, [
-                'label' => 'Le bien est-il meublé ?'
+            ->add('isFurnished', ChoiceType::class, [
+                'label' => 'Le bien est-il meublé ?',
+                'choices' => [
+                    'non' => 0,
+                    'oui' => 1,
+                ],
+                'multiple' => false,
+                'expanded' => true,
             ])
             ->add('propertyEnergy', EntityType::class, [
                 'class' => PropertyEnergy::class,

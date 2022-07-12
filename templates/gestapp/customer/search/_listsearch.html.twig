@@ -1,0 +1,11 @@
+{% for customer in customers %}
+    <table class="table table-borderless w-100">
+        <tr>
+            <td>{{ customer.lastName }} {{ customer.firstName }}</td>
+            <td>{{ customer.zipcode }}</td>
+            <td><a href=""><i class="fa-light fa-user-check"></i></a></td>
+        </tr>
+    </table>
+{% else %}
+    <p>pas de résultats</p>
+{% endfor %}

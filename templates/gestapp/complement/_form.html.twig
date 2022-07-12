@@ -153,12 +153,13 @@
                     EQUIPEMENTS
                     <hr>
                     <div class="row">
-                        <fieldset>
                             <div class="form-check form-check-inline">
                                 {{ form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                {{ form_widget(form.isFurnished, {'attr': {'class': 'form-check-input'}}) }}
+                                {% for child in form.isFurnished %}
+                                    {{ form_widget(child) }}
+                                    {{ form_label(child) }}
+                                {% endfor %}
                             </div>
-                        </fieldset>
                     </div>
 
 

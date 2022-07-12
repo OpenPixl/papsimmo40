@@ -261,7 +261,7 @@
                 const location = document.getElementById('complement_location').value
                 const disponibilityAt = new Date(document.getElementById('complement_disponibilityAt').value)
 
-                const isFurnished = document.getElementById('complement_isFurnished').checked
+                const isFurnished = document.querySelector('input[name="complement[isFurnished]"]:checked').value;
                 const propertyEquipment = []
                 for (let option of document.getElementById('complement_propertyEquipment').options)
                 {

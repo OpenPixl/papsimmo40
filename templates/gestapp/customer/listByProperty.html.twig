@@ -1,19 +1,19 @@
 <div class="row mt-2">
     <div class="col-sm-2">
+        <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
+            Ajouter un vendeur<br>
+            sur ce bien.
+        </button>
+        <hr>
         <div class="card text-dark bg-light">
             <div class="card-body">
                 <p>
                     <b>Rechercher </b>un vendeur
                 </p>
-                {{ form(form) }} 
+                {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer')) }}
             </div>
         </div>
-        <hr>
 
-        <button type="button" class="btn btn-sm btn-outline-warning mb-1" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
-            Ajouter un vendeur<br>
-            sur ce bien.
-        </button>
     </div>
     <div class="col-sm-10">
         <div id="listeCustormers" class="row">

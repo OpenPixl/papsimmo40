@@ -13,12 +13,17 @@ class SearchCustomersType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('world', SearchType::class, [
+            ->add('word', SearchType::class, [
                 'label' => false,
                 'attr' => [
                     'class' => 'form-control form-control-sm',
                     'placeholder' => 'Entrez le nom ou le prénom'
                 ],
+            ])
+            ->add('Rechercher', SubmitType::class, [
+                'attr' => [
+                    'class' => 'btn btn-sm btn-secondary'
+                ]
             ])
         ;
     }
