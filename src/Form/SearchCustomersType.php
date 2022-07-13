@@ -20,11 +20,6 @@ class SearchCustomersType extends AbstractType
                     'placeholder' => 'Entrez le nom ou le prénom'
                 ],
             ])
-            ->add('Rechercher', SubmitType::class, [
-                'attr' => [
-                    'class' => 'btn btn-sm btn-secondary'
-                ]
-            ])
         ;
     }
 
@@ -32,6 +27,7 @@ class SearchCustomersType extends AbstractType
     {
         $resolver->setDefaults([
             // Configure your form options here
+            'attr' => ['id'=>'SearchCustomerForm']
         ]);
     }
 }

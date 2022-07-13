@@ -182,7 +182,45 @@
                         const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
                     })
             }
-
+            // Ajout d'un évènement sur le click AddCustomerSearch
+            document.querySelectorAll('a.addcustomersearch').forEach(function (link){
+                link.addEventListener('click', AddCustomerSearch);
+            })
+            // fonction d'ajout depuis l'évènement AddCustomerSearch
+            function AddCustomerSearch(event){
+                event.preventDefault()
+                let url = this.href
+                axios
+                    .post(url)
+                    .then(function(response){
+                        document.getElementById('listeCustormers').innerHTML = response.data.liste
+                        // relance de l'évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link){
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                    })
+            }
+            // fonction de recherche "Customer" depuis le formulaire
+            document.getElementById('search_customers_rechercher').addEventListener('click', function(event) {
+                event.preventDefault()
+                let urlSearchCustomer = this.href
+                let formsearchCustomer = new FormData()
+                formsearchCustomer.append('search_customers[word]', document.getElementById('search_customers_word').value)
+                formsearchCustomer.append('search_customers[_token]', document.getElementById('search_customers__token').value)
+                axios
+                    .post(urlSearchCustomer, formsearchCustomer)
+                    .then(function (response) {
+                        document.getElementById('listeSearchCustomers').innerHTML = response.data.liste
+                        // relance de l'évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            })
 
 
             // -------------
@@ -496,7 +534,6 @@
             })
 
 
-
             // SELECT Typology
             new TomSelect("#complement_propertyTypology",{
                 plugins: ['remove_button'],
@@ -596,28 +633,6 @@
                         console.log(error);
                     })
             }
-
-
-            //new TomSelect("#property_refEmployed",{
-            //    plugins: ['remove_button'],
-            //    create: true,
-            //    onItemAdd:function(){
-            //        this.setTextboxValue('');
-            //        this.refreshOptions();
-            //    },
-            //    render:{
-            //        option:function(data,escape){
-            //            return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-            //        },
-            //        item:function(data,escape){
-            //            return '<div>' + escape(data.data) + '</div>';
-            //        }
-            //    }
-            //});
-
-
-
-
 
             new TomSelect("#publication_sector",{
                 plugins: ['remove_button'],

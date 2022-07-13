@@ -1,11 +1,11 @@
-{% for customer in customers %}
-    <table class="table table-borderless w-100">
+<table class="table table-borderless w-100">
+    <thead>
         <tr>
-            <td>{{ customer.lastName }} {{ customer.firstName }}</td>
-            <td>{{ customer.zipcode }}</td>
-            <td><a href=""><i class="fa-light fa-user-check"></i></a></td>
+            <td colspan="2">{{form(form)}}</td>
+            <td><a id="search_customers_rechercher" href="{{path('op_gestapp_customer_searchcustomer', {'idproperty':idproperty})}}" class="btn btn-sm btn-warning"><i class="fa-light fa-magnifying-glass"></i></a></td>
         </tr>
-    </table>
-{% else %}
-    <p>pas de résultats</p>
-{% endfor %}
+    </thead>
+    <tbody id="listeSearchCustomers">
+    {{ include('gestapp/customer/search/_liste.html.twig')}}
+    </tbody>
+</table>

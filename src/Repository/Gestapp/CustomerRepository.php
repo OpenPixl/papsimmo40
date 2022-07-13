@@ -67,7 +67,7 @@ class CustomerRepository extends ServiceEntityRepository
         $query->where('c.isArchived = 0');
         if($keys != null){
             $query
-                ->andWhere('MATCH_AGAINST(a.fisrtName, a.lastName) AGAINST (:keys boolean)>0')
+                ->andWhere('MATCH_AGAINST(c.firstName, c.lastName) AGAINST (:keys boolean)>0')
                 ->setParameter('keys', $keys);
         }
         return $query->getQuery()->getResult();

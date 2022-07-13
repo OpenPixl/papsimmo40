@@ -1,5 +1,5 @@
 <div class="row mt-2">
-    <div class="col-sm-2">
+    <div class="col-sm-3">
         <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
             Ajouter un vendeur<br>
             sur ce bien.
@@ -10,12 +10,12 @@
                 <p>
                     <b>Rechercher </b>un vendeur
                 </p>
-                {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer')) }}
+                {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer', {'idproperty': idproperty})) }}
             </div>
         </div>
 
     </div>
-    <div class="col-sm-10">
+    <div class="col-sm-9">
         <div id="listeCustormers" class="row">
             {% include 'gestapp/customer/_listecustomers.html.twig' with {'idproperty': idproperty} %}
         </div>

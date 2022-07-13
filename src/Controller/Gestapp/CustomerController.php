@@ -43,11 +43,11 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/byproperty/searchcustomer', name: 'op_gestapp_customer_searchcustomer', methods: ['GET'])]
-    public function listsearchcustomer(CustomerRepository $customerRepository, Request $request): Response
+    #[Route('/byproperty/searchcustomer/{idproperty}', name: 'op_gestapp_customer_searchcustomer', methods: ['GET', 'POST'])]
+    public function listsearchcustomer(CustomerRepository $customerRepository, Request $request, $idproperty): Response
     {
         // récupération de la liste
-        $customers = $customerRepository->findAll();
+        $customers = $customerRepository->findBy(['id'=>0]);
 
         $form = $this->createForm(SearchCustomersType::class);
         $search = $form->handleRequest($request);
@@ -55,11 +55,41 @@ class CustomerController extends AbstractController
         if($form->isSubmitted() && $form->isValid())
         {
             $customers = $customerRepository->SearchCustomers($search->get('word')->getData());
+            return $this->json([
+                'code'=> 200,
+                'message' => "La recherche à aboutie",
+                'liste' => $this->renderView('gestapp/customer/search/_liste.html.twig', [
+                    'customers' => $customers,
+                    'idproperty' => $idproperty
+                ])
+            ]);
         }
         // intégration dans ce controller du formulaire de recherche des clients
 
         return $this->render('gestapp/customer/search/_listsearch.html.twig', [
-            'customers' => $customers
+            'customers' => $customers,
+            'idproperty' => $idproperty,
+            'form' => $form->createView()
+        ]);
+    }
+
+    #[Route('/byproperty/addsearchcustomer/{id}/{idproperty}', name: 'op_gestapp_customer_addsearchcustomer', methods: ['POST'])]
+    public function addSearchCustomer(Customer $customer, CustomerRepository $customerRepository, $idproperty, PropertyRepository $propertyRepository)
+    {
+        $property = $propertyRepository->find($idproperty);
+        $property->addCustomer($customer);
+        $propertyRepository->add($property);
+
+        $customers = $customerRepository->listByProperty($property);
+
+        // correction à apporter
+        return $this->json([
+            'code'=> 200,
+            'message' => "Le vendeur a été ajouté",
+            'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                'customers' => $customers,
+                'idproperty' => $idproperty
+            ])
         ]);
     }
 
@@ -198,10 +228,12 @@ class CustomerController extends AbstractController
     #[Route('/{id}/{idproperty}', name: 'op_gestapp_customer_del_onproperty', methods: ['POST'])]
     public function delOnProperty(Customer $customer, $idproperty, PropertyRepository $propertyRepository,CustomerRepository $customerRepository)
     {
+        // suprression du client vendeur sur le bien
         $property = $propertyRepository->find($idproperty);
-        $customerRepository->remove($customer);
+        $property->removeCustomer($customer);
+        $propertyRepository->add($property);
+        //récupératuion de la liste de teous les client sur le bien
         $customers = $customerRepository->listbyproperty($property);
-
         return $this->json([
             'code'=> 200,
             'message' => "Le vendeurs a été correctement ajouté.",
