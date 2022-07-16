@@ -47,10 +47,9 @@ class PropertyEnergyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyEnergyRepository->add($propertyEnergy);
-            $energy = $propertyEnergy->getName();
             return $this->json([
                 'code' => 200,
-                'energy' => $energy,
+                'energy' => $propertyEnergy->getName(),
                 'message' => "Une nouvelle source a été ajoutée."
             ], 200);
         }

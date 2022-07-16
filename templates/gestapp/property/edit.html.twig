@@ -56,7 +56,7 @@
             // -------------
             // STEP 1 : enregistrement des informations initiales du bien sur clic du boutons next
             // -------------
-            stepInformations.onclick = function (event) {
+            nextStepInformations.onclick = function (event) {
                 event.preventDefault()
                 // action sur
                 nextStepCustomers.className = "btn btn-sm btn-outline-primary";
@@ -267,9 +267,11 @@
             }
 
 
-            // -------------
+            // ---------------------------------------
             // STEP 4 : Enregistrement des options
-            // -------------
+            //
+            // ---------------------------------------
+
             stepOptions.onclick = function (event) {
                 event.preventDefault()
                 // visibilité des éléments
@@ -326,10 +328,10 @@
                         // handle error
                         console.log(error);
                     })
-
             }
 
-            // SELECT Bannière
+            // PARTIE Bannière sur image - SELECT
+            // ---------------------------------------
             new TomSelect("#complement_banner",{
                 plugins: ['remove_button'],
                 create: true,
@@ -346,6 +348,55 @@
                     }
                 }
             });
+
+            // PARTIE Catégorie du bien - SELECT
+            // ---------------------------------------
+            new TomSelect("#complement_denomination",{
+                plugins: ['remove_button', 'change_listener'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // PARTIE Catégorie du bien - Ouverture de la modale
+            const modalHouseCat = document.getElementById('modalHouseCat')
+            const HouseCat = new bootstrap.Modal(modalHouseCat, { keyboard: true })
+            const addHouseCat = document.getElementById('addHouseCat')
+            addHouseCat.addEventListener('click', function(event){
+                console.log('ok')
+                HouseCat.show()
+            })
+            // PARTIE Catégorie du bien - Envoi du formulaire
+            let property_cat = document.getElementById('FormHouseCat')
+            property_cat.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_cat = '/gestapp/choice/denomination/new2'
+                let data_property_cat = new FormData(property_cat)
+                axios
+                    .post(url_property_cat, data_property_cat)
+                    .then(function(response)
+                    {
+                        const select = document.getElementById('complement_denomination');
+                        const option = document.createElement("option")
+                        option.setAttribute("value", response.data.valuecat)
+                        option.setAttribute("data-data", response.data.cat)
+                        option.text = response.data.cat;
+                        select.add(option)
+                        HouseCat.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
 
             // PARTIE Etat du bien - SELECT
             new TomSelect("#complement_propertyState",{
@@ -364,7 +415,7 @@
                     }
                 }
             });
-            // PARTIE Etat du bien - Ouverture de la modal
+            // PARTIE Etat du bien - Ouverture de la modale
             const modalHouseState = document.getElementById('modalHouseState')
             const HouseState = new bootstrap.Modal(modalHouseState, { keyboard: true })
             const addHouseState = document.getElementById('addHouseState')
@@ -383,9 +434,13 @@
                     .then(function(response)
                     {
                         const select = document.getElementById('complement_propertyState');
-                        const options = document.createElement("option");
-                        options.text = response.data.unit;
-                        console.log(response.data.unit)
+                        const option = document.createElement("option")
+                        option.setAttribute("data-data", response.data.state)
+                        option.setAttribute("value", response.data.valuestate)
+                        option.text = response.data.state;
+                        console.log(option)
+                        select.add(option)
+
                         HouseState.hide()
 
                     })
@@ -487,6 +542,45 @@
                     })
             })
 
+            // PARTIE disponibilité du bien - SELECT
+            new TomSelect("#complement_disponibility",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+            // PARTIE location du bien - SELECT
+            new TomSelect("#complement_location",{
+                placeholder: "A définir",
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+
+
             // PARTIE Equipement du bien - SELECT
             new TomSelect("#complement_propertyEquipment",{
                 plugins: ['remove_button'],
@@ -582,6 +676,7 @@
                 Gallery.className = "tab-pane";
                 Publication.className += " active";
             }
+            // Ajout d'une image sur un bien
             let form = document.getElementById('addPhoto')
             form.addEventListener('submit', function (event) {
                 event.preventDefault()
@@ -603,9 +698,27 @@
                         console.log(error);
                     })
             })
+            // Suppression d'une image
+            function delphoto(event){
+                event.preventDefault()
+                let urldelphoto = this.href
+                axios
+                    .post(urldelphoto)
+                    .then(function(response){
+                        const listephoto = document.getElementById('listephoto').innerHTML = response.data.listephoto;
+                        document.querySelectorAll('a.delphoto').forEach(function (link){
+                            link.addEventListener('click', delphoto);
+                        })
+                    })
+            }
+            document.querySelectorAll('a.delphoto').forEach(function (link){
+                link.addEventListener('click', delphoto);
+            })
 
 
-            // évenement sur le boutons stepPublication
+            // -------------
+            // STEP 6 : Publication du bien sur le site ou les Réseaux sociaux
+            // -------------
             stepPublication.onclick = function (event) {
                 event.preventDefault()
                 // visibilité des éléments
@@ -741,6 +854,18 @@
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
                         <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
                     </div>
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseCat #}
+        <div class="modal fade" id="modalHouseCat" tabindex="-1" aria-labelledby="addHouseCat" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une Catégorie de type F1, F2... :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\DenominationController::new')) }}
                 </div>
             </div>
         </div>

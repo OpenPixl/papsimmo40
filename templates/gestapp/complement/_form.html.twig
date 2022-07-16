@@ -1,17 +1,28 @@
 {{ form_start(form) }}
-    <div class="mb-1">
-        {% include('include/form/select.html.twig') with {
-            'form_label':form_label(form.banner, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-            'form_select':form_widget(form.banner)
-        }
-        %}
+    <div class="row mb-1">
+        <div class="col-2">
+            {{ form_label(form.banner, '', {'label_attr': {'class':'form-label'}}) }}
+        </div>
+        <div class="col-3">
+            {{ form_widget(form.banner) }}
+        </div>
     </div>
-    <div class="mb-1">
-        {% include('include/form/select.html.twig') with {
-            'form_label':form_label(form.denomination, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-            'form_select':form_widget(form.denomination)
-        }
-        %}
+    <div class="row mb-1">
+        <div class="col-2">
+            {{ form_label(form.denomination, '', {'label_attr': {'class':'form-label'}}) }}
+        </div>
+        <div class="col-3">
+            {{ form_widget(form.denomination) }}
+        </div>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div class="col-1">
+                <button id="addHouseCat" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+            </div>
+        {% else %}
+            <div class="col-1">
+                <button id="addHouseCat" class="btn btn-sm btn-secondary" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+            </div>
+        {% endif %}
     </div>
     <hr>
     <div class="row g-1">
@@ -62,7 +73,6 @@
                     <input type="hidden" value="">
                     <hr>
                     {# bloc House State #}
-
                     <div class="row mb-1 mt-1 g-1">
                         <div class="col-4">
                             {{ form_label(form.propertyState, '', {'label_attr': {'class':'form-label'}}) }}
@@ -124,19 +134,23 @@
                         {% endif %}
                     </div>
 
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-4">
+                            {{ form_label(form.disponibility, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-3">
+                            {{ form_widget(form.disponibility) }}
+                        </div>
+                    </div>
 
-
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.disponibility, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.disponibility, {'attr': {'class': 'form-control form-control-sm'}})
-                    }
-                    %}
-
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.location, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.location, {'attr': {'class': 'form-control form-control-sm'}})
-                    }
-                    %}
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-4">
+                            {{ form_label(form.location, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-3">
+                            {{ form_widget(form.location) }}
+                        </div>
+                    </div>
 
                     {% include('include/form/date.html.twig') with {
                         'form_label':form_label(form.disponibilityAt, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
@@ -153,13 +167,13 @@
                     EQUIPEMENTS
                     <hr>
                     <div class="row">
-                            <div class="form-check form-check-inline">
-                                {{ form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                {% for child in form.isFurnished %}
-                                    {{ form_widget(child) }}
-                                    {{ form_label(child) }}
-                                {% endfor %}
-                            </div>
+                        <div class="form-check form-check-inline">
+                            {{ form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}) }}
+                            {% for child in form.isFurnished %}
+                                {{ form_widget(child) }}
+                                {{ form_label(child) }}
+                            {% endfor %}
+                        </div>
                     </div>
 
 

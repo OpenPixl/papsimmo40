@@ -50,10 +50,12 @@ class PropertyStateController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyStateRepository->add($propertyState);
             $state = $propertyState->getName();
+            $valuestate = $propertyState->getId();
             return $this->json([
                 'code' => 200,
                 'state' => $state,
-                'message' => "Un nouvezl état a été ajoutée."
+                'valuestate' => $valuestate,
+                'message' => "Un nouvel état a été ajoutée."
             ], 200);
         }
 

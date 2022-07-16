@@ -157,6 +157,9 @@ class ComplementType extends AbstractType
                         ->orderBy('d.name', 'ASC');
                 },
                 'choice_label' => 'name',
+                'choice_attr' => function (Denomination $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                }
             ])
             ->add('propertyEquipment',EntityType::class, [
                 'class' => PropertyEquipement::class,

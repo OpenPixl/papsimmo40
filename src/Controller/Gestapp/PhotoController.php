@@ -105,7 +105,7 @@ class PhotoController extends AbstractController
         return $this->redirectToRoute('app_gestapp_photo_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/del/{id}', name: 'app_gestapp_photo_del', methods: ['POST'])]
+    #[Route('/del/{id}/{idproperty}', name: 'app_gestapp_photo_del', methods: ['POST'])]
     public function del(Request $request, Photo $photo, PhotoRepository $photoRepository, PropertyRepository $propertyRepository, $idproperty): Response
     {
         $photoRepository->remove($photo);
