@@ -1,4 +1,4 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'id':'FormPublication'}}) }}
     {% include('include/form/oneSwitch.html.twig') with {
         'form_label':form_label(form.isWebpublish, '', {'label_attr': {'class':'form-check-label'}}),
         'form_switch':form_widget(form.isWebpublish, {'attr': {'class': 'form-check-input'}})
@@ -23,7 +23,7 @@
     <div class="col-12">
         <div class="mt-1">
             <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-            <button type="submit" id="stepPublication" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
+            <button type="submit" id="stepPublication" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et finaliser la modification d'un bien") }}</button>
         </div>
     </div>
 </div>

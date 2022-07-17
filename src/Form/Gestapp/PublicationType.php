@@ -15,10 +15,12 @@ class PublicationType extends AbstractType
     {
         $builder
             ->add('isWebpublish', CheckboxType::class, [
-                'label' => 'publié sur le site ?'
+                'label' => 'publié sur le site ?',
+                'required' => false
             ])
             ->add('isSocialNetwork', CheckboxType::class, [
-                'label' => 'publié sur les réseaux ?'
+                'label' => 'publié sur les réseaux ?',
+                'required' => false
             ])
             ->add('sector', ChoiceType::class, [
                 'label' => 'secteur',

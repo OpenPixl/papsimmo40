@@ -48,15 +48,18 @@ class PublicationController extends AbstractController
         ]);
     }
 
-    #[Route('/showbyproperty/{id}', name: 'op_admin_contact_showbyproperty', methods: ['GET'])]
+    #[Route('/showbyproperty/{id}', name: 'op_admin_contact_showbyproperty', methods: ['GET','POST'])]
     public function showByProperty(Request $request, Publication $publication, PublicationRepository $publicationRepository): Response
     {
-        $form = $this->createForm(PublicationType::class, $publication);
+        $form = $this->createForm(PublicationType::class, $publication,[
+            'action' => $this->generateUrl('op_admin_contact_showbyproperty', ['id' => $publication->getId()]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $publicationRepository->add($publication);
-            return $this->redirectToRoute('app_gestapp_publication_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('gestapp/publication/showbyproperty.html.twig', [

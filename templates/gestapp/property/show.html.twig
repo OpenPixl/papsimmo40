@@ -648,6 +648,20 @@
             document.querySelectorAll('a.delphoto').forEach(function (link){
                 link.addEventListener('click', delphoto);
             })
+
+            // ---------------------------------------
+            // STEP 5 :
+            // Enregistrement des options de publication du bien
+            //
+            // ---------------------------------------
+            let FormPublication = document.getElementById('FormPublication')
+            FormPublication.addEventListener('submit', function (event) {
+                let url_publication = FormPublication.action
+                let data_publication = new FormData(FormPublication)
+                axios
+                    .post(url_publication, data_publication)
+            })
+
         }
     </script>
 {% endblock %}
