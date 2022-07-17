@@ -26,7 +26,10 @@ class PropertyEquipementController extends AbstractController
     public function new(Request $request, PropertyEquipementRepository $propertyEquipementRepository, ComplementRepository $complementRepository): Response
     {
         $propertyEquipement = new PropertyEquipement();
-        $form = $this->createForm(PropertyEquipementType::class, $propertyEquipement);
+        $form = $this->createForm(PropertyEquipementType::class, $propertyEquipement, [
+            'action' => $this->generateUrl('app_gestapp_choice_property_equipement_new2'),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

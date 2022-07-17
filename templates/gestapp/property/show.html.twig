@@ -478,7 +478,7 @@
                     }
                 }
             });
-            // PARTIE Orientation du bien - Ouverture de la modal
+            // Ouverture de la modal
             const modalHouseOrientation = document.getElementById('modalHouseOrientation')
             const HouseOrientation = new bootstrap.Modal(modalHouseOrientation, { keyboard: true })
             const addHouseOrientation = document.getElementById('addHouseOrientation')
@@ -573,7 +573,39 @@
                     }
                 }
             });
-
+            // Ouverture de la modal
+            const modalHouseEquipment = document.getElementById('modalHouseEquipment')
+            const HouseEquipment= new bootstrap.Modal(modalHouseEquipment, { keyboard: true })
+            const addHouseEquipment = document.getElementById('addHouseEquipment')
+            addHouseEquipment.addEventListener('click', function(event){
+                event.preventDefault()
+                HouseEquipment.show()
+            })
+            // Envoi du formulaire
+            let FormHouseEquipment = document.getElementById('FormHouseEquipment')
+            FormHouseEquipment.addEventListener('submit', function (event){
+                event.preventDefault()
+                let urlpropertyEquip = FormHouseEquipment.action
+                let datapropertyEquip = new FormData(FormHouseEquipment)
+                axios
+                    .post(urlpropertyEquip, datapropertyEquip)
+                    .then(function(response)
+                    {
+                        const selectorequip = document.getElementById('complement_propertyOrientation');
+                        const optionsequip = document.createElement("option");
+                        optionsequip.text = response.data.orientation;
+                        optionsequip.setAttribute("data-data", response.data.equip)
+                        optionsequip.setAttribute("value", response.data.valueequip)
+                        optionsequip.text = response.data.equip;
+                        selectorequip.add(optionsequip)
+                        tspropertyEquip.addOption({data: response.data.equip, value:response.data.valueequip})
+                        tspropertyEquip.addItem(response.data.equip)
+                        HouseEquipment.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
 
             // PARTIE Typologie du bien
             // ---------------------------------------
@@ -660,6 +692,9 @@
                 let data_publication = new FormData(FormPublication)
                 axios
                     .post(url_publication, data_publication)
+                    .catch(function(error){
+                        console.log(error);
+                    })
             })
 
         }
@@ -831,7 +866,7 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie :</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie de bien:</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyTypologyController::new')) }}
