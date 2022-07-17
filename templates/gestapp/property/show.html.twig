@@ -594,7 +594,60 @@
                     }
                 }
             });
-            
+
+
+            // ---------------------------------------
+            // STEP 5 :
+            // Enregistrement des images du bien
+            //
+            // ---------------------------------------
+            stepGallery.onclick = function (event) {
+                event.preventDefault()
+                nextStepGallery.className += " d-none";
+                nextStepPublication.className = "btn btn-sm btn-outline-primary";
+                navGallery.className = "nav-link disabled";
+                navPublication.className = "nav-link active";
+                Gallery.className = "tab-pane";
+                Publication.className += " active";
+            }
+            // Ajout d'une image sur un bien
+            let form = document.getElementById('addPhoto')
+            form.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url = form.action
+                let data = new FormData(form)
+                axios
+                    .post(url, data)
+                    .then(function(response)
+                    {
+                        // rafraichissement du tableau
+                        document.getElementById('listephoto').innerHTML = response.data.listephoto;
+
+                        // rechargement des events
+                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
+                            link.addEventListener('click', onClickDelEvent)
+                        })
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+            // Suppression d'une image
+            function delphoto(event){
+                event.preventDefault()
+                let urldelphoto = this.href
+                axios
+                    .post(urldelphoto)
+                    .then(function(response){
+                        document.getElementById('listephoto').innerHTML = response.data.listephoto;
+                        document.querySelectorAll('a.delphoto').forEach(function (link){
+                            link.addEventListener('click', delphoto);
+                        })
+                    })
+            }
+            document.querySelectorAll('a.delphoto').forEach(function (link){
+                link.addEventListener('click', delphoto);
+            })
         }
     </script>
 {% endblock %}
