@@ -31,7 +31,6 @@
             const Gallery = document.getElementById("Gallery");
             const Publication = document.getElementById("Publication");
 
-            // Panels
             const focus = document.getElementById('property_refMandat');
             focus.focus()
 
@@ -90,6 +89,7 @@
                     piece: piece, room: room, isHome: isHome, isApartment: isApartment, isLand: isLand, isOther: isOther,
                     otherDescription: otherDescription, constructionAt:constructionAt, refMandat:refMandat
                 }
+                console.log(data)
                 // envoie des données
                 axios
                     .post(url, data)
@@ -141,7 +141,6 @@
                 var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
                 modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
             })
-
             // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
             const btnAddCustomer = document.getElementById('btnAddCustomer')
             btnAddCustomer.onclick = function(event){
@@ -171,7 +170,6 @@
                         console.log(error);
                     })
             }
-
             // Fonction de suppression d'un client
             function SupprCustomer (event){
                 event.preventDefault()
@@ -330,8 +328,9 @@
                     })
             }
 
-            // PARTIE Bannière sur image - SELECT
+            // PARTIE Bannière sur image
             // ---------------------------------------
+            // SELECT
             new TomSelect("#complement_banner",{
                 plugins: ['remove_button'],
                 create: true,
@@ -664,9 +663,11 @@
             });
 
 
-            // -------------
+            // ---------------------------------------
+            //
             // STEP 5 : Enregistrement des images du bien
-            // -------------
+            //
+            // ---------------------------------------
             stepGallery.onclick = function (event) {
                 event.preventDefault()
                 nextStepGallery.className += " d-none";
@@ -828,7 +829,7 @@
     {% endfor %}
 
     {% if app.request.attributes.get('_route') == 'op_gestapp_property_edit'%}
-        {{ include('gestapp/property/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+        {{ include('gestapp/property/_formfirst.html.twig', {'button_label': "Finaliser l'édition de ce nouveau bien"}) }}
     {% else %}
         {{ include('gestapp/property/_formfirst.html.twig', {'button_label': 'Finaliser la création de ce nouveau bien'}) }}
     {% endif %}

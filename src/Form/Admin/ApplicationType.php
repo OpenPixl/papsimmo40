@@ -61,19 +61,19 @@ class ApplicationType extends AbstractType
                 'required' => false
             ])
             ->add('urlFacebook', TextType::class, [
-                'label' => "Lien vers votre page Facebook",
+                'label' => "URL Facebook",
                 'required' => false
             ])
             ->add('urlInstagram', TextType::class, [
-                'label' => "Lien vers votre page Instagram",
+                'label' => "URL Instagram",
                 'required' => false
             ])
             ->add('urlLinkedin', TextType::class, [
-                'label' => "Lien vers votre page Linkedin",
+                'label' => "URL Linkedin",
                 'required' => false
             ])
             ->add('urlGooglebusiness', TextType::class, [
-                'label' => "Lien vers votre page Google Business",
+                'label' => "URL Google Business",
                 'required' => false
             ])
             ->add('logoFile', VichImageType::class, [

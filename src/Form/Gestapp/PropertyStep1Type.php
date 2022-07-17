@@ -36,11 +36,14 @@ class PropertyStep1Type extends AbstractType
                 'label' => 'Référence'
             ])
             ->add('name', TextType::class, [
-                'label' => 'Titre du bien'
+                'label' => 'Titre du bien',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('annonce', TextareaType::class, [
                 'label' => 'Annonce',
                 'required' => false,
+                'empty_data' =>''
             ])
             ->add('piece', IntegerType::class,[
                 'label' => 'Nombre de pièce',
@@ -58,6 +61,7 @@ class PropertyStep1Type extends AbstractType
             ])
             ->add('room', IntegerType::class, [
                 'label' => 'Nombre de chambre',
+                'empty_data' => 0,
                 'required' => false,
             ])
 
@@ -78,24 +82,29 @@ class PropertyStep1Type extends AbstractType
                 'required' => false,
             ])
             ->add('otherDescription', TextType::class, [
-                'label' => 'Autre...',
+                'label' => 'Autres',
                 'required' => false,
+                'empty_data' =>''
             ])
             ->add('adress',TextType::class, [
                 'label' => 'Adresse',
                 'required' => false,
+                'empty_data' =>''
             ])
             ->add('complement',TextType::class, [
                 'label' => 'Complément',
                 'required' => false,
+                'empty_data' =>''
             ])
             ->add('zipcode',TextType::class, [
                 'label' => 'Code postal',
                 'required' => false,
+                'empty_data' =>''
             ])
             ->add('city',TextType::class, [
                 'label' => 'Commune',
                 'required' => false,
+                'empty_data' =>''
             ])
             ->add('imageFile',VichImageType::class, [
                 'label'=> '',

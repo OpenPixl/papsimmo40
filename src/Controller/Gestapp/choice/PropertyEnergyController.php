@@ -42,7 +42,10 @@ class PropertyEnergyController extends AbstractController
     public function new2(Request $request, PropertyEnergyRepository $propertyEnergyRepository): Response
     {
         $propertyEnergy = new PropertyEnergy();
-        $form = $this->createForm(PropertyEnergyType::class, $propertyEnergy);
+        $form = $this->createForm(PropertyEnergyType::class, $propertyEnergy,[
+            'action' => $this->generateUrl('app_gestapp_choice_property_energy_new2'),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -50,6 +53,7 @@ class PropertyEnergyController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'energy' => $propertyEnergy->getName(),
+                'valueenergy' => $propertyEnergy->getId(),
                 'message' => "Une nouvelle source a été ajoutée."
             ], 200);
         }

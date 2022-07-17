@@ -44,7 +44,10 @@ class ComplementController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $complementRepository->add($complement);
-            return $this->redirectToRoute('op_gestapp_complement_index', [], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code' => 200,
+                'message' => "Une nouvelle source a été ajoutée."
+            ], 200);
         }
 
         return $this->renderForm('gestapp/complement/new.html.twig', [
@@ -122,7 +125,6 @@ class ComplementController extends AbstractController
         }
         // flush
         $complementRepository->add($complement);
-
         return $this->json([
             'code'=> 200,
             'message' => "Les options ont été correctement ajoutées."
@@ -141,12 +143,18 @@ class ComplementController extends AbstractController
     #[Route('/{id}/edit', name: 'op_gestapp_complement_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Complement $complement, ComplementRepository $complementRepository): Response
     {
-        $form = $this->createForm(ComplementType::class, $complement);
+        $form = $this->createForm(ComplementType::class, $complement, [
+            'action' => $this->generateUrl('op_gestapp_complement_edit', ['id'=>$complement->getId()]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $complementRepository->add($complement);
-            return $this->redirectToRoute('op_gestapp_complement_index', [], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code' => 200,
+                'message' => "Une nouvelle source a été ajoutée."
+            ], 200);
         }
 
         return $this->renderForm('gestapp/complement/edit.html.twig', [

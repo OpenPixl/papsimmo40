@@ -56,9 +56,6 @@ class Property
     #[ORM\Column(type: 'boolean')]
     private $isOther = false;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $otherDescription;
-
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private $surfaceLand;
 
@@ -150,6 +147,9 @@ class Property
 
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
     private $photos;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    private $otherDescription;
 
     public function __construct()
     {
@@ -302,18 +302,6 @@ class Property
     public function setIsOther(bool $isOther): self
     {
         $this->isOther = $isOther;
-
-        return $this;
-    }
-
-    public function getOtherDescription(): ?string
-    {
-        return $this->otherDescription;
-    }
-
-    public function setOtherDescription(string $otherDescription): self
-    {
-        $this->otherDescription = $otherDescription;
 
         return $this;
     }
@@ -720,6 +708,18 @@ class Property
                 $photo->setProperty(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getOtherDescription(): ?string
+    {
+        return $this->otherDescription;
+    }
+
+    public function setOtherDescription(?string $otherDescription): self
+    {
+        $this->otherDescription = $otherDescription;
 
         return $this;
     }

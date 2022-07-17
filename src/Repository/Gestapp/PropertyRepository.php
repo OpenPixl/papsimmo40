@@ -7,6 +7,7 @@ use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\DocBlock\Tags\Author;
 
 /**
  * @method Property|null find($id, $lockMode = null, $lockVersion = null)
@@ -51,6 +52,39 @@ class PropertyRepository extends ServiceEntityRepository
             ->where('p.isIncreating = 0')
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(5)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function listAllProperties()
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->addSelect('
+                p.id as id,
+                p.ref as ref,
+                p.name as name,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                p.piece as piece,
+                p.room as room,
+                p.isHome as isHome,
+                p.isApartment as isApartment,
+                p.isLand as isLand,
+                p.isOther as isOther,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.imageName as imageName,
+                p.createdAt as createdAt,
+                p.updatedAt as updatedAt
+            ')
+            ->where('p.isIncreating = 0')
+            ->orderBy('p.id', 'ASC')
             ->getQuery()
             ->getResult()
             ;

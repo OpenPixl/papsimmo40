@@ -20,10 +20,13 @@
     </thead>
     <tbody>
     {% set user = app.user.id %}
-    {% for property in properties|filter(p => p.refEmployed.id == user) %}
+    {% for property in properties|filter(p => p.refEmployed == user) %}
         <tr class="align-middle">
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <td>{{ property.refEmployed }}</td>
+            <td>
+                <img class="rounded" src="{{ vich_uploader_asset(property, 'avatarFile', 'App\\Entity\\Admin\\Employed') }}" alt="" style="height:50px;">
+                {{ property.firstName }} {{ property.lastName }}
+            </td>
             {% else %}
             <th>{{ property.id }}</th>
             {% endif %}
@@ -41,7 +44,7 @@
             </td>
             {% if property.imageName is not null %}
             <td>
-                <img class="img-fluid" src="{{ vich_uploader_asset(property) }}" alt="{{ property.name }}" style="height: 50px;">
+                <img class="img-fluid" src="{{ vich_uploader_asset(property, 'imageFile', 'App\\Entity\\Gestapp\\Property') }}" alt="{{ property.name }}" style="height: 50px;">
             </td>
             {% else %}
             <td>
@@ -64,7 +67,7 @@
                         Action
                     </button>
                     <ul  class="dropdown-menu" aria-labelledby="action_property">
-                        <li><a class="dropdown-item" href="{{ path('op_gestapp_property_edit', {'id': property.id}) }}"><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
+                        <li><a class="dropdown-item" href="{{ path('op_gestapp_property_show', {'id': property.id}) }}"><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a></li>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><hr class="dropdown-divider"></li>

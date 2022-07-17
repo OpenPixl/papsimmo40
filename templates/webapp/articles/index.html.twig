@@ -6,7 +6,6 @@
     {{ parent() }}
     <script>
         window.onload = function(){
-
             ClassicEditor
                 .create(document.querySelector('#articles_content'), {
                     toolbar: [ 'heading','bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote', 'indent', 'alignment', 'code', 'CodeBlock', 'Underline', 'HtmlEmbed' ],
@@ -15,7 +14,6 @@
                 .catch(error => {
                     console.error(error);
                 });
-
 
             // Code d'ouverture de la modale de suppression d'une ligne
             var Suppr = document.getElementById('Suppr')
@@ -77,11 +75,22 @@
                 link.addEventListener('click', onClickDelEvent)
             })
 
-            // déclaration de l'event sur js-add-catégory
-            document.querySelectorAll('a.js-add-category').forEach(function(link){
-                link.addEventListener('click', onClickaddCategory)
-            })
+            // Formulaire édition Article
+            let FormEditArticle = document.getElementById('FormArticle')
+            FormEditArticle.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let urlEditArticle = FormEditArticle.action
+                let dataEditArticle = new FormData(FormEditArticle)
+                axios
+                    .post(urlEditArticle, dataEditArticle)
+                    .then(function(response)
+                    {
 
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
         }
     </script>
 {% endblock %}

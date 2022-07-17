@@ -43,15 +43,18 @@ class PropertyOrientationController extends AbstractController
     public function new2(Request $request, PropertyOrientationRepository $propertyOrientationRepository): Response
     {
         $propertyOrientation = new PropertyOrientation();
-        $form = $this->createForm(PropertyOrientationType::class, $propertyOrientation);
+        $form = $this->createForm(PropertyOrientationType::class, $propertyOrientation,[
+            'action' => $this->generateUrl('app_gestapp_choice_property_orientation_new2'),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyOrientationRepository->add($propertyOrientation);
-            $Orientation = $propertyOrientation->getName();
             return $this->json([
                 'code' => 200,
-                'orientation' => $Orientation,
+                'orient' => $propertyOrientation->getName(),
+                'valueorient' => $propertyOrientation->getId(),
                 'message' => "Une nouvelle orientation a été ajoutée."
             ], 200);
         }

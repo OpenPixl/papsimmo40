@@ -7,12 +7,20 @@
             {{ render(controller('App\\Controller\\Gestapp\\PhotoController::new', {'idproperty': idproperty})) }}
         </div>
         <div class="col-9">
-            <div class="row" id="listephoto">
+            <div class="row g-1" id="listephoto">
                 {% include('gestapp/photo/_listephoto.html.twig') %}
             </div>
         </div>
     </div>
 </section>
+<div class="row mt-2">
+    <div class="col-12">
+        <div class="mt-1">
+            <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+            <button type="submit" id="stepGallery" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
+        </div>
+    </div>
+</div>
 
 
 

@@ -5,28 +5,18 @@
 </div>
 
 <div class="row mb-4">
-    <div class="col-12">
-        <div id="carouselExampleSlidesOnly" class="carousel slide" data-bs-ride="carousel">
-            <div class="carousel-inner">
-                {% for property in properties %}
-                <div class="carousel-item active">
-                    {% if property.imageName is not null %}
+
+    <div class="col-sm-12">
+        <!-- Flickity HTML init -->
+        <div class="carousel" data-flickity='{ "groupCells": true }'>
+            {% for property in properties %}
+                {% if property.imageName is not null %}
                     <img class="img-fluid" src="{{ vich_uploader_asset(property) }}" alt="{{ property.name }}" height="100px">
-                    {% else %}
+                {% else %}
                     <img class="img-fluid" src="{{ asset('images/png/mod_maison.png') }}" alt="{{ property.name }}" height="100px">
-                    {% endif %}
-                    <div class="carousel-caption d-none d-md-block">
-                        <h5>{{ property.name }}</h5>
-                        <p>{{ property.annonce }}</p>
-                    </div>
-                </div>
-                {% endfor %}
-            </div>
-            <div class="carousel-indicators">
-                {% for property in properties %}
-                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                {% endfor %}
-            </div>
+                {% endif %}
+            {% endfor %}
         </div>
     </div>
+
 </div>

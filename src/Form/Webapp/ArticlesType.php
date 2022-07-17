@@ -7,6 +7,7 @@ use App\Entity\Webapp\choice\Category;
 use phpDocumentor\Reflection\Types\Callable_;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -25,17 +26,21 @@ class ArticlesType extends AbstractType
             ->add('content', TextareaType::class, [
                 'label' => 'Contenu'
             ])
-            ->add('isShowtitle', ChoiceType::class,[
-                'label' => 'Montrer le titre'
+            ->add('isShowtitle', CheckboxType::class,[
+                'label' => 'Montrer le titre',
+                'required' => false,
             ])
-            ->add('isShowdate', ChoiceType::class,[
-                'label' => 'Montrer la date'
+            ->add('isShowdate', CheckboxType::class,[
+                'label' => 'Montrer la date',
+                'required' => false,
             ])
-            ->add('isShowreadmore', ChoiceType::class,[
-                'label' => 'Afficher "Lire la suite ..."'
+            ->add('isShowreadmore', CheckboxType::class,[
+                'label' => 'Afficher "Lire la suite ..."',
+                'required' => false,
             ])
-            ->add('isLink', ChoiceType::class,[
-                'label' => 'Ajouter un lien'
+            ->add('isLink', CheckboxType::class,[
+                'label' => 'Ajouter un lien',
+                'required' => false,
             ])
             ->add('linkText')
             ->add('state', ChoiceType::class, [
@@ -60,6 +65,21 @@ class ArticlesType extends AbstractType
                 'allow_delete' => true,
                 'delete_label' => 'Supprimer',
                 'download_label' => 'Télecharger',
+            ])
+            ->add('imgPosition', ChoiceType::class, [
+                'label' => "Position de l'image",
+                'choices'  => [
+                    "Au dessus de l'article" => "Hight",
+                    "A droite de l'article" => "Right",
+                    "Au dessous de l'article" => "Down",
+                    "A gauche de l'article" => "Left",
+                ],
+                'choice_attr' => [
+                    "Au dessus de l'article" => ['data-data' => 'Hight'],
+                    "A droite de l'article" => ['data-data' => 'Right'],
+                    "Au dessous de l'article" => ['data-data' => 'Down'],
+                    "A gauche de l'article" => ['data-data' => 'Left'],
+                ],
             ])
         ;
     }

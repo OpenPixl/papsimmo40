@@ -1,26 +1,33 @@
-<div class="row mt-2">
-    <div class="col-sm-3">
-        <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
-            Ajouter un vendeur<br>
-            sur ce bien.
-        </button>
-        <hr>
-        <div class="card text-dark bg-light">
-            <div class="card-body">
-                <p>
-                    <b>Rechercher </b>un vendeur
-                </p>
-                {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer', {'idproperty': idproperty})) }}
+<section class="property-edit">
+    <div class="row mt-2">
+        <div class="col-sm-3">
+            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
+                Ajouter un vendeur<br>
+                sur ce bien.
+            </button>
+            <hr>
+            <div class="card text-dark bg-light">
+                <div class="card-body">
+                    <p>
+                        <b>Rechercher </b>un vendeur
+                    </p>
+                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer', {'idproperty': idproperty})) }}
+                </div>
+            </div>
+
+        </div>
+        <div class="col-sm-9">
+            <div id="listeCustormers" class="row">
+                {% include 'gestapp/customer/_listecustomers.html.twig' with {'idproperty': idproperty} %}
             </div>
         </div>
-
     </div>
-    <div class="col-sm-9">
-        <div id="listeCustormers" class="row">
-            {% include 'gestapp/customer/_listecustomers.html.twig' with {'idproperty': idproperty} %}
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="mt-1">
+                <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                <button type="submit" id="stepCustomers" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape chiffres") }}</button>
+            </div>
         </div>
     </div>
-</div>
-
-
-
+</section>

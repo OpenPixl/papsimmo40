@@ -4,10 +4,128 @@
         <h3>{{ article.name }}</h3>
     </div>
     {% endif %}
-    <div id="content_article">
-        {{ article.content|raw }}
-    </div>
-    <div id="img_article">
+    {% if article.articleFrontName is not null %}
+        {%  if article.imgPosition == 'Hight' %}
+        {% if article.isShowreadmore == 0 %}
+            <div id="content_article">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <img src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                    </div>
+                    <div class="col-sm-12">
+                        {{ article.content|markdown_to_html }}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div id="content_article">
+                <div class="row g-1 mb-1">
+                    <div class="col-sm-12">
+                        <img src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                    </div>
+                    <div class="col-sm-12">
+                        {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                    </div>
+                </div>
+                <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
+            </div>
+        {% endif %}
+        {% elseif article.imgPosition == 'Right' %}
+            {% if article.isShowreadmore == 0 %}
+                <div id="content_article">
+                    <div class="row">
+                        <div class="col-sm-9">
+                            {{ article.content|markdown_to_html }}
+                        </div>
+                        <div class="col-sm-3">
+                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div id="content_article">
+                    <div class="row g-1 mb-1">
+                        <div class="col-sm-9">
+                            {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                        </div>
+                        <div class="col-sm-3">
+                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                        </div>
+                    </div>
+                    <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
+                </div>
+            {% endif %}
+        {% elseif article.imgPosition == 'Down' %}
+            {% if article.isShowreadmore == 0 %}
+                <div id="content_article">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            {{ article.content|markdown_to_html }}
+                        </div>
+                        <div class="col-sm-12">
+                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div id="content_article">
+                    <div class="row g-1 mb-1">
+                        <div class="col-sm-12">
+                            {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                        </div>
+                        <div class="col-sm-12">
+                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                        </div>
+                    </div>
+                    <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
+                </div>
+            {% endif %}
+        {% elseif article.imgPosition == 'Left' %}
+            {% if article.isShowreadmore == 0 %}
+                <div id="content_article">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                        </div>
+                        <div class="col-sm-9">
+                            {{ article.content|markdown_to_html }}
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div id="content_article">
+                    <div class="row g-1 mb-1">
+                        <div class="col-sm-3">
+                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                        </div>
+                        <div class="col-sm-9">
+                            {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                        </div>
+                    </div>
+                    <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
+                </div>
+            {% endif %}
+        {% endif %}
+    {% else %}
+    {# Si aucune image est incrémenté dans l'article #}
+        {% if article.isShowreadmore == 0 %}
+            <div id="content_article">
+                <div class="row">
+                    <div class="col-sm-12">
+                        {{ article.content|markdown_to_html }}
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div id="content_article">
+                <div class="row g-1 mb-1">
+                    <div class="col-sm-12">
+                        {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                    </div>
+                </div>
+                <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
+            </div>
+        {% endif %}
+    {% endif %}
 
-    </div>
 </article>

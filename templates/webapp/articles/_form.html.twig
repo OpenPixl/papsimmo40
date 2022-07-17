@@ -1,6 +1,6 @@
-{{ form_start(form) }}
+{{ form_start(form, {'attr': {'id': 'FormArticle'}}) }}
 <div class="modal-body">
-    <div class="row">
+    <div class="row g-1">
         <div class="col-8">
             <div class="row g-0">
                 <div class="col-sm-12">
@@ -49,7 +49,7 @@
         <div class="col-4">
             <div class="card text-dark bg-light">
                 <div class="card-body">
-                    PTIONS
+                    OPTIONS
                     <hr>
                     <div class="row g-0">
                         <div class="col-sm-12">
@@ -117,13 +117,26 @@
                                     {{ form_widget(form.linkText, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
                             </div>
-                            <hr>
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-12">
-                                    {{ form_widget(form.articleFrontFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
-                                </div>
-                            </div>
-
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="card text-dark bg-light mt-1">
+                <div class="card-body">
+                    MEDIA
+                    <hr>
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-12">
+                            {{ form_widget(form.articleFrontFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    {# Form SELECT #}
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-6">
+                            {{ form_label(form.imgPosition, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.imgPosition, {'attr': {'class': 'form-select form-select-sm'}}) }}
                         </div>
                     </div>
                 </div>
@@ -132,7 +145,7 @@
     </div>
 </div>
 <div class="modal-footer">
-    <a class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Retour</a>
+    <a class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal"><i class="fa-duotone fa-arrow-circle-left"></i> Fermer l'éditeur</a>
     <button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
 </div>
 {{ form_end(form) }}

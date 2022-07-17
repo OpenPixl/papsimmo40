@@ -1,0 +1,13 @@
+{{ form_label(form.denomination, '', {'label_attr': {'class':'col-sm-2  form-label'}}) }}
+<div class="col-4">
+    {{ form_widget(form.denomination) }}
+</div>
+{% if is_granted('ROLE_SUPER_ADMIN') %}
+    <div class="col-1">
+        <button id="addHouseCat" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+    </div>
+{% else %}
+    <div class="col-1">
+        <button id="addHouseCat" class="btn btn-sm btn-secondary" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+    </div>
+{% endif %}

@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
 use App\Form\Gestapp\PropertyImageType;
 use App\Form\Gestapp\PropertyStep1Type;
+use App\Form\Gestapp\PropertyStep2Type;
 use App\Form\Gestapp\PropertyType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\ComplementRepository;
@@ -25,7 +26,7 @@ class PropertyController extends AbstractController
     public function index(PropertyRepository $propertyRepository): Response
     {
         return $this->render('gestapp/property/index.html.twig', [
-            'properties' => $propertyRepository->findBy(array('isIncreating' => 0)),
+            'properties' => $propertyRepository->listAllProperties(),
         ]);
     }
 
@@ -140,7 +141,8 @@ class PropertyController extends AbstractController
 
         return $this->render('gestapp/property/show.html.twig', [
             'property' => $property,
-            'complement' => $complement->getId()
+            'complement' => $complement->getId(),
+            'publication' => $property->getPublication(),
         ]);
     }
 
@@ -197,7 +199,7 @@ class PropertyController extends AbstractController
     {
         //dd($property);
         $form = $this->createForm(PropertyStep1Type::class, $property, [
-            'action' => $this->generateUrl('op_gestapp_property_firststep',['id'=>$property->getId()]),
+            'action' => $this->generateUrl('op_gestapp_property_firststep', ['id'=>$property->getId()]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -205,9 +207,38 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyRepository->add($property);
-            return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code'=> 200,
+                'message' => "Les informations du bien ont été correctement ajoutées."
+            ], 200);
+
         }
         return $this->renderform('gestapp/property/Step/firststep.html.twig',[
+            'form'=>$form,
+            'property'=>$property,
+        ]);
+    }
+
+    #[Route('/secondstep/{id}', name: 'op_gestapp_property_secondstep', methods: ['GET', 'POST'])]
+    public function secondStep(Request $request, Property $property, PropertyRepository $propertyRepository)
+    {
+        //dd($property);
+        $form = $this->createForm(PropertyStep2Type::class, $property, [
+            'action' => $this->generateUrl('op_gestapp_property_secondstep',['id'=>$property->getId()]),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+        //dd($request->getContent());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $propertyRepository->add($property);
+            return $this->json([
+                'code'=> 200,
+                'message' => "Les informations du bien ont été correctement ajoutées."
+            ], 200);
+
+        }
+        return $this->renderform('gestapp/property/Step/secondstep.html.twig',[
             'form'=>$form,
             'property'=>$property
         ]);
@@ -219,6 +250,9 @@ class PropertyController extends AbstractController
 
         //dd($property);
         $data = json_decode($request->getContent(), true);
+
+        $constructionAt = new \DateTime($data['constructionAt']);
+
         //dd($data['image']);
         $property->setRefMandat($data['refMandat']);
         $property->setName($data['name']);
@@ -235,7 +269,7 @@ class PropertyController extends AbstractController
         $property->setIsLand($data['isLand']);
         $property->setIsOther($data['isOther']);
         $property->setOtherDescription($data['otherDescription']);
-        $property->setConstructionAt($data['constructionAt']);
+        $property->setConstructionAt($constructionAt);
 
         $propertyRepository->add($property);
 

@@ -15,7 +15,7 @@
             const navPublication = document.getElementById("navPublication");
 
             // récupération des boutons de navigation entre panel
-            const stepBack = document.getElementById("stepCustomers");
+            const stepBack = document.getElementById("stepBack");
             const nextStepInformations = document.getElementById("stepInformations");
             const nextStepCustomers = document.getElementById("stepCustomers");
             const nextStepEstimate = document.getElementById("stepEstimate");
@@ -23,7 +23,7 @@
             const nextStepGallery = document.getElementById("stepGallery");
             const nextStepPublication = document.getElementById("stepPublication");
 
-            // fixer les éléments opérationnel au chargement de la page
+            // Div de chaque panels
             const Informations = document.getElementById("Informations");
             const Customers = document.getElementById("Customers");
             const Estimate = document.getElementById("Estimate");
@@ -31,23 +31,25 @@
             const Gallery = document.getElementById("Gallery");
             const Publication = document.getElementById("Publication");
 
-            // -------------
-            // STEP 0 : Mise en place des styles de démarrage
-            // -------------
+            // ---------------------------------------
+            //
+            // STEP 0 :
+            // Mise en place des styles de démarrage
+            //
+            // ---------------------------------------
+
             // Désactivation des onglets d'accueil de la page d'édition
             navCustomers.className = "nav-link disabled";
-            navCustomers.className = "nav-link disabled";
-            navCustomers.className = "nav-link disabled";
-            navCustomers.className = "nav-link disabled";
-            navCustomers.className = "nav-link disabled";
-            navCustomers.className = "nav-link disabled";
+            navEstimate.className = "nav-link disabled";
+            navOptions.className = "nav-link disabled";
+            navGallery.className = "nav-link disabled";
+            navPublication.className = "nav-link disabled";
             // Masquage des boutons de navigation sous le formulaire
             nextStepCustomers.className += " d-none";
             nextStepEstimate.className += " d-none";
             nextStepOptions.className += " d-none";
             nextStepGallery.className += " d-none";
             nextStepPublication.className += " d-none";
-
             // mise en place du datapicker flatpickr sur les champs de date
             flatpickr(".flatpickr", {
                 "locale": "fr",
@@ -64,19 +66,36 @@
                 dateFormat: "H:i",
                 time_24hr: true
             });
+            // Module éditeur
+            ClassicEditor
+                .create(document.querySelector('#property_step1_annonce'), {
+                    height: 50
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
-            // -------------
-            // STEP 1 : enregistrement des informations initiales du bien sur clic du boutons next
-            // -------------
-            let form = document.getElementById('addInformation')
-            form.addEventListener('submit', function (event) {
+            // ---------------------------------------
+            // STEP 1 :
+            // enregistrement des informations initiales du bien sur clic du boutons next
+            //
+            // ---------------------------------------
+
+            // initialisation du focus sur le champs refMandat
+            const focus = document.getElementById('property_step1_refMandat');
+            focus.focus()
+            // Récupération et envoie des données du formulaire
+            let FormAddInformation = document.getElementById('FormAddInformation')
+            FormAddInformation.addEventListener('submit', function (event) {
                 event.preventDefault()
-                let url = form.action
-                let data = new FormData(form)
+                let urladdInformation = FormAddInformation.action
+                let dataaddInformation = new FormData(FormAddInformation)
                 axios
-                    .post(url, data)
+                    .post(urladdInformation, dataaddInformation)
                     .then(function(response)
                     {
+                        // modification des classes pour la navigation entre panels
+                        nextStepCustomers.className = "btn btn-sm btn-outline-primary";
                         navInformations.className = "nav-link disabled";
                         navCustomers.className = "nav-link active";
                         Informations.className = "tab-pane";
@@ -88,6 +107,494 @@
             })
 
 
+            // ---------------------------------------
+            // STEP 2 :
+            // Enregistrement du ou des acheteurs
+            //
+            // ---------------------------------------
+
+            //Action sur le clic du bouton nextstep
+            stepCustomers.onclick = function (event) {
+                event.preventDefault()
+                // visibilité des éléments
+                nextStepCustomers.className += " d-none";
+                nextStepEstimate.className = "btn btn-sm btn-outline-primary";
+                navCustomers.className = "nav-link disabled";
+                navEstimate.className = "nav-link active";
+                Customers.className = "tab-pane";
+                Estimate.className += " active";
+            }
+            // Modal d'ajout d'un vendeur à la fiche
+            const modalAddCustomer = document.getElementById('addCustomer')
+            modalAddCustomer.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget
+                // extraction de la variable
+                var recipient = button.getAttribute('data-bs-whatever')
+                // mise à jour du lien de soumission du formulaire.
+                var modalContent = modalAddCustomer.querySelector('.modal-footer')
+                var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
+                modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
+            })
+            // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
+            const btnAddCustomer = document.getElementById('btnAddCustomer')
+            btnAddCustomer.onclick = function(event){
+                event.preventDefault()
+                const firstName = document.getElementById('customer_firstName').value
+                const lastName = document.getElementById('customer_lastName').value
+                const adress = document.getElementById('customer_adress').value
+                const complement = document.getElementById('customer_complement').value
+                const zipcode = document.getElementById('customer_zipcode').value
+                const city = document.getElementById('customer_city').value
+                const url = this.href
+                // construction des data à transmettre
+                let data = {
+                    firstName:firstName, lastName:lastName, adress:adress, complement:complement, zipcode:zipcode, city:city
+                }
+                console.log(data)
+                // envoie des données
+                axios
+                    .post(url, data)
+                    .then(function(response){
+                        console.log('vendeur ajouté')
+                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
+                        modalAddCustomer.addEventListener('hide.bs.modal')
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            }
+            // Fonction de suppression d'un client
+            function SupprCustomer (event){
+                event.preventDefault()
+                const url = this.href
+                axios
+                    .post(url)
+                    .then(function(response){
+                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
+                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link){
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.supprcustomer').forEach(function (link){
+                            link.addEventListener('click', SupprCustomer);
+                        })
+                    })
+            }
+            // Ajout d'un évènement sur le click AddCustomerSearch
+            document.querySelectorAll('a.addcustomersearch').forEach(function (link){
+                link.addEventListener('click', AddCustomerSearch);
+            })
+            // Ajout d'un évènement sur le click AddCustomerSearch
+            document.querySelectorAll('a.supprcustomer').forEach(function (link){
+                link.addEventListener('click', SupprCustomer);
+            })
+            // fonction d'ajout depuis l'évènement AddCustomerSearch
+            function AddCustomerSearch(event){
+                event.preventDefault()
+                let url = this.href
+                axios
+                    .post(url)
+                    .then(function(response){
+                        document.getElementById('listeCustormers').innerHTML = response.data.liste
+                        // relance de l'évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link){
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                    })
+            }
+            // fonction de recherche "Customer" depuis le formulaire
+            document.getElementById('search_customers_rechercher').addEventListener('click', function(event) {
+                event.preventDefault()
+                let urlSearchCustomer = this.href
+                let formsearchCustomer = new FormData()
+                formsearchCustomer.append('search_customers[word]', document.getElementById('search_customers_word').value)
+                formsearchCustomer.append('search_customers[_token]', document.getElementById('search_customers__token').value)
+                axios
+                    .post(urlSearchCustomer, formsearchCustomer)
+                    .then(function (response) {
+                        document.getElementById('listeSearchCustomers').innerHTML = response.data.liste
+                        // relance de l'évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            })
+
+
+            // ---------------------------------------
+            // STEP 3 :
+            // Enregistrement des chiffres
+            //
+            // ---------------------------------------
+            let FormAddEstimate = document.getElementById('FormAddEstimate')
+            FormAddEstimate.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let urlAddEstimate = FormAddEstimate.action
+                let dataAddEstimate = new FormData(FormAddEstimate)
+                axios
+                    .post(urlAddEstimate, dataAddEstimate)
+                    .then(function(response)
+                    {
+                        // modification des classes pour la navigation entre panels
+                        nextStepCustomers.className = " d-none"
+                        nextStepOptions.className = "btn btn-sm btn-outline-primary"
+                        navEstimate.className = "nav-link disabled"
+                        navOptions.className = "nav-link active"
+                        Estimate.className = "tab-pane"
+                        Options.className += " active"
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+            // ---------------------------------------
+            // STEP 4 :
+            // Enregistrement des options
+            //
+            // ---------------------------------------
+
+            let FormEditOptions = document.getElementById('FormEditOptions')
+            FormEditOptions.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let urlEditOptions = FormEditOptions.action
+                let dataEditOptions = new FormData(FormEditOptions)
+                axios
+                    .post(urlEditOptions, dataEditOptions)
+                    .then(function(response)
+                    {
+                        // modification des classes pour la navigation entre panels
+                        nextStepOptions.className = " d-none"
+                        nextStepGallery.className = "btn btn-sm btn-outline-primary"
+                        navOptions.className = "nav-link disabled"
+                        navGallery.className = "nav-link active"
+                        Options.className = "tab-pane"
+                        Gallery.className += " active"
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+            // PARTIE Bannière sur image
+            // ---------------------------------------
+            // Select
+            new TomSelect("#complement_banner",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+            // PARTIE Catégorie du bien
+            // ---------------------------------------
+            // Select
+            const tsPropertyCat = new TomSelect("#complement_denomination",{
+                plugins: ['remove_button', 'change_listener'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // Ouverture de la modale
+            const modalHouseCat = document.getElementById('modalHouseCat')
+            const HouseCat = new bootstrap.Modal(modalHouseCat, { keyboard: true })
+            const addHouseCat = document.getElementById('addHouseCat')
+            addHouseCat.addEventListener('click', function(event){
+                event.preventDefault()
+                HouseCat.show()
+            })
+            // Envoi du formulaire
+            let property_cat = document.getElementById('FormHouseCat')
+            property_cat.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_cat = '/gestapp/choice/denomination/new2'
+                let data_property_cat = new FormData(property_cat)
+                axios
+                    .post(url_property_cat, data_property_cat)
+                    .then(function(response)
+                    {
+                        const selectcat = document.getElementById('complement_denomination');
+                        const optioncat = document.createElement("option")
+                        optioncat.setAttribute("value", response.data.valuecat)
+                        optioncat.setAttribute("data-data", response.data.cat)
+                        optioncat.text = response.data.cat;
+                        selectcat.add(optioncat)
+                        tsPropertyCat.addOption({data: response.data.cat, value:response.data.valuecat})
+                        tsPropertyCat.addItem(response.data.cat)
+                        HouseCat.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+            // PARTIE Etat du bien
+            // ---------------------------------------
+            // SELECT
+            const tspropertyState = new TomSelect("#complement_propertyState",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // Ouverture de la modale
+            const modalHouseState = document.getElementById('modalHouseState')
+            const HouseState = new bootstrap.Modal(modalHouseState, { keyboard: true })
+            const addHouseState = document.getElementById('addHouseState')
+            addHouseState.addEventListener('click', function(event){
+                event.preventDefault()
+                HouseState.show()
+            })
+            // Envoi du formulaire
+            let property_state = document.getElementById('FormHouseState')
+            property_state.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_state = '/gestapp/choice/property/state/new2'
+                let data_property_state = new FormData(property_state)
+                axios
+                    .post(url_property_state, data_property_state)
+                    .then(function(response)
+                    {
+                        const selectstate = document.getElementById('complement_propertyState');
+                        const optionstate = document.createElement("option")
+                        optionstate.setAttribute("data-data", response.data.state)
+                        optionstate.setAttribute("value", response.data.valuestate)
+                        optionstate.text = response.data.state;
+                        selectstate.add(optionstate)
+                        tspropertyState.addOption({data: response.data.state, value:response.data.valuestate})
+                        tspropertyState.addItem(response.data.state)
+                        HouseState.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+            // PARTIE Energie du bien
+            // ---------------------------------------
+            // Select
+            const tspropertyEnergy = new TomSelect("#complement_propertyEnergy",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // PARTIE Energy du bien - Ouverture de la modal
+            const modalHouseEnergy = document.getElementById('modalHouseEnergy')
+            const HouseEnergy = new bootstrap.Modal(modalHouseEnergy, { keyboard: true })
+            const addHouseEnergy = document.getElementById('addHouseEnergy')
+            addHouseEnergy.addEventListener('click', function(event){
+                event.preventDefault()
+                HouseEnergy.show()
+            })
+            // PARTIE Energy du bien - Envoi du formulaire
+            let FormHouseEnergy = document.getElementById('FormHouseEnergy')
+            FormHouseEnergy.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_energy = '/gestapp/choice/property/energy/new2'
+                let data_property_energy = new FormData(FormHouseEnergy)
+                axios
+                    .post(url_property_energy, data_property_energy)
+                    .then(function(response)
+                    {
+                        const selectenj = document.getElementById('complement_propertyEnergy');
+                        const optionsenj = document.createElement("option");
+                        optionsenj.setAttribute("data-data", response.data.energy)
+                        optionsenj.setAttribute("value", response.data.valueenergy)
+                        optionsenj.text = response.data.energy;
+                        selectenj.add(optionsenj)
+                        tspropertyEnergy.addOption({data: response.data.energy, value:response.data.valueenergy})
+                        tspropertyEnergy.addItem(response.data.energy)
+                        HouseEnergy.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+            // PARTIE Orientation du bien
+            // ---------------------------------------
+            // Select
+            const tspropertyOrient = new TomSelect("#complement_propertyOrientation",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // PARTIE Orientation du bien - Ouverture de la modal
+            const modalHouseOrientation = document.getElementById('modalHouseOrientation')
+            const HouseOrientation = new bootstrap.Modal(modalHouseOrientation, { keyboard: true })
+            const addHouseOrientation = document.getElementById('addHouseOrientation')
+            addHouseOrientation.addEventListener('click', function(event){
+                event.preventDefault()
+                HouseOrientation.show()
+            })
+            // PARTIE Orientation du bien - Envoi du formulaire
+            let FormHouseOrientation = document.getElementById('FormHouseOrientation')
+            FormHouseOrientation.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_orientation = '/gestapp/choice/property/orientation/new2'
+                let data_property_orientation = new FormData(FormHouseOrientation)
+                axios
+                    .post(url_property_orientation, data_property_orientation)
+                    .then(function(response)
+                    {
+                        const selectorient = document.getElementById('complement_propertyOrientation');
+                        const optionsorient = document.createElement("option");
+                        optionsorient.text = response.data.orientation;
+                        optionsorient.setAttribute("data-data", response.data.orient)
+                        optionsorient.setAttribute("value", response.data.valueorient)
+                        optionsorient.text = response.data.orient;
+                        selectorient.add(optionsorient)
+                        tspropertyOrient.addOption({data: response.data.orient, value:response.data.valueorient})
+                        tspropertyOrient.addItem(response.data.orient)
+                        HouseOrientation.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
+            // PARTIE disponibilité du bien
+            // ---------------------------------------
+            // Select
+            new TomSelect("#complement_disponibility",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+            // PARTIE location du bien
+            // ---------------------------------------
+            // Select
+            new TomSelect("#complement_location",{
+                placeholder: "A définir",
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+
+            // PARTIE Equipement du bien
+            // ---------------------------------------
+            // Select
+            const tspropertyEquip = new TomSelect("#complement_propertyEquipment",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
+
+            // PARTIE Typologie du bien
+            // ---------------------------------------
+            // Select
+            const tspropertyTypo = new TomSelect("#complement_propertyTypology",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            
         }
     </script>
 {% endblock %}
@@ -146,31 +653,27 @@
         <div class="tab-pane active" id="Informations" role="tabpanel" aria-labelledby="home-tab">
             {{ render(controller('App\\Controller\\Gestapp\\PropertyController::firstStep', {'id':property.id})) }}
         </div>
+        {# STEP 2 : VENDEURS #}
+        <div class="tab-pane" id="Customers" role="tabpanel" aria-labelledby="profile-tab">
+            {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listByProperty', {'property' : property.id})) }}
+        </div>
+        {# STEP 3 : ESTIMATIONS #}
+        <div class="tab-pane" id="Estimate" role="tabpanel" aria-labelledby="profile-tab">
+            {{ render(controller('App\\Controller\\Gestapp\\PropertyController::secondStep', {'id':property.id})) }}
+        </div>
+        {# STEP 4 : COMPLEMENTS #}
+        <div class="tab-pane" id="Options" role="tabpanel" aria-labelledby="profile-tab">
+            {{ render(controller('App\\Controller\\Gestapp\\ComplementController::Edit', {'id' : complement})) }}
+        </div>
+        {# STEP 5 : IMAGES #}
+        <div class="tab-pane" id="Gallery" role="tabpanel" aria-labelledby="profile-tab">
+            {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byProperty', {'idproperty':property.id})) }}
+        </div>
+        {# STEP 6 : PUBLICATIONS #}
+        <div class="tab-pane" id="Publication" role="tabpanel" aria-labelledby="profile-tab">
+            {{ render(controller('App\\Controller\\Gestapp\\PublicationController::showByProperty', {'id' : publication})) }}
+        </div>
     </div>
-
-    {% if property.isIncreating == 1 %}
-        <div class="row mt-2">
-            <div class="col-sm-12">
-                <a id="stepInformations" href="{{ path('op_gestapp_property_firststep', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Vendeurs <i class="fa-duotone fa-forward-step"></i></a>
-                <a id="stepCustomers" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Estimation <i class="fa-duotone fa-forward-step"></i></a>
-                <a id="stepEstimate" href="{{ path('op_gestapp_property_stepchiffres', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Options <i class="fa-duotone fa-forward-step"></i></a>
-                <a id="stepOptions" href="{{ path('op_gestapp_customer_addcomplement', {'id' : complement}) }}" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Galerie <i class="fa-duotone fa-forward-step"></i></a>
-                <a id="stepGallery" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape Publication <i class="fa-duotone fa-forward-step"></i></a>
-                <a id="stepPublication" href="{{ path('op_gestapp_property_steppublication', {'id': property.id}) }}" class="btn btn-sm btn-outline-primary">Valider la publication et finaliser l'ajout <i class="fa-duotone fa-forward-step"></i></a>
-            </div>
-        </div>
-    {% else %}
-        <div class="row mt-2">
-            <div class="col-sm-6">
-                <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-secondary">Retour à la liste</a>&nbsp
-                <button class="btn btn-sm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
-            </div>
-            <div class="col-6 d-flex justify-content-end">
-                <button type="button" class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Supprimer</button>
-            </div>
-        </div>
-
-    {% endif %}
 
 {% endblock %}
 
@@ -196,21 +699,87 @@
                 </div>
             </div>
         </div>
+        {# Modal d'ajout HouseCat #}
+        <div class="modal fade" id="modalHouseCat" tabindex="-1" aria-labelledby="addHouseCat" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une Catégorie de type F1, F2... :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\DenominationController::new')) }}
+                </div>
+            </div>
+        </div>
         {# Modal d'ajout HouseState #}
         <div class="modal fade" id="modalHouseState" tabindex="-1" aria-labelledby="addHouseState" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une catégorie :</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un état :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
-                        {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseEnergy #}
+        <div class="modal fade" id="modalHouseEnergy" tabindex="-1" aria-labelledby="addHouseEnergy" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-footer">
-                        <a href="#" type="button" class="btn btn-primary js-add-category" data-bs-dismiss="modal">Publier</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyEnergyController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseOrientation #}
+        <div class="modal fade" id="modalHouseOrientation" tabindex="-1" aria-labelledby="addHouseOrientation" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyOrientationController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseEquipement #}
+        <div class="modal fade" id="modalHouseEquipment" tabindex="-1" aria-labelledby="addHouseEquipment" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouvel équipement :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyEquipementController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseTypology #}
+        <div class="modal fade" id="modalHouseTypology" tabindex="-1" aria-labelledby="addHouseTypology" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyTypologyController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseState #}
+        <div class="modal fade" id="modalHouseOther" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
                 </div>
             </div>
         </div>

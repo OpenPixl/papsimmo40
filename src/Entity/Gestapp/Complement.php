@@ -58,9 +58,6 @@ class Complement
     #[ORM\ManyToOne(targetEntity: HouseEquipment::class)]
     private $HouseEquipment;
 
-    #[ORM\ManyToOne(targetEntity: OtherOption::class)]
-    private $OtherOption;
-
     #[ORM\Column(type: 'integer', nullable: true)]
     private $level;
 
@@ -106,11 +103,14 @@ class Complement
     #[ORM\ManyToOne(targetEntity: PropertyOrientation::class)]
     private $propertyOrientation;
 
+    #[ORM\ManyToMany(targetEntity: OtherOption::class, inversedBy: 'complements')]
+    private $propertyOtheroptions;
+
     public function __construct()
     {
         $this->propertyEquipment = new ArrayCollection();
+        $this->propertyOtheroptions = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -233,18 +233,6 @@ class Complement
     public function setHouseEquipment(?HouseEquipment $HouseEquipment): self
     {
         $this->HouseEquipment = $HouseEquipment;
-
-        return $this;
-    }
-
-    public function getOtherOption(): ?OtherOption
-    {
-        return $this->OtherOption;
-    }
-
-    public function setOtherOption(?OtherOption $OtherOption): self
-    {
-        $this->OtherOption = $OtherOption;
 
         return $this;
     }
@@ -437,6 +425,30 @@ class Complement
     public function setPropertyOrientation(?PropertyOrientation $propertyOrientation): self
     {
         $this->propertyOrientation = $propertyOrientation;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, OtherOption>
+     */
+    public function getPropertyOtheroptions(): Collection
+    {
+        return $this->propertyOtheroptions;
+    }
+
+    public function addPropertyOtheroption(OtherOption $propertyOtheroption): self
+    {
+        if (!$this->propertyOtheroptions->contains($propertyOtheroption)) {
+            $this->propertyOtheroptions[] = $propertyOtheroption;
+        }
+
+        return $this;
+    }
+
+    public function removePropertyOtheroption(OtherOption $propertyOtheroption): self
+    {
+        $this->propertyOtheroptions->removeElement($propertyOtheroption);
 
         return $this;
     }

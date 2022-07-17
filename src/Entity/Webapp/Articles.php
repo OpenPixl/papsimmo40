@@ -79,6 +79,9 @@ class Articles
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
+    #[ORM\Column(type: 'string', length: 255)]
+    private $imgPosition;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -301,5 +304,17 @@ class Articles
     public function __tostring()
     {
         return $this->name;
+    }
+
+    public function getImgPosition(): ?string
+    {
+        return $this->imgPosition;
+    }
+
+    public function setImgPosition(string $imgPosition): self
+    {
+        $this->imgPosition = $imgPosition;
+
+        return $this;
     }
 }

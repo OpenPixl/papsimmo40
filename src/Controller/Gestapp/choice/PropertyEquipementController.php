@@ -44,15 +44,18 @@ class PropertyEquipementController extends AbstractController
     public function new2(Request $request, PropertyEquipementRepository $propertyEquipementRepository): Response
     {
         $propertyEquipement = new PropertyEquipement();
-        $form = $this->createForm(PropertyEquipementType::class, $propertyEquipement);
+        $form = $this->createForm(PropertyEquipementType::class, $propertyEquipement, [
+            'action' => $this->generateUrl('app_gestapp_choice_property_equipement_new2'),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyEquipementRepository->add($propertyEquipement);
-            $Equipement = $propertyEquipement->getName();
             return $this->json([
                 'code' => 200,
-                'orientation' => $Equipement,
+                'equip' => $propertyEquipement->getName(),
+                'valueequip' => $propertyEquipement->getId(),
                 'message' => "Une nouvelle orientation a été ajoutée."
             ], 200);
         }

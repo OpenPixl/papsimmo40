@@ -84,7 +84,9 @@ class ComplementType extends AbstractType
                 'label' => 'A partir du'
                 ])
             ->add('propertyTax', NumberType::class, [
-                'label' => 'Charge de propriété'
+                'label' => 'Charge de propriété',
+                'required' => false,
+                'empty_data' => 0
             ])
             ->add('propertyOrientation', EntityType::class, [
                 'class' => PropertyOrientation::class,
@@ -111,22 +113,33 @@ class ComplementType extends AbstractType
                 }
             ])
             ->add('level', IntegerType::class, [
-                'label' => "Etage"
+                'label' => "Etage",
+                'required' => false,
+                'empty_data' => 0
             ])
             ->add('washroom', IntegerType::class, [
-                'label' => "salle d'eau"
+                'label' => "salle d'eau",
+                'empty_data' => 0
             ])
             ->add('bathroom', IntegerType::class, [
-                'label' => "salle de bain"
+                'label' => "salle de bain",
+                'required' => false,
+                'empty_data' => 0
             ])
             ->add('wc', IntegerType::class, [
-                'label' => "wc"
+                'label' => "wc",
+                'required' => false,
+                'empty_data' => 0
             ])
             ->add('terrace', IntegerType::class, [
-                'label' => "Terasse"
+                'label' => "Terasse",
+                'required' => false,
+                'empty_data' => 0
             ])
             ->add('balcony', IntegerType::class, [
-                'label' => "Balcon"
+                'label' => "Balcon",
+                'required' => false,
+                'empty_data' => 0
             ])
             ->add('isFurnished', ChoiceType::class, [
                 'label' => 'Le bien est-il meublé ?',
@@ -169,18 +182,7 @@ class ComplementType extends AbstractType
                     return $propertyEquipement ? ['data-data' => $propertyEquipement->getName()] : [];
                 })
             ])
-            ->add('otherOption', EntityType::class, [
-                'class' => OtherOption::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('o')
-                        ->orderBy('o.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'choice_attr' => function (OtherOption $product, $key, $index) {
-                    return ['data-data' => $product->getName() ];
-                },
-                'label' => 'Autres options'
-            ])
+
             ->add('propertyTypology', EntityType::class, [
                 'class' => PropertyTypology::class,
                 'query_builder' => function (EntityRepository $er) {

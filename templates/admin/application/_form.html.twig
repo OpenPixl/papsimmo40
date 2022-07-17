@@ -1,11 +1,10 @@
 {{ form_start(form) }}
-<div class="row mt-2">
+<div class="row mt-2 g-1">
     <div class="col-8">
-        <div class="card">
-            <div class="card-header">
-                INFORMATION GENERALE DE LA PLATEFORME
-            </div>
+        <div class="card bg-secondary">
             <div class="card-body">
+                INFORMATION GENERALE DE LA PLATEFORME
+                <hr>
                 {% include('include/form/input.html.twig') with {
                     'form_label':form_label(form.nameSite, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
                     'form_input':form_widget(form.nameSite, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}})
@@ -38,15 +37,10 @@
 
             </div>
         </div>
-        <div class="card mt-2">
-            <div class="card-header">Galery</div>
-            <div class="card-body">
 
-            </div>
-        </div>
     </div>
     <div class="col-4">
-        <div class="card">
+        <div class="card bg-secondary">
             <div class="card-body">
                 {% include('include/form/oneSwitch.html.twig') with {
                     'form_label':form_label(form.isBlockmenufluid, '', {'label_attr': {'class':'form-check-label'}}),
@@ -86,16 +80,31 @@
             </div>
         </div>
     </div>
-
-
 </div>
-<div class="row mt-2">
-    <div class="col-12">
-        <div class="card">
-            <div class="card-header">
-                MODE HORS-LIGNE
-            </div>
+<div class="row mt-2 g-1">
+    <div class="col-sm-3">
+        <div class="card bg-secondary">
             <div class="card-body">
+                LOGO
+                <hr>
+                {{ form_widget(form.logoFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-sm-3">
+        <div class="card bg-secondary">
+            <div class="card-body">
+                FAVICON
+                <hr>
+                {{ form_widget(form.faviconFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-6">
+        <div class="card bg-secondary">
+            <div class="card-body">
+                MODE HORS-LIGNE
+                <hr>
                 {% include('include/form/oneSwitch.html.twig') with {
                     'form_label':form_label(form.isOnline, '', {'label_attr': {'class':'form-check-label'}}),
                     'form_switch':form_widget(form.isOnline, {'attr': {'class': 'form-check-input'}})
@@ -123,7 +132,7 @@
         </div>
     </div>
 </div>
-<button class="btn">{{ button_label|default('Save') }}</button>
+<button class="btn btn-sm btn-outline-primary">{{ button_label|default('Valider') }}</button>
     {{ form_widget(form) }}
 
 {{ form_end(form) }}

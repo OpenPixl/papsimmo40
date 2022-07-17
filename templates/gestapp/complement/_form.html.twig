@@ -1,66 +1,67 @@
-{{ form_start(form) }}
-    <div class="row mb-1">
-        <div class="col-2">
-            {{ form_label(form.banner, '', {'label_attr': {'class':'form-label'}}) }}
-        </div>
-        <div class="col-3">
-            {{ form_widget(form.banner) }}
-        </div>
-    </div>
-    <div class="row mb-1">
-        <div class="col-2">
-            {{ form_label(form.denomination, '', {'label_attr': {'class':'form-label'}}) }}
-        </div>
-        <div class="col-3">
-            {{ form_widget(form.denomination) }}
-        </div>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <div class="col-1">
-                <button id="addHouseCat" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+<section class="property-edit">
+    {{ form_start(form, {'attr': {'id':'FormEditOptions'}}) }}
+    <div class="row mb-1 g-1">
+        <div class="col-sm-12">
+            <div class="alert alert-light">
+                <div class="row">
+                    <div class="col">
+                        {# Bannière sur la vignette du bien #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.banner, '', {'label_attr': {'class':'col-sm-2  form-label'}}) }}
+                            <div class="col-4">
+                                {{ form_widget(form.banner) }}
+                            </div>
+                        </div>
+                        {# Type de bien #}
+                        <div id="propertyCat" class="row g-1">
+                            {{ include('gestapp/property/Step/StepOptions/_propertycat.html.twig') }}
+
+                        </div>
+                    </div>
+                </div>
             </div>
-        {% else %}
-            <div class="col-1">
-                <button id="addHouseCat" class="btn btn-sm btn-secondary" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
-            </div>
-        {% endif %}
-    </div>
-    <hr>
-    <div class="row g-1">
+            <hr>
+        </div>
         <div class="col-3">
             <div class="card text-dark bg-light">
                 <div class="card-body">
                     PIECES
                     <hr>
                     <div class="row mb-1 mt-1 g-1">
-                        <div class="col-6">
-                            {{ form_label(form.terrace, '', {'label_attr': {'class':'form-label'}}) }}
+                        {# Nombre de terrasses #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.terrace, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-4">
+                                {{ form_widget(form.terrace, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
                         </div>
-                        <div class="col-6">
-                            {{ form_widget(form.terrace, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                        {# Nombre de salles d'eau #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.washroom, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-4">
+                                {{ form_widget(form.washroom, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
                         </div>
-                        <div class="col-6">
-                            {{ form_label(form.washroom, '', {'label_attr': {'class':'form-label'}}) }}
+                        {# Nombre de salles de bain #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.bathroom, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-4">
+                                {{ form_widget(form.bathroom, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
                         </div>
-                        <div class="col-6">
-                            {{ form_widget(form.washroom, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                        {# Nombre de WC #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.wc, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-4">
+                                {{ form_widget(form.wc, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
                         </div>
-                        <div class="col-6">
-                            {{ form_label(form.bathroom, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.bathroom, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_label(form.wc, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.wc, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_label(form.balcony, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.balcony, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                        {# Nombre de balcons #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.balcony, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-4">
+                                {{ form_widget(form.balcony, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -70,96 +71,94 @@
             <div class="card text-dark bg-light">
                 <div class="card-body">
                     LE BIEN
-                    <input type="hidden" value="">
                     <hr>
                     {# bloc House State #}
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-4">
-                            {{ form_label(form.propertyState, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-7">
-                            {{ form_widget(form.propertyState) }}
-                        </div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <div class="col-1">
-                            <button id="addHouseState" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                        </div>
-                        {% else %}
-                        <div class="col-1">
-                            <button id="addHouseState" class="btn btn-sm btn-secondary" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
-                        </div>
-                        {% endif %}
-                        <div class="col-4">
-                            {{ form_label(form.propertyEnergy, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-7">
-                            {{ form_widget(form.propertyEnergy) }}
-                        </div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <div class="col-1">
-                                <button id="addHouseEnergy" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                    <div class="row mb-1 g-1">
+                        {# Etat du bien avant la vente #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.propertyState, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-6">
+                                {{ form_widget(form.propertyState) }}
                             </div>
-                        {% else %}
-                            <div class="col-1">
-                                <button id="addHouseEnergy" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <div class="col-1">
+                                    <button id="addHouseState" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                                </div>
+                            {% else %}
+                                <div class="col-1">
+                                    <button id="addHouseState" class="btn btn-sm btn-secondary" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {# Energie du bien #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.propertyEnergy, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-6">
+                                {{ form_widget(form.propertyEnergy) }}
                             </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="row mb-1 mt-1 g-1">
-                        {{ form_label(form.propertyTax, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
-                        <div class="col-sm-4">
-                            <div class="input-group input-group-sm">
-                                {{ form_widget(form.propertyTax, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
-                                <span class="input-group-text" id="basic-addon1">€</span>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <div class="col-1">
+                                    <button id="addHouseEnergy" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                                </div>
+                            {% else %}
+                                <div class="col-1">
+                                    <button id="addHouseEnergy" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {# Charge ou appel de fond #}
+                        <div class="row mb-1 mt-1 g-1">
+                            {{ form_label(form.propertyTax, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-sm-4">
+                                <div class="input-group input-group-sm">
+                                    {{ form_widget(form.propertyTax, {'attr': {'class': 'form-control form-control-sm', 'value':'0'}}) }}
+                                    <span class="input-group-text" id="basic-addon1">€</span>
+                                </div>
+                            </div>
+                        </div>
+                        {# Orientation du bien #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.propertyOrientation, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-6">
+                                {{ form_widget(form.propertyOrientation) }}
+                            </div>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <div class="col-1">
+                                    <button id="addHouseOrientation" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                                </div>
+                            {% else %}
+                                <div class="col-1">
+                                    <button id="addHouseOrientation" class="btn btn-sm btn-light text-light" disabled><i class="fa-duotone fa-circle-plus"></i></button>
+                                </div>
+                            {% endif %}
+                        </div>
+                        {# Disponibilité du bien #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.disponibility, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-6">
+                                {{ form_widget(form.disponibility) }}
+                            </div>
+                        </div>
+                        {# Location à partir de #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.location, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-6">
+                                {{ form_widget(form.location) }}
+                            </div>
+                        </div>
+                        {# Date de disponibilité ou de location #}
+                        <div class="row mb-1 mt-1 g-1">
+                            {{ form_label(form.disponibilityAt, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-sm-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
+                                    {{ form_widget(form.disponibilityAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}
+                                </div>
                             </div>
                         </div>
                     </div>
-
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-4">
-                            {{ form_label(form.propertyOrientation, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-7">
-                            {{ form_widget(form.propertyOrientation) }}
-                        </div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <div class="col-1">
-                                <button id="addHouseOrientation" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                            </div>
-                        {% else %}
-                            <div class="col-1">
-                                <button id="addHouseOrientation" class="btn btn-sm btn-light text-light" disabled><i class="fa-duotone fa-circle-plus"></i></button>
-                            </div>
-                        {% endif %}
-                    </div>
-
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-4">
-                            {{ form_label(form.disponibility, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-3">
-                            {{ form_widget(form.disponibility) }}
-                        </div>
-                    </div>
-
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-4">
-                            {{ form_label(form.location, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-3">
-                            {{ form_widget(form.location) }}
-                        </div>
-                    </div>
-
-                    {% include('include/form/date.html.twig') with {
-                        'form_label':form_label(form.disponibilityAt, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.disponibilityAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}})
-                    }
-                    %}
                 </div>
             </div>
-
         </div>
         <div class="col-5">
             <div class="card text-dark bg-light">
@@ -175,30 +174,26 @@
                             {% endfor %}
                         </div>
                     </div>
-
-
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-4">
-                            {{ form_label(form.propertyEquipment, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-7">
+                    {# Equipement du bien #}
+                    <div class="row mb-1 g-1">
+                        {{ form_label(form.propertyEquipment, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                        <div class="col-6">
                             {{ form_widget(form.propertyEquipment) }}
                         </div>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <div class="col-1">
-                            <button id="addHouseEquipment" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                        </div>
+                            <div class="col-1">
+                                <button id="addHouseEquipment" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                            </div>
                         {% else %}
-                        <div class="col-1">
-                            <button id="addHouseEquipment" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
-                        </div>
+                            <div class="col-1">
+                                <button id="addHouseEquipment" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                            </div>
                         {% endif %}
                     </div>
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-4">
-                            {{ form_label(form.propertyTypology, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-7">
+                    {# Typologie du bien #}
+                    <div class="row mb-1 g-1">
+                        {{ form_label(form.propertyTypology, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                        <div class="col-6">
                             {{ form_widget(form.propertyTypology) }}
                         </div>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -211,35 +206,28 @@
                             </div>
                         {% endif %}
                     </div>
-                    <div class="row mb-1 mt-1 g-1">
+                    {# Etage du bien #}
+                    {# Nombre d'étage #}
+                    <div class="row mb-1 g-1">
+                        {{ form_label(form.level, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
                         <div class="col-4">
-                            {{ form_label(form.level, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-2">
-                            {{ form_widget(form.level, {'attr': {'class': 'form-control form-control-sm', 'value': 0}}) }}
+                            {{ form_widget(form.level, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                     </div>
 
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-4">
-                            {{ form_label(form.otherOption, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-4">
-                            {{ form_widget(form.otherOption) }}
-                        </div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <div class="col-1">
-                                <button id="addHouseOther" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                            </div>
-                        {% else %}
-                            <div class="col-1">
-                                <button id="addHouseOther" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
-                            </div>
-                        {% endif %}
-                    </div>
                 </div>
             </div>
 
         </div>
     </div>
-{{ form_end(form) }}
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="mt-1">
+                <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                <button type="submit" id="stepOptions" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
+            </div>
+        </div>
+    </div>
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+</section>
