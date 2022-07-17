@@ -104,12 +104,12 @@ class Complement
     private $propertyOrientation;
 
     #[ORM\ManyToMany(targetEntity: OtherOption::class, inversedBy: 'complements')]
-    private $propertyOtheroptions;
+    private $propertyOtheroption;
 
     public function __construct()
     {
         $this->propertyEquipment = new ArrayCollection();
-        $this->propertyOtheroptions = new ArrayCollection();
+        $this->propertyOtheroption = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -432,15 +432,15 @@ class Complement
     /**
      * @return Collection<int, OtherOption>
      */
-    public function getPropertyOtheroptions(): Collection
+    public function getPropertyOtheroption(): Collection
     {
-        return $this->propertyOtheroptions;
+        return $this->propertyOtheroption;
     }
 
     public function addPropertyOtheroption(OtherOption $propertyOtheroption): self
     {
-        if (!$this->propertyOtheroptions->contains($propertyOtheroption)) {
-            $this->propertyOtheroptions[] = $propertyOtheroption;
+        if (!$this->propertyOtheroption->contains($propertyOtheroption)) {
+            $this->propertyOtheroption[] = $propertyOtheroption;
         }
 
         return $this;
@@ -448,7 +448,7 @@ class Complement
 
     public function removePropertyOtheroption(OtherOption $propertyOtheroption): self
     {
-        $this->propertyOtheroptions->removeElement($propertyOtheroption);
+        $this->propertyOtheroption->removeElement($propertyOtheroption);
 
         return $this;
     }

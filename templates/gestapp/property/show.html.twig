@@ -657,6 +657,56 @@
             })
 
 
+            // PARTIE Autres options du bien
+            // ---------------------------------------
+            // Select
+            const tspropertyOther = new TomSelect("#complement_propertyOtheroption",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // Ouverture de la modal
+            const modalHouseOther = document.getElementById('modalHouseOther')
+            const HouseOther = new bootstrap.Modal(modalHouseOther, { keyboard: true })
+            const addHouseOtheroption = document.getElementById('addHouseOtheroption')
+            addHouseOtheroption.addEventListener('click', function(event){
+                event.preventDefault()
+                HouseOther.show()
+            })
+            // Envoi du formulaire
+            let FormOtherOption = document.getElementById('FormOtherOption')
+            FormOtherOption.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let urlpropertyOther = FormOtherOption.action
+                let datapropertyOther = new FormData(FormOtherOption)
+                axios
+                    .post(urlpropertyOther,datapropertyOther)
+                    .then(function(response){
+                        const selectorOther = document.getElementById('complement_propertyOtheroption');
+                        const optionsOther = document.createElement("option");
+                        optionsOther.text = response.data.orientation;
+                        optionsOther.setAttribute("data-data", response.data.other)
+                        optionsOther.setAttribute("value", response.data.valueother)
+                        optionsOther.text = response.data.other;
+                        selectorOther.add(optionsOther)
+                        tspropertyOther.addOption({data: response.data.other, value:response.data.valueother})
+                        tspropertyOther.addItem(response.data.other)
+                        HouseOther.hide()
+                    })
+            })
+
+
             // ---------------------------------------
             // STEP 5 :
             // Enregistrement des images du bien
@@ -901,7 +951,7 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout HouseState #}
+        {# Modal d'ajout HouseOther #}
         <div class="modal fade" id="modalHouseOther" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -909,7 +959,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\OtherOptionController::new2')) }}
                 </div>
             </div>
         </div>

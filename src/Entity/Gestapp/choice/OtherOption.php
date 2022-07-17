@@ -19,7 +19,7 @@ class OtherOption
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
-    #[ORM\ManyToMany(targetEntity: Complement::class, mappedBy: 'propertyOtheroptions')]
+    #[ORM\ManyToMany(targetEntity: Complement::class, mappedBy: 'propertyOtheroption')]
     private $complements;
 
     public function __construct()

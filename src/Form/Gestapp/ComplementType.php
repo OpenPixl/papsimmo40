@@ -2,31 +2,23 @@
 
 namespace App\Form\Gestapp;
 
-use App\Entity\Gestapp\choice\ApartmentType;
-use App\Entity\Gestapp\choice\BuildingEquipment;
+
 use App\Entity\Gestapp\choice\Denomination;
-use App\Entity\Gestapp\choice\HouseEquipment;
-use App\Entity\Gestapp\choice\HouseType;
-use App\Entity\Gestapp\choice\LandType;
 use App\Entity\Gestapp\choice\OtherOption;
 use App\Entity\Gestapp\choice\PropertyEnergy;
 use App\Entity\Gestapp\choice\PropertyEquipement;
 use App\Entity\Gestapp\choice\PropertyOrientation;
 use App\Entity\Gestapp\choice\PropertyState;
 use App\Entity\Gestapp\choice\PropertyTypology;
-use App\Entity\Gestapp\choice\TradeType;
 use App\Entity\Gestapp\Complement;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
-use Symfony\Component\Form\Extension\Core\Type\RadioType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -182,7 +174,19 @@ class ComplementType extends AbstractType
                     return $propertyEquipement ? ['data-data' => $propertyEquipement->getName()] : [];
                 })
             ])
-
+            ->add('propertyOtheroption',EntityType::class, [
+                'label'=> 'Autres options de bien',
+                'class' => OtherOption::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('d')
+                        ->orderBy('d.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'multiple' => true,
+                'choice_attr' => function (OtherOption $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                }
+            ])
             ->add('propertyTypology', EntityType::class, [
                 'class' => PropertyTypology::class,
                 'query_builder' => function (EntityRepository $er) {

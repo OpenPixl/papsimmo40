@@ -214,6 +214,22 @@
                             {{ form_widget(form.level, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                     </div>
+                    {# Typologie du bien #}
+                    <div class="row mb-1 g-1">
+                        {{ form_label(form.propertyOtheroption, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                        <div class="col-6">
+                            {{ form_widget(form.propertyOtheroption) }}
+                        </div>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <div class="col-1">
+                                <button id="addHouseOtheroption" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                            </div>
+                        {% else %}
+                            <div class="col-1">
+                                <button id="addHouseOtheroption" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                            </div>
+                        {% endif %}
+                    </div>
 
                 </div>
             </div>
