@@ -626,6 +626,35 @@
                     }
                 }
             });
+            // Ouverture de la modal
+            const modalHouseTypology = document.getElementById('modalHouseTypology')
+            const HouseTypology = new bootstrap.Modal(modalHouseTypology, { keyboard: true })
+            const addHouseTypology = document.getElementById('addHouseTypology')
+            addHouseTypology.addEventListener('click', function(event){
+                event.preventDefault()
+                HouseTypology.show()
+            })
+            // Envoi du formulaire
+            let FormHouseTypology = document.getElementById('FormHouseTypology')
+            FormHouseTypology.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let urlpropertyTypology = FormHouseTypology.action
+                let datapropertyTypology = new FormData(FormHouseTypology)
+                axios
+                    .post(urlpropertyTypology,datapropertyTypology)
+                    .then(function(response){
+                        const selectorTypology = document.getElementById('complement_propertyTypology');
+                        const optionsTypology = document.createElement("option");
+                        optionsTypology.text = response.data.orientation;
+                        optionsTypology.setAttribute("data-data", response.data.typo)
+                        optionsTypology.setAttribute("value", response.data.valuetypo)
+                        optionsTypology.text = response.data.typo;
+                        selectorTypology.add(optionsTypology)
+                        tspropertyTypo.addOption({data: response.data.typo, value:response.data.valuetypo})
+                        tspropertyTypo.addItem(response.data.typo)
+                        HouseTypology.hide()
+                    })
+            })
 
 
             // ---------------------------------------
@@ -654,10 +683,9 @@
                     {
                         // rafraichissement du tableau
                         document.getElementById('listephoto').innerHTML = response.data.listephoto;
-
                         // rechargement des events
-                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                            link.addEventListener('click', onClickDelEvent)
+                        document.querySelectorAll('a.delphoto').forEach(function (link){
+                            link.addEventListener('click', delphoto);
                         })
                     })
                     .catch(function(error){
@@ -682,7 +710,7 @@
             })
 
             // ---------------------------------------
-            // STEP 5 :
+            // STEP 6 :
             // Enregistrement des options de publication du bien
             //
             // ---------------------------------------
@@ -866,10 +894,10 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie de bien:</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie de bien :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyTypologyController::new')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyTypologyController::new2')) }}
                 </div>
             </div>
         </div>

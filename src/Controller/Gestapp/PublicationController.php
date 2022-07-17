@@ -49,7 +49,7 @@ class PublicationController extends AbstractController
     }
 
     #[Route('/showbyproperty/{id}', name: 'op_admin_contact_showbyproperty', methods: ['GET','POST'])]
-    public function showByProperty(Request $request, Publication $publication, PublicationRepository $publicationRepository): Response
+    public function showByProperty(Request $request, Publication $publication, PublicationRepository $publicationRepository, PropertyRepository $propertyRepository): Response
     {
         $form = $this->createForm(PublicationType::class, $publication,[
             'action' => $this->generateUrl('op_admin_contact_showbyproperty', ['id' => $publication->getId()]),
@@ -59,6 +59,10 @@ class PublicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $publicationRepository->add($publication);
+            // mettre la propirété en fin de parcours création
+            $property = $propertyRepository->findOneBy(['publication'=>$publication->getId()]);
+            $property->setIsIncreating(0);
+            $propertyRepository->add($property);
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 

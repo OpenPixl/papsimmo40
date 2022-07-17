@@ -110,7 +110,7 @@ class PropertyController extends AbstractController
         $property->setRefMandat('numéro de mandat');
         $propertyRepository->add($property);
 
-        return $this->redirectToRoute('op_gestapp_property_firstedit', [
+        return $this->redirectToRoute('op_gestapp_property_show', [
             'id' => $property->getId()
         ]);
     }
