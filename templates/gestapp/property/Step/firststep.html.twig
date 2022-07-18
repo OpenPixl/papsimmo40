@@ -37,8 +37,10 @@
                     <hr>
                     {# STEP 1 : Ligne du titre de l'annonce du bien #}
                     <div class="row mb-1 mt-1 g-1">
+                        {{ form_errors(form.name) }}
                         {{ form_label(form.name, '', {'label_attr': {'class':'col-sm-2  form-label'}}) }}
                         <div class="col-10">
+                            {{ form_errors(form.name) }}
                             {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                     </div>
@@ -48,6 +50,7 @@
                             {{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
                         <div class="col-8">
+                            {{ form_errors(form.adress) }}
                             {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ligne 1'}}) }}
                         </div>
                     </div>
@@ -62,9 +65,11 @@
                             {{ form_label(form.city, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
                         <div class="col-2">
+                            {{ form_errors(form.zipcode) }}
                             {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Code Postal'}}) }}
                         </div>
                         <div class="col-6">
+                            {{ form_errors(form.city) }}
                             {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
                         </div>
                     </div>
@@ -74,6 +79,7 @@
                             {{ form_label(form.annonce, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
                         <div class="col-10">
+                            {{ form_errors(form.annonce) }}
                             {{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm', 'placeholder':"Description de l'annonce"}}) }}
                         </div>
                     </div>
@@ -83,6 +89,7 @@
                             {{ form_label(form.piece, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
                         <div class="col-2">
+                            {{ form_errors(form.annonce) }}
                             {{ form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                         <div class="col-1"></div>

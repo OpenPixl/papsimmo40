@@ -1,11 +1,15 @@
 <div id="side" class="float-start">
     <div class="container" id="bloc_avatar">
-        {% if app.user %}
-        <img class="img-fluid" src="{{asset('images/avatar/')}}{{app.user.avatarName}}" alt="{{app.user.avatarName}}">
-        {% else %}
-        <img class="img-fluid img-rounded" src="{{ asset('images/png/LogoPAPSimmo.png') }}">
-        {% endif%}
-        <h6 class="text-center">{{ app.user.firstName }} {{ app.user.lastName }}</h6>
+        <div class="row">
+            <div class="col">
+                {% if app.user.avatarName is not null %}
+                    <img class="img-fluid rounded-circle" src="{{asset('images/avatar/')}}{{app.user.avatarName}}" alt="{{app.user.avatarName}}" style="height:165px; object-fit: cover;">
+                {% else %}
+                    <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" style="height:165px; object-fit: cover;">
+                {% endif%}
+                <h6 class="text-center">{{ app.user.firstName }} {{ app.user.lastName }}</h6>
+            </div>
+        </div>
     </div>
     <div class="menu-items">
         <h6>TRANSACTION</h6>

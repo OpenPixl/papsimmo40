@@ -71,6 +71,13 @@ class PropertyController extends AbstractController
         $employed = $employedRepository->find($user);
 
         $complement = new Complement();
+        $complement->setTerrace(0);
+        $complement->setWashroom(0);
+        $complement->setBathroom(0);
+        $complement->setWc(0);
+        $complement->setBalcony(0);
+        $complement->setPropertyTax(0);
+        $complement->setLevel(0);
         $complementRepository->add($complement);
         // création d'une fiche Publication
         $publication = new Publication();
@@ -85,6 +92,8 @@ class PropertyController extends AbstractController
 
         // Création de l'entité Property
         $property = new Property();
+        $property->setPiece(0);
+        $property->setRoom(0);
         $property->setName('Nouveau bien');
         if(!$lastproperty){
             $lastRefNum = 1;
@@ -103,6 +112,16 @@ class PropertyController extends AbstractController
             }
         }
         $property->setRef($refNumDate.'-'.$lastRefNum);
+        $property->setSurfaceHome(0);
+        $property->setSurfaceLand(0);
+        $property->setNotaryEstimate(0);
+        $property->setApplicantEstimate(0);
+        $property->setDiagDpe(0);
+        $property->setDiagGpe(0);
+        $property->setDpeEstimateEnergyUp(0);
+        $property->setDpeEstimateEnergyDown(0);
+        $property->setCadasterSurface(0);
+        $property->setCadasterNum(0);
         $property->setRefEmployed($employed);
         $property->setOptions($complement);
         $property->setPublication($publication);
@@ -213,6 +232,7 @@ class PropertyController extends AbstractController
             ], 200);
 
         }
+        //dd($form->getErrors()->count());
         return $this->renderform('gestapp/property/Step/firststep.html.twig',[
             'form'=>$form,
             'property'=>$property,
@@ -411,6 +431,14 @@ class PropertyController extends AbstractController
             'properties' => $properties,
         ]);
 
+    }
+
+    #[Route('/oneproperty/{id}', name: 'op_gestapp_properties_oneproperty', methods: ['GET'])]
+    public function OneProperty(Property $property, PropertyRepository $propertyRepository)
+    {
+        return $this->render('webapp/page/property/oneproperty.html.twig', [
+            'property' => $property
+        ]);
     }
 
 }
