@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <section id="oneproperty" class="container mt-5 mb-5">
+        <div id="oneproperty_header" class="row">
+            <div class="col">
+                <h1 class="property_h1">{{property.name}}</h1>
+            </div>
+        </div>
+        <div id="oneproperty_main" class="row">
+            <div class="col-12 col-md-5 col-xl-5 col-xxl-5">
+                <img class="img-fluid" src="{{vich_uploader_asset(property)}}" alt="{{ property.imageName}}">
+            </div>
+            <div class="col-12 col-md-7 col-xl-7 col-xxl-7">
+                <article>
+                    {{property.annonce|markdown_to_html}}
+                </article>
+            </div>
+        </div>
+        <div id="oneproperty_footer" class="row"></div>
+    </section>
+{% endblock %}

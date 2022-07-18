@@ -61,7 +61,7 @@
                 {% elseif section.content == 'Sector_ofProperties'%}
                 {# Affiche les 5 derniers biens #}
                 {% elseif section.content == 'Last_property'%}
-                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::fiveLastProperty')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::LastProperty')) }}
                 {% else %}
                 {% endif %}
             </div>

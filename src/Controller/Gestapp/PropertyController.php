@@ -422,12 +422,12 @@ class PropertyController extends AbstractController
         ], 200);
     }
 
-    #[Route('/fivelastproperty', name: 'op_gestapp_properties_fivelastproperty', methods: ['GET'])]
-    public function fiveLastProperty(PropertyRepository $propertyRepository)
+    #[Route('/lastproperty', name: 'op_gestapp_properties_lastproperty', methods: ['GET'])]
+    public function LastProperty(PropertyRepository $propertyRepository)
     {
         $properties = $propertyRepository->fivelastproperties();
 
-        return $this->renderForm('gestapp/property/fivelastproperties.html.twig', [
+        return $this->renderForm('webapp/page/property/lastproperties.html.twig', [
             'properties' => $properties,
         ]);
 
