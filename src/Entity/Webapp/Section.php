@@ -26,13 +26,13 @@ class Section
     #[ORM\Column(type: 'text', nullable: true)]
     private $description;
 
-    #[ORM\OneToOne(targetEntity: Articles::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Articles::class, cascade: ['persist'])]
     private $oneArticle;
 
-    #[ORM\OneToOne(targetEntity: Category::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Category::class, cascade: ['persist'])]
     private $OneCategory;
 
-    #[ORM\OneToOne(targetEntity: Employed::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(targetEntity: Employed::class, cascade: ['persist'])]
     private $oneEmployed;
 
     #[ORM\Column(type: 'boolean')]
