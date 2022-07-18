@@ -1,8 +1,13 @@
 
 @import "~bootstrap/scss/bootstrap";
 //*** ------------- Import Styles from admin ---------------- ***//
+@import "scss/public/body";
 @import "scss/public/header";
 @import "scss/public/main";
 @import "scss/public/footer";
-
+//*** ------------- Import Styles from FontAwesome ---------------- ***//
 @import '~@fortawesome/fontawesome-free/css/all.css';
+//*** ------------- Import fonts ---------------- ***//
+@import "scss/mixins/fontface";
+@include fontface('Montserrat', '../../fonts/Montserrat/montserrat-regular', 300, normal);
+
