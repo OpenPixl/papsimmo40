@@ -90,6 +90,50 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    public function oneProperty($property)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->addSelect('
+                p.id as id,
+                p.ref as ref,
+                p.name as name,
+                p.annonce as annonce,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                p.piece as piece,
+                p.room as room,
+                c.washroom as washroom,
+                c.bathroom as bathroom,
+                c.terrace as terrace,
+                c.balcony as balcony,
+                c.wc as wc,
+                p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
+                p.applicantEstimate as applicantEstimate,
+                p.isHome as isHome,
+                p.isApartment as isApartment,
+                p.isLand as isLand,
+                p.isOther as isOther,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.imageName as imageName,
+                p.createdAt as createdAt,
+                p.updatedAt as updatedAt
+            ')
+            ->andWhere('p.id = :property')
+            ->setParameter('property', $property)
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
     // /**
     //  * @return Property[] Returns an array of Property objects
     //  */
