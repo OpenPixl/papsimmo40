@@ -11,7 +11,7 @@
                         {{ article.content|u.truncate(200, ' ...')|markdown_to_html }}
                     </article>
                     {% if article.isShowreadmore == 1 %}
-                    <a href="#" class="card-link">Go somewhere</a>
+                    <a href="{{ article.linkText }}" class="card-link">Source: {{ article.linkText }}</a>
                     {% endif %}
                 </div>
             </div>
