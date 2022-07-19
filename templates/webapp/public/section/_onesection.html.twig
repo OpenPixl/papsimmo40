@@ -49,6 +49,7 @@
                     {{ render(controller('App\\Controller\\Webapp\\ArticlesController::OneArticle', {'id': section.oneArticle})) }}
                 {# Affiche une catégorie d'articles #}
                 {% elseif section.content == 'Category'%}
+                    {{ render(controller('App\\Controller\\Webapp\\ArticlesController::articlesByCat', {'cat': section.oneCategory})) }}
                 {# Affiche un collaborateur et ses biens #}
                 {% elseif section.content == 'One_Employed'%}
                 {# Affiche une équipe #}

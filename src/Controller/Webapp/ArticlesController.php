@@ -119,4 +119,15 @@ class ArticlesController extends AbstractController
             'article' => $article,
         ]);
     }
+
+    #[Route('/articlesByCat/{cat}', name: 'op_webapp_articles_articlesbycat', methods: ['GET'])]
+    public function articlesByCat($cat, ArticlesRepository $articlesRepository): Response
+    {
+        //dd($cat);
+        $articles = $articlesRepository->findBy(['category' => $cat], ['updatedAt'=> 'DESC']);
+        //dd($articles);
+        return $this->render('webapp/page/article/category.html.twig', [
+            'articles' => $articles,
+        ]);
+    }
 }
