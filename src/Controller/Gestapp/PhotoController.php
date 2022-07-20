@@ -67,7 +67,7 @@ class PhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_gestapp_photo_show', methods: ['GET'])]
+    #[Route('/show/{id}', name: 'op_gestapp_photo_show', methods: ['GET'])]
     public function show(Photo $photo): Response
     {
         return $this->render('gestapp/photo/show.html.twig', [
@@ -120,5 +120,14 @@ class PhotoController extends AbstractController
             ])
         ], 200);
 
+    }
+
+    #[Route('/publicgallerybyproperty/{idproperty}', name: 'app_gestapp_photo_publicgallerybyproperty', methods: ['POST'])]
+    public function PublicGalleryByProperty($idproperty, PhotoRepository $photoRepository)
+    {
+        $photos = $photoRepository->findBy(['property'=>$idproperty]);
+        return $this->render('webapp/page/property/include/galerie.html.twig',[
+            'photos' => $photos
+        ]);
     }
 }
