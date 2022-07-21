@@ -436,10 +436,14 @@ class PropertyController extends AbstractController
     #[Route('/oneproperty/{id}', name: 'op_gestapp_properties_oneproperty', methods: ['GET'])]
     public function OneProperty(Property $property, PropertyRepository $propertyRepository)
     {
-        $property = $propertyRepository->oneProperty($property->getId());
+        $oneproperty = $propertyRepository->oneProperty($property->getId());
+        $options = $property->getOptions();
+        $equipments = $options->getPropertyEquipment();
+        //dd($equipment);
 
         return $this->render('webapp/page/property/oneproperty.html.twig', [
-            'property' => $property
+            'property' => $oneproperty,
+            'equipments' => $equipments
         ]);
     }
 

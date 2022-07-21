@@ -44,7 +44,7 @@ class ComplementType extends AbstractType
                 'label' => 'Disponibilité',
                 'choices'  => [
                     'A définir' => "a-definir",
-                    'Immédiatement' => 'immédiatement',
+                    'Immédiatement' => 'immediatement',
                     'A partir de' => 'a-partir-de'
                 ],
                 'choice_attr' => [
@@ -57,7 +57,7 @@ class ComplementType extends AbstractType
                 'label' => 'Location',
                 'choices'  => [
                     'A définir' => "a-definir",
-                    'Immédiatement' => 'immédiatement',
+                    'Immédiatement' => 'immediatement',
                     'A partir de' => 'a-partir-de'
                 ],
                 'choice_attr' => [

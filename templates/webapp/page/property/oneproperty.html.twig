@@ -59,43 +59,114 @@
                     <h3 class="technique">FICHE TECHNIQUE :</h3>
                     <div class="row">
                         <div class="col-4">
+                            <h4>Informations générales</h4>
+
                             <table class="table table-bordered">
-                                {% if property.washroom > 0 %}
                                 <tr>
-                                    <td>Salle d'eau</td>
-                                    <td>{{property.washroom}}</td>
+                                    <td>Type</td>
+                                    <td>
+                                        {% if property.isHome == 1%}
+                                            Maison
+                                        {% endif %}
+                                        {% if property.isApartment == 1%}
+                                            Appartement
+                                        {% endif %}
+                                        {% if property.isLand == 1%}
+                                            Terrain
+                                        {% endif %}
+                                        {% if property.isOther == 1%}
+                                            {{ property.otherDescription }}
+                                        {% endif %}
+                                        {{ property.denomination }}
+                                    </td>
                                 </tr>
+                                {% if property.propertyState >0 %}
+                                    <tr>
+                                        <td>Etat du bien</td>
+                                        <td>{{ property.propertyState }}</td>
+                                    </tr>
                                 {% endif %}
-                                {% if property.bathroom >0 %}
-                                <tr>
-                                    <td>Salle de Bain</td>
-                                    <td>{{property.bathroom}}</td>
-                                </tr>
+                                {% if property.propertyEnergy >0 %}
+                                    <tr>
+                                        <td>Energie</td>
+                                        <td>{{ property.propertyEnergy }}</td>
+                                    </tr>
                                 {% endif %}
-                                {% if property.wc >0 %}
-                                <tr>
-                                    <td>Toilette</td>
-                                    <td>{{property.wc}}</td>
-                                </tr>
+                                {% if property.propertyTax >0 %}
+                                    <tr>
+                                        <td>Charge</td>
+                                        <td>{{ property.propertyTax }}</td>
+                                    </tr>
                                 {% endif %}
-                                {% if property.balcony >0 %}
-                                <tr>
-                                    <td>Balcon</td>
-                                    <td>{{property.balcony}}</td>
-                                </tr>
+                                {% if property.propertyOrientation >0 %}
+                                    <tr>
+                                        <td>Charge</td>
+                                        <td>{{ property.propertyOrientation }}</td>
+                                    </tr>
                                 {% endif %}
-                                {% if property.terrace >0 %}
-                                <tr>
-                                    <td>terrasse</td>
-                                    <td>{{property.terrace}}</td>
-                                </tr>
+                                {% if property.disponibility != 'a-definir' or property.location != 'a-definir' %}
+                                    <tr>
+                                        <td>
+                                            {% if property.disponibility != 'a-definir' %}Disponible{% endif %}
+                                            {% if property.location != 'a-definir' %}Louable{% endif %}
+                                        </td>
+                                        <td>
+                                            {% if property.disponibility != 'a-definir' %}A partir du{% endif %}&nbsp;
+                                            {% if property.location != 'a-definir' %}Louable{% endif %}{{ property.disponibilityAt|format_datetime('medium', 'none', locale='fr') }}
+                                        </td>
+                                    </tr>
                                 {% endif %}
+
                             </table>
                         </div>
-                        <div class="col-4">
-
+                        <div class="col-8">
+                            <h4>Détails du bien</h4>
+                            <div class="row">
+                                <div class="col-6">
+                                    <table class="table table-bordered">
+                                        {% if property.washroom > 0 %}
+                                            <tr>
+                                                <td>Salle d'eau</td>
+                                                <td>{{property.washroom}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if property.bathroom >0 %}
+                                            <tr>
+                                                <td>Salle de Bain</td>
+                                                <td>{{property.bathroom}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if property.wc >0 %}
+                                            <tr>
+                                                <td>Toilette</td>
+                                                <td>{{property.wc}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if property.balcony >0 %}
+                                            <tr>
+                                                <td>Balcon</td>
+                                                <td>{{property.balcony}}</td>
+                                            </tr>
+                                        {% endif %}
+                                        {% if property.terrace >0 %}
+                                            <tr>
+                                                <td>terrasse</td>
+                                                <td>{{property.terrace}}</td>
+                                            </tr>
+                                        {% endif %}
+                                    </table>
+                                </div>
+                                <div class="col-6">
+                                    <table class="table table-bordered">
+                                    {% for equipment in equipments %}
+                                        <tr>
+                                            <td>{{ equipment.name }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </table>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-4"></div>
                     </div>
                 </div>
             </div>
