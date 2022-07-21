@@ -4,7 +4,7 @@
         <div class="col-12 col-md-4 col-xl-3 col-xxl-3">
 
             <div class="card">
-                <img class="card-img-top" src="{{ vich_uploader_asset(article) }}" alt="{{ article.name }}">
+                <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}"></a>{{ article.name }}</h3>
                     <article>

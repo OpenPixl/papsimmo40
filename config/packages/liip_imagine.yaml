@@ -16,3 +16,9 @@ liip_imagine:
                 thumbnail:
                     size: [ 355, 225 ]
                     mode: outbond
+        card_actualites:
+            quality: 150
+            filters:
+                thumbnail:
+                    size: [ 304, 170 ]
+                    mode: outbond

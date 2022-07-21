@@ -10,14 +10,25 @@
         {% endfor %}
     </div>
 {% else %}
-    <div class="row g-1">
-    {% for photo in photos %}
-        <div class="col-6 pt-0 pb-1">
-            <img class="img-fluid rounded-2" src="{{ vich_uploader_asset(photo)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
+    <div class="flickity-button-white" data-flickity='{"resize":false, "pageDots": true,"cellAlign": "left", "wrapAround": true, "imagesLoaded": true}'>
+        {% set photosCollection = [] %}
+        {% for photo in photos %}
+            {% set photosCollection = photosCollection|merge([photo]) %}
+        {% endfor %}
+        {% for row in photosCollection|batch(4,'') %}
+        <div class="row g-1">
+            {% for p in row %}
+            {% if p == '' %}
+            <div class="col-6 pt-0 pb-1">
+                <img class="img-fluid rounded-2" src="{{ asset('images/jpeg/mod_maison.jpg')|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
+            </div>
+            {% else %}
+            <div class="col-6 pt-0 pb-1">
+                <img class="img-fluid rounded-2" src="{{ vich_uploader_asset(p)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
+            </div>
+            {% endif %}
+            {% endfor %}
         </div>
-        {% if loop.index is divisible by(4) %}
-            </div><div class="row g-1">
-        {% endif %}
-    {% endfor %}
+        {% endfor %}
     </div>
 {% endif %}

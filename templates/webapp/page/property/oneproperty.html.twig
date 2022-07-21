@@ -11,16 +11,16 @@
             {# bandeau de présentation des informations prioncipales du bien #}
             <div class="row" id="informations">
                 <div class="col-3">
-                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_superfmaison.png')}}" alt="picto_surfacebien"> {{ property.surfaceHome}} m2 surface habitable</p>
+                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_superfmaison.png')}}" alt="picto_surfacebien"> {{ property.surfaceHome|number_format(0,',',' ')}} m2 surface habitable</p>
                 </div>
                 <div class="col-3">
                     <p class="text-end mb-0"><img src="{{ asset('images/png/picto_nbpiece.png')}}" alt="picto_pieces"> {{property.piece}} {{piece}} | {{ property.room}} {{ room }}</p>
                 </div>
                 <div class="col-3">
-                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_terrainsuperfi.png')}}" alt="picto_surfaceterrain"> {{ property.surfaceHome}} m2 de terrain</p>
+                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_terrainsuperfi.png')}}" alt="picto_surfaceterrain"> {{ property.surfaceHome|number_format(0,',',' ')}} m2 de terrain</p>
                 </div>
                 <div class="col-3 d-flex justify-content-center align-items-center">
-                    <p class="text-center align-middle mb-0">{{ property.applicantEstimate }} €</p>
+                    <p class="text-center align-middle mb-0">{{ property.applicantEstimate|number_format(0,',',' ') }} €</p>
                 </div>
             </div>
         </div>
