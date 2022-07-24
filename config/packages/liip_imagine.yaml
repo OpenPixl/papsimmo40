@@ -4,6 +4,12 @@ liip_imagine:
     driver: "gd"
 
     filter_sets:
+        lastproperty_card:
+            quality: 150
+            filters:
+                thumbnail:
+                    size: [ 414, 305 ]
+                    mode: outbond
         oneproperty_image:
             quality: 150
             filters:
