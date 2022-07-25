@@ -10,16 +10,16 @@
         <div class="container">
             {# bandeau de présentation des informations prioncipales du bien #}
             <div class="row" id="informations">
-                <div class="col-3">
+                <div class="col-3" id="property_surface">
                     <p class="text-end mb-0"><img src="{{ asset('images/png/picto_superfmaison.png')}}" alt="picto_surfacebien"> {{ property.surfaceHome|number_format(0,',',' ')}} m2 surface habitable</p>
                 </div>
-                <div class="col-3">
+                <div class="col-3" id="property_pieces">
                     <p class="text-end mb-0"><img src="{{ asset('images/png/picto_nbpiece.png')}}" alt="picto_pieces"> {{property.piece}} {{piece}} | {{ property.room}} {{ room }}</p>
                 </div>
-                <div class="col-3">
+                <div class="col-3" id="property_terrain">
                     <p class="text-end mb-0"><img src="{{ asset('images/png/picto_terrainsuperfi.png')}}" alt="picto_surfaceterrain"> {{ property.surfaceHome|number_format(0,',',' ')}} m2 de terrain</p>
                 </div>
-                <div class="col-3 d-flex justify-content-center align-items-center">
+                <div class="col-3 d-flex justify-content-center align-items-center" id="property_price">
                     <p class="text-center align-middle mb-0">{{ property.applicantEstimate|number_format(0,',',' ') }} €</p>
                 </div>
             </div>
@@ -44,7 +44,7 @@
                 </div>
             </div>
             {# Row du contenu Descritpif du Bien #}
-            <div class="row">
+            <div class="row" id="generalCard">
                 <div class="col-12">
                     <h3 class="descriptif">DESCRIPTIF :</h3>
                     <h4 class="small">{{property.ref}}</h4>
@@ -53,8 +53,8 @@
                     </article>
                 </div>
             </div>
-            {# Row du contenu Descritpif du Bien #}
-            <div class="row">
+            {# Row du contenu Technique du Bien #}
+            <div class="row" id="TechniqualCard">
                 <div class="col-12">
                     <h3 class="technique">FICHE TECHNIQUE :</h3>
                     <div class="row">
@@ -170,7 +170,75 @@
                     </div>
                 </div>
             </div>
+<<<<<<< Updated upstream
+=======
+            {# Row du contenu Diagnostique du Bien #}
+            <div class="row" id="DiagnosticCard">
+
+            </div>
         </div>
-        <div id="oneproperty_footer" class="row"></div>
+        <div id="oneproperty_footer" class="row">
+
+            {% set letter = ''%}
+            {% if property.diagDpe <= 50 %}
+            {% set letter = 'A'%}
+            {% elseif property.diagDpe < 50 and property.diagDpe >= 90 %}
+            {% set letter = 'B'%}
+            {% elseif property.diagDpe < 90 and property.diagDpe >= 150 %}
+            {% set letter = 'C'%}
+            {% elseif property.diagDpe < 150 and property.diagDpe >= 230 %}
+            {% set letter = 'D'%}
+            {% elseif property.diagDpe < 230 and property.diagDpe >= 330 %}
+            {% set letter = 'E'%}
+            {% elseif property.diagDpe < 330 and property.diagDpe >= 450 %}
+            {% set letter = 'F'%}
+            {% elseif property.diagDpe > 450 %}
+            {% set letter = 'G'%}
+            {% endif %}
+            <figure>
+                <figcaption>DPE</figcaption>
+                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
+                    <title id="title">A bart chart showing information</title>
+                    {% if letter == 'A' %}
+                    <g class="bar">
+                        <rect width="40" height="20" fill="#00a06c"></rect>
+                        <text x="45" y="10" dy=".35em" stroke="#00a06c" fill="#00a06c">A</text>
+                    </g>
+                    {% else %}
+                    <g class="bar">
+                        <rect width="40" height="20" fill="#00a06c" stroke></rect>
+                        <text x="45" y="10" dy=".35em" stroke="#00a06c" fill-opacity="0.5">A</text>
+                    </g>
+                    {% endif %}
+                    <g class="bar">
+                        <rect width="60" height="20" y="22" fill="#50b054"></rect>
+                        <text x="65" y="32" dy=".35em">B</text>
+                    </g>
+                    <g class="bar">
+                        <rect width="80" height="20" y="44" fill="#a4cc74"></rect>
+                        <text x="85" y="54" dy=".35em">C</text>
+                    </g>
+                    <g class="bar">
+                        <rect width="100" height="20" y="66" fill="#f3e61e"></rect>
+                        <text x="105" y="76" dy=".35em">D</text>
+                    </g>
+                    <g class="bar">
+                        <rect width="120" height="20" y="88" fill="#f0b418"></rect>
+                        <text x="125" y="98" dy=".35em">E</text>
+                    </g>
+                    <g class="bar">
+                        <rect width="140" height="20" y="110" fill="#eb8233"></rect>
+                        <text x="145" y="120" dy=".35em">F</text>
+                    </g>
+                    <g class="bar">
+                        <rect width="160" height="20" y="132" fill="#d71d1f"></rect>
+                        <text x="165" y="142" dy=".35em">G</text>
+                    </g>
+                </svg>
+            </figure>
+
+
+>>>>>>> Stashed changes
+        </div>
     </section>
 {% endblock %}

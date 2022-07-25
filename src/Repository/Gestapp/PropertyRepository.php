@@ -129,6 +129,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.complement as complement,
                 p.zipcode as zipcode,
                 p.city as city,
+                p.diagDpe as diagDpe,
                 ps.name as propertyState,
                 pe.name as propertyEnergy,
                 po.name as propertyOrientation,
