@@ -226,6 +226,16 @@
                         console.log(error);
                     })
             })
+            document.getElementById('previousCustomer').addEventListener('click', function(event){
+                event.preventDefault()
+                // visibilité des éléments
+                nextStepCustomers.className += " d-none";
+                nextStepInformations.className = "btn btn-sm btn-outline-primary";
+                navCustomers.className = "nav-link disabled";
+                navInformations.className = "nav-link active";
+                Customers.className = "tab-pane";
+                Informations.className += " active";
+            })
 
 
             // ---------------------------------------
@@ -254,6 +264,16 @@
                         console.log(error);
                     })
             })
+            document.getElementById('previousEstimate').addEventListener('click', function(event){
+                event.preventDefault()
+                // modification des classes pour la navigation entre panels
+                nextStepEstimate.className = " d-none"
+                nextStepCustomers.className = "btn btn-sm btn-outline-primary"
+                navEstimate.className = "nav-link disabled"
+                navCustomers.className = "nav-link active"
+                Estimate.className = "tab-pane"
+                Customers.className += " active"
+            })
 
             // ---------------------------------------
             // STEP 4 :
@@ -281,6 +301,16 @@
                     .catch(function(error){
                         console.log(error);
                     })
+            })
+            document.getElementById('previousOptions').addEventListener('click', function(event){
+                event.preventDefault()
+                // modification des classes pour la navigation entre panels
+                nextStepOptions.className = " d-none"
+                nextStepEstimate.className = "btn btn-sm btn-outline-primary"
+                navOptions.className = "nav-link disabled"
+                navEstimate.className = "nav-link active"
+                Options.className = "tab-pane"
+                Estimate.className += " active"
             })
 
             // PARTIE Bannière sur image
@@ -758,6 +788,17 @@
             document.querySelectorAll('a.delphoto').forEach(function (link){
                 link.addEventListener('click', delphoto);
             })
+            document.getElementById('previousGallery').addEventListener('click', function(event){
+                event.preventDefault()
+                // modification des classes pour la navigation entre panels
+                nextStepGallery.className = " d-none"
+                nextStepOptions.className = "btn btn-sm btn-outline-primary"
+                navGallery.className = "nav-link disabled"
+                navOptions.className = "nav-link active"
+                Gallery.className = "tab-pane"
+                Options.className += " active"
+            })
+
 
             // ---------------------------------------
             // STEP 6 :
@@ -774,7 +815,16 @@
                         console.log(error);
                     })
             })
-
+            document.getElementById('previousPublication').addEventListener('click', function(event){
+                event.preventDefault()
+                // modification des classes pour la navigation entre panels
+                nextStepPublication.className = " d-none"
+                nextStepGallery.className = "btn btn-sm btn-outline-primary"
+                navPublication.className = "nav-link disabled"
+                navGallery.className = "nav-link active"
+                Publication.className = "tab-pane"
+                Gallery.className += " active"
+            })
         }
     </script>
 {% endblock %}
@@ -789,7 +839,7 @@
 
 {% block content %}
 
-    {% if property.isIncreating == 1 %}
+    {% if property.isIncreating == 0 %}
         <h1>Edition du bien Paps Immo</h1>
     {% else %}
         <h1>Créer un nouveau bien Paps Immo</h1>
@@ -835,7 +885,7 @@
         </div>
         {# STEP 2 : VENDEURS #}
         <div class="tab-pane" id="Customers" role="tabpanel" aria-labelledby="profile-tab">
-            {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listByProperty', {'property' : property.id})) }}
+            {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listByProperty', {'id' : property.id})) }}
         </div>
         {# STEP 3 : ESTIMATIONS #}
         <div class="tab-pane" id="Estimate" role="tabpanel" aria-labelledby="profile-tab">

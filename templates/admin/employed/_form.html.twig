@@ -41,10 +41,9 @@
 </div>
 <div class="row">
     <div class="col-12">
-        <fieldset>
-            <legend>Contact</legend>
-            {{ render(controller('App\\Controller\\Admin\\ContactController::showByEmployed', {'idEmployed': idemployed})) }}
-        </fieldset>
+        <h3>Contacts</h3>
+        {{ render(controller('App\\Controller\\Admin\\ContactController::editByEmployed', {'idEmployed': idemployed})) }}
+
 
         {{ form_rest(form) }}
         <div class="row mt-2">

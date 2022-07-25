@@ -161,7 +161,11 @@
     <div class="row mt-2">
         <div class="col-12">
             <div class="mt-1">
-                <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                {% if property.isIncreating == 1 %}
+                <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark disabled"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                {% else %}
+                <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                {% endif %}
                 <button type="submit" id="stepInformations" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
             </div>
         </div>

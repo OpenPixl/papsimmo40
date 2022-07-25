@@ -68,6 +68,7 @@ class PublicationController extends AbstractController
 
         return $this->renderForm('gestapp/publication/showbyproperty.html.twig', [
             'publication' => $publication,
+            'property' => $propertyRepository->findOneBy(['publication'=>$publication->getId()]),
             'form' => $form,
         ]);
     }

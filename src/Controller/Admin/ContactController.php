@@ -74,6 +74,23 @@ class ContactController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/editByEmployed', name: 'op_admin_contact_editByEmployed', methods: ['GET', 'POST'])]
+    public function editByEmployed(Request $request, Contact $contact, ContactRepository $contactRepository): Response
+    {
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contactRepository->add($contact);
+            return $this->redirectToRoute('op_admin_contact_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('admin/contact/edit.html.twig', [
+            'contact' => $contact,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'op_admin_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {

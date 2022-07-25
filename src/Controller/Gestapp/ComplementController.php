@@ -19,6 +19,7 @@ use App\Repository\Gestapp\choice\PropertyStateRepository;
 use App\Repository\Gestapp\choice\PropertyTypologyRepository;
 use App\Repository\Gestapp\choice\TradeTypeRepository;
 use App\Repository\Gestapp\ComplementRepository;
+use App\Repository\Gestapp\PropertyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -141,12 +142,14 @@ class ComplementController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'op_gestapp_complement_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Complement $complement, ComplementRepository $complementRepository): Response
+    public function edit(Request $request, Complement $complement, ComplementRepository $complementRepository, PropertyRepository $propertyRepository): Response
     {
+        $property = $propertyRepository->findOneBy(['options'=> $complement->getId()]);
         $form = $this->createForm(ComplementType::class, $complement, [
             'action' => $this->generateUrl('op_gestapp_complement_edit', ['id'=>$complement->getId()]),
             'method' => 'POST'
         ]);
+
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -160,6 +163,7 @@ class ComplementController extends AbstractController
         return $this->renderForm('gestapp/complement/edit.html.twig', [
             'complement' => $complement,
             'form' => $form,
+            'property' => $property
         ]);
     }
 

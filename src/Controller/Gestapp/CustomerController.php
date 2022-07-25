@@ -29,17 +29,13 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/byproperty/{property}', name: 'op_gestapp_customer_listbyproperty', methods: ['GET'])]
+    #[Route('/byproperty/{id}', name: 'op_gestapp_customer_listbyproperty', methods: ['GET'])]
     public function listByProperty(CustomerRepository $customerRepository, Property $property, Request $request): Response
     {
-        // récupération de la propriété
-        $idproperty = $property->getId();
-
         // intégration dans ce controller du formulaire de recherche des clients
-
         return $this->render('gestapp/customer/listByProperty.html.twig', [
             'customers' => $customerRepository->listByProperty($property),
-            'idproperty' => $idproperty,
+            'property' => $property,
         ]);
     }
 

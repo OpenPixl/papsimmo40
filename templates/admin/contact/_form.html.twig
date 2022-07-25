@@ -1,4 +1,51 @@
 {{ form_start(form) }}
+    <div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                {# Numéro Domicile #}
+                <div class="row mb-1 g-1">
+                    {{ form_label(form.home, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                    <div class="col-6">
+                        {{ form_widget(form.v) }}
+                    </div>
+                </div>
+                {# Numéro Bureau #}
+                <div class="row mb-1 g-1">
+                    {{ form_label(form.desk, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                    <div class="col-6">
+                        {{ form_widget(form.desk) }}
+                    </div>
+                </div>
+                {# Numéro Portable #}
+                <div class="row mb-1 g-1">
+                    {{ form_label(form.gsm, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                    <div class="col-6">
+                        {{ form_widget(form.gsm) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <Div class="col-4">
+        <div class="card">
+            <div class="card-body">
+                {# Numéro Fax #}
+                <div class="row mb-1 g-1">
+                    {{ form_label(form.fax, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                    <div class="col-6">
+                        {{ form_widget(form.fax) }}
+                    </div>
+                </div>
+                {# Numéro Email #}
+                <div class="row mb-1 g-1">
+                    {{ form_label(form.email, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                    <div class="col-6">
+                        {{ form_widget(form.email) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </Div>
     {{ form_widget(form) }}
     <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

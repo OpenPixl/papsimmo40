@@ -32,6 +32,8 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
             $this->id,
             $this->username,
             $this->password,
+            $this->avatarName,
+            $this->avatarFile
             // see section on salt below
             // $this->salt,
         ));
@@ -43,6 +45,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
             $this->id,
             $this->username,
             $this->password,
+            $this->avatarName,
+            $this->avatarFile
+
             // see section on salt below
             // $this->salt
             ) = unserialize($serialized);

@@ -1,7 +1,7 @@
 <section class="property-edit">
     <div class="row mt-2">
         <div class="col-sm-3">
-            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ idproperty }}">
+            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ property.id }}">
                 Ajouter un vendeur<br>
                 sur ce bien.
             </button>
@@ -11,21 +11,25 @@
                     <p>
                         <b>Rechercher </b>un vendeur
                     </p>
-                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer', {'idproperty': idproperty})) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer', {'idproperty': property.id })) }}
                 </div>
             </div>
 
         </div>
         <div class="col-sm-9">
             <div id="listeCustormers" class="row">
-                {% include 'gestapp/customer/_listecustomers.html.twig' with {'idproperty': idproperty} %}
+                {% include 'gestapp/customer/_listecustomers.html.twig' with {'idproperty': property.id } %}
             </div>
         </div>
     </div>
     <div class="row mt-2">
         <div class="col-12">
             <div class="mt-1">
+                {% if property.isIncreating == 1 %}
                 <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                {% else %}
+                <a id="previousCustomer" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                {% endif %}
                 <button type="submit" id="stepCustomers" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape chiffres") }}</button>
             </div>
         </div>

@@ -1,7 +1,7 @@
 <section class="property-edit">
     {{ form_start(form, {'attr': {'id': 'FormAddEstimate'}}) }}
     <div class="row g-1 mt-2">
-        <div class="col-3">
+        <div class="col-2">
             {# Bloc des surfaces #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
@@ -24,7 +24,8 @@
                 </div>
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-2">
+            {# Bloc des Estimations #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
                     ESTIMATIONS
@@ -47,6 +48,7 @@
             </div>
         </div>
         <div class="col-3">
+            {# Bloc des diagnostiques #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
                     DPE & GPE
@@ -89,9 +91,9 @@
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="col-3">
+        <div class="col-5">
+            {# Bloc des cadastres #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
                     CADASTRE
@@ -115,14 +117,16 @@
                     %}
                 </div>
             </div>
-
         </div>
     </div>
     <div class="row mt-2">
         <div class="col-12">
             <div class="mt-1">
-                <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button type="submit" id="stepEstimate" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape options") }}</button>
+                {% if property.isIncreating == 1 %}
+                    <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark disabled"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                {% else %}
+                    <a id="previousEstimate" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                {% endif %}                <button type="submit" id="stepEstimate" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape options") }}</button>
             </div>
         </div>
     </div>

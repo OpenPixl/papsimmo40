@@ -31,7 +31,7 @@ class PhotoController extends AbstractController
         //dd($photos);
         return $this->render('gestapp/photo/byproperty.html.twig', [
             'photos' => $photos,
-            'idproperty' => $idproperty
+            'property' => $property
         ]);
     }
 
