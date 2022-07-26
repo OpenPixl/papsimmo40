@@ -60,7 +60,10 @@ class ContactController extends AbstractController
     #[Route('/{id}/edit', name: 'op_admin_contact_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {
-        $form = $this->createForm(ContactType::class, $contact);
+        $form = $this->createForm(ContactType::class, $contact, [
+            'action' => $this->generateUrl('op_admin_contact_edit', ['id' => $contact->getId()]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -25,6 +25,21 @@
                     }
                 }
             });
+
+
+            // ---------------------------------------
+            // Validation des Formulaires
+            //
+            // ---------------------------------------
+            let formEmployed = document.getElementById('FormEmployed')
+            let formContact = document.getElementById('FormContact')
+            document.getElementById('submitForms').addEventListener('click', function(event){
+                event.preventDefault()
+                let urlemployed = formEmployed.action
+                let urlcontacts = formContact.action
+                console.log(urlemployed,urlcontacts)
+
+            })
         }
     </script>
 {% endblock %}

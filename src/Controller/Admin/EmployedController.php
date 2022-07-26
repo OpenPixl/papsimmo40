@@ -64,7 +64,10 @@ class EmployedController extends AbstractController
     public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository, ContactRepository $contactRepository): Response
     {
         $contact = $contactRepository->findOneBy(['employed' => $employed->getId()]);
-        $form = $this->createForm(EmployedType::class, $employed);
+        $form = $this->createForm(EmployedType::class, $employed, [
+            'action'=>$this->generateUrl('op_admin_employed_edit', ['id' => $employed->getId()]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
