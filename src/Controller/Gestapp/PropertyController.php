@@ -126,7 +126,7 @@ class PropertyController extends AbstractController
         $property->setOptions($complement);
         $property->setPublication($publication);
         $property->setIsIncreating(1);
-        $property->setRefMandat('numéro de mandat');
+        $property->setRefMandat('A complèter obligatoirement');
         $propertyRepository->add($property);
 
         return $this->redirectToRoute('op_gestapp_property_show', [

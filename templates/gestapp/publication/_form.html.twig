@@ -22,11 +22,7 @@
 <div class="row mt-2">
     <div class="col-12">
         <div class="mt-1">
-            {% if property.isIncreating == 1 %}
-                <a id="stepBack" href="#" class="btn btn-sm btn-outline-dark disabled"><i class="fa-solid fa-backward-step"></i> Retour</a>
-            {% else %}
-                <a id="previousPublication" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-            {% endif %}
+            <a id="previousPublication" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
             <button type="submit" id="stepPublication" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et finaliser la modification d'un bien") }}</button>
         </div>
     </div>
