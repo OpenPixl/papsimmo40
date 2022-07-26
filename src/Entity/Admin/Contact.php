@@ -42,7 +42,7 @@ class Contact
     private $employed;
 
     #[ORM\ManyToOne(targetEntity: Customer::class, inversedBy: 'contacts')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private $Customer;
 
     public function getId(): ?int

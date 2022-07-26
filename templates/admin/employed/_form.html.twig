@@ -1,51 +1,66 @@
 {{ form_start(form) }}
-
-<div class="row">
-    <div class="col-8">
-
-        {% include('include/form/input2field.html.twig') with {
-            'form_label':form_label(form.firstName, 'Prénom', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-            'form_input1':form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}}),
-            'form_input2':form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}})
-        }
-        %}
-
-
-        {% include('include/form/input.html.twig') with {
-            'form_label':form_label(form.email, 'Email', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-            'form_input':form_widget(form.email, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email'}})
-        }
-        %}
-
-
-        {% include('include/form/input.html.twig') with {
-            'form_label':form_label(form.sector, 'Secteur', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-            'form_input':form_widget(form.sector, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre de la page'}})
-        }
-        %}
-
-        {% include('include/form/select.html.twig') with {
-            'form_label':form_label(form.referent, 'Référent', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
-            'form_select':form_widget(form.referent)
-        }
-        %}
-
-
-
-    </div>
-    <div class="col-4">
-
-        {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
-
-    </div>
-</div>
 <div class="row">
     <div class="col-12">
-        <h3>Contacts</h3>
-        {{ render(controller('App\\Controller\\Admin\\ContactController::editByEmployed', {'idEmployed': idemployed})) }}
+        <div class="alert alert-secondary">
+            <div class="form-check form-switch">
+                {{ form_label(form.isVerified, 'Ce collaborateur.trice est activé.e', {'label_attr': {'class':'form-check-label'}}) }}
+                {{ form_widget(form.isVerified, {'attr': {'class': 'form-check-input'}}) }}
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row g-1">
+    <div class="col-8">
+        <div class="card bg-secondary mb-1">
+            <div class="card-body">
+                <h3>Information collaborateur</h3>
+                {% include('include/form/input2field.html.twig') with {
+                    'form_label':form_label(form.firstName, 'Prénom', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+                    'form_input1':form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}}),
+                    'form_input2':form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}})
+                }
+                %}
 
 
-        {{ form_rest(form) }}
+                {% include('include/form/input.html.twig') with {
+                    'form_label':form_label(form.email, 'Email', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+                    'form_input':form_widget(form.email, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email'}})
+                }
+                %}
+
+
+                {% include('include/form/input.html.twig') with {
+                    'form_label':form_label(form.sector, 'Secteur', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+                    'form_input':form_widget(form.sector, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre de la page'}})
+                }
+                %}
+
+                {% include('include/form/select.html.twig') with {
+                    'form_label':form_label(form.referent, 'Référent', {'label_attr': {'class':'col-sm-2 col-form-label'}}),
+                    'form_select':form_widget(form.referent)
+                }
+                %}
+            </div>
+        </div>
+        <div class="card bg-secondary">
+            <div class="card-body">
+                <h3>Contacts</h3>
+                {{ render(controller('App\\Controller\\Admin\\ContactController::editByEmployed', {'id': contact.id})) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        <div class="card bg-secondary">
+            <div class="card-body">
+                <h3>Avatar</h3>
+                {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
         <div class="row mt-2">
             <div class="col-sm-12">
                 <a href="{{ path('op_admin_employed_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> retour</a>
@@ -54,4 +69,5 @@
         </div>
     </div>
 </div>
+{{ form_rest(form) }}
 {{ form_end(form) }}

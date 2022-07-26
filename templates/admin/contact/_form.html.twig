@@ -1,51 +1,67 @@
+<div class="row mt-2 g-1">
 {{ form_start(form) }}
     <div class="col-4">
-        <div class="card">
-            <div class="card-body">
-                {# Numéro Domicile #}
-                <div class="row mb-1 g-1">
-                    {{ form_label(form.home, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
-                    <div class="col-6">
-                        {{ form_widget(form.v) }}
-                    </div>
-                </div>
-                {# Numéro Bureau #}
-                <div class="row mb-1 g-1">
-                    {{ form_label(form.desk, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
-                    <div class="col-6">
-                        {{ form_widget(form.desk) }}
-                    </div>
-                </div>
-                {# Numéro Portable #}
-                <div class="row mb-1 g-1">
-                    {{ form_label(form.gsm, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
-                    <div class="col-6">
-                        {{ form_widget(form.gsm) }}
-                    </div>
-                </div>
+        {# Numéro Domicile #}
+        <div class="row mb-1 g-1">
+            {{ form_label(form.home, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+            <div class="col-6">
+                {{ form_widget(form.home) }}
+            </div>
+        </div>
+        {# Numéro Bureau #}
+        <div class="row mb-1 g-1">
+            {{ form_label(form.desk, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+            <div class="col-6">
+                {{ form_widget(form.desk) }}
+            </div>
+        </div>
+        {# Numéro Portable #}
+        <div class="row mb-1 g-1">
+            {{ form_label(form.gsm, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+            <div class="col-6">
+                {{ form_widget(form.gsm) }}
             </div>
         </div>
     </div>
-    <Div class="col-4">
-        <div class="card">
-            <div class="card-body">
-                {# Numéro Fax #}
-                <div class="row mb-1 g-1">
-                    {{ form_label(form.fax, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
-                    <div class="col-6">
-                        {{ form_widget(form.fax) }}
-                    </div>
-                </div>
-                {# Numéro Email #}
-                <div class="row mb-1 g-1">
-                    {{ form_label(form.email, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
-                    <div class="col-6">
-                        {{ form_widget(form.email) }}
-                    </div>
-                </div>
+    <div class="col-4">
+        {# Numéro Fax #}
+        <div class="row mb-1 g-1">
+            {{ form_label(form.fax, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+            <div class="col-6">
+                {{ form_widget(form.fax) }}
             </div>
         </div>
-    </Div>
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+        {# Numéro Email #}
+        <div class="row mb-1 g-1">
+            {{ form_label(form.otherEmail, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+            <div class="col-6">
+                {{ form_widget(form.otherEmail) }}
+            </div>
+        </div>
+    </div>
+    <div class="col-4">
+        {# Numéro Domicile #}
+        <div class="row mb-1 g-1">
+            {{ form_label(form.facebook, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+            <div class="col-6">
+                {{ form_widget(form.facebook) }}
+            </div>
+        </div>
+        {# Numéro Bureau #}
+        <div class="row mb-1 g-1">
+            {{ form_label(form.instagram, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+            <div class="col-6">
+                {{ form_widget(form.instagram) }}
+            </div>
+        </div>
+        {# Numéro Portable #}
+        <div class="row mb-1 g-1">
+            {{ form_label(form.linkedin, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+            <div class="col-6">
+                {{ form_widget(form.linkedin) }}
+            </div>
+        </div>
+    </div>
+    <button class="btn">{{ button_label|default('Enregistrer') }}</button>
 {{ form_end(form) }}
+</div>

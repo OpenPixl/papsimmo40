@@ -1,13 +1,2 @@
-{% extends 'base.html.twig' %}
+{{ include('admin/contact/_form.html.twig', {'button_label': 'mettre à jour'}) }}
 
-{% block title %}Edit Contact{% endblock %}
-
-{% block content %}
-    <h1>Edit Contact</h1>
-
-    {{ include('admin/contact/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('op_admin_contact_index') }}">back to list</a>
-
-    {{ include('admin/contact/_delete_form.html.twig') }}
-{% endblock %}

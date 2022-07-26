@@ -113,9 +113,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'integer', nullable: true)]
     private $avatarSize;
 
-
-
-
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
