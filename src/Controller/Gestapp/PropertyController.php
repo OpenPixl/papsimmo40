@@ -25,9 +25,18 @@ class PropertyController extends AbstractController
     #[Route('/', name: 'op_gestapp_property_index', methods: ['GET'])]
     public function index(PropertyRepository $propertyRepository): Response
     {
-        return $this->render('gestapp/property/index.html.twig', [
-            'properties' => $propertyRepository->listAllProperties(),
-        ]);
+        $user = $this->getUser();
+        $userRole = $user->getRoles();
+        if($userRole = 'ROLE_ADMIN'){
+            return $this->render('gestapp/property/index.html.twig', [
+                'properties' => $propertyRepository->findAll(),
+            ]);
+        }else{
+            return $this->render('gestapp/property/index.html.twig', [
+                'properties' => $propertyRepository->findBy(['refEmployed' => $user->getId()]),
+            ]);
+        }
+
     }
 
     #[Route('/inCreating', name: 'op_gestapp_property_inCreating', methods: ['GET'])]
