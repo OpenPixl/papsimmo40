@@ -114,8 +114,8 @@ class PropertyController extends AbstractController
         $property->setRef($refNumDate.'-'.$lastRefNum);
         $property->setSurfaceHome(0);
         $property->setSurfaceLand(0);
-        $property->setNotaryEstimate(0);
-        $property->setApplicantEstimate(0);
+        $property->setPrice(0);
+        $property->setHonoraires(0);
         $property->setDiagDpe(0);
         $property->setDiagGpe(0);
         $property->setDpeEstimateEnergyUp(0);

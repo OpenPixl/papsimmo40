@@ -83,12 +83,6 @@ class Property
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $city;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private $notaryEstimate;
-
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
-    private $applicantEstimate;
-
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $cadasterZone;
 
@@ -150,6 +144,12 @@ class Property
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $otherDescription;
+
+    #[ORM\Column(type: 'decimal', precision: 10, scale: '0', nullable: true)]
+    private $Price;
+
+    #[ORM\Column(type: 'decimal', precision: 10, scale: '0')]
+    private $honoraires;
 
     public function __construct()
     {
@@ -410,30 +410,6 @@ class Property
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getNotaryEstimate(): ?string
-    {
-        return $this->notaryEstimate;
-    }
-
-    public function setNotaryEstimate(?string $notaryEstimate): self
-    {
-        $this->notaryEstimate = $notaryEstimate;
-
-        return $this;
-    }
-
-    public function getApplicantEstimate(): ?string
-    {
-        return $this->applicantEstimate;
-    }
-
-    public function setApplicantEstimate(?string $applicantEstimate): self
-    {
-        $this->applicantEstimate = $applicantEstimate;
 
         return $this;
     }
@@ -720,6 +696,30 @@ class Property
     public function setOtherDescription(?string $otherDescription): self
     {
         $this->otherDescription = $otherDescription;
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->Price;
+    }
+
+    public function setPrice(?string $Price): self
+    {
+        $this->Price = $Price;
+
+        return $this;
+    }
+
+    public function getHonoraires(): ?string
+    {
+        return $this->honoraires;
+    }
+
+    public function setHonoraires(string $honoraires): self
+    {
+        $this->honoraires = $honoraires;
 
         return $this;
     }

@@ -28,20 +28,20 @@
             {# Bloc des Estimations #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
-                    ESTIMATIONS
+                    Prix de vente
                     <hr>
                     <div class="row mb-1 mt-1 g-1">
                         <div class="col-6">
-                            <span class="align-middle">{{ form_label(form.notaryEstimate, 'Notaire', {'label_attr': {'class':'form-label'}}) }}</span>
+                            <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
                         </div>
                         <div class="col-6">
-                            {{ form_widget(form.notaryEstimate, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                         <div class="col-6">
-                            {{ form_label(form.applicantEstimate, 'Vendeur', {'label_attr': {'class':'form-label'}}) }}
+                            {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
                         <div class="col-6">
-                            {{ form_widget(form.applicantEstimate, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                     </div>
                 </div>

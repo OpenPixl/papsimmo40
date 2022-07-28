@@ -40,13 +40,13 @@ class PropertyStep2Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false
             ])
-            ->add('notaryEstimate', IntegerType::class, [
-                'label' => 'Estimation du notaire',
+            ->add('price', IntegerType::class, [
+                'label' => 'Prix de vente',
                 'empty_data' => 0,
                 'required' => false
             ])
-            ->add('applicantEstimate', IntegerType::class, [
-                'label' => 'Estimation du vendeur',
+            ->add('honoraires', IntegerType::class, [
+                'label' => 'honoraires',
                 'empty_data' => 0,
                 'required' => false
             ])
