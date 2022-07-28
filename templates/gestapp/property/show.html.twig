@@ -83,27 +83,31 @@
 
             // initialisation du focus sur le champs refMandat
             const focus = document.getElementById('property_step1_refMandat');
-            focus.focus()
+            let value = focus.value
             // Récupération et envoie des données du formulaire
             let FormAddInformation = document.getElementById('FormAddInformation')
             FormAddInformation.addEventListener('submit', function (event) {
                 event.preventDefault()
-                let urladdInformation = FormAddInformation.action
-                let dataaddInformation = new FormData(FormAddInformation)
-                axios
-                    .post(urladdInformation, dataaddInformation)
-                    .then(function(response)
-                    {
-                        // modification des classes pour la navigation entre panels
-                        nextStepCustomers.className = "btn btn-sm btn-outline-primary";
-                        navInformations.className = "nav-link disabled";
-                        navCustomers.className = "nav-link active";
-                        Informations.className = "tab-pane";
-                        Customers.className += " active";
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
+                if(value == 'A complèter obligatoirement'){
+                    alert('not good')
+                }else{
+                    let urladdInformation = FormAddInformation.action
+                    let dataaddInformation = new FormData(FormAddInformation)
+                    axios
+                        .post(urladdInformation, dataaddInformation)
+                        .then(function(response)
+                        {
+                            // modification des classes pour la navigation entre panels
+                            nextStepCustomers.className = "btn btn-sm btn-outline-primary";
+                            navInformations.className = "nav-link disabled";
+                            navCustomers.className = "nav-link active";
+                            Informations.className = "tab-pane";
+                            Customers.className += " active";
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                }
             })
 
             // ---------------------------------------

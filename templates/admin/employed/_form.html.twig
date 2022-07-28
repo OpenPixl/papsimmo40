@@ -42,7 +42,6 @@
                 %}
             </div>
         </div>
-
     </div>
     <div class="col-4">
         <div class="card bg-secondary">
@@ -55,16 +54,8 @@
 </div>
 {{ form_rest(form) }}
 {{ form_end(form) }}
-<div class="row">
-    <div class="col-8">
-        <div class="card bg-secondary">
-            <div class="card-body">
-                <h3>Contacts</h3>
-                {{ render(controller('App\\Controller\\Admin\\ContactController::editByEmployed', {'id': contact.id})) }}
-            </div>
-        </div>
-    </div>
-</div>
+
+{{ render(controller('App\\Controller\\Admin\\ContactController::editByEmployed', {'id': contact.id})) }}
 
 <div class="row">
     <div class="col-12">

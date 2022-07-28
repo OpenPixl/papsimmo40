@@ -32,19 +32,31 @@
             //
             // ---------------------------------------
             let formEmployed = document.getElementById('FormEmployed')
+            let idemployed = document.getElementById('idemployed').value
             let formContact = document.getElementById('FormContact')
+            let idcontact = document.getElementById('idcontact').value
+
             document.getElementById('submitForms').addEventListener('click', function(event){
                 event.preventDefault()
-                let urlemployed = formEmployed.action
-                let urlcontacts = formContact.action
-                console.log(urlemployed,urlcontacts)
-
+                let urlemployed = '/opadmin/employed/'+ idemployed +'/edit'
+                let urlcontacts = '/opadmin/contact/'+ idcontact + '/editByEmployed'
+                axios
+                    .post(urlemployed)
+                    .catch(function(response){
+                        console.log(response.error);
+                    })
+                axios
+                    .post(urlcontacts)
+                    .catch(function(response){
+                        console.log(response.error);
+                    })
             })
         }
     </script>
 {% endblock %}
 {% block content %}
     <h1>Edition d'un collaborateur</h1>
+    <input id="idemployed" type="hidden" value="{{employed.id}}">
 
     {{ include('admin/employed/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 {% endblock %}

@@ -84,10 +84,11 @@ class ContactController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             $contactRepository->add($contact);
             return $this->redirectToRoute('op_admin_contact_index', [], Response::HTTP_SEE_OTHER);
         }
-
+        //dd($contact);
         return $this->renderForm('admin/contact/edit.html.twig', [
             'contact' => $contact,
             'form' => $form,
