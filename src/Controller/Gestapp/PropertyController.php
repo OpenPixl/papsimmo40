@@ -27,13 +27,15 @@ class PropertyController extends AbstractController
     {
         $user = $this->getUser();
         $userRole = $user->getRoles();
-        if($userRole = 'ROLE_ADMIN'){
+        if($userRole = 'ROLE_SUPER_ADMIN'){
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $propertyRepository->listAllProperties(),
+                'user' => $userRole
             ]);
         }else{
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $propertyRepository->findBy(['refEmployed' => $user->getId()]),
+                'user' => $userRole
             ]);
         }
 
