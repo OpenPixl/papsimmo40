@@ -25,17 +25,18 @@ class PropertyController extends AbstractController
     #[Route('/', name: 'op_gestapp_property_index', methods: ['GET'])]
     public function index(PropertyRepository $propertyRepository): Response
     {
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
-        $userRole = $user->getRoles();
-        if($userRole = 'ROLE_SUPER_ADMIN'){
+        if($hasAccess == true){
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $propertyRepository->listAllProperties(),
-                'user' => $userRole
+                'user' => $user
             ]);
         }else{
+            //dd($propertyRepository->findBy(['refEmployed' => $user->getId()]));
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $propertyRepository->findBy(['refEmployed' => $user->getId()]),
-                'user' => $userRole
+                'user' => $user
             ]);
         }
 
