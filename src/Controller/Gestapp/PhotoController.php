@@ -55,7 +55,7 @@ class PhotoController extends AbstractController
                 'message' => "La photo du bien a été ajoutée",
                 'listephoto' => $this->renderView('gestapp/photo/_listephoto.html.twig', [
                     'photos' => $photos,
-                    'idproperty' => $idproperty
+                    'property' => $property
                 ])
             ], 200);
         }
@@ -116,7 +116,7 @@ class PhotoController extends AbstractController
             'message' => "La photo du bien a été supprimée",
             'listephoto' => $this->renderView('gestapp/photo/_listephoto.html.twig', [
                 'photos' => $photos,
-                'idproperty' => $idproperty
+                'property' => $property
             ])
         ], 200);
 

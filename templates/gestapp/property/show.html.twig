@@ -31,6 +31,13 @@
             const Gallery = document.getElementById("Gallery");
             const Publication = document.getElementById("Publication");
 
+            // Autres modules
+            const AddAvenant = document.getElementById('addPriceAvenant')
+            const DetailPrice = document.getElementById('detailPrice')
+            const page = document.location.href;
+            const idproperty = page.substring(page.lastIndexOf( "/" )+1 );
+
+
             // ---------------------------------------
             //
             // STEP 0 :
@@ -50,6 +57,8 @@
             nextStepOptions.className += " d-none";
             nextStepGallery.className += " d-none";
             nextStepPublication.className += " d-none";
+            // autres mises en place
+            AddAvenant.style.display = 'none'
             // mise en place du datapicker flatpickr sur les champs de date
             flatpickr(".flatpickr", {
                 "locale": "fr",
@@ -83,31 +92,26 @@
 
             // initialisation du focus sur le champs refMandat
             const focus = document.getElementById('property_step1_refMandat');
-            let value = focus.value
             // Récupération et envoie des données du formulaire
             let FormAddInformation = document.getElementById('FormAddInformation')
             FormAddInformation.addEventListener('submit', function (event) {
                 event.preventDefault()
-                if(value == 'A complèter obligatoirement'){
-                    alert('not good')
-                }else{
-                    let urladdInformation = FormAddInformation.action
-                    let dataaddInformation = new FormData(FormAddInformation)
-                    axios
-                        .post(urladdInformation, dataaddInformation)
-                        .then(function(response)
-                        {
-                            // modification des classes pour la navigation entre panels
-                            nextStepCustomers.className = "btn btn-sm btn-outline-primary";
-                            navInformations.className = "nav-link disabled";
-                            navCustomers.className = "nav-link active";
-                            Informations.className = "tab-pane";
-                            Customers.className += " active";
-                        })
-                        .catch(function(error){
-                            console.log(error);
-                        })
-                }
+                let urladdInformation = FormAddInformation.action
+                let dataaddInformation = new FormData(FormAddInformation)
+                axios
+                    .post(urladdInformation, dataaddInformation)
+                    .then(function(response)
+                    {
+                        // modification des classes pour la navigation entre panels
+                        nextStepCustomers.className = "btn btn-sm btn-outline-primary";
+                        navInformations.className = "nav-link disabled";
+                        navCustomers.className = "nav-link active";
+                        Informations.className = "tab-pane";
+                        Customers.className += " active";
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
             })
 
             // ---------------------------------------
@@ -246,9 +250,87 @@
             // Enregistrement des chiffres
             //
             // ---------------------------------------
+
+            // Calcul
+            // ---------------------------------------
+            // Modification des tarifs selon le prix vendeur et les honoraires
+            document.getElementById('property_step2_price').addEventListener('change',function (){
+                var price = parseInt(document.getElementById("property_step2_price").value)
+                document.getElementById("property_step2_honoraires").value = price*0.3;
+                var honoraire = parseInt(document.getElementById("property_step2_honoraires").value)
+                document.getElementById('property_step2_priceFai').value =  price + honoraire
+            })
+            document.getElementById('property_step2_honoraires').addEventListener('change',function (){
+                var price = parseInt(document.getElementById("property_step2_price").value)
+                var honoraire = parseInt(document.getElementById("property_step2_honoraires").value)
+                document.getElementById('property_step2_priceFai').value =  price + honoraire
+            })
+
+            const property_avenant_price = document.getElementById('property_avenant_price')
+            const property_avenant_honoraires = document.getElementById('property_avenant_honoraires')
+            if (property_avenant_price !== null) {
+                property_avenant_price.addEventListener('change',function (){
+                    var price = parseInt(property_avenant_price.value)
+                    document.getElementById("property_avenant_honoraires").value = price*0.3;
+                    var honoraire = parseInt(document.getElementById("property_avenant_honoraires").value)
+                    document.getElementById('property_avenant_priceFai').value =  price + honoraire
+                })
+            } else {
+            }
+            if (property_avenant_honoraires !== null) {
+                property_avenant_honoraires.addEventListener('change',function (){
+                    var price = parseInt(property_avenant_price.value)
+                    document.getElementById("property_avenant_honoraires").value = price*0.3;
+                    var honoraire = parseInt(document.getElementById("property_avenant_honoraires").value)
+                    document.getElementById('property_avenant_priceFai').value =  price + honoraire
+                })
+            } else {
+            }
+
+
+
+            // Logique Modal & Forms
+            // ---------------------------------------
+            // Avenant sur le tarif
+            document.getElementById('addAvenant').addEventListener('click', function(event){
+                event.preventDefault()
+                DetailPrice.style.display = 'none'
+                AddAvenant.style.display = 'block'
+            })
+            document.getElementById('BtnAvenantForm').addEventListener('click', function (event){
+                event.preventDefault()
+                const property_avenant_price = document.getElementById('property_avenant_price').value
+                const property_avenant_honoraires = document.getElementById('property_avenant_honoraires').value
+                const property_avenant_priceFai = document.getElementById('property_avenant_priceFai').value
+                let FormAvenant = new FormData()
+                FormAvenant.append('property_avenant[price]', property_avenant_price)
+                FormAvenant.append('property_avenant[honoraires]', property_avenant_honoraires)
+                FormAvenant.append('property_avenant[priceFai]', property_avenant_priceFai)
+                let urlAddavenant = '/gestapp/property/addAvenant/' + idproperty
+                axios
+                    .post(urlAddavenant, FormAvenant)
+                    .then(function(response){
+                        DetailPrice.style.display = 'block'
+                        AddAvenant.style.display = 'none'
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            })
+
+            // Validation
+            // ---------------------------------------
+            // Envoie du formulaire
             let FormAddEstimate = document.getElementById('FormAddEstimate')
             FormAddEstimate.addEventListener('submit', function (event) {
                 event.preventDefault()
+                let property_step2_price = document.getElementById('property_step2_price')
+                let property_step2_honoraires = document.getElementById('property_step2_honoraires')
+                let property_step2_priceFai = document.getElementById('property_step2_priceFai')
+                property_step2_price.removeAttribute('disabled')
+                property_step2_honoraires.removeAttribute('disabled')
+                property_step2_priceFai.removeAttribute('disabled')
                 let urlAddEstimate = FormAddEstimate.action
                 let dataAddEstimate = new FormData(FormAddEstimate)
                 axios
@@ -262,6 +344,9 @@
                         navOptions.className = "nav-link active"
                         Estimate.className = "tab-pane"
                         Options.className += " active"
+                        property_step2_price.setAttribute('disabled', true)
+                        property_step2_honoraires.setAttribute('disabled', true)
+                        property_step2_priceFai.setAttribute('disabled', true)
                     })
                     .catch(function(error){
                         console.log(error);
@@ -277,6 +362,7 @@
                 Estimate.className = "tab-pane"
                 Customers.className += " active"
             })
+
 
             // ---------------------------------------
             // STEP 4 :
@@ -864,19 +950,19 @@
             <a id="navInformations" class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
         </li>
         <li class="nav-item">
-            <a id="navCustomers" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
+            <a id="navCustomers" class="nav-link {% if property.isIncreating > 0 %}disabled{% endif %}" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
         </li>
         <li class="nav-item">
-            <a id="navEstimate" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimate" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h5>Chiffres</h5></a>
+            <a id="navEstimate" class="nav-link {% if property.isIncreating > 0 %}disabled{% endif %}" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimate" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h5>Chiffres</h5></a>
         </li>
         <li class="nav-item">
-            <a id="navOptions" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Options" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h5>Complements</h5></a>
+            <a id="navOptions" class="nav-link {% if property.isIncreating > 0 %}disabled{% endif %}" aria-current="page" data-bs-toggle="tab" data-bs-target="#Options" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h5>Complements</h5></a>
         </li>
         <li class="nav-item">
-            <a id="navGallery" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
+            <a id="navGallery" class="nav-link {% if property.isIncreating > 0 %}disabled{% endif %}" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
         </li>
         <li class="nav-item">
-            <a id="navPublication" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5><i class="fa-duotone fa-browser"></i> Publication</h5></a>
+            <a id="navPublication" class="nav-link {% if property.isIncreating > 0 %}disabled{% endif %}" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5><i class="fa-duotone fa-browser"></i> Publication</h5></a>
         </li>
     </ul>
 

@@ -151,6 +151,18 @@ class Property
     #[ORM\Column(type: 'decimal', precision: 10, scale: '0')]
     private $honoraires;
 
+    #[ORM\Column(type: 'decimal', precision: 10, scale: '0', nullable: true)]
+    private $priceFai;
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    private $eeaYear;
+
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $numberAvenant;
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    private $dateAvenant;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -720,6 +732,54 @@ class Property
     public function setHonoraires(string $honoraires): self
     {
         $this->honoraires = $honoraires;
+
+        return $this;
+    }
+
+    public function getPriceFai(): ?string
+    {
+        return $this->priceFai;
+    }
+
+    public function setPriceFai(?string $priceFai): self
+    {
+        $this->priceFai = $priceFai;
+
+        return $this;
+    }
+
+    public function getEeaYear(): ?\DateTimeInterface
+    {
+        return $this->eeaYear;
+    }
+
+    public function setEeaYear(?\DateTimeInterface $eeaYear): self
+    {
+        $this->eeaYear = $eeaYear;
+
+        return $this;
+    }
+
+    public function getNumberAvenant(): ?int
+    {
+        return $this->numberAvenant;
+    }
+
+    public function setNumberAvenant(?int $numberAvenant): self
+    {
+        $this->numberAvenant = $numberAvenant;
+
+        return $this;
+    }
+
+    public function getDateAvenant(): ?\DateTimeInterface
+    {
+        return $this->dateAvenant;
+    }
+
+    public function setDateAvenant(?\DateTimeInterface $dateAvenant): self
+    {
+        $this->dateAvenant = $dateAvenant;
 
         return $this;
     }

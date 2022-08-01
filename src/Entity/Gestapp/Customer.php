@@ -2,7 +2,6 @@
 
 namespace App\Entity\Gestapp;
 
-use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Repository\Gestapp\CustomerRepository;
@@ -49,11 +48,32 @@ class Customer
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $city;
 
+    #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    private $home;
+
+    #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    private $desk;
+
+    #[ORM\Column(type: 'string', length: 14)]
+    private $gsm;
+
+    #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    private $fax;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $otherEmail;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $facebook;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $instagram;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $linkedin;
+
     #[ORM\Column(type: 'boolean')]
     private $isArchived = false;
-
-    #[ORM\OneToMany(mappedBy: 'Customer', targetEntity: Contact::class, orphanRemoval: true)]
-    private $contacts;
 
     #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'Customer')]
     #[ORM\JoinColumn(nullable: false)]
@@ -204,6 +224,102 @@ class Customer
         return $this;
     }
 
+    public function getHome(): ?string
+    {
+        return $this->home;
+    }
+
+    public function setHome(?string $home): self
+    {
+        $this->home = $home;
+
+        return $this;
+    }
+
+    public function getDesk(): ?string
+    {
+        return $this->desk;
+    }
+
+    public function setDesk(?string $desk): self
+    {
+        $this->desk = $desk;
+
+        return $this;
+    }
+
+    public function getGsm(): ?string
+    {
+        return $this->gsm;
+    }
+
+    public function setGsm(string $gsm): self
+    {
+        $this->gsm = $gsm;
+
+        return $this;
+    }
+
+    public function getFax(): ?string
+    {
+        return $this->fax;
+    }
+
+    public function setFax(?string $fax): self
+    {
+        $this->fax = $fax;
+
+        return $this;
+    }
+
+    public function getOtherEmail(): ?string
+    {
+        return $this->otherEmail;
+    }
+
+    public function setOtherEmail(?string $otherEmail): self
+    {
+        $this->otherEmail = $otherEmail;
+
+        return $this;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(?string $facebook): self
+    {
+        $this->facebook = $facebook;
+
+        return $this;
+    }
+
+    public function getInstagram(): ?string
+    {
+        return $this->instagram;
+    }
+
+    public function setInstagram(?string $instagram): self
+    {
+        $this->instagram = $instagram;
+
+        return $this;
+    }
+
+    public function getLinkedin(): ?string
+    {
+        return $this->linkedin;
+    }
+
+    public function setLinkedin(?string $linkedin): self
+    {
+        $this->linkedin = $linkedin;
+
+        return $this;
+    }
+
     public function getIsArchived(): ?bool
     {
         return $this->isArchived;
@@ -212,36 +328,6 @@ class Customer
     public function setIsArchived(bool $isArchived): self
     {
         $this->isArchived = $isArchived;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Contact>
-     */
-    public function getContacts(): Collection
-    {
-        return $this->contacts;
-    }
-
-    public function addContact(Contact $contact): self
-    {
-        if (!$this->contacts->contains($contact)) {
-            $this->contacts[] = $contact;
-            $contact->setCustomer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeContact(Contact $contact): self
-    {
-        if ($this->contacts->removeElement($contact)) {
-            // set the owning side to null (unless already changed)
-            if ($contact->getCustomer() === $this) {
-                $contact->setCustomer(null);
-            }
-        }
 
         return $this;
     }

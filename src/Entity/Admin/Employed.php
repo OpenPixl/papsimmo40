@@ -34,8 +34,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
             $this->password,
             $this->avatarName,
             $this->avatarFile
-            // see section on salt below
-            // $this->salt,
         ));
     }
 
@@ -47,9 +45,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
             $this->password,
             $this->avatarName,
             $this->avatarFile
-
-            // see section on salt below
-            // $this->salt
             ) = unserialize($serialized);
     }
 
@@ -112,6 +107,30 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $avatarSize;
+
+    #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    private $home;
+
+    #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    private $desk;
+
+    #[ORM\Column(type: 'string', length: 14)]
+    private $gsm;
+
+    #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    private $fax;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $otherEmail;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $facebook;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $instagram;
+
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    private $linkedin;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -324,6 +343,102 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function getAvatarSize(): ?int
     {
         return $this->avatarSize;
+    }
+
+    public function getHome(): ?string
+    {
+        return $this->home;
+    }
+
+    public function setHome(?string $home): self
+    {
+        $this->home = $home;
+
+        return $this;
+    }
+
+    public function getDesk(): ?string
+    {
+        return $this->desk;
+    }
+
+    public function setDesk(?string $desk): self
+    {
+        $this->desk = $desk;
+
+        return $this;
+    }
+
+    public function getGsm(): ?string
+    {
+        return $this->gsm;
+    }
+
+    public function setGsm(string $gsm): self
+    {
+        $this->gsm = $gsm;
+
+        return $this;
+    }
+
+    public function getFax(): ?string
+    {
+        return $this->fax;
+    }
+
+    public function setFax(?string $fax): self
+    {
+        $this->fax = $fax;
+
+        return $this;
+    }
+
+    public function getOtherEmail(): ?string
+    {
+        return $this->otherEmail;
+    }
+
+    public function setOtherEmail(?string $otherEmail): self
+    {
+        $this->otherEmail = $otherEmail;
+
+        return $this;
+    }
+
+    public function getFacebook(): ?string
+    {
+        return $this->facebook;
+    }
+
+    public function setFacebook(?string $facebook): self
+    {
+        $this->facebook = $facebook;
+
+        return $this;
+    }
+
+    public function getInstagram(): ?string
+    {
+        return $this->instagram;
+    }
+
+    public function setInstagram(?string $instagram): self
+    {
+        $this->instagram = $instagram;
+
+        return $this;
+    }
+
+    public function getLinkedin(): ?string
+    {
+        return $this->linkedin;
+    }
+
+    public function setLinkedin(?string $linkedin): self
+    {
+        $this->linkedin = $linkedin;
+
+        return $this;
     }
 
     public function getCreatedAt(): ?\DateTimeInterface

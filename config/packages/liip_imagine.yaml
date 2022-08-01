@@ -28,3 +28,9 @@ liip_imagine:
                 thumbnail:
                     size: [ 304, 170 ]
                     mode: outbond
+        oneproperty_galleryAdmin:
+            quality: 150
+            filters:
+                thumbnail:
+                    size: [ 313, 177 ]
+                    mode: outbond
