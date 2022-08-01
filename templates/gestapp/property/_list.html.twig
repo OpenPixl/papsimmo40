@@ -24,7 +24,11 @@
         <tr class="align-middle">
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <td>
-                <img class="rounded-circle" src="{{ vich_uploader_asset(property, 'avatarFile', 'App\\Entity\\Admin\\Employed') }}" alt="" style="height:50px;width:50px">&nbsp;&nbsp;
+                {% if property.avatarName is not null %}
+                <img class="rounded-circle" src="{{ vich_uploader_asset(property, 'avatarFile', 'App\\Entity\\Admin\\Employed') }}" alt="" style="height:50px;width:50px">
+                {% else %}
+                <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+                {% endif %}
                 {{ property.firstName }} {{ property.lastName }}
             </td>
             {% else %}
