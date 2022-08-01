@@ -32,7 +32,7 @@
             const Publication = document.getElementById("Publication");
 
             // Autres modules
-            const AddAvenant = document.getElementById('addPriceAvenant')
+            //const AddAvenant = document.getElementById('addPriceAvenant')
             const DetailPrice = document.getElementById('detailPrice')
             const page = document.location.href;
             const idproperty = page.substring(page.lastIndexOf( "/" )+1 );
@@ -58,11 +58,11 @@
             nextStepGallery.className += " d-none";
             nextStepPublication.className += " d-none";
             // autres mises en place
-            AddAvenant.style.display = 'none'
+            //AddAvenant.style.display = 'none'
             // mise en place du datapicker flatpickr sur les champs de date
             flatpickr(".flatpickr", {
                 "locale": "fr",
-                enableTime: true,
+                enableTime: false,
                 allowInput:true,
                 altFormat: "j F Y",
                 dateFormat: "d/m/Y",
@@ -74,6 +74,20 @@
                 noCalendar: true,
                 dateFormat: "H:i",
                 time_24hr: true
+            });
+            // mise en place du datapicker flatpickr sur les champs de date
+            flatpickr(".flatpickrmonth", {
+                "locale": "fr",
+                enableTime: false,
+                noCalendar: true,
+                plugins: [
+                    new monthSelectPlugin({
+                        shorthand: true, //defaults to false
+                        dateFormat: "m.y", //defaults to "F Y"
+                        altFormat: "F Y", //defaults to "F Y"
+                        theme: "dark" // defaults to "light"
+                    })
+                ]
             });
             // Module éditeur
             ClassicEditor
@@ -292,32 +306,32 @@
             // Logique Modal & Forms
             // ---------------------------------------
             // Avenant sur le tarif
-            document.getElementById('addAvenant').addEventListener('click', function(event){
-                event.preventDefault()
-                DetailPrice.style.display = 'none'
-                AddAvenant.style.display = 'block'
-            })
-            document.getElementById('BtnAvenantForm').addEventListener('click', function (event){
-                event.preventDefault()
-                const property_avenant_price = document.getElementById('property_avenant_price').value
-                const property_avenant_honoraires = document.getElementById('property_avenant_honoraires').value
-                const property_avenant_priceFai = document.getElementById('property_avenant_priceFai').value
-                let FormAvenant = new FormData()
-                FormAvenant.append('property_avenant[price]', property_avenant_price)
-                FormAvenant.append('property_avenant[honoraires]', property_avenant_honoraires)
-                FormAvenant.append('property_avenant[priceFai]', property_avenant_priceFai)
-                let urlAddavenant = '/gestapp/property/addAvenant/' + idproperty
-                axios
-                    .post(urlAddavenant, FormAvenant)
-                    .then(function(response){
-                        DetailPrice.style.display = 'block'
-                        AddAvenant.style.display = 'none'
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        console.log(error);
-                    })
-            })
+            //document.getElementById('addAvenant').addEventListener('click', function(event){
+            //    event.preventDefault()
+            //    DetailPrice.style.display = 'none'
+            //    AddAvenant.style.display = 'block'
+            //})
+            //document.getElementById('BtnAvenantForm').addEventListener('click', function (event){
+            //    event.preventDefault()
+            //    const property_avenant_price = document.getElementById('property_avenant_price').value
+            //    const property_avenant_honoraires = document.getElementById('property_avenant_honoraires').value
+            //    const property_avenant_priceFai = document.getElementById('property_avenant_priceFai').value
+            //    let FormAvenant = new FormData()
+            //    FormAvenant.append('property_avenant[price]', property_avenant_price)
+            //    FormAvenant.append('property_avenant[honoraires]', property_avenant_honoraires)
+            //    FormAvenant.append('property_avenant[priceFai]', property_avenant_priceFai)
+            //    let urlAddavenant = '/gestapp/property/addAvenant/' + idproperty
+            //    axios
+            //        .post(urlAddavenant, FormAvenant)
+            //        .then(function(response){
+            //            DetailPrice.style.display = 'block'
+            //            AddAvenant.style.display = 'none'
+            //        })
+            //        .catch(function (error) {
+            //           // handle error
+            //            console.log(error);
+            //        })
+            //})
 
             // Validation
             // ---------------------------------------

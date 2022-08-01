@@ -434,7 +434,7 @@ class PropertyController extends AbstractController
         }else{
             $properties = $propertyRepository->listPropertiesByemployed($user);
         }
-        
+
         return $this->json([
             'code'=> 200,
             'message' => "Les informations du bien ont été correctement ajoutées.",

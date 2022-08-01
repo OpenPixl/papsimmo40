@@ -82,19 +82,6 @@
                             </div>
                         {% endif %}
                     </div>
-                    {% if property.isIncreating == 0 %}
-                    <div id="addPriceAvenant">
-                        {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AddAvenant', {'id': property.id})) }}
-                    </div>
-                    {% else %}
-                    <div id="addPriceAvenant">
-                        <a id="AddAvenantForm" class="btn btn-sm btn-outline-primary" style="display: none">Créer l'avenant</a>
-                        <input id="property_avenant_price" type="hidden">
-                        <input id="property_avenant_honoraires" type="hidden">
-                        <input id="property_avenant_priceFai" type="hidden">
-                        <a id="addAvenant" class="btn btn-sm btn-outline-primary" style="display: none">Valider l'avenant</a>
-                    </div>
-                    {% endif %}
                 </div>
             </div>
         </div>
@@ -132,7 +119,7 @@
                             <div class="col-sm-6">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
-                                    {{ form_widget(form.eeaYear, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    {{ form_widget(form.eeaYear, {'attr': {'class': 'form-control form-control-sm flatpickrmonth'}}) }}
                                 </div>
                             </div>
                         </div>
