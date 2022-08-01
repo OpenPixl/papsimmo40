@@ -36,6 +36,14 @@ class EmployedType extends AbstractType
                 'delete_label' => 'Supprimer',
                 'download_label' => 'Télecharger',
             ])
+            ->add('home')
+            ->add('desk')
+            ->add('gsm')
+            ->add('fax')
+            ->add('otherEmail')
+            ->add('facebook')
+            ->add('instagram')
+            ->add('linkedin')
         ;
     }
 

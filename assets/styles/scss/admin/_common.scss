@@ -21,6 +21,14 @@ a {
   border-radius: 0;
 }
 
+#FormMandat{
+  .text-danger{
+    color: $primary-color !important;
+  }
+  p{
+    margin-bottom: 0.2rem;
+  }
+}
 
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
 @media (max-width: 767.98px) {
@@ -47,6 +55,7 @@ a {
     }
   }
 }
+
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
 @media (min-width: 768px) {
   body{

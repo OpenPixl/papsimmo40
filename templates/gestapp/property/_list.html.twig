@@ -20,7 +20,7 @@
     </thead>
     <tbody>
     {% set user = app.user.id %}
-    {% for property in properties|filter(p => p.refEmployed == user) %}
+    {% for property in properties %}
         <tr class="align-middle">
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <td>

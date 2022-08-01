@@ -42,12 +42,15 @@ class PropertyStep2Type extends AbstractType
             ])
             ->add('price', IntegerType::class, [
                 'label' => 'Prix de vente',
-                'empty_data' => 0,
                 'required' => false
             ])
             ->add('honoraires', IntegerType::class, [
                 'label' => 'honoraires',
-                'empty_data' => 0,
+                'required' => false
+            ])
+
+            ->add('priceFai', IntegerType::class, [
+                'label' => 'Prix FAI',
                 'required' => false
             ])
             ->add('dpeAt', DateType::class, [
@@ -80,6 +83,14 @@ class PropertyStep2Type extends AbstractType
             ->add('cadasterSurface', IntegerType::class, [
                 'label' => 'surface cadastrale',
                 'required' => false
+            ])
+            ->add('eeaYear',DateType::class, [
+                'label'=> 'Date de référence',
+                'widget' => 'single_text',
+                'format' => 'yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'by_reference' => true,
             ])
             ->add('dpeEstimateEnergyDown', IntegerType::class,[
                 'label' => 'Basse',

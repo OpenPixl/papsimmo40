@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
+use App\Form\Gestapp\PropertyAvenantType;
 use App\Form\Gestapp\PropertyImageType;
 use App\Form\Gestapp\PropertyStep1Type;
 use App\Form\Gestapp\PropertyStep2Type;
@@ -28,6 +29,7 @@ class PropertyController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true){
+            //dd($propertyRepository->listAllProperties());
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $propertyRepository->listAllProperties(),
                 'user' => $user
@@ -35,7 +37,7 @@ class PropertyController extends AbstractController
         }else{
             //dd($propertyRepository->findBy(['refEmployed' => $user->getId()]));
             return $this->render('gestapp/property/index.html.twig', [
-                'properties' => $propertyRepository->findBy(['refEmployed' => $user->getId()]),
+                'properties' => $propertyRepository->listPropertiesByemployed($user),
                 'user' => $user
             ]);
         }
@@ -128,6 +130,7 @@ class PropertyController extends AbstractController
         $property->setSurfaceLand(0);
         $property->setPrice(0);
         $property->setHonoraires(0);
+        $property->setPriceFai(0);
         $property->setDiagDpe(0);
         $property->setDiagGpe(0);
         $property->setDpeEstimateEnergyUp(0);
@@ -138,7 +141,7 @@ class PropertyController extends AbstractController
         $property->setOptions($complement);
         $property->setPublication($publication);
         $property->setIsIncreating(1);
-        $property->setRefMandat('A complèter obligatoirement');
+        $property->setRefMandat('');
         $propertyRepository->add($property);
 
         return $this->redirectToRoute('op_gestapp_property_show', [
@@ -456,6 +459,35 @@ class PropertyController extends AbstractController
         return $this->render('webapp/page/property/oneproperty.html.twig', [
             'property' => $oneproperty,
             'equipments' => $equipments
+        ]);
+    }
+
+    #[Route('/addAvenant/{id}', name: 'op_gestapp_properties_addavenant', methods: ['POST'])]
+    public function AddAvenant(Property $property, PropertyRepository $propertyRepository, Request $request)
+    {
+        $form = $this->createForm(PropertyAvenantType::class, $property, [
+            'action' => $this->generateUrl('op_gestapp_properties_addavenant',['id'=>$property->getId()]),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+
+        //dd($form->isValid());
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $propertyRepository->add($property);
+            return $this->json([
+                'code'=> 200,
+                'message' => "Les informations du bien ont été correctement ajoutées."
+            ], 200);
+
+        }
+
+        dd($form->getErrors());
+
+
+        return $this->renderForm('gestapp/property/Step/PriceAvenant.html.twig', [
+            'property' => $property,
+            'form' => $form
         ]);
     }
 

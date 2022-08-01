@@ -2,10 +2,8 @@
 
 namespace App\Controller\Admin;
 
-use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
 use App\Form\Admin\EmployedType;
-use App\Repository\Admin\ContactRepository;
 use App\Repository\Admin\EmployedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -31,7 +29,7 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/new', name: 'op_admin_employed_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EmployedRepository $employedRepository, ContactRepository $contactRepository): Response
+    public function new(Request $request, EmployedRepository $employedRepository): Response
     {
         $employed = new Employed();
         $form = $this->createForm(EmployedType::class, $employed);
@@ -39,10 +37,6 @@ class EmployedController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $employedRepository->add($employed);
-            $contact = new Contact();
-            $contact->setEmployed($employed);
-            $contact->setGsm('00.00.00.00.00');
-            $contactRepository->add($contact);
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -61,9 +55,8 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository, ContactRepository $contactRepository): Response
+    public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
     {
-        $contact = $contactRepository->findOneBy(['employed' => $employed->getId()]);
         $form = $this->createForm(EmployedType::class, $employed, [
             'action'=>$this->generateUrl('op_admin_employed_edit', ['id' => $employed->getId()]),
             'method' => 'POST'
@@ -78,7 +71,6 @@ class EmployedController extends AbstractController
         return $this->renderForm('admin/employed/edit.html.twig', [
             'employed' => $employed,
             'form' => $form,
-            'contact' => $contact
         ]);
     }
 
