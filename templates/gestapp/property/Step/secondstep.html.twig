@@ -82,6 +82,11 @@
                             </div>
                         {% endif %}
                     </div>
+                    {% if property.isIncreating == 0 %}
+                    <div id="AddAvenant">
+                        {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AddAvenant', {'id':property.id})) }}
+                    </div>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -162,6 +167,7 @@
                         'form_input':form_widget(form.cadasterSurface, {'attr': {'class': 'form-control form-control-sm'}})
                     }
                     %}
+                    <input type="hidden" name="token" value="{{ csrf_token('step-chiffres') }}"/>
                 </div>
             </div>
         </div>
@@ -170,7 +176,7 @@
         <div class="col-12">
             <div class="mt-1">
                 <a id="previousEstimate" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button type="submit" id="stepEstimate" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape options") }}</button>
+                <a id="stepEstimate" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape options") }}</a>
             </div>
         </div>
     </div>

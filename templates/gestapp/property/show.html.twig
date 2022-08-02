@@ -5,7 +5,7 @@
 {% block javascripts %}
     {{ parent() }}
     <script>
-        window.onload = function(){
+        window.onload = function() {
             // récupération des id des panels
             const navInformations = document.getElementById("navInformations");
             const navCustomers = document.getElementById("navCustomers");
@@ -34,8 +34,12 @@
             // Autres modules
             //const AddAvenant = document.getElementById('addPriceAvenant')
             const DetailPrice = document.getElementById('detailPrice')
+            const AddAvenant = document.getElementById('AddAvenant')
             const page = document.location.href;
-            const idproperty = page.substring(page.lastIndexOf( "/" )+1 );
+            const idproperty = page.substring(page.lastIndexOf("/") + 1);
+            if (AddAvenant !== null) {
+                AddAvenant.style.display = "none"
+            }
 
 
             // ---------------------------------------
@@ -63,7 +67,7 @@
             flatpickr(".flatpickr", {
                 "locale": "fr",
                 enableTime: false,
-                allowInput:true,
+                allowInput: true,
                 altFormat: "j F Y",
                 dateFormat: "d/m/Y",
             });
@@ -74,20 +78,6 @@
                 noCalendar: true,
                 dateFormat: "H:i",
                 time_24hr: true
-            });
-            // mise en place du datapicker flatpickr sur les champs de date
-            flatpickr(".flatpickrmonth", {
-                "locale": "fr",
-                enableTime: false,
-                noCalendar: true,
-                plugins: [
-                    new monthSelectPlugin({
-                        shorthand: true, //defaults to false
-                        dateFormat: "m.y", //defaults to "F Y"
-                        altFormat: "F Y", //defaults to "F Y"
-                        theme: "dark" // defaults to "light"
-                    })
-                ]
             });
             // Module éditeur
             ClassicEditor
@@ -114,8 +104,7 @@
                 let dataaddInformation = new FormData(FormAddInformation)
                 axios
                     .post(urladdInformation, dataaddInformation)
-                    .then(function(response)
-                    {
+                    .then(function (response) {
                         // modification des classes pour la navigation entre panels
                         nextStepCustomers.className = "btn btn-sm btn-outline-primary";
                         navInformations.className = "nav-link disabled";
@@ -123,7 +112,7 @@
                         Informations.className = "tab-pane";
                         Customers.className += " active";
                     })
-                    .catch(function(error){
+                    .catch(function (error) {
                         console.log(error);
                     })
             })
@@ -159,7 +148,7 @@
             })
             // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
             const btnAddCustomer = document.getElementById('btnAddCustomer')
-            btnAddCustomer.onclick = function(event){
+            btnAddCustomer.onclick = function (event) {
                 event.preventDefault()
                 const firstName = document.getElementById('customer_firstName').value
                 const lastName = document.getElementById('customer_lastName').value
@@ -170,13 +159,18 @@
                 const url = this.href
                 // construction des data à transmettre
                 let data = {
-                    firstName:firstName, lastName:lastName, adress:adress, complement:complement, zipcode:zipcode, city:city
+                    firstName: firstName,
+                    lastName: lastName,
+                    adress: adress,
+                    complement: complement,
+                    zipcode: zipcode,
+                    city: city
                 }
                 console.log(data)
                 // envoie des données
                 axios
                     .post(url, data)
-                    .then(function(response){
+                    .then(function (response) {
                         console.log('vendeur ajouté')
                         const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
                         modalAddCustomer.addEventListener('hide.bs.modal')
@@ -186,48 +180,52 @@
                         console.log(error);
                     })
             }
+
             // Fonction de suppression d'un client
-            function SupprCustomer (event){
+            function SupprCustomer(event) {
                 event.preventDefault()
                 const url = this.href
                 axios
                     .post(url)
-                    .then(function(response){
+                    .then(function (response) {
                         const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
                         // Ajout d'un évènement sur le click AddCustomerSearch
-                        document.querySelectorAll('a.addcustomersearch').forEach(function (link){
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                             link.addEventListener('click', AddCustomerSearch);
                         })
                         // Ajout d'un évènement sur le click AddCustomerSearch
-                        document.querySelectorAll('a.supprcustomer').forEach(function (link){
+                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
                             link.addEventListener('click', SupprCustomer);
                         })
                     })
             }
+
             // Ajout d'un évènement sur le click AddCustomerSearch
-            document.querySelectorAll('a.addcustomersearch').forEach(function (link){
+            document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                 link.addEventListener('click', AddCustomerSearch);
             })
             // Ajout d'un évènement sur le click AddCustomerSearch
-            document.querySelectorAll('a.supprcustomer').forEach(function (link){
+            document.querySelectorAll('a.supprcustomer').forEach(function (link) {
                 link.addEventListener('click', SupprCustomer);
             })
+
             // fonction d'ajout depuis l'évènement AddCustomerSearch
-            function AddCustomerSearch(event){
+            function AddCustomerSearch(event) {
                 event.preventDefault()
                 let url = this.href
                 axios
                     .post(url)
-                    .then(function(response){
+                    .then(function (response) {
                         document.getElementById('listeCustormers').innerHTML = response.data.liste
                         // relance de l'évènement sur le click AddCustomerSearch
-                        document.querySelectorAll('a.addcustomersearch').forEach(function (link){
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                             link.addEventListener('click', AddCustomerSearch);
                         })
                     })
             }
+
             // fonction de recherche "Customer" depuis le formulaire
-            document.getElementById('search_customers_rechercher').addEventListener('click', function(event) {
+            document.getElementById('search_customers_rechercher').addEventListener('click', function (event) {
                 event.preventDefault()
                 let urlSearchCustomer = this.href
                 let formsearchCustomer = new FormData()
@@ -247,7 +245,7 @@
                         console.log(error);
                     })
             })
-            document.getElementById('previousCustomer').addEventListener('click', function(event){
+            document.getElementById('previousCustomer').addEventListener('click', function (event) {
                 event.preventDefault()
                 // visibilité des éléments
                 nextStepCustomers.className += " d-none";
@@ -268,76 +266,83 @@
             // Calcul
             // ---------------------------------------
             // Modification des tarifs selon le prix vendeur et les honoraires
-            document.getElementById('property_step2_price').addEventListener('change',function (){
+            document.getElementById('property_step2_price').addEventListener('change', function () {
                 var price = parseInt(document.getElementById("property_step2_price").value)
-                document.getElementById("property_step2_honoraires").value = price*0.3;
+                document.getElementById("property_step2_honoraires").value = price * 0.3;
                 var honoraire = parseInt(document.getElementById("property_step2_honoraires").value)
-                document.getElementById('property_step2_priceFai').value =  price + honoraire
+                document.getElementById('property_step2_priceFai').value = price + honoraire
             })
-            document.getElementById('property_step2_honoraires').addEventListener('change',function (){
+            document.getElementById('property_step2_honoraires').addEventListener('change', function () {
                 var price = parseInt(document.getElementById("property_step2_price").value)
                 var honoraire = parseInt(document.getElementById("property_step2_honoraires").value)
-                document.getElementById('property_step2_priceFai').value =  price + honoraire
+                document.getElementById('property_step2_priceFai').value = price + honoraire
             })
 
             const property_avenant_price = document.getElementById('property_avenant_price')
             const property_avenant_honoraires = document.getElementById('property_avenant_honoraires')
             if (property_avenant_price !== null) {
-                property_avenant_price.addEventListener('change',function (){
+                property_avenant_price.addEventListener('change', function () {
                     var price = parseInt(property_avenant_price.value)
-                    document.getElementById("property_avenant_honoraires").value = price*0.3;
+                    document.getElementById("property_avenant_honoraires").value = price * 0.3;
                     var honoraire = parseInt(document.getElementById("property_avenant_honoraires").value)
-                    document.getElementById('property_avenant_priceFai').value =  price + honoraire
+                    document.getElementById('property_avenant_priceFai').value = price + honoraire
                 })
             } else {
             }
             if (property_avenant_honoraires !== null) {
-                property_avenant_honoraires.addEventListener('change',function (){
+                property_avenant_honoraires.addEventListener('change', function () {
                     var price = parseInt(property_avenant_price.value)
-                    document.getElementById("property_avenant_honoraires").value = price*0.3;
+                    document.getElementById("property_avenant_honoraires").value = price * 0.3;
                     var honoraire = parseInt(document.getElementById("property_avenant_honoraires").value)
-                    document.getElementById('property_avenant_priceFai').value =  price + honoraire
+                    document.getElementById('property_avenant_priceFai').value = price + honoraire
                 })
             } else {
             }
-
 
 
             // Logique Modal & Forms
             // ---------------------------------------
             // Avenant sur le tarif
-            //document.getElementById('addAvenant').addEventListener('click', function(event){
-            //    event.preventDefault()
-            //    DetailPrice.style.display = 'none'
-            //    AddAvenant.style.display = 'block'
-            //})
-            //document.getElementById('BtnAvenantForm').addEventListener('click', function (event){
-            //    event.preventDefault()
-            //    const property_avenant_price = document.getElementById('property_avenant_price').value
-            //    const property_avenant_honoraires = document.getElementById('property_avenant_honoraires').value
-            //    const property_avenant_priceFai = document.getElementById('property_avenant_priceFai').value
-            //    let FormAvenant = new FormData()
-            //    FormAvenant.append('property_avenant[price]', property_avenant_price)
-            //    FormAvenant.append('property_avenant[honoraires]', property_avenant_honoraires)
-            //    FormAvenant.append('property_avenant[priceFai]', property_avenant_priceFai)
-            //    let urlAddavenant = '/gestapp/property/addAvenant/' + idproperty
-            //    axios
-            //        .post(urlAddavenant, FormAvenant)
-            //        .then(function(response){
-            //            DetailPrice.style.display = 'block'
-            //            AddAvenant.style.display = 'none'
-            //        })
-            //        .catch(function (error) {
-            //           // handle error
-            //            console.log(error);
-            //        })
-            //})
+            if (document.getElementById('addAvenant') !== null){
+                document.getElementById('addAvenant').addEventListener('click', function (event) {
+                    event.preventDefault()
+                    DetailPrice.style.display = 'none'
+                    AddAvenant.style.display = 'block'
+                })
+            }
+            if (document.getElementById('BtnAvenantForm') !== null) {
+                document.getElementById('BtnAvenantForm').addEventListener('click', function (event) {
+                    event.preventDefault()
+                    const property_avenant_price = document.getElementById('property_avenant_price').value
+                    const property_avenant_honoraires = document.getElementById('property_avenant_honoraires').value
+                    const property_avenant_priceFai = document.getElementById('property_avenant_priceFai').value
+                    const property_avenant__token = document.getElementById('property_avenant__token').value
+
+                    let FormAvenant = new FormData()
+                    FormAvenant.append('property_avenant[price]', property_avenant_price)
+                    FormAvenant.append('property_avenant[honoraires]', property_avenant_honoraires)
+                    FormAvenant.append('property_avenant[priceFai]', property_avenant_priceFai)
+                    FormAvenant.append('property_avenant[_token]', property_avenant__token)
+
+                    let urlAddavenant = '/gestapp/property/addAvenant/' + idproperty
+                    axios
+                        .post(urlAddavenant, FormAvenant)
+                        .then(function (response) {
+                            DetailPrice.style.display = 'block'
+                            AddAvenant.style.display = 'none'
+                        })
+                        .catch(function (error) {
+                            // handle error
+                            console.log(error);
+                        })
+                })
+            }
 
             // Validation
             // ---------------------------------------
             // Envoie du formulaire
-            let FormAddEstimate = document.getElementById('FormAddEstimate')
-            FormAddEstimate.addEventListener('submit', function (event) {
+            const FormAddEstimate = document.getElementById('FormAddEstimate')
+            document.getElementById('stepEstimate').addEventListener('click', function(event){
                 event.preventDefault()
                 let property_step2_price = document.getElementById('property_step2_price')
                 let property_step2_honoraires = document.getElementById('property_step2_honoraires')
@@ -352,15 +357,15 @@
                     .then(function(response)
                     {
                         // modification des classes pour la navigation entre panels
+                        property_step2_price.setAttribute('disabled', true)
+                        property_step2_honoraires.setAttribute('disabled', true)
+                        property_step2_priceFai.setAttribute('disabled', true)
                         nextStepCustomers.className = " d-none"
                         nextStepOptions.className = "btn btn-sm btn-outline-primary"
                         navEstimate.className = "nav-link disabled"
                         navOptions.className = "nav-link active"
                         Estimate.className = "tab-pane"
                         Options.className += " active"
-                        property_step2_price.setAttribute('disabled', true)
-                        property_step2_honoraires.setAttribute('disabled', true)
-                        property_step2_priceFai.setAttribute('disabled', true)
                     })
                     .catch(function(error){
                         console.log(error);

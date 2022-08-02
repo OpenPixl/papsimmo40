@@ -110,6 +110,8 @@ class PropertyStep2Type extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Property::class,
+            'csrf_protection' => false,
+            // the name of the hidden HTML field that stores the token
         ]);
     }
 }

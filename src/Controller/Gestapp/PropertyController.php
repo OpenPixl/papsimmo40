@@ -262,6 +262,7 @@ class PropertyController extends AbstractController
             'action' => $this->generateUrl('op_gestapp_property_secondstep',['id'=>$property->getId()]),
             'method' => 'POST'
         ]);
+
         $form->handleRequest($request);
         //dd($request->getContent());
 
@@ -279,43 +280,6 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/stepinformations/{id}', name: 'op_gestapp_property_stepinformations', methods: ['GET', 'POST'])]
-    public function stepInformations(Request $request, Property $property, PropertyRepository $propertyRepository)
-    {
-
-        //dd($property);
-        $data = json_decode($request->getContent(), true);
-
-        $constructionAt = new \DateTime($data['constructionAt']);
-
-        //dd($data['image']);
-        $property->setRefMandat($data['refMandat']);
-        $property->setName($data['name']);
-        $property->setRef($data['ref']);
-        $property->setAdress($data['adress']);
-        $property->setComplement($data['complement']);
-        $property->setZipcode($data['zipcode']);
-        $property->setCity($data['city']);
-        $property->setAnnonce($data['annonce']);
-        $property->setPiece($data['piece']);
-        $property->setRoom($data['room']);
-        $property->setIsHome($data['isHome']);
-        $property->setIsApartment($data['isApartment']);
-        $property->setIsLand($data['isLand']);
-        $property->setIsOther($data['isOther']);
-        $property->setOtherDescription($data['otherDescription']);
-        $property->setConstructionAt($constructionAt);
-
-        $propertyRepository->add($property);
-
-        //dd($property);
-
-        return $this->json([
-            'code'=> 200,
-            'message' => "Les informations du bien ont été correctement ajoutées."
-        ], 200);
-    }
-
     #[Route('/stepinformationsimg/{id}', name: 'op_gestapp_property_stepinformationsimg', methods: ['GET', 'POST'])]
     public function stepInformationsImag(Request $request, Property $property, PropertyRepository $propertyRepository)
     {
@@ -324,66 +288,6 @@ class PropertyController extends AbstractController
         $property->setImageFile($request->files->get('file'));
         $propertyRepository->add($property);
         //dd($property);
-
-        return $this->json([
-            'code'=> 200,
-            'message' => "Les informations du bien ont été correctement ajoutées."
-        ], 200);
-    }
-
-    #[Route('/stepchiffres/{id}', name: 'op_gestapp_property_stepchiffres', methods: ['GET', 'POST'])]
-    public function stepChiffres(Request $request, Property $property, PropertyRepository $propertyRepository)
-    {
-        //dd($property);
-        $data = json_decode($request->getContent(), true);
-
-        $dpeAt = new \DateTime($data['dpeAt']);
-
-        $property->setSurfaceLand($data['surfaceLand']);
-        $property->setSurfaceHome($data['surfaceHome']);
-        $property->setNotaryEstimate($data['notaryEstimate']);
-        $property->setApplicantEstimate($data['applicantEstimate']);
-        $property->setDpeAt($dpeAt);
-        $property->setDiagDpe($data['diagDpe']);
-        $property->setDiagGpe($data['diagGpe']);
-        $property->setCadasterZone($data['cadasterZone']);
-        $property->setCadasterNum($data['cadasterNum']);
-        $property->setCadasterSurface($data['cadastersurface']);
-        $property->setDpeEstimateEnergyDown($data['dpeEstimateEnergyDown']);
-        $property->setDpeEstimateEnergyUp($data['dpeEstimateEnergyUp']);
-
-        $propertyRepository->add($property);
-
-        //dd($property);
-
-        return $this->json([
-            'code'=> 200,
-            'message' => "Les informations du bien ont été correctement ajoutées."
-        ], 200);
-    }
-
-    #[Route('/steppublication/{id}', name: 'op_gestapp_property_steppublication', methods: ['GET', 'POST'])]
-    public function stepPublication(
-        Request $request,
-        Property $property,
-        PropertyRepository $propertyRepository,
-        PublicationRepository $publicationRepository
-    )
-    {
-        // récupération de l'objet Publication correspodant à la Propriété
-        $idpublication = $property->getPublication();
-        $publication = $publicationRepository->find($idpublication);
-        // Extraction des datas d'Axios
-        $data = json_decode($request->getContent(), true);
-        // hydratation de l'objet Publication
-        $publication->setIsSocialNetwork($data['isWebpublish']);
-        $publication->setIsWebpublish($data['isSocialNetwork']);
-        $publication->setSector($data['sector']);
-        // Flush de l'objet Publication
-        $publicationRepository->add($publication);
-        // Finalisation des étapes de Créations de lma propriété et Flush
-        $property->setIsIncreating(0);
-        $propertyRepository->add($property);
 
         return $this->json([
             'code'=> 200,
@@ -489,12 +393,11 @@ class PropertyController extends AbstractController
 
         }
 
-        dd($form->getErrors());
-
+        //dd($form->getErrors());
 
         return $this->renderForm('gestapp/property/Step/PriceAvenant.html.twig', [
             'property' => $property,
-            'form' => $form
+            'avenant' => $form
         ]);
     }
 
