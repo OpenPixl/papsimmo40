@@ -11,6 +11,11 @@ class PropertyEquipmentFixture extends Fixture
     public function load(ObjectManager $manager)
     {
         $parameter = new PropertyEquipement();
+        $parameter->setName('A définir');
+        $parameter->setCat('Building');
+        $manager->persist($parameter);
+
+        $parameter = new PropertyEquipement();
         $parameter->setName('Cave');
         $parameter->setCat('Building');
         $manager->persist($parameter);

@@ -14,6 +14,13 @@ class CategoryFixtures extends Fixture
         $category->setName('Sans catégorie');
         $manager->persist($category);
 
+        $category = new Category();
+        $category->setName('Actualités');
+        $manager->persist($category);
+        $category = new Category();
+        $category->setName('Paps immo');
+        $manager->persist($category);
+
         $manager->flush();
     }
 }

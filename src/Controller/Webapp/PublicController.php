@@ -18,7 +18,7 @@ class PublicController extends AbstractController
     public function homepage(SectionRepository $sectionRepository, ApplicationRepository $applicationRepository): Response
     {
         $sections = $sectionRepository->findBy(['isfavorite' => 1]);
-        $application = $applicationRepository->find(1);
+        $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
         return $this->render('webapp/public/index.html.twig', [
             'application' => $application,
             'sections' => $sections

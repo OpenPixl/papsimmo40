@@ -11,6 +11,8 @@ use App\Form\Gestapp\PropertyStep1Type;
 use App\Form\Gestapp\PropertyStep2Type;
 use App\Form\Gestapp\PropertyType;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\choice\OtherOptionRepository;
+use App\Repository\Gestapp\choice\PropertyEquipementRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
@@ -78,11 +80,15 @@ class PropertyController extends AbstractController
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
         ComplementRepository $complementRepository,
-        PublicationRepository $publicationRepository)
+        PublicationRepository $publicationRepository,
+        PropertyEquipementRepository $propertyEquipementRepository,
+        OtherOptionRepository $otherOptionRepository
+        )
     {
         // Récupération du collaborateur
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
+
 
         $complement = new Complement();
         $complement->setTerrace(0);
@@ -92,6 +98,8 @@ class PropertyController extends AbstractController
         $complement->setBalcony(0);
         $complement->setPropertyTax(0);
         $complement->setLevel(0);
+        $complement->addPropertyEquipment($propertyEquipementRepository->findOneBy([], ['id'=>'ASC']));
+        $complement->addPropertyOtheroption($otherOptionRepository->findOneBy([], ['id'=>'ASC']));
         $complementRepository->add($complement);
         // création d'une fiche Publication
         $publication = new Publication();

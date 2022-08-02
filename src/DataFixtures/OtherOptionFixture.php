@@ -11,7 +11,7 @@ class OtherOptionFixture extends Fixture
     public function load(ObjectManager $manager)
     {
         $other = new OtherOption();
-        $other->setName('Aucune');
+        $other->setName('A définir');
         $manager->persist($other);
 
         $other = new OtherOption();

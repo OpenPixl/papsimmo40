@@ -61,8 +61,8 @@ class Complement
     #[ORM\Column(type: 'integer', nullable: true)]
     private $level;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $jointness;
+    #[ORM\Column(type: 'boolean')]
+    private $jointness= false;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $washroom;
@@ -249,12 +249,12 @@ class Complement
         return $this;
     }
 
-    public function getJointness(): ?int
+    public function getJointness(): ?bool
     {
         return $this->jointness;
     }
 
-    public function setJointness(?int $jointness): self
+    public function setJointness(bool $jointness): self
     {
         $this->jointness = $jointness;
 

@@ -32,7 +32,68 @@
                     'form_input2':form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}})
                 }
                 %}
+                <hr>
+                <h6>Coordonnées téléphonique</h6>
+                {# Numéro Domicile #}
+                <div class="row mb-1 mt-1 g-1">
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-plus"></i></span>
+                            {{ form_widget(form.home, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-office"></i></span>
+                            {{ form_widget(form.desk, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
+                            {{ form_widget(form.gsm, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <h6>Autres</h6>
+                <div class="row mb-1 mt-1 g-1">
+                    <div class="col-sm-8">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-envelope-circle-check"></i></span>
+                            {{ form_widget(form.otherEmail, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-plus"></i></span>
+                            {{ form_widget(form.fax, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <hr>
+                <h6>Liens vers les réseaux</h6>
+                <div class="row mb-1 mt-1 g-1">
+                    <div class="col-sm-8 offset-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-facebook"></i></span>
+                            {{ form_widget(form.facebook, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-8 offset-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-instagram"></i></span>
+                            {{ form_widget(form.instagram, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="col-sm-8 offset-4">
+                        <div class="input-group">
+                            <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-linkedin"></i></span>
+                            {{ form_widget(form.linkedin, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
             </div>
+
         </div>
     </div>
 </div>

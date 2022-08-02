@@ -85,7 +85,7 @@ class PropertyStep2Type extends AbstractType
                 'required' => false
             ])
             ->add('eeaYear',DateType::class, [
-                'label'=> 'Date de référence',
+                'label'=> 'Année de référence',
                 'widget' => 'single_text',
                 'format' => 'yyyy',
                 // prevents rendering it as type="date", to avoid HTML5 date pickers

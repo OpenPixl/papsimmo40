@@ -34,6 +34,30 @@ class CustomerType extends AbstractType
             ->add('city', TextType::class, [
                 'label' => 'Commune'
             ])
+            ->add('home', TextType::class, [
+                'label' => 'Tel Personnel'
+            ])
+            ->add('desk', TextType::class, [
+                'label' => 'Tel Portable'
+            ])
+            ->add('gsm', TextType::class, [
+                'label' => 'Tel Bureau'
+            ])
+            ->add('fax', TextType::class, [
+                'label' => 'Fax'
+            ])
+            ->add('otherEmail', TextType::class, [
+                'label' => 'Email'
+            ])
+            ->add('facebook', TextType::class, [
+                'label' => 'Page Facebook'
+            ])
+            ->add('instagram', TextType::class, [
+                'label' => 'Page instagram'
+            ])
+            ->add('linkedin', TextType::class, [
+                'label' => 'Page linkedin'
+            ])
         ;
     }
 
