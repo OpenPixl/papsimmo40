@@ -61,6 +61,7 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
+            ->join('p.propertyDefinition', 'pt')
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
@@ -71,11 +72,7 @@ class PropertyRepository extends ServiceEntityRepository
                 e.avatarName as avatarName,
                 p.piece as piece,
                 p.room as room,
-                p.isHome as isHome,
-                p.isApartment as isApartment,
-                p.isLand as isLand,
-                p.isOther as isOther,
-                p.adress as adress,
+                pt.name,
                 p.complement as complement,
                 p.zipcode as zipcode,
                 p.city as city,
@@ -94,6 +91,7 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
+            ->join('p.propertyDefinition', 'pt')
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
@@ -104,10 +102,7 @@ class PropertyRepository extends ServiceEntityRepository
                 e.avatarName as avatarName,
                 p.piece as piece,
                 p.room as room,
-                p.isHome as isHome,
-                p.isApartment as isApartment,
-                p.isLand as isLand,
-                p.isOther as isOther,
+                pt.name,
                 p.adress as adress,
                 p.complement as complement,
                 p.zipcode as zipcode,
@@ -134,6 +129,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('c.propertyEnergy', 'pe')
             ->join('c.propertyOrientation', 'po')
             ->join('c.propertyEquipment', 'peq')
+            ->join('p.propertyDefinition', 'pt')
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
@@ -154,10 +150,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.surfaceHome as surfaceHome,
                 p.surfaceLand as surfaceLand,
                 p.priceFai as priceFai,
-                p.isHome as isHome,
-                p.isApartment as isApartment,
-                p.isLand as isLand,
-                p.isOther as isOther,
+                pt.name,
                 p.otherDescription as otherDescription,
                 p.adress as adress,
                 p.complement as complement,

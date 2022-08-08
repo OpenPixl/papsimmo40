@@ -3,6 +3,7 @@
 namespace App\Entity\Gestapp;
 
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\choice\PropertyDefinition;
 use App\Repository\Gestapp\PropertyRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -43,18 +44,6 @@ class Property
 
     #[ORM\Column(type: 'integer', nullable: true)]
     private $room;
-
-    #[ORM\Column(type: 'boolean')]
-    private $isHome = false;
-
-    #[ORM\Column(type: 'boolean')]
-    private $isApartment = false;
-
-    #[ORM\Column(type: 'boolean')]
-    private $isLand = false;
-
-    #[ORM\Column(type: 'boolean')]
-    private $isOther = false;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
     private $surfaceLand;
@@ -163,11 +152,15 @@ class Property
     #[ORM\Column(type: 'date', nullable: true)]
     private $dateAvenant;
 
+    #[ORM\ManyToMany(targetEntity: PropertyDefinition::class, inversedBy: 'properties')]
+    private $propertyDefinition;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
         $this->Customer = new ArrayCollection();
         $this->photos = new ArrayCollection();
+        $this->propertyDefinition = new ArrayCollection();
     }
 
     /**
@@ -266,54 +259,6 @@ class Property
     public function setRoom(?int $room): self
     {
         $this->room = $room;
-
-        return $this;
-    }
-
-    public function getIsHome(): ?bool
-    {
-        return $this->isHome;
-    }
-
-    public function setIsHome(bool $isHome): self
-    {
-        $this->isHome = $isHome;
-
-        return $this;
-    }
-
-    public function getIsApartment(): ?bool
-    {
-        return $this->isApartment;
-    }
-
-    public function setIsApartment(bool $isApartment): self
-    {
-        $this->isApartment = $isApartment;
-
-        return $this;
-    }
-
-    public function getIsLand(): ?bool
-    {
-        return $this->isLand;
-    }
-
-    public function setIsLand(bool $isLand): self
-    {
-        $this->isLand = $isLand;
-
-        return $this;
-    }
-
-    public function getIsOther(): ?bool
-    {
-        return $this->isOther;
-    }
-
-    public function setIsOther(bool $isOther): self
-    {
-        $this->isOther = $isOther;
 
         return $this;
     }
@@ -780,6 +725,30 @@ class Property
     public function setDateAvenant(?\DateTimeInterface $dateAvenant): self
     {
         $this->dateAvenant = $dateAvenant;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PropertyDefinition>
+     */
+    public function getPropertyDefinition(): Collection
+    {
+        return $this->propertyDefinition;
+    }
+
+    public function addPropertyDefinition(PropertyDefinition $propertyDefinition): self
+    {
+        if (!$this->propertyDefinition->contains($propertyDefinition)) {
+            $this->propertyDefinition[] = $propertyDefinition;
+        }
+
+        return $this;
+    }
+
+    public function removePropertyDefinition(PropertyDefinition $propertyDefinition): self
+    {
+        $this->propertyDefinition->removeElement($propertyDefinition);
 
         return $this;
     }

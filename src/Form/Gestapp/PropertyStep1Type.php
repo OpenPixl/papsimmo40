@@ -3,6 +3,7 @@
 namespace App\Form\Gestapp;
 
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\choice\PropertyDefinition;
 use App\Entity\Gestapp\Property;
 use App\Form\SearchableEntityType;
 use App\Repository\Admin\EmployedRepository;
@@ -64,22 +65,13 @@ class PropertyStep1Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false,
             ])
-
-            ->add('isHome', CheckboxType::class, [
-                    'label' => 'Maison',
-                    'required' => false,
-                ])
-            ->add('isApartment', CheckboxType::class, [
-                'label' => 'Appartement',
-                'required' => false,
-                ])
-            ->add('isLand', CheckboxType::class, [
-                'label' => 'Terrain',
-                'required' => false,
-            ])
-            ->add('isOther', CheckboxType::class, [
-                'label' => 'Autres',
-                'required' => false,
+            ->add('propertyDefinition',EntityType::class, [
+                'class' => PropertyDefinition::class,
+                'label' => 'type',
+                'multiple' => true,
+                'choice_attr' => ChoiceList::attr($this, function (?PropertyDefinition $propertyEquipement) {
+                    return $propertyEquipement ? ['data-data' => $propertyEquipement->getName()] : [];
+                })
             ])
             ->add('otherDescription', TextType::class, [
                 'label' => 'Autres',

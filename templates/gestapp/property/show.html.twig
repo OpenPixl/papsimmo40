@@ -131,6 +131,59 @@
                     })
             })
 
+            // PARTIE Définition/Type de bien
+            // ---------------------------------------
+            // Select
+            const tspropertyDefinition = new TomSelect("#property_step1_propertyDefinition",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // Ouverture de la modal
+            const modalPropertyDefinition = document.getElementById('modalPropertyDefinition')
+            const PropertyDefinition = new bootstrap.Modal(modalPropertyDefinition, { keyboard: true })
+            const addPropertyDefinition = document.getElementById('addPropertyDefinition')
+            addPropertyDefinition.addEventListener('click', function(event){
+                event.preventDefault()
+                PropertyDefinition.show()
+            })
+            // PARTIE Orientation du bien - Envoi du formulaire
+            let FormPropertyDefinition = document.getElementById('FormPropertyDefinition')
+            FormPropertyDefinition.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_definition = '/gestapp/choice/property/definition/new2'
+                let data_property_definition = new FormData(FormPropertyDefinition)
+                axios
+                    .post(url_property_definition, data_property_definition)
+                    .then(function(response)
+                    {
+                        const selectpropertyDef = document.getElementById('property_step1_propertyDefinition');
+                        const optionspropertyDef = document.createElement("option");
+                        optionspropertyDef.text = response.data.propertyDef;
+                        optionspropertyDef.setAttribute("data-data", response.data.propertyDef)
+                        optionspropertyDef.setAttribute("value", response.data.valuepropertyDef)
+                        optionspropertyDef.text = response.data.propertyDef;
+                        selectpropertyDef.add(optionspropertyDef)
+                        tspropertyOrient.addOption({data: response.data.propertyDef, value:response.data.valuepropertyDef})
+                        tspropertyOrient.addItem(response.data.propertyDef)
+                        PropertyDefinition.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+
             // ---------------------------------------
             // STEP 2 :
             // Enregistrement du ou des acheteurs
@@ -1191,6 +1244,18 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     {{ render(controller('App\\Controller\\Gestapp\\choice\\OtherOptionController::new2')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseOther #}
+        <div class="modal fade" id="modalPropertyDefinition" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Type de bien :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyDefinitionController::new2')) }}
                 </div>
             </div>
         </div>

@@ -1,0 +1,26 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}PropertyDefinition{% endblock %}
+
+{% block body %}
+    <h1>PropertyDefinition</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ property_definition.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ property_definition.name }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_choice_property_definition_index') }}">back to list</a>
+
+    <a href="{{ path('app_gestapp_choice_property_definition_edit', {'id': property_definition.id}) }}">edit</a>
+
+    {{ include('gestapp/choice/property_definition/_delete_form.html.twig') }}
+{% endblock %}
