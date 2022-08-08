@@ -175,6 +175,15 @@
                     </div>
                     <div class="row">
                         <div class="form-check form-check-inline">
+                            {{ form_label(form.coproperty, '', {'label_attr': {'class':'form-check-label'}}) }}
+                            {% for child in form.coproperty %}
+                                {{ form_widget(child) }}
+                                {{ form_label(child) }}
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="form-check form-check-inline">
                             {{ form_label(form.jointness, '', {'label_attr': {'class':'form-check-label'}}) }}
                             {% for child in form.jointness %}
                                 {{ form_widget(child) }}

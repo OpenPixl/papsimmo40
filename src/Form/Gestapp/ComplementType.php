@@ -159,8 +159,17 @@ class ComplementType extends AbstractType
             ])
 
             // Partie "Equipements"
+            ->add('coproperty', ChoiceType::class, [
+                'label' => 'Le bien est en copropriété ?',
+                'choices' => [
+                    'non' => 0,
+                    'oui' => 1,
+                ],
+                'multiple' => false,
+                'expanded' => true,
+            ])
             ->add('jointness', ChoiceType::class, [
-                'label' => 'Le bien est une copropriété ?',
+                'label' => 'Le bien est mitoyen ?',
                 'choices' => [
                     'non' => 0,
                     'oui' => 1,

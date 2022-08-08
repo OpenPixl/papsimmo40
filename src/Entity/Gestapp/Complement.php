@@ -106,6 +106,9 @@ class Complement
     #[ORM\ManyToMany(targetEntity: OtherOption::class, inversedBy: 'complements')]
     private $propertyOtheroption;
 
+    #[ORM\Column(type: 'boolean')]
+    private $coproperty = false;
+
     public function __construct()
     {
         $this->propertyEquipment = new ArrayCollection();
@@ -449,6 +452,18 @@ class Complement
     public function removePropertyOtheroption(OtherOption $propertyOtheroption): self
     {
         $this->propertyOtheroption->removeElement($propertyOtheroption);
+
+        return $this;
+    }
+
+    public function getCoproperty(): ?bool
+    {
+        return $this->coproperty;
+    }
+
+    public function setCoproperty(bool $coproperty): self
+    {
+        $this->coproperty = $coproperty;
 
         return $this;
     }
