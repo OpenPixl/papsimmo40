@@ -28,7 +28,7 @@ class PropertyController extends AbstractController
     #[Route('/', name: 'op_gestapp_property_index', methods: ['GET'])]
     public function index(PropertyRepository $propertyRepository): Response
     {
-        $hasAccess = $this->isGranted('ROLE_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true){
             //dd($propertyRepository->listAllProperties());
