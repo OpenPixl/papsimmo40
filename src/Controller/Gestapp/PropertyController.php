@@ -21,25 +21,40 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/gestapp/property')]
 class PropertyController extends AbstractController
 {
     #[Route('/', name: 'op_gestapp_property_index', methods: ['GET'])]
-    public function index(PropertyRepository $propertyRepository): Response
+    public function index(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request  $request): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
+
+
         if($hasAccess == true){
             //dd($propertyRepository->listAllProperties());
+            $data = $propertyRepository->listAllProperties();
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+
             return $this->render('gestapp/property/index.html.twig', [
-                'properties' => $propertyRepository->listAllProperties(),
+                'properties' => $properties,
                 'user' => $user
             ]);
         }else{
-            //dd($propertyRepository->findBy(['refEmployed' => $user->getId()]));
+            $data = $propertyRepository->listPropertiesByemployed($user);
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
             return $this->render('gestapp/property/index.html.twig', [
-                'properties' => $propertyRepository->listPropertiesByemployed($user),
+                'properties' => $properties,
                 'user' => $user
             ]);
         }

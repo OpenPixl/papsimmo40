@@ -65,6 +65,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
+                p.RefMandat as refMandat,
                 p.name as name,
                 e.id as refEmployed,
                 e.firstName as firstName,
@@ -96,6 +97,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
+                p.RefMandat as refMandat,
                 p.name as name,
                 e.id as refEmployed,
                 e.firstName as firstName,
@@ -134,6 +136,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
+                p.RefMandat as refMandat,
                 d.name as denomination,
                 p.name as name,
                 p.annonce as annonce,

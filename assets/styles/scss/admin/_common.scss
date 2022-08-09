@@ -21,6 +21,11 @@ a {
   border-radius: 0;
 }
 
+.pagination {
+  margin-top: 0;
+  margin-bottom: 0 !important;
+}
+
 #FormMandat{
   .text-danger{
     color: $primary-color !important;

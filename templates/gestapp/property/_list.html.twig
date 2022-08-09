@@ -7,8 +7,9 @@
         <th></th>
         {% endif %}
         <th>Ref</th>
-        <th>Type de bien</th>
         <th>Mandat</th>
+        <th>Type de bien</th>
+        <th></th>
         <th>Titre annonce</th>
         <th>Piece</th>
         <th>chambre</th>
@@ -35,6 +36,7 @@
             <th>{{ property.id }}</th>
             {% endif %}
             <td>{{ property.ref }}</td>
+            <td>{{ property.refMandat }}</td>
             <td>
                 <p class="badge bg-primary mb-0">{{ property.propertyDefinition }}</p>
             </td>

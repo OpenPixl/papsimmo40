@@ -148,13 +148,25 @@
 
 {% block content %}
     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::inCreating')) }}
-    <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
     <div class="row">
+
+        <div class="navigation d-flex justify-content-between">
+            <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
+            {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
+        </div>
+
         <div id="list" class="col-sm-12">
             {% include('gestapp/property/_list.html.twig') %}
         </div>
+
+        <div class="navigation d-flex justify-content-between">
+
+            <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
+            {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
+        </div>
+
     </div>
-    <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
+
 {% endblock %}
 
 {% block modal %}
