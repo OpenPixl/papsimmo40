@@ -151,7 +151,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.surfaceHome as surfaceHome,
                 p.surfaceLand as surfaceLand,
                 p.priceFai as priceFai,
-                pt.name as propertyType,
+                pd.name as propertyDefinition,
                 p.otherDescription as otherDescription,
                 p.adress as adress,
                 p.complement as complement,
