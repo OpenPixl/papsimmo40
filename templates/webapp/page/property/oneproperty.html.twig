@@ -65,18 +65,8 @@
                                 <tr>
                                     <td>Type</td>
                                     <td>
-                                        {% if property.isHome == 1%}
-                                            Maison
-                                        {% endif %}
-                                        {% if property.isApartment == 1%}
-                                            Appartement
-                                        {% endif %}
-                                        {% if property.isLand == 1%}
-                                            Terrain
-                                        {% endif %}
-                                        {% if property.isOther == 1%}
-                                            {{ property.otherDescription }}
-                                        {% endif %}
+                                        {{ property.propertyDefinition }}
+                                        &nbsp;
                                         {{ property.denomination }}
                                     </td>
                                 </tr>
