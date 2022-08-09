@@ -125,16 +125,16 @@ class PropertyRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
             ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
-            ->join('c.denomination', 'pd')
+            ->join('c.denomination', 'd')
             ->join('c.propertyState', 'ps')
             ->join('c.propertyEnergy', 'pe')
             ->join('c.propertyOrientation', 'po')
             ->join('c.propertyEquipment', 'peq')
-            ->join('p.propertyDefinition', 'pt')
+            ->join('p.propertyDefinition', 'pd')
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
-                pd.name as denomination,
+                d.name as denomination,
                 p.name as name,
                 p.annonce as annonce,
                 e.id as refEmployed,
@@ -152,12 +152,12 @@ class PropertyRepository extends ServiceEntityRepository
                 p.surfaceLand as surfaceLand,
                 p.priceFai as priceFai,
                 pd.name as propertyDefinition,
-                p.otherDescription as otherDescription,
                 p.adress as adress,
                 p.complement as complement,
                 p.zipcode as zipcode,
                 p.city as city,
                 p.diagDpe as diagDpe,
+                p.diagGpe as diagGpe,
                 ps.name as propertyState,
                 pe.name as propertyEnergy,
                 po.name as propertyOrientation,
