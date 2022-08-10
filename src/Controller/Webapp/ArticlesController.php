@@ -5,6 +5,7 @@ namespace App\Controller\Webapp;
 use App\Entity\Webapp\Articles;
 use App\Form\Webapp\ArticlesType;
 use App\Repository\Webapp\ArticlesRepository;
+use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -36,7 +37,10 @@ class ArticlesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $articlesRepository->add($article);
-            return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code' => 200,
+                'message' => "L'article a été créer"
+            ], 200);
         }
 
         return $this->renderForm('webapp/articles/new.html.twig', [

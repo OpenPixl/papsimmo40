@@ -75,21 +75,23 @@
                 link.addEventListener('click', onClickDelEvent)
             })
 
-            // Formulaire édition Article
-            let FormEditArticle = document.getElementById('FormArticle')
-            FormEditArticle.addEventListener('submit', function (event) {
+            // Formulaire Nouvel Article
+            let FormArticle = document.getElementById('FormArticle')
+            function AddArticle (event) {
                 event.preventDefault()
-                let urlEditArticle = FormEditArticle.action
-                let dataEditArticle = new FormData(FormEditArticle)
+                const urlAddArticle = FormArticle.action
+                const dataFormAddArticle = new FormData(FormArticle)
                 axios
-                    .post(urlEditArticle, dataEditArticle)
-                    .then(function(response)
-                    {
+                    .post(urlAddArticle, dataFormAddArticle)
+                    .then(function(response){
 
                     })
                     .catch(function(error){
                         console.log(error);
                     })
+            }
+            document.querySelectorAll('a.BtnAddArticle').forEach(function (link) {
+                link.addEventListener('click', AddArticle);
             })
         }
     </script>
@@ -97,6 +99,8 @@
 
 {% block content %}
     <h1>Articles index</h1>
+
+    <button id="btnAddArticle" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addArticle">Ajouter un article</button>
 
     <div id="liste">
         {{ include('webapp/articles/include/_liste.html.twig') }}
