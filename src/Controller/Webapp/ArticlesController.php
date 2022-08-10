@@ -37,9 +37,15 @@ class ArticlesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $articlesRepository->add($article);
+
+            $articles = $articlesRepository->findAll();
+
             return $this->json([
                 'code' => 200,
-                'message' => "L'article a été créer"
+                'message' => "L'article a été créer de nouveau",
+                'liste' => $this->renderView('webapp/articles/include/_liste.html.twig',[
+                    'articles' => $articles
+                ])
             ], 200);
         }
 

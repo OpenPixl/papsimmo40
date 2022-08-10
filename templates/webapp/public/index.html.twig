@@ -43,22 +43,22 @@
 </section>
 
 <section id="op_page_content">
-    {# modèle de la page sans aucune section affichée #}
-    {% if not sections %}
-    {# modèle de la page avec des sections affichées #}
-    {% else %}
-    {# si le vlient est sur la page d'accueil #}
+{# modèle de la page sans aucune section affichée #}
+{% if not sections %}
+{# modèle de la page avec des sections affichées #}
+{% else %}
+    {# si le lien est sur la page d'accueil #}
     {% if app.request.get('_route') == 'op_webapp_public_homepage'%}
-    {# on classe les sections par ordre de positionnement en "home page" #}
-    {% for section in sections|sort((a, b) => a.positionfavorite <=> b.positionfavorite) %}
-    {% include('webapp/public/section/_onesection.html.twig') %}
-    {% endfor %}
+        {# on classe les sections par ordre de positionnement en "home page" #}
+        {% for section in sections|sort((a, b) => a.positionfavorite <=> b.positionfavorite) %}
+            {% include('webapp/public/section/_onesection.html.twig') %}
+        {% endfor %}
     {# pour toutes les autres routes, on classe par ordre de positionnement ASC #}
     {% else %}
-    {% for section in sections %}
-    {% include('webapp/public/section/_onesection.html.twig') %}
-    {% endfor %}
+        {% for section in sections %}
+            {% include('webapp/public/section/_onesection.html.twig') %}
+        {% endfor %}
     {% endif %}
-    {% endif %}
+{% endif %}
 </section>
 {% endblock %}

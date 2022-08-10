@@ -144,8 +144,9 @@
         </div>
     </div>
 </div>
+
 <div class="modal-footer">
-    <a class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal"><i class="fa-duotone fa-arrow-circle-left"></i> Fermer l'éditeur</a>
-    <a id="BtnAddArticle" class="btn btn-sm btn-outline-primary BtnAddArticle">{{ button_label|default('Ajouter') }}</a>
+    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fa-duotone fa-arrow-circle-left"></i> Fermer l'éditeur</button>
+    <button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default("Ajouter un nouvel article") }}</button>
 </div>
 {{ form_end(form) }}

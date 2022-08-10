@@ -58,6 +58,7 @@
                 {% elseif section.content == 'All_Employed'%}
                 {# Affiche tous les biens #}
                 {% elseif section.content == 'All_properties'%}
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllProperties')) }}
                 {# Affiche tous les biens par secteurs #}
                 {% elseif section.content == 'Sector_ofProperties'%}
                 {# Affiche les 5 derniers biens #}

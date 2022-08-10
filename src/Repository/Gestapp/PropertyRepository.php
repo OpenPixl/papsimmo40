@@ -180,6 +180,38 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    public function AllProperties()
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->join('p.propertyDefinition', 'pd')
+            ->addSelect('
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                p.piece as piece,
+                p.room as room,
+                pd.name as propertyDefinition,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.imageName as imageName,
+                p.createdAt as createdAt,
+                p.updatedAt as updatedAt
+            ')
+            ->where('p.isIncreating = 0')
+            ->orderBy('p.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Property[] Returns an array of Property objects
     //  */

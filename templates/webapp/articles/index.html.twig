@@ -18,23 +18,15 @@
             // Code d'ouverture de la modale de suppression d'une ligne
             var Suppr = document.getElementById('Suppr')
             Suppr.addEventListener('show.bs.modal', function (event) {
-                // Button that triggered the modal
                 var a = event.relatedTarget
-                // Extract info from data-bs-* attributes
                 var recipient = a.getAttribute('data-bs-whatever')
-                // If necessary, you could initiate an AJAX request here
-                // and then do the updating in a callback.
-                //
-                // Update the modal's content.
                 var modalTitle = Suppr.querySelector('.modal-title')
                 var modalText = Suppr.querySelector('.modal-text')
                 var modalBodyInput = Suppr.querySelector('.modal-body input')
-
                 modalTitle.textContent = "Suppression d'un article"
                 modalBodyInput.value = recipient
                 modalText.innerHTML = "Vous êtes sur le point de supprimer l'article sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
             })
-
             // Code de suppression lors du clic sur le bouton de la modal "Suppr"
             function onClickDelEvent(event){
                 event.preventDefault()
@@ -44,7 +36,7 @@
                     .then(function(response)
                     {
                         // rafraichissement du tableau
-                        const liste = document.getElementById('liste').innerHTML = response.data.liste;
+                        const liste = document.getElementById('liste').innerHTML = response.data.liste
 
                         // rechargement des events
                         document.querySelectorAll('a.js-data-suppr').forEach(function(link){
@@ -69,30 +61,43 @@
                         console.log(error);
                     })
             }
-
             // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
             document.querySelectorAll('a.js-data-suppr').forEach(function(link){
                 link.addEventListener('click', onClickDelEvent)
             })
 
-            // Formulaire Nouvel Article
+            // FormulaireNouvel Article
+            // ------------------------------------------------------
+            // Déclaration des varioables et Ouverture de la modal
             let FormArticle = document.getElementById('FormArticle')
-            function AddArticle (event) {
+            const modalAddArticle = document.getElementById('modalAddArticle')
+            const AddArticle = new bootstrap.Modal(modalAddArticle, { keyboard: true })
+            const btnAddHouseCat = document.getElementById('BtnAddArticle')
+            btnAddHouseCat.addEventListener('click', function(event){
                 event.preventDefault()
-                const urlAddArticle = FormArticle.action
-                const dataFormAddArticle = new FormData(FormArticle)
+                AddArticle.show()
+            })
+            // Envoi du formulaire
+            FormArticle.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_addArticle = FormArticle.action
+                let data_addArticle = new FormData(FormArticle)
                 axios
-                    .post(urlAddArticle, dataFormAddArticle)
-                    .then(function(response){
-
+                    .post(url_addArticle, data_addArticle)
+                    .then(function(response)
+                    {
+                        const liste = document.getElementById('liste').innerHTML = response.data.liste
+                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
+                            link.addEventListener('click', onClickDelEvent)
+                        })
+                        AddArticle.hide()
                     })
                     .catch(function(error){
                         console.log(error);
                     })
-            }
-            document.querySelectorAll('a.BtnAddArticle').forEach(function (link) {
-                link.addEventListener('click', AddArticle);
             })
+
         }
     </script>
 {% endblock %}
@@ -100,20 +105,17 @@
 {% block content %}
     <h1>Articles index</h1>
 
-    <button id="btnAddArticle" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addArticle">Ajouter un article</button>
+    <button id="BtnAddArticle" class="btn btn-sm btn-outline-primary">Ajouter un article</button>
 
     <div id="liste">
         {{ include('webapp/articles/include/_liste.html.twig') }}
     </div>
-
-    <button id="btnAddArticle" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addArticle">Ajouter un article</button>
-
 {% endblock %}
 
 {% block footer %}
     {{ parent() }}
     <section>
-        <div class="modal fade" id="addArticle" tabindex="-1" aria-labelledby="addArticle" aria-hidden="true">
+        <div class="modal fade" id="modalAddArticle" tabindex="-1" aria-labelledby="modalAddArticle" aria-hidden="true">
             <div class="modal-dialog modal-xl">
                 <div class="modal-content">
                     <div class="modal-header">
