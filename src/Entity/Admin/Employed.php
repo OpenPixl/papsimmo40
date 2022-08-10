@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Ignore;
+use Symfony\Component\Serializer\Annotation\SerializedName;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EmployedRepository::class)]
@@ -26,12 +27,13 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
 class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 {
+
     public function serialize()
     {
         return serialize(array(
             $this->id,
-            $this->username,
             $this->password,
+            $this->roles,
             $this->avatarName,
             $this->avatarFile
         ));
@@ -41,8 +43,8 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     {
         list (
             $this->id,
-            $this->username,
             $this->password,
+            $this->roles,
             $this->avatarName,
             $this->avatarFile
             ) = unserialize($serialized);
