@@ -14,6 +14,7 @@
                 .catch(error => {
                     console.error(error);
                 });
+            const btnPostEditArticle = document.getElementsByName('btnPostEditArticle')
 
             // Code d'ouverture de la modale de suppression d'une ligne
             var Suppr = document.getElementById('Suppr')
@@ -37,12 +38,10 @@
                     {
                         // rafraichissement du tableau
                         const liste = document.getElementById('liste').innerHTML = response.data.liste
-
                         // rechargement des events
                         document.querySelectorAll('a.js-data-suppr').forEach(function(link){
                             link.addEventListener('click', onClickDelEvent)
                         })
-
                         // préparation du toaster
                         var option = {
                             animation : true,
@@ -61,32 +60,36 @@
                         console.log(error);
                     })
             }
-            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-            document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                link.addEventListener('click', onClickDelEvent)
-            })
 
-            // FormulaireNouvel Article
+            // Formulaire Nouvel Article
             // ------------------------------------------------------
-            // Déclaration des varioables et Ouverture de la modal
+            // Déclaration des variables et Ouverture de la modal
             let FormArticle = document.getElementById('FormArticle')
             const modalAddArticle = document.getElementById('modalAddArticle')
             const AddArticle = new bootstrap.Modal(modalAddArticle, { keyboard: true })
-            const btnAddHouseCat = document.getElementById('BtnAddArticle')
-            btnAddHouseCat.addEventListener('click', function(event){
+            const BtnAddArticle = document.getElementById('BtnAddArticle')
+            BtnAddArticle.addEventListener('click', function(event){
                 event.preventDefault()
                 AddArticle.show()
             })
             // Envoi du formulaire
-            FormArticle.addEventListener('submit', function (event) {
+            function PostAddArticle(event) {
                 event.preventDefault()
-                let url_addArticle = FormArticle.action
+                let url_addArticle = '/webapp/articles/new'
                 let data_addArticle = new FormData(FormArticle)
                 axios
                     .post(url_addArticle, data_addArticle)
                     .then(function(response)
                     {
                         const liste = document.getElementById('liste').innerHTML = response.data.liste
+                        // Ajout d'un event sur bouton d'envoi du nouvel article
+                        document.querySelectorAll('a.btnPostAddArticle').forEach(function(link){
+                            link.addEventListener('click', PostAddArticle)
+                        })
+                        // Ajout d'un event sur bouton d'envoi d'édition d'un article
+                        document.querySelectorAll('a.btnPostEditArticle').forEach(function(link){
+                            link.addEventListener('click', PostEditArticle)
+                        })
                         // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
                         document.querySelectorAll('a.js-data-suppr').forEach(function(link){
                             link.addEventListener('click', onClickDelEvent)
@@ -96,7 +99,23 @@
                     .catch(function(error){
                         console.log(error);
                     })
+            }
+
+            // Déclaration des Events sur liens de la liste
+            // ------------------------------------------------------
+            // Ajout d'un event sur bouton d'envoi du nouvel article
+            document.querySelectorAll('a.btnPostAddArticle').forEach(function(link){
+                link.addEventListener('click', PostAddArticle)
             })
+            // Ajout d'un event sur bouton d'envoi d'édition d'un article
+            document.querySelectorAll('a.btnPostEditArticle').forEach(function(link){
+                link.addEventListener('click', PostEditArticle)
+            })
+            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+            document.querySelectorAll('a.js-data-suppr').forEach(function(link){
+                link.addEventListener('click', onClickDelEvent)
+            })
+
 
         }
     </script>
