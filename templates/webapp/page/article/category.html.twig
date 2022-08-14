@@ -4,7 +4,10 @@
         <div class="col-12 col-md-4 col-xl-3 col-xxl-3">
 
             <div class="card">
+                {% if article.articleFrontName is null %}
+                {% else %}
                 <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
+                {% endif %}
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}"></a>{{ article.name }}</h3>
                     <article>

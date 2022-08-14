@@ -424,4 +424,15 @@ class PropertyController extends AbstractController
         ]);
     }
 
+    #[Route('/allproperties', name: 'op_gestapp_properties_allproperty', methods: ['GET'])]
+    public function AllProperties(PropertyRepository $propertyRepository)
+    {
+        $properties = $propertyRepository->AllProperties();
+
+        return $this->renderForm('webapp/page/property/allproperties.html.twig', [
+            'properties' => $properties,
+        ]);
+
+    }
+
 }

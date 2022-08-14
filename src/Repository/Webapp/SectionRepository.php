@@ -45,6 +45,18 @@ class SectionRepository extends ServiceEntityRepository
         }
     }
 
+    public function findByPageSlug($slug)
+    {
+        return $this->createQueryBuilder('s')
+            ->join('s.page', 'p')
+            ->andWhere('p.slug = :slug')
+            ->setParameter('slug', $slug)
+            ->orderBy('s.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Section[] Returns an array of Section objects
     //  */

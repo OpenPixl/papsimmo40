@@ -20,12 +20,12 @@
             <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>
-                <button id="btnEditArticle" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#editArticle-{{ article.id }}" data-bs-whatever="{{ article.id }}"><i class="fa-duotone fa-pen-to-square"></i></button>
-                <div class="modal fade" id="editArticle-{{ article.id }}" tabindex="-1" aria-labelledby="addArticle" aria-hidden="true">
+                <button id="btnEditArticle" class="btn btn-sm btn-outline-primary btnEditArticle" data-bs-toggle="modal" data-bs-target="#modalEditArticle-{{ article.id }}"><i class="fa-duotone fa-pen-to-square"></i></button>
+                <div class="modal fade" id="modalEditArticle-{{ article.id }}" tabindex="-1" aria-labelledby="modalAddArticle" aria-hidden="true">
                     <div class="modal-dialog modal-xl">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Edition d'un nouvel article </h5>
+                                <h5 class="modal-title" id="exampleModalLabel">Création d'un nouvel article</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             {{ render(controller('App\\Controller\\Webapp\\ArticlesController::edit', {'id': article.id})) }}
