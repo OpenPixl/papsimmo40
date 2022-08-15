@@ -38,7 +38,7 @@
                     {
                         // rafraichissement du tableau
                         const liste = document.getElementById('liste').innerHTML = response.data.liste
-                        // rechargement des events
+                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
                         document.querySelectorAll('a.js-data-suppr').forEach(function(link){
                             link.addEventListener('click', onClickDelEvent)
                         })
@@ -61,56 +61,8 @@
                     })
             }
 
-            // Formulaire Nouvel Article
-            // ------------------------------------------------------
-            // Déclaration des variables et Ouverture de la modal
-            let FormArticle = document.getElementById('FormArticle')
-            const modalAddArticle = document.getElementById('modalAddArticle')
-            const AddArticle = new bootstrap.Modal(modalAddArticle, { keyboard: true })
-            const BtnAddArticle = document.getElementById('BtnAddArticle')
-            BtnAddArticle.addEventListener('click', function(event){
-                event.preventDefault()
-                AddArticle.show()
-            })
-            // Envoi du formulaire
-            function PostAddArticle(event) {
-                event.preventDefault()
-                let url_addArticle = '/webapp/articles/new'
-                let data_addArticle = new FormData(FormArticle)
-                axios
-                    .post(url_addArticle, data_addArticle)
-                    .then(function(response)
-                    {
-                        const liste = document.getElementById('liste').innerHTML = response.data.liste
-                        // Ajout d'un event sur bouton d'envoi du nouvel article
-                        document.querySelectorAll('a.btnPostAddArticle').forEach(function(link){
-                            link.addEventListener('click', PostAddArticle)
-                        })
-                        // Ajout d'un event sur bouton d'envoi d'édition d'un article
-                        document.querySelectorAll('a.btnPostEditArticle').forEach(function(link){
-                            link.addEventListener('click', PostEditArticle)
-                        })
-                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                            link.addEventListener('click', onClickDelEvent)
-                        })
-                        AddArticle.hide()
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
-            }
-
             // Déclaration des Events sur liens de la liste
             // ------------------------------------------------------
-            // Ajout d'un event sur bouton d'envoi du nouvel article
-            document.querySelectorAll('a.btnPostAddArticle').forEach(function(link){
-                link.addEventListener('click', PostAddArticle)
-            })
-            // Ajout d'un event sur bouton d'envoi d'édition d'un article
-            document.querySelectorAll('a.btnPostEditArticle').forEach(function(link){
-                link.addEventListener('click', PostEditArticle)
-            })
             // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
             document.querySelectorAll('a.js-data-suppr').forEach(function(link){
                 link.addEventListener('click', onClickDelEvent)
@@ -124,7 +76,7 @@
 {% block content %}
     <h1>Articles index</h1>
 
-    <button id="BtnAddArticle" class="btn btn-sm btn-outline-primary">Ajouter un article</button>
+    <button id="BtnAddArticle" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalAddArticle">Ajouter un article</button>
 
     <div id="liste">
         {{ include('webapp/articles/include/_liste.html.twig') }}

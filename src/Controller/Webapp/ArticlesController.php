@@ -4,7 +4,6 @@ namespace App\Controller\Webapp;
 
 use App\Entity\Webapp\Articles;
 use App\Form\Webapp\ArticlesType;
-use App\Form\Webapp\Articles2Type;
 use App\Repository\Webapp\ArticlesRepository;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -41,16 +40,7 @@ class ArticlesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $articlesRepository->add($article);
-
-            $articles = $articlesRepository->findAll();
-
-            return $this->json([
-                'code' => 200,
-                'message' => "L'article a été créer de nouveau",
-                'liste' => $this->renderView('webapp/articles/include/_liste.html.twig',[
-                    'articles' => $articles
-                ])
-            ], 200);
+            return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('webapp/articles/new.html.twig', [
@@ -70,7 +60,7 @@ class ArticlesController extends AbstractController
     #[Route('/edit/{id}', name: 'op_webapp_articles_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Articles $article, ArticlesRepository $articlesRepository): Response
     {
-        $form = $this->createForm(Articles2Type::class, $article, [
+        $form = $this->createForm(ArticlesType::class, $article, [
             'action' => $this->generateUrl('op_webapp_articles_edit', ['id'=> $article->getId()]),
             'method' => 'POST',
             'attr' => [

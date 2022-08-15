@@ -1,7 +1,7 @@
 {% for photo in photos %}
     <div class="col-3">
         <div class="card mb-1">
-            <img src="{{ vich_uploader_asset(photo)|imagine_filter('oneproperty_galleryAdmin') }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}">
+            <img src="{{ asset('images/galery/') }}{{ photo.galeryFrontName }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}">
             <div class="card-img-overlay">
                 <a class="btn btn-sm btn-light" href="{{ path('op_gestapp_photo_show', {'id': photo.id}) }}"><i class="fa-duotone fa-image-landscape"></i></a>
                 <a class="btn btn-sm btn-light delphoto" href="{{ path('app_gestapp_photo_del', {'id': photo.id, 'idproperty': property.id}) }}"><i class="fa-duotone fa-camera-slash"></i></a>

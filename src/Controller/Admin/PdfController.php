@@ -32,14 +32,18 @@ class PdfController extends AbstractController
         $equipments = $options->getPropertyEquipment();
 
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
-        $html = $this->render('pdf/ficheproperty.html.twig', array(
+        $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
             'property'  => $oneproperty,
             'equipments' => $equipments,
             'application' =>$application
         ));
 
         return new PdfResponse(
-            $knpSnappyPdf->getOutputFromHtml($html),
+
+            $knpSnappyPdf
+                ->setOption("enable-local-file-access",true
+                )
+                ->getOutputFromHtml($html),
             'files.pdf'
         );
     }
