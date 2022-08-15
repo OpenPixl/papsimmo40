@@ -18,7 +18,7 @@ class PublicController extends AbstractController
     public function homepage(SectionRepository $sectionRepository, ApplicationRepository $applicationRepository): Response
     {
         $sections = $sectionRepository->findBy(['isfavorite' => 1]);
-        $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
+        $application = $applicationRepository->findOneBy([], ['id' => 'DESC']);
         return $this->render('webapp/public/index.html.twig', [
             'application' => $application,
             'sections' => $sections
@@ -30,15 +30,13 @@ class PublicController extends AbstractController
     {
         $application = $em->getRepository(Application::class)->findFirstReccurence();
         // boucle : verifie si le site est installé
-        if(!$application){
+        if (!$application) {
             return $this->redirectToRoute('op_admin_dashboard_first_install');
-        }
-        else {
+        } else {
             $isOnline = $application->getIsOnline();
-            if(!$isOnline) {
+            if (!$isOnline) {
                 return $this->redirectToRoute('op_webapp_public_offline');
-            }
-            else{
+            } else {
                 return $this->redirectToRoute('op_webapp_public_homepage');
             }
         }
@@ -47,14 +45,14 @@ class PublicController extends AbstractController
     /**
      * Fonction d'affichage de la page hors ligne du site
      */
-    #[route("/webapp/public/offline", name:'op_webapp_public_offline')]
-    public function Offline(EntityManagerInterface $em) : Response
+    #[route("/webapp/public/offline", name: 'op_webapp_public_offline')]
+    public function Offline(EntityManagerInterface $em): Response
     {
         $application = $em->getRepository(Application::class)->findFirstReccurence();
         $sections = $em->getRepository(Section::class)->findBy(array('favorites' => 1));
         $isOnline = $application->getIsOnline();
 
-        if ($isOnline == 1){
+        if ($isOnline == 1) {
             return $this->render('webapp/public/index.html.twig', [
                 'application' => $application,
                 'sections' => $sections,
@@ -70,7 +68,7 @@ class PublicController extends AbstractController
      * @return Response
      * Fonction d'inclusion des balises "meta" pour le référencement
      */
-    public function meta(EntityManagerInterface $em) : Response
+    public function meta(EntityManagerInterface $em): Response
     {
         $application = $em->getRepository(Application::class)->find(1);
 
@@ -82,8 +80,8 @@ class PublicController extends AbstractController
     /**
      * Affiche mles différents menus sur la page d'accueil
      */
-    #[Route("/webapp/public/menus/{route}", name:'op_webapp_public_listmenus')]
-    public function BlocMenu(PageRepository $pageRepository, ApplicationRepository $applicationRepository,Request $request, $route): Response
+    #[Route("/webapp/public/menus/{route}", name: 'op_webapp_public_listmenus')]
+    public function BlocMenu(PageRepository $pageRepository, ApplicationRepository $applicationRepository, Request $request, $route): Response
     {
         // on récupère l'utilisateur courant
         $user = $this->getUser();
@@ -102,13 +100,13 @@ class PublicController extends AbstractController
     /**
      * Affiche le bottom footer
      */
-    #[Route("/webapp/public/footer/top", name:'op_webapp_public_topfooter')]
-    public function topFooter(PageRepository $pageRepository, ApplicationRepository $applicationRepository,Request $request): Response
+    #[Route("/webapp/public/footer/top", name: 'op_webapp_public_topfooter')]
+    public function topFooter(PageRepository $pageRepository, ApplicationRepository $applicationRepository, Request $request): Response
     {
         // préparation des éléments d'interactivité du menu
         $application = $applicationRepository->findFirstReccurence();
 
-        $pages = $pageRepository->findAll();
+        $pages = $pageRepository->findBy(['isMenu' => 1]);
 
         return $this->render('include/public/topfooter.html.twig', [
             'application' => $application,
@@ -119,8 +117,8 @@ class PublicController extends AbstractController
     /**
      * Affiche le bottom footer
      */
-    #[Route("/webapp/public/footer/bottom", name:'op_webapp_public_bottomfooter')]
-    public function bottomFooter(ApplicationRepository $applicationRepository,Request $request): Response
+    #[Route("/webapp/public/footer/bottom", name: 'op_webapp_public_bottomfooter')]
+    public function bottomFooter(ApplicationRepository $applicationRepository, Request $request): Response
     {
 
         // préparation des éléments d'interactivité du menu
@@ -130,6 +128,4 @@ class PublicController extends AbstractController
             'application' => $application,
         ]);
     }
-
-
 }
