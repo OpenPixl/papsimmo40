@@ -66,9 +66,15 @@
                 navPublication.className = "nav-link disabled";
             }
             // Masquage des boutons de navigation sous le formulaire
-            nextStepCustomers.className += " d-none";
-            nextStepEstimate.className += " d-none";
-            nextStepOptions.className += " d-none";
+            if(nextStepCustomers !== null){
+                nextStepCustomers.className += " d-none";
+            }
+            if(nextStepEstimate !== null){
+                nextStepEstimate.className += " d-none";
+            }
+            if(nextStepOptions !== null){
+                nextStepOptions.className += " d-none";
+            }
             nextStepGallery.className += " d-none";
             nextStepPublication.className += " d-none";
             // autres mises en place
@@ -107,7 +113,7 @@
             // initialisation du focus sur le champs refMandat
             const focus = document.getElementById('property_step1_refMandat');
             // Récupération et envoie des données du formulaire
-            let FormAddInformation = document.getElementById('FormAddInformation')
+            const FormAddInformation = document.getElementById('FormAddInformation')
             FormAddInformation.addEventListener('submit', function (event) {
                 event.preventDefault()
                 let urladdInformation = FormAddInformation.action
@@ -180,6 +186,31 @@
                         PropertyDefinition.hide()
                     })
                     .catch(function(error){
+                        console.log(error);
+                    })
+            })
+            document.getElementById('stepInformations2').addEventListener('click', function (event){
+                event.preventDefault()
+                let urladdInformation = FormAddInformation.action
+                let dataaddInformation = new FormData(FormAddInformation)
+                axios
+                    .post(urladdInformation, dataaddInformation)
+                    .then(function (response) {
+                        // préparation du toaster
+                        var option = {
+                            animation: true,
+                            autohide: true,
+                            delay: 3000,
+                        };
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                        toastElement.show();
+                    })
+                    .catch(function (error) {
                         console.log(error);
                     })
             })
@@ -414,40 +445,76 @@
             // ---------------------------------------
             // Envoie du formulaire
             const FormAddEstimate = document.getElementById('FormAddEstimate')
-            document.getElementById('stepEstimate').addEventListener('click', function(event){
-                event.preventDefault()
-                let property_step2_price = document.getElementById('property_step2_price')
-                let property_step2_honoraires = document.getElementById('property_step2_honoraires')
-                let property_step2_priceFai = document.getElementById('property_step2_priceFai')
-                property_step2_price.removeAttribute('disabled')
-                property_step2_honoraires.removeAttribute('disabled')
-                property_step2_priceFai.removeAttribute('disabled')
-                let urlAddEstimate = FormAddEstimate.action
-                let dataAddEstimate = new FormData(FormAddEstimate)
-                axios
-                    .post(urlAddEstimate, dataAddEstimate)
-                    .then(function(response)
-                    {
-                        // modification des classes pour la navigation entre panels
-                        property_step2_price.setAttribute('disabled', true)
-                        property_step2_honoraires.setAttribute('disabled', true)
-                        property_step2_priceFai.setAttribute('disabled', true)
+            if(nextStepEstimate !== null ){
+                nextStepEstimate.addEventListener('click', function(event){
+                    event.preventDefault()
+                    let property_step2_price = document.getElementById('property_step2_price')
+                    let property_step2_honoraires = document.getElementById('property_step2_honoraires')
+                    let property_step2_priceFai = document.getElementById('property_step2_priceFai')
+                    property_step2_price.removeAttribute('disabled')
+                    property_step2_honoraires.removeAttribute('disabled')
+                    property_step2_priceFai.removeAttribute('disabled')
+                    let urlAddEstimate = FormAddEstimate.action
+                    let dataAddEstimate = new FormData(FormAddEstimate)
+                    axios
+                        .post(urlAddEstimate, dataAddEstimate)
+                        .then(function(response)
+                        {
+                            // modification des classes pour la navigation entre panels
+                            property_step2_price.setAttribute('disabled', true)
+                            property_step2_honoraires.setAttribute('disabled', true)
+                            property_step2_priceFai.setAttribute('disabled', true)
 
-                        nextStepCustomers.className = " d-none"
-                        nextStepOptions.className = "btn btn-sm btn-outline-primary"
-                        if(navEstimate !== null){
-                            navEstimate.className = "nav-link disabled";
-                        }
-                        if(navOptions !== null){
-                            navOptions.className = "nav-link disabled";
-                        }
-                        Estimate.className = "tab-pane"
-                        Options.className += " active"
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
-            })
+                            nextStepCustomers.className = " d-none"
+                            nextStepOptions.className = "btn btn-sm btn-outline-primary"
+                            if(navEstimate !== null){
+                                navEstimate.className = "nav-link disabled";
+                            }
+                            if(navOptions !== null){
+                                navOptions.className = "nav-link disabled";
+                            }
+                            Estimate.className = "tab-pane"
+                            Options.className += " active"
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                })
+            }else{
+                document.getElementById('stepEstimate2').addEventListener('click', function(event){
+                    event.preventDefault()
+                    let property_step2_price = document.getElementById('property_step2_price')
+                    let property_step2_honoraires = document.getElementById('property_step2_honoraires')
+                    let property_step2_priceFai = document.getElementById('property_step2_priceFai')
+                    property_step2_price.removeAttribute('disabled')
+                    property_step2_honoraires.removeAttribute('disabled')
+                    property_step2_priceFai.removeAttribute('disabled')
+                    let urlAddEstimate = FormAddEstimate.action
+                    let dataAddEstimate = new FormData(FormAddEstimate)
+                    axios
+                        .post(urlAddEstimate, dataAddEstimate)
+                        .then(function(response)
+                        {
+                            // préparation du toaster
+                            var option = {
+                                animation: true,
+                                autohide: true,
+                                delay: 3000,
+                            };
+                            // initialisation du toaster
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                            toastElement.show();
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                })
+            }
+
             document.getElementById('previousEstimate').addEventListener('click', function(event){
                 event.preventDefault()
                 // modification des classes pour la navigation entre panels
@@ -490,6 +557,32 @@
                         }
                         Options.className = "tab-pane"
                         Gallery.className += " active"
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+            document.getElementById('stepOptions2').addEventListener('click', function(event){
+                event.preventDefault()
+                let urlEditOptions = FormEditOptions.action
+                let dataEditOptions = new FormData(FormEditOptions)
+                axios
+                    .post(urlEditOptions, dataEditOptions)
+                    .then(function(response)
+                    {
+                        // préparation du toaster
+                        var option = {
+                            animation : true,
+                            autohide: true,
+                            delay : 3000,
+                        };
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                        toastElement.show();
                     })
                     .catch(function(error){
                         console.log(error);
@@ -1259,13 +1352,13 @@
                 </div>
             </div>
         </div>
-        <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative">
-            <div class="toast-container position-absolute bottom-100 end-0 p-3">
+        {# annonce toaster #}
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast-container position-absolute top-50 end-0 p-3">
                 <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                     <div class="toast-header">
-                        <img src="..." class="rounded me-2" alt="...">
-                        <strong class="me-auto">Paps Immo 40</strong>
-                        <small class="text-muted">A l'instant</small>
+                        <strong class="me-auto">Bootstrap</strong>
+                        <small>11 mins ago</small>
                         <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                     </div>
                     <div class="toast-body">

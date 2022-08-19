@@ -40,15 +40,7 @@
             <td>
                 <p class="badge bg-primary mb-0">{{ property.propertyDefinition }}</p>
             </td>
-            {% if property.imageName is not null %}
-            <td>
-                <img class="img-fluid" src="{{ vich_uploader_asset(property, 'imageFile', 'App\\Entity\\Gestapp\\Property') }}" alt="{{ property.name }}" style="width:50px; height: 50px; object-fit: cover;">
-            </td>
-            {% else %}
-            <td>
-                <img class="img-fluid" src="{{ asset('images/png/mod_maison.png') }}" alt="{{ property.name }}" style="width:50px; height: 50px;">
-            </td>
-            {% endif %}
+            <td></td>
             <td>{{ property.name }}</td>
             <td>{{ property.piece }}</td>
             <td>{{ property.room }}</td>

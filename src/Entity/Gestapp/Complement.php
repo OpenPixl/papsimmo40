@@ -49,9 +49,6 @@ class Complement
     #[ORM\ManyToOne(targetEntity: LandType::class)]
     private $landType;
 
-    #[ORM\ManyToOne(targetEntity: TradeType::class)]
-    private $tradeType;
-
     #[ORM\ManyToOne(targetEntity: BuildingEquipment::class)]
     private $BuildingEquipment;
 
@@ -200,18 +197,6 @@ class Complement
     public function setLandType(?LandType $landType): self
     {
         $this->landType = $landType;
-
-        return $this;
-    }
-
-    public function getTradeType(): ?TradeType
-    {
-        return $this->tradeType;
-    }
-
-    public function setTradeType(?TradeType $tradeType): self
-    {
-        $this->tradeType = $tradeType;
 
         return $this;
     }

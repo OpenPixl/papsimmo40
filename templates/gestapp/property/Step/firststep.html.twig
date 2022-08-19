@@ -29,21 +29,7 @@
             </div>
         </div>
         <hr>
-        <div class="col-sm-3">
-            <div class="card text-dark bg-light">
-                <div class="card-body">
-                    PHOTO PRINCIPALE
-                    <p><small>Seules les photos au format JPG, JPEG sont acceptées.</small></p>
-                    <hr>
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-12">
-                            {{ form_widget(form.imageFile, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6">
+        <div class="col-sm-9">
             <div class="card text-dark bg-light">
                 <div class="card-body">
                     INFORMATIONS DU BIEN
@@ -176,9 +162,8 @@
                 <button type="submit" id="stepInformations" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
                 {% else %}
                 <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button type="submit" id="stepInformations" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
+                <a id="stepInformations2" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider") }}</a>
                 {% endif %}
-
             </div>
         </div>
     </div>

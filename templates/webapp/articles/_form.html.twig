@@ -1,152 +1,147 @@
 {{ form_start(form) }}
-<div class="modal-body">
-    <div class="row g-1">
-        <div class="col-8">
-            <div class="row g-0">
-                <div class="col-sm-12">
-                    <div class="card text-dark bg-light">
-                        <div class="card-body">
-                            ARTICLE
-                            <hr>
-                            {# Form INPUT #}
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-2">
-                                    {{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}
-                                </div>
-                                <div class="col-10">
-                                    {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
+<div class="row g-1">
+    <div class="col-8">
+        <div class="row g-0">
+            <div class="col-sm-12">
+                <div class="card text-dark bg-light">
+                    <div class="card-body">
+                        ARTICLE
+                        <hr>
+                        {# Form INPUT #}
+                        <div class="row mb-1 mt-1 g-1">
+                            <div class="col-2">
+                                {{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
-                            {# Form SELECT #}
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-2">
-                                    {{ form_label(form.category, '', {'label_attr': {'class':'form-label'}}) }}
-                                </div>
-                                <div class="col-6">
-                                    {{ form_widget(form.category, {'attr': {'class': 'form-select form-select-sm'}}) }}
-                                </div>
-                                <div class="col-1">
-                                    <button type="button" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                                </div>
+                            <div class="col-10">
+                                {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-2">
-                                    {{ form_label(form.content, '', {'label_attr': {'class':'form-label'}}) }}
-                                </div>
-                                <div class="col-10">
-                                    {{ form_widget(form.content, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
+                        </div>
+                        {# Form SELECT #}
+                        <div class="row mb-1 mt-1 g-1">
+                            <div class="col-2">
+                                {{ form_label(form.category, '', {'label_attr': {'class':'form-label'}}) }}
+                            </div>
+                            <div class="col-6">
+                                {{ form_widget(form.category, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                            </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                            </div>
+                        </div>
+                        <div class="row mb-1 mt-1 g-1">
+                            <div class="col-2">
+                                {{ form_label(form.content, '', {'label_attr': {'class':'form-label'}}) }}
+                            </div>
+                            <div class="col-10">
+                                {{ form_widget(form.content, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
                         </div>
                     </div>
-
                 </div>
+
             </div>
-
-
-
         </div>
-        <div class="col-4">
-            <div class="card text-dark bg-light">
-                <div class="card-body">
-                    OPTIONS
-                    <hr>
-                    <div class="row g-0">
-                        <div class="col-sm-12">
 
-                            {# Form SELECT #}
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-2">
-                                    {{ form_label(form.state, '', {'label_attr': {'class':'form-label'}}) }}
-                                </div>
-                                <div class="col-6">
-                                    {{ form_widget(form.state, {'attr': {'class': 'form-select form-select-sm'}}) }}
-                                </div>
-                                <div class="col-1">
-                                    <button type="button" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                                </div>
+
+
+    </div>
+    <div class="col-4">
+        <div class="card text-dark bg-light">
+            <div class="card-body">
+                OPTIONS
+                <hr>
+                <div class="row g-0">
+                    <div class="col-sm-12">
+
+                        {# Form SELECT #}
+                        <div class="row mb-1 mt-1 g-1">
+                            <div class="col-2">
+                                {{ form_label(form.state, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
-
-                            {# Form SELECT SWITCH #}
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-12">
-                                    <fieldset>
-                                        <div class="form-check form-switch">
-                                            {{ form_widget(form.isShowtitle, {'attr': {'class': 'form-check-input'}}) }}
-                                            {{ form_label(form.isShowtitle, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                        </div>
-                                    </fieldset>
-                                </div>
+                            <div class="col-6">
+                                {{ form_widget(form.state, {'attr': {'class': 'form-select form-select-sm'}}) }}
                             </div>
-
-                            {# Form SELECT SWITCH #}
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-12">
-                                    <fieldset>
-                                        <div class="form-check form-switch">
-                                            {{ form_widget(form.isShowdate, {'attr': {'class': 'form-check-input'}}) }}
-                                            {{ form_label(form.isShowdate, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                        </div>
-                                    </fieldset>
-                                </div>
+                            <div class="col-1">
+                                <button type="button" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
                             </div>
+                        </div>
 
-                            {# Form SELECT SWITCH #}
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-12">
-                                    <fieldset>
-                                        <div class="form-check form-switch">
-                                            {{ form_widget(form.isShowreadmore, {'attr': {'class': 'form-check-input'}}) }}
-                                            {{ form_label(form.isShowreadmore, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                        </div>
-                                    </fieldset>
-                                </div>
+                        {# Form SELECT SWITCH #}
+                        <div class="row mb-1 mt-1 g-1">
+                            <div class="col-12">
+                                <fieldset>
+                                    <div class="form-check form-switch">
+                                        {{ form_widget(form.isShowtitle, {'attr': {'class': 'form-check-input'}}) }}
+                                        {{ form_label(form.isShowtitle, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                    </div>
+                                </fieldset>
                             </div>
+                        </div>
 
-                            {# Form SELECT SWITCH #}
-                            <div class="row mb-1 mt-1 g-1">
-                                <div class="col-sm-8">
-                                    <fieldset>
-                                        <div class="form-check form-switch">
-                                            {{ form_widget(form.isLink, {'attr': {'class': 'form-check-input'}}) }}
-                                            {{ form_label(form.isLink, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                        </div>
-                                    </fieldset>
-                                </div>
-                                <div class="col-sm-4">
-                                    {{ form_widget(form.linkText, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
+                        {# Form SELECT SWITCH #}
+                        <div class="row mb-1 mt-1 g-1">
+                            <div class="col-12">
+                                <fieldset>
+                                    <div class="form-check form-switch">
+                                        {{ form_widget(form.isShowdate, {'attr': {'class': 'form-check-input'}}) }}
+                                        {{ form_label(form.isShowdate, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        {# Form SELECT SWITCH #}
+                        <div class="row mb-1 mt-1 g-1">
+                            <div class="col-12">
+                                <fieldset>
+                                    <div class="form-check form-switch">
+                                        {{ form_widget(form.isShowreadmore, {'attr': {'class': 'form-check-input'}}) }}
+                                        {{ form_label(form.isShowreadmore, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                        </div>
+
+                        {# Form SELECT SWITCH #}
+                        <div class="row mb-1 mt-1 g-1">
+                            <div class="col-sm-8">
+                                <fieldset>
+                                    <div class="form-check form-switch">
+                                        {{ form_widget(form.isLink, {'attr': {'class': 'form-check-input'}}) }}
+                                        {{ form_label(form.isLink, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                    </div>
+                                </fieldset>
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.linkText, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="card text-dark bg-light mt-1">
-                <div class="card-body">
-                    MEDIA
-                    <hr>
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-12">
-                            {{ form_widget(form.articleFrontFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
-                        </div>
+        </div>
+        <div class="card text-dark bg-light mt-1">
+            <div class="card-body">
+                MEDIA
+                <hr>
+                <div class="row mb-1 mt-1 g-1">
+                    <div class="col-12">
+                        {{ form_widget(form.articleFrontFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
                     </div>
-                    {# Form SELECT #}
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-6">
-                            {{ form_label(form.imgPosition, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.imgPosition, {'attr': {'class': 'form-select form-select-sm'}}) }}
-                        </div>
+                </div>
+                {# Form SELECT #}
+                <div class="row mb-1 mt-1 g-1">
+                    <div class="col-6">
+                        {{ form_label(form.imgPosition, '', {'label_attr': {'class':'form-label'}}) }}
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(form.imgPosition, {'attr': {'class': 'form-select form-select-sm'}}) }}
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
-<div class="modal-footer">
-    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal"><i class="fa-duotone fa-arrow-circle-left"></i> Fermer l'éditeur</button>
-    <button type="submit" id="btnPostAddArticle" class="btn btn-sm btn-outline-primary btnPostAddArticle">{{ button_label|default("Ajouter un nouvel article") }}</button>
-</div>
+<a href="{{ path('op_webapp_articles_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-chevrons-left"></i> Retour</a>
+<button class="btn btn-sm btn-outline-primary">{{ button_label|default("Ajouter un nouvel article") }}</button>
 {{ form_end(form) }}

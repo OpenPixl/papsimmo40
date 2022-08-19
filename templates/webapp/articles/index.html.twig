@@ -6,15 +6,6 @@
     {{ parent() }}
     <script>
         window.onload = function(){
-            ClassicEditor
-                .create(document.querySelector('#articles_content'), {
-                    toolbar: [ 'heading','bold', 'italic', 'bulletedList', 'numberedList', 'blockQuote', 'indent', 'alignment', 'code', 'CodeBlock', 'Underline', 'HtmlEmbed' ],
-                    height: 50
-                })
-                .catch(error => {
-                    console.error(error);
-                });
-            const btnPostEditArticle = document.getElementsByName('btnPostEditArticle')
 
             // Code d'ouverture de la modale de suppression d'une ligne
             var Suppr = document.getElementById('Suppr')
@@ -68,6 +59,13 @@
                 link.addEventListener('click', onClickDelEvent)
             })
 
+            ClassicEditor
+                .create(document.querySelector('#articles_content'), {
+                    height: 50
+                })
+                .catch(error => {
+                    console.error(error);
+                });
 
         }
     </script>
@@ -76,7 +74,7 @@
 {% block content %}
     <h1>Articles index</h1>
 
-    <button id="BtnAddArticle" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalAddArticle">Ajouter un article</button>
+    <a href="{{ path('op_webapp_articles_new') }}" class="btn btn-sm btn-outline-primary btnPostAddArticle">Ajouter un article</a>
 
     <div id="liste">
         {{ include('webapp/articles/include/_liste.html.twig') }}
@@ -86,17 +84,6 @@
 {% block footer %}
     {{ parent() }}
     <section>
-        <div class="modal fade" id="modalAddArticle" tabindex="-1" aria-labelledby="modalAddArticle" aria-hidden="true">
-            <div class="modal-dialog modal-xl">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Création d'un nouvel article</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Webapp\\ArticlesController::new')) }}
-                </div>
-            </div>
-        </div>
         <div class="modal fade" id="addProductCategory" tabindex="-1" aria-labelledby="addProductCategory" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">

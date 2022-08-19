@@ -133,7 +133,6 @@ class PropertyType extends AbstractType
             ->add('cadasterSurface', IntegerType::class, [
                 'label' => 'surface cadastrale'
             ])
-            ->add('imageFile', VichImageType::class)
 
             //->add('refEmployed', EntityType::class, [
             //    'class' => Employed::class,

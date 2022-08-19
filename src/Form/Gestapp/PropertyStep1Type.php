@@ -98,11 +98,6 @@ class PropertyStep1Type extends AbstractType
                 'required' => false,
                 'empty_data' =>''
             ])
-            ->add('imageFile',VichImageType::class, [
-                'label'=> '',
-                'required' => false,
-            ])
-
         ;
     }
 

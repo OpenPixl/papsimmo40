@@ -1,2 +1,31 @@
-{{ include('webapp/articles/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+{% extends 'admin.html.twig' %}
+
+{% block title %}PAPS immo - Edition d'article{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+            ClassicEditor
+                .create(document.querySelector('#articles_content'), {
+                    height: 50
+                })
+                .catch(error => {
+                    console.error(error);
+                });
+
+        }
+    </script>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Ajouter un nouvel article</h1>
+        </div>
+    </div>
+    {{ include('webapp/articles/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+{% endblock %}
+
+
 

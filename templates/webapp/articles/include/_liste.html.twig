@@ -20,18 +20,7 @@
             <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>
-                <button id="btnEditArticle" class="btn btn-sm btn-outline-primary btnEditArticle" data-bs-toggle="modal" data-bs-target="#modalEditArticle-{{ article.id }}"><i class="fa-duotone fa-pen-to-square"></i></button>
-                <div class="modal fade" id="modalEditArticle-{{ article.id }}" tabindex="-1" aria-labelledby="modalAddArticle" aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title" id="exampleModalLabel">Création d'un nouvel article</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            {{ render(controller('App\\Controller\\Webapp\\ArticlesController::edit', {'id': article.id})) }}
-                        </div>
-                    </div>
-                </div>
+                <button id="btnEditArticle" href="{{ path('op_webapp_articles_edit', {'id': article.id})}}" ><i class="fa-duotone fa-pen-to-square"></i></button>
                 <a href="" class="btn btn-sm btn-outline-danger delarticle" type="button" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ article.id }}"><i class="fa-duotone fa-file-xmark"></i></a>
             </td>
         </tr>

@@ -4,6 +4,7 @@ namespace App\Controller\Webapp;
 
 use App\Entity\Webapp\Articles;
 use App\Form\Webapp\ArticlesType;
+use App\Repository\Admin\EmployedRepository;
 use App\Repository\Webapp\ArticlesRepository;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -23,19 +24,14 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/new', name: 'op_webapp_articles_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ArticlesRepository $articlesRepository): Response
+    public function new(Request $request, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository): Response
     {
-        $user = $this->getUser();
+        $user = $this->getUser()->getId();
+        $employed = $employedRepository->find($user);
 
         $article = new Articles();
-        $article->setAuthor($user);
-        $form = $this->createForm(ArticlesType::class, $article, [
-            'action' => $this->generateUrl('op_webapp_articles_new'),
-            'method' => 'POST',
-            'attr' => [
-                'id' => 'FormArticle'
-            ]
-        ]);
+        $article->setAuthor($employed);
+        $form = $this->createForm(ArticlesType::class, $article);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
