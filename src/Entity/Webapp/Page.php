@@ -37,6 +37,9 @@ class Page
     private $isShowdate = false;
 
     #[ORM\Column(type: 'boolean')]
+    private $isShowdescription = false;
+
+    #[ORM\Column(type: 'boolean')]
     private $isMenu = false;
 
     #[ORM\Column(type: 'string', length: 25, nullable: true)]
@@ -158,6 +161,18 @@ class Page
     public function setIsShowdate(bool $isShowdate): self
     {
         $this->isShowdate = $isShowdate;
+
+        return $this;
+    }
+
+    public function getIsShowdescription(): ?bool
+    {
+        return $this->isShowdescription;
+    }
+
+    public function setIsShowdescription(bool $isShowdescription): self
+    {
+        $this->isShowdescription = $isShowdescription;
 
         return $this;
     }

@@ -1,12 +1,11 @@
 <div class="row">
-
     {% for article in articles %}
-        <div class="col-12 col-md-4 col-xl-3 col-xxl-3">
-
+        <div class="col-12 col-md-6 d-lg-none">
             <div class="card">
                 {% if article.articleFrontName is null %}
                 {% else %}
                 <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
+                <div class="actu_overlay"></div>
                 {% endif %}
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}"></a>{{ article.name }}</h3>
@@ -19,5 +18,25 @@
                 </div>
             </div>
         </div>
+        <div class="col-lg-4 d-none d-lg-block">
+            <div class="card">
+                {% if article.articleFrontName is null %}
+                {% else %}
+                    <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
+                    <div class="actu_overlay"></div>
+                {% endif %}
+                <div class="card-body">
+                    <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}"></a>{{ article.name }}</h3>
+                    <article>
+                        {{ article.content|u.truncate(150, ' ...')|markdown_to_html }}
+                    </article>
+                    {% if article.isShowreadmore == 1 %}
+                        <a href="{{ article.linkText }}" class="card-link">Source: {{ article.linkText }}</a>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+
     {% endfor %}
 </div>

@@ -1,4 +1,6 @@
+$primary-color : #7d1715;
 $secondary-color: #069697;
+
 @import "~bootstrap/scss/bootstrap";
 //*** ------------- Import Styles from admin ---------------- ***//
 @import "scss/public/body";
@@ -9,5 +11,6 @@ $secondary-color: #069697;
 @import '~@fortawesome/fontawesome-free/css/all.css';
 //*** ------------- Import fonts ---------------- ***//
 @import "scss/mixins/fontface";
-@include fontface('Montserrat', '../../fonts/Montserrat/montserrat-regular', 300, normal);
+@include fontface('Montserrat-regular', '../../fonts/Montserrat-regular/montserrat-regular', 300, normal);
+@include fontface('Montserrat-light', '../../fonts/Montserrat-light/montserrat-light', 300, normal);
 
