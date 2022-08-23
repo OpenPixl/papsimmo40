@@ -1,18 +1,22 @@
 <section id="top_footer" class="container-fluid">
-    <div class="row">
-        <div class="col-3">
-            <h6>Plan du site</h6>
-            <ul>
-                <li><a href="{{ path('op_webapp_public_homepage') }}">Accueil</a></li>
-                {% for page in pages %}
-                <li><a href="{{ page.slug }}">{{ page.name }}</a></li>
-                {% endfor %}
-            </ul>
+    <div class="row pt-3">
+        <div class="col-3" id="map">
+            <div class="row">
+                <div class="offset-1 col-10">
+                    <h5>Plan du site</h5>
+                    <ul>
+                        <li><a href="{{ path('op_webapp_public_homepage') }}">Accueil</a></li>
+                        {% for page in pages %}
+                            <li><a href="{{ page.slug }}">{{ page.name }}</a></li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
         </div>
-        <div class="col-6">
+        <div class="col-6" id="form">
 
         </div>
-        <div class="col-3">
+        <div class="col-3" id="info">
             <div class="row">
                 <div class="offset-3 col-6">
                     {% if application.logoName %}
@@ -23,14 +27,20 @@
                 </div>
                 <div class="col-3"></div>
             </div>
-            <div class="row">
-                <div class="offset-3 col-6">
+            <div class="row mb-3">
+                <div class="offset-1 col-10">
                     <h5 class="text-center">SAS {{ application.nameSite }}</h5>
                     <p class="text-center">24 Boulevard Marcel DASSAULT <br>64200 BIARRITZ</p>
                     <p class="text-center">contact@papsimmo.fr</p>
-                    <p class="text-center">06 77 31 26 39</p>
+                    <p class="text-center"><span class="tel">06 77 31 26 39</span></p>
                 </div>
-                <div class="col-3"></div>
+            </div>
+            <div class="row mt-3">
+                <div class="offset-1 col-10">
+                    <p class="text-center text-black">SAS PAPS IMMO au capital de 1 000€ RDC 908 628 936<br>
+                       Carte professionnelle N° CP 6401 2022 000 000 004 délivré par la CCI de Bayonne
+                    </p>
+                </div>
             </div>
         </div>
     </div>

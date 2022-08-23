@@ -1,6 +1,148 @@
+/**
+
+   REGLES GENERALES
+
+**/
+body .h1,
+body .h2,
+body .h3,
+body h1,
+body h2,
+body h3 {
+  color: $secondary-color;
+  font-weight: 400;
+}
+
+a.nav-link {
+  font-family: 'Montserrat-light', sans-serif;
+  font-size: 15px;
+  color: #707070;
+  color: rgb(112, 112, 112);
+  text-transform: uppercase;
+}
+.tel{
+  color: $primary-color;
+}
+
 #oneproperty_header
 {
   position: relative;
   top: -69px;
   background: #ffffff90;
 }
+
+#lastproperties {
+  background: $secondary-color;
+  .container{
+    background: #ffffff;
+    position:relative;
+    #section_title{
+      position: relative;
+      z-index:2;
+    }
+  }
+  .container::before{
+    content: "";
+    border: #ffffff 1px solid;
+    background-color: #ffffff;
+    border-bottom-right-radius: 100px;
+    position: absolute;
+    top: 0;
+    width: 1920px;
+    height: 100%;
+    left: -296px
+  }
+  h2, h3{
+    color: $secondary-color;
+    font-family: 'Montserrat-light', sans-serif;
+    text-align: center;
+    text-transform: capitalize;
+  }
+}
+
+#prez_papsimmo {
+  background: $secondary-color;
+  padding-top:1rem;
+  padding-bottom:1rem;
+  h2, h3 {
+    color: #ffffff;
+    font-family: 'Montserrat-light', sans-serif;
+    font-size: 45px;
+  }
+  #onearticle {
+    color: #ffffff;
+    font-family: 'Montserrat-regular', sans-serif;
+    font-size: 15px;
+  }
+}
+
+#actu_papsimmo{
+  position: relative;
+  h2{
+    font-size: 2rem;
+    font-family: "Montserrat-light", sans-serif;
+    text-transform: uppercase;
+    rotate: -90deg;
+    position: absolute;
+    top: 200px;
+    left: 100px;
+  }
+  .card{
+    border-radius:0 0 0 0;
+  }
+}
+
+#top_footer{
+  #map{
+    h5{
+      font-family: 'Montserrat-light', sans-serif;
+      font-size: 1.25rem;
+      text-transform: uppercase;
+    }
+    ul{
+      padding-left: 0;
+      li{
+        list-style-type: none;
+        a{
+          color: #111213;
+          text-decoration: none;
+          text-transform: capitalize;
+          font-family: 'Montserrat-regular', sans-serif;
+        }
+      }
+    }
+  }
+  #form{}
+  #info{
+    h5{
+      color: $secondary-color;
+    }
+    p{
+      font-size: 12px;
+      color: $secondary-color;
+    }
+  }
+
+}
+
+#bottom_footer {
+  background-color: $secondary-color;
+  color: #ffffff;
+  p {
+    margin-bottom: 0;
+    font-size: 12px;
+  }
+  ul{
+    li {
+      font-size: 12px;
+      a {
+        font-size: 12px;
+        color: #ffffff;
+      }
+    }
+  }
+  .nav-link{
+    padding: 0.5rem 0.5rem;
+  }
+}
+
