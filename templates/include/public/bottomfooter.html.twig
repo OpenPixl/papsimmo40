@@ -1,11 +1,10 @@
 <section id="bottom_footer" class="container-fluid">
-    <div class="row">
+    <div class="row d-flex align-items-center justify-content-between">
         <div class="col-6">
             <p class="text-start">&copy;{{ "now"|date("Y") }} {% if application %}{{ application.nameSite }}{% else %}OpenGaia{% endif%} | Tous droits réservés | Créer par OpenPixl</p></div>
         <div class="col-6">
-            <nav class="navbar navbar-expand-lg navbar-light">
-                <div class="container-fluid">
-                    <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
+                    <ul class="nav justify-content-end mb-2 mb-lg-0">
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{{ path('op_webapp_public_homepage')}}"><i class="fa-duotone fa-house"></i></a>
                         </li>
@@ -35,8 +34,6 @@
                             </ul>
                         </li>
                     </ul>
-                </div>
-            </nav>
 
         </div>
     </div>
