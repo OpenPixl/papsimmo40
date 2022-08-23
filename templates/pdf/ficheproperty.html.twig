@@ -46,7 +46,7 @@
             </section>
             <div class="row">
                 <div class="col-4" id="fiche_img_princ">
-                    {% if firstphoto is not empty%}
+                    {% if firstphoto is not empty %}
                         <img class="img-fluid" src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
                     {% else %}
                         <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
