@@ -47,6 +47,9 @@ class Photo
     #[ORM\Column(type:'integer', nullable: true)]
     private $galeryFrontSize;
 
+    #[ORM\Column]
+    private ?int $position = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -138,5 +141,17 @@ class Photo
     public function __toString()
     {
         return $this->galeryFrontName;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(int $position): self
+    {
+        $this->position = $position;
+
+        return $this;
     }
 }

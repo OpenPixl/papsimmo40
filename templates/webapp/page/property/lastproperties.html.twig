@@ -11,11 +11,13 @@
             {% for property in properties %}
                 <div class="col-12 col-sm-6 col-md-6 col-xl-4 col-xxl-4">
                     <div id="member-card" class="card">
+                        {#
                         {% if property.imageName is not null %}
                             <img src="{{ vich_uploader_asset(property, 'imageFile', 'App\\Entity\\Gestapp\\Property')| imagine_filter('lastproperty_card') }}" class="card-img img-fluid" alt="{{ property.name }}" >
                         {% else %}
                             <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel" style="width:194px;height:130px">
                         {% endif %}
+                        #}
                         <div class="card-img-overlay">
                             <div class="align-self-center">
                                 <a href="{{ path('op_gestapp_properties_oneproperty', {'id': property.id}) }}">{{ property.name }}</a>
@@ -35,11 +37,8 @@
                 {% for property in properties %}
                     <div class="col-12 col-sm-6 col-md-4 col-xl-4 col-xxl-4 px-1">
                         <div id="member-card" class="card">
-                            {% if property.imageName is not null %}
-                                <img src="{{ vich_uploader_asset(property, 'imageFile', 'App\\Entity\\Gestapp\\Property')| imagine_filter('lastproperty_card') }}" class="card-img" alt="{{ property.name }}">
-                            {% else %}
-                                <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel" style="width:194px;height:130px">
-                            {% endif %}
+                            {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
+
                             <div class="card-img-overlay">
                                 <div class="align-self-center">
                                     <a href="{{ path('op_gestapp_properties_oneproperty', {'id': property.id}) }}">{{ property.name }}</a>

@@ -33,5 +33,5 @@ liip_imagine:
             quality: 150
             filters:
                 thumbnail:
-                    size: [ 313, 177 ]
+                    size: [ 313, 210 ]
                     mode: outbond

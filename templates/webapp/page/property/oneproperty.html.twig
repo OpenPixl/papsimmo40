@@ -35,7 +35,11 @@
             <div class="row">
                 {# image principale#}
                 <div class="col-5">
-                    <img class="img-fluid rounded-2" src="{{vich_uploader_asset(property, 'imageFile', 'App\\Entity\\Gestapp\\Property')|imagine_filter('oneproperty_image')}}" alt="{{ property.imageName}}">
+                    {% if firstphoto is not empty%}
+                        <img class="img-fluid" src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
+                    {% else %}
+                        <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
+                    {% endif %}
                     <button class="btn btn-primary w-100 mt-1">Ce bien vous interesse ?<br>Contactez-nous</button>
                 </div>
                 {# Galerie#}

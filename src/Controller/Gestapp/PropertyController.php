@@ -383,16 +383,18 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/oneproperty/{id}', name: 'op_gestapp_properties_oneproperty', methods: ['GET'])]
-    public function OneProperty(Property $property, PropertyRepository $propertyRepository)
+    public function OneProperty(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository)
     {
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
+        $firstphoto = $photoRepository->FirstPhoto($property->getId());
         //dd($equipment);
 
         return $this->render('webapp/page/property/oneproperty.html.twig', [
             'property' => $oneproperty,
-            'equipments' => $equipments
+            'equipments' => $equipments,
+            'firstphoto' => $firstphoto
         ]);
     }
 
@@ -425,9 +427,16 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/allproperties', name: 'op_gestapp_properties_allproperty', methods: ['GET'])]
-    public function AllProperties(PropertyRepository $propertyRepository)
+    public function AllProperties(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
-        $properties = $propertyRepository->AllProperties();
+
+        $data = $propertyRepository->listAllProperties();
+
+        $properties = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            12
+        );
 
         return $this->renderForm('webapp/page/property/allproperties.html.twig', [
             'properties' => $properties,

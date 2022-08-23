@@ -6,6 +6,8 @@ use App\Entity\Gestapp\Photo;
 use App\Form\Gestapp\PhotoType;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use http\Header;
+use http\Url;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,7 +29,7 @@ class PhotoController extends AbstractController
     {
         $property = $propertyRepository->find($idproperty);
         //dd($idproperty);
-        $photos = $photoRepository->findBy(['property'=>$property], ['id'=>'DESC']);
+        $photos = $photoRepository->findBy(['property'=>$property], ['id'=>'ASC']);
         //dd($photos);
         return $this->render('gestapp/photo/byproperty.html.twig', [
             'photos' => $photos,
@@ -35,12 +37,35 @@ class PhotoController extends AbstractController
         ]);
     }
 
+    #[Route('/public/{idproperty}', name: 'op_gestapp_photo_bypropertypublic', methods: ['GET'])]
+    public function byPropertyPublic(PhotoRepository $photoRepository, PropertyRepository $propertyRepository, $idproperty, Request $request): Response
+    {
+        $photo = $photoRepository->FirstPhoto($idproperty);
+        if(!$photo){
+            return $this->render('gestapp/photo/bypropertypublicnull.html.twig');
+        }
+        return $this->render('gestapp/photo/bypropertypublic.html.twig', [
+            'photo' => $photo,
+        ]);
+    }
+
     #[Route('/new/{idproperty}', name: 'op_gestapp_photo_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PhotoRepository $photoRepository, $idproperty, PropertyRepository $propertyRepository): Response
     {
         $property = $propertyRepository->find($idproperty);
+        // on récupére si elle existe la dernière photo du bien actuel et son positionnement
+        $lastphoto = $photoRepository->Lastphoto($idproperty);
+
         $photo = new Photo();
+        if($lastphoto){
+            $position = $lastphoto->getPosition() + 1;
+            $photo->setPosition($position);
+        }else{
+            $photo->setPosition(1);
+        }
+
         $photo->setProperty($property);
+
         $form = $this->createForm(PhotoType::class, $photo, [
             'action' => $this->generateUrl('op_gestapp_photo_new', ['idproperty'=>$idproperty]),
             'method' => 'POST'
@@ -49,7 +74,7 @@ class PhotoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $photoRepository->add($photo);
-            $photos = $photoRepository->findBy(['property'=>$property], ['id'=>'DESC']);
+            $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
             return $this->json([
                 'code'=> 200,
                 'message' => "La photo du bien a été ajoutée",
@@ -110,7 +135,7 @@ class PhotoController extends AbstractController
     {
         $photoRepository->remove($photo);
         $property = $propertyRepository->find($idproperty);
-        $photos = $photoRepository->findBy(['property'=>$property], ['id'=>'DESC']);
+        $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
         return $this->json([
             'code'=> 200,
             'message' => "La photo du bien a été supprimée",

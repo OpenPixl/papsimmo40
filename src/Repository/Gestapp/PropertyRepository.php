@@ -167,7 +167,6 @@ class PropertyRepository extends ServiceEntityRepository
                 c.disponibility as disponibility,
                 c.location as location,
                 c.disponibilityAt as disponibilityAt,
-                p.imageName as imageName,
                 p.createdAt as createdAt,
                 p.updatedAt as updatedAt
             ')
@@ -200,7 +199,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.complement as complement,
                 p.zipcode as zipcode,
                 p.city as city,
-                p.imageName as imageName,
                 p.createdAt as createdAt,
                 p.updatedAt as updatedAt
             ')

@@ -45,6 +45,31 @@ class PhotoRepository extends ServiceEntityRepository
         }
     }
 
+    public function firstphoto($idproperty): ?Photo
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.property = :property')
+            ->orderBy('p.position', 'ASC')
+            ->setParameter('property', $idproperty)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+        ;
+    }
+
+    public function lastphoto($idproperty): ?Photo
+    {
+        return $this->createQueryBuilder('p')
+            ->andWhere('p.property = :property')
+            ->orderBy('p.position', 'Desc')
+            ->setParameter('property', $idproperty)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
+
     // /**
     //  * @return Photo[] Returns an array of Photo objects
     //  */
