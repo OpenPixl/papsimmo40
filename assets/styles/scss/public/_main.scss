@@ -43,14 +43,14 @@ a.nav-link {
   }
   .container::before{
     content: "";
-    border: #ffffff 1px solid;
     background-color: #ffffff;
     border-bottom-right-radius: 100px;
     position: absolute;
     top: 0;
-    width: 1920px;
+    width: calc(100% + calc(100vw - 1320px));
     height: 100%;
-    left: -296px
+    left: calc(calc(1320px - 100vw) / 2);
+    right: calc(calc(100vw - 1320px) / 2);
   }
   h2, h3{
     color: $secondary-color;
@@ -78,6 +78,26 @@ a.nav-link {
 
 #actu_papsimmo{
   position: relative;
+  background: $secondary-color;
+  .container{
+    background: #ffffff;
+    position:relative;
+    #section_title{
+      position: relative;
+      z-index:2;
+    }
+  }
+  .container::before{
+    content: "";
+    background-color: #ffffff;
+    border-top-left-radius: 100px;
+    position: absolute;
+    top: 0;
+    width: calc(100% + calc(100vw - 1320px));
+    height: 100%;
+    left: calc(calc(1320px - 100vw) / 2);
+    right: calc(calc(100vw - 1320px) / 2);
+  }
   h2{
     font-size: 2rem;
     font-family: "Montserrat-light", sans-serif;
@@ -85,10 +105,37 @@ a.nav-link {
     rotate: -90deg;
     position: absolute;
     top: 200px;
-    left: 100px;
+    left: -150px;
   }
   .card{
+    background: transparent;
     border-radius:0 0 0 0;
+    border: none;
+    .card-img-top {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .card-title{
+      font-size :1rem;
+      color: $secondary-color-dark;
+      font-family: 'Montserrat-regular', sans-serif;
+    }
+    .card-body{
+      p{
+        color:$secondary-color;
+        font-size: 0.8rem;
+        font-family: "Montserrat-light", "sans-serif";
+      }
+    }
+  }
+  .actu_overlay{
+    position: absolute;
+    top:10px;
+    left:10px;
+    width:calc(100% - 20px);
+    height: calc(100% - 20px);
+    border: #fff 2px solid;
+    border-radius: 5px;
   }
 }
 

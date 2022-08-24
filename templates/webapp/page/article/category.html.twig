@@ -1,12 +1,14 @@
 <div class="row">
     {% for article in articles %}
         <div class="col-12 col-md-6 d-lg-none">
+            {% if article.articleFrontName is null %}
+            {% else %}
             <div class="card">
-                {% if article.articleFrontName is null %}
-                {% else %}
                 <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
                 <div class="actu_overlay"></div>
-                {% endif %}
+            </div>
+            {% endif %}
+            <div class="card">
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}"></a>{{ article.name }}</h3>
                     <article>
@@ -19,12 +21,14 @@
             </div>
         </div>
         <div class="col-lg-4 d-none d-lg-block">
-            <div class="card">
-                {% if article.articleFrontName is null %}
-                {% else %}
+            {% if article.articleFrontName is null %}
+            {% else %}
+                <div class="card">
                     <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
                     <div class="actu_overlay"></div>
-                {% endif %}
+                </div>
+            {% endif %}
+            <div class="card mt-1">
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}"></a>{{ article.name }}</h3>
                     <article>
