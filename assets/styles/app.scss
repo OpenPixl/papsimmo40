@@ -12,5 +12,5 @@ $secondary-color: #069697;
 //*** ------------- Import fonts ---------------- ***//
 @import "scss/mixins/fontface";
 @include fontface('Montserrat-regular', '../../fonts/Montserrat-regular/montserrat-regular', 300, normal);
-@include fontface('Montserrat-light', '../../fonts/Montserrat-light/montserrat-light', 300, normal);
+@include fontface('Montserrat-light', '../../fonts/Montserrat-light/Montserrat-light', 300, normal);
 
