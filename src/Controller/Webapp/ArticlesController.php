@@ -31,7 +31,13 @@ class ArticlesController extends AbstractController
 
         $article = new Articles();
         $article->setAuthor($employed);
-        $form = $this->createForm(ArticlesType::class, $article);
+        $form = $this->createForm(ArticlesType::class, $article, [
+            'action' => $this->generateUrl('op_webapp_articles_new'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'FormAddArticle'
+            ]
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

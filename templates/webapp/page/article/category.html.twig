@@ -1,6 +1,6 @@
 <div class="row">
     {% for article in articles %}
-        <div class="col-12 col-md-6 d-lg-none">
+        <div class="col-xs-12 col-md-6 d-lg-none">
             {% if article.articleFrontName is null %}
             {% else %}
             <div class="card">
@@ -40,7 +40,5 @@
                 </div>
             </div>
         </div>
-
-
     {% endfor %}
 </div>
