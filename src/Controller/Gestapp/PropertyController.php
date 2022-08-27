@@ -2,6 +2,7 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Gestapp\choice\PropertyDefinition;
 use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
@@ -12,6 +13,7 @@ use App\Form\Gestapp\PropertyStep2Type;
 use App\Form\Gestapp\PropertyType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\choice\OtherOptionRepository;
+use App\Repository\Gestapp\choice\PropertyDefinitionRepository;
 use App\Repository\Gestapp\choice\PropertyEquipementRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PropertyRepository;
@@ -97,7 +99,8 @@ class PropertyController extends AbstractController
         ComplementRepository $complementRepository,
         PublicationRepository $publicationRepository,
         PropertyEquipementRepository $propertyEquipementRepository,
-        OtherOptionRepository $otherOptionRepository
+        OtherOptionRepository $otherOptionRepository,
+        PropertyDefinitionRepository $propertyDefinitionRepository
         )
     {
         // Récupération du collaborateur
@@ -148,6 +151,7 @@ class PropertyController extends AbstractController
                 $property->setReflastnumber($lastRefNum);
             }
         }
+        $property->addPropertyDefinition($propertyDefinitionRepository->findOneBy([], ['id'=>'ASC']));
         $property->setRef($refNumDate.'-'.$lastRefNum);
         $property->setSurfaceHome(0);
         $property->setSurfaceLand(0);

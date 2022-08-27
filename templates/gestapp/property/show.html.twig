@@ -23,6 +23,10 @@
             const nextStepGallery = document.getElementById("stepGallery");
             const nextStepPublication = document.getElementById("stepPublication");
 
+            // Boutons de validation si le bien n'est plus en cours de création
+            const nextStepInformations2 = document.getElementById("stepInformations2");
+            const stepOptions2 = document.getElementById("stepOptions2");
+
             // Div de chaque panels
             const Informations = document.getElementById("Informations");
             const Customers = document.getElementById("Customers");
@@ -75,8 +79,13 @@
             if(nextStepOptions !== null){
                 nextStepOptions.className += " d-none";
             }
-            nextStepGallery.className += " d-none";
-            nextStepPublication.className += " d-none";
+            if(nextStepGallery !== null){
+                nextStepGallery.className += " d-none";
+            }
+            if(nextStepPublication !== null){
+                nextStepPublication.className += " d-none";
+            }
+
             // autres mises en place
             //AddAvenant.style.display = 'none'
             // mise en place du datapicker flatpickr sur les champs de date
@@ -189,31 +198,33 @@
                         console.log(error);
                     })
             })
-            document.getElementById('stepInformations2').addEventListener('click', function (event){
-                event.preventDefault()
-                let urladdInformation = FormAddInformation.action
-                let dataaddInformation = new FormData(FormAddInformation)
-                axios
-                    .post(urladdInformation, dataaddInformation)
-                    .then(function (response) {
-                        // préparation du toaster
-                        var option = {
-                            animation: true,
-                            autohide: true,
-                            delay: 3000,
-                        };
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                        toastElement.show();
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-            })
+            if(nextStepInformations2 !== null){
+                nextStepInformations2.addEventListener('click', function (event){
+                    event.preventDefault()
+                    let urladdInformation = FormAddInformation.action
+                    let dataaddInformation = new FormData(FormAddInformation)
+                    axios
+                        .post(urladdInformation, dataaddInformation)
+                        .then(function (response) {
+                            // préparation du toaster
+                            var option = {
+                                animation: true,
+                                autohide: true,
+                                delay: 3000,
+                            };
+                            // initialisation du toaster
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                            toastElement.show();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
+                })
+            }
 
             // ---------------------------------------
             // STEP 2 :
@@ -222,19 +233,21 @@
             // ---------------------------------------
 
             //Action sur le clic du bouton nextstep
-            stepCustomers.onclick = function (event) {
-                event.preventDefault()
-                // visibilité des éléments
-                nextStepCustomers.className += " d-none";
-                nextStepEstimate.className = "btn btn-sm btn-outline-primary";
-                if(navCustomers !== null){
-                    navCustomers.className = "nav-link disabled";
+            if(nextStepCustomers !== null){
+                nextStepCustomers.onclick = function (event) {
+                    event.preventDefault()
+                    // visibilité des éléments
+                    nextStepCustomers.className += " d-none";
+                    nextStepEstimate.className = "btn btn-sm btn-outline-primary";
+                    if(navCustomers !== null){
+                        navCustomers.className = "nav-link disabled";
+                    }
+                    if(navEstimate !== null){
+                        navEstimate.className = "nav-link disabled";
+                    }
+                    Customers.className = "tab-pane";
+                    Estimate.className += " active";
                 }
-                if(navEstimate !== null){
-                    navEstimate.className = "nav-link disabled";
-                }
-                Customers.className = "tab-pane";
-                Estimate.className += " active";
             }
             // Modal d'ajout d'un vendeur à la fiche
             const modalAddCustomer = document.getElementById('addCustomer')
@@ -246,29 +259,19 @@
                 // mise à jour du lien de soumission du formulaire.
                 var modalContent = modalAddCustomer.querySelector('.modal-footer')
                 var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
-                modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
+                var modalBodyInput = exampleModal.querySelector('.modal-header #idProperty')
+                modalBodyInput.value = recipient
             })
+            // Envoi du formulaire d'ajout d'un vendeur
+            const FormAddCustomer = document.getElementById('formAddCustomer')
             // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
-            const btnAddCustomer = document.getElementById('btnAddCustomer')
-            btnAddCustomer.onclick = function (event) {
+            FormAddCustomer.addEventListener('submit', function(event){
                 event.preventDefault()
-                const firstName = document.getElementById('customer_firstName').value
-                const lastName = document.getElementById('customer_lastName').value
-                const adress = document.getElementById('customer_adress').value
-                const complement = document.getElementById('customer_complement').value
-                const zipcode = document.getElementById('customer_zipcode').value
-                const city = document.getElementById('customer_city').value
-                const url = this.href
+                const dataAddCustomer = FormAddCustomer
+                const actionAddCustomer = FormAddCustomer.action
                 // construction des data à transmettre
-                let data = {
-                    firstName: firstName,
-                    lastName: lastName,
-                    adress: adress,
-                    complement: complement,
-                    zipcode: zipcode,
-                    city: city
-                }
-                console.log(data)
+
+                console.log(dataAddCustomer, actionAddCustomer)
                 // envoie des données
                 axios
                     .post(url, data)
@@ -281,7 +284,7 @@
                         // handle error
                         console.log(error);
                     })
-            }
+            })
 
             // Fonction de suppression d'un client
             function SupprCustomer(event) {
@@ -347,20 +350,23 @@
                         console.log(error);
                     })
             })
-            document.getElementById('previousCustomer').addEventListener('click', function (event) {
-                event.preventDefault()
-                // visibilité des éléments
-                nextStepCustomers.className += " d-none";
-                nextStepInformations.className = "btn btn-sm btn-outline-primary";
-                if(navCustomers !== null){
-                    navCustomers.className = "nav-link disabled";
-                }
-                if(navInformations !== null){
-                    navInformations.className = "nav-link active";
-                }
-                Customers.className = "tab-pane";
-                Informations.className += " active";
-            })
+            if(document.getElementById('previousCustomer') !== null){
+                document.getElementById('previousCustomer').addEventListener('click', function (event) {
+                    event.preventDefault()
+                    // visibilité des éléments
+                    nextStepCustomers.className += " d-none";
+                    nextStepInformations.className = "btn btn-sm btn-outline-primary";
+                    if(navCustomers !== null){
+                        navCustomers.className = "nav-link disabled";
+                    }
+                    if(navInformations !== null){
+                        navInformations.className = "nav-link active";
+                    }
+                    Customers.className = "tab-pane";
+                    Informations.className += " active";
+                })
+            }
+
 
 
             // ---------------------------------------
@@ -562,47 +568,52 @@
                         console.log(error);
                     })
             })
-            document.getElementById('stepOptions2').addEventListener('click', function(event){
-                event.preventDefault()
-                let urlEditOptions = FormEditOptions.action
-                let dataEditOptions = new FormData(FormEditOptions)
-                axios
-                    .post(urlEditOptions, dataEditOptions)
-                    .then(function(response)
-                    {
-                        // préparation du toaster
-                        var option = {
-                            animation : true,
-                            autohide: true,
-                            delay : 3000,
-                        };
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                        toastElement.show();
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
-            })
-            document.getElementById('previousOptions').addEventListener('click', function(event){
-                event.preventDefault()
-                // modification des classes pour la navigation entre panels
-                nextStepOptions.className = " d-none"
-                nextStepEstimate.className = "btn btn-sm btn-outline-primary"
-                if(navOptions !== null){
-                    navOptions.className = "nav-link disabled"
-                }
-                if(navOptions !== null){
+            if(stepOptions2 !== null){
+                stepOptions2.addEventListener('click', function(event){
+                    event.preventDefault()
+                    let urlEditOptions = FormEditOptions.action
+                    let dataEditOptions = new FormData(FormEditOptions)
+                    axios
+                        .post(urlEditOptions, dataEditOptions)
+                        .then(function(response)
+                        {
+                            // préparation du toaster
+                            var option = {
+                                animation : true,
+                                autohide: true,
+                                delay : 3000,
+                            };
+                            // initialisation du toaster
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                            toastElement.show();
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
+                })
+            }
+            if(document.getElementById('previousOptions') !== null){
+                document.getElementById('previousOptions').addEventListener('click', function(event){
+                    event.preventDefault()
+                    // modification des classes pour la navigation entre panels
+                    nextStepOptions.className = " d-none"
+                    nextStepEstimate.className = "btn btn-sm btn-outline-primary"
+                    if(navOptions !== null){
+                        navOptions.className = "nav-link disabled"
+                    }
+                    if(navOptions !== null){
+                        navEstimate.className = "nav-link active"
+                    }
                     navEstimate.className = "nav-link active"
-                }
-                navEstimate.className = "nav-link active"
-                Options.className = "tab-pane"
-                Estimate.className += " active"
-            })
+                    Options.className = "tab-pane"
+                    Estimate.className += " active"
+                })
+            }
+
 
             // PARTIE Bannière sur image
             // ---------------------------------------
@@ -1033,18 +1044,20 @@
             // Enregistrement des images du bien
             //
             // ---------------------------------------
-            stepGallery.onclick = function (event) {
-                event.preventDefault()
-                nextStepGallery.className += " d-none";
-                nextStepPublication.className = "btn btn-sm btn-outline-primary";
-                if(navGallery !== null){
-                    navGallery.className = "nav-link disabled";
+            if(nextStepGallery !== null){
+                nextStepGallery.onclick = function (event) {
+                    event.preventDefault()
+                    nextStepGallery.className += " d-none";
+                    nextStepPublication.className = "btn btn-sm btn-outline-primary";
+                    if(navGallery !== null){
+                        navGallery.className = "nav-link disabled";
+                    }
+                    if(navPublication !== null){
+                        navPublication.className = "nav-link disabled";
+                    }
+                    Gallery.className = "tab-pane";
+                    Publication.className += " active";
                 }
-                if(navPublication !== null){
-                    navPublication.className = "nav-link disabled";
-                }
-                Gallery.className = "tab-pane";
-                Publication.className += " active";
             }
             // Ajout d'une image sur un bien
             let form = document.getElementById('addPhoto')
@@ -1114,20 +1127,22 @@
                         console.log(error);
                     })
             })
-            document.getElementById('previousPublication').addEventListener('click', function(event){
-                event.preventDefault()
-                // modification des classes pour la navigation entre panels
-                nextStepPublication.className = " d-none"
-                nextStepGallery.className = "btn btn-sm btn-outline-primary"
-                if(navPublication !== null){
-                    navPublication.className = "nav-link disabled";
-                }
-                if(navGallery !== null){
-                    navGallery.className = "nav-link active";
-                }
-                Publication.className = "tab-pane"
-                Gallery.className += " active"
-            })
+            if(document.getElementById('previousPublication') !== null){
+                document.getElementById('previousPublication').addEventListener('click', function(event){
+                    event.preventDefault()
+                    // modification des classes pour la navigation entre panels
+                    nextStepPublication.className = " d-none"
+                    nextStepGallery.className = "btn btn-sm btn-outline-primary"
+                    if(navPublication !== null){
+                        navPublication.className = "nav-link disabled";
+                    }
+                    if(navGallery !== null){
+                        navGallery.className = "nav-link active";
+                    }
+                    Publication.className = "tab-pane"
+                    Gallery.className += " active"
+                })
+            }
         }
     </script>
 {% endblock %}
@@ -1237,25 +1252,7 @@
 {% block footer %}
     {{ parent() }}
     <section id="modals">
-        <!-- Ajout d'un vendeur sur un bien -->
-        <div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un client à cette fiche</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
-                        <input id="idProperty" type="hidden" value="">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
-                    </div>
-                </div>
-            </div>
-        </div>
+
         {# Modal d'ajout HouseCat #}
         <div class="modal fade" id="modalHouseCat" tabindex="-1" aria-labelledby="addHouseCat" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">

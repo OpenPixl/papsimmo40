@@ -16,8 +16,12 @@
 <div class="row mt-2">
     <div class="col-12">
         <div class="mt-1">
-            <a id="previousGallery" href="#" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+            {% if property.isIncreating == 1 %}
+            <a id="previousGallery" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
             <button type="submit" id="stepGallery" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
+            {% else %}
+            <a id="previousGallery" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+            {% endif %}
         </div>
     </div>
 </div>

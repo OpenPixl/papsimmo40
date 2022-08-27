@@ -260,7 +260,7 @@
                 <a id="previousOptions" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
                 <button type="submit" id="stepOptions" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
                 {% else %}
-                <a id="previousOptions" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+                <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
                 <a id="stepOptions2" class="btn btn-sm btn-outline-primary">Valider</a>
                 {% endif %}
             </div>

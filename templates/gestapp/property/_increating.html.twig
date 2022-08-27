@@ -1,21 +1,14 @@
 {%  set user = app.user.id %}
 {% for property in properties|filter(property => property.refEmployed.id == user) %}
-    <div class="card border-warning mb-3">
+    <div id="listeIncreating" class="col-sm-3">
+        <div class="card border-warning">
         <div class="card-header">{{property.ref}}</div>
+        {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
         <div class="card-body">
-            <div class="row g-1">
-                {% if property.imageName is not null %}
-                <div class="col-1">
-                    <img class="img-fluid" src="{{ vich_uploader_asset(property) }}" alt="{{ property.name }}" height="100px">
-                </div>
-                {% else %}
-                <div class="col-1">
-                    <img class="img-fluid" src="{{ asset('images/png/mod_maison.png') }}" alt="{{ property.name }}" height="100px">
-                </div>
-                {% endif %}
+
                 <div class="col-11">
                     <h4 class="card-title">{{ property.name }} - {{ property.refEmployed }}</h4>
-                    <p class="card-text">Ce bien est en cours d'édition. Pensez à le finaliser :</p>
+                    <p class="card-text">Ce bien est en cours d'édition.<br>Pensez à le finaliser :</p>
                     <p>
                         <a href="{{path('op_gestapp_property_show', {'id' : property.id})}}" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
@@ -23,7 +16,8 @@
                         {% endif %}
                     </p>
                 </div>
-            </div>
+
         </div>
+    </div>
     </div>
 {% endfor %}

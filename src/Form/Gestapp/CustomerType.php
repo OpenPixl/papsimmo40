@@ -23,40 +23,61 @@ class CustomerType extends AbstractType
                 'label' => 'Nom'
             ])
             ->add('adress', TextType::class, [
-                'label' => 'Adresse'
+                'label' => 'Adresse',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('complement', TextType::class, [
-                'label' => 'Complément'
+                'label' => 'Complément',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('zipcode', TextType::class, [
-                'label' => 'Code Postal'
+                'label' => 'Code Postal',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('city', TextType::class, [
-                'label' => 'Commune'
+                'label' => 'Commune',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('home', TextType::class, [
-                'label' => 'Tel Personnel'
+                'label' => 'Tel Personnel',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('desk', TextType::class, [
-                'label' => 'Tel Portable'
+                'label' => 'Tel Bureau',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('gsm', TextType::class, [
-                'label' => 'Tel Bureau'
+                'label' => 'Tel Portable',
+
             ])
             ->add('fax', TextType::class, [
-                'label' => 'Fax'
+                'label' => 'Fax',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('otherEmail', TextType::class, [
                 'label' => 'Email'
             ])
             ->add('facebook', TextType::class, [
-                'label' => 'Page Facebook'
+                'label' => 'Page Facebook',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('instagram', TextType::class, [
-                'label' => 'Page instagram'
+                'label' => 'Page instagram',
+                'required' => false,
+                'empty_data' =>''
             ])
             ->add('linkedin', TextType::class, [
-                'label' => 'Page linkedin'
+                'label' => 'Page linkedin',
+                'required' => false,
+                'empty_data' =>''
             ])
         ;
     }
