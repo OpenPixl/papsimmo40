@@ -24,7 +24,8 @@ class ArticlesType extends AbstractType
                 'label' => "Titre de l'article"
             ])
             ->add('content', TextareaType::class, [
-                'label' => 'Contenu'
+                'label' => 'Contenu',
+                'required' => false,
             ])
             ->add('isShowtitle', CheckboxType::class,[
                 'label' => 'Montrer le titre',
@@ -45,6 +46,7 @@ class ArticlesType extends AbstractType
             ->add('linkText')
             ->add('state', ChoiceType::class, [
                 'label' => 'Etat',
+                'required' => false,
                 'choices'  => [
                     'Brouillon' => "brouillon",
                     'Archivée' => 'archivee',
@@ -58,6 +60,7 @@ class ArticlesType extends AbstractType
             ])
             ->add('category', EntityType::class, [
                 'label' => 'Catégorie',
+                'required' => false,
                 'class' => Category::class
             ])
             ->add('articleFrontFile', VichImageType::class, [
@@ -68,6 +71,7 @@ class ArticlesType extends AbstractType
             ])
             ->add('imgPosition', ChoiceType::class, [
                 'label' => "Position de l'image",
+                'required' => false,
                 'choices'  => [
                     "Au dessus de l'article" => "Hight",
                     "A droite de l'article" => "Right",
