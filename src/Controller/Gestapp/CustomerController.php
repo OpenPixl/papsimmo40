@@ -137,6 +137,14 @@ class CustomerController extends AbstractController
         $customer->setComplement($data['complement']);
         $customer->setZipCode($data['zipcode']);
         $customer->setCity($data['city']);
+        $customer->setHome($data['home']);
+        $customer->setDesk($data['desk']);
+        $customer->setGsm($data['gsm']);
+        $customer->setFax($data['fax']);
+        $customer->setOtherEmail($data['otherEmail']);
+        $customer->setFacebook($data['facebook']);
+        $customer->setInstagram($data['instagram']);
+        $customer->setLinkedin($data['linkedin']);
         $customer->setRefEmployed($employed);
         $customer->setCustomerChoice($customerChoice);
         $customer->addProperty($property);

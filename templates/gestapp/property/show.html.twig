@@ -259,19 +259,46 @@
                 // mise à jour du lien de soumission du formulaire.
                 var modalContent = modalAddCustomer.querySelector('.modal-footer')
                 var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
-                var modalBodyInput = exampleModal.querySelector('.modal-header #idProperty')
-                modalBodyInput.value = recipient
+                modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
             })
             // Envoi du formulaire d'ajout d'un vendeur
-            const FormAddCustomer = document.getElementById('formAddCustomer')
             // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
-            FormAddCustomer.addEventListener('submit', function(event){
+            const btnAddCustomer = document.getElementById('btnAddCustomer')
+            btnAddCustomer.onclick = function (event) {
                 event.preventDefault()
-                const dataAddCustomer = FormAddCustomer
-                const actionAddCustomer = FormAddCustomer.action
+                const firstName = document.getElementById('customer_firstName').value
+                const lastName = document.getElementById('customer_lastName').value
+                const adress = document.getElementById('customer_adress').value
+                const complement = document.getElementById('customer_complement').value
+                const zipcode = document.getElementById('customer_zipcode').value
+                const city = document.getElementById('customer_city').value
+                const home = document.getElementById('customer_home').value
+                const desk = document.getElementById('customer_desk').value
+                const gsm = document.getElementById('customer_gsm').value
+                const fax = document.getElementById('customer_fax').value
+                const otherEmail = document.getElementById('customer_otherEmail').value
+                const facebook = document.getElementById('customer_facebook').value
+                const instagram = document.getElementById('customer_instagram').value
+                const linkedin = document.getElementById('customer_linkedin').value
+                const url = this.href
                 // construction des data à transmettre
-
-                console.log(dataAddCustomer, actionAddCustomer)
+                let data = {
+                    firstName: firstName,
+                    lastName: lastName,
+                    adress: adress,
+                    complement: complement,
+                    zipcode: zipcode,
+                    city: city,
+                    home: home,
+                    desk: desk,
+                    gsm: gsm,
+                    fax: fax,
+                    otherEmail: otherEmail,
+                    facebook: facebook,
+                    instagram: instagram,
+                    linkedin: linkedin
+                }
+                console.log(data)
                 // envoie des données
                 axios
                     .post(url, data)
@@ -284,7 +311,7 @@
                         // handle error
                         console.log(error);
                     })
-            })
+            }
 
             // Fonction de suppression d'un client
             function SupprCustomer(event) {
@@ -1252,7 +1279,25 @@
 {% block footer %}
     {{ parent() }}
     <section id="modals">
-
+        <!-- Ajout d'un vendeur sur un bien -->
+        <div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un client à cette fiche</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
+                        <input id="idProperty" type="hidden" value="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
         {# Modal d'ajout HouseCat #}
         <div class="modal fade" id="modalHouseCat" tabindex="-1" aria-labelledby="addHouseCat" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
