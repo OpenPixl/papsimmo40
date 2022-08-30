@@ -70,7 +70,7 @@ class ComplementType extends AbstractType
                 'empty_data' => 0
             ])
             ->add('terrace', IntegerType::class, [
-                'label' => "Terasse",
+                'label' => "Terrasse",
                 'required' => false,
                 'empty_data' => 0
             ])
@@ -106,7 +106,7 @@ class ComplementType extends AbstractType
                 }
             ])
             ->add('propertyTax', NumberType::class, [
-                'label' => 'Charge de propriété',
+                'label' => 'Taxe foncière',
                 'required' => false,
                 'empty_data' => 0
             ])

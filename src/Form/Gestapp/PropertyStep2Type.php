@@ -41,7 +41,7 @@ class PropertyStep2Type extends AbstractType
                 'required' => false
             ])
             ->add('price', IntegerType::class, [
-                'label' => 'Prix de vente',
+                'label' => 'Prix net vendeur',
                 'required' => false
             ])
             ->add('honoraires', IntegerType::class, [
