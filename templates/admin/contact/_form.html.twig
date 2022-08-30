@@ -1,0 +1,60 @@
+{{ form_start(form) }}
+    <p>Les champs accompagnés d'une étoile sont obligatoires.</p>
+    {# Form INPUT #}
+    <div class="row mb-1 mt-1 g-1">
+        <div class="col-2">
+            {{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}
+        </div>
+        <div class="col-5">
+            {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+    </div>
+    {# Form INPUT #}
+    <div class="row mb-1 mt-1 g-1">
+        <div class="col-2">
+            {{ form_label(form.email, '', {'label_attr': {'class':'form-label'}}) }}
+        </div>
+        <div class="col-6">
+            {{ form_widget(form.email, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+    </div>
+    {# Form TEXTAREA #}
+    <div class="row mb-1 mt-1 g-1">
+        <div class="col-2">
+            {{ form_label(form.content, '', {'label_attr': {'class':'form-label'}}) }}
+        </div>
+        <div class="col-10">
+            {{ form_widget(form.content, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+    </div>
+    {# Form INPUT #}
+    <div class="row mb-1 mt-1 g-1">
+        <div class="col-2">
+            {{ form_label(form.phoneHome, '', {'label_attr': {'class':'form-label'}}) }}
+        </div>
+        <div class="col-4">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone"></i></span>
+                {{ form_widget(form.phoneHome, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="input-group">
+                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
+                {{ form_widget(form.phoneGsm, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+        </div>
+    </div>
+    {#
+    <div class="row mb-1 mt-1 g-1">
+        <fieldset>
+            <div class="form-check form-switch">
+                {{ form_widget(form.isRGPD, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(form.isRGPD, {'label_attr': {'class':'col-sm-4 col-form-label'}}) }}
+            </div>
+        </fieldset>
+    </div>
+    #}
+    {{ form_rest(form) }}
+    <button class="btn btn-sm btn-primary">{{ button_label|default('Envoyer') }}</button>
+{{ form_end(form) }}
