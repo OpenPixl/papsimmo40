@@ -8,6 +8,8 @@ use App\Repository\Admin\ContactRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/admin/contact')]
@@ -22,14 +24,35 @@ class ContactController extends AbstractController
     }
 
     #[Route('/new', name: 'op_admin_contact_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ContactRepository $contactRepository): Response
+    public function new(Request $request, ContactRepository $contactRepository, MailerInterface $mailer): Response
     {
         $contact = new Contact();
-        $form = $this->createForm(ContactType::class, $contact);
+        $form = $this->createForm(ContactType::class, $contact,[
+            'method' => 'POST',
+            'action' => $this->generateUrl('op_admin_contact_new')
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $contactRepository->add($contact, true);
+
+            $email = (new Email())
+                ->from($contact->getEmail())
+                ->to('xavier.burke@openpixl.fr')
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('[PAPs Immo] : Nouvelle demande de contact')
+                ->text($contact->getContent());
+
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                dd($e);
+            }
 
             return $this->redirectToRoute('app_admin_contact_index', [], Response::HTTP_SEE_OTHER);
         }

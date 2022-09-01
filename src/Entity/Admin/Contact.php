@@ -33,8 +33,8 @@ class Contact
     #[ORM\Column]
     private ?bool $isRGPD = false;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
-    private ?\DateTimeInterface $createdAt = null;
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
 
     public function getId(): ?int
     {
@@ -113,14 +113,13 @@ class Contact
         return $this;
     }
 
-
     public function getCreatedAt(): ?\DateTimeInterface
     {
         return $this->createdAt;
     }
 
     #[ORM\PrePersist]
-    public function setCreatedAt(\DateTimeInterface $createdAt): self
+    public function setCreatedAt(): self
     {
         $this->createdAt = new \DateTime('now');
 
