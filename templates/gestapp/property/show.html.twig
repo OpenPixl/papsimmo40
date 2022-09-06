@@ -1140,7 +1140,24 @@
 
             // Génération du Sortable
             const sortablePhoto = document.getElementById("listephoto")
-            var sortable = Sortable.create(sortablePhoto);
+            new Sortable(sortablePhoto, {
+                animation:150,
+                // Called by any change to the list (add / update / remove)
+                onSort: function (event) {
+                    let cols = sortablePhoto.children
+                    // on boucle sur le résultat des enfants pour envoyer au controller la modification du positionnement des photos
+                    for(i = 0; i < cols.length; i++){
+                        let idcol = cols[i].id
+                        let key = i
+                        let url = "/gestapp/photo/updatepositionphoto/"+ idcol + "/" + key
+                        axios
+                            .post(url)
+                            .catch(function(error){
+                                console.log(error);
+                            })
+                    }
+                },
+            })
 
 
             // ---------------------------------------

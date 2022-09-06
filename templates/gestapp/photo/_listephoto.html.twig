@@ -1,6 +1,6 @@
 {% for photo in photos %}
     {% if loop.first %}
-    <div class="col-3">
+    <div class="col-3" id="{{ photo.id }}">
         <div class="card mb-1">
             <img src="{{ asset('images/galery/') }}{{ photo.galeryFrontName }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}" style="width: 313px; height: 210px;">
             <div class="card-img-overlay">
@@ -13,7 +13,7 @@
         </div>
     </div>
     {% else %}
-    <div class="col-3">
+    <div class="col-3" id="{{ photo.id }}">
         <div class="card mb-1">
             <img src="{{ asset('images/galery/') }}{{ photo.galeryFrontName }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}" style="width: 313px; height: 210px;">
             <div class="card-img-overlay">
