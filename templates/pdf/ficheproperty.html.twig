@@ -5,58 +5,175 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <style>
-
-    </style>
-</head>
+        {% for path in encore_entry_css_files('pdf') %}
+            <link rel="stylesheet" href="{{ absolute_url(path) }}">
+        {% endfor %}
+    </head>
     <body>
-        <header class="container">
-            <div class="row">
-                <div class="col-2">
-                    <img src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
-                </div>
-                <div class="col-10">
-                    <h1>FICHE DE BIEN</h1>
+        <header>
+                <div class="container" style="align-items: center; justify-content: space-between;">
+                    <div>
+                        <img src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
+                    </div>
+                    <div>
+                        <h1>FICHE CLIENT</h1>
+                    </div>
+                    <div>
+                        <p>MANDAT N° : {{ property.refMandat }}</p>
+                        <p>Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
+                    </div>
                 </div>
             </div>
         </header>
-        <main class="container-fluid">
+        <main >
             {% set piece = '' %}
             {% set room = '' %}
             {% if property.piece < 2 %}{%set piece = 'pièce'%}{%else%}{%set piece = 'pièces'%}{%endif%}
             {% if property.room < 2 %}{%set room = 'chambre'%}{%else%}{%set room = 'chambres'%}{%endif%}
-            <section id="oneproperty_header" class="pt-1 pb-1">
-                <div class="container">
-                    {# bandeau de présentation des informations prioncipales du bien #}
-                    <div class="row" id="informations">
-                        <div class="col-3">
-                            <p class="text-end mb-0"><img src="{{ absolute_url(asset('images/png/picto_superfmaison.png'))}}" alt="picto_surfacebien"> {{ property.surfaceHome|number_format(0,',',' ')}} m2 surface habitable</p>
-                        </div>
-                        <div class="col-3">
-                            <p class="text-end mb-0"><img src="{{ absolute_url(asset('images/png/picto_nbpiece.png'))}}" alt="picto_pieces"> {{property.piece}} {{piece}} | {{ property.room}} {{ room }}</p>
-                        </div>
-                        <div class="col-3">
-                            <p class="text-end mb-0"><img src="{{ absolute_url(asset('images/png/picto_terrainsuperfi.png'))}}" alt="picto_surfaceterrain"> {{ property.surfaceHome|number_format(0,',',' ')}} m2 de terrain</p>
-                        </div>
-                        <div class="col-3 d-flex justify-content-center align-items-center">
-                            <p class="text-center align-middle mb-0">{{ property.priceFai|number_format(0,',',' ') }} €</p>
-                        </div>
-                    </div>
+
+            <div id="Details" class="">
+                <div id="Title">
+                    <h2 class="title-h2">INFO - {{ property.name }}</h2>
                 </div>
-            </section>
-            <div class="row">
-                <div class="col-4" id="fiche_img_princ">
+                <div id="Content" class="container">
+                    <div id="FirstImg">
                     {% if firstphoto is not empty %}
                         <img class="img-fluid" src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
                     {% else %}
                         <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
                     {% endif %}
-                </div>
-                <div class="col-8" id="fiche_détail">
-                    <h1>{{ property.name }}</h1>
-                    <p>{{ property.annonce|markdown_to_html }}</p>
+                        <div>
+                            <p>
+                                Prix net vendeur : {{property.priceFai}}
+                            </p>
+                        </div>
+                    </div>
+                    <div id="Informations">
+                        <div>
+                            <table>
+                                <tr>
+                                    <th>Référence :</th>
+                                    <td colspan="3">{{ property.ref }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Transaction :</th>
+                                    <td colspan="3">VENTE</td>
+                                </tr>
+                                <tr>
+                                    <th>Type :</th>
+                                    <td colspan="3">{{ property.denomination }}</td>
+                                </tr>
+                                <tr>
+                                    <th>Surface : </th>
+                                    <td>Habitation :</td>
+                                    <td colspan="2">{{ property.surfaceHome }} m2</td>
+                                </tr>
+                                <tr>
+                                    <th>Surface : </th>
+                                    <td>Terrain :</td>
+                                    <td colspan="2">{{ property.surfaceLand }} m2</td>
+                                </tr>
+                                <tr>
+                                    <th>Nombre de pièces :</th>
+                                    <td>{{ piece }}</td>
+                                    <th>Nombre de pièces :</th>
+                                    <td>{{ room }}</td>
+                                </tr>
+                            </table>
+                        </div>
+                        <div class="Graph">
+                            <figure>
+                                <figcaption>Diagnostique énergétique</figcaption>
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
+                                    <title id="title">A bart chart showing information</title>
+                                    <g class="bar">
+                                        <rect width="40" height="20" fill="#00a06c"></rect>
+                                        <text x="45" y="10" dy=".35em">A</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="60" height="20" y="22" fill="#50b054" fill-opacity="0.5"></rect>
+                                        <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="80" height="20" y="44" fill="#a4cc74"></rect>
+                                        <text x="85" y="54" dy=".35em" fill="#a4cc74">C</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="100" height="20" y="66" fill="#f3e61e"></rect>
+                                        <text x="105" y="76" dy=".35em" fill="#f3e61e">D</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="120" height="20" y="88" fill="#f0b418" fill-opacity="0.5"></rect>
+                                        <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="140" height="20" y="110" fill="#eb8233" fill-opacity="0.5"></rect>
+                                        <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="160" height="20" y="132" fill="#d71d1f" fill-opacity="0.5"></rect>
+                                        <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
+                                    </g>
+                                </svg>
+                            </figure>
+                            <figure>
+                                <figcaption>Diagnostique énergétique</figcaption>
+                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
+                                    <title id="title">A bart chart showing information</title>
+                                    <g class="bar">
+                                        <rect width="40" height="20" fill="#f6eefd"></rect>
+                                        <text x="45" y="10" dy=".35em">A</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="60" height="20" y="22" fill="#e0c2f8" fill-opacity="0.5"></rect>
+                                        <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="80" height="20" y="44" fill="#d4aaf6" fill-opacity="0.5"></rect>
+                                        <text x="85" y="54" dy=".35em" fill-opacity="0.5">C</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="100" height="20" y="66" fill="#c996f5" fill-opacity="0.5"></rect>
+                                        <text x="105" y="76" dy=".35em" fill-opacity="0.5">D</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="120" height="20" y="88" fill="#ba72ef" fill-opacity="0.5"></rect>
+                                        <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="140" height="20" y="110" fill="#a74deb" fill-opacity="0.5"></rect>
+                                        <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
+                                    </g>
+                                    <g class="bar">
+                                        <rect width="160" height="20" y="132" fill="#8919df" fill-opacity="0.5"></rect>
+                                        <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
+                                    </g>
+                                </svg>
+                            </figure>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div class="">
+                <div class="title-h2">
+                    <h2>DESCRIPTON</h2>
+                </div>
+                <div id="propertyDescription">
+                    <p> <span class="subtitle">Lorem ipsum dolor sit amet. Ea voluptas omnis aut fugit rerum nam architecto </span> </p>
+                    <p>
+                        Lorem ipsum dolor sit amet. Ea voluptas omnis aut fugit rerum nam architecto deserunt id animi
+                        excepturi aut labore tempore. Sunt accusamus aut enim veritatis sed nesciunt consectetur et deleniti
+                        beatae. Non fuga veniam est cupiditate nihil sed beatae dignissimos id excepturi repellendus sit
+                        consequatur voluptatum ut animi odit. Est quidem voluptate et molestias enim et enim fugiat qui
+                        architecto molestias. </p>
+                    <p>33 animi similique sed laudantium consequatur non impedit vero est corrupti dicta aut unde possimus
+                        sit molestiae ducimus? Sit minus rerum ex repellendus quaerat aut numquam consequatur. Et voluptatem
+                        quidem ad error quia ut sunt magni.</p>
+                </div>
+            </div>
+            <div class="nextpage"></div>
+
+
         </main>
         <footer>
             <div class="row">

@@ -1152,6 +1152,21 @@
                         let url = "/gestapp/photo/updatepositionphoto/"+ idcol + "/" + key
                         axios
                             .post(url)
+                            .then(function(response){
+                                // préparation du toaster bootstrap
+                                var option = {
+                                    animation: true,
+                                    autohide: true,
+                                    delay: 3000,
+                                };
+                                // initialisation du toaster bootstrap
+                                var toastHTMLElement = document.getElementById("toaster");
+                                var message = response.data.message;
+                                var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                                toastBody.textContent = message;
+                                var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                                toastElement.show();
+                            })
                             .catch(function(error){
                                 console.log(error);
                             })

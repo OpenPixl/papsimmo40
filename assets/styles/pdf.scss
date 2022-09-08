@@ -1,0 +1,12 @@
+$primary-color : #7d1715;
+$secondary-color: #069697;
+$secondary-color-dark: #29565f;
+
+@import "scss/pdf/custom";
+//*** ------------- Import Styles from FontAwesome ---------------- ***//
+@import '~@fortawesome/fontawesome-free/css/all.css';
+//*** ------------- Import fonts ---------------- ***//
+@import "scss/mixins/fontface";
+@include fontface('Montserrat-regular', '../../fonts/Montserrat-regular/montserrat-regular', 300, normal);
+@include fontface('Montserrat-light', '../../fonts/Montserrat-light/Montserrat-light', 300, normal);
+

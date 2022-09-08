@@ -1,0 +1,70 @@
+/* **
+* REGLES GENERALES
+** */
+header {
+  width: 100%;
+  height: auto;
+  position: relative;
+  display: flex;
+}
+
+.container {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+}
+
+/* *
+* REGLES COMMUNES
+* */
+.title-h2 {
+  background-image: url('../../images/svg/pdf_title_icon.svg');
+  background-repeat: no-repeat;
+  padding-left: 2rem;
+  line-height: 4rem;
+  height: 4rem;
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.subtitle {
+  font-family: Comfortaa Bold;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #01A5A0;
+  color: rgb(1, 165, 160);
+}
+
+th {
+  font-family: Comfortaa Bold;
+  font-weight: bold;
+  font-size: 12px;
+  text-transform: uppercase;
+  color: #01A5A0;
+  color: rgb(1, 165, 160);
+}
+
+/* *
+* REGLES PRECISES
+* */
+/* * DETAILS * */
+#Details #FirstImg {
+  width: 50%;
+}
+
+#Details #content {
+  width: 50%;
+}
+
+#Details .Graph {
+  display: flex;
+  flex-direction: row;
+}
+
+/* * DESCRIPTIONS * */
+/* * ... * */
+footer {
+  background-image: linear-gradient(180deg, rgb(107, 23, 17) 0%, rgb(125, 23, 24) 99%);
+  height: 4rem;
+}
