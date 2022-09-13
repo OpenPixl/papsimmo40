@@ -46,7 +46,7 @@ class ApplicationRepository extends ServiceEntityRepository
     }
 
     Public function findFirstReccurence(){
-        return $this->createQueryBuilder('p')
+        return $this->createQueryBuilder('a')
             ->setMaxResults(1)
             ->getQuery()
             ->getOneOrNullResult()

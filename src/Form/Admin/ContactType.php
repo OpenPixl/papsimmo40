@@ -27,15 +27,18 @@ class ContactType extends AbstractType
             ])
             ->add('content', TextareaType::class, [
                 'label' => 'Message',
+                'required' => false,
                 'attr' => [
                     'rows' => 5
                 ]
             ])
             ->add('phoneHome', TextType::class, [
-                'label' => 'Fixe'
+                'label' => 'Fixe',
+                'required' => false,
             ])
             ->add('phoneGsm', TextType::class, [
-                'label' => 'Portable'
+                'label' => 'Portable',
+                'required' => false,
             ])
             ->add('isRGPD', CheckboxType::class, [
                 'label' => "En soumettant ce formulaire, j'accepte que les informations saisies soient exploitées dans le cadre de la démarche de renseignements et de la relation commercial qui peut en découler."

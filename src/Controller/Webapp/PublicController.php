@@ -30,14 +30,16 @@ class PublicController extends AbstractController
     {
         $application = $em->getRepository(Application::class)->findFirstReccurence();
         // boucle : verifie si le site est installé
+        //dd($application);
         if (!$application) {
             return $this->redirectToRoute('op_admin_dashboard_first_install');
         } else {
             $isOnline = $application->getIsOnline();
-            if (!$isOnline) {
-                return $this->redirectToRoute('op_webapp_public_offline');
-            } else {
+            // dd($isOnline);
+            if ($isOnline == 1) {
                 return $this->redirectToRoute('op_webapp_public_homepage');
+            } else {
+                return $this->redirectToRoute('op_webapp_public_offline');
             }
         }
     }
@@ -49,15 +51,7 @@ class PublicController extends AbstractController
     public function Offline(EntityManagerInterface $em): Response
     {
         $application = $em->getRepository(Application::class)->findFirstReccurence();
-        $sections = $em->getRepository(Section::class)->findBy(array('favorites' => 1));
-        $isOnline = $application->getIsOnline();
 
-        if ($isOnline == 1) {
-            return $this->render('webapp/public/index.html.twig', [
-                'application' => $application,
-                'sections' => $sections,
-            ]);
-        }
         return $this->render('webapp/public/offline.html.twig', [
             'application' => $application
         ]);

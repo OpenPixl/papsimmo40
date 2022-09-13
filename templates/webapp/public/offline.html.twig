@@ -9,27 +9,133 @@
     <title>{% block title %}OpenGaia{% endblock %}</title>
 
     {% block stylesheets %}
-        {{ encore_entry_link_tags('app') }}
+        {{ encore_entry_link_tags('off') }}
     {% endblock %}
     {% block javascripts %}
-        {{ encore_entry_script_tags('app') }}
+        {{ encore_entry_script_tags('off') }}
         <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>
+        <script>
+            window.onload = function (){
+                // récupértion des element du formulaire
+                const Form = document.getElementById('PostContact')
+
+            }
+        </script>
     {% endblock %}
 </head>
-<body>
-<div class="wrapper">
-    {% block header %}
-    {# {{ render(controller('App\\Controller\\Webapp\\PublicController::BlocMenu')) }} #}
-    {% endblock %}
-    <main id="content">
-        {% block content %}
-            hello
-        {% endblock %}
+<body class="d-flex h-100 text-center text-white bg-dark">
+
+
+
+<div class="cover-container d-flex w-100 h-100 p-3 mx-auto flex-column">
+    <header class="mb-auto">
+        <div>
+            <h3 class="float-md-start mb-0"><img src="./styles/images/LogoPAPSimmo.svg" alt="Logo PAP'S Immo" height="50px"></h3>
+            <nav class="nav nav-masthead justify-content-center float-md-end">
+                <a class="nav-link active" aria-current="page" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal">Contact</a>
+            </nav>
+        </div>
+    </header>
+
+    <main id="main_content" class="px-3 pt-4 pb-4">
+        <h1>Découvrez très prochainement</h1>
+        <img src="./styles/images/LogoPAPSimmo.svg" alt="Logo PAP'S Immo">
+        <p class="lead">Paps Immo, une agence immobilière à l'écoute de ses clients. <b>Professionalisme</b> et <b>efficacité</b>, PAP's Immo vous accompagne durant toutes les étapes de votre projet immobilier de vente ou d'achat.</p>
+        <p class="lead">
+            <a href="#" class="btn btn-lg btn-secondary fw-bold border-white bg-white" data-bs-toggle="modal" data-bs-target="#exampleModal">Pour en savoir plus ...</a>
+        </p>
+        <p class="lead mt-2">
+            <a href="#"><i class="fa-brands fa-facebook-square fa-2xl"></i></a>
+            <a href="#"><i class="fa-brands fa-instagram-square fa-2xl"></i></a>
+            <a href="#"><i class="fa-brands fa-linkedin fa-2xl"></i></a>
+            <a href="#"><i class="fa-brands fa-google-plus-square fa-2xl"></i></a>
+        </p>
     </main>
-    {% block footer %}
-        {{ include('include/footer_webapp.html.twig') }}
-    {% endblock %}
+
+    <footer class="mt-auto text-white-50">
+       {{ include('include/public/bottomfooter.html.twig') }}
+    </footer>
 </div>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Formulaire de contact</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>N'hésitez pas à nous laisser un message pour toute demande de renseignement ou de prise de contact pour vos projets.</p>
+                <form action="#" method="Post" id="PostContact">
+                    <div class="row">
+                        <div class="col-md">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="contact_name" name="contact[name]" placeholder="Nom & Prénom" value="">
+                                <label for="contact_nom">Nom</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <div class="form-floating">
+                                <select class="form-select form-select-sm" id="contact_sujet" name="contact[sujet]" aria-label="Floating label select example">
+                                    <option selected>Sélectionner votre choix</option>
+                                    <option value="1">Demande de prise de contact</option>
+                                    <option value="2">Recherche d'un bien</option>
+                                    <option value="3">Proposition de vente</option>
+                                </select>
+                                <label for="contact_sujet">Objet de la demande</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col">
+                            <div class="form-floating">
+                                <textarea class="form-control form-control-sm" placeholder="Ecrivez votre message ..." id="contact_message" name="contact[message]" style="height: 150px"></textarea>
+                                <label for="contact_message">Message</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="contact_email" name="contact[email]" placeholder="Votre email" value="">
+                                <label for="contact_email">Email de contact</label>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="form-floating">
+                                <input type="text" class="form-control form-control-sm" id="contact_tel" name="contact[tel]" placeholder="Votre email" value="">
+                                <label for="contact_tel">Téléphone de contact</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mt-2">
+                        <div class="col-12">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="invalidCheck3" aria-describedby="invalidCheck3Feedback" required>
+                                <label class="form-check-label text-start" for="invalidCheck3">
+                                    En cochant la case, j'accepte que les données recueillies dans ce formulaire soient utilisées uniquement dans le cadre de la demande et de la relation commerciale qui en découle.<br>
+                                    La soummission de ce formulaire ne stocke pas les données dans un fichier type base de données mais diffuse ce dernier par mail à l'adresse suivante : contact@papsimmo.fr.
+                                </label>
+                                <div id="invalidCheck3Feedback" class="invalid-feedback">
+                                    You must agree before submitting.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                <button type="button" class="btn btn-sm btn-primary">Envoyer</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 </body>
 </html>

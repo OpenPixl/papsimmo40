@@ -99,13 +99,13 @@ a.nav-link {
     right: calc(calc(100vw - 1320px) / 2);
   }
   h2{
+    font-family: Montserrat-light,sans-serif;
     font-size: 2rem;
-    font-family: "Montserrat-light", sans-serif;
-    text-transform: uppercase;
-    rotate: -90deg;
+    left: -12rem;
     position: absolute;
-    top: 200px;
-    left: -150px;
+    rotate: -90deg;
+    text-transform: uppercase;
+    top: 14rem;
   }
   .card{
     background: transparent;
