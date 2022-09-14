@@ -61,23 +61,64 @@ body {
   border-bottom-color: #fff;
 }
 
-/*
- * Modal
- */
-
-.modal h5{
-  color : #2f2f2f;
-  text-shadow: none !important;
+body {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  background-image: url('../../images/cover/Login_Background1.jpg');
+  background-size: cover;
+  /** Règles div MAIN_CONTENT **/
+  #main_content {
+    background-color: rgba(51, 51, 51, 0.4392156863);
+    border-radius: 5px;
+    margin-top: auto;
+    margin-bottom: auto;
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+    .btn-secondary,
+    .btn-secondary:hover,
+    .btn-secondary:focus {
+      color: #333;
+      text-shadow: none;
+    }
+  }
+  /** Règles Modals **/
+  #bottom_footer {
+    background-color: #069697;
+    color: #ffffff;
+    p {
+      margin-bottom: 0;
+      font-size: 12px;
+    }
+    ul li {
+      font-size: 12px;
+    }
+    ul a {
+      font-size: 12px;
+      color: #ffffff;
+    }
+    .dropdown-item {
+      font-size: 12px;
+      color: #069697;
+    }
+  }
+  .modal{
+    h5{
+      color : #2f2f2f;
+      text-shadow: none !important;
+    }
+    p{
+      color: #2f2f2f;
+      text-shadow: none !important;
+    }
+    label{
+      color : #2f2f2f;
+      text-shadow: none !important;
+      font-size:small;
+      text-transform: uppercase;
+    }
+  }
 }
 
-.modal p{
-  color: #2f2f2f;
-  text-shadow: none !important;
-}
 
-.modal label{
-  color : #2f2f2f;
-  text-shadow: none !important;
-  font-size:small;
-  text-transform: uppercase;
-}
+

@@ -35,6 +35,16 @@ a {
   }
 }
 
+#Gallery{
+  .card{
+    .card-body{
+      p{
+       margin-bottom: 0;
+      }
+    }
+  }
+}
+
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
 @media (max-width: 767.98px) {
   body{

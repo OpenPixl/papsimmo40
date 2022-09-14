@@ -56,7 +56,13 @@ a.nav-link {
     color: $secondary-color;
     font-family: 'Montserrat-light', sans-serif;
     text-align: center;
-    text-transform: capitalize;
+    text-transform: uppercase;
+  }
+  .flickity-prev-next-button.previous {
+    left: -100px;
+  }
+  .flickity-prev-next-button.next {
+    right: -100px;
   }
 }
 

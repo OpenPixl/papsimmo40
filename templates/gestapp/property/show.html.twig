@@ -1171,6 +1171,20 @@
                                 console.log(error);
                             })
                     }
+                    //récupération du premier enfant
+                    let firstChild = cols[0]
+                    let card = firstChild.childNodes[1]
+                    card.className = "card text-white bg-primary mb-1"
+                    let cardBody = card.childNodes[5]
+                    cardBody.childNodes[1].textContent = 'Image de profil'
+                    //recupération des autres enfants
+                    for(i=1; i < cols.length; i++){
+                        let otherChild = cols[i]
+                        let card = otherChild.childNodes[1]
+                        card.className = "card text-dark bg-light mb-1"
+                        let cardBody = card.childNodes[5]
+                        cardBody.childNodes[1].textContent = 'Image de galerie'
+                    }
                 },
             })
 
