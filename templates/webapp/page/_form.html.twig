@@ -38,6 +38,12 @@
         %}
 
         {% include('include/form/oneSwitch.html.twig') with {
+            'form_label':form_label(form.isShowdescription, 'Afficher la description de la page', {'label_attr': {'class':'form-check-label'}}),
+            'form_switch':form_widget(form.isShowdescription, {'attr': {'class': 'form-check-input'}})
+        }
+        %}
+
+        {% include('include/form/oneSwitch.html.twig') with {
             'form_label':form_label(form.isShowdate, 'Afficher la date', {'label_attr': {'class':'form-check-label'}}),
             'form_switch':form_widget(form.isShowdate, {'attr': {'class': 'form-check-input'}})
         }

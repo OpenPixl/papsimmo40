@@ -21,11 +21,15 @@ class PageType extends AbstractType
             ])
             ->add('description', TextareaType::class, [
                 'label' => 'Description',
+                'required' => false
             ])
             ->add('isShowtitle',CheckboxType::class, [
                 'required' => false,
             ])
             ->add('isShowdate',CheckboxType::class, [
+                'required' => false,
+            ])
+            ->add('isShowdescription', CheckboxType::class, [
                 'required' => false,
             ])
             ->add('isMenu',CheckboxType::class, [

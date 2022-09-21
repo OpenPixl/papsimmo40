@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="fr">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        {% for path in encore_entry_css_files('pdf') %}
+            <link rel="stylesheet" href="{{ absolute_url(path) }}">
+        {% endfor %}
+    </head>
+    <body>
+        <div id="header">
+            <div class="container" style="align-items: center; justify-content: space-between;">
+                <div>
+                    <img src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
+                </div>
+                <div>
+                    <h1>
+                        INFORMATIONS PRÉCONTRACTUELLES PRÉALABLES<br>
+                        À LA SIGNATURE D’UN MANDAT<br>
+                        CONCLU HORS ÉTABLISSEMENT
+                    </h1>
+                </div>
+            </div>
+        </div>
+        <div id="page1" class="page">
+                <p>
+                    Le professionnel prestataire de services, exerce l’activité de transactions sur immeubles et fonds de commerce conformément à
+                    la loi n° 70-9 du 2 janvier 1970 réglementant les conditions d’exercice des activités relatives à certaines opérations portant sur les
+                    immeubles et les fonds de commerce.<br>
+                    En application des articles L 111-1, L 111-2, L221-5, L221-6 et L221-7 du code de la consommation, le PROFESSIONNEL PRESTATAIRE DE
+                    SERVICES donne au CLIENT les informations suivantes.
+                </p>
+                <h3>les clients</h3>
+                <p>
+                    Personnes physiques et morales
+                </p>
+                {% for customer in customers %}
+                <p>
+                    Nom - Prénom  : {{ customer.firstName }} {{ customer.LastName }}<br>
+                    Adresse : {{ customer.adress }} {% if customer.complement is not null %}, {{ customer.complement }} {% endif %}- {{ customer.zipcode }} {{ customer.city }}<br>
+                    Date et lieu de naissance : <br>
+                    Contacts : <i class="fa-duotone fa-mobile"></i> {{ customer.gsm }} / <i class="fa-regular fa-circle-phone-flip"></i> {{ customer.home }} / <i class="fa-regular fa-circle-phone-flip"></i> {{ customer.otherEmail }}
+                </p>
+                {% endfor %}
+                <h3>LE PRESTATAIRE DE SERVICE</h3>
+                <p>
+                    SAS PAPS IMMO au capital de 1 000€ RCS Bayonne n°908 628 936 | SIRET : 208 628 936 00019 | APE-NAF : 6831Z<br>
+                    Carte professionnelle : N° CPI 6401 2022 000 000 004 délivré par la CCI de Bayonne - TVA intracommunautaire FR76908628936<br>
+                    Assurance : Titulaire d’une RCP souscrite auprès de BEAZLEY SOLUTIONS INTERNATIONAL LIMITED - 1 Rue Saint Georges 75009 PARIS 09
+                </p>
+                <p>
+                    Nom et Prénom : <span class="input">{{ commercial.firstName }} {{ commercial.lastName }}</span><br>
+                    Immatriculé au RSAC DU Tribunal de commerce de : bla sous le : bla<br>
+                    Téléphone : <span class="input">{{ commercial.desk }} / Email : <span class="input">{{ commercial.email }} <br>
+                </p>
+                <h3>DESCRIPTION DES SERVICES PROPOSÉS</h3>
+                <p>
+                    Le professionnel exerce l’activité d’entremise sur les immeubles et fonds de commerce. Dans le cadre de son mandat, le Mandataire
+                    s’engage à entreprendre les démarches nécessaires pour mener à bien la mission qui lui a été confiée à savoir :
+                </p>
+                <p>
+                    <b>VENTE D’UN BIEN IMMOBILIER (RECHERCHE D’ACQUEREURS) Numéro de mandat : <span class="input">{{ property.refMandat }}</span></b>
+                    <br>
+                    Adresse : <span class="input">{{ property.adress }} {{ property.complement }}</span> <br>
+                    Code postal : <span class="input">{{ property.zipcode }} ville : {{ property.city }}</span><br>
+                </p>
+                <p>
+                    Le professionnel effectuera toute publicité ou toute action de communication utile et nécessaire pour y parvenir.<br>
+                    Le consommateur consentira une exclusivité envers le professionnel dans les mandats suivants : « exclusif » et semi-exclusif ».<br>
+                    L’agent commercial mandataire PAPS IMMO n’est pas habilité à rédiger un avant contrat (tel qu’un compromis ou une promesse de
+                    vente). De tels actes engageant les parties doivent être rédigés par un notaire, un huissier ou un avocat.
+                </p>
+                <h3>DURÉE DE LA PRESTATION DE SERVICES</h3>
+                <p>
+                    Le mandat est accepté pour une durée de 24 mois. Le service ici proposé prendra automatiquement fin à l’issue de cette durée, étant
+                    précisé qu’il sera irrévocable pendant les trois premiers mois, et sauf résiliation du mandat à l’expiration de cette période irrévocable.
+                </p>
+                <h3>
+                    RÉMUNÉRATION DU MANDATAIRE
+                </h3>
+                <p>
+                    En cas de pleine réussite de la mission confiée dans le mandat au prestataire de service, les honoraires de ce dernier seront de (en
+                    chiffres et en lettres) bla€ <br>
+                    bla euros TTC <br>
+                    (TVA au taux en vigueur au jour de la signature) et ce conformément au barème en vigueur du professionnel disponible sur son site
+                    internet.<br>
+                    PAPS IMMO et son agent commercial ne perçoivent aucun fonds, titres, effets ou valeurs de la part des clients à la réservation. Les
+                    honoraires sont dus à la conclusion de l’acte authentique de vente chez le notaire, et après que toutes les conditions suspensives
+                    ont été levées. Les honoraires sont directement payés à PAPS IMMO par le Mandant contre remise d’une facture dûment libellée au
+                    débiteur.
+                    Il est convenu que les honoraires sont à charge : Vendeur Acquéreur
+                </p>
+        </div>
+        <div id="footer">
+            <div id="top_footer"></div>
+            <div id="bottom_footer" class="container">
+                <div style="width: 30%;">
+                    <p style="color: #ffffff;line-height:2rem;padding-left: 3rem;">PAPs Immo</p>
+                </div>
+                <div style="width: 70%;">
+                    <p style="color: #ffffff;line-height:2rem;">24 Boulevard Marcel DASSAULT</p>
+                </div>
+            </div>
+        </div>
+
+
+        <div id="page2">
+            <h3>
+                DROIT DE RETRACTATION DU CONSOMMATEUR
+            </h3>
+            <p>
+                Si le CLIENT décide de signer un mandat, ce dernier sera conclu « hors établissement ». Le Mandant aura alors la possibilité de se rétracter, sans donner de motif, dans un délai de 14 jours à compter du lendemain du jour de signature du mandat, en envoyant au PRESTATAIRE DE SERVICES sa décision de rétractation au moyen d’une déclaration dénuée d’ambiguïté (par exemple, lettre envoyée par la poste) ou en utilisant le modèle de formulaire de rétractation ci-dessous.
+            </p>
+            <h3>
+                REGLEMENT DES LITIGES ET MEDIATION DE LA CONSOMMATION
+            </h3>
+            <p>
+                En cas de litige, la législation applicable sera la loi française, et la juridiction compétente celle du lieu du domicile du CLIENT.
+                Conformément à l’article L 211-3 du Code de la consommation, le CLIENT est informé que, en tant que consommateur, il a le droit de recourir gratuitement à un médiateur de la consommation dans un délai d’un an suivant la tentative de résolution amiable du litige effectuée par le biais d’une réclamation écrite adressée au PRESTATAIRE DE SERVICES. Les modalités de cette médiation sont organisées par les articles L 611-1 et suivants et R 612-1 et suivants du Code de la consommation.
+                Médiateur de la consommation PAPS IMMO : Conformément à l’article L 611-1 du code de la consommation, le consommateur est informé qu’il a la possibilité de saisir un médiateur de la consommation dans les conditions prévues aux articles L 611-1 et suivants du code de la consommation, dont les coordonnées sont : Association MEDIMMOCONSO, 3 avenue Adrien Moisant, 78 400 CHATOU Mail : contact@medimmoconso.fr Site internet : http://medimmoconso.fr
+            </p>
+            <h3>
+                DONNEES PERSONNELLES
+            </h3>
+            <p>
+                Les données collectées à travers ce formulaire sont traitées par le PRESTATAIRE DE SERVICES et son agent commercial le représentant afin d’exécuter leur obligation légale de fourniture du document d’informations précontractuelles pour l’établissement d’un Mandat de vente et aux fins de gestion de la relation avec le CLIENT. Ces données pourront être transmises au notaire, au co- contractant, aux organismes financiers éventuellement chargés du financement, ainsi qu’aux administrations concernées. Les traitements des données sont effectués compte-tenu de la nécessité pour le PRESTATAIRE DE SERVICES et son agent commercial le représentant d’assurer le respect des obligations légales notamment de conservation auxquelles ils sont soumis.
+            </p>
+            <p>
+                Les données seront conservées pendant toute la durée de la relation commerciale et ensuite pendant une durée de cinq ans conformément à l’article L. 561-12 du Code monétaire et financier.
+            </p>
+            <p>
+                Le CLIENT bénéficie d’un droit d’accès et de rectification de ses données à caractère personnel traitées. Il peut demander leur effacement et leur portabilité, ou exercer son droit à opposition dans les conditions prévues par le règlement européen 2016/679, ainsi que donner des directives concernant le sort de ses données à caractère personnel après son décès en envoyant un courrier à l’adresse du mandant figurant en tête des présentes ou à l’adresse e-mail contact@papsimmo.com
+            </p>
+            <p>
+                Le CLIENT a également la possibilité d’introduire une réclamation auprès de la CNIL. Pour toute information complémentaire sur la protection de vos données personnelles, nous vous invitons à consulter notre politique de confidentialité disponible sur notre site internet à l’adresse suivante : https://www.papsimmo.fr/politiques-de-confidentialite
+            </p>
+        </div>
+    </body>
+</html>

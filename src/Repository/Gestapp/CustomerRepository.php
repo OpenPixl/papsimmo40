@@ -73,6 +73,15 @@ class CustomerRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function CustomerForProperty($property){
+        return $this->createQueryBuilder('c')
+            ->innerJoin("c.properties", "p")
+            ->andWhere("p.id = :property")
+            ->setParameter("property", $property)
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Customer[] Returns an array of Customer objects
     //  */

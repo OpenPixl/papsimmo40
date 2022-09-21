@@ -2,8 +2,12 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Property;
 use App\Repository\Admin\ApplicationRepository;
+use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
@@ -25,7 +29,7 @@ class PdfController extends AbstractController
         $this->pdf = $pdf;
     }
 
-    #[Route('/admin/pdf/Property/{id}', name: 'op_admin_pdf_property', methods: ['GET'])]
+    #[Route('/admin/pdf/Property/fiche/{id}', name: 'op_admin_pdf_property', methods: ['GET'])]
     public function FicheProperty(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
         $oneproperty = $propertyRepository->oneProperty($property->getId());
@@ -41,6 +45,73 @@ class PdfController extends AbstractController
             'firstphoto' => $firstphoto
         ));
 
+        return new PdfResponse(
+
+            $knpSnappyPdf
+                ->getOutputFromHtml($html),
+            'files.pdf'
+        );
+    }
+
+    #[Route('/admin/pdf/Property/dip/{id}', name: 'op_admin_pdf_dip', methods: ['GET'])]
+    public function dip(
+        Property $property,
+        PropertyRepository $propertyRepository,
+        Pdf $knpSnappyPdf,
+        ApplicationRepository $applicationRepository,
+        Customer $customer,
+        CustomerRepository $customerRepository,
+        EmployedRepository $employedRepository
+        )
+    {
+        $oneproperty = $propertyRepository->oneProperty($property->getId());
+        $customers = $customerRepository->CustomerForProperty($property->getId());
+        $options = $property->getOptions();
+        $equipments = $options->getPropertyEquipment();
+        $refemployed = $property->getRefEmployed();
+        $commercial = $employedRepository->find($refemployed);
+        //$customers = $customerRepository->findBy(['properties', $property->getId()]);
+
+        $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
+        $html = $this->twig->render('pdf/Précontrat_signMandat.html.twig', [
+            'property'  => $oneproperty,
+            'equipments' => $equipments,
+            'application' =>$application,
+            'commercial' => $commercial,
+            'customers' => $customers
+             //'customers' => $customers
+        ]);
+
+        return new PdfResponse(
+
+            $knpSnappyPdf
+                ->setOption("enable-local-file-access",true
+                )
+                ->getOutputFromHtml($html),
+            'files.pdf'
+        );
+    }
+
+    #[Route('/admin/pdf/Property/MandatVente/{id}', name: 'op_admin_pdf_MandatVente', methods: ['GET'])]
+    public function MandatVente(
+        Property $property,
+        PropertyRepository $propertyRepository,
+        ApplicationRepository $applicationRepository,
+        CustomerRepository $customerRepository,
+        Pdf $knpSnappyPdf,
+    )
+    {
+        // récupérer les données correspondant au bien
+        $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
+        $oneproperty = $propertyRepository->oneProperty($property->getId());
+        $customers = $customerRepository->CustomerForProperty($property->getId());
+        //dd($customers);
+        $html = $this->twig->render('pdf/MandatVente.html.twig', [
+            'propriete'  => $oneproperty,
+            'application' =>$application,
+            'customers' => $customers
+            //'customers' => $customers
+        ]);
         return new PdfResponse(
 
             $knpSnappyPdf

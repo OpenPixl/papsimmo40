@@ -3,14 +3,17 @@
    REGLES GENERALES
 
 **/
-body .h1,
-body .h2,
-body .h3,
-body h1,
-body h2,
-body h3 {
-  color: $secondary-color;
-  font-weight: 400;
+body{
+  .h1,.h2,.h3, h1, h2, h3 {
+    color: $secondary-color;
+    font-weight: 400;
+  }
+  blockquote {
+    color : #d1d1d1;
+    font-style: italic;
+    text-align: right;
+  }
+
 }
 
 a.nav-link {
@@ -22,6 +25,10 @@ a.nav-link {
 }
 .tel{
   color: $primary-color;
+}
+
+#op_page_header{
+
 }
 
 #oneproperty_header
