@@ -27,9 +27,12 @@
             {% for customer in customers %}
             <p>
                 <b>M Mme : {{ customer.firstName }} {{ customer.lastName }}</b><br>
-                Né(e) le : bla à : bla<br>
-                Demeurant à : {{ customer.adress }}, {{ customer.complement }} - {{ customer.zipcode }} {{ customer.city }}<br>
-                Tel et E-mail des mandants: <i class="fa-duotone fa-mobile"></i> {{ customer.gsm }} / <i class="fa-regular fa-circle-phone-flip"></i> {{ customer.home }} / <i class="fa-regular fa-circle-phone-flip"></i> {{ customer.otherEmail }}
+                {% if customer.ddn is not null %}Né(e) le : bla à : bla{% endif %}<br>
+                Demeurant à : {{ customer.adress }}{% if customer.complement is not null %}, {{ customer.complement }} {% endif %} - {{ customer.zipcode }} {{ customer.city }}<br>
+                Tel et E-mail des mandants:
+                    {% if customer.gsm is not null %}<i class="fa-duotone fa-mobile"></i> {{ customer.gsm }} / {% endif %}
+                    {% if customer.home is not null %}<i class="fa-regular fa-circle-phone-flip"></i> {{ customer.home }} {% endif %}
+                    {% if customer.otherEmail is not null %}- <i class="fa-regular fa-circle-phone-flip"></i> {{ customer.otherEmail }}{% endif %}
             </p>
             {% endfor %}
             <h3>LE MANDATAIRE</h3>
@@ -40,9 +43,9 @@
                 Assurance : Titulaire d’une RCP souscrite auprès de BEAZLEY SOLUTIONS INTERNATIONAL LIMITED - 1 Rue Saint Georges 75009 PARIS 09
                 N’ayant aucun bien capitalistique ou juridique avec une banque ou une société financière.
             </p>
-            <h3>DÉSIGNATION ET SITUATION DU BIEN</h3>
+            <h3>DÉSIGNATION ET SITUATION DU BIEN <span>{{ propriete.propertyDefinition }}</span></h3>
             <p>
-                Adresse : {{ propriete.adress }} {% if propriete.complement is null %}{% else %}<br> {{ propriete.complement }} {% endif %}<br>
+                Adresse : {{ propriete.adress }} {% if propriete.complement is not null %}<br> {{ propriete.complement }}{% endif %}<br>
                 {{ propriete.zipcode }} {{ propriete.city }} <br>
                 Descriptif : {{ propriete.annonce }}
             </p>
