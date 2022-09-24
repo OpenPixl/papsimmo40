@@ -4,10 +4,15 @@
         <div class="card-body">
             <h4 class="card-title">{{ customer.firstName }} {{ customer.lastName }}</h4>
             <h6 class="card-subtitle mb-2 text-muted">vendeur</h6>
-            <p class="card-text">{{ customer.RefCustomer }}
+            <p class="card-text">
+                {{ customer.RefCustomer }}<br>
+                <i class="fa-duotone fa-location-dot"></i> Adresse: <br>
                 {{ customer.adress }}<br>
+                {% if customer.complement is not empty %}
                 {{ customer.complement }}<br>
-                {{ customer.zipcode }} {{ customer.city }}</p>
+                {% endif %}
+                {{ customer.zipcode }} {{ customer.city }}
+            </p>
             <a href="{{ path('op_gestapp_customer_show', {'id': customer.id}) }}" class="card-link"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
             <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="card-link supprcustomer"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
         </div>

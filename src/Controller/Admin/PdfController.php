@@ -106,19 +106,28 @@ class PdfController extends AbstractController
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         $customers = $customerRepository->CustomerForProperty($property->getId());
         //dd($customers);
+
+        //return $this->render('pdf/MandatVente.html.twig', [
+        //    'propriete'  => $oneproperty,
+        //    'application' =>$application,
+        //    'customers' => $customers
+        //    //'customers' => $customers
+        //]);
+
         $html = $this->twig->render('pdf/MandatVente.html.twig', [
             'propriete'  => $oneproperty,
             'application' =>$application,
             'customers' => $customers
             //'customers' => $customers
         ]);
-        return new PdfResponse(
 
+        return new PdfResponse(
             $knpSnappyPdf
                 ->setOption("enable-local-file-access",true
                 )
                 ->getOutputFromHtml($html),
             'files.pdf'
         );
+
     }
 }

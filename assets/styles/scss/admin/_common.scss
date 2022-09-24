@@ -8,6 +8,10 @@ a {
   color: $primary-color;
 }
 
+.ck-editor__editable {
+  max-height: 400px;
+}
+
 .ts-control {
   padding: 6px 6px !important;
   border-radius: 3px !important;

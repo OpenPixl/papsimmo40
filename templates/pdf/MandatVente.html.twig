@@ -8,6 +8,8 @@
         {% for path in encore_entry_css_files('pdf') %}
             <link rel="stylesheet" href="{{ absolute_url(path) }}">
         {% endfor %}
+        <script src="https://kit.fontawesome.com/3904e9974b.js" crossorigin="anonymous"></script>
+
     </head>
     <body>
     <div id="header">
@@ -26,13 +28,13 @@
             <h3>LE MANDANT</h3>
             {% for customer in customers %}
             <p>
-                <b>M Mme : {{ customer.firstName }} {{ customer.lastName }}</b><br>
+                <b>M Mme : <span class="input">{{ customer.firstName }} {{ customer.lastName }}</span></b><br>
                 {% if customer.ddn is not null %}Né(e) le : bla à : bla{% endif %}<br>
-                Demeurant à : {{ customer.adress }}{% if customer.complement is not null %}, {{ customer.complement }} {% endif %} - {{ customer.zipcode }} {{ customer.city }}<br>
+                Demeurant à : <span class="input">{{ customer.adress }}{% if customer.complement is not empty %}, {{ customer.complement }} {% endif %} - {{ customer.zipcode }} {{ customer.city }}</span><br>
                 Tel et E-mail des mandants:
-                    {% if customer.gsm is not null %}<i class="fa-duotone fa-mobile"></i> {{ customer.gsm }} / {% endif %}
-                    {% if customer.home is not null %}<i class="fa-regular fa-circle-phone-flip"></i> {{ customer.home }} {% endif %}
-                    {% if customer.otherEmail is not null %}- <i class="fa-regular fa-circle-phone-flip"></i> {{ customer.otherEmail }}{% endif %}
+                {% if customer.gsm is not empty %}<span class="input"><i class="fa-duotone fa-mobile"></i> {{ customer.gsm }} / {% endif %}</span>
+                    {% if customer.home is not empty %}<span class="input"><i class="fa-regular fa-circle-phone-flip"></i> {{ customer.home }} {% endif %}</span>
+                        {% if customer.otherEmail is not empty %}- <span class="input"><i class="fa-regular fa-circle-phone-flip"></i> {{ customer.otherEmail }}{% endif %}</span>
             </p>
             {% endfor %}
             <h3>LE MANDATAIRE</h3>
@@ -45,9 +47,9 @@
             </p>
             <h3>DÉSIGNATION ET SITUATION DU BIEN <span>{{ propriete.propertyDefinition }}</span></h3>
             <p>
-                Adresse : {{ propriete.adress }} {% if propriete.complement is not null %}<br> {{ propriete.complement }}{% endif %}<br>
-                {{ propriete.zipcode }} {{ propriete.city }} <br>
-                Descriptif : {{ propriete.annonce }}
+                Adresse : <span class="input">{{ propriete.adress }}</span> {% if propriete.complement is not empty %}<br> <span class="input">{{ propriete.complement }}</span>{% endif %}<br>
+                <span class="input">{{ propriete.zipcode }} {{ propriete.city }} </span><br>
+                Descriptif : <span class="input">{{ propriete.annonce }}</span>
             </p>
         </div>
     </body>

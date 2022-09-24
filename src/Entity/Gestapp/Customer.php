@@ -8,6 +8,7 @@ use App\Repository\Gestapp\CustomerRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
@@ -93,6 +94,12 @@ class Customer
 
     #[ORM\ManyToMany(targetEntity: Property::class, mappedBy: 'Customer')]
     private $properties;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $ddn = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $ddnIn = null;
 
     /**
      * Permet d'initialiser le slug !
@@ -423,6 +430,30 @@ class Customer
         if ($this->properties->removeElement($property)) {
             $property->removeCustomer($this);
         }
+
+        return $this;
+    }
+
+    public function getDdn(): ?\DateTimeInterface
+    {
+        return $this->ddn;
+    }
+
+    public function setDdn(?\DateTimeInterface $ddn): self
+    {
+        $this->ddn = $ddn;
+
+        return $this;
+    }
+
+    public function getDdnIn(): ?string
+    {
+        return $this->ddnIn;
+    }
+
+    public function setDdnIn(?string $ddnIn): self
+    {
+        $this->ddnIn = $ddnIn;
 
         return $this;
     }

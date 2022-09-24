@@ -10,6 +10,16 @@
             }
             %}
             </div>
+            {# Nombre de terrasses #}
+            <div class="row mb-1 g-1">
+                {{ form_label(form.ddn, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                <div class="col-4">
+                    {{ form_widget(form.ddn, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                </div>
+                <div class="col-4">
+                    {{ form_widget(form.ddnIn, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                </div>
+            </div>
         </div>
 
         <div class="row">

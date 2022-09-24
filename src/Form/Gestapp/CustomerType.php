@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Choice\CustomerChoice;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -21,6 +22,18 @@ class CustomerType extends AbstractType
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom'
+            ])
+            ->add('ddn', DateType::class, [
+                'label' => 'Date de naissance',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => false,
+                'by_reference' => true,
+            ])
+            ->add('ddnIn', TextType::class, [
+                'label' => 'à'
             ])
             ->add('adress', TextType::class, [
                 'label' => 'Adresse',
