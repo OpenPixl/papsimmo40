@@ -110,8 +110,8 @@ class PdfController extends AbstractController
         //return $this->render('pdf/MandatVente.html.twig', [
         //    'propriete'  => $oneproperty,
         //    'application' =>$application,
-        //    'customers' => $customers
-        //    //'customers' => $customers
+        //     'customers' => $customers
+        //     //'customers' => $customers
         //]);
 
         $html = $this->twig->render('pdf/MandatVente.html.twig', [
@@ -125,6 +125,8 @@ class PdfController extends AbstractController
             $knpSnappyPdf
                 ->setOption("enable-local-file-access",true
                 )
+                ->setOption("margin-left", 10)
+                ->setOption("margin-right", 10)
                 ->getOutputFromHtml($html),
             'files.pdf'
         );

@@ -38,9 +38,9 @@
                 </p>
                 {% for customer in customers %}
                 <p>
-                    Nom - Prénom  : {{ customer.firstName }} {{ customer.LastName }}<br>
-                    Adresse : {{ customer.adress }} {% if customer.complement is not null %}, {{ customer.complement }} {% endif %}- {{ customer.zipcode }} {{ customer.city }}<br>
-                    Date et lieu de naissance : <br>
+                    Nom - Prénom  : <span class="input">{{ customer.firstName }} {{ customer.LastName }}</span><br>
+                    Adresse : <span class="input">{{ customer.adress }} {% if customer.complement is not null %}, {{ customer.complement }}{% endif %} - {{ customer.zipcode }} {{ customer.city }}</span><br>
+                    Date et lieu de naissance : <span class="input">{{ customer.ddn }} à {{ customer.ddnIn }}</span><br>
                     Contacts : <i class="fa-duotone fa-mobile"></i> {{ customer.gsm }} / <i class="fa-regular fa-circle-phone-flip"></i> {{ customer.home }} / <i class="fa-regular fa-circle-phone-flip"></i> {{ customer.otherEmail }}
                 </p>
                 {% endfor %}
@@ -93,20 +93,8 @@
                     Il est convenu que les honoraires sont à charge : Vendeur Acquéreur
                 </p>
         </div>
-        <div id="footer">
-            <div id="top_footer"></div>
-            <div id="bottom_footer" class="container">
-                <div style="width: 30%;">
-                    <p style="color: #ffffff;line-height:2rem;padding-left: 3rem;">PAPs Immo</p>
-                </div>
-                <div style="width: 70%;">
-                    <p style="color: #ffffff;line-height:2rem;">24 Boulevard Marcel DASSAULT</p>
-                </div>
-            </div>
-        </div>
-
-
-        <div id="page2">
+        <div style="page-break-before:always;"></div>
+        <div id="page2" class="page">
             <h3>
                 DROIT DE RETRACTATION DU CONSOMMATEUR
             </h3>
@@ -137,5 +125,9 @@
                 Le CLIENT a également la possibilité d’introduire une réclamation auprès de la CNIL. Pour toute information complémentaire sur la protection de vos données personnelles, nous vous invitons à consulter notre politique de confidentialité disponible sur notre site internet à l’adresse suivante : https://www.papsimmo.fr/politiques-de-confidentialite
             </p>
         </div>
+
+
+
+
     </body>
 </html>

@@ -47,10 +47,10 @@
             </p>
             <h3>DÉSIGNATION ET SITUATION DU BIEN <span>{{ propriete.propertyDefinition }}</span></h3>
             <p>
-                Adresse : <span class="input">{{ propriete.adress }}</span> {% if propriete.complement is not empty %}<br> <span class="input">{{ propriete.complement }}</span>{% endif %}<br>
-                <span class="input">{{ propriete.zipcode }} {{ propriete.city }} </span><br>
-                Descriptif : <span class="input">{{ propriete.annonce }}</span>
+                Adresse :
+                <span class="input">{{ propriete.adress }} {% if propriete.complement is not empty %}{{ propriete.complement }} - {% endif %}{{ propriete.zipcode }} {{ propriete.city }}</span>
             </p>
+            <p>Descriptif : <span class="input-left">{{ propriete.annonce }}</span></p>
         </div>
     </body>
 </html>
