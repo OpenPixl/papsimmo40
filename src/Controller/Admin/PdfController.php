@@ -125,8 +125,8 @@ class PdfController extends AbstractController
             $knpSnappyPdf
                 ->setOption("enable-local-file-access",true
                 )
-                ->setOption("margin-left", 10)
-                ->setOption("margin-right", 10)
+                ->setOption("margin-left", 20)
+                ->setOption("margin-right", 20)
                 ->getOutputFromHtml($html),
             'files.pdf'
         );
