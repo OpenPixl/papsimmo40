@@ -49,6 +49,52 @@ class PropertyRepository extends ServiceEntityRepository
     public function fivelastproperties()
     {
         return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->join('c.denomination', 'd')
+            ->join('c.propertyState', 'ps')
+            ->join('c.propertyEnergy', 'pe')
+            ->join('c.propertyOrientation', 'po')
+            ->join('c.propertyEquipment', 'peq')
+            ->join('p.propertyDefinition', 'pd')
+            ->addSelect('
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.annonce as annonce,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                p.piece as piece,
+                p.room as room,
+                c.washroom as washroom,
+                c.bathroom as bathroom,
+                c.terrace as terrace,
+                c.balcony as balcony,
+                c.wc as wc,
+                d.name as denomination,
+                p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
+                p.priceFai as priceFai,
+                pd.name as propertyDefinition,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.diagDpe as diagDpe,
+                p.diagGpe as diagGpe,
+                ps.name as propertyState,
+                pe.name as propertyEnergy,
+                po.name as propertyOrientation,
+                c.propertyTax as propertyTax,
+                c.disponibility as disponibility,
+                c.location as location,
+                c.disponibilityAt as disponibilityAt,
+                p.createdAt as createdAt,
+                p.updatedAt as updatedAt
+            ')
             ->where('p.isIncreating = 0')
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(5)
@@ -136,7 +182,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
-                d.name as denomination,
                 p.name as name,
                 p.annonce as annonce,
                 e.id as refEmployed,
@@ -150,6 +195,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.terrace as terrace,
                 c.balcony as balcony,
                 c.wc as wc,
+                c.denomination,
                 p.surfaceHome as surfaceHome,
                 p.surfaceLand as surfaceLand,
                 p.priceFai as priceFai,

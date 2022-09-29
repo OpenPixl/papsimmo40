@@ -39,8 +39,17 @@
                             {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
 
                             <div class="card-img-overlay">
-                                <div class="align-self-center">
-                                    <a href="{{ path('op_gestapp_properties_oneproperty', {'id': property.id}) }}">{{ property.name }}</a>
+                                <div class="name">
+                                    {{ property.propertyDefinition }}  | {{ property.denomination }} | {{ property.surfaceHome }} m2
+                                </div>
+                                <div class="city">
+                                    {{ property.city }}
+                                </div>
+                                <div class="annonce">
+                                    {{ property.annonce|u.truncate(75, ' ...') }}
+                                </div>
+                                <div class="price">
+                                    {{ property.priceFai }} €
                                 </div>
                             </div>
                             {# intégration SVG #}

@@ -380,6 +380,7 @@ class PropertyController extends AbstractController
     {
         $properties = $propertyRepository->fivelastproperties();
 
+
         return $this->renderForm('webapp/page/property/lastproperties.html.twig', [
             'properties' => $properties,
         ]);

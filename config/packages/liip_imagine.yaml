@@ -20,7 +20,7 @@ liip_imagine:
                     position: center
                 background:
                     color: '#fff'
-                    size: [414,370]
+                    size: [414,400]
                     position: top
         oneproperty_image:
             quality: 150

@@ -142,9 +142,6 @@ class Property
     #[ORM\Column(type: 'date', nullable: true)]
     private $dateAvenant;
 
-    #[ORM\ManyToMany(targetEntity: PropertyDefinition::class, inversedBy: 'properties')]
-    private $propertyDefinition;
-
     #[ORM\Column]
     private ?bool $isWithExclusivity = false;
 
@@ -154,12 +151,14 @@ class Property
     #[ORM\Column]
     private ?bool $isSemiExclusivity = false;
 
+    #[ORM\ManyToOne(inversedBy: 'properties')]
+    private ?PropertyDefinition $propertyDefinition = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
         $this->Customer = new ArrayCollection();
         $this->photos = new ArrayCollection();
-        $this->propertyDefinition = new ArrayCollection();
     }
 
     /**
@@ -684,30 +683,6 @@ class Property
         return $this;
     }
 
-    /**
-     * @return Collection<int, PropertyDefinition>
-     */
-    public function getPropertyDefinition(): Collection
-    {
-        return $this->propertyDefinition;
-    }
-
-    public function addPropertyDefinition(PropertyDefinition $propertyDefinition): self
-    {
-        if (!$this->propertyDefinition->contains($propertyDefinition)) {
-            $this->propertyDefinition[] = $propertyDefinition;
-        }
-
-        return $this;
-    }
-
-    public function removePropertyDefinition(PropertyDefinition $propertyDefinition): self
-    {
-        $this->propertyDefinition->removeElement($propertyDefinition);
-
-        return $this;
-    }
-
     public function isIsWithExclusivity(): ?bool
     {
         return $this->isWithExclusivity;
@@ -744,4 +719,15 @@ class Property
         return $this;
     }
 
+    public function getPropertyDefinition(): ?PropertyDefinition
+    {
+        return $this->propertyDefinition;
+    }
+
+    public function setPropertyDefinition(?PropertyDefinition $propertyDefinition): self
+    {
+        $this->propertyDefinition = $propertyDefinition;
+
+        return $this;
+    }
 }

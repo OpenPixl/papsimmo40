@@ -19,13 +19,14 @@ class PropertyDefinition
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $name;
 
-    #[ORM\ManyToMany(targetEntity: Property::class, mappedBy: 'propertyDefinition')]
-    private $properties;
+    #[ORM\OneToMany(mappedBy: 'propertyDefinition', targetEntity: Property::class)]
+    private Collection $properties;
 
     public function __construct()
     {
         $this->properties = new ArrayCollection();
     }
+
 
     public function getId(): ?int
     {
@@ -44,6 +45,11 @@ class PropertyDefinition
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->name;
+    }
+
     /**
      * @return Collection<int, Property>
      */
@@ -55,8 +61,8 @@ class PropertyDefinition
     public function addProperty(Property $property): self
     {
         if (!$this->properties->contains($property)) {
-            $this->properties[] = $property;
-            $property->addPropertyDefinition($this);
+            $this->properties->add($property);
+            $property->setPropertyDefinition($this);
         }
 
         return $this;
@@ -65,14 +71,12 @@ class PropertyDefinition
     public function removeProperty(Property $property): self
     {
         if ($this->properties->removeElement($property)) {
-            $property->removePropertyDefinition($this);
+            // set the owning side to null (unless already changed)
+            if ($property->getPropertyDefinition() === $this) {
+                $property->setPropertyDefinition(null);
+            }
         }
 
         return $this;
-    }
-
-    public function __toString()
-    {
-        return $this->name;
     }
 }

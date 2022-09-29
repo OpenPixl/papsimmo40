@@ -153,13 +153,61 @@ a.nav-link {
 }
 
 #lastproperties{
-  .card-img-top{
 
+  .card {
+    border: none;
+    border-radius: 0;
+    box-shadow: 0px 0px 12px 0px rgba(0,0,0,0.6);
   }
+  .card-img, .card-img-top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .name{
+    position: absolute;
+    bottom: 4.5rem;
+    z-index: 2;
+    left: 0.5rem;
+    color: #FFFFFF;
+  }
+  .city{
+    position: absolute;
+    font-style: italic;
+    bottom: 3.2rem;
+    z-index: 2;
+    left: 0.5rem;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: "Montserrat-light", sans-serif;
+  }
+  .annonce{
+      position: absolute;
+      bottom: 0.5rem;
+      z-index: 2;
+      left: 0.5rem;
+      color: #FFFFFF;
+      font-size: 12px;
+      width:18rem;
+      font-family: "Montserrat-light", sans-serif;
+  }
+  .price{
+      position: absolute;
+      bottom: 1.2rem;
+      z-index: 2;
+      right: 0.8rem;
+      color: $primary-color;
+      font-size: 20px;
+      font-family: "Montserrat-regular", sans-serif;
+  }
+
   #Calque_1{
     position: absolute;
     bottom: 0;
     right: 0;
+    z-index: 1;
+  }
+  .flickity-viewport{
+    min-height: 400px;
   }
 }
 

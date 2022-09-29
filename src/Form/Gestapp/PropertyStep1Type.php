@@ -7,6 +7,7 @@ use App\Entity\Gestapp\choice\PropertyDefinition;
 use App\Entity\Gestapp\Property;
 use App\Form\SearchableEntityType;
 use App\Repository\Admin\EmployedRepository;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
@@ -65,13 +66,17 @@ class PropertyStep1Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false,
             ])
-            ->add('propertyDefinition',EntityType::class, [
+            ->add('propertyDefinition', EntityType::class, [
+                'label'=> 'Catégorie de bien',
                 'class' => PropertyDefinition::class,
-                'label' => 'type',
-                'multiple' => true,
-                'choice_attr' => ChoiceList::attr($this, function (?PropertyDefinition $propertyEquipement) {
-                    return $propertyEquipement ? ['data-data' => $propertyEquipement->getName()] : [];
-                })
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('d')
+                        ->orderBy('d.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'choice_attr' => function (PropertyDefinition $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                }
             ])
             ->add('otherDescription', TextType::class, [
                 'label' => 'Autres',
