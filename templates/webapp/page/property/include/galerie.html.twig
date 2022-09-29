@@ -2,7 +2,7 @@
     <div class="row g-1">
         {% for photo in photos %}
             <div class="col-6 pt-0 pb-1">
-                <img class="img-fluid rounded-2" src="{{ vich_uploader_asset(photo)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
+                <img class="img-fluid" src="{{ vich_uploader_asset(photo)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
             </div>
             {% if loop.index is divisible by(2) %}
                 </div><div class="row g-1">
@@ -20,11 +20,11 @@
             {% for p in row %}
             {% if p == '' %}
             <div class="col-6 pt-0 pb-1">
-                <img class="img-fluid rounded-2" src="{{ asset('images/jpeg/mod_maison.jpg')|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
+                <img class="img-fluid" src="{{ asset('images/jpeg/mod_maison.jpg')|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
             </div>
             {% else %}
             <div class="col-6 pt-0 pb-1">
-                <img class="img-fluid rounded-2" src="{{ vich_uploader_asset(p)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
+                <img class="img-fluid" src="{{ vich_uploader_asset(p)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
             </div>
             {% endif %}
             {% endfor %}

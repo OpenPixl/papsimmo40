@@ -391,15 +391,17 @@ class PropertyController extends AbstractController
     public function OneProperty(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository)
     {
         $oneproperty = $propertyRepository->oneProperty($property->getId());
-        $options = $property->getOptions();
-        $equipments = $options->getPropertyEquipment();
+        $complements = $property->getOptions();
+        $equipments = $complements->getPropertyEquipment();
+        $options = $complements->getPropertyOtheroption();
         $firstphoto = $photoRepository->FirstPhoto($property->getId());
         //dd($equipment);
 
         return $this->render('webapp/page/property/oneproperty.html.twig', [
             'property' => $oneproperty,
             'equipments' => $equipments,
-            'firstphoto' => $firstphoto
+            'firstphoto' => $firstphoto,
+            'options' => $options
         ]);
     }
 

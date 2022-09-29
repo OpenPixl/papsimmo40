@@ -178,6 +178,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('c.propertyOrientation', 'po')
             ->join('c.propertyEquipment', 'peq')
             ->join('p.propertyDefinition', 'pd')
+            ->join('c.propertyTypology', 'pt')
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
@@ -195,7 +196,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.terrace as terrace,
                 c.balcony as balcony,
                 c.wc as wc,
-                c.denomination,
+                d.name as denomination,
                 p.surfaceHome as surfaceHome,
                 p.surfaceLand as surfaceLand,
                 p.priceFai as priceFai,
@@ -209,6 +210,7 @@ class PropertyRepository extends ServiceEntityRepository
                 ps.name as propertyState,
                 pe.name as propertyEnergy,
                 po.name as propertyOrientation,
+                pt.name as propertyTypology,
                 c.propertyTax as propertyTax,
                 c.disponibility as disponibility,
                 c.location as location,

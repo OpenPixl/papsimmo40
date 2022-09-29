@@ -28,9 +28,11 @@
     <section id="oneproperty_main" class="container mb-5">
         {# Row du contenu principal du bien #}
         <div class="row">
+
             <div class="col-12">
                 <h1 class="text-center property_h1">{{property.name}}</h1>
             </div>
+
             {# Row des visuels du bien #}
             <div class="row">
                 {# image principale#}
@@ -47,11 +49,12 @@
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::PublicGalleryByProperty', {'idproperty':property.id}))}}
                 </div>
             </div>
+
             {# Row du contenu Descritpif du Bien #}
             <div class="row" id="generalCard">
                 <div class="col-12">
                     <h3 class="descriptif">DESCRIPTIF :</h3>
-                    <h4 class="small">{{property.ref}}</h4>
+                    <h4 class="small">Ref : {{property.ref}}</h4>
                     <article>
                         {{ property.annonce|markdown_to_html}}
                     </article>
@@ -69,36 +72,36 @@
                                 <tr>
                                     <td>Type</td>
                                     <td>
-                                        {{ property.propertyDefinition }}
+                                        <span class="color">{{ property.propertyDefinition }}</span> -
                                         &nbsp;
                                         {% if property.denomination == 'A définir' %}
                                         {% else %}
-                                        {{ property.denomination }}
+                                            <span class="color">{{ property.denomination }}</span>
                                         {% endif %}
                                     </td>
                                 </tr>
                                 {% if property.propertyState >0 %}
                                     <tr>
                                         <td>Etat du bien</td>
-                                        <td>{{ property.propertyState }}</td>
+                                        <td><span class="color">{{ property.propertyState }}</span></td>
                                     </tr>
                                 {% endif %}
                                 {% if property.propertyEnergy >0 %}
                                     <tr>
                                         <td>Energie</td>
-                                        <td>{{ property.propertyEnergy }}</td>
+                                        <td><span class="color">{{ property.propertyEnergy }}</span></td>
                                     </tr>
                                 {% endif %}
                                 {% if property.propertyTax >0 %}
                                     <tr>
                                         <td>Charge</td>
-                                        <td>{{ property.propertyTax }}</td>
+                                        <td><span class="color">{{ property.propertyTax }}</span></td>
                                     </tr>
                                 {% endif %}
                                 {% if property.propertyOrientation >0 %}
                                     <tr>
                                         <td>Charge</td>
-                                        <td>{{ property.propertyOrientation }}</td>
+                                        <td><span class="color">{{ property.propertyOrientation }}</span></td>
                                     </tr>
                                 {% endif %}
                                 {% if property.disponibility != 'a-definir' or property.location != 'a-definir' %}
@@ -126,31 +129,31 @@
                                         {% if property.washroom > 0 %}
                                             <tr>
                                                 <td>Salle d'eau</td>
-                                                <td>{{property.washroom}}</td>
+                                                <td><span class="color">{{property.washroom}}</span></td>
                                             </tr>
                                         {% endif %}
                                         {% if property.bathroom >0 %}
                                             <tr>
                                                 <td>Salle de Bain</td>
-                                                <td>{{property.bathroom}}</td>
+                                                <td><span class="color">{{property.bathroom}}</span></td>
                                             </tr>
                                         {% endif %}
                                         {% if property.wc >0 %}
                                             <tr>
                                                 <td>Toilette</td>
-                                                <td>{{property.wc}}</td>
+                                                <td><span class="color">{{property.wc}}</span></td>
                                             </tr>
                                         {% endif %}
                                         {% if property.balcony >0 %}
                                             <tr>
                                                 <td>Balcon</td>
-                                                <td>{{property.balcony}}</td>
+                                                <td><span class="color">{{property.balcony}}</span></td>
                                             </tr>
                                         {% endif %}
                                         {% if property.terrace >0 %}
                                             <tr>
                                                 <td>terrasse</td>
-                                                <td>{{property.terrace}}</td>
+                                                <td><span class="color">{{property.terrace}}</span></td>
                                             </tr>
                                         {% endif %}
                                     </table>
@@ -158,14 +161,24 @@
                                 {% endif %}
                                 <div class="col-6">
                                     <table class="table table-bordered">
-                                    {% for equipment in equipments %}
                                         <tr>
-                                            {% if loop.index0 % 2 == 0 %}
-                                                <td class="text-center align-middle" rowspan="2">Equipement</td>
-                                            {% endif %}
-                                            <td>{{ equipment.name }}</td>
+                                            <td class="text-center align-middle">Equipement</td>
+                                            <td>
+                                                {% for equipment in equipments %}<span class="color">{{ equipment.name }}</span> - {% endfor %}
+                                            </td>
                                         </tr>
-                                    {% endfor %}
+                                        <tr>
+                                            <td class="text-center align-middle">Type de bien</td>
+                                            <td>
+                                                <span class="color">{{ property.propertyTypology }}</span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-center align-middle">Autres options</td>
+                                            <td>
+                                                {% for option in options %}<span class="color">{{ option.name }}</span> - {% endfor %}
+                                            </td>
+                                        </tr>
                                     </table>
                                 </div>
                             </div>

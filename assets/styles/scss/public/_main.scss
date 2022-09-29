@@ -153,7 +153,6 @@ a.nav-link {
 }
 
 #lastproperties{
-
   .card {
     border: none;
     border-radius: 0;
@@ -208,6 +207,36 @@ a.nav-link {
   }
   .flickity-viewport{
     min-height: 400px;
+  }
+}
+
+#oneproperty_main{
+  h1 {
+    color: #069697;
+    font-family: "Montserrat-light", sans-serif;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  h2,.h2,h3,.h3 {
+    color: #069697;
+    font-family: "Montserrat-light", sans-serif;
+    text-align: left;
+    text-transform: uppercase;
+  }
+  .btn-primary{
+    background-color: $primary-color;
+    border-color: $primary-color;
+  }
+  #generalCard {
+    margin-top: 4rem;
+    .small{
+      color: $primary-color;
+    }
+  }
+  #TechniqualCard{
+    .color{
+      color: $secondary-color;
+    }
   }
 }
 
