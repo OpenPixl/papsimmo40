@@ -23,6 +23,35 @@
                                 {{ form_errors(form.refMandat) }}
                                 {{ form_widget(form.refMandat, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
+                            <div class="offset-2 col-4">
+                                <div class="row">
+                                    <div class="col-4 align-items-center">
+                                        <fieldset>
+                                            <div class="form-check">
+                                                {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                                {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-4 align-items-center">
+                                        <fieldset>
+                                            <div class="form-check">
+                                                {{ form_widget(form.isSemiExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                                {{ form_label(form.isSemiExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                    <div class="col-4" align-items-center>
+                                        <fieldset>
+                                            <div class="form-check">
+                                                {{ form_widget(form.isWithExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                                {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                            </div>
+                                        </fieldset>
+                                    </div>
+                                </div>
+                            </div>
+
                         </div>
                     </div>
                 </div>

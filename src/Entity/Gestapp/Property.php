@@ -145,6 +145,15 @@ class Property
     #[ORM\ManyToMany(targetEntity: PropertyDefinition::class, inversedBy: 'properties')]
     private $propertyDefinition;
 
+    #[ORM\Column]
+    private ?bool $isWithExclusivity = false;
+
+    #[ORM\Column]
+    private ?bool $isWithoutExclusivity = false;
+
+    #[ORM\Column]
+    private ?bool $isSemiExclusivity = false;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -695,6 +704,42 @@ class Property
     public function removePropertyDefinition(PropertyDefinition $propertyDefinition): self
     {
         $this->propertyDefinition->removeElement($propertyDefinition);
+
+        return $this;
+    }
+
+    public function isIsWithExclusivity(): ?bool
+    {
+        return $this->isWithExclusivity;
+    }
+
+    public function setIsWithExclusivity(bool $isWithExclusivity): self
+    {
+        $this->isWithExclusivity = $isWithExclusivity;
+
+        return $this;
+    }
+
+    public function isIsWithoutExclusivity(): ?bool
+    {
+        return $this->isWithoutExclusivity;
+    }
+
+    public function setIsWithoutExclusivity(bool $isWithoutExclusivity): self
+    {
+        $this->isWithoutExclusivity = $isWithoutExclusivity;
+
+        return $this;
+    }
+
+    public function isIsSemiExclusivity(): ?bool
+    {
+        return $this->isSemiExclusivity;
+    }
+
+    public function setIsSemiExclusivity(bool $isSemiExclusivity): self
+    {
+        $this->isSemiExclusivity = $isSemiExclusivity;
 
         return $this;
     }

@@ -18,6 +18,10 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
+                background:
+                    color: '#fff'
+                    size: [414,370]
+                    position: top
         oneproperty_image:
             quality: 150
             filters:

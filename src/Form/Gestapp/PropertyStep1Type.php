@@ -98,6 +98,15 @@ class PropertyStep1Type extends AbstractType
                 'required' => false,
                 'empty_data' =>''
             ])
+            ->add('isWithoutExclusivity', CheckboxType::class, [
+                'label' => 'Sans exclusivité'
+            ])
+            ->add("isSemiExclusivity", CheckboxType::class, [
+                'label' => 'Semi-exclusivité'
+            ])
+            ->add('isWithExclusivity', CheckboxType::class, [
+                'label' => 'Avec exclusivité'
+            ])
         ;
     }
 
