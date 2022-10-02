@@ -1,17 +1,92 @@
 <div class="row mb-4">
     <div class="row justify-content-center g-2">
-        <div class="navigation d-flex justify-content-end">
-            {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
-        </div>
+
         {% for property in properties %}
-            <div class="col-12 col-sm-6 col-md-6 col-xl-4 col-xxl-4">
+            <div class="col-xs-12 col-sm-6 col-md-4 col-xl-4 col-xxl-4 p-3">
                 <div id="member-card" class="card">
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
+
                     <div class="card-img-overlay">
-                        <div class="align-self-center">
-                            <a href="{{ path('op_gestapp_properties_oneproperty', {'id': property.id}) }}">{{ property.name }}</a>
+                        {# Instertion de la bannière #}
+                        {% if property.banner == "coup-de-coeur" %}
+                            <div class="banner">
+                                <img src="{{ asset('images/svg/coeur.svg') }}" alt="CoupDeCoeur">
+                            </div>
+                        {% elseif property.banner == "exclusivité" %}
+                            <div class="banner">
+                                <img src="{{ asset('images/svg/exclu.svg') }}" alt="Exclusivité">
+                            </div>
+                        {% elseif property.banner == "a-saisir" %}
+                            <div class="banner">
+                                <img src="{{ asset('images/svg/asaisir.svg') }}" alt="Exclusivité">
+                            </div>
+                        {% elseif property.banner == "derniere-minute" %}
+                            <div class="banner">
+                                <img src="{{ asset('images/svg/flash.svg') }}" alt="Exclusivité">
+                            </div>
+                        {% endif %}
+
+                        <div class="name">
+                            {{ property.propertyDefinition }}  | {{ property.denomination }} |  m2
+                        </div>
+                        <div class="city">
+                            {{ property.city }}
+                        </div>
+                        <div class="annonce">
+                            {{ property.annonce|u.truncate(75, ' ...') }}
+                        </div>
+                        <div class="price">
+                            {{ property.priceFai }} €
                         </div>
                     </div>
+                    {# intégration SVG #}
+                    <svg version="1.1" id="Calque_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+                         viewBox="0 0 426.1 385.9" style="enable-background:new 0 0 426.1 385.9;" xml:space="preserve">
+                                    <style type="text/css">
+                                        .st0{clip-path:url(#SVGID_2_);}
+                                        .st1{fill:#FFFFFF;}
+                                        .st2{font-family:'ArialMT';}
+                                        .st3{font-size:14.8952px;}
+                                        .st4{fill:url(#SVGID_3_);}
+                                    </style>
+                        <g>
+                            <g>
+                                <defs>
+                                    <rect id="SVGID_1_" x="-0.4" y="0.5" width="426.5" height="385.5"/>
+                                </defs>
+                                <clipPath id="SVGID_2_">
+                                    <use xlink:href="#SVGID_1_"  style="overflow:visible;"/>
+                                </clipPath>
+                                <g class="st0">
+                                    <text transform="matrix(1 0 0 1 269.7323 258.5234)" class="st1 st2 st3">Découvrir le bien</text>
+                                    <g>
+                                        <path class="st1" d="M409.1,258c0-0.4,0-0.9,0-1.3c0-0.2,0.1-0.4,0.2-0.6c0.9-1,1.8-1.9,2.7-2.9c0.1-0.1,0.1-0.2,0-0.4
+                        c-0.9-1-1.8-1.9-2.7-2.9c-0.2-0.2-0.2-0.4-0.2-0.6c0-0.9,0-1.8,0-2.7c0-0.3,0.1-0.5,0.4-0.6c0.3-0.1,0.5,0,0.7,0.2
+                        c2.1,2.1,4.2,4.2,6.2,6.2c0.4,0.4,0.4,0.6,0,1.1c-2.1,2.1-4.1,4.1-6.2,6.2c0,0-0.1,0.1-0.1,0.1c-0.2,0.2-0.4,0.2-0.6,0.1
+                        c-0.2-0.1-0.3-0.3-0.3-0.5C409.1,258.9,409.1,258.4,409.1,258z"/>
+                                        <path class="st1" d="M400.5,258c0-0.4,0-0.8,0-1.2c0-0.3,0.1-0.5,0.3-0.8c0.9-0.9,1.8-1.9,2.6-2.9c0.1-0.1,0.1-0.2,0-0.3
+                        c-0.9-1-1.8-1.9-2.7-2.9c-0.2-0.2-0.3-0.4-0.3-0.7c0-0.9,0-1.8,0-2.6c0-0.2,0-0.4,0.2-0.5c0.2-0.2,0.5-0.2,0.8,0.1
+                        c1,0.9,1.9,1.9,2.9,2.9c1.2,1.2,2.3,2.3,3.5,3.5c0.4,0.4,0.4,0.6,0,1c-2.1,2.1-4.2,4.2-6.2,6.2c-0.1,0.1-0.2,0.2-0.4,0.3
+                        c-0.4,0.1-0.7-0.2-0.7-0.6C400.5,258.9,400.5,258.4,400.5,258L400.5,258z"/>
+                                    </g>
+
+                                    <linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="182.8591" y1="275.4652" x2="274.4109" y2="-4.0511" gradientTransform="matrix(1 0 0 -1 0 386)">
+                                        <stop  offset="0" style="stop-color:#380A09"/>
+                                        <stop  offset="0.3317" style="stop-color:#380A09"/>
+                                        <stop  offset="0.6782" style="stop-color:#7D1716"/>
+                                        <stop  offset="1" style="stop-color:#7D1716"/>
+                                    </linearGradient>
+                                    <path class="st4" d="M1.1,276h-3v110h428V275V13.6C408.1,260.9,181.5,276,1.1,276z"/>
+                                    <g>
+                                        <g>
+                                            <ellipse class="st1" cx="412.8" cy="373.3" rx="116.8" ry="79.3"/>
+                                        </g>
+                                    </g>
+                                </g>
+                            </g>
+                        </g>
+                                </svg>
+                    <a href="{{ path('op_gestapp_properties_oneproperty', {'id': property.id}) }}" class="stretched-link"></a>
                 </div>
             </div>
         {% else %}

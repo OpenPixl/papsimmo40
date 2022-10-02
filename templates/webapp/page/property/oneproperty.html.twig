@@ -73,7 +73,6 @@
                                     <td>Type</td>
                                     <td>
                                         <span class="color">{{ property.propertyDefinition }}</span> -
-                                        &nbsp;
                                         {% if property.denomination == 'A définir' %}
                                         {% else %}
                                             <span class="color">{{ property.denomination }}</span>
@@ -210,6 +209,7 @@
                     {% endif %}
                     <figure>
                         <figcaption>Diagnostique énergétique</figcaption>
+
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
                             <title id="title">A bart chart showing information</title>
                             {% if letter == 'A' %}

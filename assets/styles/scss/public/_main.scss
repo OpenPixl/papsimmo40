@@ -152,7 +152,15 @@ a.nav-link {
   }
 }
 
-#lastproperties{
+#Properties{
+  h2,.h2,h3,.h3 {
+    color: #069697;
+    font-family: "Montserrat-light", sans-serif;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
   .card {
     border: none;
     border-radius: 0;
@@ -162,12 +170,20 @@ a.nav-link {
     border-top-left-radius: 0;
     border-top-right-radius: 0;
   }
+  .banner{
+    position: absolute;
+    top: -1.5rem;
+    left : -1.5rem;
+    z-index: 2;
+    color: #FFFFFF;
+  }
   .name{
     position: absolute;
     bottom: 4.5rem;
     z-index: 2;
     left: 0.5rem;
     color: #FFFFFF;
+    font-size: 14px;
   }
   .city{
     position: absolute;
@@ -186,14 +202,14 @@ a.nav-link {
       left: 0.5rem;
       color: #FFFFFF;
       font-size: 12px;
-      width:18rem;
+      width:16rem;
       font-family: "Montserrat-light", sans-serif;
   }
   .price{
       position: absolute;
-      bottom: 1.2rem;
+      bottom: 0.5rem;
       z-index: 2;
-      right: 0.8rem;
+      right: 0.5rem;
       color: $primary-color;
       font-size: 20px;
       font-family: "Montserrat-regular", sans-serif;

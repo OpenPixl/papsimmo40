@@ -32,13 +32,15 @@ class ComplementType extends AbstractType
                 'label' => 'Bannière sur vignette',
                 'choices'  => [
                     'Coup de coeur' => "coup-de-coeur",
+                    'Exclusivité' => 'exclusivite',
                     'A saisir' => 'a-saisir',
-                    'Dernière entrée' => 'derniere-entree'
+                    'Dernière minute' => 'derniere-minute'
                 ],
                 'choice_attr' => [
                     'Coup de coeur' => ['data-data' => 'Coup de coeur'],
+                    'Exclusivité' => ['data-data' => 'Exclusivité'],
                     'A saisir' => ['data-data' => 'A saisir'],
-                    'Dernière entrée' => ['data-data' => 'Dernière entrée'],
+                    'Dernière minute' => ['data-data' => 'Dernière minute'],
                 ],
             ])
             ->add('denomination', EntityType::class, [

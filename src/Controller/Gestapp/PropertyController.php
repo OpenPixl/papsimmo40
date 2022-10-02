@@ -34,7 +34,6 @@ class PropertyController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
 
-
         if($hasAccess == true){
             //dd($propertyRepository->listAllProperties());
             $data = $propertyRepository->listAllProperties();
@@ -375,6 +374,9 @@ class PropertyController extends AbstractController
         ], 200);
     }
 
+    /**
+     * Liste les 5 derniers biens immobiliers sur la page d'accueil.
+     */
     #[Route('/lastproperty', name: 'op_gestapp_properties_lastproperty', methods: ['GET'])]
     public function LastProperty(PropertyRepository $propertyRepository)
     {
@@ -387,6 +389,9 @@ class PropertyController extends AbstractController
 
     }
 
+    /**
+     * Affiche la description conmplete d'un bien sur la page "nos biens"
+     */
     #[Route('/oneproperty/{id}', name: 'op_gestapp_properties_oneproperty', methods: ['GET'])]
     public function OneProperty(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository)
     {
@@ -433,6 +438,9 @@ class PropertyController extends AbstractController
         ]);
     }
 
+    /**
+     * Affiche tous les biens immobiliers sur la page "Nos biens".
+     */
     #[Route('/allproperties', name: 'op_gestapp_properties_allproperty', methods: ['GET'])]
     public function AllProperties(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
