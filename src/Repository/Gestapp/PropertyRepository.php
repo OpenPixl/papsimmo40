@@ -107,7 +107,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.banner
             ')
             ->where('p.isIncreating = 0')
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.updatedAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;
@@ -140,7 +140,7 @@ class PropertyRepository extends ServiceEntityRepository
             ')
             ->where('e.id = :user')
             ->setParameter('user', $user)
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.updatedAt', 'DESC')
             ->getQuery()
             ->getResult()
             ;

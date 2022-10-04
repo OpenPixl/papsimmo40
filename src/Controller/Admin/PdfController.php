@@ -36,6 +36,7 @@ class PdfController extends AbstractController
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
         $firstphoto = $photoRepository->firstphoto($property->getId());
+        $photos = $photoRepository->findBy($property->getId());
 
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
         $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
