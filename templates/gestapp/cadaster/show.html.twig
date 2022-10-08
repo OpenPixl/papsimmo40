@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cadaster{% endblock %}
+
+{% block body %}
+    <h1>Cadaster</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ cadaster.id }}</td>
+            </tr>
+            <tr>
+                <th>Parcel</th>
+                <td>{{ cadaster.parcel }}</td>
+            </tr>
+            <tr>
+                <th>Section</th>
+                <td>{{ cadaster.Section }}</td>
+            </tr>
+            <tr>
+                <th>Commune</th>
+                <td>{{ cadaster.commune }}</td>
+            </tr>
+            <tr>
+                <th>Contenance</th>
+                <td>{{ cadaster.contenance }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_cadaster_index') }}">back to list</a>
+
+    <a href="{{ path('app_gestapp_cadaster_edit', {'id': cadaster.id}) }}">edit</a>
+
+    {{ include('gestapp/cadaster/_delete_form.html.twig') }}
+{% endblock %}

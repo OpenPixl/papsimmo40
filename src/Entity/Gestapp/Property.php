@@ -72,15 +72,6 @@ class Property
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $city;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $cadasterZone;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $cadasterNum;
-
-    #[ORM\Column(type: 'integer', nullable: true)]
-    private $cadasterSurface;
-
     #[ORM\OneToOne(targetEntity: Complement::class, cascade: ['persist', 'remove'])]
     private $options;
 
@@ -154,11 +145,15 @@ class Property
     #[ORM\ManyToOne(inversedBy: 'properties')]
     private ?PropertyDefinition $propertyDefinition = null;
 
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Cadaster::class)]
+    private Collection $cadastre;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
         $this->Customer = new ArrayCollection();
         $this->photos = new ArrayCollection();
+        $this->cadastre = new ArrayCollection();
     }
 
     /**
@@ -365,42 +360,6 @@ class Property
     public function setCity(string $city): self
     {
         $this->city = $city;
-
-        return $this;
-    }
-
-    public function getCadasterZone(): ?string
-    {
-        return $this->cadasterZone;
-    }
-
-    public function setCadasterZone(?string $cadasterZone): self
-    {
-        $this->cadasterZone = $cadasterZone;
-
-        return $this;
-    }
-
-    public function getCadasterNum(): ?int
-    {
-        return $this->cadasterNum;
-    }
-
-    public function setCadasterNum(?int $cadasterNum): self
-    {
-        $this->cadasterNum = $cadasterNum;
-
-        return $this;
-    }
-
-    public function getCadasterSurface(): ?int
-    {
-        return $this->cadasterSurface;
-    }
-
-    public function setCadasterSurface(?int $cadasterSurface): self
-    {
-        $this->cadasterSurface = $cadasterSurface;
 
         return $this;
     }
@@ -727,6 +686,36 @@ class Property
     public function setPropertyDefinition(?PropertyDefinition $propertyDefinition): self
     {
         $this->propertyDefinition = $propertyDefinition;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cadaster>
+     */
+    public function getCadastre(): Collection
+    {
+        return $this->cadastre;
+    }
+
+    public function addCadastre(Cadaster $cadastre): self
+    {
+        if (!$this->cadastre->contains($cadastre)) {
+            $this->cadastre->add($cadastre);
+            $cadastre->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCadastre(Cadaster $cadastre): self
+    {
+        if ($this->cadastre->removeElement($cadastre)) {
+            // set the owning side to null (unless already changed)
+            if ($cadastre->getProperty() === $this) {
+                $cadastre->setProperty(null);
+            }
+        }
 
         return $this;
     }

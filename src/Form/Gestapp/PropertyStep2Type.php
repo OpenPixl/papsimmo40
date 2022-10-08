@@ -72,18 +72,7 @@ class PropertyStep2Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false
             ])
-            ->add('cadasterZone',TextType::class, [
-                'label' => 'Zone du cadastre',
-                'required' => false
-            ])
-            ->add('cadasterNum', IntegerType::class, [
-                'label' => 'immatriculation du cadastre',
-                'required' => false
-            ])
-            ->add('cadasterSurface', IntegerType::class, [
-                'label' => 'surface cadastrale',
-                'required' => false
-            ])
+
             ->add('eeaYear',DateType::class, [
                 'label'=> 'Année de référence',
                 'widget' => 'single_text',

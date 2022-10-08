@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Cadaster{% endblock %}
+
+{% block body %}
+    <h1>Edit Cadaster</h1>
+
+    {{ include('gestapp/cadaster/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_gestapp_cadaster_index') }}">back to list</a>
+
+    {{ include('gestapp/cadaster/_delete_form.html.twig') }}
+{% endblock %}

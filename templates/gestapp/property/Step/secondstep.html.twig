@@ -150,23 +150,7 @@
                 <div class="card-body">
                     CADASTRE
                     <hr>
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.cadasterZone, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.cadasterZone, {'attr': {'class': 'form-control form-control-sm'}})
-                    }
-                    %}
 
-                    {% include('include/form/input-numerique.html.twig') with {
-                        'form_label':form_label(form.cadasterNum, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.cadasterNum, {'attr': {'class': 'form-control form-control-sm'}})
-                    }
-                    %}
-
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.cadasterSurface, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.cadasterSurface, {'attr': {'class': 'form-control form-control-sm'}})
-                    }
-                    %}
                     <input type="hidden" name="token" value="{{ csrf_token('step-chiffres') }}"/>
                 </div>
             </div>

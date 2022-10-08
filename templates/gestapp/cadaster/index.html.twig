@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cadaster index{% endblock %}
+
+{% block body %}
+    <h1>Cadaster index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Parcel</th>
+                <th>Section</th>
+                <th>Commune</th>
+                <th>Contenance</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for cadaster in cadasters %}
+            <tr>
+                <td>{{ cadaster.id }}</td>
+                <td>{{ cadaster.parcel }}</td>
+                <td>{{ cadaster.Section }}</td>
+                <td>{{ cadaster.commune }}</td>
+                <td>{{ cadaster.contenance }}</td>
+                <td>
+                    <a href="{{ path('app_gestapp_cadaster_show', {'id': cadaster.id}) }}">show</a>
+                    <a href="{{ path('app_gestapp_cadaster_edit', {'id': cadaster.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_cadaster_new') }}">Create new</a>
+{% endblock %}
