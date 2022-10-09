@@ -12,55 +12,27 @@
                 <td>{{ customer.id }}</td>
             </tr>
             <tr>
-                <th>RefCustomer</th>
+                <th>Référence</th>
                 <td>{{ customer.RefCustomer }}</td>
             </tr>
             <tr>
-                <th>FirstName</th>
-                <td>{{ customer.firstName }}</td>
+                <th>Nom & prénom</th>
+                <td>{{ customer.lastName }} {{ customer.firstName }}</td>
             </tr>
             <tr>
-                <th>LastName</th>
-                <td>{{ customer.lastName }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ customer.slug }}</td>
-            </tr>
-            <tr>
-                <th>Adress</th>
-                <td>{{ customer.adress }}</td>
-            </tr>
-            <tr>
-                <th>Complement</th>
-                <td>{{ customer.complement }}</td>
-            </tr>
-            <tr>
-                <th>Zipcode</th>
-                <td>{{ customer.zipcode }}</td>
-            </tr>
-            <tr>
-                <th>City</th>
-                <td>{{ customer.city }}</td>
+                <th>Adresse</th>
+                <td>{{ customer.adress }}<br>{{ customer.complement }}<br>{{ customer.zipcode }} {{ customer.city }}</td>
             </tr>
             <tr>
                 <th>IsArchived</th>
                 <td>{{ customer.isArchived ? 'Yes' : 'No' }}</td>
             </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('op_gestapp_customer_index') }}">back to list</a>
+    <a href="{{ path('op_gestapp_customer_index') }}">Retour sur la liste des clients</a>
 
-    <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}">edit</a>
+    <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}">Modification de la fiche</a>
 
     {{ include('gestapp/customer/_delete_form.html.twig') }}
 {% endblock %}
