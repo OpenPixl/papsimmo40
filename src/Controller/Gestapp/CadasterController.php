@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Gestapp\Cadaster;
 use App\Form\Gestapp\CadasterType;
 use App\Repository\Gestapp\CadasterRepository;
+use App\Repository\Gestapp\PropertyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,17 @@ class CadasterController extends AbstractController
     {
         return $this->render('gestapp/cadaster/index.html.twig', [
             'cadasters' => $cadasterRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/byproperty/{idProperty}', name: 'app_gestapp_cadaster_byproperty', methods: ['GET'])]
+    public function ListByProperty(CadasterRepository $cadasterRepository, $idproperty, PropertyRepository $propertyRepository): Response
+    {
+        // on récupère la liste de tous les fiches cadastres pour une proprieté précise
+        $cadasters = $cadasterRepository->findBy(['property'=>$idproperty]);
+
+        return $this->render('gestapp/cadaster/listcadastersbyproperty.html.twig', [
+            'cadasters' => $cadasters,
         ]);
     }
 

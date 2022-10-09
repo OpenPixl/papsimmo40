@@ -150,7 +150,7 @@
                 <div class="card-body">
                     CADASTRE
                     <hr>
-
+                    {{ render(controller('App\\Controller\\Gestapp\\CadastreController::ListByProperty')) }}
                     <input type="hidden" name="token" value="{{ csrf_token('step-chiffres') }}"/>
                 </div>
             </div>
