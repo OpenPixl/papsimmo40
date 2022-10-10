@@ -332,6 +332,13 @@
                     })
             }
 
+            // Partie Edition d'un vendeur en Javascript
+            // -----------------------------------------
+            // Déclaration des éléments utile à la fonction
+            const modalEditCustomer = document.getElementById('EditCustomer')
+            const btnEditCustomer = document.getElementById('btnEditCustomer')
+            // Ouverture de la modal avec chargement d'un formulaire d'édition
+
             // Ajout d'un évènement sur le click AddCustomerSearch
             document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                 link.addEventListener('click', AddCustomerSearch);
@@ -1340,6 +1347,24 @@
                     <div class="modal-body">
                         {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
                         <input id="idProperty" type="hidden" value="">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Edition d'un vendeur sur un bien -->
+        <div class="modal fade" id="editCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edition d'un client à cette fiche</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>

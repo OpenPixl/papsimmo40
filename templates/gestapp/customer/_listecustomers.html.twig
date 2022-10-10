@@ -13,7 +13,7 @@
                 {% endif %}
                 {{ customer.zipcode }} {{ customer.city }}
             </p>
-            <a href="{{ path('op_gestapp_customer_show', {'id': customer.id}) }}" class="card-link"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
+            <button id="btnEditCustomer" class="card-link"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</button>
             <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="card-link supprcustomer"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
         </div>
     </div>
