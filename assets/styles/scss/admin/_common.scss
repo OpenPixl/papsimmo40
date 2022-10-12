@@ -39,6 +39,15 @@ a {
   }
 }
 
+#Estimate{
+  hr{
+    margin-top:0.5rem;
+  }
+  .btn-sm, .btn-group-sm > .btn {
+    padding: 0 0.5rem;
+  }
+}
+
 #Gallery{
   .card{
     .card-body{

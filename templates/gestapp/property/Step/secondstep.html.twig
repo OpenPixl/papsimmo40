@@ -5,7 +5,9 @@
             {# Bloc des surfaces #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
-                    SURFACES
+                    <div class="d-flex justify-content-between">
+                        <div>SURFACES</div>
+                    </div>
                     <hr>
                     <div class="row mb-1 mt-1 g-1">
                         <div class="col-6">
@@ -28,7 +30,10 @@
             {# Bloc des Estimations #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
-                    Prix de vente
+                    <div class="d-flex justify-content-between">
+                        <div>Prix de vente</div>
+                    </div>
+                    <hr>
                     <hr>
                     <div id="detailPrice">
                         {% if property.isIncreating > 0 %}
@@ -94,7 +99,9 @@
             {# Bloc des diagnostiques #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
-                    DPE & GPE
+                    <div class="d-flex justify-content-between">
+                        <div>DPE & GES</div>
+                    </div>
                     <hr>
                     <div class="row mb-1 mt-1 g-1">
                         {{ form_label(form.dpeAt, 'Date', {'label_attr': {'class':'col-sm-6  form-label'}}) }}
@@ -148,9 +155,12 @@
             {# Bloc des cadastres #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
-                    CADASTRE
+                    <div class="d-flex justify-content-between">
+                        <div>CADASTRE</div>
+                        <div><button id="btnAddCadastre" class="btn btn-default btn-sm" type="submit" data-bs-toggle="modal" data-bs-target="#editCadastre" data-bs-whatever="{{property.id}}"><i class="fa-solid fa-plus"></i></button></div>
+                    </div>
                     <hr>
-                    {{ render(controller('App\\Controller\\Gestapp\\CadastreController::ListByProperty')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\CadasterController::ListByProperty', {'idproperty':property.id})) }}
                     <input type="hidden" name="token" value="{{ csrf_token('step-chiffres') }}"/>
                 </div>
             </div>

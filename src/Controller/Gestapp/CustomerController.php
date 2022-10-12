@@ -219,6 +219,69 @@ class CustomerController extends AbstractController
         ]);
     }
 
+    #[Route('/getformcustomer/{id}', name: 'op_gestapp_customer_getform', methods: ['GET'])]
+    public function getFormCustomer(Customer $customer,Request $request)
+    {
+        $form = $this->createForm(CustomerType::class, $customer, [
+            'action'=> $this->generateUrl('op_gestapp_customer_getform'),
+            'method'=>'POST'
+        ]);
+        $form->handleRequest($request);
+        return $this->json([
+            'code'=> 200,
+            'form' => $this->renderForm('gestapp/customer/_form.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ])
+        ], 200);
+    }
+
+    #[Route('/editcustomerjson/{id}/{idproperty}', name: 'op_gestapp_customer_addcustomerjson',  methods: ['GET', 'POST'])]
+    public function editCustomerJson(
+        Request $request,
+        Customer $customer,
+        $idproperty,
+        CustomerRepository $customerRepository,
+        EmployedRepository $employedRepository,
+        PropertyRepository $propertyRepository,
+        CustomerChoiceRepository $customerChoiceRepository,
+    )
+    {
+        $user = $this->getUser()->getId();
+        $employed = $employedRepository->find($user);
+        // Récupération des données stockées
+        $data = json_decode($request->getContent(), true);
+
+        $customer->setFirstName($data['firstName']);
+        $customer->setLastName($data['lastName']);
+        $customer->setAdress($data['adress']);
+        $customer->setComplement($data['complement']);
+        $customer->setZipCode($data['zipcode']);
+        $customer->setCity($data['city']);
+        $customer->setHome($data['home']);
+        $customer->setDesk($data['desk']);
+        $customer->setGsm($data['gsm']);
+        $customer->setFax($data['fax']);
+        $customer->setOtherEmail($data['otherEmail']);
+        $customer->setFacebook($data['facebook']);
+        $customer->setInstagram($data['instagram']);
+        $customer->setLinkedin($data['linkedin']);
+
+        $customerRepository->add($customer);
+
+        $customers = $customerRepository->listbyproperty($idproperty);
+        dd($customers);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Le vendeurs a été correctement modifié.",
+            'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                'customers' => $customers,
+                'idproperty' => $idproperty
+            ])
+        ], 200);
+    }
+
     #[Route('/{id}', name: 'op_gestapp_customer_delete', methods: ['POST'])]
     public function delete(Request $request, Customer $customer, CustomerRepository $customerRepository): Response
     {

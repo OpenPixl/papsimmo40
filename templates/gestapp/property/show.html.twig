@@ -6,6 +6,7 @@
     {{ parent() }}
     <script>
         window.onload = function() {
+
             // récupération des id des panels
             const navInformations = document.getElementById("navInformations");
             const navCustomers = document.getElementById("navCustomers");
@@ -232,7 +233,7 @@
             //
             // ---------------------------------------
 
-            //Action sur le clic du bouton nextstep
+            // Action sur le clic du bouton nextstep
             if(nextStepCustomers !== null){
                 nextStepCustomers.onclick = function (event) {
                     event.preventDefault()
@@ -249,7 +250,10 @@
                     Estimate.className += " active";
                 }
             }
-            // Modal d'ajout d'un vendeur à la fiche
+
+            // Partie Ajout d'un vendeur en Javascript
+            // -----------------------------------------
+            // Préparation de la Modal d'ajout d'un vendeur à la fiche
             const modalAddCustomer = document.getElementById('addCustomer')
             modalAddCustomer.addEventListener('show.bs.modal', function (event) {
                 // Button that triggered the modal
@@ -261,8 +265,7 @@
                 var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
                 modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
             })
-            // Envoi du formulaire d'ajout d'un vendeur
-            // Evènement sur le bouton btnAddCustomers - Modal d'ajout d'un vendeur
+            // Evènement sur le bouton btnAddCustomers
             const btnAddCustomer = document.getElementById('btnAddCustomer')
             btnAddCustomer.onclick = function (event) {
                 event.preventDefault()
@@ -298,14 +301,58 @@
                     instagram: instagram,
                     linkedin: linkedin
                 }
-                console.log(data)
                 // envoie des données
                 axios
                     .post(url, data)
                     .then(function (response) {
-                        console.log('vendeur ajouté')
                         const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
                         modalAddCustomer.addEventListener('hide.bs.modal')
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            }
+
+            // Partie Edition d'un vendeur en Javascript
+            // -----------------------------------------
+            // Déclaration des éléments utile à la fonction
+            const modalEditCustomer = document.getElementById('editCustomer')
+            // Ouverture de la modal d'édition
+            modalEditCustomer.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                let button = event.relatedTarget
+                // extraction de la variable
+                let recipient = button.getAttribute('data-bs-whatever')
+                let split = recipient.split('-')
+                let idclient = split[0]
+                let idproperty = split[1]
+                // Chargement du Formulaire
+                let modalBody = modalEditCustomer.querySelector('.modal-body')
+                axios
+                    .get('/gestapp/customer/getformcustomer/' + idclient )
+                    .then(function (response) {
+                        modalBody.innerHTML = response.data.form.content
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+                // mise à jour du lien de soumission du formulaire.
+                let modalSubmit = modalEditCustomer.querySelector('.modal-footer a')
+                modalSubmit.href = '/gestapp/customer/editcustomerjson/' + idclient + '/' + idproperty
+            })
+            // function d'édition de la fiche Client
+            function EditCustomer(event){
+                event.preventDefault()
+                let urlEditCustomer = this.href
+                let formEditCustomer = document.getElementById('FormEditCustomer')
+                let dataEditCustomer = new FormData(formEditCustomer)
+                axios
+                    .post(urlEditCustomer, dataEditCustomer)
+                    .then(function (response){
+                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
+                        modalEditCustomer.addEventListener('hide.bs.modal')
                     })
                     .catch(function (error) {
                         // handle error
@@ -316,7 +363,7 @@
             // Fonction de suppression d'un client
             function SupprCustomer(event) {
                 event.preventDefault()
-                const url = this.href
+                let url = this.href
                 axios
                     .post(url)
                     .then(function (response) {
@@ -325,27 +372,28 @@
                         document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                             link.addEventListener('click', AddCustomerSearch);
                         })
-                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        // Ajout d'un évènement sur le click supprcustomer
                         document.querySelectorAll('a.supprcustomer').forEach(function (link) {
                             link.addEventListener('click', SupprCustomer);
                         })
+                        // Ajout d'un évènement sur le click du selecteur EditCustomer
+                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                            link.addEventListener('click', EditCustomer);
+                        })
                     })
             }
-
-            // Partie Edition d'un vendeur en Javascript
-            // -----------------------------------------
-            // Déclaration des éléments utile à la fonction
-            const modalEditCustomer = document.getElementById('EditCustomer')
-            const btnEditCustomer = document.getElementById('btnEditCustomer')
-            // Ouverture de la modal avec chargement d'un formulaire d'édition
 
             // Ajout d'un évènement sur le click AddCustomerSearch
             document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                 link.addEventListener('click', AddCustomerSearch);
             })
-            // Ajout d'un évènement sur le click AddCustomerSearch
+            // Ajout d'un évènement sur le click supprcustomer
             document.querySelectorAll('a.supprcustomer').forEach(function (link) {
                 link.addEventListener('click', SupprCustomer);
+            })
+            // Ajout d'un évènement sur le click du selecteur EditCustomer
+            document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                link.addEventListener('click', EditCustomer);
             })
 
             // fonction d'ajout depuis l'évènement AddCustomerSearch
@@ -577,7 +625,7 @@
             //
             // ---------------------------------------
 
-            let FormEditOptions = document.getElementById('FormEditOptions')
+            const FormEditOptions = document.getElementById('FormEditOptions')
             FormEditOptions.addEventListener('submit', function (event) {
                 event.preventDefault()
                 let urlEditOptions = FormEditOptions.action
@@ -1364,12 +1412,24 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-
+                        <p>test</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                        <a id="btnAddCustomer" class="btn btn-sm btn-primary editCustomer">Ajouter</a>
                     </div>
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseOther #}
+        <div class="modal fade" id="modalPropertyDefinition" tabindex="-1" aria-labelledby="PropertyDefinition" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Type de bien :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyDefinitionController::new2')) }}
                 </div>
             </div>
         </div>
@@ -1457,18 +1517,24 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout HouseOther #}
-        <div class="modal fade" id="modalPropertyDefinition" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
+
+        {# Modal d'ajout zone de cadatre
+        <div class="modal fade" id="modalAddCadaster" tabindex="-1" aria-labelledby="addCadaster" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Type de bien :</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajout d'une zone du cadastre</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyDefinitionController::new2')) }}
+                    <div class="modal-body">
+                    </div>
+                    <div class="modal-footer">
+                    </div>
                 </div>
             </div>
         </div>
+        #}
+
         {# annonce toaster #}
         <div aria-live="polite" aria-atomic="true" class="position-relative">
             <div class="toast-container position-absolute top-50 end-0 p-3">

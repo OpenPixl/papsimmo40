@@ -64,20 +64,18 @@
                                     <td colspan="3">{{ property.denomination }}</td>
                                 </tr>
                                 <tr>
-                                    <th>Surface : </th>
-                                    <td>Habitation :</td>
-                                    <td colspan="2">{{ property.surfaceHome }} m2</td>
+                                    <th>Surface habitable: </th>
+                                    <td>{{ property.surfaceHome }} m2</td>
                                 </tr>
                                 <tr>
-                                    <th>Surface : </th>
-                                    <td>Terrain :</td>
-                                    <td colspan="2">{{ property.surfaceLand }} m2</td>
+                                    <th>Surface terrain: </th>
+                                    <td>{{ property.surfaceLand }} m2</td>
                                 </tr>
                                 <tr>
-                                    <th>Nombre de pièces :</th>
-                                    <td>{{ piece }}</td>
-                                    <th>Nombre de pièces :</th>
-                                    <td>{{ room }}</td>
+                                    <th>Nombre de pièces : </th>
+                                    <td>{{ property.piece }} {{ piece }}</td>
+                                    <th>Nombre de pièces : </th>
+                                    <td>{{ property.room }} {{ room }}</td>
                                 </tr>
                             </table>
                         </div>
@@ -154,22 +152,54 @@
                     </div>
                 </div>
             </div>
-            <div id="Descritpions" class="">
+            <div id="descritpions" class="">
                 <div>
                     <h2 class="title-h2">DESCRIPTION</h2>
                 </div>
-                <div id="propertyDescription">
+                <div id="propertyDescription" class="page">
                     <p><span class="subtitle">{{ property.name }}</span> </p>
                     <p>{{ property.annonce }}</p>
                 </div>
             </div>
-            <div class="nextpage"></div>
-            <div id="Galerie">
+            <div style="page-break-before:always;"></div>
+            <div id="Title">
+                <h2 class="title-h2">INFO - {{ property.name }}</h2>
+            </div>
+            <div id="Galerie" class="page">
+                {#
                 {% for photo in photos %}
                     <img class="img-fluid" src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
                 {% endfor %}
+                #}
             </div>
-
+            <div style="page-break-before:always;"></div>
+            <div id="Title">
+                <h2 class="title-h2">INFO - {{ property.name }}</h2>
+            </div>
+            <div id="techniques" class="page">
+                <div id="Subtitle">
+                    <h3 class="title-h3">ESTIMATION DU COUT ANNUEL ENERGETIQUE DU BIEN</h3>
+                    <p><span class="subtitle">Estimation énergie basse : </span>{% if property.dpeEstimateEnergyDown is not empty %}{{ property.dpeEstimateEnergyDown }}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Estimation énergie élevée : </span>{% if property.dpeEstimateEnergyUp is null%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Année de référence : </span></p>
+                </div>
+                <div>
+                    <h3 class="title-h3">Piéces</h3>
+                    <p><span class="subtitle">Terrasse : </span>{% if property.terrace is not empty%}{{property.terrace}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Salle d'eau : </span>{% if property.washroom is not empty%}{{property.washroom}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Salle de bain : </span>{% if property.bathroom is not empty%}{{property.bathroom}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">WC : </span>{% if property.wc is not empty%}{{property.wc}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Balcon : </span>{% if property.balcony is not empty%}{{property.balcony}}{% else %}non communiqué{% endif %}</p>
+                </div>
+                <div>
+                    <h3 class="title-h3">Equipements</h3>
+                    <p><span class="subtitle">Meublé : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Equipement du bien : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Typologie du bien : </span>{% if property.propertyTypology is not empty%}{{property.propertyTypology}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Etage : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                    <p><span class="subtitle">Autres options du bien : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                </div>
+            </div>
 
         </main>
         <footer>

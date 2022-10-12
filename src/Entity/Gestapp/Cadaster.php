@@ -17,7 +17,7 @@ class Cadaster
     private ?int $parcel = null;
 
     #[ORM\Column(length: 3)]
-    private ?string $Section = null;
+    private ?string $section = null;
 
     #[ORM\Column(length: 255)]
     private ?string $commune = null;
@@ -47,12 +47,12 @@ class Cadaster
 
     public function getSection(): ?string
     {
-        return $this->Section;
+        return $this->section;
     }
 
     public function setSection(string $Section): self
     {
-        $this->Section = $Section;
+        $this->section = $Section;
 
         return $this;
     }

@@ -1,26 +1,21 @@
-    <table class="table">
+    <table class="table table-responsive">
         <thead>
             <tr>
-                <th>Id</th>
                 <th>Parcelle</th>
                 <th>Section</th>
-                <th>Code commune :</th>
-                <th>Contenance / surface :</th>
+                <th>Code commune</th>
+                <th>Contenance / surface</th>
             </tr>
         </thead>
         <tbody>
         {% for cadaster in cadasters %}
             <tr>
-                <td>{{ cadaster.id }}</td>
                 <td>{{ cadaster.parcel }}</td>
                 <td>{{ cadaster.Section }}</td>
                 <td>{{ cadaster.commune }}</td>
                 <td>{{ cadaster.contenance }}</td>
             </tr>
         {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
         {% endfor %}
         </tbody>
     </table>

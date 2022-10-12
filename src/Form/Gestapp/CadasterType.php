@@ -13,10 +13,9 @@ class CadasterType extends AbstractType
     {
         $builder
             ->add('parcel')
-            ->add('Section')
+            ->add('section')
             ->add('commune')
             ->add('contenance')
-            ->add('property')
         ;
     }
 
