@@ -223,8 +223,9 @@ class CustomerController extends AbstractController
     public function getFormCustomer(Customer $customer,Request $request)
     {
         $form = $this->createForm(CustomerType::class, $customer, [
-            'action'=> $this->generateUrl('op_gestapp_customer_getform'),
-            'method'=>'POST'
+            'action'=> $this->generateUrl('op_gestapp_customer_getform', ['id'=> $customer->getId()]),
+            'method'=>'POST',
+            'attr' => ['class'=>'formEditCustomer']
         ]);
         $form->handleRequest($request);
         return $this->json([
@@ -236,7 +237,7 @@ class CustomerController extends AbstractController
         ], 200);
     }
 
-    #[Route('/editcustomerjson/{id}/{idproperty}', name: 'op_gestapp_customer_addcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/editcustomerjson/{id}/{idproperty}', name: 'op_gestapp_customer_editcustomerjson',  methods: ['GET', 'POST'])]
     public function editCustomerJson(
         Request $request,
         Customer $customer,
@@ -247,39 +248,48 @@ class CustomerController extends AbstractController
         CustomerChoiceRepository $customerChoiceRepository,
     )
     {
-        $user = $this->getUser()->getId();
-        $employed = $employedRepository->find($user);
-        // Récupération des données stockées
-        $data = json_decode($request->getContent(), true);
+        $property = $propertyRepository->find($idproperty);
+        $form = $this->createForm(CustomerType::class, $customer, [
+            'action'=> $this->generateUrl('op_gestapp_customer_editcustomerjson', [
+                'id'=> $customer->getId(),
+                'idproperty' => $idproperty
+            ]),
+            'method'=>'POST'
+        ]);
+        $form->handleRequest($request);
+        //dd($form->isValid());
+        if ($form->isSubmitted() && $form->isValid()) {
+            $customerRepository->add($customer);
+            $customers = $customerRepository->listbyproperty($idproperty);
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le vendeur a été correctement modifié.",
+                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                    'customers' => $customers,
+                    'property' => $property,
+                    'idproperty' => $idproperty
+                ])
+            ], 200);
 
-        $customer->setFirstName($data['firstName']);
-        $customer->setLastName($data['lastName']);
-        $customer->setAdress($data['adress']);
-        $customer->setComplement($data['complement']);
-        $customer->setZipCode($data['zipcode']);
-        $customer->setCity($data['city']);
-        $customer->setHome($data['home']);
-        $customer->setDesk($data['desk']);
-        $customer->setGsm($data['gsm']);
-        $customer->setFax($data['fax']);
-        $customer->setOtherEmail($data['otherEmail']);
-        $customer->setFacebook($data['facebook']);
-        $customer->setInstagram($data['instagram']);
-        $customer->setLinkedin($data['linkedin']);
+        }
 
-        $customerRepository->add($customer);
-
+        dd($form->getErrors());
         $customers = $customerRepository->listbyproperty($idproperty);
-        dd($customers);
-
         return $this->json([
             'code'=> 200,
-            'message' => "Le vendeurs a été correctement modifié.",
+            'message' => "Le vendeur a doit être correctement renseigné.",
             'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
                 'customers' => $customers,
+                'property' => $property,
                 'idproperty' => $idproperty
             ])
         ], 200);
+
+
+
+        dd($customers);
+
+
     }
 
     #[Route('/{id}', name: 'op_gestapp_customer_delete', methods: ['POST'])]

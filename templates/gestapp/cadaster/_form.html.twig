@@ -1,4 +1,29 @@
-{{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+{{ form_start(form, {'attr': {'id' : 'formAddCadaster'}}) }}
+    {# Nombre de terrasses #}
+    <div class="row mb-1 g-1">
+        {{ form_label(form.parcel, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+        <div class="col-4">
+            {{ form_widget(form.parcel, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+    </div>
+    {# Nombre de terrasses #}
+    <div class="row mb-1 g-1">
+        {{ form_label(form.section, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+        <div class="col-4">
+            {{ form_widget(form.section, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+    </div>
+    {# Nombre de terrasses #}
+    <div class="row mb-1 g-1">
+        {{ form_label(form.commune, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+        <div class="col-4">
+            {{ form_widget(form.commune, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+    </div>{# Nombre de terrasses #}
+    <div class="row mb-1 g-1">
+        {{ form_label(form.contenance, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+        <div class="col-4">
+            {{ form_widget(form.contenance, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+    </div>
 {{ form_end(form) }}

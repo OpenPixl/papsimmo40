@@ -5,15 +5,17 @@
                 <th>Section</th>
                 <th>Code commune</th>
                 <th>Contenance / surface</th>
+                <th></th>
             </tr>
         </thead>
         <tbody>
         {% for cadaster in cadasters %}
             <tr>
-                <td>{{ cadaster.parcel }}</td>
+                <td>N° {{ cadaster.parcel }}</td>
                 <td>{{ cadaster.Section }}</td>
                 <td>{{ cadaster.commune }}</td>
-                <td>{{ cadaster.contenance }}</td>
+                <td>{{ cadaster.contenance }} m²</td>
+                <td><a class="supprCadaster" href="{{ path('op_gestapp_cadaster_deletejson', {'id': cadaster.id, 'idproperty': idproperty}) }}"><i class="fa-light fa-eraser"></i></a></td>
             </tr>
         {% else %}
         {% endfor %}

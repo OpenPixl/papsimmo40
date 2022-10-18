@@ -88,7 +88,7 @@
             }
 
             // autres mises en place
-            //AddAvenant.style.display = 'none'
+            // AddAvenant.style.display = 'none'
             // mise en place du datapicker flatpickr sur les champs de date
             flatpickr(".flatpickr", {
                 "locale": "fr",
@@ -305,7 +305,7 @@
                 axios
                     .post(url, data)
                     .then(function (response) {
-                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
+                        const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste;
                         modalAddCustomer.addEventListener('hide.bs.modal')
                     })
                     .catch(function (error) {
@@ -346,18 +346,17 @@
             function EditCustomer(event){
                 event.preventDefault()
                 let urlEditCustomer = this.href
-                let formEditCustomer = document.getElementById('FormEditCustomer')
-                let dataEditCustomer = new FormData(formEditCustomer)
+                let FormEditCustomer = document.querySelector('.formEditCustomer')
+                let dataEditCustomer = new FormData(FormEditCustomer)
                 axios
                     .post(urlEditCustomer, dataEditCustomer)
-                    .then(function (response){
-                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
-                        modalEditCustomer.addEventListener('hide.bs.modal')
+                    .then(function(response){
+                        const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste
                     })
                     .catch(function (error) {
-                        // handle error
                         console.log(error);
                     })
+                modalEditCustomer.addEventListener('hide.bs.modal')
             }
 
             // Fonction de suppression d'un client
@@ -409,6 +408,10 @@
                             link.addEventListener('click', AddCustomerSearch);
                         })
                     })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
             }
 
             // fonction de recherche "Customer" depuis le formulaire
@@ -457,7 +460,7 @@
             //
             // ---------------------------------------
 
-            // Calcul
+            // Calcul des taux et honoraires de PAPS
             // ---------------------------------------
             // Modification des tarifs selon le prix vendeur et les honoraires
             document.getElementById('property_step2_price').addEventListener('change', function () {
@@ -618,6 +621,82 @@
                 Customers.className += " active"
             })
 
+            // Cadastre
+            // ---------------------------------------
+            // Ajout d'une zone cadastrale
+            // ouverture de la modale d'ajout
+            const modalAddCadaster = document.getElementById('addCadaster')
+            modalAddCadaster.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                let button = event.relatedTarget
+                // extraction de la variable
+                let recipient = button.getAttribute('data-bs-whatever')
+                console.log(recipient)
+            })
+            // création de la fonction d'ajout
+            const btnAddCadaster = document.getElementById('btnAddCadaster')
+            btnAddCadaster.onclick = function(event) {
+                let formAddCadaster = document.getElementById('formAddCadaster')
+                let urlAddCadaster = formAddCadaster.action
+                let dataAddCadaster = new FormData(formAddCadaster)
+                axios
+                    .post(urlAddCadaster, dataAddCadaster)
+                    .then(function(response){
+                        const listeCadaster = document.getElementById('listeCadaster').innerHTML = response.data.listeCadaster
+                        const surfaceLand = document.getElementById('property_step2_surfaceLand').value = response.data.m2
+                        // préparation du toaster
+                        var option = {
+                            animation: true,
+                            autohide: true,
+                            delay: 3000,
+                        };
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                        toastElement.show();
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })
+            }
+            // ---------------------------------------
+            // Editon d'une zone cadastrale
+
+            // ---------------------------------------
+            // Suppression d'une zone cadastrale
+            function supprCadaster(event) {
+                event.preventDefault()
+                let urlSupprCadaster = this.href
+                axios
+                    .post(urlSupprCadaster)
+                    .then(function(response){
+                        const listeCadaster = document.getElementById('listeCadaster').innerHTML = response.data.listeCadaster
+                        const surfaceLand = document.getElementById('property_step2_surfaceLand').value = response.data.m2
+                        // préparation du toaster
+                        var option = {
+                            animation: true,
+                            autohide: true,
+                            delay: 3000,
+                        };
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                        toastElement.show();
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })
+            }
+            // Ajout d'un évènement sur le click AddCustomerSearch
+            document.querySelectorAll('a.supprCadaster').forEach(function (link) {
+                link.addEventListener('click', supprCadaster);
+            })
 
             // ---------------------------------------
             // STEP 4 :
@@ -1412,7 +1491,6 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p>test</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -1421,7 +1499,25 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout HouseOther #}
+        <!-- Ajout d'une zone cadastrale -->
+        <div class="modal fade" id="addCadaster" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une parcelle</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ render(controller('App\\Controller\\Gestapp\\CadasterController::new', {'idproperty': property.id})) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button id="btnAddCadaster" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout PropertyDefinition -  #}
         <div class="modal fade" id="modalPropertyDefinition" tabindex="-1" aria-labelledby="PropertyDefinition" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -1445,7 +1541,7 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout HouseState #}
+        {# Modal d'ajout HouseState - Etat du bien immobilier #}
         <div class="modal fade" id="modalHouseState" tabindex="-1" aria-labelledby="addHouseState" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -1457,7 +1553,7 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout HouseEnergy #}
+        {# Modal d'ajout HouseEnergy - Gestion des énergies #}
         <div class="modal fade" id="modalHouseEnergy" tabindex="-1" aria-labelledby="addHouseEnergy" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -1469,7 +1565,7 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout HouseOrientation #}
+        {# Modal d'ajout HouseOrientation - Orientation du bien #}
         <div class="modal fade" id="modalHouseOrientation" tabindex="-1" aria-labelledby="addHouseOrientation" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -1481,7 +1577,7 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout HouseEquipement #}
+        {# Modal d'ajout HouseEquipement - Equipement du bien #}
         <div class="modal fade" id="modalHouseEquipment" tabindex="-1" aria-labelledby="addHouseEquipment" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -1517,23 +1613,6 @@
                 </div>
             </div>
         </div>
-
-        {# Modal d'ajout zone de cadatre
-        <div class="modal fade" id="modalAddCadaster" tabindex="-1" aria-labelledby="addCadaster" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajout d'une zone du cadastre</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                    </div>
-                </div>
-            </div>
-        </div>
-        #}
 
         {# annonce toaster #}
         <div aria-live="polite" aria-atomic="true" class="position-relative">

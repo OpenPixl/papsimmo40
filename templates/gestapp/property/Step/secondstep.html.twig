@@ -17,7 +17,7 @@
                             {{ form_widget(form.surfaceLand, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                         <div class="col-6">
-                            {{ form_label(form.surfaceHome, 'Habitation', {'label_attr': {'class':'form-label'}}) }}
+                            {{ form_label(form.surfaceHome, 'Habitable', {'label_attr': {'class':'form-label'}}) }}
                         </div>
                         <div class="col-6">
                             {{ form_widget(form.surfaceHome, {'attr': {'class': 'form-control form-control-sm'}}) }}
@@ -120,7 +120,7 @@
                             {{ form_widget(form.diagDpe, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                         <div class="col-6">
-                            {{ form_label(form.diagGpe, 'GPE', {'label_attr': {'class':'form-label'}}) }}
+                            {{ form_label(form.diagGpe, 'GES', {'label_attr': {'class':'form-label'}}) }}
                         </div>
                         <div class="col-6">
                             {{ form_widget(form.diagGpe, {'attr': {'class': 'form-control form-control-sm'}}) }}
@@ -156,11 +156,17 @@
             <div class="card text-dark bg-light">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <div>CADASTRE</div>
-                        <div><button id="btnAddCadastre" class="btn btn-default btn-sm" type="submit" data-bs-toggle="modal" data-bs-target="#editCadastre" data-bs-whatever="{{property.id}}"><i class="fa-solid fa-plus"></i></button></div>
+                        <div>CADASTRE - <a href="https://cadastre.data.gouv.fr/map?style=ortho#5/46.9/1.7" target="_blank"><i class="fa-regular fa-earth-europe"></i></a></div>
+                        <div>
+                            <button id="openAddCadaster" type="button" class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#addCadaster" data-bs-whatever="{{ property.id }}">
+                                <i class="fa-solid fa-plus"></i>
+                            </button>
+                        </div>
                     </div>
                     <hr>
-                    {{ render(controller('App\\Controller\\Gestapp\\CadasterController::ListByProperty', {'idproperty':property.id})) }}
+                    <div id="listeCadaster">
+                        {{ render(controller('App\\Controller\\Gestapp\\CadasterController::ListByProperty', {'idproperty':property.id})) }}
+                    </div>
                     <input type="hidden" name="token" value="{{ csrf_token('step-chiffres') }}"/>
                 </div>
             </div>

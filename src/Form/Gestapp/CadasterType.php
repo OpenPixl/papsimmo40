@@ -4,6 +4,8 @@ namespace App\Form\Gestapp;
 
 use App\Entity\Gestapp\Cadaster;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -12,10 +14,22 @@ class CadasterType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('parcel')
-            ->add('section')
-            ->add('commune')
-            ->add('contenance')
+            ->add('parcel', TextType::class, [
+                'label' => 'Numéro de parcelle',
+                'required' => 'true'
+            ])
+            ->add('section', TextType::class, [
+                'label' => 'Section de parcelle',
+                'required' => 'true'
+            ])
+            ->add('commune', TextType::class, [
+                'label' => 'Code commune',
+                'required' => 'true'
+            ])
+            ->add('contenance', NumberType::class,[
+                'label' => 'Contenance / Surface (en M²)'
+            ])
+
         ;
     }
 
