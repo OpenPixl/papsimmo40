@@ -45,6 +45,10 @@
             if (AddAvenant !== null) {
                 AddAvenant.style.display = "none"
             }
+            //Choix du type de Mandat
+            const isWithoutExclusivity = document.getElementById('property_step1_isWithoutExclusivity')
+            const isSemiExclusivity = document.getElementById('property_step1_isSemiExclusivity')
+            const isWithExclusivity= document.getElementById('property_step1_isWithExclusivity')
 
 
             // ---------------------------------------
@@ -226,11 +230,41 @@
                         })
                 })
             }
+
             // ---------------------------------------
-            // Choix du type de Mandat
-            const isWithoutExclusivity = document.getElementById('property_step1_isWithoutExclusivity')
-            const isSemiExclusivity = document.getElementById('property_step1_isSemiExclusivity')
-            const isWithExclusivity= document.getElementById('property_step1_isWithExclusivity')
+            // Evènement sur le type de Mandat on change
+            if(isWithoutExclusivity.checked) {
+                isSemiExclusivity.onclick = function (event) {
+                    isWithoutExclusivity.checked = false
+                    isWithExclusivity.checked = false
+                }
+                isWithExclusivity.onclick = function (event) {
+                    isWithoutExclusivity.checked = false
+                    isSemiExclusivity.checked = false
+                }
+            }
+            else if (isSemiExclusivity.checked) {
+                isWithoutExclusivity.onclick = function (event) {
+                    isSemiExclusivity.checked = false
+                    isWithExclusivity.checked = false
+                }
+                isWithExclusivity.onclick = function (event) {
+                    isSemiExclusivity.checked = false
+                    isWithoutExclusivity.checked = false
+                }
+            }
+            else if(isWithExclusivity.checked) {
+                isSemiExclusivity.onclick = function (event) {
+                    isWithExclusivity.checked = false
+                    isWithoutExclusivity.checked = false
+                }
+                isWithoutExclusivity.onclick = function (event) {
+                    isWithExclusivity.checked = false
+                    isSemiExclusivity.checked = false
+                }
+            }
+
+
 
 
             // ---------------------------------------
