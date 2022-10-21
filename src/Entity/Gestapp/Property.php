@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\File;
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
+
 class Property
 {
     #[ORM\Id]

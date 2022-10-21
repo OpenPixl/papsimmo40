@@ -25,8 +25,9 @@ class CadasterController extends AbstractController
     #[Route('/byproperty/{idProperty}', name: 'op_gestapp_cadaster_byproperty', methods: ['GET'])]
     public function ListByProperty(CadasterRepository $cadasterRepository, $idproperty, PropertyRepository $propertyRepository): Response
     {
+        $property = $propertyRepository->find($idproperty);
         // on récupère la liste de tous les fiches cadastres pour une proprieté précise
-        $cadasters = $cadasterRepository->findBy(['property'=>$idproperty]);
+        $cadasters = $cadasterRepository->findBy(['property'=>$property]);
 
         return $this->render('gestapp/cadaster/listcadastersbyproperty.html.twig', [
             'cadasters' => $cadasters,
