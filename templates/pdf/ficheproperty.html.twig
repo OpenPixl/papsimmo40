@@ -166,11 +166,11 @@
                 <h2 class="title-h2">INFO - {{ property.name }}</h2>
             </div>
             <div id="Galerie" class="page">
-                {#
+
                 {% for photo in photos %}
-                    <img class="img-fluid" src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
+                    <img class="img-fluid" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
                 {% endfor %}
-                #}
+                
             </div>
             <div style="page-break-before:always;"></div>
             <div id="Title">

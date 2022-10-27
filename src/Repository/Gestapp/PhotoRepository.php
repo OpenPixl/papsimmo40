@@ -60,12 +60,10 @@ class PhotoRepository extends ServiceEntityRepository
     public function lastphoto($idproperty): ?Photo
     {
         return $this->createQueryBuilder('p')
-            ->andWhere('p.property = :property')
-            ->orderBy('p.position', 'Desc')
-            ->setParameter('property', $idproperty)
-            ->setMaxResults(1)
+            ->orderBy('p.id', 'ASC')
+            ->setMaxResults(10)
             ->getQuery()
-            ->getOneOrNullResult()
+            ->getResult()
             ;
     }
 

@@ -36,16 +36,20 @@ class PdfController extends AbstractController
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
         $firstphoto = $photoRepository->firstphoto($property->getId());
-        //$photos = $photoRepository->findBy($property);
-        //dd($oneproperty);
+        //dd($firstphoto);
+        // Récupération des photos correspondantes au bien
+        $photos = $photoRepository->findBy(['property'=>$property->getId()]);
+
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
+
+        //dd($firstphoto);
 
         $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
             'property'  => $oneproperty,
             'equipments' => $equipments,
             'application' =>$application,
             'firstphoto' => $firstphoto,
-            //'photos' => $photos
+            'photos' => $photos
         ));
 
         return new PdfResponse(
