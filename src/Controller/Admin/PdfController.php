@@ -51,6 +51,8 @@ class PdfController extends AbstractController
         return new PdfResponse(
 
             $knpSnappyPdf
+                ->setOption("enable-local-file-access",true
+                )
                 ->getOutputFromHtml($html),
             'files.pdf'
         );
