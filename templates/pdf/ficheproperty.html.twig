@@ -168,7 +168,7 @@
             <div id="Galerie" class="page">
 
                 {% for photo in photos %}
-                    <img class="img-fluid" src="{{ absolute_url(asset('media/cache/oneproperty_image/images/galery/')) }}{{ photo.galeryFrontName }}" class="card-img img-fluid" alt="{{ photo.galeryFrontName }}" >
+                    <img class="img-fluid" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ photo.galeryFrontName }}" >
                 {% endfor %}
                 
             </div>
