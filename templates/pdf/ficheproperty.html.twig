@@ -10,208 +10,236 @@
         {% endfor %}
     </head>
     <body>
-        <header>
-                <div class="container" style="align-items: center; justify-content: space-between;">
-                    <div>
-                        <img src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
-                    </div>
-                    <div>
-                        <h1>FICHE CLIENT</h1>
-                    </div>
-                    <div>
-                        <p>MANDAT N° : {{ property.refMandat }}</p>
-                        <p>Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
-                    </div>
-                </div>
+    {% set piece = '' %}
+    {% set room = '' %}
+    {% if property.piece < 2 %}{%set piece = 'pièce'%}{%else%}{%set piece = 'pièces'%}{%endif%}
+    {% if property.room < 2 %}{%set room = 'chambre'%}{%else%}{%set room = 'chambres'%}{%endif%}
+    <div id="firstPage" class="page">
+        <div id="header" class="container">
+            <div>
+                <img class="img-adapt" src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
             </div>
-        </header>
-        <main >
-            {% set piece = '' %}
-            {% set room = '' %}
-            {% if property.piece < 2 %}{%set piece = 'pièce'%}{%else%}{%set piece = 'pièces'%}{%endif%}
-            {% if property.room < 2 %}{%set room = 'chambre'%}{%else%}{%set room = 'chambres'%}{%endif%}
-
-            <div id="Details" class="">
-                <div id="Title">
-                    <h2 class="title-h2">INFO - {{ property.name }}</h2>
-                </div>
-                <div id="Content" class="container">
-                    <div id="FirstImg">
+            <div>
+                <h1 class="title-h1">FICHE CLIENT</h1>
+            </div>
+            <div>
+                <p>MANDAT N° : {{ property.refMandat }}</p>
+                <p>Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
+            </div>
+        </div>
+        <div id="Details">
+            <div id="Title">
+                <h2 class="title-h2">INFO - {{ property.name }}</h2>
+            </div>
+            <div id="Content" class="row">
+                <div id="FirstImg" class="col-25">
                     {% if firstphoto is not empty %}
-                        <img class="img-fluid" src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
+                        <img class="img-adapt" src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" alt="{{ firstphoto.galeryFrontName }}">
                     {% else %}
                         <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
                     {% endif %}
-                        <div>
-                            <p>
-                                Prix net vendeur : {{property.priceFai}}
-                            </p>
-                        </div>
-                    </div>
-                    <div id="Informations">
-                        <div>
-                            <table>
-                                <tr>
-                                    <th>Référence :</th>
-                                    <td colspan="3">{{ property.ref }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Transaction :</th>
-                                    <td colspan="3">VENTE</td>
-                                </tr>
-                                <tr>
-                                    <th>Type :</th>
-                                    <td colspan="3">{{ property.denomination }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Surface habitable: </th>
-                                    <td>{{ property.surfaceHome }} m2</td>
-                                </tr>
-                                <tr>
-                                    <th>Surface terrain: </th>
-                                    <td>{{ property.surfaceLand }} m2</td>
-                                </tr>
-                                <tr>
-                                    <th>Nombre de pièces : </th>
-                                    <td>{{ property.piece }} {{ piece }}</td>
-                                    <th>Nombre de pièces : </th>
-                                    <td>{{ property.room }} {{ room }}</td>
-                                </tr>
-                            </table>
-                        </div>
-                        <div class="Graph">
-                            <figure>
-                                <figcaption>Diagnostique énergétique</figcaption>
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
-                                    <title id="title">A bart chart showing information</title>
-                                    <g class="bar">
-                                        <rect width="40" height="20" fill="#00a06c"></rect>
-                                        <text x="45" y="10" dy=".35em">A</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="60" height="20" y="22" fill="#50b054" fill-opacity="0.5"></rect>
-                                        <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="80" height="20" y="44" fill="#a4cc74"></rect>
-                                        <text x="85" y="54" dy=".35em" fill="#a4cc74">C</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="100" height="20" y="66" fill="#f3e61e"></rect>
-                                        <text x="105" y="76" dy=".35em" fill="#f3e61e">D</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="120" height="20" y="88" fill="#f0b418" fill-opacity="0.5"></rect>
-                                        <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="140" height="20" y="110" fill="#eb8233" fill-opacity="0.5"></rect>
-                                        <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="160" height="20" y="132" fill="#d71d1f" fill-opacity="0.5"></rect>
-                                        <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
-                                    </g>
-                                </svg>
-                            </figure>
-                            <figure>
-                                <figcaption>Diagnostique énergétique</figcaption>
-                                <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
-                                    <title id="title">A bart chart showing information</title>
-                                    <g class="bar">
-                                        <rect width="40" height="20" fill="#f6eefd"></rect>
-                                        <text x="45" y="10" dy=".35em">A</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="60" height="20" y="22" fill="#e0c2f8" fill-opacity="0.5"></rect>
-                                        <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="80" height="20" y="44" fill="#d4aaf6" fill-opacity="0.5"></rect>
-                                        <text x="85" y="54" dy=".35em" fill-opacity="0.5">C</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="100" height="20" y="66" fill="#c996f5" fill-opacity="0.5"></rect>
-                                        <text x="105" y="76" dy=".35em" fill-opacity="0.5">D</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="120" height="20" y="88" fill="#ba72ef" fill-opacity="0.5"></rect>
-                                        <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="140" height="20" y="110" fill="#a74deb" fill-opacity="0.5"></rect>
-                                        <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
-                                    </g>
-                                    <g class="bar">
-                                        <rect width="160" height="20" y="132" fill="#8919df" fill-opacity="0.5"></rect>
-                                        <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
-                                    </g>
-                                </svg>
-                            </figure>
-                        </div>
+                    <div>
+                        <p>
+                            <span class="subtitle">Prix net vendeur :</span> {{property.priceFai}}
+                        </p>
                     </div>
                 </div>
-            </div>
-            <div id="descritpions" class="">
-                <div>
-                    <h2 class="title-h2">DESCRIPTION</h2>
+                <div id="Informations" class="col-75">
+                    <div>
+                        <table>
+                            <tr>
+                                <th>Référence :</th>
+                                <td colspan="3">{{ property.ref }}</td>
+                            </tr>
+                            <tr>
+                                <th>Transaction :</th>
+                                <td colspan="3">VENTE</td>
+                            </tr>
+                            <tr>
+                                <th>Type :</th>
+                                <td colspan="3">{{ property.denomination }}</td>
+                            </tr>
+                            <tr>
+                                <th>Surface habitable: </th>
+                                <td>{{ property.surfaceHome }} m2</td>
+                            </tr>
+                            <tr>
+                                <th>Surface terrain: </th>
+                                <td>{{ property.surfaceLand }} m2</td>
+                            </tr>
+                            <tr>
+                                <th>Nombre de pièces : </th>
+                                <td>{{ property.piece }} {{ piece }}</td>
+                                <th>Nombre de pièces : </th>
+                                <td>{{ property.room }} {{ room }}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="row">
+                        <figure>
+                            <figcaption>Diagnostique énergétique</figcaption>
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150"
+                                 aria-labelledby="title" role="img">
+                                <title id="title">A bart chart showing information</title>
+                                <g class="bar">
+                                    <rect width="40" height="20" fill="#00a06c"></rect>
+                                    <text x="45" y="10" dy=".35em">A</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="60" height="20" y="22" fill="#50b054" fill-opacity="0.5"></rect>
+                                    <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="80" height="20" y="44" fill="#a4cc74"></rect>
+                                    <text x="85" y="54" dy=".35em" fill="#a4cc74">C</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="100" height="20" y="66" fill="#f3e61e"></rect>
+                                    <text x="105" y="76" dy=".35em" fill="#f3e61e">D</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="120" height="20" y="88" fill="#f0b418" fill-opacity="0.5"></rect>
+                                    <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="140" height="20" y="110" fill="#eb8233" fill-opacity="0.5"></rect>
+                                    <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="160" height="20" y="132" fill="#d71d1f" fill-opacity="0.5"></rect>
+                                    <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
+                                </g>
+                            </svg>
+                        </figure>
+                        <figure>
+                            <figcaption>Diagnostique énergétique</figcaption>
+                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+                                 xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150"
+                                 aria-labelledby="title" role="img">
+                                <title id="title">A bart chart showing information</title>
+                                <g class="bar">
+                                    <rect width="40" height="20" fill="#f6eefd"></rect>
+                                    <text x="45" y="10" dy=".35em">A</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="60" height="20" y="22" fill="#e0c2f8" fill-opacity="0.5"></rect>
+                                    <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="80" height="20" y="44" fill="#d4aaf6" fill-opacity="0.5"></rect>
+                                    <text x="85" y="54" dy=".35em" fill-opacity="0.5">C</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="100" height="20" y="66" fill="#c996f5" fill-opacity="0.5"></rect>
+                                    <text x="105" y="76" dy=".35em" fill-opacity="0.5">D</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="120" height="20" y="88" fill="#ba72ef" fill-opacity="0.5"></rect>
+                                    <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="140" height="20" y="110" fill="#a74deb" fill-opacity="0.5"></rect>
+                                    <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
+                                </g>
+                                <g class="bar">
+                                    <rect width="160" height="20" y="132" fill="#8919df" fill-opacity="0.5"></rect>
+                                    <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
+                                </g>
+                            </svg>
+                        </figure>
+                    </div>
                 </div>
-                <div id="propertyDescription" class="page">
-                    <p><span class="subtitle">{{ property.name }}</span> </p>
-                    <p>{{ property.annonce }}</p>
-                </div>
             </div>
-            <div style="page-break-before:always;"></div>
-            <div id="Title">
-                <h2 class="title-h2">INFO - {{ property.name }}</h2>
+        </div>
+        <div id="descriptions">
+            <div>
+                <h2 class="title-h2">DESCRIPTION</h2>
             </div>
-            <div id="Galerie" class="page">
-
-                {% for photo in photos %}
-                    <img class="img-fluid" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ photo.galeryFrontName }}" >
-                {% endfor %}
-                
+            <div id="propertyDescription">
+                <p><span class="subtitle">{{ property.name }}</span> </p>
+                <p>{{ property.annonce }}</p>
             </div>
-            <div style="page-break-before:always;"></div>
-            <div id="Title">
-                <h2 class="title-h2">INFO - {{ property.name }}</h2>
+        </div>
+    </div>
+    <div style="page-break-before:always;"></div>
+    <div class="page">
+        <div id="header" class="container">
+            <div>
+                <img class="img-adapt" src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
             </div>
-            <div id="techniques" class="page">
-                <div id="Subtitle">
-                    <h3 class="title-h3">ESTIMATION DU COUT ANNUEL ENERGETIQUE DU BIEN</h3>
-                    <p><span class="subtitle">Estimation énergie basse : </span>{% if property.dpeEstimateEnergyDown is not empty %}{{ property.dpeEstimateEnergyDown }}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Estimation énergie élevée : </span>{% if property.dpeEstimateEnergyUp is null%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Année de référence : </span></p>
-                </div>
-                <div>
-                    <h3 class="title-h3">Piéces</h3>
-                    <p><span class="subtitle">Terrasse : </span>{% if property.terrace is not empty%}{{property.terrace}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Salle d'eau : </span>{% if property.washroom is not empty%}{{property.washroom}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Salle de bain : </span>{% if property.bathroom is not empty%}{{property.bathroom}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">WC : </span>{% if property.wc is not empty%}{{property.wc}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Balcon : </span>{% if property.balcony is not empty%}{{property.balcony}}{% else %}non communiqué{% endif %}</p>
-                </div>
-                <div>
-                    <h3 class="title-h3">Equipements</h3>
-                    <p><span class="subtitle">Meublé : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Equipement du bien : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Typologie du bien : </span>{% if property.propertyTypology is not empty%}{{property.propertyTypology}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Etage : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
-                    <p><span class="subtitle">Autres options du bien : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
-                </div>
+            <div>
+                <h1 class="title-h1">FICHE CLIENT</h1>
             </div>
-
-        </main>
-        <footer>
-            <div id="top_footer"></div>
-            <div id="bottom_footer" class="container">
-                <div style="width: 30%;">
-                    <p style="color: #ffffff;line-height:2rem;padding-left: 3rem;">PAPs Immo</p>
-                </div>
-                <div style="width: 70%;">
-                    <p style="color: #ffffff;line-height:2rem;">24 Boulevard Marcel DASSAULT</p>
-                </div>
+            <div>
+                <p>MANDAT N° : {{ property.refMandat }}</p>
+                <p>Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
             </div>
-        </footer>
+        </div>
+        <div id="Title">
+            <h2 class="title-h2">PHOTO</h2>
+        </div>
+        <div id="Galerie" class="row">
+            {% for photo in photos %}
+                <div class="col-50">
+                    <img class="img-adapt" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <div style="page-break-before:always;"></div>
+    <div class="page">
+        <div id="header" class="container">
+            <div>
+                <img class="img-adapt" src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
+            </div>
+            <div>
+                <h1 class="title-h1">FICHE CLIENT</h1>
+            </div>
+            <div>
+                <p>MANDAT N° : {{ property.refMandat }}</p>
+                <p>Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
+            </div>
+        </div>
+        <div id="Title">
+            <h2 class="title-h2">INFO - {{ property.name }}</h2>
+        </div>
+        <div id="techniques">
+            <div id="Subtitle">
+                <h3 class="title-h3">ESTIMATION DU COUT ANNUEL ENERGETIQUE DU BIEN</h3>
+                <p><span class="subtitle">Estimation énergie basse : </span>{% if property.dpeEstimateEnergyDown is not
+                        empty %}{{ property.dpeEstimateEnergyDown }}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Estimation énergie élevée : </span>{% if property.dpeEstimateEnergyUp is
+                        null%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Année de référence : </span></p>
+            </div>
+            <div>
+                <h3 class="title-h3">Piéces</h3>
+                <p><span class="subtitle">Terrasse : </span>{% if property.terrace is not empty%}{{property.terrace}}{%
+                    else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Salle d'eau : </span>{% if property.washroom is not
+                        empty%}{{property.washroom}}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Salle de bain : </span>{% if property.bathroom is not
+                        empty%}{{property.bathroom}}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">WC : </span>{% if property.wc is not empty%}{{property.wc}}{% else %}non
+                    communiqué{% endif %}</p>
+                <p><span class="subtitle">Balcon : </span>{% if property.balcony is not empty%}{{property.balcony}}{%
+                    else %}non communiqué{% endif %}</p>
+            </div>
+            <div>
+                <h3 class="title-h3">Equipements</h3>
+                <p><span class="subtitle">Meublé : </span>{% if property.dpeEstimateEnergyUp is not
+                        empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Equipement du bien : </span>{% if property.dpeEstimateEnergyUp is not
+                        empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Typologie du bien : </span>{% if property.propertyTypology is not
+                        empty%}{{property.propertyTypology}}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Etage : </span>{% if property.dpeEstimateEnergyUp is not
+                        empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Autres options du bien : </span>{% if property.dpeEstimateEnergyUp is not
+                        empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+            </div>
+        </div>
+    </div>
     </body>
 </html>
