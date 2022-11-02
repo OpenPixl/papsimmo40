@@ -45,7 +45,7 @@ class ContactType extends AbstractType
                     'Téléphone' => 'téléphone',
                     'Email' => 'email'
                 ],
-                'label' => "Dans le cadre de cet démarche, vous préférez être joint par ? "
+                'label' => "Dans le cadre de cette démarche, vous préférez être joint par ? "
 
             ])
             ->add('isRGPD', CheckboxType::class, [
