@@ -140,6 +140,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
+    #[ORM\OneToMany(mappedBy: 'forEmployed', targetEntity: Contact::class)]
+    private Collection $contacts;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -148,6 +151,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->articles = new ArrayCollection();
         $this->sections = new ArrayCollection();
         $this->pages = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     /**
@@ -649,6 +653,36 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($page->getAuthor() === $this) {
                 $page->setAuthor(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts->add($contact);
+            $contact->setForEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getForEmployed() === $this) {
+                $contact->setForEmployed(null);
             }
         }
 

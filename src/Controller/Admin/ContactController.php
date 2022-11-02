@@ -5,6 +5,8 @@ namespace App\Controller\Admin;
 use App\Entity\Admin\Contact;
 use App\Form\Admin\ContactType;
 use App\Repository\Admin\ContactRepository;
+use App\Repository\Gestapp\PropertyRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,9 +17,25 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/admin/contact')]
 class ContactController extends AbstractController
 {
-    #[Route('/', name: 'app_admin_contact_index', methods: ['GET'])]
-    public function index(ContactRepository $contactRepository): Response
+    #[Route('/', name: 'op_admin_contact_index', methods: ['GET'])]
+    public function index(ContactRepository $contactRepository, PaginatorInterface $paginator, Request $request): Response
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+        if($hasAccess == true){
+            // on liste tous les clients quelques soit les utilisateurs
+            $data = $contactRepository->findAllContact();
+            $contacts = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+            return $this->render('admin/contact/index.html.twig', [
+                'contacts' => $contacts,
+            ]);
+        }else{
+
+        }
         return $this->render('admin/contact/index.html.twig', [
             'contacts' => $contactRepository->findAll(),
         ]);
@@ -63,7 +81,7 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_contact_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'op_admin_contact_show', methods: ['GET'])]
     public function show(Contact $contact): Response
     {
         return $this->render('admin/contact/show.html.twig', [
@@ -71,7 +89,7 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_admin_contact_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'op_admin_contact_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {
         $form = $this->createForm(ContactType::class, $contact);
@@ -89,22 +107,25 @@ class ContactController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_admin_contact_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'op_admin_contact_delete', methods: ['POST'])]
     public function delete(Request $request, Contact $contact, ContactRepository $contactRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$contact->getId(), $request->request->get('_token'))) {
             $contactRepository->remove($contact, true);
         }
 
-        return $this->redirectToRoute('app_admin_contact_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('op_admin_contact_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/AskPropertyInfo/{idproperty}', name: 'op_admin_contact_askpropertyinfo', methods: ['GET', 'POST'])]
-    public function AskPropertyInfo(Request $request, ContactRepository $contactRepository, MailerInterface $mailer, $idproperty): Response
+    public function AskPropertyInfo(Request $request, ContactRepository $contactRepository, MailerInterface $mailer, $idproperty, PropertyRepository $propertyRepository): Response
     {
+        // récupération info property
+        $property = $propertyRepository->find($idproperty);
+
         $contact = new Contact();
         $contact->setContent("Bonjour,
-Je souhaiterais avoir plus de renseignements sur ce bien et prendre rendez-vous pour le visiter.
+Je souhaiterais avoir plus de renseignements sur le bien \"" . $property->getName() . "\" et prendre rendez-vous pour le visiter.
 Pourriez-vous me recontacter ?
 Cordialement");
         $form = $this->createForm(ContactType::class, $contact,[

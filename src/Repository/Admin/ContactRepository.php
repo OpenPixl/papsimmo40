@@ -39,6 +39,25 @@ class ContactRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllContact(){
+        return $this->createQueryBuilder('c')
+            ->select('
+            c.isRGPD as isRGPD,
+            c.phoneGsm as phoneGsm,
+            c.phoneHome as phoneHome,
+            c.email as email,
+            c.name as name,
+            c.createdAt AS createdAt,
+            c.contactBy AS contentBy,
+            c.content AS content,
+            c.id As id
+            ')
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Contact[] Returns an array of Contact objects
 //     */

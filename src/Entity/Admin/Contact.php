@@ -39,6 +39,9 @@ class Contact
     #[ORM\Column(length: 10)]
     private ?string $contactBy = null;
 
+    #[ORM\ManyToOne(inversedBy: 'contacts')]
+    private ?Employed $forEmployed = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -137,6 +140,18 @@ class Contact
     public function setContactBy(string $contactBy): self
     {
         $this->contactBy = $contactBy;
+
+        return $this;
+    }
+
+    public function getForEmployed(): ?Employed
+    {
+        return $this->forEmployed;
+    }
+
+    public function setForEmployed(?Employed $forEmployed): self
+    {
+        $this->forEmployed = $forEmployed;
 
         return $this;
     }

@@ -1,47 +1,41 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Contact index{% endblock %}
 
-{% block body %}
-    <h1>Contact index</h1>
+{% block content %}
+    <h1>Liste des demandes de renseignements</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>Name</th>
+                <th>Nom et prénom</th>
                 <th>Email</th>
-                <th>Content</th>
-                <th>PhoneHome</th>
-                <th>PhoneGsm</th>
-                <th>IsRGPD</th>
-                <th>CreatedAt</th>
+                <th>Message</th>
+                <th>Téléphone fixe</th>
+                <th>Téléphone mobile</th>
+                <th>Envoyé le</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for contact in contacts %}
             <tr>
-                <td>{{ contact.id }}</td>
                 <td>{{ contact.name }}</td>
                 <td>{{ contact.email }}</td>
                 <td>{{ contact.content }}</td>
                 <td>{{ contact.phoneHome }}</td>
                 <td>{{ contact.phoneGsm }}</td>
-                <td>{{ contact.isRGPD ? 'Yes' : 'No' }}</td>
                 <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_admin_contact_show', {'id': contact.id}) }}">show</a>
-                    <a href="{{ path('app_admin_contact_edit', {'id': contact.id}) }}">edit</a>
+                    <a href="{{ path('op_admin_contact_show', {'id': contact.id}) }}">Voir</a>
+                    <a href="{{ path('op_admin_contact_edit', {'id': contact.id}) }}">Editer</a>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="9">no records found</td>
+                <td colspan="9">Aucune demande de contact </td>
             </tr>
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_admin_contact_new') }}">Create new</a>
 {% endblock %}
