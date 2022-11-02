@@ -2,10 +2,15 @@
 
 {% block title %}New Customer{% endblock %}
 
+{% block contentTitle %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Ajouter un nouveau client sur la plateforme</h1>
+        </div>
+    </div>
+
+{% endblock %}
+
 {% block content %}
-    <h1>Ajouter un nouveau client sur la plateforme</h1>
-
-    {{ include('gestapp/customer/_form.html.twig') }}
-
-    <a href="{{ path('op_gestapp_customer_index') }}">Retour</a>
+{{ include('gestapp/customer/_form2.html.twig') }}
 {% endblock %}

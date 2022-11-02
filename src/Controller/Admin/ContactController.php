@@ -98,4 +98,53 @@ class ContactController extends AbstractController
 
         return $this->redirectToRoute('app_admin_contact_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/AskPropertyInfo/{idproperty}', name: 'op_admin_contact_askpropertyinfo', methods: ['GET', 'POST'])]
+    public function AskPropertyInfo(Request $request, ContactRepository $contactRepository, MailerInterface $mailer, $idproperty): Response
+    {
+        $contact = new Contact();
+        $contact->setContent("Bonjour,
+Je souhaiterais avoir plus de renseignements sur ce bien et prendre rendez-vous pour le visiter.
+Pourriez-vous me recontacter ?
+Cordialement");
+        $form = $this->createForm(ContactType::class, $contact,[
+            'method' => 'POST',
+            'action' => $this->generateUrl('op_admin_contact_askpropertyinfo', [
+                "idproperty" => $idproperty
+            ])
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $contactRepository->add($contact, true);
+
+            $email = (new Email())
+                ->from($contact->getEmail())
+                ->to('xavier.burke@openpixl.fr')
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('[PAPs Immo] : Nouvelle demande de contact depuis votre site')
+                ->text($contact->getContent());
+
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                dd($e);
+            }
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Votre message a été transmis à notre agent. Il vous contactera dans les plus brefs délais",
+            ], 200);
+        }
+
+        return $this->renderForm('admin/contact/askpropertyinfo.html.twig', [
+            'contact' => $contact,
+            'form' => $form,
+        ]);
+    }
 }

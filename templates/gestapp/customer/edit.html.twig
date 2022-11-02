@@ -2,11 +2,14 @@
 
 {% block title %}Edit Customer{% endblock %}
 
+{% block contentTitle %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Modifier la fiche du client</h1>
+        </div>
+    </div>
+{% endblock %}
+
 {% block content %}
-    <h1>Modifier la fiche du client</h1>
-
-    {{ include('gestapp/customer/_form.html.twig', {'button_label': 'Update'}) }}
-
-    <a href="{{ path('op_gestapp_customer_index') }}">back to list</a>
-
+{{ include('gestapp/customer/_form2.html.twig', {'button_label': 'Metre à jour la fiche du client'}) }}
 {% endblock %}

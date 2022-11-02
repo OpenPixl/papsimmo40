@@ -2,44 +2,33 @@
 
 {% block title %}Customer index{% endblock %}
 
+{% block contentTitle %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Liste des Clients</h1>
+        </div>
+    </div>
+
+{% endblock %}
+
 {% block content %}
-    <h1>Liste des clients</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Référence</th>
-                <th>Nom & Prénom</th>
-                <th>Adresse</th>
-                <th>Archivé</th>
-                <th>Fiche crée</th>
-                <th>Mise à jour</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% set user = app.user.id %}
-        {% for customer in customers|filter(c => c.refEmployed.id == user) %}
-            <tr>
-                <td>{{ customer.RefCustomer }}</td>
-                <td><strong>{{ customer.lastName }} {{ customer.firstName }}</strong></td>
-                <td>{{ customer.adress }}<br>{{ customer.complement }}<br>{{ customer.zipcode }} {{ customer.city }}</td>
+    <div class="row">
+        <div class="navigation d-flex justify-content-between">
+            <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
+            {{ knp_pagination_render(customers, 'include/admin/pagination.html.twig') }}
+        </div>
 
-                <td>{{ customer.isArchived ? 'Yes' : 'No' }}</td>
-                <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d') : '' }}</td>
-                <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('op_gestapp_customer_show', {'id': customer.id}) }}">show</a>
-                    <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="13">Vous n'avez pas de client actuellement enregistré sur la plateforme.</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+        <div id="list" class="col-sm-12">
+            {% include('gestapp/customer/_list.html.twig') %}
+            <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
+        </div>
+        <div class="navigation d-flex justify-content-between">
+            {{ knp_pagination_render(customers, 'include/admin/pagination.html.twig') }}
+        </div>
+    </div>
 
-    <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
+
+
+
 {% endblock %}

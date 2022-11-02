@@ -11,6 +11,7 @@ use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\choice\CustomerChoiceRepository;
 use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -22,11 +23,35 @@ use Symfony\Component\Routing\Annotation\Route;
 class CustomerController extends AbstractController
 {
     #[Route('/', name: 'op_gestapp_customer_index', methods: ['GET'])]
-    public function index(CustomerRepository $customerRepository): Response
+    public function index(CustomerRepository $customerRepository,PaginatorInterface $paginator, Request  $request): Response
     {
-        return $this->render('gestapp/customer/index.html.twig', [
-            'customers' => $customerRepository->findAll(),
-        ]);
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+        if($hasAccess == true){
+            // on liste topus les clients quelques soit les utilisateurs
+            $data = $customerRepository->findAllCustomer();
+
+            $customers = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+            return $this->render('gestapp/customer/index.html.twig', [
+                'customers' => $customers,
+                'user' => $user
+            ]);
+        }else{
+            $data = $customerRepository->findAllCustomerByEmployed(['refEmployed' => $user]);
+            $customers = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+            return $this->render('gestapp/customer/index.html.twig', [
+                'customers' => $customers,
+                'user' => $user
+            ]);
+        }
     }
 
     #[Route('/byproperty/{id}', name: 'op_gestapp_customer_listbyproperty', methods: ['GET'])]

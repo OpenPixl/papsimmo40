@@ -393,20 +393,23 @@ class PropertyController extends AbstractController
      * Affiche la description conmplete d'un bien sur la page "nos biens"
      */
     #[Route('/oneproperty/{id}', name: 'op_gestapp_properties_oneproperty', methods: ['GET'])]
-    public function OneProperty(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository)
+    public function OneProperty(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository, EmployedRepository $employedRepository)
     {
+        // Element nécessaire au controller
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         $complements = $property->getOptions();
         $equipments = $complements->getPropertyEquipment();
         $options = $complements->getPropertyOtheroption();
         $firstphoto = $photoRepository->FirstPhoto($property->getId());
+        $employed = $employedRepository->find($property->getRefEmployed());
         //dd($equipment);
 
         return $this->render('webapp/page/property/oneproperty.html.twig', [
             'property' => $oneproperty,
             'equipments' => $equipments,
             'firstphoto' => $firstphoto,
-            'options' => $options
+            'options' => $options,
+            'employed' => $employed
         ]);
     }
 

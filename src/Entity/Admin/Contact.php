@@ -36,6 +36,9 @@ class Contact
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
+    #[ORM\Column(length: 10)]
+    private ?string $contactBy = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -122,6 +125,18 @@ class Contact
     public function setCreatedAt(): self
     {
         $this->createdAt = new \DateTime('now');
+
+        return $this;
+    }
+
+    public function getContactBy(): ?string
+    {
+        return $this->contactBy;
+    }
+
+    public function setContactBy(string $contactBy): self
+    {
+        $this->contactBy = $contactBy;
 
         return $this;
     }

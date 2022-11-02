@@ -20,7 +20,6 @@ a.nav-link {
   font-family: 'Montserrat-light', sans-serif;
   font-size: 15px;
   color: #707070;
-  color: rgb(112, 112, 112);
   text-transform: uppercase;
 }
 .tel{
@@ -154,7 +153,7 @@ a.nav-link {
 
 #Properties{
   h2,.h2,h3,.h3 {
-    color: #069697;
+    color: $secondary-color;
     font-family: "Montserrat-light", sans-serif;
     margin-top: 1rem;
     margin-bottom: 1rem;
@@ -228,13 +227,13 @@ a.nav-link {
 
 #oneproperty_main{
   h1 {
-    color: #069697;
+    color: $secondary-color;
     font-family: "Montserrat-light", sans-serif;
     text-align: center;
     text-transform: uppercase;
   }
   h2,.h2,h3,.h3 {
-    color: #069697;
+    color: $secondary-color;
     font-family: "Montserrat-light", sans-serif;
     text-align: left;
     text-transform: uppercase;
@@ -248,11 +247,37 @@ a.nav-link {
     .small{
       color: $primary-color;
     }
+    .card{
+      border-radius: 0;
+      background: $secondary-color;
+    }
   }
   #TechniqualCard{
     .color{
       color: $secondary-color;
     }
+  }
+}
+
+#AskPropertyModal{
+  h1{
+    font-family: "Montserrat-light", sans-serif;
+  }
+  p{
+    font-family: "Montserrat-regular", sans-serif;
+  }
+  a{
+    color: $secondary-color;
+  }
+  a.btn{
+    color: #fff;
+  }
+  label{
+    font-family: "Montserrat-regular", sans-serif;
+    padding-top:0.25rem;
+  }
+  textarea, select{
+    font-family: "Montserrat-light", sans-serif;
   }
 }
 

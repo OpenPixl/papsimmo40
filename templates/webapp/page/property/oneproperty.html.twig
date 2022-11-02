@@ -1,5 +1,52 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+
+            // function d'envoi du formulaire
+            function AskProperty(event){
+                event.preventDefault()
+                const urlAskProperty = this.href
+                // Déclaration de la modal
+                let AskPropertyModal = document.getElementById('AskPropertyModal')
+
+                // Ouverture de la modal
+                let Modal = new bootstrap.Modal(AskPropertyModal, {
+                    backdrop:true,
+                    focus:true,
+                    keyboard:true
+                })
+                Modal.show()
+                console.log("prêt pour executer du code")
+            }
+
+            let postAskPropertyInfo = document.getElementById('postAskPropertyInfo')
+            postAskPropertyInfo.onclick = function (event) {
+                event.preventDefault()
+                let formAsk = document.getElementById('FormAskPropertyInfo')
+                let urlformAsk = formAsk.action
+                let dataformAsk = new FormData(formAsk)
+                axios
+                    .post(urlformAsk, dataformAsk)
+                    .then(function(response){
+
+                    })
+                    .catch(function (error) {
+                        console.log(error);
+                    })
+            }
+
+            // Mise en place de l'écouteur d'évènement sur le lien de demande d'information sous l'image de premier plan
+            document.querySelectorAll('a.btnAskContactProperty').forEach(function (link) {
+                link.addEventListener('click', AskProperty);
+            })
+
+        }
+    </script>
+{% endblock %}
+
 {% set piece = '' %}
 {% set room = '' %}
 {% if property.piece < 2 %}{%set piece = 'pièce'%}{%else%}{%set piece = 'pièces'%}{%endif%}
@@ -42,7 +89,7 @@
                     {% else %}
                         <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
                     {% endif %}
-                    <button class="btn btn-primary w-100 mt-1">Ce bien vous interesse ?<br>Contactez-nous</button>
+                    <a href="{{ path('op_admin_mail_AskPropertyInfo', {'id': property.id }) }}" class="btn btn-primary w-100 mt-1 btnAskContactProperty" id="btnAskContactProperty">Ce bien vous interesse ?<br>Contactez-nous</a>
                 </div>
                 {# Galerie#}
                 <div class="col-7">
@@ -52,12 +99,35 @@
 
             {# Row du contenu Descritpif du Bien #}
             <div class="row" id="generalCard">
-                <div class="col-12">
+                <div class="col-8">
                     <h3 class="descriptif">DESCRIPTIF :</h3>
                     <h4 class="small">Ref : {{property.ref}}</h4>
                     <article>
                         {{ property.annonce|markdown_to_html}}
                     </article>
+                </div>
+                <div class="col-4">
+                    <div class="card">
+                        <div class="card-body">
+                            <p class="text-center">
+                                {% if employed.avatarName is not empty%}
+                                    <img class="img-fluid rounded-circle" src="{{ vich_uploader_asset(employed.avatarName, 'avatarFile')|imagine_filter('vignette_employed') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
+                                {% else %}
+                                    <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/mod_maison.jpg')|imagine_filter('vignette_employed')}}" alt="none-visuel">
+                                {% endif %}
+                            </p>
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6 class="text-center">Votre conseiller<br><small>{{ employed.firstName }} {{ employed.lastName }}</small></h6>
+                                    <p class="text-center">
+                                        {% if employed.sector is empty %}{% else %}Secteur : {{ employed.sector }}<br>{% endif %}
+                                        <i class="fa-duotone fa-mobile"></i> {{ employed.gsm }}
+                                    </p>
+                                    <button class="btn btn-primary w-100 mt-1">Laisser un message</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
             {# Row du contenu Technique du Bien #}
@@ -189,6 +259,39 @@
             {# Row du contenu Diagnostique Dpe du Bien #}
 
             <div class="row" id="DiagnosticCard">
+                <h4>Bilan énergétique</h4>
+
+                {#
+                <ul class="c-dpe">
+                    <li class="c-dpe__index c-dpe__index--1">
+                        A
+                    </li>
+                    <li class="c-dpe__index c-dpe__index--2">
+                        B
+                    </li>
+                    <li class="c-dpe__index c-dpe__index--3">
+                        C
+                    </li>
+                    <li class="c-dpe__index c-dpe__index--4 c-dpe__index--active">
+                        D
+                        <strong class="c-dpe__label">
+                            246
+                            <span class="c-dpe__unit">kWh/m2.an</span>
+                        </strong>
+                    </li>
+                    <li class="c-dpe__index c-dpe__index--5">
+                        E
+                    </li>
+                    <li class="c-dpe__index c-dpe__index--6">
+                        F
+                    </li>
+                    <li class="c-dpe__index c-dpe__index--7">
+                        G
+                    </li>
+                </ul>
+                #}
+
+
                 {% if property.diagDpe >= 0  %}
                 <div class="col-4">
                     {% set letter = '' %}
@@ -207,9 +310,8 @@
                     {% elseif property.diagDpe > 450 %}
                         {% set letter = 'G'%}
                     {% endif %}
+                    <h5>Consommation énergétique</h5>
                     <figure>
-                        <figcaption>Diagnostique énergétique</figcaption>
-
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
                             <title id="title">A bart chart showing information</title>
                             {% if letter == 'A' %}
@@ -312,6 +414,7 @@
                     {% elseif property.diagGpe > 80 %}
                         {% set letter = 'G'%}
                     {% endif %}
+                    <h5>Emission de gaz</h5>
                     <figure>
                         <figcaption>Diagnostique énergétique</figcaption>
                         <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
@@ -407,4 +510,45 @@
 
         </div>
     </section>
+    <section>
+        <div class="modal fade" id="AskPropertyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h1 class="modal-title fs-5" id="exampleModalLabel">Vous êtes intéressé par ce bien ?</h1>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>Contactez-nous directement</h5>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12 form">
+                            {{ render(controller('App\\Controller\\Admin\\ContactController::AskPropertyInfo', {'idproperty': property.id})) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="text-center">
+                                    <a type="button" class="btn btn-primary" id="postAskPropertyInfo">Envoyer</a>
+                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Ne pas envoyer</button>
+                                </p>
+                                <p class="text-center">
+                                    <a href="#">Mentions légales</a>
+                                    <br>
+                                    <a href="#">Traitements des données personnelles</a>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block modal %}
+
 {% endblock %}

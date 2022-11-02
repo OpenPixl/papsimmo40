@@ -45,6 +45,62 @@ class CustomerRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllCustomer(){
+        return $this->createQueryBuilder('c')
+            ->join('c.refEmployed', 'e')
+            ->select('
+                e.id as refEmployed,
+                e.firstName as firstNameEmpl,
+                e.lastName as lastNameEmpl,
+                e.avatarName as avatarName,
+                c.isArchived AS isArchived,
+                c.updatedAt AS updatedAt,
+                c.createdAt AS CreatedAt,
+                c.city AS city,
+                c.zipcode AS zipcode,
+                c.complement AS complement,
+                c.adress AS adress,
+                c.RefCustomer AS RefCustomer,
+                c.firstName AS firstName,
+                c.lastName AS lastName,
+                c.id
+                '
+            )
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function findAllCustomerByEmployed($user){
+        return $this->createQueryBuilder('c')
+            ->join('c.refEmployed', 'e')
+            ->select('
+                e.id as refEmployed,
+                e.firstName as firstNameEmpl,
+                e.lastName as lastNameEmpl,
+                e.avatarName as avatarName,
+                c.isArchived AS isArchived,
+                c.updatedAt AS updatedAt,
+                c.createdAt AS CreatedAt,
+                c.city AS city,
+                c.zipcode AS zipcode,
+                c.complement AS complement,
+                c.adress AS adress,
+                c.RefCustomer AS RefCustomer,
+                c.firstName AS firstName,
+                c.lastName AS lastName,
+                c.id
+                '
+            )
+            ->where('e.id = :user')
+            ->setParameter('user', $user)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function listbyproperty($property)
     {
         return $this->createQueryBuilder('c')

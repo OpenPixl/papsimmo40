@@ -100,7 +100,7 @@ class PublicController extends AbstractController
         // préparation des éléments d'interactivité du menu
         $application = $applicationRepository->findFirstReccurence();
 
-        $pages = $pageRepository->findAll();
+        $pages = $pageRepository->findBy(['state'=> 'publiée']);
 
         return $this->render('include/public/topfooter.html.twig', [
             'application' => $application,

@@ -68,3 +68,9 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
+        vignette_employed:
+            quality: 150
+            filters:
+                thumbnail:
+                    size: [ 125, 125 ]
+                    mode: outbond

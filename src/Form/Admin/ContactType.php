@@ -40,6 +40,14 @@ class ContactType extends AbstractType
                 'label' => 'Portable',
                 'required' => false,
             ])
+            ->add('contactBy', ChoiceType::class,[
+                'choices' => [
+                    'Téléphone' => 'téléphone',
+                    'Email' => 'email'
+                ],
+                'label' => "Dans le cadre de cet démarche, vous préférez être joint par ? "
+
+            ])
             ->add('isRGPD', CheckboxType::class, [
                 'label' => "En soumettant ce formulaire, j'accepte que les informations saisies soient exploitées dans le cadre de la démarche de renseignements et de la relation commercial qui peut en découler."
             ])
