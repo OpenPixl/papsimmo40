@@ -122,8 +122,10 @@ class ContactController extends AbstractController
     {
         // récupération info property
         $property = $propertyRepository->find($idproperty);
+        $employed = $property->getRefEmployed();
 
         $contact = new Contact();
+        $contact->setForEmployed($employed);
         $contact->setContent("Bonjour,
 Je souhaiterais avoir plus de renseignements sur le bien \"" . $property->getName() . "\" et prendre rendez-vous pour le visiter.
 Pourriez-vous me recontacter ?
@@ -141,12 +143,12 @@ Cordialement");
 
             $email = (new Email())
                 ->from($contact->getEmail())
-                ->to('xavier.burke@openpixl.fr')
+                ->to('xavier.burke@openpixl.fr') // Mettre en fin de test le code pour l'utilisateur courant
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
                 //->priority(Email::PRIORITY_HIGH)
-                ->subject('[PAPs Immo] : Nouvelle demande de contact depuis votre site')
+                ->subject('[PAPs Immo] : Nouvelle demande de contact depuis votre site pour le bien référencé :' . $property->getRef())
                 ->text($contact->getContent());
 
             try {

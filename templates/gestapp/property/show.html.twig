@@ -697,13 +697,17 @@
                         toastBody.textContent = message;
                         var toastElement = new bootstrap.Toast(toastHTMLElement, option);
                         toastElement.show();
+                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.supprCadaster').forEach(function (link) {
+                            link.addEventListener('click', supprCadaster);
+                        })
                     })
                     .catch(function(error){
                         console.log(error)
                     })
             }
             // ---------------------------------------
-            // Editon d'une zone cadastrale
+            // Edition d'une zone cadastrale
 
             // ---------------------------------------
             // Suppression d'une zone cadastrale
@@ -728,6 +732,11 @@
                         toastBody.textContent = message;
                         var toastElement = new bootstrap.Toast(toastHTMLElement, option);
                         toastElement.show();
+
+                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.supprCadaster').forEach(function (link) {
+                            link.addEventListener('click', supprCadaster);
+                        })
                     })
                     .catch(function(error){
                         console.log(error)

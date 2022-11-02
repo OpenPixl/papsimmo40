@@ -31,7 +31,10 @@
                 axios
                     .post(urlformAsk, dataformAsk)
                     .then(function(response){
-
+                        // Mise en place de l'écouteur d'évènement sur le lien de demande d'information sous l'image de premier plan
+                        document.querySelectorAll('a.btnAskContactProperty').forEach(function (link) {
+                            link.addEventListener('click', AskProperty);
+                        })
                     })
                     .catch(function (error) {
                         console.log(error);

@@ -64,7 +64,8 @@ class CadasterController extends AbstractController
                 'message' => "Les informations du cadastres ont été correctement ajoutées.",
                 'm2' => $totalSurface,
                 'listeCadaster' => $this->renderView('gestapp/cadaster/listcadastersbyproperty.html.twig', [
-                    'cadasters' => $cadasters
+                    'cadasters' => $cadasters,
+                    'idproperty' => $idproperty
                 ])
             ], 200);
         }
@@ -130,7 +131,8 @@ class CadasterController extends AbstractController
             'message' => "La zone a été supprimée.",
             'm2' => $totalSurface,
             'listeCadaster' => $this->renderView('gestapp/cadaster/listcadastersbyproperty.html.twig', [
-                'cadasters' => $cadasters
+                'cadasters' => $cadasters,
+                'idproperty' => $idproperty
             ])
         ], 200);
     }
