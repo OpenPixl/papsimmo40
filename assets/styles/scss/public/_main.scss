@@ -242,6 +242,9 @@ a.nav-link {
     background-color: $primary-color;
     border-color: $primary-color;
   }
+  .color{
+    color: $secondary-color;
+  }
   #generalCard {
     margin-top: 4rem;
     .small{
@@ -253,8 +256,111 @@ a.nav-link {
     }
   }
   #TechniqualCard{
-    .color{
-      color: $secondary-color;
+
+  }
+  #DiagnosticCard{
+    border: 1px solid $primary-color;
+    border-radius: .5rem;
+    .diag_ener {
+      display: flex;
+      align-items: center;
+      list-style: none;
+      .c-dpe__index {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        margin-right: .2rem;
+        color: #fff;
+        font-weight: 400;
+        font-size: 1.2rem;
+        border: 0 solid;
+        border-radius: .5rem;
+      }
+      .dpe-A {
+        background-color: $dpe-A;
+      }
+      .dpe-B {
+        background-color: $dpe-B;
+      }
+      .dpe-C {
+        background-color: $dpe-C;
+      }
+      .dpe-D {
+        background-color: $dpe-D;
+      }
+      .dpe-E {
+        background-color: $dpe-E;
+      }
+      .dpe-F {
+        background-color: $dpe-F;
+      }
+      .dpe-G {
+        background-color: $dpe-G;
+      }
+      .dpe-A1 {
+        background-color: $dpe-A1;
+      }
+      .dpe-B1 {
+        background-color: $dpe-B1;
+      }
+      .dpe-C1 {
+        background-color: $dpe-C1;
+      }
+      .dpe-D1 {
+        background-color: $dpe-D1;
+      }
+      .dpe-E1 {
+        background-color: $dpe-E1;
+      }
+      .dpe-F1 {
+        background-color: $dpe-F1;
+      }
+      .dpe-G1 {
+        background-color: $dpe-G1;
+      }
+      .dpe-active {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-weight: 500;
+        size: 2rem;
+        border-radius: 0.5rem;
+      }
+      .dpe_l {
+        position: absolute;
+        top: calc(100% + 1.2rem);
+        left: 50%;
+        z-index: 10;
+        color: #2f2f2f;
+        font-size: 1rem;
+        line-height: 1rem;
+        transform: translateX(-50%);
+      }
+      .dpe_l::before {
+          content: "";
+          position: absolute;
+          bottom: calc(100% + .4rem);
+          left: calc(50% - .3rem);
+          border-right: .3rem solid transparent;
+          border-bottom: .3rem solid;
+          border-left: .3rem solid transparent;
+      }
+
+      .dpe_u {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        font-weight: 400;
+        font-size: 1rem;
+      }
+
+    }
+    .diag_ener {
+      padding-bottom: 4.8rem;
+      padding-left: 0;
+      list-style: none;
     }
   }
 }

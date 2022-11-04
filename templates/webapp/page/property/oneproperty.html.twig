@@ -5,6 +5,13 @@
     <script>
         window.onload = function(){
 
+            // Ouverture de la modal
+            const ModalAskProperty = new bootstrap.Modal(AskPropertyModal, {
+                backdrop:true,
+                focus:true,
+                keyboard:true
+            })
+
             // function d'envoi du formulaire
             function AskProperty(event){
                 event.preventDefault()
@@ -12,13 +19,8 @@
                 // Déclaration de la modal
                 let AskPropertyModal = document.getElementById('AskPropertyModal')
 
-                // Ouverture de la modal
-                let Modal = new bootstrap.Modal(AskPropertyModal, {
-                    backdrop:true,
-                    focus:true,
-                    keyboard:true
-                })
-                Modal.show()
+
+                ModalAskProperty.show()
                 console.log("prêt pour executer du code")
             }
 
@@ -35,6 +37,8 @@
                         document.querySelectorAll('a.btnAskContactProperty').forEach(function (link) {
                             link.addEventListener('click', AskProperty);
                         })
+                        ModalAskProperty.hide()
+
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -260,43 +264,11 @@
             </div>
 
             {# Row du contenu Diagnostique Dpe du Bien #}
-
-            <div class="row" id="DiagnosticCard">
+            <div class="row pt-3 mt-3" id="DiagnosticCard">
                 <h4>Bilan énergétique</h4>
-
-                {#
-                <ul class="c-dpe">
-                    <li class="c-dpe__index c-dpe__index--1">
-                        A
-                    </li>
-                    <li class="c-dpe__index c-dpe__index--2">
-                        B
-                    </li>
-                    <li class="c-dpe__index c-dpe__index--3">
-                        C
-                    </li>
-                    <li class="c-dpe__index c-dpe__index--4 c-dpe__index--active">
-                        D
-                        <strong class="c-dpe__label">
-                            246
-                            <span class="c-dpe__unit">kWh/m2.an</span>
-                        </strong>
-                    </li>
-                    <li class="c-dpe__index c-dpe__index--5">
-                        E
-                    </li>
-                    <li class="c-dpe__index c-dpe__index--6">
-                        F
-                    </li>
-                    <li class="c-dpe__index c-dpe__index--7">
-                        G
-                    </li>
-                </ul>
-                #}
-
-
-                {% if property.diagDpe >= 0  %}
                 <div class="col-4">
+                    <h5>Consommation énergétique</h5>
+                    {% if property.diagDpe >= 0  %}
                     {% set letter = '' %}
                     {% if property.diagDpe > 0 and property.diagDpe <= 50 %}
                         {% set letter = 'A'%}
@@ -313,201 +285,53 @@
                     {% elseif property.diagDpe > 450 %}
                         {% set letter = 'G'%}
                     {% endif %}
-                    <h5>Consommation énergétique</h5>
-                    <figure>
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
-                            <title id="title">A bart chart showing information</title>
-                            {% if letter == 'A' %}
-                                <g class="bar">
-                                    <rect width="40" height="20" fill="#00a06c"></rect>
-                                    <text x="45" y="10" dy=".35em">A - {{ property.diagDpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="40" height="20" fill="#00a06c" fill-opacity="0.5"></rect>
-                                    <text x="45" y="10" dy=".35em" fill-opacity="0.5">A</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'B' %}
-                                <g class="bar">
-                                    <rect width="60" height="20" y="22" fill="#50b054"></rect>
-                                    <text x="65" y="32" dy=".35em" fill="#50b054">B {{ property.diagDpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="60" height="20" y="22" fill="#50b054" fill-opacity="0.5"></rect>
-                                    <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'C' %}
-                                <g class="bar">
-                                    <rect width="80" height="20" y="44" fill="#a4cc74"></rect>
-                                    <text x="85" y="54" dy=".35em" fill="#a4cc74">C</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="80" height="20" y="44" fill="#a4cc74" fill-opacity="0.5"></rect>
-                                    <text x="85" y="54" dy=".35em" fill-opacity="0.5">C</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'D' %}
-                                <g class="bar">
-                                    <rect width="100" height="20" y="66" fill="#f3e61e"></rect>
-                                    <text x="105" y="76" dy=".35em" fill="#f3e61e">D</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="100" height="20" y="66" fill="#f3e61e" fill-opacity="0.5"></rect>
-                                    <text x="105" y="76" dy=".35em" fill-opacity="0.5">D</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'E' %}
-                                <g class="bar">
-                                    <rect width="120" height="20" y="88" fill="#f0b418"></rect>
-                                    <text x="125" y="98" dy=".35em" fill="#f0b418">E</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="120" height="20" y="88" fill="#f0b418" fill-opacity="0.5"></rect>
-                                    <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'F' %}
-                                <g class="bar">
-                                    <rect width="140" height="20" y="110" fill="#eb8233"></rect>
-                                    <text x="145" y="120" dy=".35em" fill="#eb8233">F</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="140" height="20" y="110" fill="#eb8233" fill-opacity="0.5"></rect>
-                                    <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'G' %}
-                                <g class="bar">
-                                    <rect width="160" height="20" y="132" fill="#d71d1f"></rect>
-                                    <text x="165" y="142" dy=".35em" fill="#d71d1f">G</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="160" height="20" y="132" fill="#d71d1f" fill-opacity="0.5"></rect>
-                                    <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
-                                </g>
-                            {% endif %}
-                        </svg>
-                    </figure>
-                </div>
-                {% endif %}
-                {# Row du contenu Diagnostique GES du Bien #}
-                {% if property.diagGpe >= 0  %}
-                <div class="col-4">
-                    {% set letter = '' %}
-                    {% if property.diagGpe > 0 and property.diagGpe <= 5 %}
-                        {% set letter = 'A'%}
-                    {% elseif property.diagGpe > 5 and property.diagGpe <= 10 %}
-                        {% set letter = 'B'%}
-                    {% elseif property.diagGpe > 11 and property.diagGpe <= 20 %}
-                        {% set letter = 'C'%}
-                    {% elseif property.diagGpe > 21 and property.diagGpe <= 35 %}
-                        {% set letter = 'D'%}
-                    {% elseif property.diagGpe > 36 and property.diagGpe <= 55 %}
-                        {% set letter = 'E'%}
-                    {% elseif property.diagGpe > 56 and property.diagGpe <= 80 %}
-                        {% set letter = 'F'%}
-                    {% elseif property.diagGpe > 80 %}
-                        {% set letter = 'G'%}
+                    <ul class="diag_ener">
+                        <li class="c-dpe__index dpe-A {% if letter == 'A' %}dpe-active{% endif %}">A{% if letter == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-B {% if letter == 'B' %}dpe-active{% endif %}">B{% if letter == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-C {% if letter == 'C' %}dpe-active{% endif %}">C{% if letter == 'C' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-D {% if letter == 'D' %}dpe-active{% endif %}">D{% if letter == 'D' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-E {% if letter == 'E' %}dpe-active{% endif %}">E{% if letter == 'E' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-F {% if letter == 'F' %}dpe-active{% endif %}">F{% if letter == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-G {% if letter == 'G' %}dpe-active{% endif %}">G{% if letter == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                    </ul>
                     {% endif %}
-                    <h5>Emission de gaz</h5>
-                    <figure>
-                        <figcaption>Diagnostique énergétique</figcaption>
-                        <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150" aria-labelledby="title" role="img">
-                            <title id="title">A bart chart showing information</title>
-                            {% if letter == 'A' %}
-                                <g class="bar">
-                                    <rect width="40" height="20" fill="#f6eefd"></rect>
-                                    <text x="45" y="10" dy=".35em">A - {{ property.diagGpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="40" height="20" fill="#f6eefd" fill-opacity="0.5"></rect>
-                                    <text x="45" y="10" dy=".35em" fill-opacity="0.5">A</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'B' %}
-                                <g class="bar">
-                                    <rect width="60" height="20" y="22" fill="#e0c2f8"></rect>
-                                    <text x="65" y="32" dy=".35em" fill="#e0c2f8">B {{ property.diagGpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="60" height="20" y="22" fill="#e0c2f8" fill-opacity="0.5"></rect>
-                                    <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'C' %}
-                                <g class="bar">
-                                    <rect width="80" height="20" y="44" fill="#d4aaf6"></rect>
-                                    <text x="85" y="54" dy=".35em" fill="#d4aaf6">C {{ property.diagGpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="80" height="20" y="44" fill="#d4aaf6" fill-opacity="0.5"></rect>
-                                    <text x="85" y="54" dy=".35em" fill-opacity="0.5">C</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'D' %}
-                                <g class="bar">
-                                    <rect width="100" height="20" y="66" fill="#c996f5"></rect>
-                                    <text x="105" y="76" dy=".35em" fill="#c996f5">D {{ property.diagGpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="100" height="20" y="66" fill="#c996f5" fill-opacity="0.5"></rect>
-                                    <text x="105" y="76" dy=".35em" fill-opacity="0.5">D</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'E' %}
-                                <g class="bar">
-                                    <rect width="120" height="20" y="88" fill="#ba72ef"></rect>
-                                    <text x="125" y="98" dy=".35em" fill="#ba72ef">E {{ property.diagGpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="120" height="20" y="88" fill="#ba72ef" fill-opacity="0.5"></rect>
-                                    <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'F' %}
-                                <g class="bar">
-                                    <rect width="140" height="20" y="110" fill="#a74deb"></rect>
-                                    <text x="145" y="120" dy=".35em" fill="#a74deb">F {{ property.diagGpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="140" height="20" y="110" fill="#a74deb" fill-opacity="0.5"></rect>
-                                    <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
-                                </g>
-                            {% endif %}
-                            {% if letter == 'G' %}
-                                <g class="bar">
-                                    <rect width="160" height="20" y="132" fill="#8919df"></rect>
-                                    <text x="165" y="142" dy=".35em" fill="#8919df">G {{ property.diagGpe }}</text>
-                                </g>
-                            {% else %}
-                                <g class="bar">
-                                    <rect width="160" height="20" y="132" fill="#8919df" fill-opacity="0.5"></rect>
-                                    <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
-                                </g>
-                            {% endif %}
-                        </svg>
-                    </figure>
                 </div>
-                {% endif %}
+                <div class="col-4">
+                    <h5>Emission de gaz</h5>
+                    {% if property.diagGpe >= 0  %}
+                    {% if property.diagGpe > 0 and property.diagGpe <= 5 %}
+                            {% set letter = 'A1'%}
+                        {% elseif property.diagGpe > 5 and property.diagGpe <= 10 %}
+                            {% set letter = 'B1'%}
+                        {% elseif property.diagGpe > 11 and property.diagGpe <= 20 %}
+                            {% set letter = 'C1'%}
+                        {% elseif property.diagGpe > 21 and property.diagGpe <= 35 %}
+                            {% set letter = 'D1'%}
+                        {% elseif property.diagGpe > 36 and property.diagGpe <= 55 %}
+                            {% set letter = 'E1'%}
+                        {% elseif property.diagGpe > 56 and property.diagGpe <= 80 %}
+                            {% set letter = 'F1'%}
+                        {% elseif property.diagGpe > 80 %}
+                            {% set letter = 'G1'%}
+                        {% endif %}
+                    <ul class="diag_ener">
+                        <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                        <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                    </ul>
+                    {% endif %}
+                </div>
+                <div class="col-4">
+                    <h5>Coût annuel</h5>
+                    <p>Estimation du coût annuel énergie pour un usage standard entre <span class="color">{{ property.dpeEstimateEnergyDown }}€</span> et
+                        <span class="color">{{ property.dpeEstimateEnergyUp }}€</span> au 01/01/2021 (abonnement compris) </p>
+                </div>
+
             </div>
-
-
-
-
         </div>
         <div id="oneproperty_footer" class="row">
 
@@ -546,6 +370,21 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </div>
+        </div>
+        <div aria-live="polite" aria-atomic="true" class="bg-dark position-relative bd-example-toasts">
+            <div class="toast-container position-absolute p-3" id="toastPlacement">
+                <div class="toast">
+                    <div class="toast-header">
+                        <img src="{{ asset('images/png/LogoPAPSimmo.png') }}" class="rounded me-2" alt="..." style="width: 1rem; height: 1rem;">
+                        <strong class="me-auto">PAPS Immo</strong>
+                        <small>A l'instant</small>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+
                 </div>
             </div>
         </div>
