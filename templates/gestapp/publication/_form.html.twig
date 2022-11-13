@@ -26,7 +26,8 @@
             <a id="previousPublication" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
             <button type="submit" id="stepPublication" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et finaliser la modification d'un bien") }}</button>
             {% else %}
-            <a id="returnList" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
+            <a id="returnList" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour </a>
+            <button type="submit" id="stepPublication2" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider") }}</button>
             {% endif %}
         </div>
     </div>

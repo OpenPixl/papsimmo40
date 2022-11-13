@@ -3,7 +3,9 @@
 namespace App\Controller\Webapp;
 
 use App\Entity\Admin\Application;
+use App\Form\SearchPropertyHomeType;
 use App\Repository\Admin\ApplicationRepository;
+use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Webapp\PageRepository;
 use App\Repository\Webapp\SectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -14,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PublicController extends AbstractController
 {
-    #[Route('/webapp/public', name: 'op_webapp_public_homepage')]
+    #[Route('/', name: 'op_webapp_public_homepage')]
     public function homepage(SectionRepository $sectionRepository, ApplicationRepository $applicationRepository): Response
     {
         $sections = $sectionRepository->findBy(['isfavorite' => 1]);
@@ -72,10 +74,10 @@ class PublicController extends AbstractController
     }
 
     /**
-     * Affiche mles différents menus sur la page d'accueil
+     * Affiche les différents menus sur la page d'accueil
      */
     #[Route("/webapp/public/menus/{route}", name: 'op_webapp_public_listmenus')]
-    public function BlocMenu(PageRepository $pageRepository, ApplicationRepository $applicationRepository, Request $request, $route): Response
+    public function BlocMenu(PageRepository $pageRepository, ApplicationRepository $applicationRepository, PropertyRepository $propertyRepository, Request $request, $route): Response
     {
         // on récupère l'utilisateur courant
         $user = $this->getUser();
@@ -87,7 +89,7 @@ class PublicController extends AbstractController
         return $this->render('include/public/navbar_webapp.html.twig', [
             'application' => $application,
             'menus' => $menus,
-            'route' => $route
+            'route' => $route,
         ]);
     }
 

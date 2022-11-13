@@ -3,8 +3,10 @@
 namespace App\Controller\Webapp;
 
 use App\Entity\Webapp\Page;
+use App\Form\SearchPropertyHomeType;
 use App\Form\Webapp\PageType;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Webapp\PageRepository;
 use App\Repository\Webapp\SectionRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -93,6 +95,36 @@ class PageController extends AbstractController
             'page' => $page,
             'sections' => $sections
         ]);
+    }
+
+    /**
+     * Création du formulaire de recherche de biens depuis la page d'accueil
+     */
+    #[Route('/search/propertyhome', name:'op_webapp_page_searchpropertyhome' , methods: ["POST", "GET"])]
+    public function formSearchPropertyHome(PropertyRepository $propertyRepository, Request $request) : response
+    {
+        // mise en place du formulaire de recherche dans le Jumbotron
+        $form = $this->createForm(SearchPropertyHomeType::class, [
+            'action' => $this->generateUrl('op_webapp_page_searchpropertyhome'),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            // on recherche les propriétés correspondantes
+            $properties = $propertyRepository->SearchPropertyHome($form->get('keys')->getData());
+
+            //dd($properties);
+
+            return $this->render('webapp/page/property/searchpropertyhome.html.twig',[
+                'properties' => $properties
+            ]);
+        }
+
+        return $this->renderForm('webapp/page/property/include/formSearchpropertyhome.html.twig', [
+            'form' => $form,
+        ]);
+
     }
 
 }

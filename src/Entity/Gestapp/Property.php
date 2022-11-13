@@ -17,6 +17,7 @@ use Symfony\Component\HttpFoundation\File\File;
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
+#[ORM\Index(name: 'property_idx', columns: ["ref", "name", "zipcode", "city"], flags: ['fulltext'])]
 
 class Property
 {

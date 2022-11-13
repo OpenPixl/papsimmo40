@@ -85,8 +85,8 @@ class CustomerController extends AbstractController
                 ])
             ]);
         }
-        // intégration dans ce controller du formulaire de recherche des clients
 
+        // intégration dans ce controller du formulaire de recherche des clients
         return $this->render('gestapp/customer/search/_listsearch.html.twig', [
             'customers' => $customers,
             'idproperty' => $idproperty,

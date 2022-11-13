@@ -27,6 +27,7 @@
             // Boutons de validation si le bien n'est plus en cours de création
             const nextStepInformations2 = document.getElementById("stepInformations2");
             const stepOptions2 = document.getElementById("stepOptions2");
+            const nextStepPublication2 = document.getElementById("stepPublication2");
 
             // Div de chaque panels
             const Informations = document.getElementById("Informations");
@@ -51,12 +52,12 @@
             const isWithExclusivity= document.getElementById('property_step1_isWithExclusivity')
 
 
-            // ---------------------------------------
-            //
-            // STEP 0 :
-            // Mise en place des styles de démarrage
-            //
-            // ---------------------------------------
+        // ---------------------------------------
+        //
+        // STEP 0 :
+        // Mise en place des styles de démarrage
+        //
+        // ---------------------------------------
 
             // Désactivation des onglets d'accueil de la page d'édition
             if(navCustomers !== null){
@@ -118,11 +119,11 @@
                     console.error(error);
                 });
 
-            // ---------------------------------------
-            // STEP 1 :
-            // enregistrement des informations initiales du bien sur clic du boutons next
-            //
-            // ---------------------------------------
+        // ---------------------------------------
+        // STEP 1 :
+        // enregistrement des informations initiales du bien sur clic du boutons next
+        //
+        // ---------------------------------------
 
             // initialisation du focus sur le champs refMandat
             const focus = document.getElementById('property_step1_refMandat');
@@ -267,11 +268,11 @@
 
 
 
-            // ---------------------------------------
-            // STEP 2 :
-            // Enregistrement du ou des acheteurs
-            //
-            // ---------------------------------------
+        // ---------------------------------------
+        // STEP 2 :
+        // Enregistrement du ou des acheteurs
+        //
+        // ---------------------------------------
 
             // Action sur le clic du bouton nextstep
             if(nextStepCustomers !== null){
@@ -1402,6 +1403,34 @@
                     }
                     Publication.className = "tab-pane"
                     Gallery.className += " active"
+                })
+            }
+            // Enregistrement des informations si propriété dja validée une fois
+            if(nextStepPublication2 !== null){
+                nextStepPublication2.addEventListener('click', function (event){
+                    event.preventDefault()
+                    let urladdPublication = FormPublication.action
+                    let dataaddPublication = new FormData(FormPublication)
+                    axios
+                        .post(urladdPublication, dataaddPublication)
+                        .then(function (response) {
+                            // préparation du toaster
+                            var option = {
+                                animation: true,
+                                autohide: true,
+                                delay: 3000,
+                            };
+                            // initialisation du toaster
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                            toastElement.show();
+                        })
+                        .catch(function (error) {
+                            console.log(error);
+                        })
                 })
             }
         }
