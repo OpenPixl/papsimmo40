@@ -35,7 +35,7 @@ class PropertyController extends AbstractController
         $user = $this->getUser();
 
         if($hasAccess == true){
-            //dd($propertyRepository->listAllProperties());
+            // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
             $properties = $paginator->paginate(
                 $data,
@@ -48,6 +48,7 @@ class PropertyController extends AbstractController
                 'user' => $user
             ]);
         }else{
+            // dans ce cas, nous listons les propriétés de l'utilisateurs courant
             $data = $propertyRepository->listPropertiesByemployed($user);
             $properties = $paginator->paginate(
                 $data,

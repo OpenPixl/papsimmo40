@@ -2,50 +2,50 @@
     <p>Les champs accompagnés d'une étoile sont obligatoires.</p>
     {# Energie du contacter par #}
     <div class="row mb-1 g-1">
-        {{ form_label(form.contactBy, '', {'label_attr': {'class':'col-sm-6  form-label'}}) }}
-        <div class="col-2">
+        {{ form_label(form.contactBy, '', {'label_attr': {'class':'col-12 col-lg-6 form-label'}}) }}
+        <div class="col-12 col-lg-2">
             {{ form_widget(form.contactBy, {'attr': {'class': 'form-select form-select-sm'}}) }}
         </div>
     </div>
     {# Form INPUT #}
     <div class="row mb-1 mt-1 g-1">
-        <div class="col-2">
+        <div class="col-12 col-lg-2">
             {{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}
         </div>
-        <div class="col-5">
+        <div class="col-12 col-lg-5">
             {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
         </div>
     </div>
     {# Form INPUT #}
     <div class="row mb-1 mt-1 g-1">
-        <div class="col-2">
+        <div class="col-12 col-lg-2">
             {{ form_label(form.email, '', {'label_attr': {'class':'form-label'}}) }}
         </div>
-        <div class="col-6">
+        <div class="col-12 col-lg-6">
             {{ form_widget(form.email, {'attr': {'class': 'form-control form-control-sm'}}) }}
         </div>
     </div>
     {# Form TEXTAREA #}
     <div class="row mb-1 mt-1 g-1">
-        <div class="col-2">
+        <div class="col-12 col-lg-2">
             {{ form_label(form.content, '', {'label_attr': {'class':'form-label'}}) }}
         </div>
-        <div class="col-10">
+        <div class="col-12 col-lg-10">
             {{ form_widget(form.content, {'attr': {'class': 'form-control form-control-sm'}}) }}
         </div>
     </div>
     {# Form INPUT #}
     <div class="row mb-1 mt-1 g-1">
-        <div class="col-2">
+        <div class="col-12 col-lg-2">
             {{ form_label(form.phoneHome, '', {'label_attr': {'class':'form-label'}}) }}
         </div>
-        <div class="col-4">
+        <div class="col-6 col-lg-4">
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone"></i></span>
                 {{ form_widget(form.phoneHome, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </div>
         </div>
-        <div class="col-4">
+        <div class="col-6 col-lg-4">
             <div class="input-group">
                 <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
                 {{ form_widget(form.phoneGsm, {'attr': {'class': 'form-control form-control-sm'}}) }}

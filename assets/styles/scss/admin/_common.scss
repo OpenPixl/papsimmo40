@@ -137,6 +137,13 @@ ol, ul, dl {
   border-radius: 0 0 0 0;
 }
 
+.page-item.disabled .page-link {
+  background-color: #fff;
+  border-color: #dee2e6;
+  color: #929292;
+  pointer-events: none;
+}
+
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
 @media (min-width: 768px) {
   body{

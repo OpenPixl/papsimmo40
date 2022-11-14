@@ -41,7 +41,7 @@
                 <p class="badge bg-primary mb-0">{{ property.propertyDefinition }}</p>
             </td>
             <td></td>
-            <td>{{ property.name }}</td>
+            <td>{{ property.name|u.truncate(60, ' ...') }}</td>
             <td>{{ property.piece }}</td>
             <td>{{ property.room }}</td>
             {% if property.adress =="" %}
