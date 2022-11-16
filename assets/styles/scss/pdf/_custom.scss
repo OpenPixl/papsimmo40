@@ -41,42 +41,38 @@ body {
   border-radius: 0.5rem;
   min-height: 1400px;
   max-height: 1400px;
-}
-
-.page p{
-  font-family: "comfortaa-light", sans-serif;
-}
-
-.page .row{
-  display: flex;
-  flex-direction: row;
-  min-width: 100%;
-  max-width: 100%
-}
-
-.page .column{
-  display: flex;
-  flex-direction: column;
-}
-.page .row .col-25{
-  min-width: 25%;
-  max-width: 25%;
-}
-.page .row .col-33{
-  min-width: 33%;
-  max-width: 33%;
-}
-.page .row .col-50{
-  min-width: 50%;
-  max-width: 50%;
-}
-.page .row .col-75{
-  min-width: 75%;
-  max-width: 75%;
-}
-.page .row .col-100{
-  min-width: 100%;
-  max-width: 100%;
+  .row{
+    display: flex;
+    flex-direction: row;
+    min-width: 100%;
+    max-width: 100%;
+    .col-25{
+      min-width: 25%;
+      max-width: 25%;
+    }
+    .col-33{
+      min-width: 33%;
+      max-width: 33%;
+    }
+    .col-50{
+      min-width: 50%;
+      max-width: 50%;
+    }
+    .col-75{
+      min-width: 75%;
+      max-width: 75%;
+    }
+    .col-100{
+      min-width: 100%;
+      max-width: 100%;
+    }
+  }
+  h1, h2, h3, h4, h5, h6{
+    font-family: "spinnaker", sans-serif;
+  }
+  p{
+    font-family: "comfortaa-light", sans-serif;
+  }
 }
 
 .page .img-logo{

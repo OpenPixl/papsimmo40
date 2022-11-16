@@ -32,7 +32,7 @@ class PdfController extends AbstractController
     #[Route('/admin/pdf/Property/fiche/{id}', name: 'op_admin_pdf_property', methods: ['GET'])]
     public function FicheProperty(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
-        $html = 0;
+        $html = 1;
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
