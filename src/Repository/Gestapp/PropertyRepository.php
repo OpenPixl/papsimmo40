@@ -180,6 +180,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.surfaceLand as surfaceLand,
                 p.dpeEstimateEnergyDown,
                 p.dpeEstimateEnergyUp,
+                p.eeaYear as anneeref,
                 p.priceFai as priceFai,
                 pd.name as propertyDefinition,
                 p.adress as adress,

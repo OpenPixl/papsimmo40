@@ -46,9 +46,17 @@ body {
     flex-direction: row;
     min-width: 100%;
     max-width: 100%;
+    .col-20{
+      min-width: 20%;
+      max-width: 20%;
+    }
     .col-25{
       min-width: 25%;
       max-width: 25%;
+    }
+    .col-30{
+      min-width: 20%;
+      max-width: 20%;
     }
     .col-33{
       min-width: 33%;
@@ -72,6 +80,13 @@ body {
   }
   p{
     font-family: "comfortaa-light", sans-serif;
+  }
+  table{
+    tr{
+      th, td{
+        font-size: 0.9rem;
+      }
+    }
   }
 }
 
