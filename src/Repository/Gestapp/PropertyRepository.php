@@ -175,6 +175,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.terrace as terrace,
                 c.balcony as balcony,
                 c.wc as wc,
+                c.isFurnished as isFurnished,
                 d.name as denomination,
                 p.surfaceHome as surfaceHome,
                 p.surfaceLand as surfaceLand,
@@ -197,6 +198,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.disponibility as disponibility,
                 c.location as location,
                 c.disponibilityAt as disponibilityAt,
+                c.level as level,
                 p.createdAt as createdAt,
                 p.updatedAt as updatedAt
             ')

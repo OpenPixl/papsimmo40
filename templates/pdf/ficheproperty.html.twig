@@ -189,12 +189,12 @@
                 </div>
             </div>
         </div>
-        <div id="Title">
-            <h2 class="title-h2">PHOTOS</h2>
-        </div>
+
         {% set nbphotos = photos|length %}
         {% set page = (nbphotos / 6)|round %}
-        {{ page }}, {{ nbphotos }}
+        <div id="Title">
+            <h2 class="title-h2">PHOTOS (page 1 sur {{ page }})</h2>
+        </div>
         <div id="Galerie">
             <div class="row">
             {% for photo in photos|slice(0, 2) %}
@@ -262,15 +262,26 @@
             <div>
                 <h3 class="title-h3">Equipements</h3>
                 <p>
-                    <span class="subtitle">Meublé : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                    <span class="subtitle">Meublé : </span>
+                    {% if property.isFurnished == 1 %}Oui{% else %}Non{% endif %}
+
+                </p>
                 <p>
-                    <span class="subtitle">Equipement du bien : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                    <span class="subtitle">Equipement du bien : </span>
+                    {% for equipment in equipments %}
+                        {% if loop.first %}{{ equipment.name }} - {% elseif loop.last%}{{ equipment.name }}{% else %} {{ equipment.name }} - {% endif %}
+                    {% endfor %}
+                </p>
                 <p>
                     <span class="subtitle">Typologie du bien : </span>{% if property.propertyTypology is not empty%}{{property.propertyTypology}}{% else %}non communiqué{% endif %}</p>
                 <p>
-                    <span class="subtitle">Etage : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                    <span class="subtitle">Etage : </span>{% if property.level is not empty%}{{property.level}}{% else %}non communiqué{% endif %}</p>
                 <p>
-                    <span class="subtitle">Autres options du bien : </span>{% if property.dpeEstimateEnergyUp is not empty%}{{property.dpeEstimateEnergyUp}}{% else %}non communiqué{% endif %}</p>
+                    <span class="subtitle">Autres options du bien : </span>
+                    {% for otheroption in otheroptions %}
+                        {% if loop.first %}{{ otheroption.name }} - {% elseif loop.last%}{{ otheroption.name }}{% else %}{{ otheroption.name }} - {% endif %}
+                    {% endfor %}
+                </p>
             </div>
         </div>
     </div>

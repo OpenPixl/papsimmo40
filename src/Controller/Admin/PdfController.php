@@ -40,6 +40,7 @@ class PdfController extends AbstractController
         //dd($firstphoto);
         // Récupération des photos correspondantes au bien
         $photos = $photoRepository->findBy(['property'=>$property->getId()]);
+        $otheroptions = $options->getPropertyOtheroption();
 
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
@@ -50,6 +51,7 @@ class PdfController extends AbstractController
                 'pdf/ficheproperty.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
+                'otheroptions' => $otheroptions,
                 'application' =>$application,
                 'firstphoto' => $firstphoto,
                 'photos' => $photos
@@ -58,6 +60,7 @@ class PdfController extends AbstractController
             $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
+                'options' => $options,
                 'application' =>$application,
                 'firstphoto' => $firstphoto,
                 'photos' => $photos
