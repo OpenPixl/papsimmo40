@@ -74,79 +74,81 @@
                             </tr>
                         </table>
                     </div>
-                    <div class="row">
-                        <figure>
-                            <figcaption>Diagnostique énergétique</figcaption>
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150"
-                                 aria-labelledby="title" role="img">
-                                <title id="title">A bart chart showing information</title>
-                                <g class="bar">
-                                    <rect width="40" height="20" fill="#00a06c"></rect>
-                                    <text x="45" y="10" dy=".35em">A</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="60" height="20" y="22" fill="#50b054" fill-opacity="0.5"></rect>
-                                    <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="80" height="20" y="44" fill="#a4cc74"></rect>
-                                    <text x="85" y="54" dy=".35em" fill="#a4cc74">C</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="100" height="20" y="66" fill="#f3e61e"></rect>
-                                    <text x="105" y="76" dy=".35em" fill="#f3e61e">D</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="120" height="20" y="88" fill="#f0b418" fill-opacity="0.5"></rect>
-                                    <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="140" height="20" y="110" fill="#eb8233" fill-opacity="0.5"></rect>
-                                    <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="160" height="20" y="132" fill="#d71d1f" fill-opacity="0.5"></rect>
-                                    <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
-                                </g>
-                            </svg>
-                        </figure>
-                        <figure>
-                            <figcaption>Diagnostique énergétique</figcaption>
-                            <svg version="1.1" xmlns="http://www.w3.org/2000/svg"
-                                 xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="420" height="150"
-                                 aria-labelledby="title" role="img">
-                                <title id="title">A bart chart showing information</title>
-                                <g class="bar">
-                                    <rect width="40" height="20" fill="#f6eefd"></rect>
-                                    <text x="45" y="10" dy=".35em">A</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="60" height="20" y="22" fill="#e0c2f8" fill-opacity="0.5"></rect>
-                                    <text x="65" y="32" dy=".35em" fill-opacity="0.5">B</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="80" height="20" y="44" fill="#d4aaf6" fill-opacity="0.5"></rect>
-                                    <text x="85" y="54" dy=".35em" fill-opacity="0.5">C</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="100" height="20" y="66" fill="#c996f5" fill-opacity="0.5"></rect>
-                                    <text x="105" y="76" dy=".35em" fill-opacity="0.5">D</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="120" height="20" y="88" fill="#ba72ef" fill-opacity="0.5"></rect>
-                                    <text x="125" y="98" dy=".35em" fill-opacity="0.5">E</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="140" height="20" y="110" fill="#a74deb" fill-opacity="0.5"></rect>
-                                    <text x="145" y="120" dy=".35em" fill-opacity="0.5">F</text>
-                                </g>
-                                <g class="bar">
-                                    <rect width="160" height="20" y="132" fill="#8919df" fill-opacity="0.5"></rect>
-                                    <text x="165" y="142" dy=".35em" fill-opacity="0.5">G</text>
-                                </g>
-                            </svg>
-                        </figure>
+                    {# Row du contenu Diagnostique Dpe du Bien #}
+
+
+                    <div class="column" id="DiagnosticCard">
+                        <div id="DiagnosticCard-title">
+                            <h4>Bilan énergétique</h4>
+                        </div>
+                        <div id="DiagnosticCard-diag">
+                            <div class="row">
+                                <div class="col">
+                                    <h5>Consommation énergétique</h5>
+                                    {% if property.diagDpe >= 0  %}
+                                        {% set letter = '' %}
+                                        {% if property.diagDpe > 0 and property.diagDpe <= 50 %}
+                                            {% set letter = 'A'%}
+                                        {% elseif property.diagDpe > 50 and property.diagDpe <= 90 %}
+                                            {% set letter = 'B'%}
+                                        {% elseif property.diagDpe > 90 and property.diagDpe <= 150 %}
+                                            {% set letter = 'C'%}
+                                        {% elseif property.diagDpe > 150 and property.diagDpe <= 230 %}
+                                            {% set letter = 'D'%}
+                                        {% elseif property.diagDpe > 230 and property.diagDpe <= 330 %}
+                                            {% set letter = 'E'%}
+                                        {% elseif property.diagDpe > 330 and property.diagDpe <= 450 %}
+                                            {% set letter = 'F'%}
+                                        {% elseif property.diagDpe > 450 %}
+                                            {% set letter = 'G'%}
+                                        {% endif %}
+                                        <ul class="diag_ener">
+                                            <li class="c-dpe__index dpe-A {% if letter == 'A' %}dpe-active{% endif %}">A{% if letter == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-B {% if letter == 'B' %}dpe-active{% endif %}">B{% if letter == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-C {% if letter == 'C' %}dpe-active{% endif %}">C{% if letter == 'C' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-D {% if letter == 'D' %}dpe-active{% endif %}">D{% if letter == 'D' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-E {% if letter == 'E' %}dpe-active{% endif %}">E{% if letter == 'E' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-F {% if letter == 'F' %}dpe-active{% endif %}">F{% if letter == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-G {% if letter == 'G' %}dpe-active{% endif %}">G{% if letter == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                                <div class="col">
+                                    <h5>Emission de gaz</h5>
+                                    {% if property.diagGpe >= 0  %}
+                                        {% if property.diagGpe > 0 and property.diagGpe <= 5 %}
+                                            {% set letter = 'A1'%}
+                                        {% elseif property.diagGpe > 5 and property.diagGpe <= 10 %}
+                                            {% set letter = 'B1'%}
+                                        {% elseif property.diagGpe > 11 and property.diagGpe <= 20 %}
+                                            {% set letter = 'C1'%}
+                                        {% elseif property.diagGpe > 21 and property.diagGpe <= 35 %}
+                                            {% set letter = 'D1'%}
+                                        {% elseif property.diagGpe > 36 and property.diagGpe <= 55 %}
+                                            {% set letter = 'E1'%}
+                                        {% elseif property.diagGpe > 56 and property.diagGpe <= 80 %}
+                                            {% set letter = 'F1'%}
+                                        {% elseif property.diagGpe > 80 %}
+                                            {% set letter = 'G1'%}
+                                        {% endif %}
+                                        <ul class="diag_ener">
+                                            <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                                <div id="DiagnosticCard-count" class="col">
+                                    <h5>Coût annuel</h5>
+                                    <p>Estimation du coût annuel énergie pour un usage standard entre <span class="color">{{ property.dpeEstimateEnergyDown }}€</span> et
+                                        <span class="color">{{ property.dpeEstimateEnergyUp }}€</span> au 01/01/2021 (abonnement compris) </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

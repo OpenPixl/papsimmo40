@@ -46,6 +46,11 @@ body {
   flex-direction: row;
   max-width: 100%
 }
+
+.page .column{
+  display: flex;
+  flex-direction: column;
+}
 .page .row .col-25{
   min-width: 25%;
   max-width: 25%;
@@ -64,11 +69,12 @@ body {
 }
 
 .page .img-adapt{
+  min-width: 467px;
+  min-height:330px;
   max-width: 100%;
   max-height: 100%;
   display: block;
 }
-
 
 .page .title-h1 {
   color: #7d1715;
@@ -140,3 +146,114 @@ body {
   margin:0;
 }
 
+/*** Bloc Diags ***/
+#DiagnosticCard {
+  border: 1px solid #7d1715;
+  border-radius: .5rem;
+}
+
+.color {
+  color: #069697;
+}
+
+.diag_ener{
+  display: flex;
+  align-items: center;
+  list-style: none;
+}
+.c-dpe__index {
+  display: flex;
+  position: relative;
+  align-items: center;
+  justify-content: center;
+  width: 2.25rem;
+  height: 2.25rem;
+  margin-right: .2rem;
+  color: #fff;
+  font-weight: 400;
+  font-size: 1.2rem;
+  border: 0 solid;
+  border-radius: .5rem;
+}
+
+
+.diag_ener .dpe-A {
+  background-color: #029163;
+}
+.diag_ener .dpe-B {
+  background-color: #46a64a;
+}
+.diag_ener .dpe-C {
+  background-color: #6db56b;
+}
+.diag_ener .dpe-D {
+  background-color: #f2e314;
+}
+.diag_ener .dpe-E {
+  background-color: #edab0f;
+}
+.diag_ener .dpe-F {
+  background-color: #e8782f;
+}
+.diag_ener .dpe-G {
+  background-color: #d1201e;
+}
+
+.diag_ener .dpe-A1 {
+  background-color: #99d5f7;
+}
+.diag_ener .dpe-B1 {
+  background-color: #80abcd;
+}
+.diag_ener .dpe-C1 {
+  background-color: #6d87a8;
+}
+.diag_ener .dpe-D1 {
+  background-color: #546384;
+}
+.diag_ener .dpe-E1 {
+  background-color: #434665;
+}
+.diag_ener .dpe-F1 {
+  background-color: #332d47;
+}
+.diag_ener .dpe-G1 {
+  background-color: #231a2f;
+}
+
+.diag_ener .dpe-active {
+  width: 3.5rem;
+  height: 3.5rem;
+  font-weight: 500;
+  size: 2rem;
+  border-radius: 0.5rem;
+}
+
+.diag_ener .dpe_l {
+  position: absolute;
+  top: calc(100% + 1.2rem);
+  left: 50%;
+  z-index: 10;
+  color: #2f2f2f;
+  font-size: 1rem;
+  line-height: 1rem;
+  transform: translateX(-50%);
+}
+
+.diag_ener .dpe_l::before {
+  content: "";
+  position: absolute;
+  bottom: calc(100% + .4rem);
+  left: calc(50% - .3rem);
+  border-right: .3rem solid transparent;
+  border-bottom: .3rem solid;
+  border-left: .3rem solid transparent;
+}
+
+.diag_ener.dpe_u {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  font-weight: 400;
+  font-size: 1rem;
+}

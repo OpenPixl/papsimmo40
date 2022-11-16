@@ -44,6 +44,16 @@ class PdfController extends AbstractController
 
         //dd($firstphoto);
 
+        //return $this->render(
+        //    'pdf/ficheproperty.html.twig', array(
+        //        'property'  => $oneproperty,
+        //        'equipments' => $equipments,
+        //        'application' =>$application,
+        //        'firstphoto' => $firstphoto,
+        //        'photos' => $photos
+        //    ));
+
+
         $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
             'property'  => $oneproperty,
             'equipments' => $equipments,
