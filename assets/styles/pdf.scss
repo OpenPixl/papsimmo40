@@ -3,6 +3,8 @@ $secondary-color: #069697;
 $secondary-color-dark: #29565f;
 
 $pdf-puceH3: url('../../images/svg/pucePdf.svg');
+$page-width: 1080px;
+$page-height:1980px;
 
 @import "scss/pdf/custom";
 //*** ------------- Import Styles from FontAwesome ---------------- ***//
