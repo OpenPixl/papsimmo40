@@ -242,7 +242,7 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     /**
-     * Rechercher un client depuis le search
+     * Rechercher un bien depuis le searchProperty
      * @return void
      */
     public function SearchPropertyHome($keys)
@@ -277,6 +277,19 @@ class PropertyRepository extends ServiceEntityRepository
                 c.banner
                 ');
         $query->where('p.isIncreating = 0');
+        if($keys != null){
+            $query
+                ->andWhere('MATCH_AGAINST(p.ref, p.name, p.zipcode, p.city) AGAINST (:keys boolean)>0')
+                ->setParameter('keys', $keys);
+        }
+        return $query->getQuery()->getResult();
+    }
+
+    /**
+     * Recherche complete sur les biens
+     */
+    public function searchPropertyAll($keys, $priceMin, $priceMax){
+        $query = $this->createQueryBuilder('p');
         if($keys != null){
             $query
                 ->andWhere('MATCH_AGAINST(p.ref, p.name, p.zipcode, p.city) AGAINST (:keys boolean)>0')

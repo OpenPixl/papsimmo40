@@ -5,12 +5,17 @@
             {% else %}
             <div class="card">
                 <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
-                <div class="actu_overlay"></div>
+                <div class="border_actu"></div>
+                <div class="actu_overlay">
+                    <div class="d-flex justify-content-center align-items-center">
+                        <a class="btn btn-sm btn-outline-info" href="{{ path('op_webapp_articles_show', {'id':article.id}) }}">Lire l'article</a>
+                    </div>
+                </div>
             </div>
             {% endif %}
             <div class="card">
                 <div class="card-body">
-                    <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}"></a>{{ article.name }}</h3>
+                    <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}">{{ article.name }}</a></h3>
                     <article>
                         {{ article.content|u.truncate(150, ' ...')|markdown_to_html }}
                     </article>
@@ -25,12 +30,17 @@
             {% else %}
                 <div class="card">
                     <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
-                    <div class="actu_overlay"></div>
+                    <div class="border_actu"></div>
+                    <div class="actu_overlay">
+                        <div class="d-flex justify-content-center">
+                            <a class="btn btn-sm btn-outline-info" href="{{ path('op_webapp_articles_show', {'id':article.id}) }}">Lire l'article</a>
+                        </div>
+                    </div>
                 </div>
             {% endif %}
             <div class="card mt-1">
                 <div class="card-body">
-                    <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}"></a>{{ article.name }}</h3>
+                    <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}">{{ article.name }}</a></h3>
                     <article>
                         {{ article.content|u.truncate(150, ' ...')|markdown_to_html }}
                     </article>

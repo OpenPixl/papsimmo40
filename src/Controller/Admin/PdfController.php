@@ -32,16 +32,14 @@ class PdfController extends AbstractController
     #[Route('/admin/pdf/Property/fiche/{id}', name: 'op_admin_pdf_property', methods: ['GET'])]
     public function FicheProperty(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
-        $html = 0;
+        $html = 1; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
         $firstphoto = $photoRepository->firstphoto($property->getId());
-        //dd($firstphoto);
         // Récupération des photos correspondantes au bien
         $photos = $photoRepository->findBy(['property'=>$property->getId()]);
         $otheroptions = $options->getPropertyOtheroption();
-
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
         //dd($firstphoto);
@@ -60,7 +58,7 @@ class PdfController extends AbstractController
             $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
-                'options' => $options,
+                'otheroptions' => $otheroptions,
                 'application' =>$application,
                 'firstphoto' => $firstphoto,
                 'photos' => $photos

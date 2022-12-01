@@ -24,6 +24,7 @@
         <ul>
             <li><a href="{{ path('op_webapp_page_index') }}" class="{% if app.request.attributes.get("_route") == 'op_webapp_page_index' or app.request.attributes.get("_route") == 'op_webapp_page_edit'%}active{% endif %}">Pages</a></li>
             <li><a href="{{ path('op_webapp_articles_index') }}" class="{% if app.request.attributes.get("_route") == 'op_webapp_articles_index' %}active{% endif %}">Articles</a></li>
+            <li><a href="{{ path('op_webapp_articles_actualites') }}" class="{% if app.request.attributes.get("_route") == 'op_webapp_articles_actualites' %}active{% endif %}">Actualités</a></li>
         </ul>
     </div>
     {% endif %}
@@ -31,7 +32,7 @@
     <div class="menu-items">
         <h6>APPLICATION</h6>
         <ul>
-            <li><a href="{{ path('op_admin_contact_index') }}" class="{% if app.request.attributes.get("_route") == 'op_admin_application_index' %}active{% endif %}">Demandes</a></li>
+            <li><a href="{{ path('op_admin_contact_index') }}" class="{% if app.request.attributes.get("_route") == 'op_admin_application_index' %}active{% endif %}">Contacts site</a></li>
             <li><a href="{{ path('op_admin_employed_index') }}" class="{% if app.request.attributes.get("_route") == 'op_admin_employed_index' or app.request.attributes.get("_route") == 'op_admin_employed_show' or app.request.attributes.get("_route") == 'op_admin_employed_edit'%}active{% endif %}">Membres de Paps</a></li>
             <li><a href="{{ path('op_admin_application_edit', {'id':1}) }}" class="{% if app.request.attributes.get("_route") == 'op_admin_application_index' %}active{% endif %}">Paramètres</a></li>
         </ul>

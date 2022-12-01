@@ -7,6 +7,7 @@ use App\Repository\Admin\EmployedRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Vich\UploaderBundle\Form\Type\VichImageType;
@@ -36,11 +37,23 @@ class EmployedType extends AbstractType
                 'delete_label' => 'Supprimer',
                 'download_label' => 'Télecharger',
             ])
-            ->add('home')
-            ->add('desk')
-            ->add('gsm')
+            ->add('home', TextType::class, [
+                'label' => 'Domicile',
+                'required' => false
+            ])
+            ->add('desk', TextType::class, [
+                'label' => 'Bureau',
+                'required' => false
+            ])
+            ->add('gsm', TextType::class, [
+                'label' => 'Portable *',
+                'required' => true
+            ])
             ->add('fax')
-            ->add('otherEmail')
+            ->add('otherEmail', TextType::class, [
+                'label' => 'Autres email',
+                'required' => true
+            ])
             ->add('facebook')
             ->add('instagram')
             ->add('linkedin')

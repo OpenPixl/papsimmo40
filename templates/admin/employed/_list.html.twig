@@ -34,8 +34,8 @@
             <td>{{ employed.createdAt ? employed.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ employed.updatedAt ? employed.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
-                <a href="{{ path('op_admin_employed_show', {'id': employed.id}) }}">show</a>
-                <a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}">edit</a>
+                <a href="{{ path('op_admin_employed_show', {'id': employed.id}) }}"><i class="fa-duotone fa-pen-to-square"></i></a>
+                <a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-file-xmark"></i></a>
             </td>
         </tr>
     {% else %}

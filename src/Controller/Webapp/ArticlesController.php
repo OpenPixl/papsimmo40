@@ -6,6 +6,7 @@ use App\Entity\Webapp\Articles;
 use App\Form\Webapp\ArticlesType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Webapp\ArticlesRepository;
+use App\Repository\Webapp\choice\CategoryRepository;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +21,16 @@ class ArticlesController extends AbstractController
     {
         return $this->render('webapp/articles/index.html.twig', [
             'articles' => $articlesRepository->findAll(),
+        ]);
+    }
+
+    #[Route('/actualites', name: 'op_webapp_articles_actualites', methods: ['GET'])]
+    public function actualites(ArticlesRepository $articlesRepository): Response
+    {
+        $actualites = $articlesRepository->listbycategory();
+        //dd($actualites);
+        return $this->render('webapp/articles/actualites.html.twig', [
+            'articles' => $actualites,
         ]);
     }
 
@@ -51,10 +62,43 @@ class ArticlesController extends AbstractController
         ]);
     }
 
+    #[Route('/newactualite', name: 'op_webapp_articles_newactualite', methods: ['GET', 'POST'])]
+    public function newActualite(Request $request, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository, CategoryRepository $categoryRepository): Response
+    {
+        $user = $this->getUser()->getId();
+        $employed = $employedRepository->find($user);
+
+        $actualite = $categoryRepository->find(2);
+
+        //dd($actualite);
+
+        $article = new Articles();
+        $article->setAuthor($employed);
+        $article->setCategory($actualite);
+        $form = $this->createForm(ArticlesType::class, $article, [
+            'action' => $this->generateUrl('op_webapp_articles_new'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'FormAddArticle'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $articlesRepository->add($article);
+            return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('webapp/articles/new.html.twig', [
+            'article' => $article,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'op_webapp_articles_show', methods: ['GET'])]
     public function show(Articles $article): Response
     {
-        return $this->render('webapp/articles/show.html.twig', [
+        return $this->render('webapp/page/article/showactualite.html.twig', [
             'article' => $article,
         ]);
     }

@@ -1,0 +1,19 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Actus Immobilier | PapsImmo {% endblock %}
+
+{% block content %}
+    <section class="container mb-5">
+        {# Row du contenu principal de l'article #}
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center property_h1">{{article.name}}</h1>
+            </div>
+        </div>
+        <div class="row">
+            <col-12>
+                {{ article.content|markdown_to_html }}
+            </col-12>
+        </div>
+    </section>
+{% endblock %}

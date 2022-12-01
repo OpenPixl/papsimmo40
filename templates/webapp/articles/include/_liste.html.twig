@@ -1,7 +1,6 @@
 <table class="table">
     <thead>
     <tr>
-        <th>Id</th>
         <th>titre</th>
         <th>Contenu</th>
         <th>Etat</th>
@@ -13,10 +12,17 @@
     <tbody>
     {% for article in articles %}
         <tr>
-            <td>{{ article.id }}</td>
             <td>{{ article.name }}</td>
             <td>{{ article.slug }}</td>
-            <td>{{ article.state }}</td>
+            <td>
+            {% if article.state == 'brouillon' %}
+                <span class="badge bg-light">{{ article.state }}</span>
+            {% elseif article.state == 'archivee' %}
+                <span class="badge bg-warning">{{ article.state }}</span>
+            {% elseif article.state == 'publiée' %}
+                <span class="badge bg-primary">{{ article.state }}</span>
+            {% endif %}
+            </td>
             <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>

@@ -45,6 +45,31 @@ class ArticlesRepository extends ServiceEntityRepository
         }
     }
 
+    public function listbycategory()
+    {
+        return $this->createQueryBuilder('a')
+            ->join('a.category', 'c')
+            ->select('
+                a.id as id,
+                a.name as name,
+                a.slug as slug,
+                a.content as content,
+                a.isShowtitle as isShowtitle,
+                a.isShowdate as isShowdate,
+                a.state as state,
+                a.createdAt as createdAt,
+                a.updatedAt as updatedAt,
+                c.name as category
+            ')
+            ->andWhere('c.name = :category')
+            ->setParameter('category', 'Actualités')
+            ->orderBy('a.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+
     // /**
     //  * @return Articles[] Returns an array of Articles objects
     //  */
