@@ -151,7 +151,6 @@ class PropertyController extends AbstractController
                 $property->setReflastnumber($lastRefNum);
             }
         }
-        $property->addPropertyDefinition($propertyDefinitionRepository->findOneBy([], ['id'=>'ASC']));
         $property->setRef($refNumDate.'-'.$lastRefNum);
         $property->setSurfaceHome(0);
         $property->setSurfaceLand(0);
@@ -162,8 +161,6 @@ class PropertyController extends AbstractController
         $property->setDiagGpe(0);
         $property->setDpeEstimateEnergyUp(0);
         $property->setDpeEstimateEnergyDown(0);
-        $property->setCadasterSurface(0);
-        $property->setCadasterNum(0);
         $property->setRefEmployed($employed);
         $property->setOptions($complement);
         $property->setPublication($publication);
@@ -368,7 +365,7 @@ class PropertyController extends AbstractController
 
         return $this->json([
             'code'=> 200,
-            'message' => "Les informations du bien ont été correctement ajoutées.",
+            'message' => "Les informations du bien ont été correctement supprimé.",
             'liste' => $this->renderView('gestapp/property/_list.html.twig', [
                 'properties' => $properties
             ])

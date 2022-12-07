@@ -252,6 +252,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.options', 'c'); // p.options correspond à la table "Complement" d'où l'alias "c"
         $query->join('c.denomination', 'd');
         $query->join('p.propertyDefinition', 'pd');
+        $query->join('p.publication', 'pu');
         $query->select('
                 p.id as id,
                 p.ref as ref,
@@ -281,6 +282,8 @@ class PropertyRepository extends ServiceEntityRepository
             $query
                 ->andWhere('MATCH_AGAINST(p.ref, p.name, p.zipcode, p.city) AGAINST (:keys boolean)>0')
                 ->setParameter('keys', $keys);
+
+            $query->where('p.isWebpublish = 1');
         }
         return $query->getQuery()->getResult();
     }
@@ -290,6 +293,9 @@ class PropertyRepository extends ServiceEntityRepository
      */
     public function searchPropertyAll($keys, $priceMin, $priceMax){
         $query = $this->createQueryBuilder('p');
+        $query->where('p.isIncreating = 0');
+        $query->where('p.isWebpublish = 1');
+
         if($keys != null){
             $query
                 ->andWhere('MATCH_AGAINST(p.ref, p.name, p.zipcode, p.city) AGAINST (:keys boolean)>0')

@@ -3,6 +3,7 @@
 namespace App\Controller\Webapp;
 
 use App\Entity\Webapp\Page;
+use App\Form\SearchPropertyHomeCompleteType;
 use App\Form\SearchPropertyHomeType;
 use App\Form\Webapp\PageType;
 use App\Repository\Admin\EmployedRepository;
@@ -17,7 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 #[Route('/webapp/page')]
 class PageController extends AbstractController
 {
-    #[Route('/', name: 'op_webapp_page_index', methods: ['GET'])]
+    #[Route('/index', name: 'op_webapp_page_index', methods: ['GET'])]
     public function index(PageRepository $pageRepository): Response
     {
         return $this->render('webapp/page/index.html.twig', [
@@ -125,6 +126,31 @@ class PageController extends AbstractController
             'form' => $form,
         ]);
 
+    }
+
+    /**
+     * Création du formulaire de recherche de biens depuis la page d'accueil
+     */
+    #[Route('/search/propertyhome', name:'op_webapp_page_searchpropertyhome' , methods: ["POST", "GET"])]
+    public function formSearchPropertyHomeComplete(PropertyRepository $propertyRepository, Request $request) : response
+    {
+        $form = $this->createForm(SearchPropertyHomeCompleteType::class);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $properties = $propertyRepository->SearchPropertyHomeComplete(
+                $keys = $form->get('keys')->getData(),
+                $priceMin = $form->get('priceMin')->getData(),
+                $priceMax = $form->get('priceMax')->getData()
+            );
+
+            return $this->render('webapp/page/property/searchpropertyhome.html.twig',[
+                'properties' => $properties
+            ]);
+        }
+        return $this->renderForm('webapp/page/property/include/formSearchpropertyhomecomplete.html.twig', [
+            'form' => $form,
+        ]);
     }
 
 }
