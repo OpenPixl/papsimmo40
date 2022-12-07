@@ -43,9 +43,9 @@
             function DelProperty(event)
             {
                 event.preventDefault();
-                const id = document.getElementById('recipient-name').value;
+                const url = this.href;
                 axios
-                    .post('/gestapp/property/del/'+ id)
+                    .post(url)
                     .then(function(response) {
                         // rafraichissement du tableau
                         const liste = document.getElementById('list').innerHTML = response.data.liste;
@@ -57,20 +57,14 @@
                         // Mise en place de l'évenement pour le modal de suppression d'un bien
                         document.querySelectorAll('a.jsModalDelProperty').forEach(function (link) {
                         link.addEventListener('click', DelProperty)
-                        // préparation du toaster
-                        var option = {
-                            animation: true,
-                            autohide: true,
-                            delay: 3000,
-                        };
 
                         // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
+                        var toastHTMLElement = document.getElementById("toaster")
+                        var message = response.data.message
                         var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                        toastElement.show();
+                        toastBody.textContent = message
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,})
+                        toastElement.show()
                     })
                 })
             }
@@ -93,26 +87,6 @@
                 modalTitle.textContent = "Suppression d'un bien en cours de création"
                 modalBodyInput.value = recipient
                 modalText.innerHTML = "Vous êtes sur le point de supprimer le bien en cours de création.<br><b>Etes-vous sur de vouloir continuer ?</b>"
-            })
-
-            // Code d'ouverture de la modale de suppression d'une ligne
-            var Suppr2 = document.getElementById('Suppr2')
-            Suppr2.addEventListener('show.bs.modal', function (event) {
-                // Button that triggered the modal
-                var a = event.relatedTarget
-                // Extract info from data-bs-* attributes
-                var recipient = a.getAttribute('data-bs-whatever')
-                // If necessary, you could initiate an AJAX request here
-                // and then do the updating in a callback.
-                //
-                // Update the modal's content.
-                var modalTitle = Suppr.querySelector('.modal-title')
-                var modalText = Suppr.querySelector('.modal-text')
-                var modalBodyInput = Suppr.querySelector('.modal-body input')
-
-                modalTitle.textContent = "Suppression d'un bien"
-                modalBodyInput.value = recipient
-                modalText.innerHTML = "Vous êtes sur le point de supprimer le bien.<br><b>Etes-vous sur de vouloir continuer ?</b>"
             })
 
             // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
