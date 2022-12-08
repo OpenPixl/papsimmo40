@@ -347,7 +347,7 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/del/{id}', name:'op_gestapp_property_del', methods: ['POST'] )]
-    public function Del(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository, CadasterRepository $cadasterRepository)
+    public function Del(Request $request, Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository, CadasterRepository $cadasterRepository, PaginatorInterface $paginator)
     {
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -365,9 +365,20 @@ class PropertyController extends AbstractController
         $propertyRepository->remove($property);
 
         if($hasAccess == true){
-            $properties = $propertyRepository->listAllProperties();
+            $data = $propertyRepository->listAllProperties();
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
         }else{
-            $properties = $propertyRepository->listPropertiesByemployed($user);
+            // dans ce cas, nous listons les propriétés de l'utilisateurs courant
+            $data = $propertyRepository->listPropertiesByemployed($user);
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
         }
 
         return $this->json([
