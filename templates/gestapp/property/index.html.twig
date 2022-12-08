@@ -10,9 +10,9 @@
             function DelPropertyIncreating(event)
             {
                 event.preventDefault();
-                const id = document.getElementById('recipient-name').value;
+                let url = this.href
                 axios
-                    .post('/gestapp/property/increatingdel/'+ id)
+                    .post(url)
                     .then(function(response) {
                         // rafraichissement du tableau
                         const liste = document.getElementById('listeIncreating').innerHTML = response.data.liste;
@@ -22,22 +22,23 @@
                         })
                         // Mise en place de l'évenement pour le modal de suppression d'un bien
                         document.querySelectorAll('a.jsModalDelProperty').forEach(function (link) {
-                        link.addEventListener('click', DelProperty)
-                        // préparation du toaster
-                        var option = {
-                            animation: true,
-                            autohide: true,
-                            delay: 3000,
-                        };
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                        toastElement.show();
+                            link.addEventListener('click', DelProperty)
+                            // préparation du toaster
+                            var option = {
+                                animation: true,
+                                autohide: true,
+                                delay: 3000,
+                            };
+                            // initialisation du toaster
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                            toastElement.show();
                         })
                     })
+
             }
 
             function DelProperty(event)
@@ -83,10 +84,12 @@
                 var modalTitle = Suppr.querySelector('.modal-title')
                 var modalText = Suppr.querySelector('.modal-text')
                 var modalBodyInput = Suppr.querySelector('.modal-body input')
+                let modalFooterA = Suppr.querySelector('.modal-footer a')
 
                 modalTitle.textContent = "Suppression d'un bien en cours de création"
                 modalBodyInput.value = recipient
                 modalText.innerHTML = "Vous êtes sur le point de supprimer le bien en cours de création.<br><b>Etes-vous sur de vouloir continuer ?</b>"
+                modalFooterA.href = '/gestapp/property/increatingdel/' + recipient
             })
 
             // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
@@ -98,6 +101,30 @@
             document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                 link.addEventListener('click', DelProperty)
             })
+
+            // PARTIE : Suppression de plusieurs biens
+            // -----------------------
+            // sélectionner toutes les checkBoxs
+            document.getElementById('CheckAllProperties').onclick = function() {
+                let checkboxes = document.getElementsByName('CheckProperty');
+                for (let checkbox of checkboxes) {
+                    checkbox.checked = this.checked
+                }
+            }
+            document.getElementById('SupprRows').onclick = function(event){
+                event.preventDefault()
+                let arrayCheckbox = []
+                let checkboxes = document.getElementsByName('CheckProperty');
+                for (let checkbox of checkboxes) {
+                    if(checkbox.checked){
+                        arrayCheckbox.push(checkbox.value)
+                    }
+                }
+
+                axios
+                    .post('/gestapp/property/CheckBoxesDel', arrayCheckbox)
+                    .then(function(response){})
+            }
 
         }
     </script>
@@ -114,10 +141,9 @@
 {% block contentTitle %}
     <div class="row">
         <div class="col-sm-12">
-                <h1>Liste des biens</h1>
+            <h1>Liste des biens</h1>
         </div>
     </div>
-
 {% endblock %}
 
 {% block content %}
@@ -125,7 +151,11 @@
     <div class="row">
 
         <div class="navigation d-flex justify-content-between">
-            <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
+            <div>
+                <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a> |
+                <a id="SupprRows" href="">Suppression des biens</a>
+            </div>
+
             {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
         </div>
 
@@ -154,7 +184,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènementd.</p>
                         <input type="hidden" id="recipient-name">
                     </div>
                     <div class="modal-footer">

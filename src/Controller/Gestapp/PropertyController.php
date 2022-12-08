@@ -12,6 +12,7 @@ use App\Form\Gestapp\PropertyStep1Type;
 use App\Form\Gestapp\PropertyStep2Type;
 use App\Form\Gestapp\PropertyType;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\CadasterRepository;
 use App\Repository\Gestapp\choice\OtherOptionRepository;
 use App\Repository\Gestapp\choice\PropertyDefinitionRepository;
 use App\Repository\Gestapp\choice\PropertyEquipementRepository;
@@ -19,6 +20,7 @@ use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
+use App\Repository\Webapp\choice\CategoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -106,8 +108,7 @@ class PropertyController extends AbstractController
         // Récupération du collaborateur
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
-
-
+        // prépartion des complement au bien
         $complement = new Complement();
         $complement->setTerrace(0);
         $complement->setWashroom(0);
@@ -122,7 +123,6 @@ class PropertyController extends AbstractController
         // création d'une fiche Publication
         $publication = new Publication();
         $publicationRepository->add($publication);
-
         // ---
         // Contruction de la référence pour chaque propriété
         // ---
@@ -166,6 +166,7 @@ class PropertyController extends AbstractController
         $property->setPublication($publication);
         $property->setIsIncreating(1);
         $property->setRefMandat('');
+        $property->setIsWithoutExclusivity(1);
         $propertyRepository->add($property);
 
         return $this->redirectToRoute('op_gestapp_property_show', [
@@ -346,15 +347,21 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/del/{id}', name:'op_gestapp_property_del', methods: ['POST'] )]
-    public function Del(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository)
+    public function Del(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository, CadasterRepository $cadasterRepository)
     {
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
-
-        $photos = $photoRepository->findby(['property' => $property]);
+        // Supression des images liées à la propriété
+        $photos = $photoRepository->findBy(['property' => $property]);
         foreach($photos as $photo){
             $photoRepository->remove($photo);
         }
+        // supression des zones de cadastres liées à la propriété
+        $cadasters = $cadasterRepository->findBy(['property' => $property]);
+        foreach($cadasters as $cadaster){
+            $cadasterRepository->remove($cadaster);
+        }
+        // Supression de la propriété
         $propertyRepository->remove($property);
 
         if($hasAccess == true){
@@ -373,13 +380,22 @@ class PropertyController extends AbstractController
     }
 
     /**
+     * Suppression en masse des propriétés sélectionnées par Checkbox
+     */
+    #[Route('/checkboxesdel', name:'op_gestapp_property_checkboxesdel', methods: ['POST'] )]
+    public function CheckBoxesDel(Request $request)
+    {
+        $array = $request->getContent();
+        dd($array);
+    }
+
+    /**
      * Liste les 5 derniers biens immobiliers sur la page d'accueil.
      */
     #[Route('/lastproperty', name: 'op_gestapp_properties_lastproperty', methods: ['GET'])]
     public function LastProperty(PropertyRepository $propertyRepository)
     {
         $properties = $propertyRepository->fivelastproperties();
-
 
         return $this->renderForm('webapp/page/property/lastproperties.html.twig', [
             'properties' => $properties,

@@ -1,23 +1,24 @@
 {%  set user = app.user.id %}
 {% for property in properties|filter(property => property.refEmployed.id == user) %}
-    <div id="listeIncreating" class="col-sm-3">
+    <div id="listeIncreating" class="col-sm-4">
         <div class="card border-warning">
-        <div class="card-header">{{property.ref}}</div>
-        {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
-        <div class="card-body">
-
-                <div class="col-11">
-                    <h4 class="card-title">{{ property.name }} - {{ property.refEmployed }}</h4>
-                    <p class="card-text">Ce bien est en cours d'édition.<br>Pensez à le finaliser :</p>
-                    <p>
-                        <a href="{{path('op_gestapp_property_show', {'id' : property.id})}}" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button>
-                        {% endif %}
-                    </p>
+            <div class="row">
+                <div class="col-4">
+                    {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
                 </div>
-
+                <div class="col-8">
+                    <div class="card-body">
+                        <div class="col-11">
+                            <h4 class="card-title">{{ property.name }} <br>{% if is_granted('ROLE_SUPER_ADMIN') %}<small><i class="fa-duotone fa-circle-user"></i> {{ property.refEmployed }}</small>{% endif %}</h4>
+                            <p class="card-text">Ce bien est en cours d'édition.<br>Pensez à le finaliser :</p>
+                            <a href="{{path('op_gestapp_property_show', {'id' : property.id})}}" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
     </div>
 {% endfor %}

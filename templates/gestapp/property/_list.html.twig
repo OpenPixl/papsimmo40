@@ -2,6 +2,7 @@
     <thead>
     <tr>
         {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
         <th>Collaborateur</th>
         {% else %}
         <th></th>
@@ -14,7 +15,6 @@
         <th>Piece</th>
         <th>chambre</th>
         <th>Adresse</th>
-        <th>Ajouté le</th>
         <th>Modifié le</th>
         <th>actions</th>
     </tr>
@@ -24,6 +24,9 @@
     {% for property in properties %}
         <tr class="align-middle">
             {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <td>
+                <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
+            </td>
             <td>
                 {% if property.avatarName is not null %}
                 <img class="rounded-circle" src="{{ vich_uploader_asset(property, 'avatarFile', 'App\\Entity\\Admin\\Employed') }}" alt="" style="height:50px;width:50px">
@@ -49,7 +52,6 @@
             {% else %}
             <td>{{ property.adress }}<br>{{ property.complement }}<br>{{ property.zipcode }} {{ property.city }}</td>
             {% endif %}
-            <td>{{ property.createdAt ? property.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ property.updatedAt ? property.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
                 <div id="action_property" class="btn-group">

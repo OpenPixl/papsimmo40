@@ -125,8 +125,41 @@
         //
         // ---------------------------------------
 
-            // initialisation du focus sur le champs refMandat
+            // PARTIE Envoie et traitement du formulaire
+            // ---------------------------------------
+            // initialisation du focus sur le champ refMandat
             const focus = document.getElementById('property_step1_refMandat');
+            // Evènement sur le type de Mandat on change
+            if(isWithoutExclusivity.checked ) {
+                isSemiExclusivity.onclick = function (event) {
+                    isWithoutExclusivity.checked = false
+                    isWithExclusivity.checked = false
+                }
+                isWithExclusivity.onclick = function (event) {
+                    isWithoutExclusivity.checked = false
+                    isSemiExclusivity.checked = false
+                }
+            }
+            else if (isSemiExclusivity.checked) {
+                isWithoutExclusivity.onclick = function (event) {
+                    isSemiExclusivity.checked = false
+                    isWithExclusivity.checked = false
+                }
+                isWithExclusivity.onclick = function (event) {
+                    isSemiExclusivity.checked = false
+                    isWithoutExclusivity.checked = false
+                }
+            }
+            else if(isWithExclusivity.checked) {
+                isSemiExclusivity.onclick = function (event) {
+                    isWithExclusivity.checked = false
+                    isWithoutExclusivity.checked = false
+                }
+                isWithoutExclusivity.onclick = function (event) {
+                    isWithExclusivity.checked = false
+                    isSemiExclusivity.checked = false
+                }
+            }
             // Récupération et envoie des données du formulaire
             const FormAddInformation = document.getElementById('FormAddInformation')
             FormAddInformation.addEventListener('submit', function (event) {
@@ -231,41 +264,6 @@
                         })
                 })
             }
-
-            // ---------------------------------------
-            // Evènement sur le type de Mandat on change
-            if(isWithoutExclusivity.checked) {
-                isSemiExclusivity.onclick = function (event) {
-                    isWithoutExclusivity.checked = false
-                    isWithExclusivity.checked = false
-                }
-                isWithExclusivity.onclick = function (event) {
-                    isWithoutExclusivity.checked = false
-                    isSemiExclusivity.checked = false
-                }
-            }
-            else if (isSemiExclusivity.checked) {
-                isWithoutExclusivity.onclick = function (event) {
-                    isSemiExclusivity.checked = false
-                    isWithExclusivity.checked = false
-                }
-                isWithExclusivity.onclick = function (event) {
-                    isSemiExclusivity.checked = false
-                    isWithoutExclusivity.checked = false
-                }
-            }
-            else if(isWithExclusivity.checked) {
-                isSemiExclusivity.onclick = function (event) {
-                    isWithExclusivity.checked = false
-                    isWithoutExclusivity.checked = false
-                }
-                isWithoutExclusivity.onclick = function (event) {
-                    isWithExclusivity.checked = false
-                    isSemiExclusivity.checked = false
-                }
-            }
-
-
 
 
         // ---------------------------------------
