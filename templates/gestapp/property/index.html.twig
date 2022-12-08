@@ -41,6 +41,16 @@
 
             }
 
+            function ModalDelProperty(event){
+                const Suppr2 = document.getElementById('Suppr2')
+                Suppr2.addEventListener('show.bs.modal', function (event) {
+                    let b = event.relatedTarget
+                    // Extract info from data-bs-* attributes
+                    let recipientb = b.getAttribute('data-bs-whatever')
+                    console.log(recipientb)
+                })
+            }
+
             function DelProperty(event)
             {
                 event.preventDefault();
@@ -70,7 +80,7 @@
                 })
             }
 
-            // Code d'ouverture de la modale de suppression d'une ligne
+            // Code d'ouverture de la modale de suppression d'une ligne en mode créationn d'un bien
             var Suppr = document.getElementById('Suppr')
             Suppr.addEventListener('show.bs.modal', function (event) {
                 // Button that triggered the modal
@@ -100,6 +110,11 @@
             // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
             document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                 link.addEventListener('click', DelProperty)
+            })
+
+            // Mise en place de l'évenement pour le modal d'alerte de suppression d'un bien
+            document.querySelectorAll('a.ModalDelProperty').forEach(function(link){
+                link.addEventListener('click', ModalDelProperty)
             })
 
             // PARTIE : Suppression de plusieurs biens

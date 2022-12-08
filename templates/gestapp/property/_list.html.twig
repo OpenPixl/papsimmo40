@@ -65,12 +65,12 @@
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><hr class="dropdown-divider"></li>
-                            <a type="button" class="dropdown-item" data-bs-toggle="modal" data-bs-target="#Suppr2"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
+                            <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}-{{ property.name }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
                         {% endif %}
                     </ul>
                 </div>
                 {# Modal de suppression property #}
-                <div class="modal fade" id="Suppr2" tabindex="-1" aria-labelledby="Suppr2" aria-hidden="true">
+                <div class="modal fade" id="Suppr2-{{ property.id }}" tabindex="-1" aria-labelledby="Suppr2-{{ property.id }}" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
@@ -84,7 +84,7 @@
                                 <input type="hidden" id="recipient-name">
                             </div>
                             <div class="modal-footer">
-                                <a href="{{ path('op_gestapp_property_del', {'id' :property.id}) }}" type="button" class="btn btn-sm btn-warning jsModalDelProperty" data-bs-dismiss="modal">Je supprime le bien</a>
+                                <a href="{{ path('op_gestapp_property_del', {'id':property.id}) }}" type="button" class="btn btn-sm btn-warning jsModalDelProperty" data-bs-dismiss="modal">Je supprime le bien</a>
                                 <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
                             </div>
                         </div>

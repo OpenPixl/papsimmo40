@@ -351,6 +351,7 @@ class PropertyController extends AbstractController
     {
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
+
         // Supression des images liées à la propriété
         $photos = $photoRepository->findBy(['property' => $property]);
         foreach($photos as $photo){
