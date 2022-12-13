@@ -65,7 +65,7 @@
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><hr class="dropdown-divider"></li>
-                            <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}-{{ property.name }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
+                            <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
                         {% endif %}
                     </ul>
                 </div>

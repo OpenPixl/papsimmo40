@@ -109,7 +109,7 @@ class CustomerController extends AbstractController
             'message' => "Le vendeur a été ajouté",
             'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
                 'customers' => $customers,
-                'idproperty' => $idproperty
+                'idproperty' => $idproperty,
             ])
         ]);
     }
@@ -334,14 +334,16 @@ class CustomerController extends AbstractController
         $property = $propertyRepository->find($idproperty);
         $property->removeCustomer($customer);
         $propertyRepository->add($property);
+
         //récupératuion de la liste de teous les client sur le bien
         $customers = $customerRepository->listbyproperty($property);
+
         return $this->json([
             'code'=> 200,
             'message' => "Le vendeurs a été correctement ajouté.",
             'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
                 'customers' => $customers,
-                'idproperty' => $idproperty
+                'idproperty' => $idproperty,
             ])
         ], 200);
 

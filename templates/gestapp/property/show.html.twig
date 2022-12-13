@@ -129,7 +129,8 @@
             // ---------------------------------------
             // initialisation du focus sur le champ refMandat
             const focus = document.getElementById('property_step1_refMandat');
-            // Evènement sur le type de Mandat on change
+
+            // Evènement sur le type de Mandat lors d'un "onChange"
             if(isWithoutExclusivity.checked ) {
                 isSemiExclusivity.onclick = function (event) {
                     isWithoutExclusivity.checked = false
@@ -160,6 +161,7 @@
                     isSemiExclusivity.checked = false
                 }
             }
+
             // Récupération et envoie des données du formulaire
             const FormAddInformation = document.getElementById('FormAddInformation')
             FormAddInformation.addEventListener('submit', function (event) {
@@ -175,7 +177,7 @@
                             navInformations.className = "nav-link disabled";
                         }
                         if(navCustomers !== null){
-                            navCustomers.className = "nav-link disabled";
+                            navCustomers.className = "nav-link active";
                         }
                         Informations.className = "tab-pane";
                         Customers.className += " active";
@@ -185,7 +187,7 @@
                     })
             })
 
-            // PARTIE Définition/Type de bien
+            // PARTIE Définition / Type de bien
             // ---------------------------------------
             // Select
             const tspropertyDefinition = new TomSelect("#property_step1_propertyDefinition",{
@@ -204,6 +206,7 @@
                     }
                 }
             });
+
             // Ouverture de la modal
             const modalPropertyDefinition = document.getElementById('modalPropertyDefinition')
             const PropertyDefinition = new bootstrap.Modal(modalPropertyDefinition, { keyboard: true })
@@ -212,6 +215,7 @@
                 event.preventDefault()
                 PropertyDefinition.show()
             })
+
             // PARTIE Orientation du bien - Envoi du formulaire
             let FormPropertyDefinition = document.getElementById('FormPropertyDefinition')
             FormPropertyDefinition.addEventListener('submit', function (event) {
@@ -237,6 +241,7 @@
                         console.log(error);
                     })
             })
+
             if(nextStepInformations2 !== null){
                 nextStepInformations2.addEventListener('click', function (event){
                     event.preventDefault()
@@ -283,15 +288,17 @@
                         navCustomers.className = "nav-link disabled";
                     }
                     if(navEstimate !== null){
-                        navEstimate.className = "nav-link disabled";
+                        navEstimate.className = "nav-link active";
                     }
                     Customers.className = "tab-pane";
                     Estimate.className += " active";
                 }
             }
 
-            // Partie Ajout d'un vendeur en Javascript
+
+            // PARTIE Ajout d'un vendeur en Javascript
             // -----------------------------------------
+
             // Préparation de la Modal d'ajout d'un vendeur à la fiche
             const modalAddCustomer = document.getElementById('addCustomer')
             modalAddCustomer.addEventListener('show.bs.modal', function (event) {
@@ -304,6 +311,7 @@
                 var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
                 modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
             })
+
             // Evènement sur le bouton btnAddCustomers
             const btnAddCustomer = document.getElementById('btnAddCustomer')
             btnAddCustomer.onclick = function (event) {
@@ -353,10 +361,13 @@
                     })
             }
 
+
             // Partie Edition d'un vendeur en Javascript
             // -----------------------------------------
+
             // Déclaration des éléments utile à la fonction
             const modalEditCustomer = document.getElementById('editCustomer')
+
             // Ouverture de la modal d'édition
             modalEditCustomer.addEventListener('show.bs.modal', function (event) {
                 // Button that triggered the modal
@@ -381,7 +392,8 @@
                 let modalSubmit = modalEditCustomer.querySelector('.modal-footer a')
                 modalSubmit.href = '/gestapp/customer/editcustomerjson/' + idclient + '/' + idproperty
             })
-            // function d'édition de la fiche Client
+
+            // fonction d'édition de la fiche Client
             function EditCustomer(event){
                 event.preventDefault()
                 let urlEditCustomer = this.href
@@ -405,7 +417,7 @@
                 axios
                     .post(url)
                     .then(function (response) {
-                        const liste = document.getElementById('listeCustormers').innerHTML = response.data.liste;
+                        const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste;
                         // Ajout d'un évènement sur le click AddCustomerSearch
                         document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                             link.addEventListener('click', AddCustomerSearch);
@@ -441,7 +453,7 @@
                 axios
                     .post(url)
                     .then(function (response) {
-                        document.getElementById('listeCustormers').innerHTML = response.data.liste
+                        document.getElementById('listeCustomers').innerHTML = response.data.liste
                         // relance de l'évènement sur le click AddCustomerSearch
                         document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                             link.addEventListener('click', AddCustomerSearch);
@@ -601,7 +613,7 @@
                                 navEstimate.className = "nav-link disabled";
                             }
                             if(navOptions !== null){
-                                navOptions.className = "nav-link disabled";
+                                navOptions.className = "nav-link active";
                             }
                             Estimate.className = "tab-pane"
                             Options.className += " active"
@@ -1484,7 +1496,7 @@
         </li>
     </ul>
     {% else %}
-    {# Etiquettes du panel si les bien est entièrement enregistré #}
+    {# Etiquettes du panel si le bien est entièrement enregistré #}
     <ul class="nav nav-tabs">
         <li class="nav-item">
             <a id="navInformations2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>

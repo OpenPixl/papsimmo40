@@ -130,7 +130,7 @@ ol, ul, dl {
 }
 
 .page-item.active .page-link {
-  z-index: 3;
+  z-index: 0 !important;
   color: #fff;
   background-color: #008cba;
   border-color: #0079a1;

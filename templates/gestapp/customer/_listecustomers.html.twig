@@ -13,8 +13,8 @@
                 {% endif %}
                 {{ customer.zipcode }} {{ customer.city }}
             </p>
-            <button id="btnEditCustomer" class="btn btn-sm btn-default editCustomer" data-bs-toggle="modal" data-bs-target="#editCustomer" data-bs-whatever="{{ customer.id }}-{{ property.id }}"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</button>
-            <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="card-link supprcustomer"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
+            <button id="btnEditCustomer" class="btn btn-sm btn-default editCustomer" data-bs-toggle="modal" data-bs-target="#editCustomer" data-bs-whatever="{{ customer.id }}-{{ idproperty }}"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</button>
+            <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="btn btn-sm btn-default supprcustomer"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
         </div>
     </div>
 </div>
@@ -25,8 +25,8 @@
             <h4 class="card-title">Nom Prénom</h4>
             <h6 class="card-subtitle mb-2 text-muted">Futur vendeur</h6>
             <p class="card-text">Adresse<br>Complément<br>CP Ville</p>
-            <a href="#" class="card-link"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
-            <a href="#" class="card-link"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
+            <a href="#" class="btn btn-sm btn-default disabled"><i class="fa-duotone fa-id-card-clip fa-2x"></i></a>
+            <a href="#" class="btn btn-sm btn-default disabled"><i class="fa-duotone fa-user-xmark fa-2x"></i></a>
         </div>
     </div>
 </div>

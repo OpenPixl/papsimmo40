@@ -45,6 +45,7 @@ class PropertyController extends AbstractController
                 10
             );
 
+
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $properties,
                 'user' => $user
@@ -363,6 +364,7 @@ class PropertyController extends AbstractController
             $cadasterRepository->remove($cadaster);
         }
         // Supression de la propriété
+        $nameProperty = $property->getName();
         $propertyRepository->remove($property);
 
         if($hasAccess == true){
@@ -384,7 +386,7 @@ class PropertyController extends AbstractController
 
         return $this->json([
             'code'=> 200,
-            'message' => "Les informations du bien ont été correctement supprimé.",
+            'message' => 'Les informations du bien : <br>' .$nameProperty. '<br> ont été correctement supprimé.',
             'liste' => $this->renderView('gestapp/property/_list.html.twig', [
                 'properties' => $properties
             ])
