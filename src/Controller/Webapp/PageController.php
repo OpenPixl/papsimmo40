@@ -83,6 +83,27 @@ class PageController extends AbstractController
         return $this->redirectToRoute('op_webapp_page_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/del/{id}', name: 'op_webapp_page_del', methods: ['POST'])]
+    public function de(Request $request, Page $page, PageRepository $pageRepository, SectionRepository $sectionRepository): Response
+    {
+        $sections  = $sectionRepository->findBy(["page" => $page]);
+        if($sections){
+            foreach ($sections as $section){
+                $sectionRepository->remove($section);
+            }
+        }
+        $pageRepository->remove($page);
+        $pages = $pageRepository->findAll();
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "La page a été correctement supprimée de l'application.",
+            'liste' => $this->renderView('webapp/page/_listepage.html.twig', [
+                'pages' => $pages
+            ])
+        ], 200);
+    }
+
     /**
      * affiche la page en front office selon le slug
      */

@@ -10,7 +10,6 @@
             <tr>
                 <th>Nom et prénom</th>
                 <th>Email</th>
-                <th>Message</th>
                 <th>Téléphone fixe</th>
                 <th>Téléphone mobile</th>
                 <th>Envoyé le</th>
@@ -22,13 +21,38 @@
             <tr>
                 <td>{{ contact.name }}</td>
                 <td>{{ contact.email }}</td>
-                <td>{{ contact.content }}</td>
                 <td>{{ contact.phoneHome }}</td>
                 <td>{{ contact.phoneGsm }}</td>
                 <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d') : '' }}</td>
                 <td>
-                    <a href="{{ path('op_admin_contact_show', {'id': contact.id}) }}">Voir</a>
-                    <a href="{{ path('op_admin_contact_edit', {'id': contact.id}) }}">Editer</a>
+                    {# boutons d'actions #}
+                    <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#showContactMessage">Voir</button>
+                    <a href="{{ path('op_admin_contact_edit', {'id': contact.id}) }}">Supprimer</a>
+                    {# Modal de lecture du message #}
+                    <div class="modal fade " id="showContactMessage" tabindex="-1" aria-labelledby="showContactMessage" aria-hidden="true">
+                        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-body">
+                                    <div class="row mb-4">
+                                        <div class="col-6"><h5 >Message de : {{ contact.email }}</h5></div>
+                                        <div class="col-6"><h5 class="text-end">Envoyé le : {{ contact.createdAt|date('Y-m-d') }}</h5></div>
+                                    </div>
+                                    <div>
+                                        <h6 class="text-info">Contenu du message</h6>
+                                        {{ contact.content|raw }}
+                                    </div>
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-outline-dark">Répondre au client</button>
+                                    <button type="button" class="btn btn-sm btn-outline-dark">Transférer à collaborateur</button>
+                                    <button type="button" class="btn btn-sm btn-outline-danger">Supprimer</button>&nbsp;|&nbsp;
+                                    <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </td>
             </tr>
         {% else %}

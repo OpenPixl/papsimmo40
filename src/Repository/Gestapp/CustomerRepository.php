@@ -48,6 +48,7 @@ class CustomerRepository extends ServiceEntityRepository
     public function findAllCustomer(){
         return $this->createQueryBuilder('c')
             ->join('c.refEmployed', 'e')
+            ->join('c.customerChoice', 'ch')
             ->select('
                 e.id as refEmployed,
                 e.firstName as firstNameEmpl,
@@ -63,8 +64,9 @@ class CustomerRepository extends ServiceEntityRepository
                 c.RefCustomer AS RefCustomer,
                 c.firstName AS firstName,
                 c.lastName AS lastName,
-                c.id
-                '
+                c.id,
+                ch.name as customerChoice
+                                '
             )
             ->orderBy('c.id', 'ASC')
             ->getQuery()

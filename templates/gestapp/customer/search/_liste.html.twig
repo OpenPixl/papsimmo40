@@ -5,9 +5,4 @@
         <td><a id="addCustomerSearch" class="addcustomersearch btn btn-sm btn-light" href="{{path('op_gestapp_customer_addsearchcustomer', {'id': customer.id, 'idproperty': idproperty})}}"><i class="fa-light fa-user-check"></i></a></td>
     </tr>
 {% else %}
-    <tr>
-        <td colspan="3">
-            <a id="addCustomerSearch" class="addcustomersearch" href="#">pas de résultats <i class="fa-light fa-user-check"></i></a><p></p>
-        </td>
-    </tr>
 {% endfor %}

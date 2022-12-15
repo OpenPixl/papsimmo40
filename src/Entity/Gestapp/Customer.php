@@ -80,12 +80,6 @@ class Customer
     #[ORM\JoinColumn(nullable: false)]
     private $refEmployed;
 
-    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'refApplicant')]
-    private $applicant;
-
-    #[ORM\ManyToOne(targetEntity: Project::class, inversedBy: 'refAcquirer')]
-    private $acquirer;
-
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
@@ -374,30 +368,6 @@ class Customer
     public function setUpdatedAt(): self
     {
         $this->updatedAt = new \DateTime('now');
-
-        return $this;
-    }
-
-    public function getApplicant(): ?Project
-    {
-        return $this->applicant;
-    }
-
-    public function setProject(?Project $applicant): self
-    {
-        $this->applicant = $applicant;
-
-        return $this;
-    }
-
-    public function getAcquirer(): ?Project
-    {
-        return $this->acquirer;
-    }
-
-    public function setAcquirer(?Project $acquirer): self
-    {
-        $this->acquirer = $acquirer;
 
         return $this;
     }

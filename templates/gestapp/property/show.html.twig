@@ -298,7 +298,6 @@
 
             // PARTIE Ajout d'un vendeur en Javascript
             // -----------------------------------------
-
             // Préparation de la Modal d'ajout d'un vendeur à la fiche
             const modalAddCustomer = document.getElementById('addCustomer')
             modalAddCustomer.addEventListener('show.bs.modal', function (event) {
@@ -311,49 +310,33 @@
                 var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
                 modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
             })
-
             // Evènement sur le bouton btnAddCustomers
             const btnAddCustomer = document.getElementById('btnAddCustomer')
             btnAddCustomer.onclick = function (event) {
                 event.preventDefault()
-                const firstName = document.getElementById('customer_firstName').value
-                const lastName = document.getElementById('customer_lastName').value
-                const adress = document.getElementById('customer_adress').value
-                const complement = document.getElementById('customer_complement').value
-                const zipcode = document.getElementById('customer_zipcode').value
-                const city = document.getElementById('customer_city').value
-                const home = document.getElementById('customer_home').value
-                const desk = document.getElementById('customer_desk').value
-                const gsm = document.getElementById('customer_gsm').value
-                const fax = document.getElementById('customer_fax').value
-                const otherEmail = document.getElementById('customer_otherEmail').value
-                const facebook = document.getElementById('customer_facebook').value
-                const instagram = document.getElementById('customer_instagram').value
-                const linkedin = document.getElementById('customer_linkedin').value
-                const url = this.href
-                // construction des data à transmettre
-                let data = {
-                    firstName: firstName,
-                    lastName: lastName,
-                    adress: adress,
-                    complement: complement,
-                    zipcode: zipcode,
-                    city: city,
-                    home: home,
-                    desk: desk,
-                    gsm: gsm,
-                    fax: fax,
-                    otherEmail: otherEmail,
-                    facebook: facebook,
-                    instagram: instagram,
-                    linkedin: linkedin
-                }
+                // récupération des élements nécéssaire à la création du client depuis le bouton
+                let urlEditCustomer = this.href
+                let FormEditCustomer = document.getElementById('FormEditCustomer')
+                let dataEditCustomer = new FormData(FormEditCustomer)
                 // envoie des données
                 axios
-                    .post(url, data)
+                    .post(urlEditCustomer, dataEditCustomer)
                     .then(function (response) {
                         const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste;
-                        modalAddCustomer.addEventListener('hide.bs.modal')
+                        // modalAddCustomer.addEventListener('hide.bs.modal')
+                        // Rajouter les events
+                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                        // Ajout d'un évènement sur le click supprcustomer
+                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
+                            link.addEventListener('click', SupprCustomer);
+                        })
+                        // Ajout d'un évènement sur le click du selecteur EditCustomer
+                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                            link.addEventListener('click', EditCustomer);
+                        })
                     })
                     .catch(function (error) {
                         // handle error
@@ -362,13 +345,11 @@
             }
 
 
-            // Partie Edition d'un vendeur en Javascript
+            // PARTIE Edition d'un vendeur en Javascript
             // -----------------------------------------
-
             // Déclaration des éléments utile à la fonction
             const modalEditCustomer = document.getElementById('editCustomer')
-
-            // Ouverture de la modal d'édition
+            // Ouverture de la modale d'édition
             modalEditCustomer.addEventListener('show.bs.modal', function (event) {
                 // Button that triggered the modal
                 let button = event.relatedTarget
@@ -382,7 +363,19 @@
                 axios
                     .get('/gestapp/customer/getformcustomer/' + idclient )
                     .then(function (response) {
-                        modalBody.innerHTML = response.data.form.content
+                        const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste;
+                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                        // Ajout d'un évènement sur le click supprcustomer
+                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
+                            link.addEventListener('click', SupprCustomer);
+                        })
+                        // Ajout d'un évènement sur le click du selecteur EditCustomer
+                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                            link.addEventListener('click', EditCustomer);
+                        })
                     })
                     .catch(function (error) {
                         // handle error
@@ -392,6 +385,7 @@
                 let modalSubmit = modalEditCustomer.querySelector('.modal-footer a')
                 modalSubmit.href = '/gestapp/customer/editcustomerjson/' + idclient + '/' + idproperty
             })
+            modalEditCustomer.addEventListener('hide.bs.modal')
 
             // fonction d'édition de la fiche Client
             function EditCustomer(event){
@@ -403,6 +397,18 @@
                     .post(urlEditCustomer, dataEditCustomer)
                     .then(function(response){
                         const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste
+                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                        // Ajout d'un évènement sur le click supprcustomer
+                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
+                            link.addEventListener('click', SupprCustomer);
+                        })
+                        // Ajout d'un évènement sur le click du selecteur EditCustomer
+                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                            link.addEventListener('click', EditCustomer);
+                        })
                     })
                     .catch(function (error) {
                         console.log(error);
@@ -454,9 +460,17 @@
                     .post(url)
                     .then(function (response) {
                         document.getElementById('listeCustomers').innerHTML = response.data.liste
-                        // relance de l'évènement sur le click AddCustomerSearch
+                        // Ajout d'un évènement sur le click AddCustomerSearch
                         document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                             link.addEventListener('click', AddCustomerSearch);
+                        })
+                        // Ajout d'un évènement sur le click supprcustomer
+                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
+                            link.addEventListener('click', SupprCustomer);
+                        })
+                        // Ajout d'un évènement sur le click du selecteur EditCustomer
+                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                            link.addEventListener('click', EditCustomer);
                         })
                     })
                     .catch(function (error) {
@@ -1554,7 +1568,7 @@
     <section id="modals">
         <!-- Ajout d'un vendeur sur un bien -->
         <div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered ">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Ajouter un client à cette fiche</h5>
@@ -1573,7 +1587,7 @@
         </div>
         <!-- Edition d'un vendeur sur un bien -->
         <div class="modal fade" id="editCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Edition d'un client à cette fiche</h5>

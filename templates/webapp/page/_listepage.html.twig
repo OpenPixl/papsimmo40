@@ -1,0 +1,35 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nom</th>
+        <th>slug</th>
+        <th>Menu</th>
+        <th>Etat</th>
+        <th>Créé le</th>
+        <th>MàJ</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for page in pages %}
+        <tr>
+            <td>{{ page.id }}</td>
+            <td><a href="{{ path('op_webapp_page_edit', {'id': page.id}) }}">{{ page.name }}</a></td>
+            <td>{{ page.slug }}</td>
+            <td>{{ page.isMenu ? 'Yes' : 'No' }}</td>
+            <td><span class="badge bg-secondary">{{ page.state }}</span></td>
+            <td>{{ page.createdAt ? page.createdAt|date('Y-m-d') : '' }}</td>
+            <td>{{ page.updatedAt ? page.updatedAt|date('Y-m-d') : '' }}</td>
+            <td>
+                <a href="{{ path('op_webapp_page_edit', {'id': page.id}) }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-eye"></i></a>
+                <a class="btn btn-sm btn-outline-danger delpage" type="button" data-bs-toggle="modal" data-bs-target="#SupprPage" data-bs-whatever="{{ page.id }}"><i class="fa-duotone fa-file-circle-xmark"></i></a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="14">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

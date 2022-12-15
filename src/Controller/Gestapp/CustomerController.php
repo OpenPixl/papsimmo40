@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Property;
+use App\Form\Gestapp\Customer2Type;
 use App\Form\Gestapp\CustomerType;
 use App\Form\SearchCustomersType;
 use App\Repository\Admin\EmployedRepository;
@@ -146,42 +147,47 @@ class CustomerController extends AbstractController
         $employed = $employedRepository->find($user);
         $property = $propertyRepository->find($idproperty);
         $customerChoice = $customerChoiceRepository->find(1);
-        // Récupération des données stockées
-        $data = json_decode($request->getContent(), true);
-
-        // Contruction de la référence pour chaque propriété
-        $date = new \DateTime();
-        $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($data['lastName'], 0,4 );
-        //dd($employed, $property, $data);
 
         $customer = new Customer();
-        $customer->setRefCustomer($refCustomer);
-        $customer->setFirstName($data['firstName']);
-        $customer->setLastName($data['lastName']);
-        $customer->setAdress($data['adress']);
-        $customer->setComplement($data['complement']);
-        $customer->setZipCode($data['zipcode']);
-        $customer->setCity($data['city']);
-        $customer->setHome($data['home']);
-        $customer->setDesk($data['desk']);
-        $customer->setGsm($data['gsm']);
-        $customer->setFax($data['fax']);
-        $customer->setOtherEmail($data['otherEmail']);
-        $customer->setFacebook($data['facebook']);
-        $customer->setInstagram($data['instagram']);
-        $customer->setLinkedin($data['linkedin']);
-        $customer->setRefEmployed($employed);
-        $customer->setCustomerChoice($customerChoice);
-        $customer->addProperty($property);
+        $form = $this->createForm(Customer2Type::class, $customer, [
+            'action'=> $this->generateUrl('op_gestapp_customer_addcustomerjson', [
+                'id'=> $customer->getId(),
+                'idproperty' => $idproperty
+            ]),
+            'method'=>'POST'
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Contruction de la référence pour chaque propriété
+            $date = new \DateTime();
+            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('lastName')->getData(), 0,4 );
+            $customer->setRefCustomer($refCustomer);
+            $customer->setRefEmployed($employed);
+            $customer->setCustomerChoice($customerChoice);
+            $customer->addProperty($property);
 
-        $customerRepository->add($customer);
+            // Ajout en BDD du nouveau client
+            $customerRepository->add($customer);
 
+            // liste tous les clients attachés à leur propriété
+            $customers = $customerRepository->listbyproperty($property);
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le vendeur a été correctement ajouté.",
+                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                    'customers' => $customers,
+                    'idproperty' => $idproperty
+                ])
+            ], 200);
+        }
+
+        // liste tous les clients attachés à leur propriété
         $customers = $customerRepository->listbyproperty($property);
-        //dd($liste);
 
         return $this->json([
             'code'=> 200,
-            'message' => "Le vendeurs a été correctement ajouté.",
+            'message' => "Une erreur est apparue durant l'ajout.",
             'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
                 'customers' => $customers,
                 'idproperty' => $idproperty
@@ -202,14 +208,14 @@ class CustomerController extends AbstractController
 
         $customer = new Customer();
 
-        $form = $this->createForm(CustomerType::class, $customer);
+        $form = $this->createForm(Customer2Type::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $customerRepository->add($customer);
             return $this->json([
                 'code'=> 200,
-                'message' => "Le vendeurs a été correctement ajouté."
+                'message' => "Le vendeur a été correctement ajouté."
             ], 200);
         }
 
@@ -230,7 +236,7 @@ class CustomerController extends AbstractController
     #[Route('/{id}/edit', name: 'op_gestapp_customer_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Customer $customer, CustomerRepository $customerRepository): Response
     {
-        $form = $this->createForm(CustomerType::class, $customer);
+        $form = $this->createForm(Customer2Type::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -247,7 +253,7 @@ class CustomerController extends AbstractController
     #[Route('/getformcustomer/{id}', name: 'op_gestapp_customer_getform', methods: ['GET'])]
     public function getFormCustomer(Customer $customer,Request $request)
     {
-        $form = $this->createForm(CustomerType::class, $customer, [
+        $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_getform', ['id'=> $customer->getId()]),
             'method'=>'POST',
             'attr' => ['class'=>'formEditCustomer']
@@ -274,7 +280,7 @@ class CustomerController extends AbstractController
     )
     {
         $property = $propertyRepository->find($idproperty);
-        $form = $this->createForm(CustomerType::class, $customer, [
+        $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_editcustomerjson', [
                 'id'=> $customer->getId(),
                 'idproperty' => $idproperty
@@ -282,7 +288,7 @@ class CustomerController extends AbstractController
             'method'=>'POST'
         ]);
         $form->handleRequest($request);
-        //dd($form->isValid());
+
         if ($form->isSubmitted() && $form->isValid()) {
             $customerRepository->add($customer);
             $customers = $customerRepository->listbyproperty($idproperty);
@@ -298,7 +304,6 @@ class CustomerController extends AbstractController
 
         }
 
-        dd($form->getErrors());
         $customers = $customerRepository->listbyproperty($idproperty);
         return $this->json([
             'code'=> 200,
@@ -309,12 +314,6 @@ class CustomerController extends AbstractController
                 'idproperty' => $idproperty
             ])
         ], 200);
-
-
-
-        dd($customers);
-
-
     }
 
     #[Route('/{id}', name: 'op_gestapp_customer_delete', methods: ['POST'])]
@@ -325,6 +324,56 @@ class CustomerController extends AbstractController
         }
 
         return $this->redirectToRoute('op_gestapp_customer_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @param Request $request
+     * @param Customer $customer
+     * @param CustomerRepository $customerRepository
+     * @return Response
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     * Suppression d'un client depuis la page index "Client"
+     */
+    #[Route('/del/{id}', name: 'op_gestapp_customer_del', methods: ['POST'])]
+    public function del(Request $request, Customer $customer, CustomerRepository $customerRepository, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
+    {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        $properties = $customer->getProperties();
+        if($properties){
+            foreach ($properties as $property){
+                $property->removeCustomer($customer);
+            }
+        }
+        $customerRepository->remove($customer);
+
+        if($hasAccess == true){
+            // on liste tous les clients quelques soit les utilisateurs
+            $data = $customerRepository->findAllCustomer();
+
+            $customers = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+        }else{
+            $data = $customerRepository->findAllCustomerByEmployed(['refEmployed' => $user]);
+            $customers = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Le client a été correctement supprimée de l'application.",
+            'liste' => $this->renderView('gestapp/customer/_list.html.twig', [
+                'customers' => $customers
+            ])
+        ], 200);
     }
 
     #[Route('/{id}/{idproperty}', name: 'op_gestapp_customer_del_onproperty', methods: ['POST'])]

@@ -2,6 +2,65 @@
 
 {% block title %}Customer index{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+            // Code d'ouverture de la modale de suppression d'une ligne
+            var SupprCustomer = document.getElementById('SupprCustomer')
+            SupprCustomer.addEventListener('show.bs.modal', function (event) {
+                var a = event.relatedTarget
+                var recipient = a.getAttribute('data-bs-whatever')
+                var modalTitle = SupprCustomer.querySelector('.modal-title')
+                var modalText = SupprCustomer.querySelector('.modal-text')
+                var modalBodyInput = SupprCustomer.querySelector('.modal-body input')
+                modalTitle.textContent = "Suppression d'un article"
+                modalBodyInput.value = recipient
+                modalText.innerHTML = "Vous êtes sur le point de supprimer le client sélectionné.<br><b>Etes-vous sur de vouloir continuer ?</b>"
+            })
+            // Code de suppression lors du clic sur le bouton de la modal "Suppr"
+            function onClickDelEvent(event){
+                event.preventDefault()
+                const id = document.getElementById('recipient-name').value
+                axios
+                    .post('/gestapp/customer/del/' + id)
+                    .then(function(response)
+                    {
+                        // rafraichissement du tableau
+                        const liste = document.getElementById('list').innerHTML = response.data.liste
+                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+                        document.querySelectorAll('a.data-supprcustomer').forEach(function(link){
+                            link.addEventListener('click', onClickDelEvent)
+                        })
+                        // préparation du toaster
+                        var option = {
+                            animation : true,
+                            autohide: true,
+                            delay : 3000,
+                        };
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                        toastElement.show();
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            }
+
+            // Déclaration des Events sur liens de la liste
+            // ------------------------------------------------------
+            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+            document.querySelectorAll('a.data-supprcustomer').forEach(function(link){
+                link.addEventListener('click', onClickDelEvent)
+            })
+        }
+    </script>
+{% endblock %}
+
 {% block contentTitle %}
     <div class="row">
         <div class="col-sm-12">
@@ -12,7 +71,6 @@
 {% endblock %}
 
 {% block content %}
-
     <div class="row">
         <div class="navigation d-flex justify-content-between">
             <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
@@ -27,8 +85,43 @@
             {{ knp_pagination_render(customers, 'include/admin/pagination.html.twig') }}
         </div>
     </div>
+{% endblock %}
 
-
-
-
+{% block footer %}
+    {{ parent() }}
+    <section>
+        <div class="modal fade" id="SupprCustomer" tabindex="-1" aria-labelledby="SupprCustomer" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-danger" id="exampleModalLabel">New message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                        <input type="hidden" id="recipient-name">
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-danger data-supprcustomer" data-bs-dismiss="modal">Supprimer</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# annonce toaster #}
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast-container position-absolute top-50 end-0 p-3">
+                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Bootstrap</strong>
+                        <small>11 mins ago</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

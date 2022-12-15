@@ -25,12 +25,6 @@ class Project
     #[ORM\Column(type: 'string', length: 100)]
     private $slug;
 
-    #[ORM\OneToMany(mappedBy: 'project', targetEntity: Customer::class)]
-    private $refApplicant;
-
-    #[ORM\OneToMany(mappedBy: 'acquirer', targetEntity: Customer::class)]
-    private $refAcquirer;
-
     #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'projects')]
     private $refEmployed;
 
@@ -63,12 +57,6 @@ class Project
         $this->slug = $slugify->slugify($this->refMandate);
     }
 
-    public function __construct()
-    {
-        $this->refApplicant = new ArrayCollection();
-        $this->refAcquirer = new ArrayCollection();
-    }
-
     public function getId(): ?int
     {
         return $this->id;
@@ -94,66 +82,6 @@ class Project
     public function setSlug(string $slug): self
     {
         $this->slug = $slug;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Customer>
-     */
-    public function getRefApplicant(): Collection
-    {
-        return $this->refApplicant;
-    }
-
-    public function addRefApplicant(Customer $refApplicant): self
-    {
-        if (!$this->refApplicant->contains($refApplicant)) {
-            $this->refApplicant[] = $refApplicant;
-            $refApplicant->setProject($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRefApplicant(Customer $refApplicant): self
-    {
-        if ($this->refApplicant->removeElement($refApplicant)) {
-            // set the owning side to null (unless already changed)
-            if ($refApplicant->getProject() === $this) {
-                $refApplicant->setProject(null);
-            }
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Customer>
-     */
-    public function getRefAcquirer(): Collection
-    {
-        return $this->refAcquirer;
-    }
-
-    public function addRefAcquirer(Customer $refAcquirer): self
-    {
-        if (!$this->refAcquirer->contains($refAcquirer)) {
-            $this->refAcquirer[] = $refAcquirer;
-            $refAcquirer->setAcquirer($this);
-        }
-
-        return $this;
-    }
-
-    public function removeRefAcquirer(Customer $refAcquirer): self
-    {
-        if ($this->refAcquirer->removeElement($refAcquirer)) {
-            // set the owning side to null (unless already changed)
-            if ($refAcquirer->getAcquirer() === $this) {
-                $refAcquirer->setAcquirer(null);
-            }
-        }
 
         return $this;
     }
