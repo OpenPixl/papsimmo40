@@ -116,13 +116,28 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/new', name: 'op_gestapp_customer_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, CustomerRepository $customerRepository): Response
+    public function new(
+        Request $request,
+        CustomerRepository $customerRepository,
+        EmployedRepository $employedRepository,
+        PropertyRepository $propertyRepository,
+        CustomerChoiceRepository $customerChoiceRepository,): Response
     {
+        $user = $this->getUser()->getId();
+        $employed = $employedRepository->find($user);
+
         $customer = new Customer();
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Préparation des éléments de configuration
+            $date = new \DateTime();
+            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('lastName')->getData(), 0,4 );
+            // Hydratation des champs
+            $customer->setRefCustomer($refCustomer);
+            $customer->setRefEmployed($employed);
+            // Ajout en BDD du nouveau client
             $customerRepository->add($customer);
             return $this->redirectToRoute('op_gestapp_customer_index', [], Response::HTTP_SEE_OTHER);
         }

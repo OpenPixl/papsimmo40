@@ -1,6 +1,5 @@
 <div class="card">
     <div class="card-body bg-light">
-        {% if app.request.attributes.get('_route') ==  %}
         {{ form_start(form, {'attr': {'id': 'FormEditCustomer'}}) }}
         <div class="row">
             <div class="col-12">
@@ -142,5 +141,5 @@
     <a class="btn btn-sm btn-outline-dark" href="{{ path('op_gestapp_customer_index') }}">
         <i class="fa-solid fa-backward-step"></i> Retour à la liste de clients
     </a>
-    <button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default("Créer la fiche du client") }}</button>
+    <a id="btnAddCustomer" href="{{ path('op_gestapp_customer_new') }}" class="btn btn-sm btn-outline-primary">Créer la fiche du client</a>
 </div>

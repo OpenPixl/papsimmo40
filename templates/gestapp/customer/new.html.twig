@@ -2,15 +2,75 @@
 
 {% block title %}New Customer{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+            // Evènement sur le bouton btnAddCustomer
+            const btnAddCustomer = document.getElementById('btnAddCustomer')
+            btnAddCustomer.onclick = function (event) {
+                event.preventDefault()
+                let urlEditCustomer = this.href
+                let FormEditCustomer = document.getElementById('FormEditCustomer')
+                let dataEditCustomer = new FormData(FormEditCustomer)
+                // envoie des données
+                axios
+                    .post(urlEditCustomer, dataEditCustomer)
+                    .then(function (response) {
+                        // préparation du toaster
+                        var option = {
+                            animation : true,
+                            autohide: true,
+                            delay : 3000,
+                        };
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = "La fiche a été correctement créée.";
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                        toastElement.show();
+                        // ajout class disable sur le bouton
+                        btnAddCustomer.className += " disabled"
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            }
+        }
+    </script>
+{% endblock %}
+
 {% block contentTitle %}
     <div class="row">
         <div class="col-sm-12">
             <h1>Ajouter un nouveau client sur la plateforme</h1>
         </div>
     </div>
-
 {% endblock %}
 
 {% block content %}
 {{ include('gestapp/customer/_form2.html.twig') }}
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    <section>
+        {# annonce toaster #}
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast-container position-absolute top-50 end-0 p-3">
+                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">PAPS immo</strong>
+                        <small>A l'instant</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}
