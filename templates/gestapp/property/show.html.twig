@@ -376,6 +376,7 @@
                         document.querySelectorAll('a.editCustomer').forEach(function (link) {
                             link.addEventListener('click', EditCustomer);
                         })
+                        modalEditCustomer.addEventListener('hide.bs.modal')
                     })
                     .catch(function (error) {
                         // handle error
@@ -384,8 +385,9 @@
                 // mise à jour du lien de soumission du formulaire.
                 let modalSubmit = modalEditCustomer.querySelector('.modal-footer a')
                 modalSubmit.href = '/gestapp/customer/editcustomerjson/' + idclient + '/' + idproperty
+
             })
-            modalEditCustomer.addEventListener('hide.bs.modal')
+
 
             // fonction d'édition de la fiche Client
             function EditCustomer(event){
