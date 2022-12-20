@@ -125,30 +125,30 @@
                     <div class="col-50" style="display:flex;justify-content: space-around;align-items: center;">
                         <div>
                             <h5 class="subtitle" style="text-align: center">Emission de gaz</h5>
-                            {% if property.diagGpe >= 0  %}
-                                {% if property.diagGpe > 0 and property.diagGpe <= 5 %}
+                            {% if property.diagGes >= 0  %}
+                                {% if property.diagGes > 0 and property.diagGes <= 5 %}
                                     {% set letter = 'A1'%}
-                                {% elseif property.diagGpe > 5 and property.diagGpe <= 10 %}
+                                {% elseif property.diagGes > 5 and property.diagGes <= 10 %}
                                     {% set letter = 'B1'%}
-                                {% elseif property.diagGpe > 11 and property.diagGpe <= 20 %}
+                                {% elseif property.diagGes > 11 and property.diagGes <= 20 %}
                                     {% set letter = 'C1'%}
-                                {% elseif property.diagGpe > 21 and property.diagGpe <= 35 %}
+                                {% elseif property.diagGes > 21 and property.diagGes <= 35 %}
                                     {% set letter = 'D1'%}
-                                {% elseif property.diagGpe > 36 and property.diagGpe <= 55 %}
+                                {% elseif property.diagGes > 36 and property.diagGes <= 55 %}
                                     {% set letter = 'E1'%}
-                                {% elseif property.diagGpe > 56 and property.diagGpe <= 80 %}
+                                {% elseif property.diagGes > 56 and property.diagGes <= 80 %}
                                     {% set letter = 'F1'%}
-                                {% elseif property.diagGpe > 80 %}
+                                {% elseif property.diagGes > 80 %}
                                     {% set letter = 'G1'%}
                                 {% endif %}
                                 <ul class="diag_ener">
-                                    <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGpe }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                    <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                    <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                    <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                    <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                    <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                    <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                    <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
                                 </ul>
                             {% endif %}
                         </div>

@@ -53,14 +53,8 @@ class PropertyType extends AbstractType
                 'label' => 'Elevée',
                 'empty_data' => 0
             ])
-            ->add('constructionAt', DateType::class, [
-                'label' => 'Année de contruction',
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
-                'required' => false,
-                'by_reference' => true,
+            ->add('constructionAt', IntegerType::class, [
+                'label' => 'Nombre de chambre',
             ])
             ->add('room', IntegerType::class, [
                 'label' => 'Nombre de chambre',

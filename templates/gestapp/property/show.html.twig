@@ -130,7 +130,7 @@
             // initialisation du focus sur le champ refMandat
             const focus = document.getElementById('property_step1_refMandat');
 
-            // Evènement sur le type de Mandat lors d'un "onChange"
+            // Evènement sur l'exclusivité d'un mandat lors d'un clic "onChange"
             if(isWithoutExclusivity.checked ) {
                 isSemiExclusivity.onclick = function (event) {
                     isWithoutExclusivity.checked = false
@@ -179,6 +179,13 @@
                         if(navCustomers !== null){
                             navCustomers.className = "nav-link active";
                         }
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                        toastElement.show();
                         Informations.className = "tab-pane";
                         Customers.className += " active";
                     })
@@ -521,11 +528,11 @@
 
 
 
-            // ---------------------------------------
-            // STEP 3 :
-            // Enregistrement des chiffres
-            //
-            // ---------------------------------------
+        // ---------------------------------------
+        // STEP 3 :
+        // Enregistrement des chiffres
+        //
+        // ---------------------------------------
 
             // Calcul des taux et honoraires de PAPS
             // ---------------------------------------
@@ -733,9 +740,9 @@
                         console.log(error)
                     })
             }
+
             // ---------------------------------------
             // Edition d'une zone cadastrale
-
             // ---------------------------------------
             // Suppression d'une zone cadastrale
             function supprCadaster(event) {
@@ -775,11 +782,11 @@
             })
 
 
-            // ---------------------------------------
-            // STEP 4 :
-            // Enregistrement des options
-            //
-            // ---------------------------------------
+        // ---------------------------------------
+        // STEP 4 :
+        // Enregistrement des options
+        //
+        // ---------------------------------------
 
             const FormEditOptions = document.getElementById('FormEditOptions')
             FormEditOptions.addEventListener('submit', function (event) {
@@ -1277,11 +1284,12 @@
             })
 
 
-            // ---------------------------------------
-            // STEP 5 :
-            // Enregistrement des images du bien
-            //
-            // ---------------------------------------
+        // ---------------------------------------
+        // STEP 5 :
+        // Enregistrement des images du bien
+        //
+        // ---------------------------------------
+
             if(nextStepGallery !== null){
                 nextStepGallery.onclick = function (event) {
                     event.preventDefault()
@@ -1400,11 +1408,12 @@
             })
 
 
-            // ---------------------------------------
-            // STEP 6 :
-            // Enregistrement des options de publication du bien
-            //
-            // ---------------------------------------
+        // ---------------------------------------
+        // STEP 6 :
+        // Enregistrement des options de publication du bien
+        //
+        // ---------------------------------------
+
             let FormPublication = document.getElementById('FormPublication')
             FormPublication.addEventListener('submit', function (event) {
                 let url_publication = FormPublication.action
@@ -1566,7 +1575,6 @@
 {% endblock %}
 
 {% block footer %}
-    {{ parent() }}
     <section id="modals">
         <!-- Ajout d'un vendeur sur un bien -->
         <div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -1735,4 +1743,5 @@
             </div>
         </div>
     </section>
+    {{ parent() }}
 {% endblock %}

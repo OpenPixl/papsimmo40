@@ -304,6 +304,46 @@ class PropertyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    public function reportpropertycsv()
+    {
+        $query = $this->createQueryBuilder('p');
+        $query->join('p.refEmployed', 'e');
+        $query->join('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->join('c.denomination', 'd');
+        $query->join('p.propertyDefinition', 'pd');
+        $query->join('p.publication', 'pu');
+        $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
+        $query->select('
+                p.isWithExclusivity as isWithExclusivity,
+                p.price,
+                p.dpeAt as dpeAt, 
+                p.dpeEstimateEnergyDown as dpeEstimateEnergyDown,
+                p.dpeEstimateEnergyUp as dpeEstimateEnergyUp,
+                e.email as email,
+                e.gsm as gsm,
+                p.constructionAt as constructionAt,
+                p.piece as piece,
+                p.room as room,
+                c.bathroom as bathroom,
+                c.isFurnished as isFurnished,
+                c.level as level,
+                c.coproperty as coproperty,
+                p.surfaceLand as surfaceLand,
+                p.surfaceHome as surfaceHome,
+                p.priceFai,
+                p.diagGes as diagGes,
+                p.diagDpe as diagDpe,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.adress as adress,
+                p.annonce as annonce,
+                p.name as name,
+                p.RefMandat as refMandat,
+                p.id as id
+            ');
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Property[] Returns an array of Property objects
     //  */

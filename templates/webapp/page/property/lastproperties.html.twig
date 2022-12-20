@@ -84,12 +84,11 @@
         </div>
     {% else %}
         <div class="row justify-content-center">
-            <div class="flickity-button-white" data-flickity='{"resize":false, "pageDots": false,"cellAlign": "left", "wrapAround": true, "imagesLoaded": true}'>
+            <div class="flickity-button-white" data-flickity='{"resize":false, "pageDots": false,"cellAlign": "left", "wrapAround": true, "imagesLoaded": true, "freeScroll": true }'>
                 {% for property in properties %}
-                    <div class="col-12 col-sm-6 col-md-4 col-xl-4 col-xxl-4 p-4 g-3">
+                    <div class="col-12 col-md-4 col-xl-4 col-xxl-4 p-4 g-3">
                         <div id="member-card" class="card">
                             {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
-
                             <div class="card-img-overlay">
                                 {# Instertion de la bannière #}
                                 {% if property.banner == "coup-de-coeur" %}

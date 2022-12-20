@@ -159,7 +159,7 @@ class PropertyController extends AbstractController
         $property->setHonoraires(0);
         $property->setPriceFai(0);
         $property->setDiagDpe(0);
-        $property->setDiagGpe(0);
+        $property->setDiagGes(0);
         $property->setDpeEstimateEnergyUp(0);
         $property->setDpeEstimateEnergyDown(0);
         $property->setRefEmployed($employed);
@@ -269,7 +269,7 @@ class PropertyController extends AbstractController
             $propertyRepository->add($property);
             return $this->json([
                 'code'=> 200,
-                'message' => "Les informations du bien ont été correctement ajoutées."
+                'message' => "Les informations générales ont été correctement ajoutées au bien."
             ], 200);
 
         }

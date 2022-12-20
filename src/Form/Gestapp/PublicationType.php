@@ -15,15 +15,19 @@ class PublicationType extends AbstractType
     {
         $builder
             ->add('isWebpublish', CheckboxType::class, [
-                'label' => 'publié sur le site ?',
+                'label' => 'Publié sur le site ?',
                 'required' => false
             ])
             ->add('isSocialNetwork', CheckboxType::class, [
-                'label' => 'publié sur les réseaux ?',
+                'label' => 'Publié sur les réseaux ?',
+                'required' => false
+            ])
+            ->add('isPublishParven', CheckboxType::class, [
+                'label' => 'Publié sur ParuVendu.fr ?',
                 'required' => false
             ])
             ->add('sector', ChoiceType::class, [
-                'label' => 'secteur',
+                'label' => 'Secteur',
                 'choices'  => [
                     'Mont de marsan & alentours' => "mdm-alentours",
                     'Dax & alentours' => 'dax-alentours'

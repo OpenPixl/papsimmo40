@@ -34,7 +34,6 @@
                         <div>Prix de vente</div>
                     </div>
                     <hr>
-                    <hr>
                     <div id="detailPrice">
                         {% if property.isIncreating > 0 %}
                             <div class="row mb-1 mt-1 g-1">
@@ -120,10 +119,10 @@
                             {{ form_widget(form.diagDpe, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                         <div class="col-6">
-                            {{ form_label(form.diagGpe, 'GES', {'label_attr': {'class':'form-label'}}) }}
+                            {{ form_label(form.diagGes, 'GES', {'label_attr': {'class':'form-label'}}) }}
                         </div>
                         <div class="col-6">
-                            {{ form_widget(form.diagGpe, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            {{ form_widget(form.diagGes, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                         <div class="col-12"><p><b>Estimation énergétique annuelle</b></p></div>
                         <div class="row mb-1 mt-1 g-1">

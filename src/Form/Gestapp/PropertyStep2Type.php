@@ -67,8 +67,8 @@ class PropertyStep2Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false
             ])
-            ->add('diagGpe', IntegerType::class, [
-                'label'=>'résultat GPE',
+            ->add('diagGes', IntegerType::class, [
+                'label'=>'résultat GES',
                 'empty_data' => 0,
                 'required' => false
             ])

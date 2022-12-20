@@ -1,23 +1,45 @@
 {{ form_start(form, {'attr': {'id':'FormPublication'}}) }}
-    {% include('include/form/oneSwitch.html.twig') with {
-        'form_label':form_label(form.isWebpublish, '', {'label_attr': {'class':'form-check-label'}}),
-        'form_switch':form_widget(form.isWebpublish, {'attr': {'class': 'form-check-input'}})
-    }
-    %}
-
-{% include('include/form/oneSwitch.html.twig') with {
-    'form_label':form_label(form.isSocialNetwork, '', {'label_attr': {'class':'form-check-label'}}),
-    'form_switch':form_widget(form.isSocialNetwork, {'attr': {'class': 'form-check-input'}})
-}
-%}
-
-<div class="mb-1">
-    {% include('include/form/select.html.twig') with {
-        'form_label':form_label(form.sector, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-        'form_select':form_widget(form.sector)
-    }
-    %}
+<div class="row">
+    <div class="col-12">
+        <h3>PUBLICATION DU BIEN </h3>
+    </div>
+    <div class="col-12">
+        {% include('include/form/oneSwitch.html.twig') with {
+            'form_label':form_label(form.isWebpublish, '', {'label_attr': {'class':'form-check-label'}}),
+            'form_switch':form_widget(form.isWebpublish, {'attr': {'class': 'form-check-input'}})
+        }
+        %}
+        {% include('include/form/select.html.twig') with {
+            'form_label':form_label(form.sector, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+            'form_select':form_widget(form.sector)
+        }
+        %}
+    </div>
 </div>
+
+<div class="row">
+    <div class="col-12">
+        <h3>PUBLICATION SUR LES RESEAUX</h3>
+    </div>
+    <div class="col-12">
+        {% include('include/form/oneSwitch.html.twig') with {
+            'form_label':form_label(form.isSocialNetwork, '', {'label_attr': {'class':'form-check-label'}}),
+            'form_switch':form_widget(form.isSocialNetwork, {'attr': {'class': 'form-check-input'}})
+        }
+        %}
+
+        {% include('include/form/oneSwitch.html.twig') with {
+            'form_label':form_label(form.isPublishParven, '', {'label_attr': {'class':'form-check-label'}}),
+            'form_switch':form_widget(form.isPublishParven, {'attr': {'class': 'form-check-input'}})
+        }
+        %}
+    </div>
+</div>
+
+
+
+
+
 
 <div class="row mt-2">
     <div class="col-12">

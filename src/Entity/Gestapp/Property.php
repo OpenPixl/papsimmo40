@@ -47,10 +47,10 @@ class Property
     #[ORM\Column(type: 'integer', nullable: true)]
     private $room;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $surfaceLand;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $surfaceHome;
 
     #[ORM\Column(type: 'date', nullable: true)]
@@ -60,7 +60,7 @@ class Property
     private $diagDpe;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $diagGpe;
+    private $diagGes;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $adress;
@@ -108,7 +108,7 @@ class Property
     #[ORM\Column(type: 'integer', nullable: true)]
     private $dpeEstimateEnergyUp;
 
-    #[ORM\Column(type: 'datetime', nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private $constructionAt;
 
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
@@ -117,8 +117,8 @@ class Property
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $otherDescription;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: '0', nullable: true)]
-    private $Price;
+    #[ORM\Column(type: 'integer', nullable: true)]
+    private $price;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: '0')]
     private $honoraires;
@@ -258,24 +258,24 @@ class Property
         return $this;
     }
 
-    public function getSurfaceLand(): ?string
+    public function getSurfaceLand(): ?int
     {
         return $this->surfaceLand;
     }
 
-    public function setSurfaceLand(?string $surfaceLand): self
+    public function setSurfaceLand(?int $surfaceLand): self
     {
         $this->surfaceLand = $surfaceLand;
 
         return $this;
     }
 
-    public function getSurfaceHome(): ?string
+    public function getSurfaceHome(): ?int
     {
         return $this->surfaceHome;
     }
 
-    public function setSurfaceHome(string $surfaceHome): self
+    public function setSurfaceHome(int $surfaceHome): self
     {
         $this->surfaceHome = $surfaceHome;
 
@@ -306,14 +306,14 @@ class Property
         return $this;
     }
 
-    public function getDiagGpe(): ?string
+    public function getDiagGes(): ?string
     {
-        return $this->diagGpe;
+        return $this->diagGes;
     }
 
-    public function setDiagGpe(string $diagGpe): self
+    public function setDiagGes(string $diagGes): self
     {
-        $this->diagGpe = $diagGpe;
+        $this->diagGes = $diagGes;
 
         return $this;
     }
@@ -506,12 +506,12 @@ class Property
         return $this;
     }
 
-    public function getConstructionAt(): ?\DateTimeInterface
+    public function getConstructionAt(): ?int
     {
         return $this->constructionAt;
     }
 
-    public function setConstructionAt(?\DateTimeInterface $constructionAt): self
+    public function setConstructionAt(?int $constructionAt): self
     {
         $this->constructionAt = $constructionAt;
 
@@ -574,12 +574,12 @@ class Property
 
     public function getPrice(): ?string
     {
-        return $this->Price;
+        return $this->price;
     }
 
-    public function setPrice(?string $Price): self
+    public function setPrice(?string $price): self
     {
-        $this->Price = $Price;
+        $this->price = $price;
 
         return $this;
     }

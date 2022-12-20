@@ -1,8 +1,8 @@
-/**
+/*****************************
 
-   REGLES GENERALES
+      REGLES GENERALES
 
-**/
+*****************************/
 body{
   .h1,.h2,.h3, h1, h2, h3 {
     color: $secondary-color;
@@ -411,5 +411,30 @@ a.nav-link {
   }
 }
 
+/**
+  MediaQueries XS
+**/
+@media (min-width: 0)
+{
+  // home - Acceuil
+  #Properties{
+    #member-card{
+      min-width: 414px;
+      max-width: 414px;
+    }
+  }
+}
+
+/**
+  MediaQueries SM
+**/
+@include media-breakpoint-up(sm)
+{
+  // home - Acceuil
+  #Properties{
+    #member-card{
+    }
+  }
+}
 
 

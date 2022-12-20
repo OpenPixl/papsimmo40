@@ -22,6 +22,9 @@ class Publication
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
     private $sector;
 
+    #[ORM\Column]
+    private ?bool $isPublishParven = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -66,5 +69,17 @@ class Publication
     public function __toString()
     {
         return $this->id;
+    }
+
+    public function isIsPublishParven(): ?bool
+    {
+        return $this->isPublishParven;
+    }
+
+    public function setIsPublishParven(bool $isPublishParven): self
+    {
+        $this->isPublishParven = $isPublishParven;
+
+        return $this;
     }
 }
