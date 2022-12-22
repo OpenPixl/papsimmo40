@@ -4,6 +4,7 @@ namespace App\Entity\Gestapp;
 
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\PropertyDefinition;
+use App\Entity\Gestapp\choice\PropertySscategory;
 use App\Repository\Gestapp\PropertyRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -114,9 +115,6 @@ class Property
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
     private $photos;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $otherDescription;
-
     #[ORM\Column(type: 'integer', nullable: true)]
     private $price;
 
@@ -152,6 +150,12 @@ class Property
 
     #[ORM\Column(length: 50)]
     private ?string $projet = null;
+
+    #[ORM\ManyToOne]
+    private ?PropertySscategory $sscategory = null;
+
+    #[ORM\Column(length: 20)]
+    private ?string $diagChoice = null;
 
     public function __construct()
     {
@@ -563,18 +567,6 @@ class Property
         return $this;
     }
 
-    public function getOtherDescription(): ?string
-    {
-        return $this->otherDescription;
-    }
-
-    public function setOtherDescription(?string $otherDescription): self
-    {
-        $this->otherDescription = $otherDescription;
-
-        return $this;
-    }
-
     public function getPrice(): ?string
     {
         return $this->price;
@@ -733,6 +725,30 @@ class Property
     public function setProjet(string $projet): self
     {
         $this->projet = $projet;
+
+        return $this;
+    }
+
+    public function getSscategory(): ?PropertySscategory
+    {
+        return $this->sscategory;
+    }
+
+    public function setSscategory(?PropertySscategory $sscategory): self
+    {
+        $this->sscategory = $sscategory;
+
+        return $this;
+    }
+
+    public function getDiagChoice(): ?string
+    {
+        return $this->diagChoice;
+    }
+
+    public function setDiagChoice(string $diagChoice): self
+    {
+        $this->diagChoice = $diagChoice;
 
         return $this;
     }

@@ -102,8 +102,16 @@
                         <div>DPE & GES</div>
                     </div>
                     <hr>
-                    <div class="row mb-1 mt-1 g-1">
-                        {{ form_label(form.dpeAt, 'Date', {'label_attr': {'class':'col-sm-6  form-label'}}) }}
+                    <div class="row mb-1 g-1">
+                        <div class="col-5">
+                            {{ form_label(form.diagChoice, '', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-7">
+                            {{ form_widget(form.diagChoice) }}
+                        </div>
+                    </div>
+                    <div id="block_dpeAt" class="row mb-1 mt-1 g-1">
+                        {{ form_label(form.dpeAt, "Date d'expertise", {'label_attr': {'class':'col-sm-6  form-label'}}) }}
                         <div class="col-sm-6">
                             <div class="input-group">
                                 <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
@@ -111,7 +119,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row mb-1 mt-1 g-1">
+                    <div id="block_diagResult" class="row mb-1 mt-1 g-1">
                         <div class="col-6">
                             <span class="align-middle">{{ form_label(form.diagDpe, 'DPE', {'label_attr': {'class':'form-label'}}) }}</span>
                         </div>
@@ -124,6 +132,8 @@
                         <div class="col-6">
                             {{ form_widget(form.diagGes, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
+                    </div>
+                    <div id="block_estimation" class="row mb-1 mt-1 g-1">
                         <div class="col-12"><p><b>Estimation énergétique annuelle</b></p></div>
                         <div class="row mb-1 mt-1 g-1">
                             {{ form_label(form.eeaYear, '', {'label_attr': {'class':'col-sm-6  form-label'}}) }}

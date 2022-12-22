@@ -110,6 +110,7 @@ class ComplementType extends AbstractType
             ->add('propertyTax', NumberType::class, [
                 'label' => 'Taxe foncière',
                 'required' => false,
+                'empty_data' => 0
             ])
             ->add('propertyOrientation', EntityType::class, [
                 'class' => PropertyOrientation::class,

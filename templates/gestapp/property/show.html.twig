@@ -297,7 +297,7 @@
                 }
             });
             // Select projet - Destination
-            const tsotherDescription = new TomSelect("#property_step1_otherDescription",{
+            const tssscategory = new TomSelect("#property_step1_sscategory",{
                 plugins: ['remove_button'],
                 create: true,
                 onItemAdd:function(){
@@ -731,6 +731,47 @@
                 Estimate.className = "tab-pane"
                 Customers.className += " active"
             })
+
+            // PARTIE Choix de diag
+            // ---------------------------------------
+            // Select
+            const tsdiagChoice = new TomSelect("#property_step2_diagChoice",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            const diagChoice = document.getElementById('property_step2_diagChoice')
+            // Affichage des inputs DPE et GPE dès le chargement de la page
+            if(diagChoice.value === 'non_obligatoire' || diagChoice.value === 'vierge' ){
+                document.getElementById('block_dpeAt').className += " d-none";
+                document.getElementById('block_diagResult').className += " d-none";
+            }
+            // Affichage des inputs DPE et GPE sur le changement de valeur
+            const changeTsDiag = function(){
+                let value = tsdiagChoice.getValue()
+                if(value === 'obligatoire'){
+                    console.log(value)
+                    document.getElementById('block_dpeAt').className = "row mb-1 mt-1 g-1";
+                    document.getElementById('block_diagResult').className = "row mb-1 mt-1 g-1";
+                }else if(value === 'non_obligatoire' || value === 'vierge' ){
+                    console.log(value)
+                    document.getElementById('block_dpeAt').className += " d-none";
+                    document.getElementById('block_diagResult').className += " d-none";
+                }
+            }
+            tsdiagChoice.on('change', changeTsDiag )
+
 
             // Cadastre
             // ---------------------------------------

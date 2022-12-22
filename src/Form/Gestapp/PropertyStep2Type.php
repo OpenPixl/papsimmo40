@@ -72,7 +72,6 @@ class PropertyStep2Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false
             ])
-
             ->add('eeaYear',DateType::class, [
                 'label'=> 'Année de référence',
                 'widget' => 'single_text',
@@ -90,6 +89,19 @@ class PropertyStep2Type extends AbstractType
                 'label' => 'Elevée',
                 'empty_data' => 0,
                 'required' => false
+            ])
+            ->add('diagChoice', ChoiceType::class, [
+                'label' => 'Diagnostique',
+                'choices'  => [
+                    'Obligatoire' => "obligatoire",
+                    'Non obligatoire' => 'non_obligatoire',
+                    'Vierge' => 'vierge'
+                ],
+                'choice_attr' => [
+                    'Obligatoire' => ['data-data' => 'Obligatoire'],
+                    'Non obligatoire' => ['data-data' => 'Non obligatoire'],
+                    'Vierge' => ['data-data' => 'Vierge']
+                ],
             ])
 
         ;

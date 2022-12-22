@@ -26,7 +26,7 @@
 
         {% if app.user %}
         <div class="mb-3">
-            Vous êtees déjà connecter sous le nom : {{ app.user.firstName }} {{ app.user.lastName }}. <br>
+            Vous êtes déjà connecté sous le nom : {{ app.user.firstName }} {{ app.user.lastName }}. <br>
             Au choix :
             <a href="{{ path('op_admin_security_logout') }}">Se déconnecter</a> | <a href="{{ path('op_admin_dashboard_index') }}">Accéder à l'administration</a>
         </div>

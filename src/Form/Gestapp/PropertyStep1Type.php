@@ -4,6 +4,7 @@ namespace App\Form\Gestapp;
 
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\PropertyDefinition;
+use App\Entity\Gestapp\choice\PropertySscategory;
 use App\Entity\Gestapp\Property;
 use App\Form\SearchableEntityType;
 use App\Repository\Admin\EmployedRepository;
@@ -66,18 +67,6 @@ class PropertyStep1Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false,
             ])
-            ->add('propertyDefinition', EntityType::class, [
-                'label'=> 'Catégorie',
-                'class' => PropertyDefinition::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('d')
-                        ->orderBy('d.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'choice_attr' => function (PropertyDefinition $product, $key, $index) {
-                    return ['data-data' => $product->getName() ];
-                }
-            ])
             ->add('adress',TextType::class, [
                 'label' => 'Adresse',
                 'required' => false,
@@ -127,22 +116,29 @@ class PropertyStep1Type extends AbstractType
                     'Vente immobilier' => ['data-data' => 'Vente immobilier'],
                 ],
             ])
-            ->add('otherDescription', ChoiceType::class, [
-                'label' => 'Ss Catégorie',
-                'choices'  => [
-                    'Immobilier Professionnel' => "IP",
-                    'Location immobiler' => 'LH',
-                    'Vente commerce,reprise' => 'RC',
-                    'Commerce' => 'RC',
-                    'Vente immobilier' => 'VH',
-                ],
-                'choice_attr' => [
-                    'Immobilier Professionnel' => ['data-data' => 'Immobilier Professionnel'],
-                    'Location immobiler' => ['data-data' => 'Location immobiler'],
-                    'Vente commerce,reprise' => ['data-data' => 'Vente commerce,reprise'],
-                    'Commerce' => ['data-data' => 'Commerce'],
-                    'Vente immobilier' => ['data-data' => 'Vente immobilier'],
-                ],
+            ->add('propertyDefinition', EntityType::class, [
+                'label'=> 'Catégorie',
+                'class' => PropertyDefinition::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('d')
+                        ->orderBy('d.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'choice_attr' => function (PropertyDefinition $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                }
+            ])
+            ->add('sscategory', EntityType::class, [
+                'label'=> 'Catégorie',
+                'class' => PropertySscategory::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'choice_attr' => function (PropertySscategory $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                }
             ])
         ;
     }
