@@ -16,14 +16,30 @@
                 <div class="row">
                     <div class="col">
                         {# STEP 1 : Ligne du titre de l'annonce du bien #}
-                        <div class="row mb-1 mt-1 g-1">
-                            {{ form_errors(form.refMandat) }}
-                            {{ form_label(form.refMandat, '', {'label_attr': {'class':'col-sm-2  form-label'}}) }}
-                            <div class="col-4">
-                                {{ form_errors(form.refMandat) }}
-                                {{ form_widget(form.refMandat, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        <div class="row g-1">
+                            {# Ligne ref Mandat #}
+                            <div class="col-4 m-0">
+                                <div class="row mb-1 mt-1 g-1">
+                                    {{ form_errors(form.refMandat) }}
+                                    {{ form_label(form.refMandat, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                                    <div class="col-4">
+                                        {{ form_errors(form.refMandat) }}
+                                        {{ form_widget(form.refMandat, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
                             </div>
-                            <div class="offset-2 col-4">
+                            {# Ligne référence du bien #}
+                            <div class="col-4 m-0">
+                                <div class="row mb-1 mt-1 g-1">
+                                    {{ form_errors(form.ref) }}
+                                    {{ form_label(form.ref, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
+                                    <div class="col-4">
+                                        {{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
+                            </div>
+                            {# Ligne Exclu du bien #}
+                            <div class="col-4 m-0">
                                 <div class="row">
                                     <div class="col-4 align-items-center">
                                         <fieldset>
@@ -145,16 +161,17 @@
         <div class="col-sm-3">
             <div class="card text-dark bg-light">
                 <div class="card-body">
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-3">
-                            {{ form_label(form.ref, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-4">
-                            {{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                    DESTINATION DU BIEN
+                    <hr>
+                    <p>Compléter ces informations pour garantir la publication du bien sur les plateformes de diffusion.</p>
+                    {# Type du bien #}
+                    <div class="row mb-1 g-1">
+                        {{ form_label(form.projet, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
+                        <div class="col-8">
+                            {{ form_widget(form.projet) }}
                         </div>
                     </div>
-                    <hr>
-                    <p><small>Séléctionner le type de bien à vendre</small></p>
+
                     {# Type du bien #}
                     <div class="row mb-1 g-1">
                         {{ form_label(form.propertyDefinition, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
@@ -175,7 +192,7 @@
                         <div class="col-3">
                             {{ form_label(form.otherDescription, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
-                        <div class="col-9">
+                        <div class="col-8">
                             {{ form_widget(form.otherDescription, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                     </div>

@@ -110,7 +110,6 @@ class ComplementType extends AbstractType
             ->add('propertyTax', NumberType::class, [
                 'label' => 'Taxe foncière',
                 'required' => false,
-                'empty_data' => 0
             ])
             ->add('propertyOrientation', EntityType::class, [
                 'class' => PropertyOrientation::class,
@@ -128,13 +127,13 @@ class ComplementType extends AbstractType
                 'label' => 'Disponibilité',
                 'choices'  => [
                     'A définir' => "a-definir",
-                    'Immédiatement' => 'immediatement',
-                    'A partir de' => 'a-partir-de'
+                    'Oui' => 'yes',
+                    'Non' => 'no'
                 ],
                 'choice_attr' => [
                     'A définir' => ['data-data' => 'A définir'],
-                    'Immédiatement' => ['data-data' => 'Immédiatement'],
-                    'A partir de' => ['data-data' => 'A partir de'],
+                    'Oui' => ['data-data' => 'oui'],
+                    'Non' => ['data-data' => 'Non'],
                 ],
             ])
             ->add('location', ChoiceType::class, [

@@ -150,6 +150,9 @@ class Property
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Cadaster::class)]
     private Collection $cadastre;
 
+    #[ORM\Column(length: 50)]
+    private ?string $projet = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -718,6 +721,18 @@ class Property
                 $cadastre->setProperty(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProjet(): ?string
+    {
+        return $this->projet;
+    }
+
+    public function setProjet(string $projet): self
+    {
+        $this->projet = $projet;
 
         return $this;
     }
