@@ -275,8 +275,8 @@ a.nav-link {
       color: $primary-color;
     }
     .card{
-      border-radius: 0;
-      background: $secondary-color;
+      border-radius: 5px;
+      border-color: $secondary-color;
     }
   }
   #TechniqualCard{

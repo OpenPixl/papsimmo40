@@ -75,10 +75,6 @@
                             </tr>
                         </table>
                     </div>
-                    {# Row du contenu Diagnostique Dpe du Bien #}
-
-
-
                 </div>
             </div>
             <div id="DiagnosticCard">
@@ -169,7 +165,7 @@
             </div>
             <div id="propertyDescription">
                 <p><span class="subtitle">{{ property.name }}</span> </p>
-                <p>{{ property.annonce }}</p>
+                <p>{{ property.annonce|raw }}</p>
             </div>
         </div>
     </div>
