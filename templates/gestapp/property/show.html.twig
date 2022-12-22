@@ -296,6 +296,23 @@
                     }
                 }
             });
+            // Select projet - Destination
+            const tsotherDescription = new TomSelect("#property_step1_otherDescription",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
 
 
         // ---------------------------------------

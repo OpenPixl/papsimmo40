@@ -127,17 +127,19 @@ class PropertyStep1Type extends AbstractType
                     'Vente immobilier' => ['data-data' => 'Vente immobilier'],
                 ],
             ])
-            ->add('otherDescription', TextType::class, [
+            ->add('otherDescription', ChoiceType::class, [
                 'label' => 'Ss Catégorie',
                 'choices'  => [
-                    'Location' => 'LO',
+                    'Immobilier Professionnel' => "IP",
+                    'Location immobiler' => 'LH',
                     'Vente commerce,reprise' => 'RC',
                     'Commerce' => 'RC',
                     'Vente immobilier' => 'VH',
                 ],
                 'choice_attr' => [
-                    'Location' => ['data-data' => 'Location'],
-                    'Vente' => ['data-data' => 'Vente'],
+                    'Immobilier Professionnel' => ['data-data' => 'Immobilier Professionnel'],
+                    'Location immobiler' => ['data-data' => 'Location immobiler'],
+                    'Vente commerce,reprise' => ['data-data' => 'Vente commerce,reprise'],
                     'Commerce' => ['data-data' => 'Commerce'],
                     'Vente immobilier' => ['data-data' => 'Vente immobilier'],
                 ],

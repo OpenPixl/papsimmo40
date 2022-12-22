@@ -168,6 +168,7 @@ class PropertyController extends AbstractController
         $property->setIsIncreating(1);
         $property->setRefMandat('');
         $property->setIsWithoutExclusivity(1);
+        $property->setProjet('VH');
         $propertyRepository->add($property);
 
         return $this->redirectToRoute('op_gestapp_property_show', [
