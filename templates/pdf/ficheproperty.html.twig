@@ -165,7 +165,7 @@
             </div>
             <div id="propertyDescription">
                 <p><span class="subtitle">{{ property.name }}</span> </p>
-                <p>{{ property.annonce|raw }}</p>
+                <p>{{ property.annonce|markdown_to_html }}</p>
             </div>
         </div>
     </div>
