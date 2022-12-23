@@ -129,7 +129,7 @@ class PropertyStep1Type extends AbstractType
                 }
             ])
             ->add('sscategory', EntityType::class, [
-                'label'=> 'Catégorie',
+                'label'=> 'Sous catégorie',
                 'class' => PropertySscategory::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
