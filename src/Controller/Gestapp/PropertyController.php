@@ -129,8 +129,14 @@ class PropertyController extends AbstractController
         // ---
         $date = new \DateTime();
         $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);           // Récupération de la dernière propriété enregistrée
-        $refNumDate = $date->format('Y').'/'.$date->format('m');        // contruction de la première partie de référence
-        $lastRefMandat = $lastproperty->getRefMandat() + 1;                           // construction du numéro de mandat obligatoire
+        if($lastproperty){
+            $refNumDate = $date->format('Y').'/'.$date->format('m');        // contruction de la première partie de référence
+            $RefMandat = $lastproperty->getRefMandat() + 1;                           // construction du numéro de mandat obligatoire
+        }else{
+            $refNumDate = $date->format('Y').'/'.$date->format('m');        // contruction de la première partie de référence
+            $RefMandat = 23;
+        }
+
         // Création de l'entité Property
         $property = new Property();
         $property->setPiece(0);
@@ -167,14 +173,7 @@ class PropertyController extends AbstractController
         $property->setOptions($complement);
         $property->setPublication($publication);
         $property->setIsIncreating(1);
-
-        //if($lastRefMandat){
-        //    $property->setRefMandat($lastRefMandat);
-        //}else{
-        //    $property->setRefMandat(22);
-        //}
-
-        $property->setRefMandat('');
+        $property->setRefMandat($RefMandat);
         $property->setIsWithoutExclusivity(1);
         $property->setProjet('VH');
         $propertyRepository->add($property);
