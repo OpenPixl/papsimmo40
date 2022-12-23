@@ -1561,11 +1561,10 @@
 {% block content %}
 
     {% if property.isIncreating == 0 %}
-        <h1>Edition du bien Paps Immo</h1>
+        <h1>Edition du bien</h1>
     {% else %}
-        <h1>Créer un nouveau bien Paps Immo</h1>
+        <h1>Créer un nouveau bien</h1>
     {% endif %}
-
 
     {# read and display several types of flash messages #}
     {% for label, messages in app.flashes(['success', 'warning']) %}
