@@ -72,13 +72,13 @@ class PropertyStep2Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false
             ])
-            ->add('eeaYear',DateType::class, [
+            ->add('eeaYear',TextType::class, [
                 'label'=> 'Année de référence',
-                'widget' => 'single_text',
-                'format' => 'yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
-                'by_reference' => true,
+                'empty_data' =>'',
+                'attr'=>[
+                    'placeholder' => "au format 'aaaa'"
+                ]
+
             ])
             ->add('dpeEstimateEnergyDown', IntegerType::class,[
                 'label' => 'Basse',

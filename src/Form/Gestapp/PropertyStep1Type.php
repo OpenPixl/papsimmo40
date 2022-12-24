@@ -53,14 +53,12 @@ class PropertyStep1Type extends AbstractType
                 'empty_data' => 0,
                 'required' => false,
             ])
-            ->add('constructionAt', DateType::class, [
+            ->add('constructionAt', TextType::class, [
                 'label' => 'Année de contruction',
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
+                'attr' => [
+                    'placeholder' => "au format 'aaaa'",
+                ],
                 'required' => false,
-                'by_reference' => true,
             ])
             ->add('room', IntegerType::class, [
                 'label' => 'Nombre de chambre',
@@ -138,7 +136,8 @@ class PropertyStep1Type extends AbstractType
                 'choice_label' => 'name',
                 'choice_attr' => function (PropertySscategory $product, $key, $index) {
                     return ['data-data' => $product->getName() ];
-                }
+                },
+                'required'=>false
             ])
         ;
     }

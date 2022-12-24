@@ -109,7 +109,7 @@ class Property
     #[ORM\Column(type: 'integer', nullable: true)]
     private $dpeEstimateEnergyUp;
 
-    #[ORM\Column(type: 'integer', nullable: true)]
+    #[ORM\Column(type: 'string', length: 4, nullable: true)]
     private $constructionAt;
 
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
@@ -124,7 +124,7 @@ class Property
     #[ORM\Column(type: 'decimal', precision: 10, scale: '0', nullable: true)]
     private $priceFai;
 
-    #[ORM\Column(type: 'date', nullable: true)]
+    #[ORM\Column(type: 'string',  length: 4, nullable: true)]
     private $eeaYear;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -513,7 +513,7 @@ class Property
         return $this;
     }
 
-    public function getConstructionAt(): ?int
+    public function getConstructionAt(): ?string
     {
         return $this->constructionAt;
     }
@@ -603,12 +603,12 @@ class Property
         return $this;
     }
 
-    public function getEeaYear(): ?\DateTimeInterface
+    public function getEeaYear(): ?string
     {
         return $this->eeaYear;
     }
 
-    public function setEeaYear(?\DateTimeInterface $eeaYear): self
+    public function setEeaYear(?string $eeaYear): self
     {
         $this->eeaYear = $eeaYear;
 

@@ -281,7 +281,7 @@ class PropertyController extends AbstractController
             ], 200);
 
         }
-        //dd($form->getErrors()->count());
+        //dd($form->isSubmitted());
         return $this->renderform('gestapp/property/Step/firststep.html.twig',[
             'form'=>$form,
             'property'=>$property,
