@@ -134,7 +134,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.complement as complement,
                 p.zipcode as zipcode,
                 p.city as city,
-                p.imageName as imageName,
                 p.createdAt as createdAt,
                 p.updatedAt as updatedAt
             ')

@@ -8,6 +8,7 @@ use App\Repository\Admin\EmployedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
 #[Route('/opadmin/employed')]
@@ -29,13 +30,14 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/new', name: 'op_admin_employed_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EmployedRepository $employedRepository): Response
+    public function new(Request $request, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $employed = new Employed();
         $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $employed->setPassword($userPasswordHasher->hashPassword($employed,'papsimmo'));
             $employedRepository->add($employed);
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }

@@ -117,7 +117,7 @@ class ArticlesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $articlesRepository->add($article);
-            return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_webapp_articles_edit', ['id'=>$article->getId()], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('webapp/articles/edit.html.twig', [

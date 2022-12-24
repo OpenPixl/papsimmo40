@@ -7,10 +7,16 @@ $width-content-large: calc(100% - 12rem);
 a {
   color: $primary-color;
 }
-
-.ck-editor__editable {
-  max-height: 400px;
+.ck {
+  p{
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+  .ck-editor__editable {
+    max-height: 400px;
+  }
 }
+
 
 .ts-control {
   padding: 6px 6px !important;
