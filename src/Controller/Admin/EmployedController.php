@@ -4,6 +4,7 @@ namespace App\Controller\Admin;
 
 use App\Entity\Admin\Employed;
 use App\Form\Admin\EmployedType;
+use App\Form\Admin\ResettingPasswordType;
 use App\Repository\Admin\EmployedRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -87,8 +88,27 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/{id}/adminresetpassword', name: 'op_admin_employed_adminresetpassword', methods: ['GET', 'POST'])]
-    public function adminResetPassword(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
+    public function adminResetPassword(Request $request, Employed $employed, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
+        $form = $this->createForm(ResettingPasswordType::class, $employed);
+        $form->handleRequest($request);
 
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $password = $userPasswordHasher->hashPassword($employed, $form->get('password')->getData());
+            $employed->setPassword($password);
+            $employedRepository->add($employed);
+
+            $request->getSession()->getFlashBag()->add('success', "le mot de passe a été renouvelé.");
+
+            return $this->redirectToRoute('op_admin_employed_index');
+
+        }
+
+        return $this->render('admin/employed/adminresettingpassword.html.twig', [
+            'form' => $form->createView(),
+            'employed' => $employed
+
+        ]);
     }
 }

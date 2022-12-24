@@ -362,7 +362,7 @@ class PropertyController extends AbstractController
         PhotoRepository $photoRepository,
         CadasterRepository $cadasterRepository,
         PublicationRepository $publicationRepository,
-        OtherOptionRepository $optionRepository,
+        ComplementRepository $complementRepository,
         PaginatorInterface $paginator)
     {
         $hasAccess = $this->isGranted('ROLE_ADMIN');
@@ -388,7 +388,7 @@ class PropertyController extends AbstractController
         $nameProperty = $property->getName();                   // pour afficher le nom du bien dans le toaster
         $propertyRepository->remove($property);
         $publicationRepository->remove($publication);
-        //$optionRepository->remove($complement);
+        $complementRepository->remove($complement);
 
         if($hasAccess == true){
             $data = $propertyRepository->listAllProperties();
