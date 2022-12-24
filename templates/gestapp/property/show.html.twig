@@ -408,6 +408,7 @@
                     .get('/gestapp/customer/getformcustomer/' + idclient )
                     .then(function (response) {
                         const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste;
+
                         // Ajout d'un évènement sur le click AddCustomerSearch
                         document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                             link.addEventListener('click', AddCustomerSearch);
@@ -431,7 +432,6 @@
                 modalSubmit.href = '/gestapp/customer/editcustomerjson/' + idclient + '/' + idproperty
 
             })
-
 
             // fonction d'édition de la fiche Client
             function EditCustomer(event){
@@ -536,9 +536,17 @@
                     .post(urlSearchCustomer, formsearchCustomer)
                     .then(function (response) {
                         document.getElementById('listeSearchCustomers').innerHTML = response.data.liste
-                        // relance de l'évènement sur le click AddCustomerSearch
+                        // Ajout d'un évènement sur le click AddCustomerSearch
                         document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
                             link.addEventListener('click', AddCustomerSearch);
+                        })
+                        // Ajout d'un évènement sur le click supprcustomer
+                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
+                            link.addEventListener('click', SupprCustomer);
+                        })
+                        // Ajout d'un évènement sur le click du selecteur EditCustomer
+                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                            link.addEventListener('click', EditCustomer);
                         })
                     })
                     .catch(function (error) {
@@ -563,7 +571,18 @@
                 })
             }
 
-
+            // Ajout d'un évènement sur le click AddCustomerSearch
+            document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
+                link.addEventListener('click', AddCustomerSearch);
+            })
+            // Ajout d'un évènement sur le click supprcustomer
+            document.querySelectorAll('a.supprcustomer').forEach(function (link) {
+                link.addEventListener('click', SupprCustomer);
+            })
+            // Ajout d'un évènement sur le click du selecteur EditCustomer
+            document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                link.addEventListener('click', EditCustomer);
+            })
 
         // ---------------------------------------
         // STEP 3 :

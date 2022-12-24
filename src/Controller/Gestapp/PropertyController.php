@@ -39,13 +39,12 @@ class PropertyController extends AbstractController
         if($hasAccess == true){
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
+            //dd($data);
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
                 10
             );
-
-
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $properties,
                 'user' => $user
@@ -356,24 +355,40 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/del/{id}', name:'op_gestapp_property_del', methods: ['POST'] )]
-    public function Del(Request $request, Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository, CadasterRepository $cadasterRepository, PaginatorInterface $paginator)
+    public function Del(
+        Request $request,
+        Property $property,
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        CadasterRepository $cadasterRepository,
+        PublicationRepository $publicationRepository,
+        OtherOptionRepository $optionRepository,
+        PaginatorInterface $paginator)
     {
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
+        $publication = $property->getPublication();
+        $complement = $property->getOptions();
+
 
         // Supression des images liées à la propriété
         $photos = $photoRepository->findBy(['property' => $property]);
         foreach($photos as $photo){
             $photoRepository->remove($photo);
         }
+
         // supression des zones de cadastres liées à la propriété
         $cadasters = $cadasterRepository->findBy(['property' => $property]);
         foreach($cadasters as $cadaster){
             $cadasterRepository->remove($cadaster);
         }
+
+
         // Supression de la propriété
-        $nameProperty = $property->getName();
+        $nameProperty = $property->getName();                   // pour afficher le nom du bien dans le toaster
         $propertyRepository->remove($property);
+        $publicationRepository->remove($publication);
+        //$optionRepository->remove($complement);
 
         if($hasAccess == true){
             $data = $propertyRepository->listAllProperties();

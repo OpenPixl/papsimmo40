@@ -85,4 +85,10 @@ class EmployedController extends AbstractController
 
         return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/adminresetpassword', name: 'op_admin_employed_adminresetpassword', methods: ['GET', 'POST'])]
+    public function adminResetPassword(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
+    {
+
+    }
 }

@@ -175,7 +175,7 @@ class CustomerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Contruction de la référence pour chaque propriété
             $date = new \DateTime();
-            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('lastName')->getData(), 0,4 );
+            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
             $customer->setRefCustomer($refCustomer);
             $customer->setRefEmployed($employed);
             $customer->setCustomerChoice($customerChoice);
