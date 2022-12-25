@@ -37,6 +37,7 @@ class PropertyController extends AbstractController
         $user = $this->getUser();
 
         if($hasAccess == true){
+            //$data = $propertyRepository->findAll();
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
             //dd($data);
@@ -68,9 +69,21 @@ class PropertyController extends AbstractController
     #[Route('/inCreating', name: 'op_gestapp_property_inCreating', methods: ['GET'])]
     public function inCreating(PropertyRepository $propertyRepository): Response
     {
-        return $this->render('gestapp/property/increating.html.twig', [
-            'properties' => $propertyRepository->findBy(array('isIncreating' => 1)),
-        ]);
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        if($hasAccess == true){
+            $properties = $propertyRepository->listAllPropertiesIncreating();
+            //dd($properties);
+            return $this->render('gestapp/property/increating.html.twig', [
+                'properties' => $properties,
+            ]);
+        }
+        else{
+            return $this->render('gestapp/property/increating.html.twig', [
+                'properties' => $propertyRepository->findBy(array('isIncreating' => 1)),
+            ]);
+        }
     }
 
     #[Route('/new', name: 'op_gestapp_property_new', methods: ['GET', 'POST'])]
