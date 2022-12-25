@@ -16,27 +16,34 @@
                     .then(function(response) {
                         // rafraichissement du tableau
                         const liste = document.getElementById('listeIncreating').innerHTML = response.data.liste;
-                        // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
-                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function (link) {
+
+                        // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                             link.addEventListener('click', DelPropertyIncreating)
                         })
-                        // Mise en place de l'évenement pour le modal de suppression d'un bien
-                        document.querySelectorAll('a.jsModalDelProperty').forEach(function (link) {
+
+                        // Mise en place de l'évenement pour la suppression d'un bien
+                        document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                             link.addEventListener('click', DelProperty)
-                            // préparation du toaster
-                            var option = {
-                                animation: true,
-                                autohide: true,
-                                delay: 3000,
-                            };
-                            // initialisation du toaster
-                            var toastHTMLElement = document.getElementById("toaster");
-                            var message = response.data.message;
-                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                            toastBody.textContent = message;
-                            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                            toastElement.show();
                         })
+
+                        // Mise en place de l'évenement pour l'ouverture de la modale de suppression d'un bien
+                        document.querySelectorAll('a.ModalDelProperty').forEach(function(link){
+                            link.addEventListener('click', ModalDelProperty)
+                        })
+                        // préparation du toaster
+                        var option = {
+                            animation: true,
+                            autohide: true,
+                            delay: 3000,
+                        };
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true,autohide: true,delay: 3000})
+                        toastElement.show();
                     })
 
             }
@@ -60,14 +67,21 @@
                     .then(function(response) {
                         // rafraichissement du tableau
                         const liste = document.getElementById('list').innerHTML = response.data.liste;
-                        // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
-                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function (link) {
+
+                        // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                             link.addEventListener('click', DelPropertyIncreating)
                         })
 
-                        // Mise en place de l'évenement pour le modal de suppression d'un bien
-                        document.querySelectorAll('a.jsModalDelProperty').forEach(function (link) {
-                        link.addEventListener('click', DelProperty)
+                        // Mise en place de l'évenement pour la suppression d'un bien
+                        document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
+                            link.addEventListener('click', DelProperty)
+                        })
+
+                        // Mise en place de l'évenement pour l'ouverture de la modale de suppression d'un bien
+                        document.querySelectorAll('a.ModalDelProperty').forEach(function(link){
+                            link.addEventListener('click', ModalDelProperty)
+                        })
 
                         // initialisation du toaster
                         var toastHTMLElement = document.getElementById("toaster")
@@ -77,10 +91,9 @@
                         var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,})
                         toastElement.show()
                     })
-                })
             }
 
-            // Code d'ouverture de la modale de suppression d'une ligne en mode créationn d'un bien
+            // Code d'ouverture de la modale de suppression d'une ligne en mode création d'un bien
             var Suppr = document.getElementById('Suppr')
             Suppr.addEventListener('show.bs.modal', function (event) {
                 // Button that triggered the modal
@@ -102,24 +115,25 @@
                 modalFooterA.href = '/gestapp/property/increatingdel/' + recipient
             })
 
-            // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
+            // Mise en place de l'évenement pour la suppression d'un bien en cours de création
             document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                 link.addEventListener('click', DelPropertyIncreating)
             })
 
-            // Mise en place de l'évenement pour le modal de suppression d'un bien en cours de création
+            // Mise en place de l'évenement pour la suppression d'un bien
             document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                 link.addEventListener('click', DelProperty)
             })
 
-            // Mise en place de l'évenement pour le modal d'alerte de suppression d'un bien
+            // Mise en place de l'évenement pour l'ouverture de la modale de suppression d'un bien
             document.querySelectorAll('a.ModalDelProperty').forEach(function(link){
                 link.addEventListener('click', ModalDelProperty)
             })
 
-            // PARTIE : Suppression de plusieurs biens
-            // -----------------------
-            // sélectionner toutes les checkBoxs
+
+        // PARTIE : Suppression de plusieurs biens
+        // -----------------------
+        // sélectionner toutes les checkBoxs
             document.getElementById('CheckAllProperties').onclick = function() {
                 let checkboxes = document.getElementsByName('CheckProperty');
                 for (let checkbox of checkboxes) {
@@ -162,29 +176,31 @@
 {% endblock %}
 
 {% block content %}
+<div id="listeIncreating"class="row mb-2">
     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::inCreating')) }}
-    <div class="row">
+</div>
+<div class="row">
 
-        <div class="navigation d-flex justify-content-between">
-            <div>
-                <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a> |
-                {# <a id="SupprRows" href="">Suppression des biens sélectionner</a> #}
-            </div>
-
-            {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
+    <div class="navigation d-flex justify-content-between">
+        <div>
+            <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a> |
+            <a id="SupprRows" href="">Suppression des biens sélectionner</a>
         </div>
 
-        <div id="list" class="col-sm-12">
-            {% include('gestapp/property/_list.html.twig') %}
-        </div>
-
-        <div class="navigation d-flex justify-content-between">
-
-            <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
-            {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
-        </div>
-
+        {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
     </div>
+
+    <div id="list" class="col-sm-12">
+        {% include('gestapp/property/_list.html.twig') %}
+    </div>
+
+    <div class="navigation d-flex justify-content-between">
+
+        <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
+        {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
+    </div>
+
+</div>
 
 {% endblock %}
 
