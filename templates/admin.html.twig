@@ -20,8 +20,21 @@
             <script src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
             <script src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
             <script src="{{ asset('js/ckeditor5/build/ckeditor.js') }}"></script>
+            <script src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
             <script src="https://kit.fontawesome.com/3904e9974b.js" crossorigin="anonymous"></script>
             <script src="{{ asset('js/sortableJS/Sortable.min.js') }}"></script>
+            <script>
+                window.onload = function(){
+                    tinymce.init({
+                        selector: '.tinymce',
+                        plugins: 'image table advtable lists',
+                        toolbar: 'undo redo | styles | bold italic numlist bullist | link image table',
+                        images_file_types: 'jpg,svg,webp',
+                        language: 'fr_FR',
+                        language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js'
+                    });
+                }
+            </script>
         {% endblock %}
     </head>
     <body>
