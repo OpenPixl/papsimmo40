@@ -80,7 +80,6 @@ class PropertyRepository extends ServiceEntityRepository
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
             ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
-            ->join('c.denomination', 'd')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
                 p.id as id,
@@ -90,7 +89,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.annonce as annonce,
                 p.priceFai as priceFai,
                 p.surfaceHome as surfaceHome,
-                d.name as denomination,
                 p.piece as piece,
                 p.room as room,
                 p.adress as adress,
@@ -111,6 +109,40 @@ class PropertyRepository extends ServiceEntityRepository
             ->getQuery()
             ->getResult()
             ;
+    }
+
+    public function listAllPropertiesIncreating()
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            //->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            //->join('p.propertyDefinition', 'pd')
+            ->addSelect('
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.annonce as annonce,
+                p.priceFai as priceFai,
+                p.surfaceHome as surfaceHome,
+                p.piece as piece,
+                p.room as room,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.createdAt,
+                p.updatedAt
+            ')
+        ->where('p.isIncreating = 1')
+        ->orderBy('p.updatedAt', 'DESC')
+        ->getQuery()
+        ->getResult()
+    ;
     }
 
     public function listPropertiesByEmployed($user)
@@ -138,6 +170,39 @@ class PropertyRepository extends ServiceEntityRepository
                 p.updatedAt as updatedAt
             ')
             ->where('e.id = :user')
+            ->setParameter('user', $user)
+            ->orderBy('p.updatedAt', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    public function listPropertiesByEmployedIncreating($user)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->join('p.propertyDefinition', 'pd')
+            ->addSelect('
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                p.piece as piece,
+                p.room as room,
+                pd.name as propertyDefinition,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.createdAt as createdAt,
+                p.updatedAt as updatedAt
+            ')
+            ->where('e.id = :user')
+            ->andWhere('p.isIncreating = 1')
             ->setParameter('user', $user)
             ->orderBy('p.updatedAt', 'DESC')
             ->getQuery()

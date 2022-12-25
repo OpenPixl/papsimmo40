@@ -37,6 +37,7 @@ class PropertyController extends AbstractController
         $user = $this->getUser();
 
         if($hasAccess == true){
+            //$data = $propertyRepository->findAll();
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
             //dd($data);
@@ -68,9 +69,21 @@ class PropertyController extends AbstractController
     #[Route('/inCreating', name: 'op_gestapp_property_inCreating', methods: ['GET'])]
     public function inCreating(PropertyRepository $propertyRepository): Response
     {
-        return $this->render('gestapp/property/increating.html.twig', [
-            'properties' => $propertyRepository->findBy(array('isIncreating' => 1)),
-        ]);
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        if($hasAccess == true){
+            $properties = $propertyRepository->listAllPropertiesIncreating();
+            //dd($properties);
+            return $this->render('gestapp/property/increating.html.twig', [
+                'properties' => $properties,
+            ]);
+        }
+        else{
+            return $this->render('gestapp/property/increating.html.twig', [
+                'properties' => $propertyRepository->findBy(array('isIncreating' => 1)),
+            ]);
+        }
     }
 
     #[Route('/new', name: 'op_gestapp_property_new', methods: ['GET', 'POST'])]
@@ -341,17 +354,32 @@ class PropertyController extends AbstractController
     #[Route('/increatingdel/{id}', name:'op_gestapp_property_increatingdel', methods: ['POST'] )]
     public function increatingDel(Property $property, PropertyRepository $propertyRepository)
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+        // Supression du bien sélectionné
         $propertyRepository->remove($property);
-
-        $properties = $propertyRepository->findBy(array('isIncreating' => 1));
-
-        return $this->json([
-            'code'=> 200,
-            'message' => "Les informations du bien ont été correctement ajoutées.",
-            'liste' => $this->renderView('gestapp/property/_increating.html.twig', [
-                'properties' => $properties
+        // Affichage de la vue selon 'Employed' ou 'Admin'
+        if($hasAccess == true){
+            $properties = $propertyRepository->listAllPropertiesIncreating();
+            //dd($properties);
+            return $this->json([
+                'code'=> 200,
+                'message' => "Les informations du bien ont été correctement ajoutées.",
+                'liste' => $this->renderView('gestapp/property/_increating.html.twig', [
+                    'properties' => $properties
                 ])
-        ], 200);
+            ], 200);
+        }else{
+            $properties = $propertyRepository->listPropertiesByEmployedIncreating($user);
+            //dd($properties);
+            return $this->json([
+                'code'=> 200,
+                'message' => "Les informations du bien ont été correctement ajoutées.",
+                'liste' => $this->renderView('gestapp/property/_increating.html.twig', [
+                    'properties' => $properties
+                ])
+            ], 200);
+        }
     }
 
     #[Route('/del/{id}', name:'op_gestapp_property_del', methods: ['POST'] )]
