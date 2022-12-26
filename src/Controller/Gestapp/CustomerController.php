@@ -268,18 +268,22 @@ class CustomerController extends AbstractController
     #[Route('/getformcustomer/{id}', name: 'op_gestapp_customer_getform', methods: ['GET'])]
     public function getFormCustomer(Customer $customer,Request $request)
     {
+
         $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_getform', ['id'=> $customer->getId()]),
             'method'=>'POST',
             'attr' => ['class'=>'formEditCustomer']
         ]);
+
         $form->handleRequest($request);
+        $view = $this->renderForm('gestapp/customer/_form.html.twig', [
+            'customer' => $customer,
+            'form' => $form
+        ]);
+        //dd($view->getContent());
         return $this->json([
             'code'=> 200,
-            'form' => $this->renderForm('gestapp/customer/_form.html.twig', [
-                'customer' => $customer,
-                'form' => $form
-            ])
+            'form' => $view->getContent()
         ], 200);
     }
 

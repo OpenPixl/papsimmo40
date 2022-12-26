@@ -395,10 +395,10 @@
             const modalEditCustomer = document.getElementById('editCustomer')
             // Ouverture de la modale d'édition
             modalEditCustomer.addEventListener('show.bs.modal', function (event) {
-                // Button that triggered the modal
+                // Récupération du bouton cliqué et extraction de la variable transmise dans le data-bs-whatever
                 let button = event.relatedTarget
-                // extraction de la variable
                 let recipient = button.getAttribute('data-bs-whatever')
+                // Attribution pour le cleint et la propriété des éléments insclus dans le data-bs-whatever
                 let split = recipient.split('-')
                 let idclient = split[0]
                 let idproperty = split[1]
@@ -407,7 +407,7 @@
                 axios
                     .get('/gestapp/customer/getformcustomer/' + idclient )
                     .then(function (response) {
-                        const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste;
+                        const form = document.getElementById('ModalBodyEditCustomer').innerHTML = response.data.form;
 
                         // Ajout d'un évènement sur le click AddCustomerSearch
                         document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
@@ -421,7 +421,6 @@
                         document.querySelectorAll('a.editCustomer').forEach(function (link) {
                             link.addEventListener('click', EditCustomer);
                         })
-                        modalEditCustomer.addEventListener('hide.bs.modal')
                     })
                     .catch(function (error) {
                         // handle error
@@ -455,11 +454,12 @@
                         document.querySelectorAll('a.editCustomer').forEach(function (link) {
                             link.addEventListener('click', EditCustomer);
                         })
+
                     })
                     .catch(function (error) {
                         console.log(error);
                     })
-                modalEditCustomer.addEventListener('hide.bs.modal')
+
             }
 
             // Fonction de suppression d'un client
@@ -1699,11 +1699,11 @@
                         <h5 class="modal-title" id="exampleModalLabel">Edition d'un client à cette fiche</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <div class="modal-body">
+                    <div id="ModalBodyEditCustomer"class="modal-body">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <a id="btnAddCustomer" class="btn btn-sm btn-primary editCustomer">Ajouter</a>
+                        <a id="btnAddCustomer" class="btn btn-sm btn-primary editCustomer" data-bs-dismiss="modal">Ajouter</a>
                     </div>
                 </div>
             </div>
