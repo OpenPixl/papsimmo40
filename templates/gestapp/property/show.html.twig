@@ -110,14 +110,6 @@
                 dateFormat: "H:i",
                 time_24hr: true
             });
-            // Module éditeur
-            ClassicEditor
-                .create(document.querySelector('#property_step1_annonce'), {
-                    height: 50
-                })
-                .catch(error => {
-                    console.error(error);
-                });
 
         // ---------------------------------------
         // STEP 1 :
@@ -1708,7 +1700,7 @@
                 </div>
             </div>
         </div>
-        <!-- Ajout d'une zone cadastrale -->
+        {# Ajout d'une zone cadastrale #}
         <div class="modal fade" id="addCadaster" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -1726,7 +1718,19 @@
                 </div>
             </div>
         </div>
-        {# Modal d'ajout PropertyDefinition -  #}
+        {# Modal d'ajout PropertyBanner #}
+        <div class="modal fade" id="modalPropertyBanner" tabindex="-1" aria-labelledby="PropertyDefinition" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajout d'une nouvelle bannière :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyDefinitionController::new2')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout PropertyDefinition #}
         <div class="modal fade" id="modalPropertyDefinition" tabindex="-1" aria-labelledby="PropertyDefinition" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -1743,7 +1747,19 @@
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une Catégorie de type F1, F2... :</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une Classification de type F1, F2... :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\DenominationController::new')) }}
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout HouseBanner #}
+        <div class="modal fade" id="modalHouseBanner" tabindex="-1" aria-labelledby="addHouseBanner" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une Bannière :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     {{ render(controller('App\\Controller\\Gestapp\\choice\\DenominationController::new')) }}

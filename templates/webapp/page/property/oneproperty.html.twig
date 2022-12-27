@@ -154,27 +154,27 @@
                                             {% endif %}
                                         </td>
                                     </tr>
-                                    {% if property.propertyState >0 %}
+                                    {% if property.propertyState != 'A définir' %}
                                         <tr>
                                             <td>Etat du bien</td>
                                             <td><span class="color">{{ property.propertyState }}</span></td>
                                         </tr>
                                     {% endif %}
-                                    {% if property.propertyEnergy >0 %}
+                                    {% if property.propertyEnergy != 'A définir' %}
                                         <tr>
                                             <td>Energie</td>
                                             <td><span class="color">{{ property.propertyEnergy }}</span></td>
                                         </tr>
                                     {% endif %}
-                                    {% if property.propertyTax >0 %}
+                                    {% if property.propertyTax > 0 %}
                                         <tr>
                                             <td>Charge</td>
                                             <td><span class="color">{{ property.propertyTax }}</span></td>
                                         </tr>
                                     {% endif %}
-                                    {% if property.propertyOrientation >0 %}
+                                    {% if property.propertyOrientation != 'A définir' %}
                                         <tr>
-                                            <td>Charge</td>
+                                            <td>Orientation</td>
                                             <td><span class="color">{{ property.propertyOrientation }}</span></td>
                                         </tr>
                                     {% endif %}
@@ -185,8 +185,8 @@
                                                 {% if property.location != 'a-definir' %}Louable{% endif %}
                                             </td>
                                             <td>
-                                                {% if property.disponibility != 'a-definir' %}A partir du{% endif %}&nbsp;
-                                                {% if property.location != 'a-definir' %}Louable{% endif %}{{ property.disponibilityAt|format_datetime('medium', 'none', locale='fr') }}
+                                                <span class="color">{% if property.disponibility != 'a-definir' %}A partir du{% endif %}</span>
+                                                <span class="color">{% if property.location != 'a-definir' %}Louable{% endif %}{{ property.disponibilityAt|format_datetime('medium', 'none', locale='fr') }}</span>
                                             </td>
                                         </tr>
                                     {% endif %}
@@ -235,24 +235,64 @@
                                     {% endif %}
                                     <div class="col-12 col-lg-6">
                                         <table class="table table-bordered">
+                                            {% if equipments|length == 1 %}
+                                            {% for equipment in equipments %}
+                                            {% if equipment.id == 1 %}
+                                            {% else %}
                                             <tr>
                                                 <td class="text-center align-middle">Equipement</td>
                                                 <td>
-                                                    {% for equipment in equipments %}<span class="color">{{ equipment.name }}</span> - {% endfor %}
+                                                    {% if equipments|length == 1 %}
+                                                        {% for equipment in equipments %}
+                                                            {% if equipment.id == 1 %}
+                                                            {% else %}
+                                                                <span class="color">{{ equipment.name }}</span>
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% else %}
+                                                        {% for equipment in equipments %}
+                                                            {% if equipment.id == 1 %}
+                                                            {% else %}
+                                                                <span class="color">{{ equipment.name }}</span> -
+                                                            {% endif %}
+                                                        {% endfor %}
+                                                    {% endif %}
                                                 </td>
                                             </tr>
+                                            {% endif %}{% endfor %}{% endif %}
+                                            {% if property.propertyTypology != 'A définir' %}
                                             <tr>
                                                 <td class="text-center align-middle">Type de bien</td>
                                                 <td>
                                                     <span class="color">{{ property.propertyTypology }}</span>
                                                 </td>
                                             </tr>
+                                            {% endif %}
+                                            {% if options|length == 1 %}
+                                            {% for option in options %}
+                                            {% if option.id == 1 %}
+                                            {% else %}
                                             <tr>
                                                 <td class="text-center align-middle">Autres options</td>
                                                 <td>
-                                                    {% for option in options %}<span class="color">{{ option.name }}</span> - {% endfor %}
+                                                {% if options|length == 1 %}
+                                                    {% for option in options %}
+                                                        {% if option.id == 1 %}
+                                                        {% else %}
+                                                        <span class="color">{{ option.name }}</span>
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% else %}
+                                                    {% for option in options %}
+                                                        {% if option.id == 1 %}
+                                                        {% else %}
+                                                        <span class="color">{{ option.name }}</span> -
+                                                        {% endif %}
+                                                    {% endfor %}
+                                                {% endif %}
                                                 </td>
                                             </tr>
+                                            {% endif %}{% endfor %}{% endif %}
                                         </table>
                                     </div>
                                 </div>
