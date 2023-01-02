@@ -381,6 +381,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->select('
                 p.isWithExclusivity as isWithExclusivity,
                 p.price,
+                p.ref AS ref,
                 p.dpeAt as dpeAt, 
                 p.dpeEstimateEnergyDown as dpeEstimateEnergyDown,
                 p.dpeEstimateEnergyUp as dpeEstimateEnergyUp,
