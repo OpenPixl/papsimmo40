@@ -20,7 +20,7 @@
                                 {{ property.city }}
                             </div>
                             <div class="annonce">
-                                {{ property.annonce|u.truncate(75, ' ...') }}
+                                {{ property.annonce|u.truncate(75, ' ...')|markdown_to_html }}
                             </div>
                             <div class="price">
                                 {{ property.priceFai }} €
@@ -116,7 +116,7 @@
                                     {{ property.city }}
                                 </div>
                                 <div class="annonce">
-                                    {{ property.annonce|u.truncate(75, ' ...') }}
+                                    {{ property.annonce|u.truncate(75, ' ...')|markdown_to_html }}
                                 </div>
                                 <div class="price">
                                     {{ property.priceFai }} €

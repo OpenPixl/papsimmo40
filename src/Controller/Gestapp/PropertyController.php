@@ -527,7 +527,7 @@ class PropertyController extends AbstractController
     public function AllProperties(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
 
-        $data = $propertyRepository->listAllProperties();
+        $data = $propertyRepository->fivelastproperties();
 
         $properties = $paginator->paginate(
             $data,

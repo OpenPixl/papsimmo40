@@ -220,7 +220,7 @@ a.nav-link {
   }
   .annonce{
       position: absolute;
-      bottom: 0.5rem;
+      bottom: 0;
       z-index: 2;
       left: 0.5rem;
       color: #FFFFFF;
@@ -230,7 +230,7 @@ a.nav-link {
   }
   .price{
       position: absolute;
-      bottom: 0.5rem;
+      bottom: 1rem;
       z-index: 2;
       right: 0.5rem;
       color: $primary-color;
