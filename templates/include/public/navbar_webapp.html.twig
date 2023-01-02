@@ -73,15 +73,9 @@
                     <img class="img-fluid" src="{{ asset('images/png/accroche.png') }}" alt="PAPSImmo Accroche">
                 </div>
             </div>
-            {% if app.request.attributes.get('_route') == 'op_webapp_page_searchpropertyhome' %}
-            <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center">
-                {{ render(controller('App\\Controller\\Webapp\\PageController::formSearchPropertyHomeComplete')) }}
-            </div>
-            {% else %}
             <div class="col-12 col-lg-6 d-flex align-items-center justify-content-center">
                 {{ render(controller('App\\Controller\\Webapp\\PageController::formSearchPropertyHome')) }}
             </div>
-            {% endif %}
         </div>
     </div>
 </div>

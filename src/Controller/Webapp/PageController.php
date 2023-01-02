@@ -133,6 +133,7 @@ class PageController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
+            //dd($form);
             // on recherche les propriétés correspondantes
             $properties = $propertyRepository->SearchPropertyHome($form->get('keys')->getData());
 
@@ -152,7 +153,7 @@ class PageController extends AbstractController
     /**
      * Création du formulaire de recherche de biens depuis la page d'accueil
      */
-    #[Route('/search/propertyhome', name:'op_webapp_page_searchpropertyhome' , methods: ["POST", "GET"])]
+    #[Route('/search/propertyhomecomplete', name:'op_webapp_page_searchpropertyhomecomplete' , methods: ["POST", "GET"])]
     public function formSearchPropertyHomeComplete(PropertyRepository $propertyRepository, Request $request) : response
     {
         $form = $this->createForm(SearchPropertyHomeCompleteType::class);
