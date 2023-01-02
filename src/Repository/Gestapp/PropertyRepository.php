@@ -49,9 +49,10 @@ class PropertyRepository extends ServiceEntityRepository
     public function fivelastproperties()
     {
         return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
             ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
-            ->join('c.denomination', 'd')
             ->join('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
@@ -81,7 +82,9 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->join('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                d.name as denomination,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -406,8 +409,10 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('c.denomination', 'd');
         $query->join('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
+        $query->join('p.sscategory', 'ss');
         $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
         $query->select('
+                ss.name as sscategory,
                 p.isWithExclusivity as isWithExclusivity,
                 p.price,
                 p.ref AS ref,

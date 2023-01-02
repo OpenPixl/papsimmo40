@@ -53,15 +53,22 @@ class ReportController extends AbstractController
                     }
                 }
             }
+            // cle de détermination PARUVENDU - RUBRIQUE
+            // cle de détermination PARUVENDU - SSRUBRIQUE
+            if($property['ssCategory']){
+                $ssrubrique = $property['ssCategory'];
+            }else{
+                $ssrubrique = "";
+            }
 
             //dd($url);
             $data = array(
                 'CodeClient',                                           // 1 - code Client fournis par PV
-                '"'.$property['ref'].'"',                               // 2 - Référence ANNONCE du PAPSIMMO
+                '"'.$ssrubrique.'"',                                    // 2 - Référence ANNONCE du PAPSIMMO
                 '"I"',                                                  // 3 - Code Pour les biens immobiliers correspondance PV
                 'famille',                                              // 4
                 'rubrique',                                             // 5
-                'sous-rubrique',                                        // 6
+                '"'.$property['ssCategory'].'"',                        // 6 - sous rubrique Paru-Vendu
                 '""',                                                   // 7 - code INSEE COMMUNE
                 '"'.$property['zipcode'].'"',                           // 8
                 '"'.$property['city'].'"',                              // 9
