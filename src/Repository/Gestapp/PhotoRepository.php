@@ -69,6 +69,17 @@ class PhotoRepository extends ServiceEntityRepository
             ;
     }
 
+    public function findNameBy($id){
+        return $this->createQueryBuilder('p')
+            ->select('p.galeryFrontName')
+            ->andWhere('p.property = :property')
+            ->orderBy('p.position', 'ASC')
+            ->setParameter('property', $id)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 
     // /**
     //  * @return Photo[] Returns an array of Photo objects
