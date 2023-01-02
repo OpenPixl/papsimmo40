@@ -25,12 +25,31 @@ class ReportController extends AbstractController
         $properties = $propertyRepository->reportpropertycsv();
 
         $app = $this->container->get('router')->getContext()->getHost();
-        //dd($app);
+        //dd($properties);
 
         $rows = array();
         foreach ($properties as $property){
+
             if ($property['dpeAt'] instanceof \DateTime) {
                 $dpeAt = $property['dpeAt']->format('d/m/Y');
+            }
+            // Clé de détermination PARUVENDU - FAMILLE
+            if($property['projet']){
+                $famille = $property['projet'];
+            }else{
+                $famille = "";
+            }
+            // Clé de détermination PARUVENDU - RUBRIQUE
+            if($property['propertyDefinition']){
+                $rubrique = $property['propertyDefinition'];
+            }else{
+                $rubrique = "00";
+            }
+            // Clé de détermination PARUVENDU - SSRUBRIQUE
+            if($property['ssCategory']){
+                $ssrubrique = $property['ssCategory'];
+            }else{
+                $ssrubrique = "000";
             }
             // Récupération des images liées au bien
             $photos = $photoRepository->findNameBy(['property' => $property['id']]);
@@ -53,22 +72,15 @@ class ReportController extends AbstractController
                     }
                 }
             }
-            // cle de détermination PARUVENDU - RUBRIQUE
-            // cle de détermination PARUVENDU - SSRUBRIQUE
-            if($property['ssCategory']){
-                $ssrubrique = $property['ssCategory'];
-            }else{
-                $ssrubrique = "";
-            }
 
-            //dd($url);
+            // Alimentation d'une ligne du fichier CSV
             $data = array(
                 'CodeClient',                                           // 1 - code Client fournis par PV
-                '"'.$ssrubrique.'"',                                    // 2 - Référence ANNONCE du PAPSIMMO
+                '"'.$property['ref'].'"',                               // 2 - Référence ANNONCE du PAPSIMMO
                 '"I"',                                                  // 3 - Code Pour les biens immobiliers correspondance PV
-                'famille',                                              // 4
-                'rubrique',                                             // 5
-                '"'.$property['ssCategory'].'"',                        // 6 - sous rubrique Paru-Vendu
+                '"'.$famille.'"',                                       // 4 - famille Paru-Vendu
+                '"'.$rubrique.'"',                                      // 5 - rubrique Paru-Vendu
+                '"'.$ssrubrique.'"',                                    // 6 - sous rubrique Paru-Vendu
                 '""',                                                   // 7 - code INSEE COMMUNE
                 '"'.$property['zipcode'].'"',                           // 8
                 '"'.$property['city'].'"',                              // 9

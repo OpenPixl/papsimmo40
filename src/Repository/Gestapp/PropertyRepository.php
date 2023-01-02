@@ -406,28 +406,30 @@ class PropertyRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('p');
         $query->join('p.refEmployed', 'e');
         $query->join('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
-        $query->join('c.denomination', 'd');
+        $query->leftjoin('c.denomination', 'd');
         $query->join('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
-        $query->join('p.sscategory', 'ss');
+        $query->leftjoin('p.sscategory', 'ss');
         $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
         $query->select('
-                ss.name as sscategory,
+                pd.code as propertyDefinition,
+                ss.code as ssCategory,
+                c.bathroom as bathroom,
+                c.isFurnished as isFurnished,
+                c.level as level,
+                c.coproperty as coproperty,
+                e.email as email,
+                e.gsm as gsm,
+                p.projet as projet,
                 p.isWithExclusivity as isWithExclusivity,
                 p.price,
                 p.ref AS ref,
                 p.dpeAt as dpeAt, 
                 p.dpeEstimateEnergyDown as dpeEstimateEnergyDown,
                 p.dpeEstimateEnergyUp as dpeEstimateEnergyUp,
-                e.email as email,
-                e.gsm as gsm,
                 p.constructionAt as constructionAt,
                 p.piece as piece,
                 p.room as room,
-                c.bathroom as bathroom,
-                c.isFurnished as isFurnished,
-                c.level as level,
-                c.coproperty as coproperty,
                 p.surfaceLand as surfaceLand,
                 p.surfaceHome as surfaceHome,
                 p.priceFai,
