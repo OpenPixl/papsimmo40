@@ -481,7 +481,7 @@ class PropertyController extends AbstractController
         $options = $complements->getPropertyOtheroption();
         $firstphoto = $photoRepository->FirstPhoto($property->getId());
         $employed = $employedRepository->find($property->getRefEmployed());
-        //dd($equipment);
+        //dd($oneproperty);
 
         return $this->render('webapp/page/property/oneproperty.html.twig', [
             'property' => $oneproperty,
