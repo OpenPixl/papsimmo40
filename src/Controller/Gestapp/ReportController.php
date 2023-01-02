@@ -24,8 +24,8 @@ class ReportController extends AbstractController
     {
         $properties = $propertyRepository->reportpropertycsv();
 
-        $app = $this->container->get('router')->getContext();
-        dd($app);
+        $app = $this->container->get('router')->getContext()->getHost();
+        //dd($app);
 
         $rows = array();
         foreach ($properties as $property){
@@ -45,7 +45,7 @@ class ReportController extends AbstractController
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<15; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = 'url'.$photos[$key]['galeryFrontName'];
+                        ${'url'.$key+1} = 'https://'.$app.'/media/cache/resolve/lastproperty_card/images/galery/'.$photos[$key]['galeryFrontName'];
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
