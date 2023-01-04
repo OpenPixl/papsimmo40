@@ -205,10 +205,10 @@
             <div class="mt-1">
                 {% if property.isIncreating == 1 %}
                 <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark disabled"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button type="submit" id="stepInformations" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
+                <button type="submit" id="stepInformations" class="btn btn-sm btn-outline-primary" onclick="tinyMCE.triggerSave(true,true);">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
                 {% else %}
                 <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <a id="stepInformations2" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider") }}</a>
+                <button id="stepInformations2" class="btn btn-sm btn-outline-primary" onclick="tinyMCE.triggerSave(true,true);">{{ button_label|default("Valider") }}</button>
                 {% endif %}
             </div>
         </div>

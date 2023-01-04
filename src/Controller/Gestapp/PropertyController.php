@@ -286,6 +286,7 @@ class PropertyController extends AbstractController
         //dd($request->getContent());
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form->getData());
             $propertyRepository->add($property);
             return $this->json([
                 'code'=> 200,
