@@ -418,11 +418,46 @@ a.nav-link {
 {
   // home - Acceuil
   #Properties{
-    #member-card{
-      min-width: 414px;
-      max-width: 414px;
+    // home - Acceuil
+    #Properties{
+      #member-card{
+        .name{}
+        .city{
+          bottom: 3rem;
+          font-family: Montserrat-light,sans-serif;
+          font-style: italic;
+          color: #fff;
+          font-size: 14px;
+          left: 0.5rem;
+          position: absolute;
+          z-index: 2;
+        }
+        .annonce{
+          bottom: 0;
+          color: #fff;
+          font-family: Montserrat-light,sans-serif;
+          font-size: 10px;
+          left: .5rem;
+          position: absolute;
+          width: 13rem;
+          z-index: 2;
+          p{
+            margin-bottom: 0.5rem;
+          }
+        }
+        .price{
+          bottom: 1rem;
+          color: #7d1715;
+          font-family: Montserrat-regular,sans-serif;
+          font-size: 15px;
+          position: absolute;
+          right: .5rem;
+          z-index: 2;
+        }
+      }
     }
   }
+
 }
 
 /**
@@ -430,11 +465,7 @@ a.nav-link {
 **/
 @include media-breakpoint-up(sm)
 {
-  // home - Acceuil
-  #Properties{
-    #member-card{
-    }
-  }
+
 }
 
 
