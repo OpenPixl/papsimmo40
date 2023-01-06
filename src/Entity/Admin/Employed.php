@@ -24,7 +24,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[ORM\Entity(repositoryClass: EmployedRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
-#[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity(fields: ['email'], message: 'un compte avec la même adresse mail existe déjà')]
 class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 {
 

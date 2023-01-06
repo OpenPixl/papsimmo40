@@ -16,7 +16,7 @@
     {% for employed in employeds %}
         <tr>
             <td>{{ employed.id }}</td>
-            <td>{{ employed.firstName }} {{ employed.lastName }}</td>
+            <td><a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}">{{ employed.firstName }} {{ employed.lastName }}</a></td>
             <td>{{ employed.email }}</td>
             <td>
                 {% for role in employed.roles %}
@@ -34,7 +34,7 @@
             <td>{{ employed.createdAt ? employed.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ employed.updatedAt ? employed.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
-                <a href="{{ path('op_admin_employed_show', {'id': employed.id}) }}"><i class="fa-duotone fa-pen-to-square"></i></a>
+                <a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-pen-to-square"></i></a>
                 <a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-file-xmark"></i></a>
                 <a href="{{ path('op_admin_employed_adminresetpassword', {'id': employed.id}) }}"><i class="fa-duotone fa-key"></i></a>
             </td>

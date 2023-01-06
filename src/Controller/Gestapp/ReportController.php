@@ -75,7 +75,7 @@ class ReportController extends AbstractController
 
             // Alimentation d'une ligne du fichier CSV
             $data = array(
-                'CodeClient',                                           // 1 - code Client fournis par PV
+                '"3C14110"',                                            // 1 - code Client fournis par PV
                 '"'.$property['ref'].'"',                               // 2 - Référence ANNONCE du PAPSIMMO
                 '"I"',                                                  // 3 - Code Pour les biens immobiliers correspondance PV
                 '"'.$famille.'"',                                       // 4 - famille Paru-Vendu

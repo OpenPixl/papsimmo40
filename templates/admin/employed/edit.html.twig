@@ -29,8 +29,18 @@
     </script>
 {% endblock %}
 {% block content %}
-    <h1>Edition d'un collaborateur</h1>
-    <input id="idemployed" type="hidden" value="{{employed.id}}">
+    <section>
+        <div class="row">
+            <div class="col-12">
+                <h1>Edition d'un collaborateur</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <input id="idemployed" type="hidden" value="{{employed.id}}">
+                {{ include('admin/employed/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
+            </div>
+        </div>
+    </section>
 
-    {{ include('admin/employed/_form.html.twig', {'button_label': 'Mettre à jour'}) }}
 {% endblock %}
