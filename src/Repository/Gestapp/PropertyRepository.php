@@ -216,14 +216,14 @@ class PropertyRepository extends ServiceEntityRepository
     public function oneProperty($property)
     {
         return $this->createQueryBuilder('p')
-            ->join('p.refEmployed', 'e')
-            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
-            ->join('c.propertyState', 'ps')
-            ->join('c.propertyEnergy', 'pe')
-            ->join('c.propertyOrientation', 'po')
-            ->join('c.propertyEquipment', 'peq')
-            ->join('p.propertyDefinition', 'pd')
-            ->join('c.propertyTypology', 'pt')
+            ->leftJoin('p.refEmployed', 'e')
+            ->leftJoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftJoin('c.propertyState', 'ps')
+            ->leftJoin('c.propertyEnergy', 'pe')
+            ->leftJoin('c.propertyOrientation', 'po')
+            ->leftJoin('c.propertyEquipment', 'peq')
+            ->leftJoin('p.propertyDefinition', 'pd')
+            ->leftJoin('c.propertyTypology', 'pt')
             ->addSelect('
                 p.id as id,
                 p.ref as ref,
