@@ -34,6 +34,7 @@ class PdfController extends AbstractController
     {
         $html = 0; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
+        //dd($oneproperty);
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
         $firstphoto = $photoRepository->firstphoto($property->getId());
