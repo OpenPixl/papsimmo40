@@ -224,7 +224,9 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.propertyEquipment', 'peq')
             ->leftJoin('p.propertyDefinition', 'pd')
             ->leftJoin('c.propertyTypology', 'pt')
+            ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                d.name as denomination,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
