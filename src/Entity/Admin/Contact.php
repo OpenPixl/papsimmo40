@@ -2,6 +2,7 @@
 
 namespace App\Entity\Admin;
 
+use App\Entity\Gestapp\Property;
 use App\Repository\Admin\ContactRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -41,6 +42,9 @@ class Contact
 
     #[ORM\ManyToOne(inversedBy: 'contacts')]
     private ?Employed $forEmployed = null;
+
+    #[ORM\ManyToOne(inversedBy: 'contacts')]
+    private ?Property $property = null;
 
     public function getId(): ?int
     {
@@ -152,6 +156,18 @@ class Contact
     public function setForEmployed(?Employed $forEmployed): self
     {
         $this->forEmployed = $forEmployed;
+
+        return $this;
+    }
+
+    public function getProperty(): ?Property
+    {
+        return $this->property;
+    }
+
+    public function setProperty(?Property $property): self
+    {
+        $this->property = $property;
 
         return $this;
     }

@@ -2,6 +2,7 @@
 
 namespace App\Entity\Gestapp;
 
+use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\PropertyDefinition;
 use App\Entity\Gestapp\choice\PropertySscategory;
@@ -157,12 +158,16 @@ class Property
     #[ORM\Column(length: 20)]
     private ?string $diagChoice = null;
 
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Contact::class)]
+    private Collection $contacts;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
         $this->Customer = new ArrayCollection();
         $this->photos = new ArrayCollection();
         $this->cadastre = new ArrayCollection();
+        $this->contacts = new ArrayCollection();
     }
 
     /**
@@ -749,6 +754,36 @@ class Property
     public function setDiagChoice(string $diagChoice): self
     {
         $this->diagChoice = $diagChoice;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getContacts(): Collection
+    {
+        return $this->contacts;
+    }
+
+    public function addContact(Contact $contact): self
+    {
+        if (!$this->contacts->contains($contact)) {
+            $this->contacts->add($contact);
+            $contact->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeContact(Contact $contact): self
+    {
+        if ($this->contacts->removeElement($contact)) {
+            // set the owning side to null (unless already changed)
+            if ($contact->getProperty() === $this) {
+                $contact->setProperty(null);
+            }
+        }
 
         return $this;
     }

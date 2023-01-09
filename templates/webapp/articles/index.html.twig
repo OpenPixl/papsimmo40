@@ -19,6 +19,7 @@
                 modalBodyInput.value = recipient
                 modalText.innerHTML = "Vous êtes sur le point de supprimer l'article sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
             })
+
             // Code de suppression lors du clic sur le bouton de la modal "Suppr"
             function onClickDelEvent(event){
                 event.preventDefault()
@@ -52,7 +53,8 @@
                     })
             }
 
-            // Déclaration des Events sur liens de la liste
+            // ------------------------------------------------------
+            // Déclaration des différents Events présent sur la page
             // ------------------------------------------------------
             // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
             document.querySelectorAll('a.js-data-suppr').forEach(function(link){

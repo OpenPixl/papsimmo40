@@ -3,13 +3,17 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Admin\Contact;
+use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\Property;
 use App\Form\Admin\ContactType;
 use App\Repository\Admin\ContactRepository;
+use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\Routing\Annotation\Route;
@@ -22,23 +26,47 @@ class ContactController extends AbstractController
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
-        if($hasAccess == true){
-            // on liste tous les clients quelques soit les utilisateurs
-            $data = $contactRepository->findAllContact();
-            $contacts = $paginator->paginate(
-                $data,
-                $request->query->getInt('page', 1),
-                10
-            );
-            return $this->render('admin/contact/index.html.twig', [
-                'contacts' => $contacts,
-            ]);
-        }else{
 
-        }
-        return $this->render('admin/contact/index.html.twig', [
-            'contacts' => $contactRepository->findAll(),
-        ]);
+        return $this->render('admin/contact/index.html.twig');
+    }
+
+    #[Route('/listAllContacts', name: 'op_admin_contact_listallcontacts', methods: ['GET'])]
+    public function listAllContacts(ContactRepository $contactRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $allcontacts = $contactRepository->findAll();
+        $pagAllContacts = $paginator->paginate(
+            $allcontacts,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "La photo du bien a été correctement modifiée.",
+            'liste' => $this->renderView('admin/contact/_listallcontacts.html.twig', [
+                'allcontacts' => $allcontacts
+            ])
+        ], 200);
+    }
+
+    #[Route('/listPropertiesContacts', name: 'op_admin_contact_listpropertiescontacts', methods: ['GET'])]
+    public function listPropertiesContacts(ContactRepository $contactRepository, PaginatorInterface $paginator, Request $request): Response
+    {
+        $user = $this->getUser();
+        $propertycontacts = $contactRepository->findBy(['forEmployed' => $user->getId()]);
+        $pagPropertyContacts = $paginator->paginate(
+            $propertycontacts,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "La photo du bien a été correctement modifiée.",
+            'liste' => $this->renderView('admin/contact/_listpropertycontacts.html.twig', [
+                'propertycontacts' => $pagPropertyContacts,
+            ])
+        ], 200);
     }
 
     #[Route('/new', name: 'op_admin_contact_new', methods: ['GET', 'POST'])]
@@ -56,7 +84,7 @@ class ContactController extends AbstractController
 
             $email = (new Email())
                 ->from($contact->getEmail())
-                ->to('contact@papsimmo.fr')
+                ->to('xavier.burke@openpixl.fr')
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
@@ -72,7 +100,7 @@ class ContactController extends AbstractController
                 dd($e);
             }
 
-            return $this->redirectToRoute('app_admin_contact_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_webapp_public_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/contact/new.html.twig', [
@@ -117,6 +145,32 @@ class ContactController extends AbstractController
         return $this->redirectToRoute('op_admin_contact_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/del/{id}', name: 'op_admin_contact_del', methods: ['POST'])]
+    public function del(Request $request, Contact $contact, ContactRepository $contactRepository)
+    {
+        $forEmployed = $contact->getForEmployed();
+        $idProperty = $contact->getProperty();
+        //dd($forEmployed, $idProperty);
+        if($forEmployed){
+            $contact->getForEmployed()->removeContact($contact);
+        }
+        if($idProperty){
+            $contact->getProperty()->removeContact($contact);
+        }
+        $contactRepository->remove($contact, true);
+
+
+        $allcontacts = $contactRepository->findAll();
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "La photo du bien a été correctement modifiée.",
+            'listallcontact' => $this->renderView('admin/contact/_listallcontacts.html.twig', [
+                'allcontacts' => $allcontacts
+            ])
+        ], 200);
+    }
+
     #[Route('/AskPropertyInfo/{idproperty}', name: 'op_admin_contact_askpropertyinfo', methods: ['GET', 'POST'])]
     public function AskPropertyInfo(Request $request, ContactRepository $contactRepository, MailerInterface $mailer, $idproperty, PropertyRepository $propertyRepository): Response
     {
@@ -130,6 +184,7 @@ class ContactController extends AbstractController
 Je souhaiterais avoir plus de renseignements sur le bien \"" . $property->getName() . "\" et prendre rendez-vous pour le visiter.
 Pourriez-vous me recontacter ?
 Cordialement");
+        $contact->setProperty($property);
         $form = $this->createForm(ContactType::class, $contact,[
             'method' => 'POST',
             'action' => $this->generateUrl('op_admin_contact_askpropertyinfo', [
@@ -166,6 +221,46 @@ Cordialement");
         }
 
         return $this->renderForm('admin/contact/askpropertyinfo.html.twig', [
+            'contact' => $contact,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/contactOffline', name: 'op_admin_contact_offline', methods: ['GET', 'POST'])]
+    public function OfflineContact(ContactRepository $contactRepository, Request $request, MailerInterface $mailer): Response
+    {
+        $contact = new Contact();
+        $form = $this->createForm(ContactType::class, $contact,[
+            'method' => 'POST',
+            'action' => $this->generateUrl('op_admin_contact_offline')
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form->isvalid);
+            $contactRepository->add($contact, true);
+
+            $email = (new Email())
+                ->from($contact->getEmail())
+                ->to('xavier.burke@openpixl.fr')
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject('[PAPs Immo] : Nouvelle demande de contact depuis votre site')
+                ->text($contact->getContent());
+
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                dd($e);
+            }
+
+            return $this->redirectToRoute('op_admin_contact_offline', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('admin/contact/postcontactoffline.html.twig', [
             'contact' => $contact,
             'form' => $form,
         ]);

@@ -1,0 +1,68 @@
+{{ form_start(form, {'attr': {'id': 'PostContact'}}) }}
+    <div class="row">
+        <div class="col-md">
+            <div class="form-floating">
+                {{ form_widget(form.name, {'attr':{'class':'form-control form-control-sm'}}) }}
+                {{ form_label(form.name) }}
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col">
+            <div class="form-floating">
+                <select class="form-select form-select-sm" id="contact_sujet" name="contact[sujet]" aria-label="Floating label select example">
+                    <option selected>Sélectionner votre choix</option>
+                    <option value="1">Demande de prise de contact</option>
+                    <option value="2">Recherche d'un bien</option>
+                    <option value="3">Proposition de vente</option>
+                </select>
+                <label for="contact_sujet">Objet de la demande</label>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md">
+            <div class="form-floating">
+                {{ form_widget(form.content, {'attr':{'class':'form-control form-control-sm'}}) }}
+                {{ form_label(form.content) }}
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2 g-2">
+        <p class="mb-0">Eléments de contact</p>
+        <div class="col-4">
+            <div class="form-floating">
+                {{ form_widget(form.email, {'attr':{'class':'form-control form-control-sm'}}) }}
+                {{ form_label(form.email) }}
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-floating">
+                {{ form_widget(form.phoneGsm, {'attr':{'class':'form-control form-control-sm'}}) }}
+                {{ form_label(form.phoneGsm) }}
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="form-floating">
+                {{ form_widget(form.phoneHome, {'attr':{'class':'form-control form-control-sm'}}) }}
+                {{ form_label(form.phoneHome) }}
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-md">
+            <div class="form-floating">
+                {{ form_widget(form.contactBy, {'attr':{'class':'form-control form-control-sm'}}) }}
+                {{ form_label(form.contactBy) }}
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <div class="form-check">
+                {{ form_widget(form.isRGPD) }}
+                {{ form_label(form.isRGPD) }}
+            </div>
+        </div>
+    </div>
+{{ form_end(form) }}

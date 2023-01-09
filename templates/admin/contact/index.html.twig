@@ -2,64 +2,156 @@
 
 {% block title %}Contact index{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function (){
+            // ------------------------------------------------------
+            // Ouverture de la liste de renseignement
+            // au chargement de la page
+            // ------------------------------------------------------
+            axios
+                .get('/admin/contact/listAllContacts/')
+                .then(function (response){
+                    // rafraichissement du tableau
+                    const listallcontact = document.getElementById('listallcontact').innerHTML = response.data.liste
+                })
+            axios
+                .get('/admin/contact/listPropertiesContacts/')
+                .then(function (response){
+                    // rafraichissement du tableau
+                    const listpropertiescontacts = document.getElementById('listpropertiescontacts').innerHTML = response.data.liste
+                })
+
+            // Ouverture de la modal de suppression depuis la liste "AllContacts"
+            var Suppr = document.getElementById('SupprAllContacts')
+            Suppr.addEventListener('show.bs.modal', function (event) {
+                var a = event.relatedTarget
+                var recipient = a.getAttribute('data-bs-whatever')
+                var modalTitle = Suppr.querySelector('.modal-title')
+                var modalText = Suppr.querySelector('.modal-text')
+                var modalBodyInput = Suppr.querySelector('.modal-body input')
+                modalTitle.innerHTML = "<h3>Toutes les demandes</h3><p>Suppression d'une demande de renseignement</p>"
+                modalBodyInput.value = recipient
+                modalText.innerHTML = "Vous êtes sur le point de supprimer le message de prise de renseignement sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
+            })
+
+            // Code de suppression lors du clic sur le bouton de la modal "Suppr"
+            function onClickDelEvent(event){
+                event.preventDefault()
+                const id = document.getElementById('recipient-name').value
+                axios
+                    .post('/admin/contact/del/'+ id)
+                    .then(function(response)
+                    {
+                        // rafraichissement du tableau
+                        const listallcontact = document.getElementById('listpropertiescontacts').innerHTML = response.data.listallcontact
+                        // ------------------------------------------------------
+                        // Déclaration des différents Events présent sur la page
+                        // ------------------------------------------------------
+                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+                        document.querySelectorAll('a.btnSupprAllContacts').forEach(function(link){
+                            link.addEventListener('click', onClickDelEvent)
+                        })
+                        // Activation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation:true,autohide:true,delay:3000});
+                        toastElement.show();
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            }
+
+            // ------------------------------------------------------
+            // Déclaration des différents Events présent sur la page
+            // ------------------------------------------------------
+            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+            document.querySelectorAll('a.btnSupprAllContacts').forEach(function(link){
+                link.addEventListener('click', onClickDelEvent)
+            })
+        }
+    </script>
+{% endblock %}
+
 {% block content %}
-    <h1>Liste des demandes de renseignements</h1>
+    <section>
+        <div class="row mb-2">
+            <div class="col-12">
+                <h1>Listes des demandes de renseignements</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Nom et prénom</th>
-                <th>Email</th>
-                <th>Téléphone fixe</th>
-                <th>Téléphone mobile</th>
-                <th>Envoyé le</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for contact in contacts %}
-            <tr>
-                <td>{{ contact.name }}</td>
-                <td>{{ contact.email }}</td>
-                <td>{{ contact.phoneHome }}</td>
-                <td>{{ contact.phoneGsm }}</td>
-                <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d') : '' }}</td>
-                <td>
-                    {# boutons d'actions #}
-                    <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#showContactMessage">Voir</button>
-                    <a href="{{ path('op_admin_contact_edit', {'id': contact.id}) }}">Supprimer</a>
-                    {# Modal de lecture du message #}
-                    <div class="modal fade " id="showContactMessage" tabindex="-1" aria-labelledby="showContactMessage" aria-hidden="true">
-                        <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
-                            <div class="modal-content">
-                                <div class="modal-body">
-                                    <div class="row mb-4">
-                                        <div class="col-6"><h5 >Message de : {{ contact.email }}</h5></div>
-                                        <div class="col-6"><h5 class="text-end">Envoyé le : {{ contact.createdAt|date('Y-m-d') }}</h5></div>
-                                    </div>
-                                    <div>
-                                        <h6 class="text-info">Contenu du message</h6>
-                                        {{ contact.content|raw }}
-                                    </div>
+                {# navigation des differents accès de renseignements #}
+                <nav>
+                    <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+                        <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#all-contacts" type="button" role="tab" aria-controls="all-contacts" aria-selected="true">Toutes les demandes</button>
+                        <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Demandes liées aux biens</button>
+                        <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
+                    </div>
+                </nav>
+                <div class="tab-content" id="nav-tabContent">
+                    <div class="tab-pane fade show active" id="all-contacts" role="tabpanel" aria-labelledby="all-contacts-tab" tabindex="0">
+                        <div class="row">
+                            <div id="listallcontact" class="col-12">
 
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-sm btn-outline-dark">Répondre au client</button>
-                                    <button type="button" class="btn btn-sm btn-outline-dark">Transférer à collaborateur</button>
-                                    <button type="button" class="btn btn-sm btn-outline-danger">Supprimer</button>&nbsp;|&nbsp;
-                                    <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Fermer</button>
-                                </div>
                             </div>
                         </div>
                     </div>
+                    <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
+                        <div class="row">
+                            <div id="listpropertiescontacts" class="col-12">
 
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="9">Aucune demande de contact </td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" tabindex="0">A venir</div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer %}
+    {{ parent() }}
+    <section>
+        <div class="modal fade" id="SupprAllContacts" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-danger" id="exampleModalLabel">New message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                        <input type="hidden" id="recipient-name">
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-danger btnSupprAllContacts" data-bs-dismiss="modal">Supprimer</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# annonce toaster #}
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast-container position-absolute top-50 end-0 p-3">
+                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">PAPS immo</strong>
+                        <small>A l'instant</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 {% endblock %}

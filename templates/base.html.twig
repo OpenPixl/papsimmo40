@@ -17,22 +17,9 @@
             <script src="https://kit.fontawesome.com/3904e9974b.js" crossorigin="anonymous"></script>
             <script src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
             <script src="{{ asset('js/flickity/flickity.pkgd.js') }}"></script>
-            <script src="{{ asset('js/bigpicture/bigpicture.js') }}"></script>
-            <script type="text/javascript">
-                window.onload = function(){
-                    var nav = document.querySelector('nav');
-
-                    window.addEventListener('scroll', function () {
-                        if (window.pageYOffset > 400) {
-                            nav.classList.add('bg-light', 'shadow');
-                        } else {
-                            nav.classList.remove('bg-light', 'shadow');
-                        }
-                    });
+            <script src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
 
 
-                }
-            </script>
         {% endblock %}
     </head>
     {% set route_name = app.request.attributes.get('_route') %}

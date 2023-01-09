@@ -128,7 +128,7 @@
                                             {% if employed.sector is empty %}{% else %}Secteur : {{ employed.sector }}<br>{% endif %}
                                             <i class="fa-duotone fa-mobile"></i> {{ employed.gsm }}
                                         </p>
-                                        <button class="btn btn-primary w-100 mt-1">Laisser un message</button>
+                                        <button type="button" class="btn btn-primary w-100 mt-1" data-bs-toggle="modal" data-bs-target="#AskPropertyModal" data-bs-whatever="{{ property.id }}">Laisser un message</button>
                                     </div>
                                 </div>
                             </div>

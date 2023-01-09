@@ -16,15 +16,25 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PublicController extends AbstractController
 {
-    #[Route('/', name: 'op_webapp_public_homepage')]
+    #[Route('/home', name: 'op_webapp_public_homepage')]
     public function homepage(SectionRepository $sectionRepository, ApplicationRepository $applicationRepository): Response
     {
         $sections = $sectionRepository->findBy(['isfavorite' => 1]);
-        $application = $applicationRepository->findOneBy([], ['id' => 'DESC']);
-        return $this->render('webapp/public/index.html.twig', [
-            'application' => $application,
-            'sections' => $sections
-        ]);
+        $application = $applicationRepository->findFirstReccurence();
+
+        if (!$application) {
+            return $this->redirectToRoute('op_admin_dashboard_first_install');
+        } else {
+            $isOnline = $application->getIsOnline();
+            if ($isOnline == 0) {
+                return $this->redirectToRoute('op_webapp_public_offline');
+            } else {
+                return $this->render('webapp/public/index.html.twig', [
+                    'application' => $application,
+                    'sections' => $sections
+                ]);
+            }
+        }
     }
 
     #[Route('/', name: 'op_webapp_public_index')]
@@ -37,7 +47,7 @@ class PublicController extends AbstractController
             return $this->redirectToRoute('op_admin_dashboard_first_install');
         } else {
             $isOnline = $application->getIsOnline();
-            // dd($isOnline);
+            //dd($isOnline);
             if ($isOnline == 1) {
                 return $this->redirectToRoute('op_webapp_public_homepage');
             } else {
@@ -54,9 +64,19 @@ class PublicController extends AbstractController
     {
         $application = $em->getRepository(Application::class)->findFirstReccurence();
 
-        return $this->render('webapp/public/offline.html.twig', [
-            'application' => $application
-        ]);
+        if (!$application) {
+            return $this->redirectToRoute('op_admin_dashboard_first_install');
+        } else {
+            $isOnline = $application->getIsOnline();
+            //dd($isOnline);
+            if ($isOnline == 0) {
+                return $this->render('webapp/public/offline.html.twig', [
+                    'application' => $application
+                ]);
+            } else {
+                return $this->redirectToRoute('op_webapp_public_homepage');
+            }
+        }
     }
 
 

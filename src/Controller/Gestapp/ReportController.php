@@ -30,9 +30,15 @@ class ReportController extends AbstractController
         $rows = array();
         foreach ($properties as $property){
 
-            if ($property['dpeAt'] instanceof \DateTime) {
+            $annonce = strip_tags($property['annonce'], '<br>');
+            //dd($annonce);
+            //dd($property);
+            if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {
                 $dpeAt = $property['dpeAt']->format('d/m/Y');
+            }else{
+                $dpeAt ="";
             }
+            //dd($dpeAt);
             // Clé de détermination PARUVENDU - FAMILLE
             if($property['projet']){
                 $famille = $property['projet'];
@@ -82,21 +88,21 @@ class ReportController extends AbstractController
                 '"'.$rubrique.'"',                                      // 5 - rubrique Paru-Vendu
                 '"'.$ssrubrique.'"',                                    // 6 - sous rubrique Paru-Vendu
                 '""',                                                   // 7 - code INSEE COMMUNE
-                '"'.$property['zipcode'].'"',                           // 8
-                '"'.$property['city'].'"',                              // 9
-                'France',                                               // 10
-                '"'.$property['name'].'"',                              // 11
-                '""',                                                   // 12
-                '"'.$property['gsm'].'"',                               // 13
-                '"'.$property['email'].'"',                             // 14
-                'fax',                                                  // 15
+                '"'.$property['zipcode'].'"',                           // 8 - Code postal
+                '"'.$property['city'].'"',                              // 9 - Commune
+                'France',                                               // 10 - Pays
+                '"'.$property['name'].'"',                              // 11 - Titre
+                '"'.$annonce.'"',                                       // 12 - Annonce
+                '"'.$property['gsm'].'"',                               // 13 - Téléphone vendeur
+                '""',                                                   // 14 - Téléphone 2 vendeur - Fax
+                '"'.$property['email'].'"',                             // 15 - Email Vendeur
                 '"'.$url1.'"',                                          // 16 - Chemin de la 1ère photo
                 '"'.$url2.'"',                                          // 17 - Chemin de la 2de photo
                 '"'.$url3.'"',                                          // 18 - Chemin de la 3ème photo
                 '"'.$url4.'"',                                          // 19 - Chemin de la 4ème photo
                 '"'.$url5.'"',                                          // 20 - Chemin de la 5ème photo
                 '"'.$url6.'"',                                          // 21 - Chemin de la 6ème photo
-                '"'.$property['priceFai'].'"',                          // 22
+                '"'.$property['priceFai'].'"',                          // 22 - Prix
                 '"0"',                                                  // 23 - Loyer Charges comprises
                 '"0"',                                                  // 24 - Loyer sans charges
                 '"0"',                                                  // 25 - Charges
@@ -110,25 +116,26 @@ class ReportController extends AbstractController
                 '""',                                                   // 33 - Url de visite virtuelle
                 '""',                                                   // 34 - Texte supplémentaire
                 '""',                                                   // 35 - Programme immo neuf
-                '"'.$property['level'].'"',                             // 36
+                '"'.$property['level'].'"',                             // 36 - Etage
                 '""',                                                   // 37 - Lien contact - Programme imm neuf
                 "1",                                                    // 38 - Mettre en ligne le bien - PV
                 '""',                                                   // 39 - Ancienneté
                 '"'.$property['constructionAt'].'"',                    // 40 - Année de construction
                 '""',                                                   // 41 - Dépot de garantie
                 '"'.$property['room'].'"',                              // 42 - Nombre de chambres
-                '"'.$property['bathroom'].'"',                          // 43 -
+                '"'.$property['bathroom'].'"',                          // 43 - Nombre de salles de bain
                 '""',                                                   // 44 - Nombre de parking extérieur
                 '""',                                                   // 45 - Nombre de parking intérieur
-                '"'.$property['diagDpe'].'"',                           // 46
-                '"'.$property['diagGes'].'"',                           // 47
-                '"'.$property['isWithExclusivity'].'"',                 // 48
+                '"'.$property['diagDpe'].'"',                           // 46 - DPE
+                '"'.$property['diagGes'].'"',                           // 47 - GES
+                '"'.$property['isWithExclusivity'].'"',                 // 48 - Exclusivité
                 '""',                                                   // 49 - Honoraire à la charge de l'acquéreur
                 '""',                                                   // 50 - Pourcentage de honoraires à la charge de l'acquéreur
                 '"'.$property['coproperty'].'"',                        // 51
                 '""',                                                   // 52 - Nombre de lots
                 "0",                                                    // 53 - Montant moyen des charges annuelles
                 '""',                                                   // 54 - procédure sur le syndicat des copropriétaires
+                '""',                                                   // 55 - détail sur la procédure ci dessus
                 '"'.$url7.'"',                                          // 56 - url photo 7
                 '"'.$url8.'"',                                          // 57 - url photo 8
                 '"'.$url9.'"',                                          // 58 - url photo 9
