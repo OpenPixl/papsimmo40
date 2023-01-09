@@ -13,21 +13,15 @@
     {% set room = '' %}
     {% if property.piece < 2 %}{%set piece = 'pièce'%}{%else%}{%set piece = 'pièces'%}{%endif%}
     {% if property.room < 2 %}{%set room = 'chambre'%}{%else%}{%set room = 'chambres'%}{%endif%}
+    {# variables pour la ou les pages de galerie  #}
+    {% set nbphotos = photos|length %}
+    {% set page = (nbphotos / 6)|round %}
+    {% set photosCollection = [] %}
+    {% for photo in photos %}
+        {% set photosCollection = photosCollection|merge([photo]) %}
+    {% endfor %}
     <div id="firstPage" class="page">
-        <div id="header" class="container">
-            <div class="row" style="display:flex;align-items: center;">
-                <div class="col-33">
-                    <img class="img-logo" src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
-                </div>
-                <div class="col-33">
-                    <h1 class="title-h1" style="text-align: center">FICHE PROPRIETE</h1>
-                </div>
-                <div class="col-33">
-                    <p>MANDAT N° : {{ property.refMandat }}</p>
-                    <p>Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
-                </div>
-            </div>
-        </div>
+        {{ include('pdf/include/_headerpdf.html.twig') }}
         <div id="Details">
             <div id="Title">
                 <h2 class="title-h2">INFO - {{ property.name }}</h2>
@@ -164,67 +158,40 @@
         </div>
     </div>
     <div style="page-break-before:always;"></div>
+    {% for row in photosCollection|batch(6,'') %}
     <div class="page">
-        <div id="header" class="container">
-            <div class="row" style="display:flex;align-items: center;">
-                <div class="col-33">
-                    <img class="img-logo" src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
-                </div>
-                <div class="col-33">
-                    <h1 class="title-h1" style="text-align: center">FICHE PROPRIETE</h1>
-                </div>
-                <div class="col-33">
-                    <p>MANDAT N° : {{ property.refMandat }}</p>
-                    <p>Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
-                </div>
-            </div>
-        </div>
-
-        {% set nbphotos = photos|length %}
-        {% set page = (nbphotos / 6)|round %}
+        {{ include('pdf/include/_headerpdf.html.twig') }}
         <div id="Title">
             <h2 class="title-h2">PHOTOS (page 1 sur {{ page }})</h2>
         </div>
         <div id="Galerie">
             <div class="row">
-            {% for photo in photos|slice(0, 2) %}
+            {% for photo in row|slice(0, 2) %}
                     <div class="col-50">
                         <img class="img-adapt" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
                     </div>
             {% endfor %}
             </div>
             <div class="row">
-            {% for photo in photos|slice(2, 2) %}
+            {% for photo in row|slice(2, 2) %}
                 <div class="col-50">
                     <img class="img-adapt" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
                 </div>
             {% endfor %}
             </div>
             <div class="row">
-                {% for photo in photos|slice(4, 2) %}
-                    <div class="col-50">
-                        <img class="img-adapt" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
-                    </div>
-                {% endfor %}
+            {% for photo in row|slice(4, 2) %}
+                <div class="col-50">
+                    <img class="img-adapt" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
+                </div>
+            {% endfor %}
             </div>
         </div>
     </div>
     <div style="page-break-before:always;"></div>
+    {% endfor %}
     <div class="page">
-        <div id="header" class="container">
-            <div class="row" style="display:flex;align-items: center;">
-                <div class="col-33">
-                    <img class="img-logo" src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
-                </div>
-                <div class="col-33">
-                    <h1 class="title-h1" style="text-align: center">FICHE PROPRIETE</h1>
-                </div>
-                <div class="col-33">
-                    <p>MANDAT N° : {{ property.refMandat }}</p>
-                    <p>Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
-                </div>
-            </div>
-        </div>
+        {{ include('pdf/include/_headerpdf.html.twig') }}
         <div id="Title">
             <h2 class="title-h2">INFO - {{ property.name }}</h2>
         </div>
