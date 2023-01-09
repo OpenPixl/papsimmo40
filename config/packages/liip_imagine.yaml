@@ -36,6 +36,7 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
+                auto_rotate: ~
         oneproperty_galery:
             quality: 150
             filters:
@@ -49,6 +50,7 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
+                auto_rotate: ~
         ficheproperty_image:
             quality: 150
             filters:
@@ -65,6 +67,7 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
+                auto_rotate: ~
         card_actualites:
             quality: 150
             filters:
