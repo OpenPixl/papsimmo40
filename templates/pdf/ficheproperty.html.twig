@@ -168,21 +168,21 @@
             <div class="row">
             {% for photo in row|slice(0, 2) %}
                     <div class="col-50">
-                        <img class="img-adapt" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
+                        <img class="img-adapt" src="{{ vich_uploader_asset(photo)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
                     </div>
             {% endfor %}
             </div>
             <div class="row">
             {% for photo in row|slice(2, 2) %}
                 <div class="col-50">
-                    <img class="img-adapt" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
+                    <img class="img-adapt" src="{{ vich_uploader_asset(photo)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
                 </div>
             {% endfor %}
             </div>
             <div class="row">
             {% for photo in row|slice(4, 2) %}
                 <div class="col-50">
-                    <img class="img-adapt" src="{{ vich_uploader_asset(photo, 'galeryFrontFile')|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
+                    <img class="img-adapt" src="{{ vich_uploader_asset(photo)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
                 </div>
             {% endfor %}
             </div>
