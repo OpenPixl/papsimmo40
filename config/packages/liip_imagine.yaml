@@ -50,7 +50,6 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
-
         ficheproperty_image:
             quality: 150
             filters:
@@ -88,8 +87,8 @@ liip_imagine:
                     # set the position of the watermark
                     position: center
         vignette_employed:
-            quality: 150
+            quality: 75
             filters:
                 thumbnail:
-                    size: [ 125, 125 ]
+                    size: [ 120, 120 ]
                     mode: outbond

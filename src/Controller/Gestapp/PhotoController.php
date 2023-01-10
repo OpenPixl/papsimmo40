@@ -150,7 +150,8 @@ class PhotoController extends AbstractController
     #[Route('/publicgallerybyproperty/{idproperty}', name: 'app_gestapp_photo_publicgallerybyproperty', methods: ['POST'])]
     public function PublicGalleryByProperty($idproperty, PhotoRepository $photoRepository)
     {
-        $photos = $photoRepository->findBy(['property'=>$idproperty]);
+        $photos = $photoRepository->findBy(['property'=>$idproperty], ['position' => 'ASC']);
+        //dd($photos);
         return $this->render('webapp/page/property/include/galerie.html.twig',[
             'photos' => $photos
         ]);

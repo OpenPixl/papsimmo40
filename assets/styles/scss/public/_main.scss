@@ -35,6 +35,21 @@ a.nav-link {
   position: relative;
   top: -69px;
   background: #ffffff90;
+  #informations{
+    position:relative;
+    #property_price{
+      position:absolute;
+      right:0;
+      bottom: -4px;
+      height: 80px;
+      background-color: $secondary-color;
+      border-top-left-radius: 10px 10px;
+      border-top-right-radius: 10px 10px;
+      p{
+        color: #F8F8F8;
+      }
+    }
+  }
 }
 
 #lastproperties {
@@ -278,6 +293,12 @@ a.nav-link {
       border-radius: 5px;
       border-color: $secondary-color;
     }
+    article{
+      p{
+        margin-bottom: 0.1rem
+      }
+    }
+
   }
   #TechniqualCard{
 

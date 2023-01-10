@@ -32,7 +32,7 @@
                     <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
                     <div class="border_actu"></div>
                     <div class="actu_overlay">
-                        <div class="d-flex justify-content-center">
+                        <div class="d-flex justify-content-center align-items-center">
                             <a class="btn btn-sm btn-outline-info" href="{{ path('op_webapp_articles_show', {'id':article.id}) }}">Lire l'article</a>
                         </div>
                     </div>

@@ -116,7 +116,7 @@
                             <div class="card-body">
                                 <p class="text-center">
                                     {% if employed.avatarName is not empty%}
-                                        <img src="{{ vich_uploader_asset(employed, 'avatarFile', 'App\\Entity\\Admin\\Employed')|imagine_filter('vignette_employed') }}" alt="{{ property.avatarName }}" >
+                                        <img class="rounded-circle" src="{{ vich_uploader_asset(employed, 'avatarFile', 'App\\Entity\\Admin\\Employed')|imagine_filter('vignette_employed') }}" alt="{{ property.avatarName }}" >
                                     {% else %}
                                         <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/mod_maison.jpg')|imagine_filter('vignette_employed')}}" alt="none-visuel">
                                     {% endif %}

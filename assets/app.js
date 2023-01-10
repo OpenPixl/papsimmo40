@@ -3,8 +3,17 @@ import './styles/app.scss';
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 
-// You can specify which plugins you need
-import { Tooltip, Toast, Popover, Modal } from './bootstrap';
+function scrollValue() {
+    var navbar = document.getElementById('navbar');
+    var scroll = window.scrollY;
+    if (scroll < 400) {
+        navbar.classList.remove('bg-light');
+    } else {
+        navbar.classList.add('bg-light');
+    }
+}
+
+window.addEventListener('scroll', scrollValue);
 
 // start the Stimulus application
 import './bootstrap';
