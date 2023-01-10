@@ -45,3 +45,10 @@ vich_uploader:
             inject_on_load: false
             delete_on_update: true
             delete_on_remove: true
+        vignette_employed:
+            uri_prefix: /images/employed
+            upload_destination: '%kernel.project_dir%/public/images/employed'
+            namer: Vich\UploaderBundle\Naming\SmartUniqueNamer
+            inject_on_load: false
+            delete_on_update: true
+            delete_on_remove: true

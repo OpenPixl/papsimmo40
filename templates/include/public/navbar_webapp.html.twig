@@ -14,8 +14,56 @@
     {% endif%}
 {% endfor%}
 
-{# Partie de rendu #}
-<nav class="navbar fixed-top navbar-expand-lg navbar-light">
+{# Partie de rendu Small screen #}
+<nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light d-lg-none">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="{{ path('op_webapp_public_homepage')}}">
+            {% if application.logoName %}
+                <img src="{{ vich_uploader_asset(application, 'faviconFile') }}" alt="{{ application.logoName }}" width="24">
+            {% else %}
+                <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" width="40">
+            {% endif %}
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0 bg-light">
+                <li class="nav-item">
+                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_public_homepage')}}"> Accueil</a>
+                </li>
+                {% for parent in parents %}
+                    {# Création de la variable pour le dropdown de niveau 1#}
+                    {% set dropdown = '' %}
+                    {% for child in childs|filter(child => child.parent == parent.id) %}
+                        {% set dropdown = ' dropdown' %}
+                    {% endfor %}
+                    {# Mise en place des <li> pour le menu #}
+                    <li class="nav-item{{ dropdown }}">
+                        {% if dropdown == ' dropdown' %}
+                            <a class="nav-link dropdown-toggle" aria-current="page"  href="{{ path('op_webapp_page_slug', {'slug':parent.slug}) }}" id="navbarDropdown" role="button"  aria-expanded="false">
+                                {{ parent.name }}
+                            </a>
+                        {% else %}
+                            <a class="nav-link" aria-current="page" href="{{ path('op_webapp_page_slug', {'slug':parent.slug}) }}">{{ parent.name }}</a>
+                        {% endif %}
+                        {# Si niveau 1, on ajoute les <ul> suivants #}
+                        {% if dropdown == ' dropdown' %}
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                {% for child in childs|filter(child => child.parent == parent.id)|sort((a,b) => a.position <=> b.position) %}
+                                    <li><a class="dropdown-item" href="{{ path('op_webapp_page_slug', {'slug':child.slug}) }}">{{ child.name }}</a></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</nav>
+
+{# Partie de rendu large screen #}
+<nav class="navbar fixed-top navbar-expand-lg navbar-light d-none d-lg-block">
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('op_webapp_public_homepage')}}">
             {% if application.logoName %}
@@ -61,6 +109,7 @@
         </div>
     </div>
 </nav>
+
 {# Jumbotron #}
 <div class="banner-image d-flex justify-content-center align-items-center">
     <div class="container">

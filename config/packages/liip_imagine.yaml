@@ -40,9 +40,9 @@ liip_imagine:
         oneproperty_galery:
             quality: 150
             filters:
+                auto_rotate: ~
                 thumbnail:
                     size: [ 355, 225 ]
-                    mode: outbond
                 watermark_image:
                     # path to the watermark file (prepended with "%kernel.project_dir%")
                     image: assets/styles/images/svg/watermark.png
@@ -50,10 +50,11 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
-                auto_rotate: ~
+
         ficheproperty_image:
             quality: 150
             filters:
+                auto_rotate: ~
                 thumbnail:
                     size: [ 508, 381 ]
                 background:
@@ -67,7 +68,6 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
-                auto_rotate: ~
         card_actualites:
             quality: 150
             filters:
