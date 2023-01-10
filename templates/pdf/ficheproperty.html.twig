@@ -167,23 +167,32 @@
         <div id="Galerie">
             <div class="row">
             {% for photo in row|slice(0, 2) %}
+                {% if photo.galeryFrontName is not empty %}
                     <div class="col-50">
                         <img class="img-adapt" src="{{ asset('images/galery/' ~ photo.galeryFrontName)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
                     </div>
+                {% else %}
+                {% endif %}
             {% endfor %}
             </div>
             <div class="row">
             {% for photo in row|slice(2, 2) %}
-                <div class="col-50">
-                    <img class="img-adapt" src="{{ asset('images/galery/' ~ photo.galeryFrontName)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
-                </div>
+                {% if photo.galeryFrontName is not empty %}
+                    <div class="col-50">
+                        <img class="img-adapt" src="{{ asset('images/galery/' ~ photo.galeryFrontName)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
+                    </div>
+                {% else %}
+                {% endif %}
             {% endfor %}
             </div>
             <div class="row">
             {% for photo in row|slice(4, 2) %}
-                <div class="col-50">
-                    <img class="img-adapt" src="{{ asset('images/galery/' ~ photo.galeryFrontName)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
-                </div>
+                {% if photo.galeryFrontName is not empty %}
+                    <div class="col-50">
+                        <img class="img-adapt" src="{{ asset('images/galery/' ~ photo.galeryFrontName)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
+                    </div>
+                {% else %}
+                {% endif %}
             {% endfor %}
             </div>
         </div>
