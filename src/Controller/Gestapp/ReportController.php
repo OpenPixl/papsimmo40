@@ -30,7 +30,8 @@ class ReportController extends AbstractController
         $rows = array();
         foreach ($properties as $property){
 
-            $annonce = strip_tags($property['annonce'], '<br>');
+            $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
+            $annonce = strip_tags($data, '<br>');
             //dd($annonce);
             //dd($property);
             if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {

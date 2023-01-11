@@ -17,5 +17,6 @@ tinymce.init({
     images_file_types: 'jpg,svg,webp',
     language: 'fr_FR',
     language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
-    entity_encoding: "raw"
+    entity_encoding: "raw",
+    encoding: "html"
 });
