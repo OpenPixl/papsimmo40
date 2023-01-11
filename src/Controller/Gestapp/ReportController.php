@@ -70,7 +70,7 @@ class ReportController extends AbstractController
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<15; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = 'http://'.$app.'/media/cache/oneproperty_galery/images/galery/'.$photos[$key]['galeryFrontName'];
+                        ${'url'.$key+1} = 'http://'.$app.'/images/galery/'.$photos[$key]['galeryFrontName'];
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
