@@ -108,7 +108,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.banner
             ')
             ->where('p.isIncreating = 0')
-            ->orderBy('p.RefMandat', 'ASC')
+            ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
             ;
@@ -142,7 +142,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.updatedAt
             ')
         ->where('p.isIncreating = 1')
-        ->orderBy('p.RefMandat', 'ASC')
+        ->orderBy('p.RefMandat', 'DESC')
         ->getQuery()
         ->getResult()
     ;
@@ -174,7 +174,7 @@ class PropertyRepository extends ServiceEntityRepository
             ')
             ->where('e.id = :user')
             ->setParameter('user', $user)
-            ->orderBy('p.RefMandat', 'ASC')
+            ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
             ;
@@ -207,7 +207,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->where('e.id = :user')
             ->andWhere('p.isIncreating = 1')
             ->setParameter('user', $user)
-            ->orderBy('p.RefMandat', 'ASC')
+            ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
             ;
