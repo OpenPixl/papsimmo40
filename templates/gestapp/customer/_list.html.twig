@@ -19,7 +19,7 @@
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <td>
                 {% if customer.avatarName is not null %}
-                    <img class="rounded-circle" src="{{ vich_uploader_asset(property, 'avatarFile', 'App\\Entity\\Admin\\Employed') }}" alt="" style="height:50px;width:50px">
+                    <img class="rounded-circle" src="{{ asset('images/avatar/' ~ customer.avatarName) }}" alt="" style="height:50px;width:50px" alt="{{ customer.avatarName }}">
                 {% else %}
                     <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
                 {% endif %}

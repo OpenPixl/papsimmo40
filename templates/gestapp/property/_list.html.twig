@@ -29,7 +29,7 @@
             </td>
             <td>
                 {% if property.avatarName is not null %}
-                <img class="rounded-circle" src="{{ vich_uploader_asset(property, 'avatarFile', 'App\\Entity\\Admin\\Employed') }}" alt="" style="height:50px;width:50px">
+                <img class="rounded-circle" src="{{ asset('images/avatar/' ~ property.avatarName) }}" alt="{{ property.avatarName }}" style="height:50px;width:50px">
                 {% else %}
                 <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
                 {% endif %}
