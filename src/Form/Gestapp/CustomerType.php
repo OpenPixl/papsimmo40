@@ -57,7 +57,7 @@ class CustomerType extends AbstractType
             ])
             ->add('gsm', TextType::class, [
                 'label' => 'Tel Portable',
-                'required' => false,
+                'required' => true
             ])
             ->add('fax', TextType::class, [
                 'label' => 'Fax',
@@ -66,7 +66,7 @@ class CustomerType extends AbstractType
             ])
             ->add('otherEmail', TextType::class, [
                 'label' => 'Email',
-                'required' => false
+                'required' => true
             ])
             ->add('facebook', TextType::class, [
                 'label' => 'Page Facebook',

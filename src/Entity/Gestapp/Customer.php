@@ -55,7 +55,7 @@ class Customer
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
     private $desk;
 
-    #[ORM\Column(type: 'string', length: 14)]
+    #[ORM\Column(type: 'string', length: 14, nullable: true)]
     private $gsm;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]

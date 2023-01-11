@@ -197,6 +197,8 @@ class CustomerController extends AbstractController
             ], 200);
         }
 
+        //dd($form->getErrors());
+
         // liste tous les clients attachés à leur propriété
         $customers = $customerRepository->listbyproperty($property);
 
