@@ -53,7 +53,9 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->join('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
+            ->leftJoin('p.publication', 'pu')
             ->addSelect('
+                pu.isWebpublish as isWebpublish,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -69,6 +71,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.banner as banner
             ')
             ->where('p.isIncreating = 0')
+            ->andWhere('pu.isWebpublish = 1')
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(5)
             ->getQuery()
