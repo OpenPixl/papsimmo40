@@ -17,7 +17,7 @@
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}">{{ article.name }}</a></h3>
                     <article>
-                        {{ article.content|u.truncate(150, ' ...')|raw }}
+                        {{ article.content|u.truncate(150, ' ...')|striptags('<br><p>')|raw }}
                     </article>
                     {% if article.isShowreadmore == 1 %}
                     <a href="{{ article.linkText }}" class="card-link">Source: {{ article.linkText }}</a>
@@ -42,7 +42,7 @@
                 <div class="card-body">
                     <h3 class="card-title"><a href="{{ path('op_webapp_articles_show', {'id':article.id}) }}">{{ article.name }}</a></h3>
                     <article>
-                        {{ article.content|u.truncate(150, ' ...')|raw }}
+                        {{ article.content|u.truncate(150, ' ...')|striptags('<br><p>')|raw }}
                     </article>
                     {% if article.isShowreadmore == 1 %}
                         <a href="{{ article.linkText }}" class="card-link">Source: {{ article.linkText }}</a>

@@ -32,8 +32,7 @@ class ReportController extends AbstractController
 
             $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
             $annonce = strip_tags($data, '<br>');
-            //dd($annonce);
-            //dd($property);
+
             if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {
                 $dpeAt = $property['dpeAt']->format('d/m/Y');
             }else{
@@ -130,7 +129,7 @@ class ReportController extends AbstractController
                 '"'.$property['diagDpe'].'"',                           // 46 - DPE
                 '"'.$property['diagGes'].'"',                           // 47 - GES
                 '"'.$property['isWithExclusivity'].'"',                 // 48 - Exclusivité
-                '""',                                                   // 49 - Honoraire à la charge de l'acquéreur
+                '1',                                                    // 49 - Honoraire à la charge de l'acquéreur
                 '""',                                                   // 50 - Pourcentage de honoraires à la charge de l'acquéreur
                 '"'.$property['coproperty'].'"',                        // 51
                 '""',                                                   // 52 - Nombre de lots
