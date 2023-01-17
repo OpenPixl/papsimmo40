@@ -129,7 +129,7 @@ class ReportController extends AbstractController
                 '"'.$property['diagDpe'].'"',                           // 46 - DPE
                 '"'.$property['diagGes'].'"',                           // 47 - GES
                 '"'.$property['isWithExclusivity'].'"',                 // 48 - Exclusivité
-                '1',                                                    // 49 - Honoraire à la charge de l'acquéreur
+                "1",                                                    // 49 - Honoraire à la charge de l'acquéreur
                 '""',                                                   // 50 - Pourcentage de honoraires à la charge de l'acquéreur
                 '"'.$property['coproperty'].'"',                        // 51
                 '""',                                                   // 52 - Nombre de lots
