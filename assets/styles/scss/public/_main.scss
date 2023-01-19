@@ -429,7 +429,7 @@ body{
 /**
   MediaQueries XS
 **/
-@media (max-width: 575.98px)
+@media (min-width: 576px)
 {
   // home - Acceuil
   #Properties{
@@ -447,7 +447,7 @@ body{
           position: absolute;
           z-index: 2;
         }
-                .annonce{
+        .annonce{
           bottom: 0;
           color: #fff;
           left: .5rem;
