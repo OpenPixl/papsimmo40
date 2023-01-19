@@ -429,7 +429,7 @@ body{
 /**
   MediaQueries XS
 **/
-@media (min-width: 0)
+@media (max-width: 575.98px)
 {
   // home - Acceuil
   #Properties{
@@ -447,20 +447,20 @@ body{
           position: absolute;
           z-index: 2;
         }
-        .annonce{
+                .annonce{
           bottom: 0;
           color: #fff;
-          font-family: Montserrat-light,sans-serif;
-          font-size: 10px;
           left: .5rem;
           position: absolute;
-          width: 13rem;
+          width: 14rem;
           z-index: 2;
           p{
+            font-family: Montserrat-light,sans-serif;
             margin-bottom: 0.5rem;
+            font-size: 12px;
           }
         }
-        .price{
+        .price {
           bottom: 1rem;
           color: #7d1715;
           font-family: Montserrat-regular,sans-serif;
