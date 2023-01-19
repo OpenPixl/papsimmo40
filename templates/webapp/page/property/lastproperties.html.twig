@@ -8,7 +8,7 @@
     {% if properties|length <= 3 %}
         <div class="row justify-content-center">
             {% for property in properties %}
-                <div class="col-12 col-sm-6 col-md-6 col-xl-4 col-xxl-4">
+                <div class="col-xs-12 col-sm-6 col-md-6 col-xl-4 col-xxl-4">
                     <div id="member-card" class="card">
                         {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
 
@@ -20,7 +20,7 @@
                                 {{ property.city }}
                             </div>
                             <div class="annonce">
-                                {{ property.annonce|u.truncate(75, ' ...')|markdown_to_html }}
+                                {{ property.annonce|u.truncate(60, ' ...')|markdown_to_html }}
                             </div>
                             <div class="price">
                                 {{ property.priceFai }} €
@@ -116,7 +116,7 @@
                                     {{ property.city }}
                                 </div>
                                 <div class="annonce">
-                                    {{ property.annonce|u.truncate(75, ' ...')|markdown_to_html }}
+                                    {{ property.annonce|u.truncate(60, ' ...')|markdown_to_html }}
                                 </div>
                                 <div class="price">
                                     {{ property.priceFai }} €

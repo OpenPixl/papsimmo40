@@ -60,20 +60,47 @@
 {% if property.room < 2 %}{%set room = 'chambre'%}{%else%}{%set room = 'chambres'%}{%endif%}
 
 {% block content %}
-    <section id="oneproperty_header" class="pt-1 pb-1">
+    <section id="oneproperty_header_lg" class="pt-1 pb-1 d-none d-lg-block">
         <div class="container">
             {# bandeau de présentation des informations prioncipales du bien #}
             <div class="row" id="informations">
                 <div class="col-3" id="property_surface">
-                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_superfmaison.png')}}" alt="picto_surfacebien"> {{ property.surfaceHome|number_format(0,',',' ')}} m2 surface habitable</p>
+                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_superfmaison.png')}}" alt="picto_surfacebien"> {{ property.surfaceHome|number_format(0,',',' ')}} m² surface habitable</p>
                 </div>
                 <div class="col-3" id="property_pieces">
                     <p class="text-end mb-0"><img src="{{ asset('images/png/picto_nbpiece.png')}}" alt="picto_pieces"> {{property.piece}} {{piece}} | {{ property.room}} {{ room }}</p>
                 </div>
                 <div class="col-3" id="property_terrain">
-                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_terrainsuperfi.png')}}" alt="picto_surfaceterrain"> {{ property.surfaceLand|number_format(0,',',' ')}} m2 de terrain</p>
+                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_terrainsuperfi.png')}}" alt="picto_surfaceterrain"> {{ property.surfaceLand|number_format(0,',',' ')}} m² de terrain</p>
                 </div>
                 <div class="col-3 d-flex justify-content-center align-items-center" id="property_price">
+                    <p class="text-center align-middle mb-0">{{ property.priceFai|number_format(0,',',' ') }} €</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="oneproperty_main_title">
+        <div class="row">
+            <div class="col-12">
+                <h1 class="text-center property_h1">{{property.name}}</h1>
+            </div>
+        </div>
+    </section>
+    <section id="oneproperty_header_sm" class="pt-1 pb-1 d-lg-none">
+        <div class="container-fluid">
+            {# bandeau de présentation des informations prioncipales du bien #}
+            <div class="row" id="informations">
+                <div class="col-6 mb-3" id="property_surface">
+                    <p class="text-center mb-0"><img src="{{ asset('images/png/picto_superfmaison.png')}}" alt="picto_surfacebien"> {{ property.surfaceHome|number_format(0,',',' ')}} m² habitable</p>
+                </div>
+                <div class="col-6 mb-3" id="property_pieces">
+                    <p class="text-center mb-0"><img src="{{ asset('images/png/picto_nbpiece.png')}}" alt="picto_pieces"> {{property.piece}} {{piece}} | {{ property.room}} {{ room }}</p>
+                </div>
+                <div class="col-6 mb-3" id="property_terrain">
+                    <p class="text-center mb-0"><img src="{{ asset('images/png/picto_terrainsuperfi.png')}}" alt="picto_surfaceterrain"> {{ property.surfaceLand|number_format(0,',',' ')}} m² de terrain</p>
+                </div>
+                <div class="col-12 mb-3" id="property_price">
                     <p class="text-center align-middle mb-0">{{ property.priceFai|number_format(0,',',' ') }} €</p>
                 </div>
             </div>
@@ -82,9 +109,6 @@
     <section id="oneproperty_main" class="container mb-5">
         {# Row du contenu principal du bien #}
         <div class="row">
-            <div class="col-12">
-                <h1 class="text-center property_h1">{{property.name}}</h1>
-            </div>
             <div class="col-12">
                 {# Row des visuels du bien #}
                 <div class="row">

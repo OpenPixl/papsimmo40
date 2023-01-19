@@ -22,25 +22,18 @@ body{
   .tel{
     color: $primary-color;
   }
+  p{
+    font-family: 'Montserrat-regular', sans-serif;
+  }
 }
 
-#oneproperty_header
+#oneproperty_header_sm
 {
-  position: relative;
-  top: -69px;
-  background: #ffffff90;
   #informations{
-    position:relative;
     #property_price{
-      position:absolute;
-      right:0;
-      bottom: -4px;
-      height: 80px;
-      background-color: $secondary-color;
-      border-top-left-radius: 10px 10px;
-      border-top-right-radius: 10px 10px;
       p{
-        color: #F8F8F8;
+        color: $secondary-color;
+        font-size: xx-large;
       }
     }
   }
@@ -226,7 +219,7 @@ body{
     left: 0.5rem;
     color: #FFFFFF;
     font-size: 14px;
-    font-family: "Montserrat-light", sans-serif;
+    font-family: "Montserrat-regular", sans-serif;
   }
   .annonce{
     position: absolute;
@@ -234,10 +227,11 @@ body{
     z-index: 2;
     left: 0.5rem;
     color: #FFFFFF;
+    width:14rem;
     p{
       margin-bottom: 0.2rem;
       font-size: 12px;
-      width:14rem;
+
       font-family: "Montserrat-light", sans-serif;
     }
   }
@@ -296,7 +290,6 @@ body{
         margin-bottom: 0.1rem
       }
     }
-
   }
   #TechniqualCard{
 
@@ -408,6 +401,10 @@ body{
   }
 }
 
+#oneproperty_main_title{
+  font-family: 'Montserrat-regular', sans-serif;
+}
+
 #AskPropertyModal{
   h1{
     font-family: "Montserrat-light", sans-serif;
@@ -458,7 +455,7 @@ body{
     }
   }
 
-  #oneproperty_header
+  #oneproperty_header_lg
   {
     position: relative;
     top: -69px;
@@ -690,6 +687,10 @@ body{
     .flickity-viewport{
       min-height: 400px;
     }
+  }
+
+  #oneproperty_main_title{
+    font-family: 'Montserrat-regular', sans-serif;
   }
 
   #oneproperty_main{
