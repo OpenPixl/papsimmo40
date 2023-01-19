@@ -20,8 +20,8 @@ body{
     text-transform: uppercase;
   }
   .tel{
-     color: $primary-color;
-   }
+    color: $primary-color;
+  }
 }
 
 #oneproperty_header
@@ -211,16 +211,17 @@ body{
   }
   .name{
     position: absolute;
-    bottom: 4.5rem;
+    bottom: 4rem;
     z-index: 2;
     left: 0.5rem;
     color: #FFFFFF;
     font-size: 14px;
+    font-family: "Montserrat-light", sans-serif;
   }
   .city{
     position: absolute;
     font-style: italic;
-    bottom: 3.2rem;
+    bottom: 2.6rem;
     z-index: 2;
     left: 0.5rem;
     color: #FFFFFF;
@@ -228,23 +229,26 @@ body{
     font-family: "Montserrat-light", sans-serif;
   }
   .annonce{
-      position: absolute;
-      bottom: 0;
-      z-index: 2;
-      left: 0.5rem;
-      color: #FFFFFF;
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    left: 0.5rem;
+    color: #FFFFFF;
+    p{
+      margin-bottom: 0.2rem;
       font-size: 12px;
-      width:16rem;
+      width:14rem;
       font-family: "Montserrat-light", sans-serif;
+    }
   }
   .price{
-      position: absolute;
-      bottom: 1rem;
-      z-index: 2;
-      right: 0.5rem;
-      color: $primary-color;
-      font-size: 20px;
-      font-family: "Montserrat-regular", sans-serif;
+    position: absolute;
+    bottom: 1rem;
+    z-index: 2;
+    right: 0.5rem;
+    color: $primary-color;
+    font-size: 16px;
+    font-family: "Montserrat-regular", sans-serif;
   }
 
   #Calque_1{
@@ -378,13 +382,13 @@ body{
         transform: translateX(-50%);
       }
       .dpe_l::before {
-          content: "";
-          position: absolute;
-          bottom: calc(100% + .4rem);
-          left: calc(50% - .3rem);
-          border-right: .3rem solid transparent;
-          border-bottom: .3rem solid;
-          border-left: .3rem solid transparent;
+        content: "";
+        position: absolute;
+        bottom: calc(100% + .4rem);
+        left: calc(50% - .3rem);
+        border-right: .3rem solid transparent;
+        border-bottom: .3rem solid;
+        border-left: .3rem solid transparent;
       }
 
       .dpe_u {
@@ -426,61 +430,437 @@ body{
   }
 }
 
-/**
-  MediaQueries XS
-**/
-@media (min-width: 576px)
-{
-  // home - Acceuil
-  #Properties{
-    // home - Acceuil
-    #Properties{
-      #member-card{
-        .name{}
-        .city{
-          bottom: 3rem;
-          font-family: Montserrat-light,sans-serif;
-          font-style: italic;
-          color: #fff;
-          font-size: 14px;
-          left: 0.5rem;
-          position: absolute;
-          z-index: 2;
-        }
-        .annonce{
-          bottom: 0;
-          color: #fff;
-          left: .5rem;
-          position: absolute;
-          width: 14rem;
-          z-index: 2;
-          p{
-            font-family: Montserrat-light,sans-serif;
-            margin-bottom: 0.5rem;
-            font-size: 12px;
-          }
-        }
-        .price {
-          bottom: 1rem;
-          color: #7d1715;
-          font-family: Montserrat-regular,sans-serif;
-          font-size: 15px;
-          position: absolute;
-          right: .5rem;
-          z-index: 2;
+
+@include media-breakpoint-up(md){
+  /*****************************
+
+      REGLES GENERALES
+
+*****************************/
+  body{
+    .h1,.h2,.h3, h1, h2, h3 {
+      color: $secondary-color;
+      font-weight: 400;
+    }
+    blockquote {
+      color : #d1d1d1;
+      font-style: italic;
+      text-align: right;
+    }
+    a.nav-link {
+      font-family: 'Montserrat-light', sans-serif;
+      font-size: 15px;
+      color: #707070;
+      text-transform: uppercase;
+    }
+    .tel{
+      color: $primary-color;
+    }
+  }
+
+  #oneproperty_header
+  {
+    position: relative;
+    top: -69px;
+    background: #ffffff90;
+    #informations{
+      position:relative;
+      #property_price{
+        position:absolute;
+        right:0;
+        bottom: -4px;
+        height: 80px;
+        background-color: $secondary-color;
+        border-top-left-radius: 10px 10px;
+        border-top-right-radius: 10px 10px;
+        p{
+          color: #F8F8F8;
         }
       }
     }
   }
 
+  #lastproperties {
+    background: $secondary-color;
+    .container{
+      background: #ffffff;
+      position:relative;
+      #section_title{
+        position: relative;
+        z-index:2;
+      }
+    }
+    .container::before{
+      content: "";
+      background-color: #ffffff;
+      border-bottom-right-radius: 100px;
+      position: absolute;
+      top: 0;
+      width: calc(100% + calc(100vw - 1320px));
+      height: 100%;
+      left: calc(calc(1320px - 100vw) / 2);
+      right: calc(calc(100vw - 1320px) / 2);
+    }
+    h2, h3{
+      color: $secondary-color;
+      font-family: 'Montserrat-light', sans-serif;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .flickity-prev-next-button.previous {
+      left: -100px;
+    }
+    .flickity-prev-next-button.next {
+      right: -100px;
+    }
+  }
+
+  #prez_papsimmo {
+    background: $secondary-color;
+    padding-top:1rem;
+    padding-bottom:1rem;
+    h2, h3 {
+      color: #ffffff;
+      font-family: 'Montserrat-light', sans-serif;
+      font-size: 45px;
+    }
+    #onearticle {
+      color: #ffffff;
+      font-family: 'Montserrat-regular', sans-serif;
+      font-size: 15px;
+    }
+  }
+
+  #actu_papsimmo{
+    position: relative;
+    background: $secondary-color;
+    .container{
+      background: #ffffff;
+      position:relative;
+      #section_title{
+        position: relative;
+        z-index:2;
+      }
+    }
+    .container::before{
+      content: "";
+      background-color: #ffffff;
+      border-top-left-radius: 100px;
+      position: absolute;
+      top: 0;
+      width: calc(100% + calc(100vw - 1320px));
+      height: 100%;
+      left: calc(calc(1320px - 100vw) / 2);
+      right: calc(calc(100vw - 1320px) / 2);
+    }
+    h2{
+      font-family: Montserrat-light,sans-serif;
+      font-size: 2rem;
+      left: -12rem;
+      position: absolute;
+      rotate: -90deg;
+      text-transform: uppercase;
+      top: 14rem;
+    }
+    .card{
+      background: transparent;
+      border-radius:0 0 0 0;
+      border: none;
+      .card-img-top {
+        border-top-left-radius: 0;
+        border-top-right-radius: 0;
+      }
+      .card-title{
+        font-size :1rem;
+        color: $secondary-color-dark;
+        font-family: 'Montserrat-regular', sans-serif;
+      }
+      .card-body{
+        p{
+          color:$secondary-color;
+          font-size: 0.8rem;
+          font-family: "Montserrat-light", "sans-serif";
+        }
+      }
+    }
+    .border_actu{
+      position: absolute;
+      top:10px;
+      left:10px;
+      width:calc(100% - 20px);
+      height: calc(100% - 20px);
+      border: #fff 2px solid;
+      border-radius: 5px;
+    }
+    .actu_overlay{
+      position: absolute;
+      opacity: 0;
+      top:10px;
+      left:10px;
+      width:calc(100% - 20px);
+      height: calc(100% - 20px);
+      border: #fff 2px solid;
+      background: #F8F8F840;
+      border-radius: 5px;
+    }
+    .actu_overlay:hover{
+      opacity: 1;
+    }
+    actu_overlay a{
+      position: absolute;
+      top:50%;
+    }
+    a{
+      color: #29565f;
+      font-family: Montserrat-regular,sans-serif;
+      font-size: 1rem;
+      text-decoration: none;
+    }
+  }
+
+  #Properties{
+    h2,.h2,h3,.h3 {
+      color: $secondary-color;
+      font-family: "Montserrat-light", sans-serif;
+      margin-top: 1rem;
+      margin-bottom: 1rem;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    .card {
+      border: none;
+      border-radius: 0;
+      box-shadow: 0 0 12px 0 rgba(0,0,0,0.6);
+    }
+    .card-img, .card-img-top {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+    .banner{
+      position: absolute;
+      top: -1.5rem;
+      left : -1.5rem;
+      z-index: 2;
+      color: #FFFFFF;
+    }
+    .name{
+      position: absolute;
+      bottom: 4.5rem;
+      z-index: 2;
+      left: 0.5rem;
+      color: #FFFFFF;
+      font-size: 14px;
+    }
+    .city{
+      position: absolute;
+      font-style: italic;
+      bottom: 3.2rem;
+      z-index: 2;
+      left: 0.5rem;
+      color: #FFFFFF;
+      font-size: 14px;
+      font-family: "Montserrat-light", sans-serif;
+    }
+    .annonce{
+      position: absolute;
+      bottom: 0;
+      z-index: 2;
+      left: 0.5rem;
+      color: #FFFFFF;
+      font-size: 12px;
+      width:16rem;
+      font-family: "Montserrat-light", sans-serif;
+    }
+    .price{
+      position: absolute;
+      bottom: 1rem;
+      z-index: 2;
+      right: 0.5rem;
+      color: $primary-color;
+      font-size: 20px;
+      font-family: "Montserrat-regular", sans-serif;
+    }
+
+    #Calque_1{
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: 1;
+    }
+    .flickity-viewport{
+      min-height: 400px;
+    }
+  }
+
+  #oneproperty_main{
+    h1 {
+      color: $secondary-color;
+      font-family: "Montserrat-light", sans-serif;
+      text-align: center;
+      text-transform: uppercase;
+    }
+    h2,.h2,h3,.h3 {
+      color: $secondary-color;
+      font-family: "Montserrat-light", sans-serif;
+      text-align: left;
+      text-transform: uppercase;
+    }
+    .btn-primary{
+      background-color: $primary-color;
+      border-color: $primary-color;
+    }
+    .color{
+      color: $secondary-color;
+    }
+    #generalCard {
+      margin-top: 4rem;
+      .small{
+        color: $primary-color;
+      }
+      .card{
+        border-radius: 5px;
+        border-color: $secondary-color;
+      }
+      article{
+        p{
+          margin-bottom: 0.1rem
+        }
+      }
+
+    }
+    #TechniqualCard{
+
+    }
+    #DiagnosticCard{
+      border: 1px solid $primary-color;
+      border-radius: .5rem;
+      .diag_ener {
+        display: flex;
+        align-items: center;
+        list-style: none;
+        .c-dpe__index {
+          display: flex;
+          position: relative;
+          align-items: center;
+          justify-content: center;
+          width: 2.25rem;
+          height: 2.25rem;
+          margin-right: .2rem;
+          color: #fff;
+          font-weight: 400;
+          font-size: 1.2rem;
+          border: 0 solid;
+          border-radius: .5rem;
+        }
+        .dpe-A {
+          background-color: $dpe-A;
+        }
+        .dpe-B {
+          background-color: $dpe-B;
+        }
+        .dpe-C {
+          background-color: $dpe-C;
+        }
+        .dpe-D {
+          background-color: $dpe-D;
+        }
+        .dpe-E {
+          background-color: $dpe-E;
+        }
+        .dpe-F {
+          background-color: $dpe-F;
+        }
+        .dpe-G {
+          background-color: $dpe-G;
+        }
+        .dpe-A1 {
+          background-color: $dpe-A1;
+        }
+        .dpe-B1 {
+          background-color: $dpe-B1;
+        }
+        .dpe-C1 {
+          background-color: $dpe-C1;
+        }
+        .dpe-D1 {
+          background-color: $dpe-D1;
+        }
+        .dpe-E1 {
+          background-color: $dpe-E1;
+        }
+        .dpe-F1 {
+          background-color: $dpe-F1;
+        }
+        .dpe-G1 {
+          background-color: $dpe-G1;
+        }
+        .dpe-active {
+          width: 3.5rem;
+          height: 3.5rem;
+          font-weight: 500;
+          size: 2rem;
+          border-radius: 0.5rem;
+        }
+        .dpe_l {
+          position: absolute;
+          top: calc(100% + 1.2rem);
+          left: 50%;
+          z-index: 10;
+          color: #2f2f2f;
+          font-size: 1rem;
+          line-height: 1rem;
+          transform: translateX(-50%);
+        }
+        .dpe_l::before {
+          content: "";
+          position: absolute;
+          bottom: calc(100% + .4rem);
+          left: calc(50% - .3rem);
+          border-right: .3rem solid transparent;
+          border-bottom: .3rem solid;
+          border-left: .3rem solid transparent;
+        }
+
+        .dpe_u {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          font-weight: 400;
+          font-size: 1rem;
+        }
+
+      }
+      .diag_ener {
+        padding-bottom: 4.8rem;
+        padding-left: 0;
+        list-style: none;
+      }
+    }
+  }
+
+  #AskPropertyModal{
+    h1{
+      font-family: "Montserrat-light", sans-serif;
+    }
+    p{
+      font-family: "Montserrat-regular", sans-serif;
+    }
+    a{
+      color: $secondary-color;
+    }
+    a.btn{
+      color: #fff;
+    }
+    label{
+      font-family: "Montserrat-regular", sans-serif;
+      padding-top:0.25rem;
+    }
+    textarea, select{
+      font-family: "Montserrat-light", sans-serif;
+    }
+  }
 }
 
-/**
-  MediaQueries SM
-**/
-@include media-breakpoint-up(sm)
-{
 
-}
 
 
