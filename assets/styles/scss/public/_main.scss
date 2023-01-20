@@ -27,8 +27,7 @@ body{
   }
 }
 
-#oneproperty_header_sm
-{
+#oneproperty_header_sm{
   #informations{
     #property_price{
       p{
@@ -276,6 +275,11 @@ body{
   .color{
     color: $secondary-color;
   }
+  #firstphoto{}
+  #galery{
+    margin-top: 4px;
+  }
+
   #generalCard {
     margin-top: 4rem;
     .small{
@@ -429,11 +433,6 @@ body{
 
 
 @include media-breakpoint-up(md){
-  /*****************************
-
-      REGLES GENERALES
-
-*****************************/
   body{
     .h1,.h2,.h3, h1, h2, h3 {
       color: $secondary-color;
@@ -455,8 +454,7 @@ body{
     }
   }
 
-  #oneproperty_header_lg
-  {
+  #oneproperty_header_lg  {
     position: relative;
     top: -69px;
     background: #ffffff90;
@@ -472,6 +470,7 @@ body{
         border-top-right-radius: 10px 10px;
         p{
           color: #F8F8F8;
+          font-size: x-large;
         }
       }
     }

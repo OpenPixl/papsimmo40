@@ -65,7 +65,7 @@
             {# bandeau de présentation des informations prioncipales du bien #}
             <div class="row" id="informations">
                 <div class="col-3" id="property_surface">
-                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_superfmaison.png')}}" alt="picto_surfacebien"> {{ property.surfaceHome|number_format(0,',',' ')}} m² surface habitable</p>
+                    <p class="text-end mb-0"><img src="{{ asset('images/png/picto_superfmaison.png')}}" alt="picto_surfacebien"> {{ property.surfaceHome|number_format(0,',',' ')}} m² habitable</p>
                 </div>
                 <div class="col-3" id="property_pieces">
                     <p class="text-end mb-0"><img src="{{ asset('images/png/picto_nbpiece.png')}}" alt="picto_pieces"> {{property.piece}} {{piece}} | {{ property.room}} {{ room }}</p>
@@ -113,7 +113,7 @@
                 {# Row des visuels du bien #}
                 <div class="row">
                     {# image principale#}
-                    <div class="col-12 col-lg-5">
+                    <div id="firstphoto" class="col-12 col-lg-5">
                         {% if firstphoto is not empty%}
                             <img src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
                         {% else %}
@@ -122,7 +122,7 @@
                         <a href="{{ path('op_admin_mail_AskPropertyInfo', {'id': property.id }) }}" class="btn btn-primary w-100 mt-1 btnAskContactProperty" id="btnAskContactProperty">Ce bien vous interesse ?<br>Contactez-nous</a>
                     </div>
                     {# Galerie#}
-                    <div class="col-12 col-lg-7">
+                    <div id="galery" class="col-12 col-lg-7">
                         {{ render(controller('App\\Controller\\Gestapp\\PhotoController::PublicGalleryByProperty', {'idproperty':property.id}))}}
                     </div>
                 </div>
