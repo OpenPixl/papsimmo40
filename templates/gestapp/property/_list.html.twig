@@ -65,7 +65,7 @@
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><hr class="dropdown-divider"></li>
-                            <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
+                            <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Archiver</a>
                         {% endif %}
                     </ul>
                 </div>
@@ -74,17 +74,18 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header">
-                                <h5 class="modal-title text-warning" id="exampleModalLabel">Suppression d'un bien</h5>
+                                <h5 class="modal-title text-warning" id="exampleModalLabel">Archivage d'un bien</h5>
                                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
                             <div class="modal-body">
-                                <p class="modal-text">Attention, Vous êtes sur le point de supprimer le bien suivant :</p>
-                                <p class="alert alert-warning"><b>{{ property.name }}</b></p>
-                                <p>Sous mandat n°: {{ property.refMandat }}, Êtes-vous sûr de vouloir continuer ?</p>
+                                <p class="modal-text">Attention, Vous êtes sur le point d'archiver le bien suivant :</p>
+                                <p class="text-center"><b>{{ property.name }}</b></p>
+                                <p class="text-center">Sous mandat n°: {{ property.refMandat }}.</p>
+                                <p class="text-center">Ce bien sera archivé sur une période de 30 jours.<br>Êtes-vous sûr de vouloir continuer ?</p>
                                 <input type="hidden" id="recipient-name">
                             </div>
                             <div class="modal-footer">
-                                <a href="{{ path('op_gestapp_property_del', {'id':property.id}) }}" type="button" class="btn btn-sm btn-warning jsModalDelProperty" data-bs-dismiss="modal">Je supprime le bien</a>
+                                <a href="{{ path('op_gestapp_property_archived', {'id':property.id}) }}" type="button" class="btn btn-sm btn-warning jsModalDelProperty" data-bs-dismiss="modal">Je valide</a>
                                 <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
                             </div>
                         </div>

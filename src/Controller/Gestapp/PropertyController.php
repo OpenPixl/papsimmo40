@@ -352,6 +352,40 @@ class PropertyController extends AbstractController
         return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/archived/{id}', name: 'op_gestapp_property_archived', methods: ['POST'])]
+    public function archived(Request $request, Property $property, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
+    {
+        $property->setIsArchived(1);
+        $propertyRepository->add($property);
+
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+        if($hasAccess == true){
+            $data = $propertyRepository->listAllProperties();
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+        }else{
+            // dans ce cas, nous listons les propriétés de l'utilisateurs courant
+            $data = $propertyRepository->listPropertiesByemployed($user);
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Le bien a été archivé sur le site.",
+            'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+                'properties' => $properties
+            ])
+        ], 200);
+    }
+
     #[Route('/increatingdel/{id}', name:'op_gestapp_property_increatingdel', methods: ['POST'] )]
     public function increatingDel(Property $property, PropertyRepository $propertyRepository)
     {

@@ -161,6 +161,9 @@ class Property
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Contact::class)]
     private Collection $contacts;
 
+    #[ORM\Column]
+    private ?bool $isArchived = false;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -784,6 +787,18 @@ class Property
                 $contact->setProperty(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isIsArchived(): ?bool
+    {
+        return $this->isArchived;
+    }
+
+    public function setIsArchived(bool $isArchived): self
+    {
+        $this->isArchived = $isArchived;
 
         return $this;
     }

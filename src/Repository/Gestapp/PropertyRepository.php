@@ -55,6 +55,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.denomination', 'd')
             ->leftJoin('p.publication', 'pu')
             ->addSelect('
+                p.isArchived as isArchived,
                 pu.isWebpublish as isWebpublish,
                 p.id as id,
                 p.ref as ref,
@@ -71,6 +72,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.banner as banner
             ')
             ->where('p.isIncreating = 0')
+            ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
             ->orderBy('p.id', 'ASC')
             ->setMaxResults(5)
@@ -87,6 +89,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.isArchived as isArchived,
                 d.name as denomination,
                 p.id as id,
                 p.ref as ref,
@@ -111,6 +114,7 @@ class PropertyRepository extends ServiceEntityRepository
                 c.banner
             ')
             ->where('p.isIncreating = 0')
+            ->andWhere('p.isArchived = 0')
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
@@ -124,6 +128,7 @@ class PropertyRepository extends ServiceEntityRepository
             //->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             //->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.isArchived as isArchived,
                 e.id as refEmployed,
                 e.firstName as firstName,
                 e.lastName as lastName,
@@ -145,6 +150,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.updatedAt
             ')
         ->where('p.isIncreating = 1')
+        ->andWhere('p.isArchived = 0')
         ->orderBy('p.RefMandat', 'DESC')
         ->getQuery()
         ->getResult()
@@ -157,6 +163,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.isArchived as isArchived,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -176,6 +183,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.updatedAt as updatedAt
             ')
             ->where('e.id = :user')
+            ->andWhere('p.isArchived = 0')
             ->setParameter('user', $user)
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
@@ -189,6 +197,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.isArchived as isArchived,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -209,6 +218,7 @@ class PropertyRepository extends ServiceEntityRepository
             ')
             ->where('e.id = :user')
             ->andWhere('p.isIncreating = 1')
+            ->andWhere('p.isArchived = 0')
             ->setParameter('user', $user)
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
@@ -229,6 +239,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.propertyTypology', 'pt')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.isArchived as isArchived,
                 d.name as denomination,
                 p.id as id,
                 p.ref as ref,
@@ -274,6 +285,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.updatedAt as updatedAt
             ')
             ->andWhere('p.id = :property')
+            ->andWhere('p.isArchived = 0')
             ->setParameter('property', $property)
             ->orderBy('p.id', 'ASC')
             ->getQuery()
@@ -287,6 +299,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.isArchived as isArchived,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -306,6 +319,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.updatedAt as updatedAt
             ')
             ->where('p.isIncreating = 0')
+            ->andWhere('p.isArchived = 0')
             ->orderBy('p.id', 'ASC')
             ->getQuery()
             ->getResult()
@@ -325,6 +339,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
         $query->addSelect('
+                p.isArchived as isArchived,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -350,6 +365,7 @@ class PropertyRepository extends ServiceEntityRepository
         ');
         $query->where('p.isIncreating = 0');
         $query->andWhere('pu.isWebpublish = 1');
+        $query->andWhere('p.isArchived = 0');
 
         if($keys != null){
             $query
@@ -369,7 +385,9 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('c.denomination', 'd');
         $query->join('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
+        $query->where('p.isArchived = 0');
         $query->select('
+                p.isArchived as isArchived,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -414,7 +432,9 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
+        $query->andWhere('p.isArchived = 0');
         $query->select('
+                p.isArchived as isArchived,
                 pd.code as propertyDefinition,
                 ss.code as ssCategory,
                 c.bathroom as bathroom,
