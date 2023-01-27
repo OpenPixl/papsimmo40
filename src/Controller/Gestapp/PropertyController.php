@@ -186,6 +186,7 @@ class PropertyController extends AbstractController
         $property->setPublication($publication);
         $property->setIsIncreating(1);
         $property->setRefMandat($RefMandat);
+        $property->setMandatAt(new \DateTime('now'));
         $property->setIsWithoutExclusivity(1);
         $property->setProjet('VH');
         $propertyRepository->add($property);

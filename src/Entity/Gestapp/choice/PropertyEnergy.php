@@ -16,6 +16,9 @@ class PropertyEnergy
     #[ORM\Column(type: 'string', length: 255)]
     private $name;
 
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $slCode = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -35,5 +38,17 @@ class PropertyEnergy
 
     public function __toString(){
         return $this->name;
+    }
+
+    public function getSlCode(): ?string
+    {
+        return $this->slCode;
+    }
+
+    public function setSlCode(?string $slCode): self
+    {
+        $this->slCode = $slCode;
+
+        return $this;
     }
 }

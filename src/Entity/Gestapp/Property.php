@@ -10,6 +10,7 @@ use App\Repository\Gestapp\PropertyRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
@@ -163,6 +164,9 @@ class Property
 
     #[ORM\Column]
     private ?bool $isArchived = false;
+
+    #[ORM\Column(type: 'date', nullable: true)]
+    private ?\DateTimeInterface $mandatAt = null;
 
     public function __construct()
     {
@@ -799,6 +803,18 @@ class Property
     public function setIsArchived(bool $isArchived): self
     {
         $this->isArchived = $isArchived;
+
+        return $this;
+    }
+
+    public function getMandatAt(): ?\DateTimeInterface
+    {
+        return $this->mandatAt;
+    }
+
+    public function setMandatAt(\DateTimeInterface $mandatAt): self
+    {
+        $this->mandatAt = $mandatAt;
 
         return $this;
     }

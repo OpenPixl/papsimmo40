@@ -33,7 +33,10 @@ class PropertyStep1Type extends AbstractType
     {
         $builder
             ->add('refMandat', TextType::class, [
-                'label' => 'Numéro de Mandat'
+                'label' => 'Numéro de Mandat',
+                'attr' => [
+                    'disabled' => 'disabled readonly'
+                ]
             ])
             ->add('ref', TextType::class, [
                 'label' => 'Référence'
@@ -41,7 +44,7 @@ class PropertyStep1Type extends AbstractType
             ->add('name', TextType::class, [
                 'label' => 'Titre du bien',
                 'required' => false,
-                'empty_data' =>''
+                'empty_data' => ''
             ])
             ->add('annonce', TextareaType::class, [
                 'label' => 'Annonce',
