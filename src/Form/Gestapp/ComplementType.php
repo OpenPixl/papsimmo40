@@ -226,7 +226,14 @@ class ComplementType extends AbstractType
                     return ['data-data' => $product->getName() ];
                 }
             ])
-
+            ->add('coproprietyTaxe', NumberType::class, [
+                'label' => 'Charge de copro',
+                'required' => false,
+                'attr'=>[
+                  'placeholder' => 'Charge de copro'
+                ],
+                'empty_data' => 0
+            ])
         ;
     }
 

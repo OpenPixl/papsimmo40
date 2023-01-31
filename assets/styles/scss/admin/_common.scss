@@ -1,4 +1,4 @@
-//*** ------------- définition des règles pouir les Div "side" et "content" ---------------- ***//
+//*** ------------- définition des règles pour les Div "side" et "content" ---------------- ***//
 $width-side-small: 4rem;
 $width-side-large: 12rem;
 $width-content-small : calc(100% - 4rem);
@@ -64,6 +64,15 @@ a {
   }
 }
 
+/****
+ Form
+ */
+form{
+  p{
+    margin-bottom: 0;
+  }
+}
+
 .form-check {
   display: block;
   min-height: 1.5rem;
@@ -76,6 +85,11 @@ a {
 }
 .form-switch .form-check-label {
   margin-left: 0.5rem;
+}
+
+.form-label {
+  margin-bottom: 0.5rem;
+  margin-top: 0.5rem;
 }
 
 ol, ul, dl {

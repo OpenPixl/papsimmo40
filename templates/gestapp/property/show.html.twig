@@ -1221,6 +1221,22 @@
                 }
             });
 
+            // PARTIE Typologie du bien
+            // ---------------------------------------
+            // Apparition de l'input de charge en copro sur changement du choiceType
+            const coproprietyTaxe = document.getElementById('coproprietyTaxe')
+            const complement_coproperty_0 = document.getElementById('complement_coproperty_0')
+            const complement_coproperty_1 = document.getElementById('complement_coproperty_1')
+            if(complement_coproperty_1.checked){
+                coproprietyTaxe.classList.remove("d-none")
+            }
+            complement_coproperty_1.addEventListener('click', function (event) {
+                coproprietyTaxe.classList.remove("d-none")
+            })
+            complement_coproperty_0.addEventListener('click', function (event) {
+                coproprietyTaxe.classList.add("d-none")
+            })
+
 
             // PARTIE Equipement du bien
             // ---------------------------------------

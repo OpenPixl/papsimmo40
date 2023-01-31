@@ -32,11 +32,14 @@ class PropertyStep1Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('refMandat', TextType::class, [
-                'label' => 'Numéro de Mandat',
-                'attr' => [
-                    'disabled' => 'disabled readonly'
-                ]
+            ->add('mandatAt', DateType::class, [
+                'label'=> 'Date du DPE',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => true,
+                'by_reference' => true,
             ])
             ->add('ref', TextType::class, [
                 'label' => 'Référence'

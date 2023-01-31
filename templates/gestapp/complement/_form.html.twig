@@ -170,7 +170,7 @@
                                 <dd class="col-4">
                                     {{ form_label(form.isFurnished, '', {'label_attr': {'class':'form-check-label'}}) }}
                                 </dd>
-                                <dd class="col-8">
+                                <dd class="col-2">
                                     {% for child in form.isFurnished %}
                                         {{ form_widget(child) }}
                                         {{ form_label(child) }}
@@ -185,11 +185,17 @@
                                 <dd class="col-4">
                                     {{ form_label(form.coproperty, '', {'label_attr': {'class':'form-check-label'}}) }}
                                 </dd>
-                                <dd class="col-8">
+                                <dd class="col-2">
                                     {% for child in form.coproperty %}
                                         {{ form_widget(child) }}
                                         {{ form_label(child) }}
                                     {% endfor %}
+                                </dd>
+                                <dd class="col-4">
+                                    <div id="coproprietyTaxe" class="input-group input-group-sm d-none">
+                                        {{ form_widget(form.coproprietyTaxe, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        <span class="input-group-text" id="basic-addon1">€</span>
+                                    </div>
                                 </dd>
                             </dl>
                         </div>
@@ -200,7 +206,7 @@
                                 <dd class="col-4">
                                     {{ form_label(form.jointness, '', {'label_attr': {'class':'form-check-label'}}) }}
                                 </dd>
-                                <dd class="col-8">
+                                <dd class="col-2">
                                     {% for child in form.jointness %}
                                         {{ form_widget(child) }}
                                         {{ form_label(child) }}

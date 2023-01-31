@@ -129,6 +129,7 @@ class PropertyController extends AbstractController
         $complement->setWc(0);
         $complement->setBalcony(0);
         $complement->setPropertyTax(0);
+        $complement->setCoproprietyTaxe(0);
         $complement->setLevel(0);
         $complement->addPropertyEquipment($propertyEquipementRepository->findOneBy([], ['id'=>'ASC']));
         $complement->addPropertyOtheroption($otherOptionRepository->findOneBy([], ['id'=>'ASC']));

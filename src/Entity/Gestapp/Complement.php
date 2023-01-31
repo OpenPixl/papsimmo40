@@ -18,6 +18,7 @@ use App\Entity\Gestapp\choice\HouseEquipment;
 use App\Repository\Gestapp\ComplementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ComplementRepository::class)]
@@ -105,6 +106,9 @@ class Complement
 
     #[ORM\Column(type: 'boolean')]
     private $coproperty = false;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $coproprietyTaxe = null;
 
     public function __construct()
     {
@@ -449,6 +453,18 @@ class Complement
     public function setCoproperty(bool $coproperty): self
     {
         $this->coproperty = $coproperty;
+
+        return $this;
+    }
+
+    public function getCoproprietyTaxe(): ?string
+    {
+        return $this->coproprietyTaxe;
+    }
+
+    public function setCoproprietyTaxe(?string $coproprietyTaxe): self
+    {
+        $this->coproprietyTaxe = $coproprietyTaxe;
 
         return $this;
     }

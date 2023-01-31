@@ -432,14 +432,23 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
+        $query->leftjoin('c.propertyEnergy', 'pe');
         $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->select('
+                p.eeaYear AS RefDPE,
+                p.diagChoice AS diagChoice,                
+                c.coproprietyTaxe as chargeCopro,
+                c.coproperty as copro,
+                pe.name AS energy,
+                pe.slCode AS slCode,
+                c.disponibilityAt as disponibilityAt,
                 po.name AS orientation,
-                p.mandatAt,
+                p.mandatAt as mandatAt,
                 p.isArchived as isArchived,
                 pd.code as propertyDefinition,
                 ss.code as ssCategory,
+                c.id AS idComplement,
                 c.bathroom as bathroom,
                 c.balcony as balcony,
                 c.terrace as terrace,
@@ -449,7 +458,7 @@ class PropertyRepository extends ServiceEntityRepository
                 e.email as email,
                 e.gsm as gsm,
                 e.firstName as firstName,
-                e.lastName AS lastName
+                e.lastName AS lastName,
                 p.projet as projet,
                 p.isWithExclusivity as isWithExclusivity,
                 p.price,
