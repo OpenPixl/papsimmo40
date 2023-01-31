@@ -436,6 +436,9 @@ class PropertyRepository extends ServiceEntityRepository
         $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->select('
+                c.wc as wc,
+                c.washroom AS washroom,
+                c.sanitation as sanitation,
                 p.eeaYear AS RefDPE,
                 p.diagChoice AS diagChoice,                
                 c.coproprietyTaxe as chargeCopro,

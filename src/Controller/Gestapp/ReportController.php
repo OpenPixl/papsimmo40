@@ -185,6 +185,13 @@ class ReportController extends AbstractController
             // Sélection du type de bien
             $bien = $property['propertyDefinition'];
 
+            // Préparation de la date dpeAt
+            if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {
+                $dpeAt = $property['dpeAt']->format('d/m/Y');
+            }else{
+                $dpeAt ="";
+            }
+
             // Calcul des honoraires en %
             $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
@@ -208,7 +215,7 @@ class ReportController extends AbstractController
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<30; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = 'http://'.$app.'/images/galery/'.$photos[$key]['galeryFrontName'];
+                        ${'url'.$key+1} = 'http://'.$app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
@@ -263,7 +270,41 @@ class ReportController extends AbstractController
             $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
             //dd($equipments);
 
+            // BILAN DPE
+            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 50 ){
+                $bilanDpe = 'A';
+            }elseif($property['diagDpe'] > 50 and $property['diagDpe'] <= 90 ){
+                $bilanDpe = 'B';
+            }elseif($property['diagDpe'] > 90 and $property['diagDpe'] <= 150 ){
+                $bilanDpe = 'C';
+            }elseif($property['diagDpe'] > 150 and $property['diagDpe'] <= 230 ){
+                $bilanDpe = 'D';
+            }elseif($property['diagDpe'] > 230 and $property['diagDpe'] <= 330 ){
+                $bilanDpe = 'E';
+            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 450 ){
+                $bilanDpe = 'F';
+            }else{
+                $bilanDpe = 'G';
+            }
 
+            // Bilan GES
+            if($property['diagGes'] > 0 and $property['diagGes'] <= 50 ){
+                $bilanGes = 'A';
+            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 90 ){
+                $bilanGes = 'B';
+            }elseif($property['diagGes'] > 90 and $property['diagGes'] <= 150 ){
+                $bilanGes = 'C';
+            }elseif($property['diagGes'] > 150 and $property['diagGes'] <= 230 ){
+                $bilanGes = 'D';
+            }elseif($property['diagGes'] > 230 and $property['diagGes'] <= 330 ){
+                $bilanGes = 'E';
+            }elseif($property['diagGes'] > 330 and $property['diagGes'] <= 450 ){
+                $bilanGes = 'F';
+            }else{
+                $bilanGes = 'G';
+            }
+
+            // Création d'une ligne du tableau
             $data = array(
                 // 1 - Identifiant Agence
                 // 2 - Référence agence du bien
@@ -439,11 +480,11 @@ class ReportController extends AbstractController
                 '"'.$url18.'"',                                             // 172 - Photo 18
                 '"'.$url19.'"',                                             // 173 - Photo 19
                 '"'.$url20.'"',                                             // 174 - Photo 20
-                // 175 - Identifiant technique
-                // 176 - Consommation énergie
-                // 177 - Bilan consommation énergie
+                '""',                                                       // 175 - Identifiant technique
+                '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
+                '"'.$bilanDpe.'"',                                          // 177 - Bilan consommation énergie
                 '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
-                // 179 - Bilan émission GES
+                '"'.$bilanGes.'"',                                          // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '"'.$property['ssCategory'].'"',                            // 181 - Sous type de bien
                 '""',                                                       // 182 - Périodes de disponibilité
@@ -588,12 +629,12 @@ class ReportController extends AbstractController
                 '""',// 321 - Surface terrain nécessaire
                 '""',// 322 - Localisation
                 '""',// 323 - Nom du modèle
-                '"'.$property['dpeAt'].'"',                                 // 324 - Date réalisation DPE
+                '"'.$dpeAt.'"',                                 // 324 - Date réalisation DPE
                 '""',                                                       // 325 - Version DPE
                 '"'.$property['dpeEstimateEnergyDown'].'"',                 // 326 - DPE coût min conso
                 '"'.$property['dpeEstimateEnergyUp'].'"',                   // 327 - DPE coût max conso
-                '"'.$property['refDPE'].'"',                                // 328 - DPE date référence conso
-                // 329 - Surface terrasse
+                '"'.$property['RefDPE'].'"',                                // 328 - DPE date référence conso
+                '""',                                   // 329 - Surface terrasse
                 // 330 - DPE coût conso annuelle
                 '""',                                   // 331 - Loyer de base
                 '""',                                   // 332 - Loyer de référence majoré
