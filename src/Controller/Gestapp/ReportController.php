@@ -306,8 +306,8 @@ class ReportController extends AbstractController
 
             // Création d'une ligne du tableau
             $data = array(
-                // 1 - Identifiant Agence
-                // 2 - Référence agence du bien
+                '"papsimmo"',                                               // 1 - Identifiant Agence
+                '"'.$property['ref'].'"',                                   // 2 - Référence agence du bien
                 '"Vente"',                                                  // 3 - Type d’annonce
                 '"'.$bien.'"',                                              // 4 - Type de bien
                 '"'.$property['zipcode'].'"',                               // 5 - CP
@@ -635,7 +635,7 @@ class ReportController extends AbstractController
                 '"'.$property['dpeEstimateEnergyUp'].'"',                   // 327 - DPE coût max conso
                 '"'.$property['RefDPE'].'"',                                // 328 - DPE date référence conso
                 '""',                                   // 329 - Surface terrasse
-                // 330 - DPE coût conso annuelle
+                '""',                                   // 330 - DPE coût conso annuelle
                 '""',                                   // 331 - Loyer de base
                 '""',                                   // 332 - Loyer de référence majoré
                 '""',                                   // 333 - Encadrement des loyers
