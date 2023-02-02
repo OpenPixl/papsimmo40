@@ -30,6 +30,7 @@ class ComplementType extends AbstractType
             // Partie Supérieure Form
             ->add('banner', ChoiceType::class, [
                 'label' => 'Bannière sur vignette',
+                'required' => false,
                 'choices'  => [
                     'Coup de coeur' => "coup-de-coeur",
                     'Exclusivité' => 'exclusivite',
@@ -42,9 +43,11 @@ class ComplementType extends AbstractType
                     'A saisir' => ['data-data' => 'A saisir'],
                     'Dernière minute' => ['data-data' => 'Dernière minute'],
                 ],
+                'placeholder' => 'A définir',
             ])
             ->add('denomination', EntityType::class, [
                 'label'=> 'Catégorie de bien',
+                'required' => false,
                 'class' => Denomination::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('d')
@@ -53,7 +56,8 @@ class ComplementType extends AbstractType
                 'choice_label' => 'name',
                 'choice_attr' => function (Denomination $product, $key, $index) {
                     return ['data-data' => $product->getName() ];
-                }
+                },
+                'placeholder' => 'A définir',
             ])
 
             // Partie "Pieces"

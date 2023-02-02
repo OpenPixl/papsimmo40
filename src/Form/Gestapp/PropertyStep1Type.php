@@ -73,7 +73,7 @@ class PropertyStep1Type extends AbstractType
             ])
             ->add('adress',TextType::class, [
                 'label' => 'Adresse',
-                'required' => false,
+                'required' => true,
                 'empty_data' =>''
             ])
             ->add('complement',TextType::class, [
