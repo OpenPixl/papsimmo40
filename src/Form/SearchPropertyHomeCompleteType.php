@@ -17,7 +17,7 @@ class SearchPropertyHomeCompleteType extends AbstractType
                 'label' => false,
                 'attr' => [
                     'class' => 'form-control',
-                    'placeholder' => 'Où voulez-vous habitez ?'
+                    'placeholder' => 'Où voulez-vous habiter ?'
                     ]
                 ])
             ->add('priceMin')

@@ -182,6 +182,11 @@ class ReportController extends AbstractController
 
         $rows = array();
         foreach ($properties as $property){
+            // Description de l'annonce
+            $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
+            $annonce = strip_tags($data, '<br>');
+            //dd($annonce);
+
             // Sélection du type de bien
             $bien = $property['propertyDefinition'];
 
@@ -326,9 +331,9 @@ class ReportController extends AbstractController
                 '"'.$property['piece'].'"',                                 // 18 - NB de pièces
                 '"'.$property['room'].'"',                                  // 19 - NB de chambres
                 '"'.$property['name'].'"',                                  // 20 - Libellé
-                '"'.$property['annonce'].'"',                               // 21 - Descriptif
-                '"'.$property['annonce'].'"',                               // 22 - Date de disponibilité
-                // 23 - Charges
+                '"'.$annonce.'"',                                           // 21 - Descriptif
+                '"'.$property['disponibilityAt'].'"',                       // 22 - Date de disponibilité
+                '""',                                                       // 23 - Charges
                 '"'.$property['level'].'"',                                 // 24 - Etage
                 '""',                                                       // 25 - NB d’étages
                 '"'.$property['isFurnished'].'"',                           // 26 - Meublé
