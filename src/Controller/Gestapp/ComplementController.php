@@ -114,6 +114,7 @@ class ComplementController extends AbstractController
         $complement->setDisponibility($data['disponibility']);
         $complement->setLocation($data['location']);
         $complement->setDisponibilityAt($disponibilityAt);
+        $complement->setCoproprietyTaxe(0);
 
         $complement->setIsFurnished($data['isFurnished']);
 
