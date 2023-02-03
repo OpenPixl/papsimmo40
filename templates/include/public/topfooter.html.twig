@@ -7,7 +7,7 @@
             <ul>
                 <li><a href="{{ path('op_webapp_public_homepage') }}">Accueil</a></li>
                 {% for page in pages %}
-                    <li><a href="{{ page.slug }}">{{ page.name }}</a></li>
+                    <li><a href="{{ path('op_webapp_page_slug', {'slug':page.slug}) }}">{{ page.name }}</a></li>
                 {% endfor %}
             </ul>
 
