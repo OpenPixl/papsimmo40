@@ -188,7 +188,19 @@ class ReportController extends AbstractController
             //dd($annonce);
 
             // Sélection du type de bien
-            $bien = $property['propertyDefinition'];
+            $propertyDefinition = $property['propertyDefinition'];
+            if($propertyDefinition == 'Propriété / Château'){
+                $bien = 'Château';
+            }elseif($propertyDefinition == 'A définir'){
+                $bien = 'Inconnu';
+            }elseif($propertyDefinition == 'Atelier'){
+                $bien = 'loft/atelier/surface';
+            }
+            elseif($propertyDefinition == 'Parking / Garage'){
+                $bien = 'Parking/box';
+            }else{
+                $bien = $propertyDefinition;
+            }
 
             // Préparation de la date dpeAt
             if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {

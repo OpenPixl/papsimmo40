@@ -26,9 +26,9 @@
             <td>{{ employed.sector }}</td>
             <td>
                 {% if employed.isVerified == 1 %}
-                    <a class="js-publish" href=""><i class="far fa-check-circle text-success"></i></a>
+                    <a class="js-isverified" href=""><i class="far fa-check-circle text-success"></i></a>
                 {% else %}
-                    <a class="js-publish" href=""><i class="far fa-times-circle text-danger"></i></a>
+                    <a class="js-isverified" href=""><i class="far fa-times-circle text-danger"></i></a>
                 {% endif %}
             </td>
             <td>{{ employed.createdAt ? employed.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>

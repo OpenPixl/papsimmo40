@@ -1,6 +1,7 @@
 <table class="table">
     <thead>
     <tr>
+        <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
         <th>Nom et prénom</th>
         <th>Email</th>
         <th>Téléphone fixe</th>
@@ -11,7 +12,8 @@
     </thead>
     <tbody>
     {% for contact in allcontacts %}
-        <tr>
+        <tr class="align-middle">
+            <td><input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ contact.id }}"></td>
             <td>{{ contact.name }}</td>
             <td>{{ contact.email }}</td>
             <td>{{ contact.phoneHome }}</td>

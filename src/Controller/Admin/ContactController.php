@@ -27,7 +27,11 @@ class ContactController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
 
-        return $this->render('admin/contact/index.html.twig');
+        $contacts = $contactRepository->findAll();
+
+        return $this->render('admin/contact/index.html.twig',[
+            'allcontacts' => $contacts
+        ]);
     }
 
     #[Route('/listAllContacts', name: 'op_admin_contact_listallcontacts', methods: ['GET'])]
@@ -53,7 +57,7 @@ class ContactController extends AbstractController
     public function listPropertiesContacts(ContactRepository $contactRepository, PaginatorInterface $paginator, Request $request): Response
     {
         $user = $this->getUser();
-        $propertycontacts = $contactRepository->findBy(['forEmployed' => $user->getId()]);
+        $propertycontacts = $contactRepository->listPropertiesContacts($user);
         $pagPropertyContacts = $paginator->paginate(
             $propertycontacts,
             $request->query->getInt('page', 1),
@@ -169,6 +173,13 @@ class ContactController extends AbstractController
                 'allcontacts' => $allcontacts
             ])
         ], 200);
+    }
+
+    #[Route('/delall', name: 'op_admin_contact_delOnCheckBox', methods: ['POST'])]
+    public function delOnCheckBox(Request $request)
+    {
+        $arraycontact = $request->getContent();
+        dd($arraycontact);
     }
 
     #[Route('/AskPropertyInfo/{idproperty}', name: 'op_admin_contact_askpropertyinfo', methods: ['GET', 'POST'])]

@@ -58,6 +58,27 @@ class ContactRepository extends ServiceEntityRepository
             ;
     }
 
+    public function listPropertiesContacts($employed){
+        return $this->createQueryBuilder('c')
+            ->leftJoin('c.property', 'p')
+            ->select('
+                p.name as propertyName,
+                p.refmandat as refMandat,
+                c.email as email,
+                c.name as name,
+                c.phoneHome as phoneHome,
+                c.phoneGsm as phoneGsm,
+                c.createdAt as createdAt,
+                c.content as content,
+                c.id as id
+            ')
+            ->andWhere('c.forEmployed = :employed')
+            ->setParameter('employed', $employed)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Contact[] Returns an array of Contact objects
 //     */

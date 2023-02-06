@@ -13,7 +13,7 @@
     {% for contact in propertycontacts %}
         <tr>
             <td>{{ contact.name }} (<small>{{ contact.email }}</small>)</td>
-            <td>{{ contact.property.refMandat }} - {{ contact.property.name }}</td>
+            <td> - {{ contact.propertyName }}</td>
             <td>{{ contact.phoneHome }}</td>
             <td>{{ contact.phoneGsm }}</td>
             <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d') : '' }}</td>

@@ -10,18 +10,7 @@
             // Ouverture de la liste de renseignement
             // au chargement de la page
             // ------------------------------------------------------
-            axios
-                .get('/admin/contact/listAllContacts/')
-                .then(function (response){
-                    // rafraichissement du tableau
-                    const listallcontact = document.getElementById('listallcontact').innerHTML = response.data.liste
-                })
-            axios
-                .get('/admin/contact/listPropertiesContacts/')
-                .then(function (response){
-                    // rafraichissement du tableau
-                    const listpropertiescontacts = document.getElementById('listpropertiescontacts').innerHTML = response.data.liste
-                })
+
 
             // Ouverture de la modal de suppression depuis la liste "AllContacts"
             var Suppr = document.getElementById('SupprAllContacts')
@@ -36,7 +25,7 @@
                 modalText.innerHTML = "Vous êtes sur le point de supprimer le message de prise de renseignement sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
             })
 
-            // Code de suppression lors du clic sur le bouton de la modal "Suppr"
+            // block suppression lors du clic sur le bouton de la modal "Suppr"
             function onClickDelEvent(event){
                 event.preventDefault()
                 const id = document.getElementById('recipient-name').value
@@ -65,6 +54,32 @@
                         console.log(error);
                     })
             }
+            // ------------------------------------------------------
+            // Suppression depuis les checkboxs
+            // ------------------------------------------------------
+            // Sélectionner toutes les checkBoxs
+            document.getElementById('CheckAllProperties').onclick = function() {
+                let arrayCheckbox = []
+                let checkboxes = document.getElementsByName('CheckProperty');
+                console.log(checkboxes)
+                for (let checkbox of checkboxes) {
+                    checkbox.checked = this.checked
+                }
+            }
+            document.getElementById('SupprRows').onclick = function(event){
+                event.preventDefault()
+                let arrayCheckbox = []
+                let checkboxes = document.getElementsByName('CheckProperty');
+                for (let checkbox of checkboxes) {
+                    if(checkbox.checked){
+                        arrayCheckbox.push(checkbox.value)
+                    }
+                }
+                let url = '/admin/contact/dellall'
+                axios
+                    .post(url, {arrayCheckbox})
+
+            }
 
             // ------------------------------------------------------
             // Déclaration des différents Events présent sur la page
@@ -89,7 +104,7 @@
 
                 {# navigation des differents accès de renseignements #}
                 <nav>
-                    <div class="nav nav-pills nav-fill" id="nav-tab" role="tablist">
+                    <div class="nav nav-tabs justify-content-end" id="nav-tab" role="tablist">
                         <button class="nav-link active" id="nav-home-tab" data-bs-toggle="tab" data-bs-target="#all-contacts" type="button" role="tab" aria-controls="all-contacts" aria-selected="true">Toutes les demandes</button>
                         <button class="nav-link" id="nav-profile-tab" data-bs-toggle="tab" data-bs-target="#nav-profile" type="button" role="tab" aria-controls="nav-profile" aria-selected="false">Demandes liées aux biens</button>
                         <button class="nav-link" id="nav-contact-tab" data-bs-toggle="tab" data-bs-target="#nav-contact" type="button" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</button>
@@ -97,11 +112,17 @@
                 </nav>
                 <div class="tab-content" id="nav-tabContent">
                     <div class="tab-pane fade show active" id="all-contacts" role="tabpanel" aria-labelledby="all-contacts-tab" tabindex="0">
-                        <div class="row">
+                        <div class="mt-1 mb-1">
+                            <a class="btn btn-outline-dark" id="SupprRows" href="">Suppression des demandes de renseignements</a>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
                             <div id="listallcontact" class="col-12">
-
+                                {{ include('admin/contact/_listallcontacts.html.twig') }}
+                            </div>
                             </div>
                         </div>
+
                     </div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab" tabindex="0">
                         <div class="row">
