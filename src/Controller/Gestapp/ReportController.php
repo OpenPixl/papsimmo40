@@ -95,7 +95,7 @@ class ReportController extends AbstractController
                 '"'.$property['zipcode'].'"',                           // 8 - Code postal
                 '"'.$property['city'].'"',                              // 9 - Commune
                 'France',                                               // 10 - Pays
-                '"'.$property['name'].'"',                              // 11 - Titre
+                '"'.iconv("UTF-8","windows-1252",$property['name']).'"',                              // 11 - Titre
                 '"'.$annonce.'"',                                       // 12 - Annonce
                 '"'.$property['gsm'].'"',                               // 13 - Téléphone vendeur
                 '""',                                                   // 14 - Téléphone 2 vendeur - Fax
