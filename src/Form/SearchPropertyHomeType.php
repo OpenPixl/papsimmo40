@@ -20,7 +20,6 @@ class SearchPropertyHomeType extends AbstractType
                     'placeholder' => 'Où voulez-vous habiter ?'
                     ]
                 ])
-
         ;
     }
 

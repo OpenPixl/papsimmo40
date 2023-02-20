@@ -350,7 +350,7 @@ class ReportController extends AbstractController
                 '""',                                                       // 25 - NB d’étages
                 '"'.$property['isFurnished'].'"',                           // 26 - Meublé
                 '"'.$property['constructionAt'].'"',                        // 27 - Année de construction
-                '""',                                           // 28 - Refait à neuf
+                '""',                                                       // 28 - Refait à neuf
                 '"'.$property['bathroom'].'"',                              // 29 - NB de salles de bain
                 '"'.$property['sanitation'].'"',                            // 30 - NB de salles d’eau
                 '"'.$property['wc'].'"',                                    // 31 - NB de WC
@@ -427,8 +427,8 @@ class ReportController extends AbstractController
                 '"'.$titrephoto9.'"',                                       // 102 - Titre photo 9
                 '""',                                                       // 103 - Photo panoramique
                 '""',                                                       // 104 - URL visite virtuelle
-                '"'.$property['firstName'].' '.$property['firstName'].'"',  // 105 - Téléphone à afficher
-                '"'.$property['gsm'].'"',                                   // 106 - Contact à afficher
+                '"'.$property['gsm'].'"',                                   // 105 - Téléphone à afficher
+                '"'.$property['firstName'].' '.$property['lastName'].'"',   // 106 - Contact à afficher
                 '"'.$property['email'].'"',                                 // 107 - Email de contact
                 '"'.$property['zipcode'].'"',                               // 108 - CP Réel du bien
                 '"'.$property['city'].'"',                                  // 109 - Ville réelle du bien
@@ -436,13 +436,13 @@ class ReportController extends AbstractController
                 '""',                                                       // 111 - Inter-cabinet prive
                 '"'.$property['refMandat'].'"',                             // 112 - N° de mandat
                 '"'.$property['mandatAt'].'"',                              // 113 - Date mandat
-                '"DEHEZ"',                                                  // 114 - Nom mandataire
-                '"Zoé"',                                                    // 115 - Prénom mandataire
-                '"PAPs immo"',                                              // 116 - Raison sociale mandataire
-                '"24 Boulevard Marcel DASSAULT "',                          // 117 - Adresse mandataire
-                '"64200"',                                                  // 118 - CP mandataire
-                '"BIARRITZ"',                                               // 119 - Ville mandataire
-                '"06.77.31.26.39"',                                         // 120 - Téléphone mandataire
+                '""',                                                       // 114 - Nom mandataire
+                '""',                                                       // 115 - Prénom mandataire
+                '""',                                                       // 116 - Raison sociale mandataire
+                '""',                                                       // 117 - Adresse mandataire
+                '""',                                                       // 118 - CP mandataire
+                '""',                                                       // 119 - Ville mandataire
+                '""',                                                       // 120 - Téléphone mandataire
                 '""',                                                       // 121 - Commentaires mandataire
                 '""',                                                       // 122 - Commentaires privés
                 '""',                                                       // 123 - Code négociateur
