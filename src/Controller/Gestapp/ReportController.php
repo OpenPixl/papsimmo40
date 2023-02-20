@@ -210,7 +210,7 @@ class ReportController extends AbstractController
             }
 
             // Préparation de la date de réation mandat
-            if ($property['mandatAt'] && $property['dpeAt'] instanceof \DateTime) {
+            if ($property['mandatAt'] && $property['mandatAt'] instanceof \DateTime) {
                 $mandatAt = $property['mandatAt']->format('d/m/Y');
             }else{
                 $mandatAt ="";
