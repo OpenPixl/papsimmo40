@@ -209,6 +209,14 @@ class ReportController extends AbstractController
                 $dpeAt ="";
             }
 
+            // Préparation de la date de réation mandat
+            if ($property['mandatAt'] && $property['dpeAt'] instanceof \DateTime) {
+                $mandatAt = $property['dpeAt']->format('d/m/Y');
+            }else{
+                $mandatAt ="";
+            }
+
+
             // Calcul des honoraires en %
             $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
