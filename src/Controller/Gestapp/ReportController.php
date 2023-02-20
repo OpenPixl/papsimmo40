@@ -216,7 +216,6 @@ class ReportController extends AbstractController
                 $mandatAt ="";
             }
 
-
             // Calcul des honoraires en %
             $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
@@ -443,7 +442,7 @@ class ReportController extends AbstractController
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
                 '"'.$property['refMandat'].'"',                             // 112 - N° de mandat
-                '"'.$property['mandatAt'].'"',                              // 113 - Date mandat
+                '"'.$mandatAt.'"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
                 '""',                                                       // 116 - Raison sociale mandataire
