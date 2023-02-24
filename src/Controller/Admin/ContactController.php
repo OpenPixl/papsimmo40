@@ -175,13 +175,6 @@ class ContactController extends AbstractController
         ], 200);
     }
 
-    #[Route('/delall', name: 'op_admin_contact_delOnCheckBox', methods: ['POST'])]
-    public function delOnCheckBox(Request $request)
-    {
-        $arraycontact = $request->getContent();
-        dd($arraycontact);
-    }
-
     #[Route('/AskPropertyInfo/{idproperty}', name: 'op_admin_contact_askpropertyinfo', methods: ['GET', 'POST'])]
     public function AskPropertyInfo(Request $request, ContactRepository $contactRepository, MailerInterface $mailer, $idproperty, PropertyRepository $propertyRepository): Response
     {

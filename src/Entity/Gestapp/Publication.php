@@ -25,6 +25,13 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishParven = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishMeilleur = false;
+
+    #[ORM\Column]
+    private ?bool $isPublishleboncoin = false;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -82,4 +89,28 @@ class Publication
 
         return $this;
     }
+    public function isIsPublishMeilleur(): ?bool
+    {
+        return $this->isPublishMeilleur;
+    }
+
+    public function setIsPublishMeilleur(bool $isPublishMeilleur): self
+    {
+        $this->isPublishMeilleur = $isPublishMeilleur;
+
+        return $this;
+    }
+
+    public function isIsPublishleboncoin(): ?bool
+    {
+        return $this->isPublishleboncoin;
+    }
+
+    public function setIsPublishleboncoin(bool $isPublishleboncoin): self
+    {
+        $this->isPublishleboncoin = $isPublishleboncoin;
+
+        return $this;
+    }
+
 }

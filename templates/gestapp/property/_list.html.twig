@@ -50,7 +50,7 @@
             {% if property.adress =="" %}
             <td>à complèter</td>
             {% else %}
-            <td>{{ property.adress }}<br>{{ property.complement }}<br>{{ property.zipcode }} {{ property.city }}</td>
+            <td>{{ property.adress }}{% if property.complement is empty %}{% else %}<br>{{ property.complement }}{% endif %}<br>{{ property.zipcode }} {{ property.city }}</td>
             {% endif %}
             <td>{{ property.updatedAt ? property.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
@@ -61,8 +61,10 @@
                     <ul  class="dropdown-menu" aria-labelledby="action_property">
                         <li><a class="dropdown-item" href="{{ path('op_gestapp_property_show', {'id': property.id}) }}"><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a></li>
+                        {#
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_dip', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat DIP</a></li>
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
+                        #}
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><hr class="dropdown-divider"></li>
                             <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Archiver</a>

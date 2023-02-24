@@ -34,7 +34,7 @@
                     .then(function(response)
                     {
                         // rafraichissement du tableau
-                        const listallcontact = document.getElementById('listpropertiescontacts').innerHTML = response.data.listallcontact
+                        const listallcontact = document.getElementById('listallcontact').innerHTML = response.data.listallcontact
                         // ------------------------------------------------------
                         // Déclaration des différents Events présent sur la page
                         // ------------------------------------------------------
@@ -72,13 +72,15 @@
                 let checkboxes = document.getElementsByName('CheckProperty');
                 for (let checkbox of checkboxes) {
                     if(checkbox.checked){
-                        arrayCheckbox.push(checkbox.value)
+                        axios.post('/admin/contact/del/' + checkbox.value)
                     }
                 }
-                let url = '/admin/contact/dellall'
                 axios
-                    .post(url, {arrayCheckbox})
-
+                    .get('/admin/contact/listAllContacts/')
+                    .then(function(response){
+                        // rafraichissement du tableau
+                        const listallcontact = document.getElementById('listallcontact').innerHTML = response.data.listallcontact
+                    })
             }
 
             // ------------------------------------------------------

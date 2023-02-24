@@ -175,7 +175,7 @@ class ReportController extends AbstractController
     #[Route('/report/report_properties_csv2', name: 'app_gestapp_report_propertycsv2')]
     public function PropertyCSV2(PropertyRepository $propertyRepository, PhotoRepository $photoRepository, ComplementRepository $complementRepository): Response
     {
-        $properties = $propertyRepository->reportpropertycsv();
+        $properties = $propertyRepository->reportpropertycsv2();
 
         $app = $this->container->get('router')->getContext()->getHost();
         //dd($properties);
@@ -281,6 +281,16 @@ class ReportController extends AbstractController
                 $sud = 0;
                 $ouest = 1;
             }
+
+            // publication sur les réseaux
+            $publications = [];
+            if ($property['seloger'] == 1){
+                array_push($publications,'SL');
+            }
+            if ($property['leboncoin'] == 1){
+                array_push($publications,'LBL');
+            }
+            $listpublications = implode(",",$publications);
 
             // Transformation terrace en booléen
             if($property['terrace']){
@@ -411,7 +421,7 @@ class ReportController extends AbstractController
                 '""',                                       // 79 - Chiffre d’affaire
                 '""',                                       // 80 - Longueur façade (m)
                 '"0"',                                      // 81 - Duplex
-                '""',                                       // 82 - Publications
+                '"'.$listpublications.'"',                                  // 82 - Publications
                 '"0"',                                      // 83 - Mandat en exclusivité
                 '"0"',                                      // 84 - Coup de cœur
                 '"'.$url1.'"',                                              // 85 - Photo 1

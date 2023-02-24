@@ -26,6 +26,14 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur ParuVendu.fr ?',
                 'required' => false
             ])
+            ->add('isPublishMeilleur', CheckboxType::class, [
+                'label' => 'Publié sur SeLoger, LogicImmo & MeilleursAgents ?',
+                'required' => false
+            ])
+            ->add('isPublishleboncoin', CheckboxType::class, [
+                'label' => 'Publié sur LeBonCoin ?',
+                'required' => false
+            ])
             ->add('sector', ChoiceType::class, [
                 'label' => 'Secteur',
                 'choices'  => [

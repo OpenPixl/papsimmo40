@@ -5,11 +5,13 @@ namespace App\Controller\Admin;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Property;
+use App\Entity\Webapp\Articles;
 use App\Repository\Admin\ApplicationRepository;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use App\Repository\Webapp\ArticlesRepository;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -73,10 +75,6 @@ class PdfController extends AbstractController
                 'files.pdf'
             );
         }
-
-
-
-
     }
 
     #[Route('/admin/pdf/Property/dip/{id}', name: 'op_admin_pdf_dip', methods: ['GET'])]
@@ -156,6 +154,25 @@ class PdfController extends AbstractController
                 ->getOutputFromHtml($html),
             'files.pdf'
         );
+    }
 
+    #[Route('/admin/pdf/articletopdf/{id}', name: 'op_admin_pdf_articletopdf', methods: ['GET'])]
+    public function ArticleToPdf(Articles $article, Pdf $knpSnappyPdf)
+    {
+        //dd($article);
+
+        $knpSnappyPdf->generateFromHtml(
+            $this->renderView(
+                'webapp/articles/articletopdf.html.twig',
+                array(
+                    'article'  => $article
+                )
+            ),
+            '/public/pdf/article/'.$article->getSlug().'.pdf'
+        );
+
+        return $this->render('webapp/articles/articletopdf.html.twig', [
+        'article' => $article,
+    ]);
     }
 }
