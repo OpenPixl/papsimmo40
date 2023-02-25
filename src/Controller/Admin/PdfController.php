@@ -198,7 +198,6 @@ class PdfController extends AbstractController
         }else{
             $url = $pdfRendered->getFilename();
 
-            //dd($url);
             if(file_exists($url)){
                 unlink($url);
             }
