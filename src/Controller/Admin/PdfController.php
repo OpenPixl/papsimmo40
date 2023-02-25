@@ -164,7 +164,7 @@ class PdfController extends AbstractController
     {
         $slug = $article->getSlug();
         $pdfRendered = $pdfRenderedRepository->findOneBy(['name' => $slug]);
-        $filename = '/pdf/articles/'.$slug.'.pdf';
+        $filename = 'pdf/articles/'.$slug.'.pdf';
 
         if(!$pdfRendered)
         {
@@ -172,6 +172,7 @@ class PdfController extends AbstractController
             $newPdf = new PdfRendered();
             $newPdf->setName($slug);
             $newPdf->setFilename($filename);
+            $pdfRenderedRepository->add($newPdf, true);
             // Génération du fichiers Pdf & stockage dans le dossier "pdf/articles"
             $knpSnappyPdf->setOption("encoding","UTF-8");
             $knpSnappyPdf->generateFromHtml(
@@ -189,13 +190,14 @@ class PdfController extends AbstractController
             return $this->json([
                 'code'=> 200,
                 'message' => "Le fichier PDF à été généré.",
-                'lien' => $this->renderView('admin/pdf/hrefpdfforarticle.html.twig',[
-                    'pdfRendered' => $newPdf
+                'lien' => $this->renderView('admin/pdf_rendered/articletopdf.html.twig',[
+                    'pdfrendered' => $pdfRendered,
+                    'article' => $article
                 ])
             ], 200);
         }else{
-            $name = $pdfRendered->getName();
-            $url = 'pdf/articles/'.$slug;
+            $url = $pdfRendered->getFilename();
+
             //dd($url);
             if(file_exists($url)){
                 unlink($url);
@@ -220,7 +222,8 @@ class PdfController extends AbstractController
                 'code'=> 200,
                 'message' => "Le fichier PDF à été généré.",
                 'lien' => $this->renderView('admin/pdf_rendered/articletopdf.html.twig',[
-                    'pdfRendered' => $pdfRendered
+                    'pdfrendered' => $pdfRendered,
+                    'article' => $article
                 ])
             ], 200);
         }
