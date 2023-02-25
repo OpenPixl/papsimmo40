@@ -3,11 +3,13 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Admin\Employed;
+use App\Entity\Admin\PdfRendered;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Property;
 use App\Entity\Webapp\Articles;
 use App\Repository\Admin\ApplicationRepository;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Admin\PdfRenderedRepository;
 use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
@@ -15,6 +17,7 @@ use App\Repository\Webapp\ArticlesRepository;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -156,23 +159,70 @@ class PdfController extends AbstractController
         );
     }
 
-    #[Route('/admin/pdf/articletopdf/{id}', name: 'op_admin_pdf_articletopdf', methods: ['GET'])]
-    public function ArticleToPdf(Articles $article, Pdf $knpSnappyPdf)
+    #[Route('/admin/pdf/articletopdf/{id}', name: 'op_admin_pdf_articletopdf', methods: ['POST'])]
+    public function ArticleToPdf(Articles $article, Pdf $knpSnappyPdf, PdfRenderedRepository $pdfRenderedRepository)
     {
-        //dd($article);
+        $slug = $article->getSlug();
+        $pdfRendered = $pdfRenderedRepository->findOneBy(['name' => $slug]);
+        $filename = '/pdf/articles/'.$slug.'.pdf';
 
-        $knpSnappyPdf->generateFromHtml(
-            $this->renderView(
-                'webapp/articles/articletopdf.html.twig',
-                array(
-                    'article'  => $article
-                )
-            ),
-            '/public/pdf/article/'.$article->getSlug().'.pdf'
-        );
+        if(!$pdfRendered)
+        {
+            // hydration d'une nouvelle entité pdfRendered
+            $newPdf = new PdfRendered();
+            $newPdf->setName($slug);
+            $newPdf->setFilename($filename);
+            // Génération du fichiers Pdf & stockage dans le dossier "pdf/articles"
+            $knpSnappyPdf->setOption("encoding","UTF-8");
+            $knpSnappyPdf->generateFromHtml(
+                $this->renderView(
+                    'webapp/articles/articletopdf.html.twig',
+                    array(
+                        'article'  => $article
+                    )
+                ),
+                'pdf/articles/'.$article->getSlug().'.pdf'
+            );
+            // Enregistrement en BDD
+            $pdfRenderedRepository->add($newPdf, true);
+            // Retour JSON
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le fichier PDF à été généré.",
+                'lien' => $this->renderView('admin/pdf/hrefpdfforarticle.html.twig',[
+                    'pdfRendered' => $newPdf
+                ])
+            ], 200);
+        }else{
+            $name = $pdfRendered->getName();
+            $url = 'pdf/articles/'.$slug;
+            //dd($url);
+            if(file_exists($url)){
+                unlink($url);
+            }
 
-        return $this->render('webapp/articles/articletopdf.html.twig', [
-        'article' => $article,
-    ]);
+            // Génération du fichiers Pdf & stockage dans le dossier "pdf/articles"
+            $knpSnappyPdf->setOption("encoding","UTF-8");
+            $knpSnappyPdf->generateFromHtml(
+                $this->renderView(
+                    'webapp/articles/articletopdf.html.twig',
+                    array(
+                        'article'  => $article
+                    )
+                ),
+                'pdf/articles/'.$article->getSlug().'.pdf'
+            );
+
+            // Actualisation en BDD
+            $pdfRenderedRepository->add($pdfRendered, true);
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le fichier PDF à été généré.",
+                'lien' => $this->renderView('admin/pdf_rendered/articletopdf.html.twig',[
+                    'pdfRendered' => $pdfRendered
+                ])
+            ], 200);
+        }
     }
 }

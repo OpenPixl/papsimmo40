@@ -1,0 +1,27 @@
+{% if pdfrendered is null %}
+    <table class="table table-sm">
+        <tbody>
+            <tr>
+                <td class="col-md-4"><a class="btn btn-sm btn-outline-primary" id="ChangePDF" href="{{ path('op_admin_pdf_articletopdf', {'id':article.id}) }}">Générer le PDF <i class="fa-duotone fa-file-pdf"></i></a></td>
+                <td class="col-md-8"></td>
+            </tr>
+        </tbody>
+    </table>
+{% else %}
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <td></td>
+            <td></td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr class="align-middle">
+            <td class="col-md-4"><a class="btn btn-sm btn-outline-primary" id="ChangePDF" href="{{ path('op_admin_pdf_articletopdf', {'id':article.id}) }}">Actualiser le PDF <i class="fa-duotone fa-file-pdf"></i></a></td>
+            <td class="col-md-8"><a href="{{ asset('pdf/articles/') ~ pdfrendered.name }}.pdf"><img src="{{ asset('images/png/pdf.png')}}" alt="" width="25px">{{ pdfrendered.name }}</a></td>
+        </tr>
+    </tbody>
+</table>
+{% endif %}
+
+

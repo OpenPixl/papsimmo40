@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PdfRendered{% endblock %}
+
+{% block body %}
+    <h1>Edit PdfRendered</h1>
+
+    {{ include('admin/pdf_rendered/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_admin_pdf_rendered_index') }}">back to list</a>
+
+    {{ include('admin/pdf_rendered/_delete_form.html.twig') }}
+{% endblock %}

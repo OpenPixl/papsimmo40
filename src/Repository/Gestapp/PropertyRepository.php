@@ -121,6 +121,46 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    public function listAllPropertiesArchived()
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->join('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
+            ->addSelect('
+                p.isArchived as isArchived,
+                d.name as denomination,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.annonce as annonce,
+                p.priceFai as priceFai,
+                p.surfaceHome as surfaceHome,
+                p.piece as piece,
+                p.room as room,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.createdAt,
+                p.updatedAt,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                pd.name as propertyDefinition,
+                c.banner
+            ')
+            ->where('p.isIncreating = 0')
+            ->andWhere('p.isArchived = 1')
+            ->orderBy('p.RefMandat', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function listAllPropertiesIncreating()
     {
         return $this->createQueryBuilder('p')

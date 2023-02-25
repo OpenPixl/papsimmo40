@@ -131,9 +131,9 @@
             })
 
 
-        // PARTIE : Suppression de plusieurs biens
-        // -----------------------
-        // sélectionner toutes les checkBoxs
+            // PARTIE : Archivages de plusieurs biens
+            // -----------------------
+            // sélectionner toutes les checkBoxs
             document.getElementById('CheckAllProperties').onclick = function() {
                 let checkboxes = document.getElementsByName('CheckProperty');
                 for (let checkbox of checkboxes) {
@@ -149,12 +149,35 @@
                         arrayCheckbox.push(checkbox.value)
                     }
                 }
-
-                axios
-                    .post('/gestapp/property/CheckBoxesDel', arrayCheckbox)
-                    .then(function(response){})
             }
 
+            // PARTIE : Archivages - liste des biens en position archives
+            // -----------------------
+            //
+            document.getElementById('btnMListArchived').onclick = function(event){
+                let list = document.getElementById('list')
+                let listarchived = document.getElementById("listArchived")
+                axios
+                    .get('/gestapp/property/listarchived')
+                    .then(function(response){
+                        document.getElementById("listArchived").innerHTML = response.data.listarchived
+                    })
+                listarchived.className = listarchived.className !== 'show' ? 'show' : 'hide';
+                if(listarchived.className === 'show') {
+                    listarchived.style.display = 'block'
+                    list.style.display = 'none'
+                }
+                if(listarchived.className === 'hide') {
+                    listarchived.style.display = 'none';
+                    list.style.display = 'block';
+                }
+
+                axios
+                    .get('/gestapp/property/listarchived')
+                    .then(function(response){
+                        document.getElementById("listArchived").innerHTML = response.data.listarchived
+                    })
+            }
         }
     </script>
 {% endblock %}
@@ -183,8 +206,11 @@
 
     <div class="navigation d-flex justify-content-between">
         <div>
-            <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a> |
-            <a id="SupprRows" href="">Suppression des biens sélectionner</a>
+            <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <button class="btn btn-sm btn-outline-dark" id="btnMListArchived" href="">Afficher les biens archivés</button>
+            {% endif %}
+            <a class="btn btn-sm btn-outline-warning" id="SupprRows" href="">Archivages des biens sélectionnés</a>
         </div>
 
         {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
@@ -192,6 +218,8 @@
 
     <div id="list" class="col-sm-12">
         {% include('gestapp/property/_list.html.twig') %}
+    </div>
+    <div id="listArchived" class="col-sm-12" style="display: none;">
     </div>
 
     <div class="navigation d-flex justify-content-between">

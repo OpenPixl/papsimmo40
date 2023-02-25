@@ -4,7 +4,24 @@
 
 {% block javascripts %}
     {{ parent() }}
-
+    <script>
+        window.onload = function(){
+            // Partie génération PDF
+            // ---------------------
+            // I. Génération sur le clic bouton
+            document.getElementById('ChangePDF').onclick = function(event){
+                event.preventDefault()
+                var a = event.relatedTarget
+                let url = this.href
+                axios
+                    .post(url)
+                    .then(function(response){
+                        console.log("Ok")
+                        document.getElementById("pdfrendered").innerHTML = response.data.lien;
+                    })
+            }
+        }
+    </script>
 {% endblock %}
 
 {% block content %}

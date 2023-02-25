@@ -63,7 +63,27 @@ class PropertyController extends AbstractController
                 'user' => $user
             ]);
         }
+    }
 
+    #[Route('/listarchived', name: 'op_gestapp_property_listarchived', methods: ['GET'])]
+    public function listArchived(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
+    {
+        // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
+        $data = $propertyRepository->listAllPropertiesArchived();
+        //dd($data);
+        $properties = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les informations du bien ont été correctement ajoutées.",
+            'listarchived' => $this->renderView('gestapp/property/_listarchived.html.twig',[
+                'properties' => $data
+            ])
+        ], 200);
     }
 
     #[Route('/inCreating', name: 'op_gestapp_property_inCreating', methods: ['GET'])]

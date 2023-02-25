@@ -64,7 +64,11 @@
                 {# Affiche les 5 derniers biens #}
                 {% elseif section.content == 'Last_property'%}
                     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::LastProperty')) }}
+                {# Affiche un fichiers pdf #}
+                {% elseif section.content == 'article_pdf'%}
+                    {{ render(controller('App\\Controller\\Admin\\PdfRenderedController::pdfarticletohtml', {'idarticle': section.oneArticle})) }}
                 {% else %}
+
                 {% endif %}
             </div>
         </div>

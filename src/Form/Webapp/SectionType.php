@@ -20,6 +20,7 @@ class SectionType extends AbstractType
                     'aucun' => 'none',
                     'ARTICLES' => [
                         'Un article' => 'One_article',
+                        'Un article en pdf' => 'article_pdf',
                         'Une categorie' => 'Category',
                     ],
                     'Collaborateur' =>[
