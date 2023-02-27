@@ -1,7 +1,21 @@
 {{ form_start(form, {'attr': {'id': 'FormPropertyBanner'}}) }}
 <div class="modal-body">
-    {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
-    <p class="alert alert-warning">Attention :<br>Pour l'illustration de la bannière, seule les images au format SVG ne seront prise en compte.</p>
+    <p class="alert alert-warning">Attention :<br>Pour l'illustration de la bannière, seule les images au format SVG seront prise en compte.</p>
+    <table class="table table-sm">
+        <tbody>
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        <tr class="align-middle">
+            <td class="table-light col-md-3">{{ form_label(form.name) }}</td>
+            <td class="col-md-9">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+        </tr>
+        <tr class="align-middle">
+            <td class="table-light col-md-3">{{ form_label(form.banner) }}</td>
+            <td class="col-md-9">{{ form_widget(form.banner, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 <div class="modal-footer">
     <button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default("Ajouter la bannière") }}</button>

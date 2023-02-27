@@ -5,6 +5,7 @@ namespace App\Form\Gestapp;
 
 use App\Entity\Gestapp\choice\Denomination;
 use App\Entity\Gestapp\choice\OtherOption;
+use App\Entity\Gestapp\choice\PropertyBanner;
 use App\Entity\Gestapp\choice\PropertyEnergy;
 use App\Entity\Gestapp\choice\PropertyEquipement;
 use App\Entity\Gestapp\choice\PropertyOrientation;
@@ -28,21 +29,18 @@ class ComplementType extends AbstractType
     {
         $builder
             // Partie Supérieure Form
-            ->add('banner', ChoiceType::class, [
-                'label' => 'Bannière sur vignette',
+            ->add('banner', EntityType::class, [
+                'label'=> 'Bannière',
                 'required' => false,
-                'choices'  => [
-                    'Coup de coeur' => "coup-de-coeur",
-                    'Exclusivité' => 'exclusivite',
-                    'A saisir' => 'a-saisir',
-                    'Dernière minute' => 'derniere-minute'
-                ],
-                'choice_attr' => [
-                    'Coup de coeur' => ['data-data' => 'Coup de coeur'],
-                    'Exclusivité' => ['data-data' => 'Exclusivité'],
-                    'A saisir' => ['data-data' => 'A saisir'],
-                    'Dernière minute' => ['data-data' => 'Dernière minute'],
-                ],
+                'class' => PropertyBanner::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('d')
+                        ->orderBy('d.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'choice_attr' => function (PropertyBanner $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                },
                 'placeholder' => 'A définir',
             ])
             ->add('denomination', EntityType::class, [

@@ -32,7 +32,7 @@ class PropertyBannerController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // on teste la présence d'un fichier sur l'input
-            $banner =  $form->get('brochure')->getData();
+            $banner =  $form->get('banner')->getData();
             if ($banner) {
                 $originalFilename = pathinfo($banner->getClientOriginalName(), PATHINFO_FILENAME);
                 // transformation du nom pour échapper les accents & autres
@@ -42,17 +42,24 @@ class PropertyBannerController extends AbstractController
                 // Déplacement du fichier dans le dossier recevant les fichiers SVG
                 try {
                     $banner->move(
-                        $this->getParameter('brochures_directory'),
+                        $this->getParameter('banners_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
+                // Ajout dans l'entité le nom remanié
+                $propertyBanner->setBannerFilename($newFilename);
             }
 
             $propertyBannerRepository->add($propertyBanner, true);
 
-            return $this->redirectToRoute('app_gestapp_choice_property_banner_index', [], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code' => 200,
+                'cat' => $propertyBanner->getName(),
+                'valuecat'=> $propertyBanner->getId(),
+                'message' => "Une nouvelle bannière a été ajoutée à la BDD."
+            ], 200);
         }
 
         return $this->renderForm('gestapp/choice/property_banner/new.html.twig', [

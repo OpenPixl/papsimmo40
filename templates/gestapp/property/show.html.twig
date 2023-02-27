@@ -996,6 +996,37 @@
                 event.preventDefault()
                 PropertyBanner.show()
             })
+            // III. Envoi du formulaire ajout de la bannière
+            let property_banner = document.getElementById('FormPropertyBanner')
+            property_banner.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_banner = '/gestapp/choice/property/banner/new'
+                let data_property_banner = new FormData(property_banner)
+                axios
+                    .post(url_property_banner, data_property_banner)
+                    .then(function(response)
+                    {
+                        const selectbanner = document.getElementById('complement_banner');
+                        const optionbanner = document.createElement("option")
+                        optionbanner.setAttribute("value", response.data.valuebanner)
+                        optionbanner.setAttribute("data-data", response.data.banner)
+                        optionbanner.text = response.data.banner;
+                        selectbanner.add(optionbanner)
+                        // manque l'alimentation du TS banner
+                        HouseCat.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+            // IV. Modal listant les bannieres disponibles
+            const modalListPropertyBanner = document.getElementById('ListBanner')
+            const ListPropertyBanner = new bootstrap.Modal(modalListPropertyBanner, { keyboard: true })
+            const bntListPropertyBanner = document.getElementById('btnListBanner')
+            bntListPropertyBanner.addEventListener('click', function(event){
+                event.preventDefault()
+                ListPropertyBanner.show()
+            })
 
             // PARTIE Catégorie du bien
             // ---------------------------------------
@@ -1760,6 +1791,17 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
                         <button id="btnAddCadaster" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# Modal liste Banner #}
+        <div class="modal fade" id="ListBanner" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Liste des bannières disponibles :</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                 </div>
             </div>

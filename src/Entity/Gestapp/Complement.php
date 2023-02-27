@@ -8,6 +8,7 @@ use App\Entity\Gestapp\choice\Denomination;
 use App\Entity\Gestapp\choice\HouseType;
 use App\Entity\Gestapp\choice\LandType;
 use App\Entity\Gestapp\choice\OtherOption;
+use App\Entity\Gestapp\choice\PropertyBanner;
 use App\Entity\Gestapp\choice\PropertyEnergy;
 use App\Entity\Gestapp\choice\PropertyEquipement;
 use App\Entity\Gestapp\choice\PropertyOrientation;
@@ -28,9 +29,6 @@ class Complement
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
     private $id;
-
-    #[ORM\Column(type: 'string', length: 25, nullable: true)]
-    private $banner;
 
     #[ORM\ManyToOne(targetEntity: Denomination::class)]
     private $denomination;
@@ -110,6 +108,9 @@ class Complement
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $coproprietyTaxe = null;
 
+    #[ORM\ManyToOne(inversedBy: 'complements')]
+    private ?PropertyBanner $banner = null;
+
     public function __construct()
     {
         $this->propertyEquipment = new ArrayCollection();
@@ -119,18 +120,6 @@ class Complement
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getBanner(): ?string
-    {
-        return $this->banner;
-    }
-
-    public function setBanner(?string $banner): self
-    {
-        $this->banner = $banner;
-
-        return $this;
     }
 
     public function getDenomination(): ?Denomination
@@ -465,6 +454,18 @@ class Complement
     public function setCoproprietyTaxe(?string $coproprietyTaxe): self
     {
         $this->coproprietyTaxe = $coproprietyTaxe;
+
+        return $this;
+    }
+
+    public function getBanner(): ?PropertyBanner
+    {
+        return $this->banner;
+    }
+
+    public function setBanner(?PropertyBanner $banner): self
+    {
+        $this->banner = $banner;
 
         return $this;
     }
