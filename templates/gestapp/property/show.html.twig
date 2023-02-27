@@ -652,6 +652,20 @@
                         .then(function (response) {
                             DetailPrice.style.display = 'block'
                             AddAvenant.style.display = 'none'
+                            document.getElementById('property_step2_price').value = (property_avenant_price)
+                            document.getElementById('property_step2_honoraires').value = (property_avenant_honoraires)
+                            document.getElementById('property_step2_priceFai').value = (property_avenant_priceFai)
+                            // initialisation du toaster
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, {
+                                animation: true,
+                                autohide: true,
+                                delay: 3000,
+                            });
+                            toastElement.show();
                         })
                         .catch(function (error) {
                             // handle error
@@ -957,7 +971,7 @@
 
             // PARTIE Bannière sur image
             // ---------------------------------------
-            // Select
+            // I. Mise en place du Select2
             new TomSelect("#complement_banner",{
                 plugins: ['remove_button'],
                 create: true,
@@ -974,6 +988,14 @@
                     }
                 }
             });
+            // II. Préparation de la modale
+            const modalPropertyBanner = document.getElementById('modalPropertyBanner')
+            const PropertyBanner = new bootstrap.Modal(modalPropertyBanner, { keyboard: true })
+            const addPropertyBanner = document.getElementById('addPropertyBanner')
+            addPropertyBanner.addEventListener('click', function(event){
+                event.preventDefault()
+                PropertyBanner.show()
+            })
 
             // PARTIE Catégorie du bien
             // ---------------------------------------
@@ -1750,7 +1772,7 @@
                         <h5 class="modal-title" id="exampleModalLabel">Ajout d'une nouvelle bannière :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyDefinitionController::new2')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::new')) }}
                 </div>
             </div>
         </div>
@@ -1779,14 +1801,14 @@
             </div>
         </div>
         {# Modal d'ajout HouseBanner #}
-        <div class="modal fade" id="modalHouseBanner" tabindex="-1" aria-labelledby="addHouseBanner" aria-hidden="true">
+        <div class="modal fade" id="modalPropertyBanner" tabindex="-1" aria-labelledby="addPropertyBanner" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Ajouter une Bannière :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\DenominationController::new')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::new')) }}
                 </div>
             </div>
         </div>

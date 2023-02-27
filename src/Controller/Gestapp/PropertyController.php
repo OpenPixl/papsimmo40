@@ -558,13 +558,23 @@ class PropertyController extends AbstractController
         ]);
         $form->handleRequest($request);
 
+        $numberAvenant = $property->getNumberAvenant();
+        if(!$numberAvenant){
+            $numberAvenant = 1;
+        }else{
+            $numberAvenant = ++$numberAvenant;
+        }
         //dd($form->isValid());
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $property->setNumberAvenant($numberAvenant);
+            $property->setDateAvenant(new \DateTime());
             $propertyRepository->add($property);
+
             return $this->json([
                 'code'=> 200,
                 'message' => "Les informations du bien ont été correctement ajoutées."
+
             ], 200);
 
         }

@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit PropertyBanner{% endblock %}
+
+{% block body %}
+    <h1>Edit PropertyBanner</h1>
+
+    {{ include('gestapp/choice/property_banner/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_gestapp_choice_property_banner_index') }}">back to list</a>
+
+    {{ include('gestapp/choice/property_banner/_delete_form.html.twig') }}
+{% endblock %}

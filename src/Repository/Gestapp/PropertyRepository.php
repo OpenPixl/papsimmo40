@@ -75,7 +75,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
             ->orderBy('p.id', 'ASC')
-            ->setMaxResults(5)
+            ->setMaxResults(10)
             ->getQuery()
             ->getResult()
             ;

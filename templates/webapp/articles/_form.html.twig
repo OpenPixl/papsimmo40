@@ -128,7 +128,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" id="pdfrendered">
                     {{ render(controller('App\\Controller\\Admin\\PdfRenderedController::articletopdf', {'name': article.slug})) }}
                 </div>
             </div>

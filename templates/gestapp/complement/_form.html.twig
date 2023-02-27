@@ -11,6 +11,15 @@
                             <div class="col-4">
                                 {{ form_widget(form.banner) }}
                             </div>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <div class="col-1">
+                                    <button id="addPropertyBanner" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
+                                </div>
+                            {% else %}
+                                <div class="col-1">
+                                    <button id="addComplementBanner" class="btn btn-sm btn-secondary" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
+                                </div>
+                            {% endif %}
                         </div>
                         {# Type de bien #}
                         <div id="propertyCat" class="row g-1">

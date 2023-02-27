@@ -1,0 +1,27 @@
+    <div class="row mb-1 mt-1 g-1">
+        <p>
+            <small>Le prix de vente et les honoraires ont été fixés à la création du bien. <br>
+                Pour toute modification, cliquez sur le bouton ci-dessous.
+            </small>
+        </p>
+        <a id="addAvenant" class="btn btn-sm btn-outline-dark">Créer un avenant</a>
+        <div class="col-6">
+            <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
+        </div>
+        <div class="col-6">
+            {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
+        </div>
+        <div class="col-6">
+            {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
+        </div>
+        <div class="col-6">
+            {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
+        </div>
+        <div class="col-6">
+            {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
+        </div>
+        <div class="col-6">
+            {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
+        </div>
+    </div>
+{% endif %}

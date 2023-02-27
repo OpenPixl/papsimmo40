@@ -288,7 +288,7 @@ class ReportController extends AbstractController
                 array_push($publications,'SL');
             }
             if ($property['leboncoin'] == 1){
-                array_push($publications,'LBL');
+                array_push($publications,'LBC');
             }
             $listpublications = implode(",",$publications);
 

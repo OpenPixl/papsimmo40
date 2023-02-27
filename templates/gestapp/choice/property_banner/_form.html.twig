@@ -1,0 +1,10 @@
+{{ form_start(form, {'attr': {'id': 'FormPropertyBanner'}}) }}
+<div class="modal-body">
+    {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
+    <p class="alert alert-warning">Attention :<br>Pour l'illustration de la bannière, seule les images au format SVG ne seront prise en compte.</p>
+</div>
+<div class="modal-footer">
+    <button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default("Ajouter la bannière") }}</button>
+    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+</div>
+{{ form_end(form) }}
