@@ -972,7 +972,7 @@
             // PARTIE Bannière sur image
             // ---------------------------------------
             // I. Mise en place du Select2
-            new TomSelect("#complement_banner",{
+            const TsPropertyBanner = new TomSelect("#complement_banner",{
                 plugins: ['remove_button'],
                 create: true,
                 onItemAdd:function(){
@@ -1012,7 +1012,8 @@
                         optionbanner.setAttribute("data-data", response.data.banner)
                         optionbanner.text = response.data.banner;
                         selectbanner.add(optionbanner)
-                        // manque l'alimentation du TS banner
+                        TsPropertyBanner.addOption({data: response.data.banner, value:response.data.valuebanner})
+                        TsPropertyBanner.addItem(response.data.cat)
                         HouseCat.hide()
                     })
                     .catch(function(error){

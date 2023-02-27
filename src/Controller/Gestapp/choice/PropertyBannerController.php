@@ -56,8 +56,8 @@ class PropertyBannerController extends AbstractController
 
             return $this->json([
                 'code' => 200,
-                'cat' => $propertyBanner->getName(),
-                'valuecat'=> $propertyBanner->getId(),
+                'banner' => $propertyBanner->getName(),
+                'valuebanner'=> $propertyBanner->getId(),
                 'message' => "Une nouvelle bannière a été ajoutée à la BDD."
             ], 200);
         }
