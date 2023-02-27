@@ -285,10 +285,10 @@ class ReportController extends AbstractController
             // publication sur les réseaux
             $publications = [];
             if ($property['seloger'] == 1){
-                array_push($publications,'SL');
+                array_push($publications,'MEILLEURSAGENTS');
             }
             if ($property['leboncoin'] == 1){
-                array_push($publications,'LBC');
+                array_push($publications,'LEBONCOIN_IMMO_V2');
             }
             $listpublications = implode(",",$publications);
 

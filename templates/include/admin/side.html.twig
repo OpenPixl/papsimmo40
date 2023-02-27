@@ -18,6 +18,12 @@
             <li><a href="{{ path('op_gestapp_customer_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-people-arrows-left-right"></i> Clients</a></li>
         </ul>
     </div>
+    <div class="menu-items">
+        <h6>RESSOURCES</h6>
+        <ul>
+            <li><a href=""><i class="fa-duotone fa-folder-open"></i> Documents</a></li>
+        </ul>
+    </div>
     {% if is_granted('ROLE_SUPER_ADMIN') %}
     <div class="menu-items">
         <h6>WEB</h6>

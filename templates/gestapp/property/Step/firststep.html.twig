@@ -2,7 +2,7 @@
     {{ form_start(form, {'attr': {'id': 'FormAddInformation'}}) }}
     <div class="row g-1 mt-2">
         <div class="col-sm-12">
-            <div class="alert alert-light">
+
                 {% if property.refMandat is empty %}
                 <div class="row" id="FormMandat">
                     <div class="col">
@@ -16,66 +16,46 @@
                 <div class="row">
                     <div class="col">
                         {# STEP 1 : Ligne du titre de l'annonce du bien #}
-                        <div class="row">
-                            {# Ligne ref Mandat #}
-                            <div class="col-3 m-0 d-flex align-items-center">
-                                Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b>
-                            </div>
-                            {# Ligne ref Mandat #}
-                            <div class="col-3 m-0">
-                                <div class="row mb-1 mt-1 g-1">
-                                    {{ form_errors(form.mandatAt) }}
-                                    {{ form_label(form.mandatAt, 'Date du mandat', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
-                                    <div class="col-4">
-                                        {{ form_errors(form.mandatAt) }}
-                                        {{ form_widget(form.mandatAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                            {# Ligne référence du bien #}
-                            <div class="col-3 m-0">
-                                <div class="row mb-1 mt-1 g-1">
-                                    {{ form_errors(form.ref) }}
-                                    {{ form_label(form.ref, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
-                                    <div class="col-4">
-                                        {{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                    </div>
-                                </div>
-                            </div>
-                            {# Ligne Exclu du bien #}
-                            <div class="col-3 m-0">
-                                <div class="row">
-                                    <div class="col-4 align-items-center">
-                                        <fieldset>
-                                            <div class="form-check">
-                                                {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                                {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-4 align-items-center">
-                                        <fieldset>
-                                            <div class="form-check">
-                                                {{ form_widget(form.isSemiExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                                {{ form_label(form.isSemiExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                    <div class="col-4" align-items-center>
-                                        <fieldset>
-                                            <div class="form-check">
-                                                {{ form_widget(form.isWithExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                                {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                            </div>
-                                        </fieldset>
-                                    </div>
-                                </div>
-                            </div>
+                        <table class="table table-sm">
+                            <tbody>
+                                <tr>
+                                    <td colspan="9"></td>
+                                </tr>
+                                <tr class="align-middle table-light">
+                                    <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
+                                    <td class="col-md-2">{{ form_label(form.mandatAt, 'Date du mandat', {'label_attr': {'class':'col-sm-4  form-label'}}) }}</td>
+                                    <td class="col-md-1">{{ form_widget(form.mandatAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                                    <td class="col-md-1">{{ form_label(form.ref, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}</td>
+                                    <td class="col-md-1">{{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </td>
+                                    <td class="col-md-1"></td>
+                                    <td class="col-md-1 ">
+                                        <div class="form-check">
+                                            {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                            {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                        </div>
+                                    </td>
+                                    <td class="col-md-1">
+                                        <div class="form-check">
+                                            {{ form_widget(form.isSemiExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                            {{ form_label(form.isSemiExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                        </div>
+                                    </td>
+                                    <td class="col-md-1">
+                                        <div class="form-check">
+                                            {{ form_widget(form.isWithExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                            {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
 
-                        </div>
+
+
                     </div>
                 </div>
-            </div>
+
         </div>
         <hr>
         <div class="col-sm-9">

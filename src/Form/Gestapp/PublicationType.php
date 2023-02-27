@@ -34,17 +34,17 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur LeBonCoin ?',
                 'required' => false
             ])
-            ->add('sector', ChoiceType::class, [
-                'label' => 'Secteur',
-                'choices'  => [
-                    'Mont de marsan & alentours' => "mdm-alentours",
-                    'Dax & alentours' => 'dax-alentours'
-                ],
-                'choice_attr' => [
-                    'Mont de marsan & alentours' => ['data-data' => 'Mont de marsan & alentours'],
-                    'Dax & alentours' => ['data-data' => 'Dax & alentours']
-                ],
-            ])
+            //->add('sector', ChoiceType::class, [
+            //    'label' => 'Secteur',
+            //    'choices'  => [
+            //        'Mont de marsan & alentours' => "mdm-alentours",
+            //        'Dax & alentours' => 'dax-alentours'
+            //    ],
+            //    'choice_attr' => [
+            //        'Mont de marsan & alentours' => ['data-data' => 'Mont de marsan & alentours'],
+            //        'Dax & alentours' => ['data-data' => 'Dax & alentours']
+            //    ],
+            //])
         ;
     }
 

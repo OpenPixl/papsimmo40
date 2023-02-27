@@ -15,7 +15,7 @@
     </thead>
     <tbody>
     {% for customer in customers%}
-        <tr>
+        <tr class="align-middle">
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <td>
                 {% if customer.avatarName is not null %}
@@ -28,7 +28,7 @@
             {% endif %}
             <td>{{ customer.RefCustomer }}</td>
             <td><strong>{{ customer.lastName }} {{ customer.firstName }}</strong></td>
-            <td>{{ customer.adress }}<br>{{ customer.complement }}<br>{{ customer.zipcode }} {{ customer.city }}</td>
+            <td>{% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}</td>
 
             <td>{{ customer.customerChoice }}</td>
             <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d') : '' }}</td>

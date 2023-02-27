@@ -20,10 +20,12 @@
                         </div>
                     </td>
                 </tr>
+                {#
                 <tr>
                     <td>Choissez le secteur de diffusion du bien</td>
                     <td>{{ form_widget(form.sector, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                 </tr>
+                #}
                 <tr class="table-light">
                     <th colspan="2" class="text-uppercase">Publications sur les plateformes.</th>
                 </tr>
@@ -48,6 +50,14 @@
                     <td>
                         <div class="form-check form-switch">
                             {{ form_widget(form.isPublishleboncoin, {'attr': {'class': 'form-check-input'}}) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.isSocialNetwork, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            {{ form_widget(form.isSocialNetwork, {'attr': {'class': 'form-check-input'}}) }}
                         </div>
                     </td>
                 </tr>
