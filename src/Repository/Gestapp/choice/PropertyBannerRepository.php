@@ -39,6 +39,18 @@ class PropertyBannerRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * @return PropertyBanner[] Returns an array of PropertyBanner objects
+     */
+    public function listAll(): array
+    {
+        return $this->createQueryBuilder('b')
+            ->orderBy('b.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return PropertyBanner[] Returns an array of PropertyBanner objects
 //     */

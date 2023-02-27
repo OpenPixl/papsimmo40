@@ -157,7 +157,7 @@ class ComplementController extends AbstractController
             $complementRepository->add($complement);
             return $this->json([
                 'code' => 200,
-                'message' => "Une nouvelle source a été ajoutée."
+                'message' => "Le bien a été correctement ajoutée/modifiée."
             ], 200);
         }
 

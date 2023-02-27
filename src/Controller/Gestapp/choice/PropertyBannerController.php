@@ -18,7 +18,7 @@ class PropertyBannerController extends AbstractController
     #[Route('/', name: 'app_gestapp_choice_property_banner_index', methods: ['GET'])]
     public function index(PropertyBannerRepository $propertyBannerRepository): Response
     {
-        return $this->render('gestapp/choice/property_banner/index.html.twig', [
+        return $this->render('gestapp/choice/property_banner/indexjson.html.twig', [
             'property_banners' => $propertyBannerRepository->findAll(),
         ]);
     }

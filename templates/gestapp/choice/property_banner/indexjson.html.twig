@@ -1,0 +1,30 @@
+<div class="row">
+    {% for property_banner in property_banners %}
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <table>
+                        <tr class="align-middle">
+                            <td class="col-md-8">{{ property_banner.name }}</td>
+                            <td class="col-md-4"><img src="{{ asset('images/svg/') ~ property_banner.bannerFilename}}" alt="{{ property_banner.slug }}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% else %}
+        <div class="col-3">
+            <div class="card">
+                <div class="card-body">
+                    <table>
+                        <tr class="align-middle">
+                            <td>Pas de bannière disponible</td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+

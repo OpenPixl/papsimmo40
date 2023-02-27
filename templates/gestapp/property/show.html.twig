@@ -1022,10 +1022,15 @@
             // IV. Modal listant les bannieres disponibles
             const modalListPropertyBanner = document.getElementById('ListBanner')
             const ListPropertyBanner = new bootstrap.Modal(modalListPropertyBanner, { keyboard: true })
-            const bntListPropertyBanner = document.getElementById('btnListBanner')
-            bntListPropertyBanner.addEventListener('click', function(event){
+            const btnListBanner = document.getElementById('btnListBanner')
+            btnListBanner.addEventListener('click', function(event){
                 event.preventDefault()
                 ListPropertyBanner.show()
+                axios
+                    .get('/gestapp/choice/property/banner/index')
+                    .then(function(response){
+                        document.getElementById('modalListBanner').innerHTML = response.data.list
+                    })
             })
 
             // PARTIE Catégorie du bien
@@ -1796,12 +1801,18 @@
             </div>
         </div>
         {# Modal liste Banner #}
-        <div class="modal fade" id="ListBanner" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
+        <div class="modal fade" id="ListBanner" tabindex="-1" aria-labelledby="ListBanner" aria-hidden="true">
+            <div class="modal-dialog modal-xl modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Liste des bannières disponibles :</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="modalListBanner" class="modal-body">
+                        {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::index')) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </div>
             </div>

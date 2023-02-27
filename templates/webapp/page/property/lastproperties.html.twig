@@ -91,21 +91,9 @@
                             {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
                             <div class="card-img-overlay">
                                 {# Instertion de la bannière #}
-                                {% if property.banner == "coup-de-coeur" %}
+                                {% if property.bannerFilename is not null %}
                                     <div class="banner">
-                                        <img src="{{ asset('images/svg/coeur.svg') }}" alt="CoupDeCoeur">
-                                    </div>
-                                {% elseif property.banner == "exclusivité" %}
-                                    <div class="banner">
-                                        <img src="{{ asset('images/svg/exclu.svg') }}" alt="Exclusivité">
-                                    </div>
-                                {% elseif property.banner == "a-saisir" %}
-                                    <div class="banner">
-                                        <img src="{{ asset('images/svg/asaisir.svg') }}" alt="Exclusivité">
-                                    </div>
-                                {% elseif property.banner == "derniere-minute" %}
-                                    <div class="banner">
-                                        <img src="{{ asset('images/svg/flash.svg') }}" alt="Exclusivité">
+                                        <img src="{{ asset('images/svg/') ~ property.bannerFilename }}" alt="{{ property.banner }}">
                                     </div>
                                 {% endif %}
 
