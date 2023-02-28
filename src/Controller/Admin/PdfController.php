@@ -165,6 +165,8 @@ class PdfController extends AbstractController
         $slug = $article->getSlug();
         $pdfRendered = $pdfRenderedRepository->findOneBy(['name' => $slug]);
         $filename = 'pdf/articles/'.$slug.'.pdf';
+        $header = $this->renderView('pdf/include/header.html.twig');
+        $footer = $this->renderView('pdf/include/footer.html.twig');
 
         if(!$pdfRendered)
         {
@@ -174,6 +176,8 @@ class PdfController extends AbstractController
             $newPdf->setFilename($filename);
             $pdfRenderedRepository->add($newPdf, true);
             // Génération du fichiers Pdf & stockage dans le dossier "pdf/articles"
+            $knpSnappyPdf->setOption("footer-html", $footer);
+            $knpSnappyPdf->setOption("header-html", $header);
             $knpSnappyPdf->setOption("encoding","UTF-8");
             $knpSnappyPdf->generateFromHtml(
                 $this->renderView(
@@ -203,6 +207,8 @@ class PdfController extends AbstractController
             }
 
             // Génération du fichiers Pdf & stockage dans le dossier "pdf/articles"
+            $knpSnappyPdf->setOption("footer-html", $footer);
+            $knpSnappyPdf->setOption("header-html", $header);
             $knpSnappyPdf->setOption("encoding","UTF-8");
             $knpSnappyPdf->generateFromHtml(
                 $this->renderView(
