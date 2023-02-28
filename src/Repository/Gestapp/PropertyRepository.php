@@ -384,6 +384,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('p');
         $query->join('p.refEmployed', 'e');
         $query->join('p.options', 'c'); // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->join('c.banner', 'b');
         $query->join('c.denomination', 'd');
         $query->join('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
@@ -410,7 +411,8 @@ class PropertyRepository extends ServiceEntityRepository
                 e.lastName as lastName,
                 e.avatarName as avatarName,
                 pd.name as propertyDefinition,
-                c.banner
+                b.name AS banner,
+                b.bannerFilename AS bannerFilename 
         ');
         $query->where('p.isIncreating = 0');
         $query->andWhere('pu.isWebpublish = 1');
