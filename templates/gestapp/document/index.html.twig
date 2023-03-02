@@ -1,0 +1,29 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Document index{% endblock %}
+
+{% block contentTitle %}
+    <div class="row">
+        <div class="col-sm-12">
+            <h1>Listes des documents disponibles</h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+    <div class="col-sm-12">
+        {{ render(controller('App\\Controller\\Gestapp\\DocumentController::new2'))}}
+    </div>
+    {% endif %}
+    <div id="docCategory" class="col-sm-12">
+        <h4><i class="fa-duotone fa-ballot-check"></i> Choix d'une catégorie</h4>
+    </div>
+    <div id="list" class="col-sm-12">
+        {% include('gestapp/document/_list.html.twig') %}
+    </div>
+
+
+</div>
+{% endblock %}

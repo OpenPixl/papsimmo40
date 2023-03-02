@@ -1,0 +1,31 @@
+<table class="table table-sm">
+    <tbody>
+        <tr>
+            <td colspan="5"><h4><i class="fa-duotone fa-circle-plus"></i> Ajouter un document</h4></td>
+        </tr>
+        {{ form_start(form) }}
+        <tr class="align-middle">
+            <td class="table-light col-sm-2">{{ form_label(form.name) }}</td>
+            <td class="col-sm-2">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+            <td class="table-light col-sm-2">{{ form_label(form.category) }}</td>
+            <td class="col-sm-2">{{ form_widget(form.category, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+            <td class="col-sm-4" rowspan="2"><button class="btn btn-èsm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button></td>
+        </tr>
+        <tr class="align-middle">
+            <td class="table-light col-sm-2">{{ form_label(form.typeDoc) }}</td>
+            <td class="col-sm-2">{{ form_widget(form.typeDoc, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+            <td class="table-light col-sm-2">Fichier</td>
+            <td class="col-sm-2">
+                {{ form_widget(form.pdfFilename) }}
+                {{ form_widget(form.wordFilename) }}
+                {{ form_widget(form.excelFilename) }}
+            </td>
+        </tr>
+        {{ form_end(form) }}
+    </tbody>
+</table>
+
+
+
+
+
