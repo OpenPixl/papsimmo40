@@ -177,6 +177,8 @@ class ReportController extends AbstractController
     {
         $properties = $propertyRepository->reportpropertycsv2();
 
+        //dd($properties);
+
         $app = $this->container->get('router')->getContext()->getHost();
         //dd($properties);
 
@@ -679,8 +681,11 @@ class ReportController extends AbstractController
 
         $content = implode("\n", $rows);
 
+        //dd($content);
+
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');
+        //dd($response);
 
         return $response;
     }

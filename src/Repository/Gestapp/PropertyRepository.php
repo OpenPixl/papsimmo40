@@ -551,7 +551,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
         $query->leftjoin('c.propertyEnergy', 'pe');
-        $query->where('pu.isPublishMeilleur = 1 or pu.isPublishleboncoin = 1');            // filtre sur la publication Paru-Vendu
+        $query->where('pu.isPublishMeilleur = 1 OR pu.isPublishleboncoin = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->select('
                 pu.isPublishleboncoin AS leboncoin,
