@@ -14,7 +14,13 @@
 
                         <div class="card-img-overlay">
                             <div class="name">
-                                {{ property.propertyDefinition }}  | {{ property.denomination }} | {{ property.surfaceHome}} m2
+                                {{ property.propertyDefinition }}  |
+                                {{ property.denomination }} |
+                                {% if property.idpropertyDefinition == 5 or property.idpropertyDefinition == 15 or property.idpropertyDefinition == 16 or property.idpropertyDefinition == 19 or property.idpropertyDefinition == 20 or property.idpropertyDefinition == 23 %}
+                                {{ property.surfaceLand }} m2
+                                {% else %}
+                                {{ property.surfaceHome}} m2
+                                {% endif %}
                             </div>
                             <div class="city">
                                 {{ property.city }}
@@ -98,7 +104,13 @@
                                 {% endif %}
 
                                 <div class="name">
-                                    {{ property.propertyDefinition }}  | {{ property.denomination }} | {{ property.surfaceHome}} m2
+                                    {{ property.propertyDefinition }}  |
+                                    {{ property.denomination }} |
+                                    {% if property.idpropertyDefinition == 5 or property.idpropertyDefinition == 15 or property.idpropertyDefinition == 16 or property.idpropertyDefinition == 19 or property.idpropertyDefinition == 20 or property.idpropertyDefinition == 23 %}
+                                        {{ property.surfaceLand }} m2
+                                    {% else %}
+                                        {{ property.surfaceHome}} m2
+                                    {% endif %}
                                 </div>
                                 <div class="city">
                                     {{ property.city }}

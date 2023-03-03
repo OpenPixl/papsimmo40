@@ -15,7 +15,7 @@
     {% if property.room < 2 %}{%set room = 'chambre'%}{%else%}{%set room = 'chambres'%}{%endif%}
     {# variables pour la ou les pages de galerie  #}
     {% set nbphotos = photos|length %}
-    {% set page = (nbphotos / 6)|round %}
+    {% set page = ((nbphotos / 6)|round)+1 %}
     {% set photosCollection = [] %}
     {% for photo in photos %}
         {% set photosCollection = photosCollection|merge([photo]) %}
@@ -49,6 +49,12 @@
                                 <th>Type :</th>
                                 <td colspan="3">{{ property.propertyDefinition }}</td>
                             </tr>
+                            {% if property.constructionAt is not empty %}
+                            <tr>
+                                <th>Année de construction :</th>
+                                <td colspan="3">{{ property.constructionAt }}</td>
+                            </tr>
+                            {% endif %}
                             <tr>
                                 <th>Surfaces : </th>
                                 <td><b>Habitable : </b> {{ property.surfaceHome }} m2 / <b>Terrain : </b>{{ property.surfaceLand }} m2</td>
@@ -210,7 +216,7 @@
                 <p><span class="subtitle">Estimation énergie basse : </span>{% if property.dpeEstimateEnergyDown is not
                         empty %}{{ property.dpeEstimateEnergyDown }} €{% else %}non communiqué{% endif %}</p>
                 <p><span class="subtitle">Estimation énergie élevée : </span>{% if property.dpeEstimateEnergyUp is not empty %}{{property.dpeEstimateEnergyUp}} €{% else %}non communiqué{% endif %}</p>
-                <p><span class="subtitle">Année de référence : </span>{% if property.anneeref is not empty %}{{ property.anneeref|date("Y", "Europe/Paris") }}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Année de référence : </span>{% if property.anneeref is not empty %}{{ property.anneeref }}{% else %}non communiqué{% endif %}</p>
             </div>
             <div>
                 <h3 class="title-h3">Piéces</h3>
