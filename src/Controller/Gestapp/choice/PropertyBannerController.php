@@ -37,7 +37,7 @@ class PropertyBannerController extends AbstractController
                 $originalFilename = pathinfo($banner->getClientOriginalName(), PATHINFO_FILENAME);
                 // transformation du nom pour échapper les accents & autres
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$banner->guessExtension();
+                $newFilename = $safeFilename.$banner->guessExtension();
 
                 // Déplacement du fichier dans le dossier recevant les fichiers SVG
                 try {

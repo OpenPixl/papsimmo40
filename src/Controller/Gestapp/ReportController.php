@@ -340,6 +340,18 @@ class ReportController extends AbstractController
                 $bilanGes = 'G';
             }
 
+            if($property['diagChoice'] == "obligatoire"){
+                $diagDPEChoice = "D";
+                $diagGESChoice = "E";
+            }elseif($property['diagChoice'] == "vierge"){
+                $diagDPEChoice = "VI";
+                $diagGESChoice = "VI";
+            }else{
+                $diagDPEChoice = "NS";
+                $diagGESChoice = "NS";
+            }
+
+
             // Création d'une ligne du tableau
             $data = array(
                 '"papsimmo"',                                               // 1 - Identifiant Agence
@@ -356,7 +368,7 @@ class ReportController extends AbstractController
                 '""',                                                       // 12 - Loyer / mois murs
                 '"0"',                                                      // 13 - Loyer CC
                 '"0"',                                                      // 14 - Loyer HT
-                '"'.$honoraires.'"',                                        // 15 - Honoraires
+                '""',                                                       // 15 - Honoraires
                 '"'.$property['surfaceHome'].'"',                           // 16 - Surface (m²)
                 '"'.$property['surfaceLand'].'"',                           // 17 - Surface terrain (m²)
                 '"'.$property['piece'].'"',                                 // 18 - NB de pièces
@@ -381,7 +393,7 @@ class ReportController extends AbstractController
                 '"'.$ouest.'"',                                             // 37 - Orientation ouest
                 '"'.$nord.'"',                                              // 38 - Orientation nord
                 '"'.$property['balcony'].'"',                               // 39 - NB balcons
-                '""',                                           // 40 - SF Balcon
+                '""',                                                       // 40 - SF Balcon
                 '"0"',// 41 - Ascenseur
                 '"0"',// 42 - Cave
                 '""',                                                       // 43 - NB de parkings
@@ -518,9 +530,9 @@ class ReportController extends AbstractController
                 '"'.$url20.'"',                                             // 174 - Photo 20
                 '""',                                                       // 175 - Identifiant technique
                 '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
-                '"'.$bilanDpe.'"',                                          // 177 - Bilan consommation énergie
+                '"'.$diagDPEChoice.'"',                                     // 177 - Bilan consommation énergie
                 '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
-                '"'.$bilanGes.'"',                                          // 179 - Bilan émission GES
+                '"'.$diagGESChoice.'"',                                     // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '"'.$property['ssCategory'].'"',                            // 181 - Sous type de bien
                 '""',                                                       // 182 - Périodes de disponibilité
@@ -665,16 +677,16 @@ class ReportController extends AbstractController
                 '""',// 321 - Surface terrain nécessaire
                 '""',// 322 - Localisation
                 '""',// 323 - Nom du modèle
-                '"'.$dpeAt.'"',                                 // 324 - Date réalisation DPE
+                '"'.$dpeAt.'"',                                             // 324 - Date réalisation DPE
                 '""',                                                       // 325 - Version DPE
                 '"'.$property['dpeEstimateEnergyDown'].'"',                 // 326 - DPE coût min conso
                 '"'.$property['dpeEstimateEnergyUp'].'"',                   // 327 - DPE coût max conso
                 '"'.$property['RefDPE'].'"',                                // 328 - DPE date référence conso
-                '""',                                   // 329 - Surface terrasse
-                '""',                                   // 330 - DPE coût conso annuelle
-                '""',                                   // 331 - Loyer de base
-                '""',                                   // 332 - Loyer de référence majoré
-                '""',                                   // 333 - Encadrement des loyers
+                '""',                                                       // 329 - Surface terrasse
+                '""',                                                       // 330 - DPE coût conso annuelle
+                '""',                                                       // 331 - Loyer de base
+                '""',                                                       // 332 - Loyer de référence majoré
+                '""',                                                       // 333 - Encadrement des loyers
             );
             $rows[] = implode('!#', $data);
         }
