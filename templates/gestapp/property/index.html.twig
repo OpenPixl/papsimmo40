@@ -298,23 +298,37 @@
         </div>
         {# Modal d'ajout d'une nouvelle proprieté #}
         <div class="modal fade" id="modalAddNewProperty" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-warning" id="exampleModalLabel">Création d'un nouveau bien à la vente</h5>
+                        <h5 class="modal-title text-info" id="exampleModalLabel">Création d'un nouveau bien à la vente</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        <table class="table table-sm">
+                            <tr>
+
+                                <td colspan="2">
+                                    <b>Attention :</b>
+                                </td>
+                            </tr>
+                            <tr class="align-middle">
+                                <td class="col-sm-8 table-light">
+                                    Le numéro de mandat généré ci-dessous est fournis notre système.
+                                    <br>Si ce dernier correspond au numéro reçu par SMS, cliquez sur le bouton "Accéder à la fiche". Dans le cas contraire, changez-le.
+                                </td>
+                                <td class="col-sm-4"><input type="text" id="refMandat" name="refMandat" class="form-control form-control-sm"></td>
+                            </tr>
+                        </table>
                         <p class="modal-text">
-                            Attention :
-                            <br>Le numéro de mandat généré ci-dessous est fournis notre système.
-                            <br>Si ce dernier correspond au numéro reçu par SMS, ne changez rien. Dans le cas contraire, changez-le.
-                        </p>
-                        <input type="text" id="refMandat" name="refMandat" class="form-control form-control-sm">
+
+
+                            <br></p>
+
                     </div>
                     <div class="modal-footer">
                         {% set refmandat = 0 %}
-                        <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'refMandat': refmandat}) }}" class="btn btn-warning">Supprimer</a>
+                        <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'refMandat': refmandat}) }}" class="btn btn-info">Accéder à la fiche</a>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </div>
