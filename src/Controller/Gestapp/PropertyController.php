@@ -127,7 +127,20 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/add', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
+    #[Route('/getlastmandat', name:'op_gestapp_property_getlastmandat', methods: ['GET'])]
+    public function getLastMandat(PropertyRepository $propertyRepository){
+
+        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);             // Récupération de la dernière propriété enregistrée
+        $refmandat = $lastproperty->getRefMandat()+1;
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Le bien a été archivé sur le site.",
+            'refmandat' => $refmandat
+        ], 200);
+    }
+
+    #[Route('/add/{refMandat}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
     public function add(
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
@@ -135,10 +148,11 @@ class PropertyController extends AbstractController
         PublicationRepository $publicationRepository,
         PropertyEquipementRepository $propertyEquipementRepository,
         OtherOptionRepository $otherOptionRepository,
-        PropertyDefinitionRepository $propertyDefinitionRepository
+        PropertyDefinitionRepository $propertyDefinitionRepository,
+        $refMandat
         )
     {
-        // Récupération du collaborateur
+                // Récupération du collaborateur
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
         // prépartion des complement au bien
@@ -161,13 +175,13 @@ class PropertyController extends AbstractController
         // Contruction de la référence pour chaque propriété
         // ---
         $date = new \DateTime();
-        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);           // Récupération de la dernière propriété enregistrée
+        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);             // Récupération de la dernière propriété enregistrée
         if($lastproperty){
             $refNumDate = $date->format('Y').'/'.$date->format('m');        // contruction de la première partie de référence
-            $RefMandat = $lastproperty->getRefMandat() + 1;                           // construction du numéro de mandat obligatoire
+            $RefMandat = $refMandat;                           // construction du numéro de mandat obligatoire
         }else{
             $refNumDate = $date->format('Y').'/'.$date->format('m');        // contruction de la première partie de référence
-            $RefMandat = 23;
+            $RefMandat = 22;
         }
 
         // Création de l'entité Property

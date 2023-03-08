@@ -7,6 +7,31 @@
     <script>
         window.onload = function(){
 
+            // Ouverture de la modale d'ajout d'un bien / propriété
+            // avec intégration du Numéro de mandat modifiable par le créateur
+            // ----------------------------------------------------------------
+            // I. Ouverture de la modal
+            const modalAddNewProperty = document.getElementById('modalAddNewProperty')
+            const NewProperty = new bootstrap.Modal(modalAddNewProperty, { keyboard: true })
+            const addNewProperty = document.getElementById('addNewProperty')
+            addNewProperty.addEventListener('click', function(event){
+                event.preventDefault()
+                NewProperty.show()
+                axios
+                    .get('/gestapp/property/getlastmandat')
+                    .then(function(response){
+                        document.getElementById('refMandat').value = response.data.refmandat
+                    })
+            })
+            // II. Envoi vers le controleur
+            document.getElementById('submitAddnewproperty').addEventListener('click', function(event){
+                let submitAddnewproperty = document.getElementById('submitAddnewproperty')
+                let refMandat = document.getElementById('refMandat').value
+                let urlAddNewProperty = this.href
+                submitAddnewproperty.href = '/gestapp/property/add/' + refMandat
+            })
+
+
             function DelPropertyIncreating(event)
             {
                 event.preventDefault();
@@ -206,7 +231,7 @@
 
     <div class="navigation d-flex justify-content-between">
         <div>
-            <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
+            <button id="addNewProperty" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</button>
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <button class="btn btn-sm btn-outline-dark" id="btnMListArchived" href="">Afficher les biens archivés</button>
             {% endif %}
@@ -224,7 +249,6 @@
 
     <div class="navigation d-flex justify-content-between">
 
-        <a href="{{ path('op_gestapp_property_add') }}" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</a>
         {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
     </div>
 
@@ -267,6 +291,30 @@
                     </div>
                     <div class="modal-footer">
                         <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {# Modal d'ajout d'une nouvelle proprieté #}
+        <div class="modal fade" id="modalAddNewProperty" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-warning" id="exampleModalLabel">Création d'un nouveau bien à la vente</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-text">
+                            Attention :
+                            <br>Le numéro de mandat généré ci-dessous est fournis notre système.
+                            <br>Si ce dernier correspond au numéro reçu par SMS, ne changez rien. Dans le cas contraire, changez-le.
+                        </p>
+                        <input type="text" id="refMandat" name="refMandat" class="form-control form-control-sm">
+                    </div>
+                    <div class="modal-footer">
+                        {% set refmandat = 0 %}
+                        <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'refMandat': refmandat}) }}" class="btn btn-warning">Supprimer</a>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </div>
