@@ -25,16 +25,16 @@
             })
             // II. Modification de l'addresse de traitement controller
             document.getElementById('refMandat').addEventListener('input', function(event){
-                let newmandat = document.getElementById('refMandat').value
-                let lastmandat = document.getElementById('lastMandat').value
+                let newmandat = parseInt(document.getElementById('refMandat').value)
+                let lastmandat = parseInt(document.getElementById('lastMandat').value)
                 if(newmandat <= lastmandat){
-                    console.log('erreur')
+                    console.log(newmandat,lastmandat)
                     document.getElementById("refMandat").classList.remove("is-valid")
                     document.getElementById("refMandat").classList.add("is-invalid")
                     document.getElementById('tdconsign').textContent = "Veuillez corriger ce numéro de mandat"
                     document.getElementById("submitAddnewproperty").href = '#'
                 }else{
-                    console.log('ok')
+                    console.log(newmandat,lastmandat)
                     document.getElementById("refMandat").classList.remove("is-invalid")
                     document.getElementById("refMandat").classList.add("is-valid")
                     document.getElementById('tdconsign').textContent = "Numéro de mandat valide."
