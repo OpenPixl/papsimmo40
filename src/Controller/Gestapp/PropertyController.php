@@ -131,12 +131,12 @@ class PropertyController extends AbstractController
     public function getLastMandat(PropertyRepository $propertyRepository){
 
         $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);             // Récupération de la dernière propriété enregistrée
-        $refmandat = $lastproperty->getRefMandat()+1;
+        $lastmandat = $lastproperty->getRefMandat();
 
         return $this->json([
             'code'=> 200,
             'message' => "Le bien a été archivé sur le site.",
-            'refmandat' => $refmandat
+            'lastmandat' => $lastmandat
         ], 200);
     }
 

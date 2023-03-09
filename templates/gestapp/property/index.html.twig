@@ -20,15 +20,26 @@
                 axios
                     .get('/gestapp/property/getlastmandat')
                     .then(function(response){
-                        document.getElementById('refMandat').value = response.data.refmandat
+                        document.getElementById('lastMandat').value = response.data.lastmandat
                     })
             })
-            // II. Envoi vers le controleur
-            document.getElementById('submitAddnewproperty').addEventListener('click', function(event){
-                let submitAddnewproperty = document.getElementById('submitAddnewproperty')
-                let refMandat = document.getElementById('refMandat').value
-                let urlAddNewProperty = this.href
-                submitAddnewproperty.href = '/gestapp/property/add/' + refMandat
+            // II. Modification de l'addresse de traitement controller
+            document.getElementById('refMandat').addEventListener('input', function(event){
+                let newmandat = document.getElementById('refMandat').value
+                let lastmandat = document.getElementById('lastMandat').value
+                if(newmandat <= lastmandat){
+                    console.log('erreur')
+                    document.getElementById("refMandat").classList.remove("is-valid")
+                    document.getElementById("refMandat").classList.add("is-invalid")
+                    document.getElementById('tdconsign').textContent = "Veuillez corriger ce numéro de mandat"
+                    document.getElementById("submitAddnewproperty").href = '#'
+                }else{
+                    console.log('ok')
+                    document.getElementById("refMandat").classList.remove("is-invalid")
+                    document.getElementById("refMandat").classList.add("is-valid")
+                    document.getElementById('tdconsign').textContent = "Numéro de mandat valide."
+                    document.getElementById("submitAddnewproperty").href = '/gestapp/property/add/' + newmandat
+                }
             })
 
 
@@ -313,17 +324,13 @@
                                 </td>
                             </tr>
                             <tr class="align-middle">
-                                <td class="col-sm-8 table-light">
-                                    Le numéro de mandat généré ci-dessous est fournis notre système.
-                                    <br>Si ce dernier correspond au numéro reçu par SMS, cliquez sur le bouton "Accéder à la fiche". Dans le cas contraire, changez-le.
+                                <td id="tdconsign" class="col-sm-8 table-light">
+                                    Le numéro de mandat généré sera vérifié par le système.
                                 </td>
                                 <td class="col-sm-4"><input type="text" id="refMandat" name="refMandat" class="form-control form-control-sm"></td>
                             </tr>
                         </table>
-                        <p class="modal-text">
-
-
-                            <br></p>
+                        <input type="hidden" id="lastMandat">
 
                     </div>
                     <div class="modal-footer">
