@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit CatDocument{% endblock %}
+
+{% block body %}
+    <h1>Edit CatDocument</h1>
+
+    {{ include('gestapp/choice/cat_document/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_gestapp_choice_cat_document_index') }}">back to list</a>
+
+    {{ include('gestapp/choice/cat_document/_delete_form.html.twig') }}
+{% endblock %}

@@ -42,7 +42,6 @@ class ReportController extends AbstractController
             }else{
                 $dpeAt ="";
             }
-            // dd($dpeAt);
             // Clé de détermination PARUVENDU - FAMILLE
             if($property['projet']){
                 $famille = $property['projet'];
@@ -51,7 +50,7 @@ class ReportController extends AbstractController
             }
             // Clé de détermination PARUVENDU - RUBRIQUE
             if($property['propertyDefinition']){
-                $rubrique = $property['propertyDefinition'];
+                $rubrique = $property['propertyCode'];
             }else{
                 $rubrique = "00";
             }

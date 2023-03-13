@@ -12,9 +12,6 @@
     <p class="text-center d-lg-none">
         <img class="img-fluid" src="#" alt="papsimmo40">
     </p>
-    {% if error %}
-        <p class="text-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
-    {% endif %}
     <!-- Subheading -->
     <p class="text-muted text-center mb-5">
         Accéder à votre espace personnel.
@@ -54,9 +51,10 @@
     #}
 
     <button class="btn btn-sm btn-primary mt-2" type="submit">
-        Sign in
+        Connection
     </button>
-</form></div>
+</form>
+</div>
     <div class="col-md-6 col-lg-6 col-xl-8 d-none d-lg-block">
         <!-- Image -->
         <div id="block_login_image" class="bg-cover h-100 min-vh-100 mt-n1 mr-n3">

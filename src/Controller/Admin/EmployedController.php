@@ -30,6 +30,11 @@ class EmployedController extends AbstractController
         ]);
     }
 
+    #[Route('/changepassword/{id}', name: 'op_admin_employed_changepassword', methods: ['GET'])]
+    public function changePassword(Employed $employed){
+
+    }
+
     #[Route('/new', name: 'op_admin_employed_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {

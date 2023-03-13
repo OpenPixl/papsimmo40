@@ -1,0 +1,11 @@
+{{ form_start(form) }}
+<table class="table table-sm">
+    <tr>
+        <td colspan="2"></td>
+    </tr>
+    <tr class="align-middle">
+        <td class="table-light col-md-4">{{ form_label(form.name) }}</td>
+        <td>{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+    </tr>
+</table>
+{{ form_end(form) }}

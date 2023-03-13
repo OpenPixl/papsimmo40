@@ -8,17 +8,30 @@
             <td class="table-light col-sm-2">{{ form_label(form.name) }}</td>
             <td class="col-sm-2">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
             <td class="table-light col-sm-2">{{ form_label(form.category) }}</td>
-            <td class="col-sm-2">{{ form_widget(form.category, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-            <td class="col-sm-4" rowspan="2"><button class="btn btn-èsm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button></td>
+            <td class="col-sm-2">
+                <div class="row">
+                    <div class="col-md-10">{{ form_widget(form.category, {'attr': {'class': 'form-select form-select-sm'}}) }}</div>
+                    <div class="col-md-2"><button id="AddCatDocument" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#addCategory"><i class="fa-regular fa-circle-plus"></i></button></div>
+                </div>
+
+            </td>
+            <td class="table-light col-sm-4" rowspan="2"><button  class="btn btn-sm btn-outline-primary" >{{ button_label|default('Enregistrer') }}</button></td>
         </tr>
         <tr class="align-middle">
             <td class="table-light col-sm-2">{{ form_label(form.typeDoc) }}</td>
             <td class="col-sm-2">{{ form_widget(form.typeDoc, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
             <td class="table-light col-sm-2">Fichier</td>
-            <td class="col-sm-2">
+            <td id="pdf" class="col-sm-2">
                 {{ form_widget(form.pdfFilename) }}
+            </td>
+            <td id="word" class="col-sm-2" style="display:none;">
                 {{ form_widget(form.wordFilename) }}
+            </td>
+            <td id="excel" class="col-sm-2" style="display:none;">
                 {{ form_widget(form.excelFilename) }}
+            </td>
+            <td id="mp4" class="col-sm-2" style="display:none;">
+                {{ form_widget(form.mp4Filename) }}
             </td>
         </tr>
         {{ form_end(form) }}

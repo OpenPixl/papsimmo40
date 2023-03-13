@@ -34,6 +34,9 @@ class Document
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $sheet = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $mp4 = null;
+
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
@@ -115,6 +118,18 @@ class Document
     public function setSheet(?string $sheet): self
     {
         $this->sheet = $sheet;
+
+        return $this;
+    }
+
+    public function getMp4(): ?string
+    {
+        return $this->mp4;
+    }
+
+    public function setMp4(?string $mp4): self
+    {
+        $this->mp4 = $mp4;
 
         return $this;
     }

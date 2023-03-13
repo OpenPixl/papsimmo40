@@ -55,7 +55,7 @@ class EmployedType extends AbstractType
             ->add('fax')
             ->add('otherEmail', TextType::class, [
                 'label' => 'Autres email',
-                'required' => true
+                'required' => false
             ])
             ->add('facebook')
             ->add('instagram')

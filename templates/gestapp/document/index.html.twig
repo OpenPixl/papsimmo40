@@ -2,6 +2,49 @@
 
 {% block title %}Document index{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+            // Cahrgement de Filetype selon le select
+            // -------------------------------------
+            // I. On sélectionne le select
+            const typeDoc = document.getElementById('document_typeDoc')
+            // II. Mise en place de l'event
+            typeDoc.addEventListener('change', function(event){
+                if(typeDoc.value == 'Pdf'){
+                    document.getElementById('pdf').removeAttribute('style')
+                    document.getElementById('word').style.display = "none"
+                    document.getElementById('excel').style.display = "none"
+                    document.getElementById('mp4').style.display = "none"
+                }else if(typeDoc.value == 'Word'){
+                    document.getElementById('pdf').style.display = "none"
+                    document.getElementById('word').removeAttribute('style')
+                    document.getElementById('excel').style.display = "none"
+                    document.getElementById('mp4').style.display = "none"
+                }else if(typeDoc.value == 'Excel'){
+                    document.getElementById('pdf').style.display = "none"
+                    document.getElementById('word').style.display = "none"
+                    document.getElementById('excel').removeAttribute('style')
+                    document.getElementById('mp4').style.display = "none"
+                }else if(typeDoc.value == 'Mp4'){
+                    document.getElementById('pdf').style.display = "none"
+                    document.getElementById('word').style.display = "none"
+                    document.getElementById('excel').style.display = "none"
+                    document.getElementById('mp4').removeAttribute('style')
+                }
+            })
+
+            // ouverture de la modale d'ajout de catégorie
+            const modalAddCategory = document.getElementById('addCategory')
+            modalAddCategory.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                let button = event.relatedTarget
+            })
+        }
+    </script>
+{% endblock %}
+
 {% block contentTitle %}
     <div class="row">
         <div class="col-sm-12">
@@ -23,7 +66,32 @@
     <div id="list" class="col-sm-12">
         {% include('gestapp/document/_list.html.twig') %}
     </div>
-
-
 </div>
 {% endblock %}
+
+{% block modal %}
+    <section id="modals">
+        {# Ajout d'une catégorie #}
+
+        <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une categorie</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        {{ render(controller('App\\Controller\\Gestapp\\choice\\CatDocumentController::new')) }}
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                        <button id="btnAddCadaster" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
+
+

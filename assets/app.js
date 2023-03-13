@@ -6,7 +6,7 @@ window.bootstrap = bootstrap;
 function scrollValue() {
     var navbar = document.getElementById('navbar');
     var scroll = window.scrollY;
-    if (scroll < 400) {
+    if (scroll < 200) {
         navbar.classList.remove('bg-light');
     } else {
         navbar.classList.add('bg-light');

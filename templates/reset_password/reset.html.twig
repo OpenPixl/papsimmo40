@@ -1,0 +1,37 @@
+{% extends 'login.html.twig' %}
+
+{% block title %}Reset your password{% endblock %}
+
+{% block content %}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 align-self-center px-lg-6 my-5">
+    <h2 class="text-center">Récupérer / Changer <br> votre mot de passe</h2>
+    <p class="text-center d-lg-none">
+        <img class="img-fluid" src="#" alt="papsimmo40">
+    </p>
+    <p class="text-muted text-center mb-5">
+        Accéder à votre espace personnel.
+    </p>
+    {{ form_start(resetForm) }}
+    <table class="table table-sm">
+        <tr>
+            <td colspan="2"></td>
+        </tr>
+        <tr>
+            <td class="col-sm-4">{{ form_label(resetForm.plainPassword.first) }}</td>
+            <td class="col-md-8">{{ form_widget(resetForm.plainPassword.first) }}</td>
+        </tr>
+        <tr>
+            <td>{{ form_label(resetForm.plainPassword.second, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+            <td>{{ form_widget(resetForm.plainPassword.second, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+        </tr>
+    </table>
+    <button class="btn btn-primary">Réinitialiser</button>
+    {{ form_end(resetForm) }}
+</div>
+<div class="col-md-6 col-lg-6 col-xl-8 d-none d-lg-block">
+    <!-- Image -->
+    <div id="block_login_image" class="bg-cover h-100 min-vh-100 mt-n1 mr-n3">
+
+    </div>
+</div>
+{% endblock %}

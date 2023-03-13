@@ -20,7 +20,8 @@ class DocumentType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom du document'
+                'label' => 'Nom du document',
+                'required' => false
             ])
             ->add('category', EntityType::class, [
                 'label'=> 'Catégorie',
@@ -112,6 +113,28 @@ class DocumentType extends AbstractType
                             'image/svg+xml'
                         ],
                         'mimeTypesMessage' => 'Veuillez choisir un fichier au format PDF',
+                    ])
+                ],
+            ])
+            ->add('mp4Filename', FileType::class, [
+                'label' => 'Fichier mp4',
+
+                // unmapped means that this field is not associated to any entity property
+                'mapped' => false,
+
+                // make it optional so you don't have to re-upload the PDF file
+                // every time you edit the Product details
+                'required' => false,
+
+                // unmapped fields can't define their validation using annotations
+                // in the associated entity, so you can use the PHP constraint classes
+                'constraints' => [
+                    new File([
+                        'maxSize' => '4096k',
+                        'mimeTypes' => [
+                            'image/svg+xml'
+                        ],
+                        'mimeTypesMessage' => 'Veuillez choisir un fichier au format Mp4',
                     ])
                 ],
             ])

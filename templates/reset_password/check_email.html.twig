@@ -1,0 +1,20 @@
+{% extends 'login.html.twig' %}
+
+{% block title %}Password Reset Email Sent{% endblock %}
+
+{% block content %}
+<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 align-self-center px-lg-6 my-5">
+    <h2 class="text-center">Récupérer / Changer <br> votre mot de passe</h2>
+    <p>
+        Si un compte correspond avec l'adresse fourni, un email vient juste d'être envoyé avec le lien pour générer un nouveau mot de passe.
+        Pour appele ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.
+    </p>
+    <p>Si vous n'avez pas reçu de mail, veuillez contrôler vos Spams ou <a href="{{ path('app_forgot_password_request') }}">try again</a>.</p>
+</div>
+<div class="col-md-6 col-lg-6 col-xl-8 d-none d-lg-block">
+    <!-- Image -->
+    <div id="block_login_image" class="bg-cover h-100 min-vh-100 mt-n1 mr-n3">
+
+    </div>
+</div>
+{% endblock %}
