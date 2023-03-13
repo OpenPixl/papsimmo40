@@ -3,8 +3,9 @@
         <a class="navbar-brand" href="#">
             {% if application.logoName %}
                 <img src="{{ vich_uploader_asset(application, 'faviconFile') }}" alt="{{ application.logoName }}" width="24">
+                 - SoftwarePAPS
             {% else %}
-                <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" width="40">
+                <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" width="40"> - SoftwarePAPS
             {% endif %}
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">

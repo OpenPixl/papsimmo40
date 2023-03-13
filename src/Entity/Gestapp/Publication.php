@@ -31,6 +31,9 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishleboncoin = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishseloger = false;
+
 
     public function getId(): ?int
     {
@@ -109,6 +112,18 @@ class Publication
     public function setIsPublishleboncoin(bool $isPublishleboncoin): self
     {
         $this->isPublishleboncoin = $isPublishleboncoin;
+
+        return $this;
+    }
+
+    public function isIsPublishseloger(): ?bool
+    {
+        return $this->isPublishseloger;
+    }
+
+    public function setIsPublishseloger(bool $isPublishseloger): self
+    {
+        $this->isPublishseloger = $isPublishseloger;
 
         return $this;
     }

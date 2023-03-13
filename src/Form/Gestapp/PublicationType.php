@@ -27,11 +27,15 @@ class PublicationType extends AbstractType
                 'required' => false
             ])
             ->add('isPublishMeilleur', CheckboxType::class, [
-                'label' => 'Publié sur SeLoger, LogicImmo & MeilleursAgents ?',
+                'label' => 'Publié sur MeilleursAgents ?',
                 'required' => false
             ])
             ->add('isPublishleboncoin', CheckboxType::class, [
-                'label' => 'Publié sur LeBonCoin ?',
+                'label' => 'Publié sur "LeBonCoin" ?',
+                'required' => false
+            ])
+            ->add('isPublishseloger', CheckboxType::class, [
+                'label' => 'Publié sur "Se Loger" ?',
                 'required' => false
             ])
             //->add('sector', ChoiceType::class, [

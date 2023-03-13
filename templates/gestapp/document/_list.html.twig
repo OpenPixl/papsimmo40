@@ -27,37 +27,3 @@
     </div>
     {% endfor %}
 </div>
-<table class="table">
-    <thead>
-    <tr>
-        <th>Id</th>
-        <th>Nom</th>
-        <th>Category</th>
-        <th>TypeDoc</th>
-        <th>Lien</th>
-        <th>Créer le</th>
-        <th>MàJ</th>
-        <th>actions</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for document in documents %}
-        <tr>
-            <td>{{ document.id }}</td>
-            <td>{{ document.name }}</td>
-            <td>{{ document.category }}</td>
-            <td>{{ document.typeDoc }}</td>
-            <td>{{ document.pdf }}</td>
-            <td>{{ document.createdAt ? document.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td>{{ document.updatedAt ? document.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td>
-                <a href="{{ path('op_gestapp_document_show', {'id': document.id}) }}">Voir</a>
-            </td>
-        </tr>
-    {% else %}
-        <tr>
-            <td colspan="11">Pas de documents</td>
-        </tr>
-    {% endfor %}
-    </tbody>
-</table>

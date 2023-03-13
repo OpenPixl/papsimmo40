@@ -127,6 +127,11 @@ class PropertyController extends AbstractController
         ]);
     }
 
+    #[Route('/duplicate', name:'op_gestapp_property_duplicate', methods: ['GET', 'POST'])]
+    public function duplicate(){
+
+    }
+
     #[Route('/getlastmandat', name:'op_gestapp_property_getlastmandat', methods: ['GET'])]
     public function getLastMandat(PropertyRepository $propertyRepository){
 
