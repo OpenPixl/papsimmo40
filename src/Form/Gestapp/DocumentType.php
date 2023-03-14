@@ -66,7 +66,7 @@ class DocumentType extends AbstractType
                     new File([
                         'maxSize' => '4096k',
                         'mimeTypes' => [
-                            'image/svg+xml'
+                            'application/pdf'
                         ],
                         'mimeTypesMessage' => 'Veuillez choisir un fichier au format PDF',
                     ])
@@ -88,9 +88,11 @@ class DocumentType extends AbstractType
                     new File([
                         'maxSize' => '4096k',
                         'mimeTypes' => [
-                            'image/svg+xml'
+                            'application/msword',
+                            'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+                            'application/vnd.oasis.opendocument.text'
                         ],
-                        'mimeTypesMessage' => 'Veuillez choisir un fichier au format PDF',
+                        'mimeTypesMessage' => 'Veuillez choisir un fichier au format doc, docx, odt',
                     ])
                 ],
             ])
@@ -110,9 +112,11 @@ class DocumentType extends AbstractType
                     new File([
                         'maxSize' => '4096k',
                         'mimeTypes' => [
-                            'image/svg+xml'
+                            'application/vnd.ms-excel',
+                            'application/vnd.oasis.opendocument.spreadsheet',
+                            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
                         ],
-                        'mimeTypesMessage' => 'Veuillez choisir un fichier au format PDF',
+                        'mimeTypesMessage' => 'Veuillez choisir un fichier au format xls, xlsx, ods',
                     ])
                 ],
             ])
@@ -132,7 +136,8 @@ class DocumentType extends AbstractType
                     new File([
                         'maxSize' => '4096k',
                         'mimeTypes' => [
-                            'image/svg+xml'
+                            'video/mp4',
+                            'video/mpeg'
                         ],
                         'mimeTypesMessage' => 'Veuillez choisir un fichier au format Mp4',
                     ])

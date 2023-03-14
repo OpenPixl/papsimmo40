@@ -1,21 +1,22 @@
+{{ form_start(form, {'attr': {'id': 'FormAddDocument'}}) }}
 <table class="table table-sm">
     <tbody>
         <tr>
             <td colspan="5"><h4><i class="fa-duotone fa-circle-plus"></i> Ajouter un document</h4></td>
         </tr>
-        {{ form_start(form) }}
+
         <tr class="align-middle">
             <td class="table-light col-sm-2">{{ form_label(form.name) }}</td>
             <td class="col-sm-2">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
             <td class="table-light col-sm-2">{{ form_label(form.category) }}</td>
             <td class="col-sm-2">
                 <div class="row">
-                    <div class="col-md-10">{{ form_widget(form.category, {'attr': {'class': 'form-select form-select-sm'}}) }}</div>
-                    <div class="col-md-2"><button id="AddCatDocument" class="btn btn-sm" data-bs-toggle="modal" data-bs-target="#addCategory"><i class="fa-regular fa-circle-plus"></i></button></div>
+                    <div class="col-md-10">{{ form_widget(form.category) }}</div>
+                    <div class="col-md-2"><button id="btnAddCatDocument" class="btn btn-sm"><i class="fa-regular fa-circle-plus"></i></button></div>
                 </div>
 
             </td>
-            <td class="table-light col-sm-4" rowspan="2"><button  class="btn btn-sm btn-outline-primary" >{{ button_label|default('Enregistrer') }}</button></td>
+            <td class="table-light col-sm-4" rowspan="2"><button id="submitDocument" class="btn btn-sm btn-outline-primary" >{{ button_label|default('Enregistrer') }}</button></td>
         </tr>
         <tr class="align-middle">
             <td class="table-light col-sm-2">{{ form_label(form.typeDoc) }}</td>
@@ -34,10 +35,10 @@
                 {{ form_widget(form.mp4Filename) }}
             </td>
         </tr>
-        {{ form_end(form) }}
+
     </tbody>
 </table>
-
+{{ form_end(form) }}
 
 
 

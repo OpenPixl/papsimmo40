@@ -56,7 +56,7 @@ class DocumentController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // Si Pdf -> code d'injection d'un fichier PDF
             /** @var UploadedFile $logoFile */
-            $pdfFileName = $form->get('document_pdfFilename')->getData();
+            $pdfFileName = $form->get('pdfFilename')->getData();
             if ($pdfFileName) {
                 $originalpdfFileName = pathinfo($pdfFileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -66,7 +66,7 @@ class DocumentController extends AbstractController
                 // Move the file to the directory where brochures are stored
                 try {
                     $pdfFileName->move(
-                        $this->getParameter('logo_directory'),
+                        $this->getParameter('pdf_directory'),
                         $newpdfFileName
                     );
                 } catch (FileException $e) {
@@ -77,10 +77,10 @@ class DocumentController extends AbstractController
                 // instead of its contents
                 $document->setPdf($newpdfFileName);
             }
-            // -------------------------
+
             // si Word
             /** @var UploadedFile $logoFile */
-            $wordFileName = $form->get('document_wordFilename')->getData();
+            $wordFileName = $form->get('wordFilename')->getData();
             if ($wordFileName) {
                 $originalwordFileName = pathinfo($wordFileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -90,7 +90,7 @@ class DocumentController extends AbstractController
                 // Move the file to the directory where brochures are stored
                 try {
                     $wordFileName->move(
-                        $this->getParameter('doc_directory'),
+                        $this->getParameter('word_directory'),
                         $newwordFileName
                     );
                 } catch (FileException $e) {
@@ -101,9 +101,10 @@ class DocumentController extends AbstractController
                 // instead of its contents
                 $document->setDoc($newwordFileName);
             }
+
             // si Excel
             /** @var UploadedFile $logoFile */
-            $excelFileName = $form->get('document_excelFilename')->getData();
+            $excelFileName = $form->get('excelFilename')->getData();
             if ($excelFileName) {
                 $originalexcelFileName = pathinfo($excelFileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -125,7 +126,7 @@ class DocumentController extends AbstractController
             }
             // Si Mp4
             /** @var UploadedFile $logoFile */
-            $mp4FileName = $form->get('document_excelFilename')->getData();
+            $mp4FileName = $form->get('mp4Filename')->getData();
             if ($mp4FileName) {
                 $originalmp4FileName = pathinfo($mp4FileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -148,7 +149,16 @@ class DocumentController extends AbstractController
 
             $documentRepository->add($document, true);
 
-            return $this->redirectToRoute('op_gestapp_document_index', [], Response::HTTP_SEE_OTHER);
+            $documents = $documentRepository->findAll();
+
+            return $this->json([
+                'code' => 200,
+                'message' => "Document ajouté à la BDD.",
+                'list' => $this->renderView('gestapp/document/_list.html.twig',[
+                    'documents' => $documents
+                ])
+
+            ], 200);
         }
 
         return $this->renderForm('gestapp/document/new2.html.twig', [

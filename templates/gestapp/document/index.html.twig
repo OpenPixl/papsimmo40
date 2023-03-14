@@ -35,12 +35,86 @@
                 }
             })
 
-            // ouverture de la modale d'ajout de catégorie
-            const modalAddCategory = document.getElementById('addCategory')
-            modalAddCategory.addEventListener('show.bs.modal', function (event) {
-                // Button that triggered the modal
-                let button = event.relatedTarget
+            // PARTIE Ajout de la category
+            // ---------------------------------------
+            // I. Mise en place du Select2
+            const TsPropertyBanner = new TomSelect("#document_category",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // II. Préparation de la modale
+            const addCategory  = new bootstrap.Modal(document.getElementById('addCategory'), {keyboard: true})
+            document.getElementById('btnAddCatDocument').addEventListener('click', function(event){
+                event.preventDefault()
+                addCategory.show()
             })
+            document.getElementById('submitAddCatDocument').addEventListener('click', function(event){
+                event.preventDefault()
+                let formAddCatDocument = document.getElementById('formAddCatDocument')
+                let urlAddCatDocument = formAddCatDocument.action
+                let dataAddCatDocument = new FormData(formAddCatDocument)
+                axios
+                    .post(urlAddCatDocument, dataAddCatDocument)
+                    .then(function(response){
+                        // Message d'alerte en cas de réussite
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
+                        toastElement.show();
+                        // Ajout dans le TomSelect de la nouvelle option.
+                        const selectbanner = document.getElementById('document_category');
+                        const optionbanner = document.createElement("option")
+                        optionbanner.setAttribute("value", response.data.value)
+                        optionbanner.setAttribute("data-data", response.data.data)
+                        optionbanner.text = response.data.banner;
+                        selectbanner.add(optionbanner)
+                        TsPropertyBanner.addOption({data: response.data.data, value:response.data.value})
+                        TsPropertyBanner.addItem(response.data.cat)
+                        addCategory.hide()
+                    })
+            })
+
+            // PARTIE Ajout du document
+            // ---------------------------------------
+            document.getElementById('submitDocument').addEventListener('click', function(event){
+                event.preventDefault()
+                let formAddDocument = document.getElementById('FormAddDocument')
+                let urlAddDocument = formAddDocument.action
+                let dataAddDocument = new FormData(formAddDocument)
+                axios
+                    .post(urlAddDocument, dataAddDocument)
+                    .then(function(response){
+                        document.getElementById('listDocument').innerHTML = response.data.list
+                        // Message d'alerte en cas de réussite
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
+                        toastElement.show();
+                        formAddDocument.reset()
+                    })
+                    .catch(function(error){
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    })
+            })
+
         }
     </script>
 {% endblock %}
@@ -62,8 +136,9 @@
     {% endif %}
     <div id="docCategory" class="col-sm-12">
         <h4><i class="fa-duotone fa-ballot-check"></i> Choix d'une catégorie</h4>
+
     </div>
-    <div id="list" class="col-sm-12">
+    <div id="listDocument" class="col-sm-12">
         {% include('gestapp/document/_list.html.twig') %}
     </div>
 </div>
@@ -72,7 +147,6 @@
 {% block modal %}
     <section id="modals">
         {# Ajout d'une catégorie #}
-
         <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
@@ -85,7 +159,23 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button id="btnAddCadaster" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                        <button id="submitAddCatDocument" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {# annonce toaster #}
+        <div aria-live="polite" aria-atomic="true" class="position-relative">
+            <div class="toast-container position-absolute top-50 end-0 p-3">
+                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                    <div class="toast-header">
+                        <strong class="me-auto">Bootstrap</strong>
+                        <small>11 mins ago</small>
+                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        Hello, world! This is a toast message.
                     </div>
                 </div>
             </div>

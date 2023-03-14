@@ -1,19 +1,19 @@
 <h4><i class="fa-duotone fa-file-signature"></i> Documents</h4>
-<div class="row">
+<div class="row mt-3">
     {% for document in documents %}
     <div class="col-1">
-        <div class="card">
-            <div class="card-body">
-                {% if document.typeDoc == 'Pdf' %}
-                <img src="" alt="">
-                {% elseif document.typeDoc == 'Word' %}
-                <img src="" alt="">
-                {% elseif document.typeDoc == 'Excel' %}
-                <img src="" alt="">
-                {% elseif document.typeDoc == 'Mp4' %}
-                <img src="" alt="">
-                {% endif %}
-                {{ document.name }}
+        <div class="card" style="border: 1px solid rgba(255, 255, 255, 0.13);">
+            {% if document.typeDoc == 'Pdf' %}
+                <img class="card-img-top" src="{{ asset('images/png/pdf.png') }}" alt="" >
+            {% elseif document.typeDoc == 'Word' %}
+                <img class="card-img-top" src="{{ asset('images/png/doc.png') }}" alt="">
+            {% elseif document.typeDoc == 'Excel' %}
+                <img class="card-img-top" src="{{ asset('images/png/exceller.png') }}" alt="">
+            {% elseif document.typeDoc == 'Mp4' %}
+                <img class="card-img-top" src="{{ asset('images/png/fichier-video.png') }}" alt="">
+            {% endif %}
+            <div class="card-body text-center">
+                <a href="#" class="stretched-link"><i class="fa-duotone fa-eye"></i> {{ document.name }}</a>
             </div>
         </div>
     </div>

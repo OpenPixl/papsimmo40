@@ -6,6 +6,10 @@
 parameters:
     banners_directory: '%kernel.project_dir%/public/images/svg/'
     articles_pdf_directory: '%kernel.project_dir%/public/pdf/articles'
+    pdf_directory: '%kernel.project_dir%/public/doc/pdf'
+    word_directory: '%kernel.project_dir%/public/doc/pdf'
+    excel_directory: '%kernel.project_dir%/public/doc/pdf'
+    mp4_directory: '%kernel.project_dir%/public/doc/pdf'
 
 services:
     # default configuration for services in *this* file

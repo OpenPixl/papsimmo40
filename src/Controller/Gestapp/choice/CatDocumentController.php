@@ -36,6 +36,8 @@ class CatDocumentController extends AbstractController
 
             return $this->json([
                 'code' => 200,
+                'data' => $catDocument->getName(),
+                'value'=> $catDocument->getId(),
                 'message' => "Catégorie ajoutée à la base."
             ]);
         }
