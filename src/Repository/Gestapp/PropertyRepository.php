@@ -56,6 +56,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.denomination', 'd')
             ->leftJoin('p.publication', 'pu')
             ->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 pu.isWebpublish as isWebpublish,
                 p.id as id,
@@ -94,6 +95,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 d.name as denomination,
                 p.id as id,
@@ -137,6 +139,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 d.name as denomination,
                 p.id as id,
@@ -178,6 +181,7 @@ class PropertyRepository extends ServiceEntityRepository
             //->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             //->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 e.id as refEmployed,
                 e.firstName as firstName,
@@ -213,6 +217,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 p.id as id,
                 p.ref as ref,
@@ -247,6 +252,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 p.id as id,
                 p.ref as ref,
@@ -290,6 +296,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.propertyTypology', 'pt')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 d.name as denomination,
                 p.id as id,
@@ -351,6 +358,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 p.id as id,
                 p.ref as ref,

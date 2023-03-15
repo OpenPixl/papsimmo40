@@ -127,8 +127,47 @@ class PropertyController extends AbstractController
         ]);
     }
 
-    #[Route('/duplicate', name:'op_gestapp_property_duplicate', methods: ['GET', 'POST'])]
-    public function duplicate(){
+    #[Route('/duplicate/{id}', name:'op_gestapp_property_duplicate', methods: ['GET', 'POST'])]
+    public function duplicate(
+        Property $property,
+        ComplementRepository $complementRepository,
+        PublicationRepository $publicationRepository,
+        PropertyRepository $propertyRepository,
+    )
+    {
+        // Vérification si propoerty été dupliqué
+        $dup = $property->getDupMandat();
+        if($dup){
+            $dup++;
+            //dd($dup);
+        }else{
+            $dup = 'A';
+        }
+        //dd($dup);
+        // Clonage des options de la propriété
+        $complement = $property->getOptions();
+        $dupcomplement = clone $complement;
+        $complementRepository->add($dupcomplement);
+        // Clonage des publications de la propriété
+        $publication = $property->getPublication();
+        $dupublication = clone $publication;
+        $publicationRepository->add($dupublication);
+        // clonage de la propriété
+        $dupproperty = clone $property;
+        // numéro de duplicata
+
+        $dupproperty->setDupMandat($dup);
+        $dupproperty->setOptions($dupcomplement);
+        $dupproperty->setPublication($dupublication);
+        $dupproperty->setIsIncreating(0);
+        //dd($dupproperty);
+        $propertyRepository->add($dupproperty);
+
+        return $this->render('gestapp/property/show.html.twig', [
+            'property' => $dupproperty,
+            'complement' => $dupcomplement->getId(),
+            'publication' => $dupproperty->getPublication(),
+        ]);
 
     }
 
@@ -157,7 +196,7 @@ class PropertyController extends AbstractController
         $refMandat
         )
     {
-                // Récupération du collaborateur
+        // Récupération du collaborateur
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
         // prépartion des complement au bien
@@ -486,7 +525,6 @@ class PropertyController extends AbstractController
         foreach($cadasters as $cadaster){
             $cadasterRepository->remove($cadaster);
         }
-
 
         // Supression de la propriété
         $nameProperty = $property->getName();                   // pour afficher le nom du bien dans le toaster

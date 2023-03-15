@@ -168,6 +168,9 @@ class Property
     #[ORM\Column(type: 'date', nullable: true)]
     private ?\DateTimeInterface $mandatAt = null;
 
+    #[ORM\Column(length: 2, nullable: true)]
+    private ?string $dupMandat = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -815,6 +818,18 @@ class Property
     public function setMandatAt(\DateTimeInterface $mandatAt): self
     {
         $this->mandatAt = $mandatAt;
+
+        return $this;
+    }
+
+    public function getDupMandat(): ?string
+    {
+        return $this->dupMandat;
+    }
+
+    public function setDupMandat(?string $dupMandat): self
+    {
+        $this->dupMandat = $dupMandat;
 
         return $this;
     }

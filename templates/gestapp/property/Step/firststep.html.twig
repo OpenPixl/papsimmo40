@@ -22,7 +22,11 @@
                                     <td colspan="9"></td>
                                 </tr>
                                 <tr class="align-middle table-light">
+                                    {% if property.dupMandat is not empty %}
+                                        <td class="col-md-2">Numéro de Mandat : <b>{{ property.refMandat }}{{ property.dupMandat }}</b></td>
+                                    {% else %}
                                     <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
+                                    {% endif %}
                                     <td class="col-md-2">{{ form_label(form.mandatAt, 'Date du mandat', {'label_attr': {'class':'col-sm-4  form-label'}}) }}</td>
                                     <td class="col-md-1">{{ form_widget(form.mandatAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
                                     <td class="col-md-1">{{ form_label(form.ref, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}</td>
