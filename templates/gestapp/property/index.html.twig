@@ -42,7 +42,9 @@
                 }
             })
 
-
+            // Suppression d'un bine en création
+            // ----------------------------------------------------------------
+            // I.
             function DelPropertyIncreating(event)
             {
                 event.preventDefault();
@@ -83,7 +85,7 @@
                     })
 
             }
-
+            // II. Ouverture de la modalOuverture de la modal
             function ModalDelProperty(event){
                 const Suppr2 = document.getElementById('Suppr2')
                 Suppr2.addEventListener('show.bs.modal', function (event) {
@@ -186,10 +188,7 @@
                     }
                 }
             }
-
-            // PARTIE : Archivages - liste des biens en position archives
-            // -----------------------
-            //
+            // III.
             document.getElementById('btnMListArchived').onclick = function(event){
                 let list = document.getElementById('list')
                 let listarchived = document.getElementById("listArchived")
@@ -207,7 +206,6 @@
                     listarchived.style.display = 'none';
                     list.style.display = 'block';
                 }
-
                 axios
                     .get('/gestapp/property/listarchived')
                     .then(function(response){
@@ -290,6 +288,24 @@
             </div>
         </div>
         <div class="modal fade" id="Suppr2" tabindex="-1" aria-labelledby="Suppr2" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                        <input type="hidden" id="recipient-name">
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="Publish" tabindex="-1" aria-labelledby="Publish" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

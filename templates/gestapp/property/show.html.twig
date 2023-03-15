@@ -1654,7 +1654,7 @@
 {% block content %}
 
     {% if property.isIncreating == 0 %}
-        <h1>Edition du bien</h1>
+        <h1>Edition du bien : {{ property.name }}</h1>
     {% else %}
         <h1>Créer un nouveau bien</h1>
     {% endif %}
