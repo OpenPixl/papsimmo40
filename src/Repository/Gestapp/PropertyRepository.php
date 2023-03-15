@@ -105,6 +105,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.annonce as annonce,
                 p.priceFai as priceFai,
                 p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
                 p.piece as piece,
                 p.room as room,
                 p.adress as adress,
@@ -119,8 +120,8 @@ class PropertyRepository extends ServiceEntityRepository
                 e.avatarName as avatarName,
                 pd.name as propertyDefinition,
                 b.name AS banner,
-                b.bannerFilename AS bannerFilename
-
+                b.bannerFilename AS bannerFilename,
+                pd.id AS idpropertyDefinition
             ')
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')

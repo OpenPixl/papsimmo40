@@ -131,26 +131,28 @@
     <div class="col-4">
         <div class="card bg-secondary">
             <div class="card-body">
-                <h3>Avatar</h3>
-                {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
-                <div class="row mb-1 mt-1 g-1">
-                    {{ form_errors(form.sector) }}
-                    <div class="col-12 col-lg-2">
-                        {{ form_label(form.sector, '', {'label_attr': {'class':'form-label'}}) }}
-                    </div>
-                    <div class="col-12 col-lg-5">
-                        {{ form_widget(form.sector, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                    </div>
-                </div>
-                <div class="row mb-1 mt-1 g-1">
-                    {{ form_errors(form.referent) }}
-                    <div class="col-12 col-lg-2">
-                        {{ form_label(form.referent, '', {'label_attr': {'class':'form-label'}}) }}
-                    </div>
-                    <div class="col-12 col-lg-5">
-                        {{ form_widget(form.referent) }}
-                    </div>
-                </div>
+                <table class="table table-sm">
+                    <tr>
+                        <td colspan="3"></td>
+                    </tr>
+                    <tr class="align-middle">
+                        <td class="col-md-2">Avatar</td>
+                        <td class="col-md-5">{{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}</td>
+                        <td class="col-md-5"></td>
+                    </tr>
+                    <tr class="align-middle">
+                        <td>{{ form_label(form.sector, 'Secteur', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td>{{ form_widget(form.sector, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                        <td>{{ form_errors(form.sector) }}</td>
+                    </tr>
+                    <tr class="align-middle">
+                        <td>{{ form_label(form.referent, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td>{{ form_widget(form.referent) }}</td>
+                        <td>{{ form_errors(form.referent) }}</td>
+                    </tr>
+                </table>
+
+
             </div>
         </div>
     </div>

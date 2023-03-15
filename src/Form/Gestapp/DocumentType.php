@@ -19,10 +19,6 @@ class DocumentType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', TextType::class, [
-                'label' => 'Nom du document',
-                'required' => false
-            ])
             ->add('category', EntityType::class, [
                 'label'=> 'Catégorie',
                 'class' => CatDocument::class,
