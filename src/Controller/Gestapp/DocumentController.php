@@ -75,6 +75,7 @@ class DocumentController extends AbstractController
 
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
+                $document->setName($newpdfFileName);
                 $document->setPdf($newpdfFileName);
             }
 
@@ -99,6 +100,7 @@ class DocumentController extends AbstractController
 
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
+                $document->setName($newwordFileName);
                 $document->setDoc($newwordFileName);
             }
 
@@ -122,6 +124,7 @@ class DocumentController extends AbstractController
                 }
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
+                $document->setName($newexcelFileName);
                 $document->setSheet($newexcelFileName);
             }
             // Si Mp4
@@ -144,6 +147,7 @@ class DocumentController extends AbstractController
                 }
                 // updates the 'brochureFilename' property to store the PDF file name
                 // instead of its contents
+                $document->setName($newmp4FileName);
                 $document->setMp4($newmp4FileName);
             }
 

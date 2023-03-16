@@ -13,29 +13,33 @@
                     <div class="col-md-2"><button id="btnAddCatDocument" class="btn btn-sm"><i class="fa-regular fa-circle-plus"></i></button></div>
                 </div>
             </td>
+            <td></td>
         </tr>
         <tr class="align-middle">
-            <td class="table-light col-sm-2">{{ form_label(form.typeDoc) }}</td>
-            <td class="col-sm-2">{{ form_widget(form.typeDoc, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+            <td class="table-light">{{ form_label(form.typeDoc) }}</td>
+            <td>{{ form_widget(form.typeDoc, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+            <td></td>
         </tr>
         <tr class="align-middle">
-            <td class="table-light col-sm-2">Fichier</td>
+            <td class="table-light">Fichier</td>
             <td id="pdf" class="col-sm-2">
-                {{ form_widget(form.pdfFilename) }}
+                {{ form_widget(form.pdfFilename, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </td>
             <td id="word" class="col-sm-2" style="display:none;">
-                {{ form_widget(form.wordFilename) }}
+                {{ form_widget(form.wordFilename, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </td>
             <td id="excel" class="col-sm-2" style="display:none;">
-                {{ form_widget(form.excelFilename) }}
+                {{ form_widget(form.excelFilename, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </td>
             <td id="mp4" class="col-sm-2" style="display:none;">
-                {{ form_widget(form.mp4Filename) }}
+                {{ form_widget(form.mp4Filename, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </td>
+            <td></td>
         </tr>
         <tr>
-            <td class="table-sm"></td>
+            <td class="table-light"></td>
             <td><button id="submitDocument" class="btn btn-sm btn-outline-primary" >{{ button_label|default('Enregistrer') }}</button></td>
+            <td></td>
         </tr>
 
     </tbody>
