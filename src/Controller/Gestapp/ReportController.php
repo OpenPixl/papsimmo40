@@ -38,6 +38,16 @@ class ReportController extends AbstractController
             $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
             $annonce = strip_tags($data, '<br>');
 
+            // Contruction de la référence de l'anonnce
+            $dup = $property['dup'];
+            if($dup){
+                $refProperty = $property['ref'].$dup;
+                $refMandat = $property['refMandat'].$dup;
+            }else{
+                $refProperty = $property['ref'];
+                $refMandat = $property['refMandat'];
+            }
+
             if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {
                 $dpeAt = $property['dpeAt']->format('d/m/Y');
             }else{
@@ -86,7 +96,7 @@ class ReportController extends AbstractController
             // Alimentation d'une ligne du fichier CSV
             $data = array(
                 '"3C14110"',                                            // 1 - code Client fournis par PV
-                '"'.$property['ref'].'"',                               // 2 - Référence ANNONCE du PAPSIMMO
+                '"'.$refProperty.'"',                                   // 2 - Référence ANNONCE du PAPSIMMO
                 '"I"',                                                  // 3 - Code Pour les biens immobiliers correspondance PV
                 '"'.$famille.'"',                                       // 4 - famille Paru-Vendu
                 '"'.$rubrique.'"',                                      // 5 - rubrique Paru-Vendu
@@ -188,6 +198,16 @@ class ReportController extends AbstractController
             $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
             $annonce = strip_tags($data, '<br>');
             //dd($annonce);
+
+            // Contruction de la référence de l'anonnce
+            $dup = $property['dup'];
+            if($dup){
+                $refProperty = $property['ref'].$dup;
+                $refMandat = $property['refMandat'].$dup;
+            }else{
+                $refProperty = $property['ref'];
+                $refMandat = $property['refMandat'];
+            }
 
             // Sélection du type de bien
             $propertyDefinition = $property['propertyDefinition'];
@@ -355,7 +375,7 @@ class ReportController extends AbstractController
             // Création d'une ligne du tableau
             $data = array(
                 '"papsimmo"',                                               // 1 - Identifiant Agence
-                '"'.$property['ref'].'"',                                   // 2 - Référence agence du bien
+                '"'.$refProperty.'"',                                   // 2 - Référence agence du bien
                 '"Vente"',                                                  // 3 - Type d’annonce
                 '"'.$bien.'"',                                              // 4 - Type de bien
                 '"'.$property['zipcode'].'"',                               // 5 - CP
@@ -465,7 +485,7 @@ class ReportController extends AbstractController
                 '"'.$property['city'].'"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"'.$property['refMandat'].'"',                             // 112 - N° de mandat
+                '"'.$refMandat.'"',                             // 112 - N° de mandat
                 '"'.$mandatAt.'"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
@@ -718,6 +738,16 @@ class ReportController extends AbstractController
             $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
             $annonce = strip_tags($data, '<br>');
             //dd($annonce);
+
+            // Contruction de la référence de l'anonnce
+            $dup = $property['dup'];
+            if($dup){
+                $refProperty = $property['ref'].$dup;
+                $refMandat = $property['refMandat'].$dup;
+            }else{
+                $refProperty = $property['ref'];
+                $refMandat = $property['refMandat'];
+            }
 
             // Sélection du type de bien
             $propertyDefinition = $property['propertyDefinition'];
@@ -988,7 +1018,7 @@ class ReportController extends AbstractController
                 '"'.$property['city'].'"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"'.$property['refMandat'].'"',                             // 112 - N° de mandat
+                '"'.$refMandat.'"',                                         // 112 - N° de mandat
                 '"'.$mandatAt.'"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
@@ -1214,6 +1244,7 @@ class ReportController extends AbstractController
             $rows[] = implode('!#', $data);
         }
         $content = implode("\n", $rows);
+        //dd($content);
 
         // PARTIE II : Génération du fichier CSV
         $file = 'doc/report/Annonces/Annonces.csv';                                  // Chemin du fichier

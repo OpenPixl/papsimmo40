@@ -135,7 +135,7 @@ class PropertyController extends AbstractController
         PropertyRepository $propertyRepository,
     )
     {
-        // Vérification si propoerty été dupliqué
+        // Vérification si property été dupliqué
         $dup = $property->getDupMandat();
         if($dup){
             $dup++;
@@ -143,23 +143,26 @@ class PropertyController extends AbstractController
         }else{
             $dup = 'A';
         }
-        //dd($dup);
+
         // Clonage des options de la propriété
         $complement = $property->getOptions();
         $dupcomplement = clone $complement;
         $complementRepository->add($dupcomplement);
+
         // Clonage des publications de la propriété
         $publication = $property->getPublication();
         $dupublication = clone $publication;
         $publicationRepository->add($dupublication);
-        // clonage de la propriété
-        $dupproperty = clone $property;
-        // numéro de duplicata
 
+        // Clonage de la propriété
+        $dupproperty = clone $property;
+
+        // Numéro de duplicata
         $dupproperty->setDupMandat($dup);
         $dupproperty->setOptions($dupcomplement);
         $dupproperty->setPublication($dupublication);
         $dupproperty->setIsIncreating(0);
+
         //dd($dupproperty);
         $propertyRepository->add($dupproperty);
 
