@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use ZipArchive;
 
 class ReportController extends AbstractController
 {
@@ -704,17 +705,14 @@ class ReportController extends AbstractController
     /**
      * Génération du Fichiers CSV pour SeLoger
      **/
-    #[Route('/report/report_properties_csv3', name: 'app_gestapp_report_propertycsv3')]
+    #[Route('/report/annonces', name: 'app_gestapp_report_annonces')]
     public function PropertyCSV3(PropertyRepository $propertyRepository, PhotoRepository $photoRepository, ComplementRepository $complementRepository): Response
     {
-        $properties = $propertyRepository->reportpropertycsv3();
+        // PARTIE I : Génération du fichier CSV
+        $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
+        $app = $this->container->get('router')->getContext()->getHost();    // On récupère l'url de l'appl pour les url des photos
 
-        //dd($properties);
-
-        $app = $this->container->get('router')->getContext()->getHost();
-        //dd($properties);
-
-        $rows = array();
+        $rows = array();                                                    // Construction du tableau
         foreach ($properties as $property){
             // Description de l'annonce
             $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
@@ -879,7 +877,7 @@ class ReportController extends AbstractController
 
             // Création d'une ligne du tableau
             $data = array(
-                '"papsimmo"',                                               // 1 - Identifiant Agence
+                '"RC-1860977"',                                               // 1 - Identifiant Agence
                 '"'.$property['ref'].'"',                                   // 2 - Référence agence du bien
                 '"Vente"',                                                  // 3 - Type d’annonce
                 '"'.$bien.'"',                                              // 4 - Type de bien
@@ -1215,15 +1213,45 @@ class ReportController extends AbstractController
             );
             $rows[] = implode('!#', $data);
         }
-
         $content = implode("\n", $rows);
 
-        //dd($content);
+        // PARTIE II : Génération du fichier CSV
+        $file = 'doc/report/Annonces/Annonces.csv';                                  // Chemin du fichier
+        if(file_exists($file))
+        {
+            unlink($file);                                                  // Suppression du précédent s'il existe
+            file_put_contents('doc/report/Annonces/Annonces.csv', $content); // Génération du fichier dans l'arborescence du fichiers du site
+        }
+        file_put_contents('doc/report/Annonces/Annonces.csv', $content);     // Génération du fichier dans l'arborescence du fichiers du site
 
-        $response = new Response($content);
-        $response->headers->set('Content-Type', 'text/csv');
-        //dd($response);
+        // PARTIE III : Constitution du dossier zip
+        $Rep = 'doc/report/Annonces/';
+        $zip = new \ZipArchive();                                          // instanciation de la classe Zip
+        if(is_dir($Rep))
+        {
+            if($zip->open('Annonces.zip', ZipArchive::CREATE) == TRUE)
+            {
+                $fichiers = scandir($Rep);
+                unset($fichiers[0], $fichiers[1]);
+                foreach($fichiers as $f)
+                {
+                    // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
+                    // Pour ne pas créer de dossier dans l’archive.
+                    if(!$zip->addFile($Rep.$f, $f))
+                    {
+                        dd('erreur');
+                    }
+                }
+                $zip->close();
+                rename('Annonces.zip', 'doc/report/Annonces.zip');
+            }else{
+                dd('Erreur');
+            }
+        }
 
-        return $response;
+        return $this->json([
+            'code' => 200,
+            'message' => 'Le fichier Zip a été correctement généré.'
+        ]);
     }
 }
