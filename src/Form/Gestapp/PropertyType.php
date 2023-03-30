@@ -128,6 +128,7 @@ class PropertyType extends AbstractType
                 'label' => 'surface cadastrale'
             ])
 
+
             //->add('refEmployed', EntityType::class, [
             //    'class' => Employed::class,
             //    'choice_attr' => ChoiceList::attr($this, function (?Employed $category) {

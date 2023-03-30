@@ -3,36 +3,35 @@
 namespace App\Entity\Gestapp\choice;
 
 use App\Entity\Gestapp\Property;
-use App\Repository\Gestapp\choice\PropertyDefinitionRepository;
+use App\Repository\Gestapp\choice\propertyRubricssRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: PropertyDefinitionRepository::class)]
-class PropertyDefinition
+#[ORM\Entity(repositoryClass: propertyRubricssRepository::class)]
+class propertyRubricss
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
-    #[ORM\Column(type: 'integer')]
-    private $id;
+    #[ORM\Column]
+    private ?int $id = null;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    private $name;
+    #[ORM\Column(length: 45, nullable: true)]
+    private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'propertyDefinition', targetEntity: Property::class)]
-    private Collection $properties;
-
-    #[ORM\Column(length: 5)]
+    #[ORM\Column(length: 5, nullable: true)]
     private ?string $code = null;
 
-    #[ORM\Column(length: 3)]
-    private ?string $famille = null;
+    #[ORM\ManyToOne(inversedBy: 'rubricss')]
+    private ?propertyRubric $propertyRubric = null;
+
+    #[ORM\OneToMany(mappedBy: 'rubricss', targetEntity: Property::class)]
+    private Collection $properties;
 
     public function __construct()
     {
         $this->properties = new ArrayCollection();
     }
-
 
     public function getId(): ?int
     {
@@ -51,9 +50,28 @@ class PropertyDefinition
         return $this;
     }
 
-    public function __toString()
+    public function getCode(): ?string
     {
-        return $this->name;
+        return $this->code;
+    }
+
+    public function setCode(?string $code): self
+    {
+        $this->code = $code;
+
+        return $this;
+    }
+
+    public function getPropertyRubric(): ?propertyRubric
+    {
+        return $this->propertyRubric;
+    }
+
+    public function setPropertyRubric(?propertyRubric $propertyRubric): self
+    {
+        $this->propertyRubric = $propertyRubric;
+
+        return $this;
     }
 
     /**
@@ -68,7 +86,7 @@ class PropertyDefinition
     {
         if (!$this->properties->contains($property)) {
             $this->properties->add($property);
-            $property->setPropertyDefinition($this);
+            $property->setRubricss($this);
         }
 
         return $this;
@@ -78,34 +96,10 @@ class PropertyDefinition
     {
         if ($this->properties->removeElement($property)) {
             // set the owning side to null (unless already changed)
-            if ($property->getPropertyDefinition() === $this) {
-                $property->setPropertyDefinition(null);
+            if ($property->getRubricss() === $this) {
+                $property->setRubricss(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getCode(): ?string
-    {
-        return $this->code;
-    }
-
-    public function setCode(string $code): self
-    {
-        $this->code = $code;
-
-        return $this;
-    }
-
-    public function getFamille(): ?string
-    {
-        return $this->famille;
-    }
-
-    public function setFamille(string $famille): self
-    {
-        $this->famille = $famille;
 
         return $this;
     }

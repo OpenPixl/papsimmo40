@@ -6,15 +6,15 @@ use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\PropertyDefinition;
 use App\Entity\Gestapp\choice\PropertySscategory;
+use App\Entity\Gestapp\choice\propertyFamily;
+use App\Entity\Gestapp\choice\propertyRubric;
+use App\Entity\Gestapp\choice\propertyRubricss;
 use App\Repository\Gestapp\PropertyRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
-use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Symfony\Component\Serializer\Annotation\Ignore;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-use Symfony\Component\HttpFoundation\File\File;
 
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
@@ -170,6 +170,15 @@ class Property
 
     #[ORM\Column(length: 2, nullable: true)]
     private ?string $dupMandat = null;
+
+    #[ORM\ManyToOne(inversedBy: 'properties')]
+    private ?propertyFamily $family = null;
+
+    #[ORM\ManyToOne(inversedBy: 'properties')]
+    private ?propertyRubric $rubric = null;
+
+    #[ORM\ManyToOne(inversedBy: 'properties')]
+    private ?propertyRubricss $rubricss = null;
 
     public function __construct()
     {
@@ -833,4 +842,41 @@ class Property
 
         return $this;
     }
+
+    public function getFamily(): ?propertyFamily
+    {
+        return $this->family;
+    }
+
+    public function setFamily(?propertyFamily $family): self
+    {
+        $this->family = $family;
+
+        return $this;
+    }
+
+    public function getRubric(): ?propertyRubric
+    {
+        return $this->rubric;
+    }
+
+    public function setRubric(?propertyRubric $rubric): self
+    {
+        $this->rubric = $rubric;
+
+        return $this;
+    }
+
+    public function getRubricss(): ?propertyRubricss
+    {
+        return $this->rubricss;
+    }
+
+    public function setRubricss(?propertyRubricss $rubricss): self
+    {
+        $this->rubricss = $rubricss;
+
+        return $this;
+    }
+
 }

@@ -188,7 +188,10 @@
                     }
                 }
             }
-            // III.
+
+            // PARTIE : Affichages des biens sélectionnés
+            // -----------------------
+            // Mise en place de l'évènement sur le bouton
             document.getElementById('btnMListArchived').onclick = function(event){
                 let list = document.getElementById('list')
                 let listarchived = document.getElementById("listArchived")
@@ -201,16 +204,14 @@
                 if(listarchived.className === 'show') {
                     listarchived.style.display = 'block'
                     list.style.display = 'none'
+                    document.getElementById('btnMListArchived').textContent = 'Retour sur la liste des biens'
                 }
                 if(listarchived.className === 'hide') {
                     listarchived.style.display = 'none';
                     list.style.display = 'block';
+                    document.getElementById('btnMListArchived').textContent = 'Afficher les biens archivés'
                 }
-                axios
-                    .get('/gestapp/property/listarchived')
-                    .then(function(response){
-                        document.getElementById("listArchived").innerHTML = response.data.listarchived
-                    })
+
             }
         }
     </script>
@@ -277,7 +278,7 @@
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènementd.</p>
+                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
                         <input type="hidden" id="recipient-name">
                     </div>
                     <div class="modal-footer">

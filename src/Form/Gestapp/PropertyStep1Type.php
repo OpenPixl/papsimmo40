@@ -2,16 +2,16 @@
 
 namespace App\Form\Gestapp;
 
-use App\Entity\Admin\Employed;
+
 use App\Entity\Gestapp\choice\PropertyDefinition;
+use App\Entity\Gestapp\choice\propertyFamily;
+use App\Entity\Gestapp\choice\propertyRubric;
+use App\Entity\Gestapp\choice\propertyRubricss;
 use App\Entity\Gestapp\choice\PropertySscategory;
 use App\Entity\Gestapp\Property;
-use App\Form\SearchableEntityType;
-use App\Repository\Admin\EmployedRepository;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
@@ -19,9 +19,11 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PropertyStep1Type extends AbstractType
 {
@@ -142,6 +144,48 @@ class PropertyStep1Type extends AbstractType
                 'choice_label' => 'name',
                 'choice_attr' => function (PropertySscategory $product, $key, $index) {
                     return ['data-data' => $product->getName() ];
+                },
+                'required'=>false
+            ])
+            ->add('family', EntityType::class, [
+                'label'=> 'Transaction',
+                'placeholder' => 'Transaction',
+                'class' => propertyFamily::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'choice_attr' => function (propertyFamily $family, $key, $index) {
+                    return ['data-data' => $family->getName() ];
+                },
+                'required'=>false
+            ])
+            ->add('rubric', EntityType::class, [
+                'label'=> 'Rubrique',
+                'placeholder' => 'Rubrique',
+                'class' => propertyRubric::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'choice_attr' => function (propertyRubric $rubric, $key, $index) {
+                    return ['data-data' => $rubric->getName() ];
+                },
+                'required'=>false
+            ])
+            ->add('rubricss', EntityType::class, [
+                'label'=> 'Sous rubrique',
+                'placeholder' => 'Sous rubrique',
+                'class' => propertyRubricss::class,
+                'query_builder' => function (EntityRepository $er) {
+                    return $er->createQueryBuilder('s')
+                        ->orderBy('s.name', 'ASC');
+                },
+                'choice_label' => 'name',
+                'choice_attr' => function (propertyRubricss $rubricss, $key, $index) {
+                    return ['data-data' => $rubricss->getName() ];
                 },
                 'required'=>false
             ])

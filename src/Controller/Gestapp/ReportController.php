@@ -751,8 +751,10 @@ class ReportController extends AbstractController
 
             // Sélection du type de bien
             $propertyDefinition = $property['propertyDefinition'];
-            if($propertyDefinition == 'Propriété / Château'){
+            if($propertyDefinition == 'Propriété / Château') {
                 $bien = 'Château';
+            }elseif($propertyDefinition == 'Vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
+                $bien = 'Immeuble';
             }elseif($propertyDefinition == 'A définir'){
                 $bien = 'Inconnu';
             }elseif($propertyDefinition == 'Atelier'){
@@ -1260,7 +1262,7 @@ class ReportController extends AbstractController
         $zip = new \ZipArchive();                                          // instanciation de la classe Zip
         if(is_dir($Rep))
         {
-            if($zip->open('Annonces.zip', ZipArchive::CREATE) == TRUE)
+            if($zip->open('RC-1860977.zip', ZipArchive::CREATE) == TRUE)
             {
                 $fichiers = scandir($Rep);
                 unset($fichiers[0], $fichiers[1]);
@@ -1274,7 +1276,7 @@ class ReportController extends AbstractController
                     }
                 }
                 $zip->close();
-                rename('Annonces.zip', 'doc/report/Annonces.zip');
+                rename('RC-1860977.zip', 'doc/report/RC-1860977.zip');
             }else{
                 dd('Erreur');
             }

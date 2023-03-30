@@ -95,6 +95,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.projet as projet,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 d.name as denomination,
@@ -218,6 +219,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
+                p.p.projet as projet,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 p.id as id,
@@ -628,7 +630,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query = $this->createQueryBuilder('p');
         $query->join('p.refEmployed', 'e');
         $query->join('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
-        $query->leftjoin('c.denomination', 'd');
+        $query->leftJoin('c.denomination', 'd');
         $query->join('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');

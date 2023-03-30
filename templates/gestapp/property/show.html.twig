@@ -7,6 +7,13 @@
     <script>
         window.onload = function() {
 
+        // ---------------------------------------
+        //
+        // STEP 0 :
+        // Mise en place des options de chargement
+        //
+        // ---------------------------------------
+
             // récupération des id des panels
             const navInformations = document.getElementById("navInformations");
             const navCustomers = document.getElementById("navCustomers");
@@ -50,16 +57,6 @@
             const isWithoutExclusivity = document.getElementById('property_step1_isWithoutExclusivity')
             const isSemiExclusivity = document.getElementById('property_step1_isSemiExclusivity')
             const isWithExclusivity= document.getElementById('property_step1_isWithExclusivity')
-
-
-
-
-        // ---------------------------------------
-        //
-        // STEP 0 :
-        // Mise en place des styles de démarrage
-        //
-        // ---------------------------------------
 
             // Désactivation des onglets d'accueil de la page d'édition
             if(navCustomers !== null){
@@ -114,8 +111,7 @@
             });
 
         // ---------------------------------------
-        // STEP 1 :
-        // Enregistrement des informations initiales du bien sur clic du boutons next
+        // STEP 1 : Enregistrement des informations initiales du bien sur clic du boutons next
         //
         // ---------------------------------------
 
@@ -308,14 +304,67 @@
                 }
             });
 
+            // PARTIE Destination du bien
+            // ---------------------------------------
+            // Select Family - Destination
+            const tsfamily = new TomSelect("#property_step1_family",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // Select Rubric - Destination
+            const tsrubric = new TomSelect("#property_step1_rubric",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+            // Select Rubricss - Destination
+            const tsrubricss = new TomSelect("#property_step1_rubricss",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+                    },
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
+                    }
+                }
+            });
+
             // PARTIE Code postal et Ville - API
             // ---------------------------------------
             const commune = document.getElementById('property_step1_city')
             //commune.style.display = 'none'
 
-            // ---------------------------------------
-        // STEP 2 :
-        // Enregistrement du ou des acheteurs
+        // ---------------------------------------
+        // STEP 2 : Enregistrement du ou des acheteurs
         //
         // ---------------------------------------
 

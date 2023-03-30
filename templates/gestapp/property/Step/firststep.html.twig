@@ -23,17 +23,16 @@
                                 </tr>
                                 <tr class="align-middle table-light">
                                     {% if property.dupMandat is not empty %}
-                                        <td class="col-md-2">Numéro de Mandat : <b>{{ property.refMandat }}{{ property.dupMandat }}</b></td>
+                                    <td class="col-md-2">Numéro de Mandat : <b>{{ property.refMandat }}{{ property.dupMandat }}</b></td>
                                     {% else %}
                                     <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
                                     {% endif %}
-                                    <td class="col-md-2">{{ form_label(form.mandatAt, 'Date du mandat', {'label_attr': {'class':'col-sm-4  form-label'}}) }}</td>
+                                    <td class="col-md-1">{{ form_label(form.mandatAt, 'Date du mandat') }}</td>
                                     <td class="col-md-1">{{ form_widget(form.mandatAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
-                                    <td class="col-md-1">{{ form_label(form.ref, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}</td>
-                                    <td class="col-md-1">{{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                    </td>
+                                    <td class="col-md-1">{{ form_label(form.ref, '') }}</td>
+                                    <td class="col-md-1">{{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                                     <td class="col-md-1"></td>
-                                    <td class="col-md-1 ">
+                                    <td class="col-md-1">
                                         <div class="form-check">
                                             {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
                                             {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
@@ -51,6 +50,7 @@
                                             {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
                                         </div>
                                     </td>
+                                    <td class="col-sm-1"></td>
                                 </tr>
                             </tbody>
                         </table>
@@ -152,38 +152,42 @@
                     DESTINATION DU BIEN
                     <hr>
                     <p>Compléter ces informations pour garantir la publication du bien sur les plateformes de diffusion.</p>
-                    {# Type du bien #}
-                    <div class="row mb-1 g-1">
-                        {{ form_label(form.projet, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
-                        <div class="col-8">
-                            {{ form_widget(form.projet) }}
-                        </div>
-                    </div>
-
-                    {# Type du bien #}
-                    <div class="row mb-1 g-1">
-                        {{ form_label(form.propertyDefinition, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
-                        <div class="col-8">
-                            {{ form_widget(form.propertyDefinition) }}
-                        </div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <div class="col-1">
-                                <button id="addPropertyDefinition" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
-                            </div>
-                        {% else %}
-                            <div class="col-1">
-                                <button id="addPropertyDefinition" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button>
-                            </div>
-                        {% endif %}
-                    </div>
-                    <div class="row mb-1 g-1">
-                        <div class="col-3">
-                            {{ form_label(form.sscategory, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-8">
-                            {{ form_widget(form.sscategory) }}
-                        </div>
-                    </div>
+                    <table class="table table-sm table-borderless">
+                        <tr class="align-middle">
+                            <td>{{ form_label(form.projet, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td>{{ form_widget(form.projet) }}</td>
+                            <td></td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td>{{ form_label(form.propertyDefinition, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td>{{ form_widget(form.propertyDefinition) }}</td>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <td><button id="addPropertyDefinition" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button></td>
+                            {% else %}
+                            <td><button id="addPropertyDefinition" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button></td>
+                            {% endif %}
+                        </tr>
+                        <tr class="align-middle">
+                            <td>{{ form_label(form.sscategory, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td>{{ form_widget(form.sscategory) }}</td>
+                            <td></td>
+                        </tr>
+                        <tr id="family" class="align-middle">
+                            <td>{{ form_label(form.family, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td>{{ form_widget(form.family) }}</td>
+                            <td></td>
+                        </tr>
+                        <tr id="rubric" class="align-middle">
+                            <td>{{ form_label(form.rubric, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td>{{ form_widget(form.rubric) }}</td>
+                            <td></td>
+                        </tr>
+                        <tr id="rubricss" class="align-middle">
+                            <td>{{ form_label(form.rubricss, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td>{{ form_widget(form.rubricss) }}</td>
+                            <td></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </div>
