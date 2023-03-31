@@ -79,7 +79,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.id', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
             ->getResult()

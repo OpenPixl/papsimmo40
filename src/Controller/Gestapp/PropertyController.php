@@ -657,6 +657,7 @@ class PropertyController extends AbstractController
     {
 
         $data = $propertyRepository->listAllProperties();
+        //dd($data);
 
         $properties = $paginator->paginate(
             $data,
