@@ -7,6 +7,15 @@
     <script>
         window.onload = function(){
 
+            // ----------------------------------------------------------------
+            // STEP 0 : A l'initialisation de la page
+            // ----------------------------------------------------------------
+            axios
+                .get('/gestapp/property/propertyDiffusion')
+                .then(function(response){
+                    document.getElementById('listDiffusion').innerHTML = response.data.listdiffusion
+                })
+
             // Ouverture de la modale d'ajout d'un bien / propriété
             // avec intégration du Numéro de mandat modifiable par le créateur
             // ----------------------------------------------------------------
@@ -245,6 +254,7 @@
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <button class="btn btn-sm btn-outline-dark" id="btnMListArchived" href="">Afficher les biens archivés</button>
             {% endif %}
+            <button class="btn btn-sm btn-outline-dark" id="btnListDiffusion">Afficher les diffusions des biens</button>
             <a class="btn btn-sm btn-outline-warning" id="SupprRows" href="">Archivages des biens sélectionnés</a>
         </div>
 
@@ -256,7 +266,8 @@
     </div>
     <div id="listArchived" class="col-sm-12" style="display: none;">
     </div>
-
+    <div id="listDiffusion" class="col-sm-12" style="display: none;">
+    </div>
     <div class="navigation d-flex justify-content-between">
 
         {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}

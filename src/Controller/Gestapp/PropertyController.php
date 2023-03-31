@@ -671,4 +671,20 @@ class PropertyController extends AbstractController
 
     }
 
+    #[Route('/propertyDiffusion', name: 'op_gestapp_property_diffusion', methods: ['GET']) ]
+    public function propertyDiffusion(PropertyRepository $propertyRepository)
+    {
+        $listProperties = $propertyRepository->listPublication();
+
+        dd($listProperties);
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'affichage de la liste',
+            'listdiffusion' => $this->renderView('gestapp/property/_listdiffusion.html.twig', [
+                'properties' => $listProperties
+            ])
+        ],200);
+    }
+
 }

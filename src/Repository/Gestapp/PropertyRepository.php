@@ -46,6 +46,9 @@ class PropertyRepository extends ServiceEntityRepository
         }
     }
 
+    // ----------------------------------------------
+    // Requête : liste les derniers biens entrés - partie accueil
+    // ----------------------------------------------
     public function fivelastproperties()
     {
         return $this->createQueryBuilder('p')
@@ -86,6 +89,9 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    // ----------------------------------------------
+    // Requête :
+    // ----------------------------------------------
     public function listAllProperties()
     {
         return $this->createQueryBuilder('p')
@@ -132,6 +138,9 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    // ----------------------------------------------
+    // Requête : Liste les biens archivés - Partie Admin
+    // ----------------------------------------------
     public function listAllPropertiesArchived()
     {
         return $this->createQueryBuilder('p')
@@ -176,6 +185,47 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    // ----------------------------------------------
+    // Requête : Liste les biens et leur publications - Partie Admin
+    // ----------------------------------------------
+    public function listPublication()
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->join('p.publication', 'pu')
+            ->addSelect('
+                pu.isPublishParven as isPublishParven,
+                pu.isWebpublish as isWebpublish,
+                pu.isSocialNetwork as isSocialNetwork,
+                pu.isPublishseloger as isPublishseloger,
+                pu.isPublishMeilleur as isPublishMeilleur,
+                pu.isPublishleboncoin as isPublishleboncoin,
+                p.dupMandat as dupMandat,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.createdAt,
+                p.updatedAt,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName
+                ')
+            ->where('p.isIncreating = 0')
+            ->orderBy('p.RefMandat', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // ----------------------------------------------
+    // Requête : Liste les biens en cours de création - Partie Admin
+    // ----------------------------------------------
     public function listAllPropertiesIncreating()
     {
         return $this->createQueryBuilder('p')
@@ -213,6 +263,9 @@ class PropertyRepository extends ServiceEntityRepository
     ;
     }
 
+    // ----------------------------------------------
+    // Requête : Liste les biens (filtrés sur les collaborateurs) - Partie Admin
+    // ----------------------------------------------
     public function listPropertiesByEmployed($user)
     {
         return $this->createQueryBuilder('p')
@@ -249,6 +302,9 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    // ----------------------------------------------
+    // Requête : Liste les biens en cours de création (filtrés sur les collaborateurs) - Partie Admin
+    // ----------------------------------------------
     public function listPropertiesByEmployedIncreating($user)
     {
         return $this->createQueryBuilder('p')
@@ -285,6 +341,9 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    // ----------------------------------------------
+    // Requête : Selectionne un seul biens et ses relations - Partie Admin/accueil
+    // ----------------------------------------------
     public function oneProperty($property)
     {
         return $this->createQueryBuilder('p')
@@ -299,6 +358,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.propertyTypology', 'pt')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.eeaYear as anneeRefNRJ,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 d.name as denomination,
@@ -355,6 +415,9 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    // ----------------------------------------------
+    // Requête : Liste tous les biens - Partie accueil - Page : NOS BIENS
+    // ----------------------------------------------
     public function AllProperties()
     {
         return $this->createQueryBuilder('p')
