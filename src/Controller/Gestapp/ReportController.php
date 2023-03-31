@@ -786,7 +786,7 @@ class ReportController extends AbstractController
 
             // Récupération des images liées au bien
             $photos = $photoRepository->findNameBy(['property' => $property['id']]);
-            if(!$photos){
+            if(!$photos){                                                                       // Si aucune photo présente
                 $url = [];
                 $titrephoto = [];
                 for ($i = 1; $i<31; $i++){
@@ -1284,7 +1284,7 @@ class ReportController extends AbstractController
 
         return $this->json([
             'code' => 200,
-            'message' => 'Le fichier Zip a été correctement généré.'
+            'message' => 'Le fichier Zip a été correctement généré.' . $app
         ]);
     }
 }

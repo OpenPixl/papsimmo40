@@ -84,19 +84,19 @@
                             <h5 class="subtitle" style="text-align: center">Consommation énergétique</h5>
                             {% if property.diagDpe >= 0  %}
                                 {% set letter = '' %}
-                                {% if property.diagDpe > 0 and property.diagDpe <= 50 %}
+                                {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
                                     {% set letter = 'A'%}
-                                {% elseif property.diagDpe > 50 and property.diagDpe <= 90 %}
+                                {% elseif property.diagDpe > 70 and property.diagDpe <= 110 %}
                                     {% set letter = 'B'%}
-                                {% elseif property.diagDpe > 90 and property.diagDpe <= 150 %}
+                                {% elseif property.diagDpe > 110 and property.diagDpe <= 180 %}
                                     {% set letter = 'C'%}
-                                {% elseif property.diagDpe > 150 and property.diagDpe <= 230 %}
+                                {% elseif property.diagDpe > 180 and property.diagDpe <= 250 %}
                                     {% set letter = 'D'%}
-                                {% elseif property.diagDpe > 230 and property.diagDpe <= 330 %}
+                                {% elseif property.diagDpe > 250 and property.diagDpe <= 330 %}
                                     {% set letter = 'E'%}
-                                {% elseif property.diagDpe > 330 and property.diagDpe <= 450 %}
+                                {% elseif property.diagDpe > 330 and property.diagDpe <= 420 %}
                                     {% set letter = 'F'%}
-                                {% elseif property.diagDpe > 450 %}
+                                {% elseif property.diagDpe > 420 %}
                                     {% set letter = 'G'%}
                                 {% endif %}
                                 <ul class="diag_ener">
