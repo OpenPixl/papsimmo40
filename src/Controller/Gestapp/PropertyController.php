@@ -65,6 +65,22 @@ class PropertyController extends AbstractController
         }
     }
 
+    #[Route('/propertyDiffusion', name: 'op_gestapp_property_diffusion', methods: ['GET']) ]
+    public function propertyDiffusion(PropertyRepository $propertyRepository)
+    {
+        $listProperties = $propertyRepository->listPublication();
+
+        //dd($listProperties);
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'affichage de la liste',
+            'listdiffusion' => $this->renderView('gestapp/property/_listdiffusion.html.twig', [
+                'listproperties' => $listProperties
+            ])
+        ],200);
+    }
+
     #[Route('/listarchived', name: 'op_gestapp_property_listarchived', methods: ['GET'])]
     public function listArchived(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
@@ -83,6 +99,25 @@ class PropertyController extends AbstractController
             'listarchived' => $this->renderView('gestapp/property/_listarchived.html.twig',[
                 'properties' => $data
             ])
+        ], 200);
+    }
+
+    #[Route('/getlistmandats', name:'op_gestapp_property_getlastmandat', methods: ['GET'])]
+    public function getLastMandat(PropertyRepository $propertyRepository){
+
+        $properties = $propertyRepository->findBy(['isArchived'=> 0]);             // Récupération de la dernière propriété enregistrée
+
+        $listMandats = array();
+        foreach ($properties as $property)
+        {
+            $refMandat = $property->getRefMandat();
+            array_push($listMandats, $refMandat);
+        }
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Le bien a été archivé sur le site.",
+            'listmandats' => $listMandats
         ], 200);
     }
 
@@ -172,19 +207,6 @@ class PropertyController extends AbstractController
             'publication' => $dupproperty->getPublication(),
         ]);
 
-    }
-
-    #[Route('/getlastmandat', name:'op_gestapp_property_getlastmandat', methods: ['GET'])]
-    public function getLastMandat(PropertyRepository $propertyRepository){
-
-        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);             // Récupération de la dernière propriété enregistrée
-        $lastmandat = $lastproperty->getRefMandat();
-
-        return $this->json([
-            'code'=> 200,
-            'message' => "Le bien a été archivé sur le site.",
-            'lastmandat' => $lastmandat
-        ], 200);
     }
 
     #[Route('/add/{refMandat}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
@@ -669,22 +691,6 @@ class PropertyController extends AbstractController
             'properties' => $properties,
         ]);
 
-    }
-
-    #[Route('/propertyDiffusion', name: 'op_gestapp_property_diffusion', methods: ['GET']) ]
-    public function propertyDiffusion(PropertyRepository $propertyRepository)
-    {
-        $listProperties = $propertyRepository->listPublication();
-
-        dd($listProperties);
-
-        return $this->json([
-            'code' => 200,
-            'message' => 'affichage de la liste',
-            'listdiffusion' => $this->renderView('gestapp/property/_listdiffusion.html.twig', [
-                'properties' => $listProperties
-            ])
-        ],200);
     }
 
 }

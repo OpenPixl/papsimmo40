@@ -15,35 +15,59 @@
                 .then(function(response){
                     document.getElementById('listDiffusion').innerHTML = response.data.listdiffusion
                 })
+            // Mise en place de l'évènement sur le bouton
+            document.getElementById('btnListDiffusion').onclick = function(event){
+                let listDiffusion = document.getElementById("listDiffusion")
+                listDiffusion.className = listDiffusion.className !== 'show' ? 'show' : 'hide';
+                if(listDiffusion.className === 'show') {
+                    listDiffusion.style.display = 'block'
+                    list.style.display = 'none'
+                    document.getElementById('btnListDiffusion').textContent = 'Retour sur la liste des biens'
+                }
+                if(listDiffusion.className === 'hide') {
+                    listDiffusion.style.display = 'none';
+                    list.style.display = 'block';
+                    document.getElementById('btnListDiffusion').textContent = 'Afficher la diffucions des biens'
+                }
+            }
 
-            // Ouverture de la modale d'ajout d'un bien / propriété
-            // avec intégration du Numéro de mandat modifiable par le créateur
+            // Ouverture de la modale d'ajout d'un bien / propriété avec intégration du Numéro de mandat modifiable par le créateur
             // ----------------------------------------------------------------
             // I. Ouverture de la modal
             const modalAddNewProperty = document.getElementById('modalAddNewProperty')
             const NewProperty = new bootstrap.Modal(modalAddNewProperty, { keyboard: true })
             const addNewProperty = document.getElementById('addNewProperty')
+            const ArrayMandats = []
+            axios
+                .get('/gestapp/property/getlistmandats')
+                .then(function(response){
+                    // alimenter le tableau des ref existantes
+                    let ListMandats = response.data.listmandats
+                    ListMandats.forEach((element) => {
+                        ArrayMandats.push(parseInt(element))
+                    })
+                })
+            console.log(ArrayMandats)
             addNewProperty.addEventListener('click', function(event){
                 event.preventDefault()
                 NewProperty.show()
-                axios
-                    .get('/gestapp/property/getlastmandat')
-                    .then(function(response){
-                        document.getElementById('lastMandat').value = response.data.lastmandat
-                    })
+
             })
             // II. Modification de l'addresse de traitement controller
             document.getElementById('refMandat').addEventListener('input', function(event){
                 let newmandat = parseInt(document.getElementById('refMandat').value)
-                let lastmandat = parseInt(document.getElementById('lastMandat').value)
-                if(newmandat <= lastmandat){
-                    console.log(newmandat,lastmandat)
+                let flag = 0
+                for(let i=0; i<ArrayMandats.length; i++) {
+                    if(newmandat === ArrayMandats[i]) {
+                        flag = 1;
+                    }
+                }
+                if(flag === 1){
                     document.getElementById("refMandat").classList.remove("is-valid")
                     document.getElementById("refMandat").classList.add("is-invalid")
                     document.getElementById('tdconsign').textContent = "Veuillez corriger ce numéro de mandat"
                     document.getElementById("submitAddnewproperty").href = '#'
                 }else{
-                    console.log(newmandat,lastmandat)
                     document.getElementById("refMandat").classList.remove("is-invalid")
                     document.getElementById("refMandat").classList.add("is-valid")
                     document.getElementById('tdconsign').textContent = "Numéro de mandat valide."
@@ -51,7 +75,7 @@
                 }
             })
 
-            // Suppression d'un bine en création
+            // Suppression d'un bien en création
             // ----------------------------------------------------------------
             // I.
             function DelPropertyIncreating(event)
@@ -180,13 +204,14 @@
 
             // PARTIE : Archivages de plusieurs biens
             // -----------------------
-            // sélectionner toutes les checkBoxs
+            // sélectionner toutes les checkBoxs sur le checkbox du ht de page
             document.getElementById('CheckAllProperties').onclick = function() {
                 let checkboxes = document.getElementsByName('CheckProperty');
                 for (let checkbox of checkboxes) {
                     checkbox.checked = this.checked
                 }
             }
+            // ou récupération des lignes sélectionnées
             document.getElementById('SupprRows').onclick = function(event){
                 event.preventDefault()
                 let arrayCheckbox = []
@@ -197,9 +222,6 @@
                     }
                 }
             }
-
-            // PARTIE : Affichages des biens sélectionnés
-            // -----------------------
             // Mise en place de l'évènement sur le bouton
             document.getElementById('btnMListArchived').onclick = function(event){
                 let list = document.getElementById('list')
