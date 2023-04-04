@@ -217,6 +217,7 @@ class PropertyRepository extends ServiceEntityRepository
                 e.avatarName as avatarName
                 ')
             ->where('p.isIncreating = 0')
+            ->where('p.isArchived = 0')
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()

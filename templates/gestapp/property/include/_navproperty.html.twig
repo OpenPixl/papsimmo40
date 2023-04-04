@@ -1,0 +1,10 @@
+<div class="navigation d-flex justify-content-between">
+    <div class="mb-1">
+        <button id="addNewProperty" class="btn btn-sm btn-outline-dark">Ajouter un nouveau bien</button>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <button class="btn btn-sm btn-outline-dark" id="btnMListArchived" href="">Afficher les biens archivés</button>
+        {% endif %}
+        <button class="btn btn-sm btn-outline-dark" id="btnListDiffusion">Afficher les diffusions des biens</button>
+        <a class="btn btn-sm btn-outline-warning" id="SupprRows" href="">Archivages des biens sélectionnés</a>
+    </div>
+</div>
