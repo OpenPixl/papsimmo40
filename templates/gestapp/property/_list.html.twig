@@ -10,7 +10,7 @@
         <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
         <th>Collaborateur</th>
         {% else %}
-        <th></th>
+        <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
         {% endif %}
         <th>Ref</th>
         <th>Mandat</th>
@@ -48,7 +48,9 @@
                 {{ property.firstName }} {{ property.lastName }}
             </td>
             {% else %}
-            <th>{{ property.id }}</th>
+            <td>
+                <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
+            </td>
             {% endif %}
             <td>{{ property.ref }}</td>
             {% if property.dupMandat is not empty %}
