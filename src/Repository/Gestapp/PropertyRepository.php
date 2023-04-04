@@ -273,7 +273,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.propertyDefinition', 'pd')
             ->addSelect('
-                p.p.projet as projet,
+                p.projet as projet,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 p.id as id,
