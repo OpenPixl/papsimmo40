@@ -39,7 +39,11 @@
             <th>{{ property.id }}</th>
             {% endif %}
             <td>{{ property.ref }}</td>
-            <td>{{ property.refMandat }}</td>
+            {% if property.dupMandat is not empty %}
+                <td>{{ property.refMandat }}{{ property.dupMandat }}</td>
+            {% else %}
+                <td>{{ property.refMandat }}</td>
+            {% endif %}
             <td>
                 <p class="badge bg-primary mb-0">{{ property.propertyDefinition }}</p>
             </td>

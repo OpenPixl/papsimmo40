@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <a class="navbar-brand" href="#">
+        <a class="navbar-brand" href="{{ path('op_admin_dashboard_index') }}">
             {% if application.logoName %}
                 <img src="{{ vich_uploader_asset(application, 'faviconFile') }}" alt="{{ application.logoName }}" width="24">
                  - SoftwarePAPS

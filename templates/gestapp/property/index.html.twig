@@ -7,29 +7,62 @@
     <script>
         window.onload = function(){
 
-            // ----------------------------------------------------------------
-            // STEP 0 : A l'initialisation de la page
-            // ----------------------------------------------------------------
+        // ----------------------------------------------------------------
+        // STEP 0 : A l'initialisation de la page
+        // ----------------------------------------------------------------
+
+            // ajout des tableaux complémentaires
             axios
                 .get('/gestapp/property/propertyDiffusion')
                 .then(function(response){
                     document.getElementById('listDiffusion').innerHTML = response.data.listdiffusion
                 })
-            // Mise en place de l'évènement sur le bouton
+            axios
+                .get('/gestapp/property/listarchived')
+                .then(function(response){
+                    document.getElementById("listArchived").innerHTML = response.data.listarchived
+                })
+            const list = document.getElementById('list')
+            const listDiffusion = document.getElementById("listDiffusion")
+            const listArchived = document.getElementById("listArchived")
+            // Afficher le tableau des diffusions pour chaque bien
             document.getElementById('btnListDiffusion').onclick = function(event){
-                let listDiffusion = document.getElementById("listDiffusion")
                 listDiffusion.className = listDiffusion.className !== 'show' ? 'show' : 'hide';
                 if(listDiffusion.className === 'show') {
                     listDiffusion.style.display = 'block'
                     list.style.display = 'none'
+                    listArchived.style.display = 'none'
                     document.getElementById('btnListDiffusion').textContent = 'Retour sur la liste des biens'
                 }
                 if(listDiffusion.className === 'hide') {
-                    listDiffusion.style.display = 'none';
-                    list.style.display = 'block';
+                    listDiffusion.style.display = 'none'
+                    list.style.display = 'block'
+                    listArchived.style.display = 'none'
                     document.getElementById('btnListDiffusion').textContent = 'Afficher la diffusions des biens'
                 }
             }
+            // Afficher le tableau des biens archivés
+            document.getElementById('btnMListArchived').onclick = function(event){
+
+                listArchived.className = listArchived.className !== 'show' ? 'show' : 'hide';
+                if(listArchived.className === 'show') {
+                    listArchived.style.display = 'block'
+                    list.style.display = 'none'
+                    listDiffusion.style.display = 'none'
+                    document.getElementById('btnMListArchived').textContent = 'Retour sur la liste des biens'
+                }
+                if(listArchived.className === 'hide') {
+                    listArchived.style.display = 'none';
+                    list.style.display = 'block';
+                    listDiffusion.style.display = 'none'
+                    document.getElementById('btnMListArchived').textContent = 'Afficher les biens archivés'
+                }
+
+            }
+
+        // ----------------------------------------------------------------
+        // STEP 1 : Après l'initialisation de la page
+        // ----------------------------------------------------------------
 
             // Ouverture de la modale d'ajout d'un bien / propriété avec intégration du Numéro de mandat modifiable par le créateur
             // ----------------------------------------------------------------
@@ -52,7 +85,7 @@
                 NewProperty.show()
 
             })
-            // II. Modification de l'addresse de traitement controller
+            // II. Modification de l'addresse de traitement sur l'input
             document.getElementById('refMandat').addEventListener('input', function(event){
                 let newmandat = parseInt(document.getElementById('refMandat').value)
                 let flag = 0
@@ -74,7 +107,7 @@
                 }
             })
 
-            // Suppression d'un bien en création
+            // Archivages d'un bien en création
             // ----------------------------------------------------------------
             // I.
             function DelPropertyIncreating(event)
@@ -85,28 +118,19 @@
                     .post(url)
                     .then(function(response) {
                         // rafraichissement du tableau
-                        const liste = document.getElementById('listeIncreating').innerHTML = response.data.liste;
-
+                        document.getElementById('listeIncreating').innerHTML = response.data.liste;
                         // Mise en place de l'évenement pour la suppression d'un bien en cours de création
                         document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                             link.addEventListener('click', DelPropertyIncreating)
                         })
-
                         // Mise en place de l'évenement pour la suppression d'un bien
                         document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                             link.addEventListener('click', DelProperty)
                         })
-
                         // Mise en place de l'évenement pour l'ouverture de la modale de suppression d'un bien
                         document.querySelectorAll('a.ModalDelProperty').forEach(function(link){
                             link.addEventListener('click', ModalDelProperty)
                         })
-                        // préparation du toaster
-                        var option = {
-                            animation: true,
-                            autohide: true,
-                            delay: 3000,
-                        };
                         // initialisation du toaster
                         var toastHTMLElement = document.getElementById("toaster");
                         var message = response.data.message;
@@ -117,16 +141,7 @@
                     })
 
             }
-            // II. Ouverture de la modalOuverture de la modal
-            function ModalDelProperty(event){
-                const Suppr2 = document.getElementById('Suppr2')
-                Suppr2.addEventListener('show.bs.modal', function (event) {
-                    let b = event.relatedTarget
-                    // Extract info from data-bs-* attributes
-                    let recipientb = b.getAttribute('data-bs-whatever')
-                    console.log(recipientb)
-                })
-            }
+
 
             function DelProperty(event)
             {
@@ -164,7 +179,7 @@
             }
 
             // Code d'ouverture de la modale de suppression d'une ligne en mode création d'un bien
-            var Suppr = document.getElementById('Suppr')
+            var Suppr = document.getElementById('SupprIncreatring')
             Suppr.addEventListener('show.bs.modal', function (event) {
                 // Button that triggered the modal
                 var a = event.relatedTarget
@@ -203,46 +218,32 @@
 
             // PARTIE : Archivages de plusieurs biens
             // -----------------------
-            // sélectionner toutes les checkBoxs sur le checkbox du ht de page
+            // sélectionner toutes les checkBoxs à partir de la checkbox du ht de page
+            let arrayCheckbox = []
             document.getElementById('CheckAllProperties').onclick = function() {
                 let checkboxes = document.getElementsByName('CheckProperty');
                 for (let checkbox of checkboxes) {
                     checkbox.checked = this.checked
+                    if(checkbox.checked){
+                        arrayCheckbox.push(parseInt(checkbox.value))
+                        arrayCheckbox = [... new Set(arrayCheckbox)]
+                    }
+                    console.log(arrayCheckbox)
                 }
             }
             // ou récupération des lignes sélectionnées
             document.getElementById('SupprRows').onclick = function(event){
                 event.preventDefault()
-                let arrayCheckbox = []
                 let checkboxes = document.getElementsByName('CheckProperty');
                 for (let checkbox of checkboxes) {
                     if(checkbox.checked){
-                        arrayCheckbox.push(checkbox.value)
+                        arrayCheckbox.push(parseInt(checkbox.value))
+                        arrayCheckbox = [... new Set(arrayCheckbox)]
                     }
+                    console.log(arrayCheckbox)
                 }
             }
-            // Mise en place de l'évènement sur le bouton
-            document.getElementById('btnMListArchived').onclick = function(event){
-                let list = document.getElementById('list')
-                let listarchived = document.getElementById("listArchived")
-                axios
-                    .get('/gestapp/property/listarchived')
-                    .then(function(response){
-                        document.getElementById("listArchived").innerHTML = response.data.listarchived
-                    })
-                listarchived.className = listarchived.className !== 'show' ? 'show' : 'hide';
-                if(listarchived.className === 'show') {
-                    listarchived.style.display = 'block'
-                    list.style.display = 'none'
-                    document.getElementById('btnMListArchived').textContent = 'Retour sur la liste des biens'
-                }
-                if(listarchived.className === 'hide') {
-                    listarchived.style.display = 'none';
-                    list.style.display = 'block';
-                    document.getElementById('btnMListArchived').textContent = 'Afficher les biens archivés'
-                }
 
-            }
         }
     </script>
 {% endblock %}
@@ -284,7 +285,7 @@
     <section id="modals">
 
         {# Modal de suppression #}
-        <div class="modal fade" id="Suppr" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
+        <div class="modal fade" id="SupprIncreatring" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -302,7 +303,7 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="Suppr2" tabindex="-1" aria-labelledby="Suppr2" aria-hidden="true">
+        <div class="modal fade" id="SupprCreating" tabindex="-1" aria-labelledby="Suppr2" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">

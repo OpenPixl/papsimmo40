@@ -101,15 +101,22 @@ ol, ul, dl {
 @media (max-width: 767.98px) {
   body{
     font-size: 0.8rem;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    overflow-x: hidden;
+    overflow-y: hidden;
   }
-
+  footer{
+    background-color: #333;
+  }
   #side{
-    width: $width-content-small;
-    height: 100vh;
+    width: $width-side-large;
+    height:100%
   }
   #content{
-    width: auto;
-    height: 100vh;
+    width: $width-content-large;
+    height:100%
   }
 
   #listephoto{
@@ -168,14 +175,20 @@ ol, ul, dl {
 @media (min-width: 768px) {
   body{
     font-size: 0.9rem;
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+  }
+  footer{
+    background-color: #333;
   }
   #side{
     width: $width-side-large;
-    height: 100vh;
+    height:100%
   }
   #content{
     width: $width-content-large;
-    height: 100vh;
+    height:100%
   }
   #listephoto{
     .card-img-overlay {
