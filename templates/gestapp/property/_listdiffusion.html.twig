@@ -1,3 +1,6 @@
+<div>
+    <p class="alert alert-info"></p>Se loger :
+</div>
 <table class="table">
     <thead>
     <tr>
@@ -46,10 +49,10 @@
             {% endif %}
             <td>{{ property.name|u.truncate(60, ' ...') }}</td>
             <td>{% if property.isWebpublish == 0 %}<i class="fa-thin fa-globe"></i>{% else %}<i class="fa-thin fa-globe text-success"></i>{% endif %}</td>
-            <td>{% if property.isPublishParven == 0 %}<i class="fa-sharp fa-light fa-circle-check"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
-            <td>{% if property.isPublishseloger == 0 %}<i class="fa-sharp fa-light fa-circle-check"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
-            <td>{% if property.isPublishMeilleur == 0 %}<i class="fa-sharp fa-light fa-circle-check"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
-            <td>{% if property.isPublishleboncoin == 0 %}<i class="fa-sharp fa-light fa-circle-check"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
+            <td>{% if property.isPublishParven == 0 %}<i class="fa-light fa-circle-minus text-danger"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
+            <td>{% if property.isPublishseloger == 0 %}<i class="fa-light fa-circle-minus text-danger"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
+            <td>{% if property.isPublishMeilleur == 0 %}<i class="fa-light fa-circle-minus text-danger"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
+            <td>{% if property.isPublishleboncoin == 0 %}<i class="fa-light fa-circle-minus text-danger"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
             <td>
                 <div id="action_property" class="btn-group">
                     <button type="button" id="action_property" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

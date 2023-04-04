@@ -27,7 +27,7 @@
                 if(listDiffusion.className === 'hide') {
                     listDiffusion.style.display = 'none';
                     list.style.display = 'block';
-                    document.getElementById('btnListDiffusion').textContent = 'Afficher la diffucions des biens'
+                    document.getElementById('btnListDiffusion').textContent = 'Afficher la diffusions des biens'
                 }
             }
 
@@ -47,7 +47,6 @@
                         ArrayMandats.push(parseInt(element))
                     })
                 })
-            console.log(ArrayMandats)
             addNewProperty.addEventListener('click', function(event){
                 event.preventDefault()
                 NewProperty.show()
@@ -280,7 +279,6 @@
             <a class="btn btn-sm btn-outline-warning" id="SupprRows" href="">Archivages des biens sélectionnés</a>
         </div>
 
-        {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
     </div>
 
     <div id="list" class="col-sm-12">
@@ -290,11 +288,6 @@
     </div>
     <div id="listDiffusion" class="col-sm-12" style="display: none;">
     </div>
-    <div class="navigation d-flex justify-content-between">
-
-        {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
-    </div>
-
 </div>
 
 {% endblock %}
