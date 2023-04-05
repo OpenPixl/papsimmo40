@@ -225,6 +225,47 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     // ----------------------------------------------
+    // Requête : Liste les biens et leur publications - Partie Admin / Employed
+    // ----------------------------------------------
+    public function listPublicationEmployed($user)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->join('p.publication', 'pu')
+            ->addSelect('
+                pu.isPublishParven as isPublishParven,
+                pu.isWebpublish as isWebpublish,
+                pu.isSocialNetwork as isSocialNetwork,
+                pu.isPublishseloger as isPublishseloger,
+                pu.isPublishMeilleur as isPublishMeilleur,
+                pu.isPublishleboncoin as isPublishleboncoin,
+                p.dupMandat as dupMandat,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.createdAt,
+                p.updatedAt,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName
+                ')
+            ->where('p.isIncreating = 0')
+            ->where('p.isArchived = 0')
+            ->where('e.id = :employed')
+            ->setParameter('employed', $user)
+            ->orderBy('p.RefMandat', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // ----------------------------------------------
     // Requête : Liste les biens en cours de création - Partie Admin
     // ----------------------------------------------
     public function listAllPropertiesIncreating()

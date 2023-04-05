@@ -68,7 +68,14 @@ class PropertyController extends AbstractController
     #[Route('/propertyDiffusion', name: 'op_gestapp_property_diffusion', methods: ['GET']) ]
     public function propertyDiffusion(PropertyRepository $propertyRepository)
     {
-        $listProperties = $propertyRepository->listPublication();
+
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+        if($hasAccess == true) {
+            $listProperties = $propertyRepository->listPublication();
+        }else{
+            $listProperties = $propertyRepository->listPublicationEmployed($user->getId());
+        }
 
         //dd($listProperties);
 
