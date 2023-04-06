@@ -1794,214 +1794,211 @@
 {% endblock %}
 
 {% block footer %}
-    <section id="modals">
-        <!-- Ajout d'un vendeur sur un bien -->
-        <div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered ">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un client à cette fiche</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
-                        <input id="idProperty" type="hidden" value="">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- Edition d'un vendeur sur un bien -->
-        <div class="modal fade" id="editCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Edition d'un client à cette fiche</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div id="ModalBodyEditCustomer"class="modal-body">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <a id="btnAddCustomer" class="btn btn-sm btn-primary editCustomer" data-bs-dismiss="modal">Ajouter</a>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {# Ajout d'une zone cadastrale #}
-        <div class="modal fade" id="addCadaster" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une parcelle</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        {{ render(controller('App\\Controller\\Gestapp\\CadasterController::new', {'idproperty': property.id})) }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <button id="btnAddCadaster" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {# Modal liste Banner #}
-        <div class="modal fade" id="ListBanner" tabindex="-1" aria-labelledby="ListBanner" aria-hidden="true">
-            <div class="modal-dialog modal-xl modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Liste des bannières disponibles :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div id="modalListBanner" class="modal-body">
-                        {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::index')) }}
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout PropertyBanner #}
-        <div class="modal fade" id="modalPropertyBanner" tabindex="-1" aria-labelledby="PropertyDefinition" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajout d'une nouvelle bannière :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::new')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout PropertyDefinition #}
-        <div class="modal fade" id="modalPropertyDefinition" tabindex="-1" aria-labelledby="PropertyDefinition" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Type de bien :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyDefinitionController::new2')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout HouseCat #}
-        <div class="modal fade" id="modalHouseCat" tabindex="-1" aria-labelledby="addHouseCat" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une Classification de type F1, F2... :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\DenominationController::new')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout HouseBanner #}
-        <div class="modal fade" id="modalPropertyBanner" tabindex="-1" aria-labelledby="addPropertyBanner" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une Bannière :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::new')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout HouseState - Etat du bien immobilier #}
-        <div class="modal fade" id="modalHouseState" tabindex="-1" aria-labelledby="addHouseState" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un état :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout HouseEnergy - Gestion des énergies #}
-        <div class="modal fade" id="modalHouseEnergy" tabindex="-1" aria-labelledby="addHouseEnergy" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyEnergyController::new')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout HouseOrientation - Orientation du bien #}
-        <div class="modal fade" id="modalHouseOrientation" tabindex="-1" aria-labelledby="addHouseOrientation" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyOrientationController::new')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout HouseEquipement - Equipement du bien #}
-        <div class="modal fade" id="modalHouseEquipment" tabindex="-1" aria-labelledby="addHouseEquipment" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouvel équipement :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyEquipementController::new')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout HouseTypology #}
-        <div class="modal fade" id="modalHouseTypology" tabindex="-1" aria-labelledby="addHouseTypology" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie de bien :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyTypologyController::new2')) }}
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout HouseOther #}
-        <div class="modal fade" id="modalHouseOther" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie :</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\choice\\OtherOptionController::new2')) }}
-                </div>
-            </div>
-        </div>
-
-        {# annonce toaster #}
-        <div aria-live="polite" aria-atomic="true" class="position-relative">
-            <div class="toast-container position-absolute top-50 end-0 p-3">
-                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="me-auto">Bootstrap</strong>
-                        <small>11 mins ago</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                        Hello, world! This is a toast message.
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
     {{ parent() }}
+    <!-- Ajout d'un vendeur sur un bien -->
+    <div class="modal fade" id="addCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un client à cette fiche</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
+                    <input id="idProperty" type="hidden" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Edition d'un vendeur sur un bien -->
+    <div class="modal fade" id="editCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Edition d'un client à cette fiche</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="ModalBodyEditCustomer"class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btnAddCustomer" class="btn btn-sm btn-primary editCustomer" data-bs-dismiss="modal">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# Ajout d'une zone cadastrale #}
+    <div class="modal fade" id="addCadaster" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une parcelle</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ render(controller('App\\Controller\\Gestapp\\CadasterController::new', {'idproperty': property.id})) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button id="btnAddCadaster" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# Modal liste Banner #}
+    <div class="modal fade" id="ListBanner" tabindex="-1" aria-labelledby="ListBanner" aria-hidden="true">
+        <div class="modal-dialog modal-xl modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Liste des bannières disponibles :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="modalListBanner" class="modal-body">
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::index')) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout PropertyBanner #}
+    <div class="modal fade" id="modalPropertyBanner" tabindex="-1" aria-labelledby="PropertyDefinition" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajout d'une nouvelle bannière :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::new')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout PropertyDefinition #}
+    <div class="modal fade" id="modalPropertyDefinition" tabindex="-1" aria-labelledby="PropertyDefinition" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Type de bien :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyDefinitionController::new2')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout HouseCat #}
+    <div class="modal fade" id="modalHouseCat" tabindex="-1" aria-labelledby="addHouseCat" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une Classification de type F1, F2... :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\DenominationController::new')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout HouseBanner #}
+    <div class="modal fade" id="modalPropertyBanner" tabindex="-1" aria-labelledby="addPropertyBanner" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une Bannière :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::new')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout HouseState - Etat du bien immobilier #}
+    <div class="modal fade" id="modalHouseState" tabindex="-1" aria-labelledby="addHouseState" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un état :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyStateController::new')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout HouseEnergy - Gestion des énergies #}
+    <div class="modal fade" id="modalHouseEnergy" tabindex="-1" aria-labelledby="addHouseEnergy" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyEnergyController::new')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout HouseOrientation - Orientation du bien #}
+    <div class="modal fade" id="modalHouseOrientation" tabindex="-1" aria-labelledby="addHouseOrientation" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une source d'énergie :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyOrientationController::new')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout HouseEquipement - Equipement du bien #}
+    <div class="modal fade" id="modalHouseEquipment" tabindex="-1" aria-labelledby="addHouseEquipment" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un nouvel équipement :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyEquipementController::new')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout HouseTypology #}
+    <div class="modal fade" id="modalHouseTypology" tabindex="-1" aria-labelledby="addHouseTypology" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie de bien :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyTypologyController::new2')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout HouseOther #}
+    <div class="modal fade" id="modalHouseOther" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une typologie :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\OtherOptionController::new2')) }}
+            </div>
+        </div>
+    </div>
+    {# annonce toaster #}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-50 end-0 p-3">
+            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Bootstrap</strong>
+                    <small>11 mins ago</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

@@ -61,7 +61,7 @@ class DocumentController extends AbstractController
                 $originalpdfFileName = pathinfo($pdfFileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safepdfFileName = $slugger->slug($originalpdfFileName);
-                $newpdfFileName = $safepdfFileName . '-' . uniqid() . '.' . $pdfFileName->guessExtension();
+                $newpdfFileName = $safepdfFileName . '.' . $pdfFileName->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -86,7 +86,7 @@ class DocumentController extends AbstractController
                 $originalwordFileName = pathinfo($wordFileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safewordFileName = $slugger->slug($originalwordFileName);
-                $newwordFileName = $safewordFileName . '-' . uniqid() . '.' . $wordFileName->guessExtension();
+                $newwordFileName = $safewordFileName .'.' . $wordFileName->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -111,7 +111,7 @@ class DocumentController extends AbstractController
                 $originalexcelFileName = pathinfo($excelFileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safeexcelFileName = $slugger->slug($originalexcelFileName);
-                $newexcelFileName = $safeexcelFileName . '-' . uniqid() . '.' . $excelFileName->guessExtension();
+                $newexcelFileName = $safeexcelFileName . '.' . $excelFileName->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -134,7 +134,7 @@ class DocumentController extends AbstractController
                 $originalmp4FileName = pathinfo($mp4FileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safemp4FileName = $slugger->slug($originalmp4FileName);
-                $newmp4FileName = $safemp4FileName . '-' . uniqid() . '.' . $mp4FileName->guessExtension();
+                $newmp4FileName = $safemp4FileName . '.' . $mp4FileName->guessExtension();
 
                 // Move the file to the directory where brochures are stored
                 try {
@@ -205,5 +205,46 @@ class DocumentController extends AbstractController
         }
 
         return $this->redirectToRoute('op_gestapp_document_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/del/{id}', name: 'op_gestapp_document_del', methods: ['POST'])]
+    public function del(Document $document, DocumentRepository $documentRepository)
+    {
+        $name = $document->getName();
+        $typeDoc = $document->getTypeDoc();
+        if($name)
+        {
+            if($typeDoc =='Pdf')
+            {
+                $directory = 'pdf_directory';
+            }
+            elseif($typeDoc =='word')
+            {
+                $directory = 'word_directory';
+            }
+            elseif($typeDoc == 'Excel')
+            {
+                $directory = 'excel_directory';
+            }
+            elseif($typeDoc == 'Mp4')
+            {
+                $directory = 'mp4_directory';
+            }
+            $pathheader = $this->getParameter($directory).'/'.$name;
+            // On vérifie si l'image existe
+            if(file_exists($pathheader)){
+                unlink($pathheader);
+            }
+        }
+        $documentRepository->remove($document, true);
+        $documents = $documentRepository->findAll();
+
+        return $this->json([
+            'code' => '200',
+            'message' => 'Le document a été correctement supprimé.',
+            'liste' => $this->renderView('gestapp/document/_list.html.twig',[
+                'documents' => $documents
+            ])
+        ], 200);
     }
 }

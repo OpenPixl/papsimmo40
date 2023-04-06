@@ -282,114 +282,112 @@
 {% endblock %}
 
 {% block modal %}
-    <section id="modals">
+    {{ parent() }}
+    {# Modal de suppression #}
+    <div class="modal fade" id="SupprIncreatring" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                    <input type="hidden" id="recipient-name">
+                </div>
+                <div class="modal-footer">
+                    <a href="#" type="button" class="btn btn-warning jsModalDelPropertyIncreating" data-bs-dismiss="modal">Supprimer</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="SupprCreating" tabindex="-1" aria-labelledby="Suppr2" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                    <input type="hidden" id="recipient-name">
+                </div>
+                <div class="modal-footer">
+                    <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="Publish" tabindex="-1" aria-labelledby="Publish" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                    <input type="hidden" id="recipient-name">
+                </div>
+                <div class="modal-footer">
+                    <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# Modal d'ajout d'une nouvelle proprieté #}
+    <div class="modal fade" id="modalAddNewProperty" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-info" id="exampleModalLabel">Création d'un nouveau bien à la vente</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table table-sm">
+                        <tr>
 
-        {# Modal de suppression #}
-        <div class="modal fade" id="SupprIncreatring" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
-                        <input type="hidden" id="recipient-name">
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" type="button" class="btn btn-warning jsModalDelPropertyIncreating" data-bs-dismiss="modal">Supprimer</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="SupprCreating" tabindex="-1" aria-labelledby="Suppr2" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
-                        <input type="hidden" id="recipient-name">
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade" id="Publish" tabindex="-1" aria-labelledby="Publish" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
-                        <input type="hidden" id="recipient-name">
-                    </div>
-                    <div class="modal-footer">
-                        <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {# Modal d'ajout d'une nouvelle proprieté #}
-        <div class="modal fade" id="modalAddNewProperty" tabindex="-1" aria-labelledby="Suppr" aria-hidden="true">
-            <div class="modal-dialog modal-lg modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title text-info" id="exampleModalLabel">Création d'un nouveau bien à la vente</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <table class="table table-sm">
-                            <tr>
+                            <td colspan="2">
+                                <b>Attention :</b>
+                            </td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td id="tdconsign" class="col-sm-8 table-light">
+                                Le numéro de mandat généré sera vérifié par le système.
+                            </td>
+                            <td class="col-sm-4"><input type="text" id="refMandat" name="refMandat" class="form-control form-control-sm"></td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="lastMandat">
 
-                                <td colspan="2">
-                                    <b>Attention :</b>
-                                </td>
-                            </tr>
-                            <tr class="align-middle">
-                                <td id="tdconsign" class="col-sm-8 table-light">
-                                    Le numéro de mandat généré sera vérifié par le système.
-                                </td>
-                                <td class="col-sm-4"><input type="text" id="refMandat" name="refMandat" class="form-control form-control-sm"></td>
-                            </tr>
-                        </table>
-                        <input type="hidden" id="lastMandat">
-
-                    </div>
-                    <div class="modal-footer">
-                        {% set refmandat = 0 %}
-                        <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'refMandat': refmandat}) }}" class="btn btn-info">Accéder à la fiche</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    </div>
+                </div>
+                <div class="modal-footer">
+                    {% set refmandat = 0 %}
+                    <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'refMandat': refmandat}) }}" class="btn btn-info">Accéder à la fiche</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>
         </div>
+    </div>
 
-        {# annonce toaster #}
-        <div aria-live="polite" aria-atomic="true" class="position-relative">
-            <div class="toast-container position-absolute top-50 end-0 p-3">
-                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="me-auto">Bootstrap</strong>
-                        <small>à l'instant</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                        Hello, world! This is a toast message.
-                    </div>
+    {# annonce toaster #}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-50 end-0 p-3">
+            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">Bootstrap</strong>
+                    <small>à l'instant</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
                 </div>
             </div>
         </div>
-    </section>
+    </div>
 {% endblock %}
 
 {% block footer %}
