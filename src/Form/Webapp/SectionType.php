@@ -26,7 +26,7 @@ class SectionType extends AbstractType
                     'Collaborateur' =>[
                         "un collaborateur" => "One_Employed",
                         "Une équipe" => "One_staff",
-                        "Liste de stous les collaborateurs" => "All_Employed"
+                        "Liste de tous les collaborateurs" => "All_Employed"
                     ],
                     'Propriétés' => [
                         'Liste des proporiétés' => 'All_properties',

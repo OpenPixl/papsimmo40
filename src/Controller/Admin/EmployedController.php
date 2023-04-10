@@ -22,6 +22,15 @@ class EmployedController extends AbstractController
         return $this->json($repository->search($request->query->get('e')));
     }
 
+    #[Route('/AllEmployed', name: 'op_admin_employeds_allEmployed', methods: ['GET'])]
+    public function AllEmployed(Request $request, EmployedRepository $employedRepository)
+    {
+        return $this->render('webapp/page/employed/allemployed.html.twig', [
+            'employeds' => $employedRepository->findBy(['isVerified'=>1]),
+        ]);
+    }
+
+
     #[Route('/', name: 'op_admin_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {

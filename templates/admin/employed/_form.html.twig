@@ -11,144 +11,114 @@
 </div>
 <div class="row g-1">
     <div class="col-8">
-        <div class="card bg-secondary mb-1">
+        <div class="card mb-1">
             <div class="card-body">
-                <h3>Information collaborateur</h3>
-                <div class="row mb-1 mt-1 g-1">
-                    <div class="col-12 col-lg-2">
-                        {{ form_errors(form) }}
-                    </div>
-                </div>
-                <div class="row mb-1 mt-1 g-1">
-                    <div class="col-12 col-lg-2">
-                        {{ form_label(form.firstName, 'Prénom', {'label_attr': {'class':'form-label'}}) }}
-                    </div>
-                    <div class="col-12 col-lg-5">
-                        {{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                    </div>
-                    <div class="col-12 col-lg-5">
-                        {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                    </div>
-                </div>
-                <div class="row mb-1 mt-1 g-1">
-                    {{ form_errors(form) }}
-                    <div class="col-12 col-lg-2">
-                        {{ form_label(form.email, '', {'label_attr': {'class':'form-label'}}) }}
-                    </div>
-                    <div class="col-12 col-lg-5">
-                        {{ form_widget(form.email, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="card bg-secondary">
-            <div class="card-body">
-                <h3>Contacts</h3>
-                <div class="row">
-                    <div class="col-4">
-                        <h5>Téléphone</h5>
-                        {# Numéro Domicile #}
-                        <div class="row mb-1 g-1">
-                            <div class="col-12">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone"></i>&nbsp;Domicile</span>
-                                    {{ form_widget(form.home, {'attr':{'class':'form-control form-control-sm'}}) }}
-                                </div>
+                <table class="table">
+                    <tr class="align-middle">
+                        <td class="align-middle" colspan="4"><h5>INFORMATIONS COLLABORATEUR</h5></td>
+                    </tr>
+                    <tr class="align-middle">
+                        <td class="table-light col-3">{{ form_label(form.firstName, 'Prénom & Nom', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td class="col-3">{{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                        <td class="col-3">{{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                        <td class="col-3"></td>
+                    </tr>
+                    <tr class="align-middle">
+                        <td class="table-light">{{ form_label(form.email, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td>{{ form_widget(form.email, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                        <td colspan="2"></td>
+                    </tr>
+                    <td class="align-middle" colspan="4"><h5>CONTACTS</h5></td>
+                    <tr class="align-middle">
+                        <td class="table-light">Télephone</td>
+                        <td>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone"></i>&nbsp;Domicile</span>
+                                {{ form_widget(form.home, {'attr':{'class':'form-control form-control-sm'}}) }}
                             </div>
-                        </div>
-                        {# Numéro Bureau #}
-                        <div class="row mb-1 g-1">
-                            <div class="col-12">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone"></i>&nbsp;Bureau</span>
-                                    {{ form_widget(form.desk, {'attr':{'class':'form-control form-control-sm'}}) }}
-                                </div>
+                        </td>
+                        <td>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone"></i>&nbsp;Bureau</span>
+                                {{ form_widget(form.desk, {'attr':{'class':'form-control form-control-sm'}}) }}
                             </div>
-                        </div>
-                        {# Numéro Portable #}
-                        <div class="row mb-1 g-1">
-                            <div class="col-12">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile-button"></i>&nbsp;Portable *</span>
-                                    {{ form_widget(form.gsm, {'attr':{'class':'form-control form-control-sm'}}) }}
-                                </div>
+                        </td>
+                        <td>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile-button"></i>&nbsp;Portable *</span>
+                                {{ form_widget(form.gsm, {'attr':{'class':'form-control form-control-sm'}}) }}
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <h5>Autres</h5>
-                        {# Numéro Fax #}
-                        <div class="row mb-1">
-                            <div class="col-12">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-fax"></i></span>
-                                    {{ form_widget(form.fax, {'attr':{'class':'form-control form-control-sm'}}) }}
-                                </div>
+                        </td>
+                    </tr>
+                    <tr class="align-middle">
+                        <td class="table-light">Autres</td>
+                        <td>
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone"></i>&nbsp;Fax</span>
+                                {{ form_widget(form.fax, {'attr':{'class':'form-control form-control-sm'}}) }}
                             </div>
-                        </div>
-                        {# Numéro Email #}
-                        <div class="col-12">
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-at"></i></span>
+                        </td>
+                        <td colspan="2">
+                            <div class="input-group input-group-sm">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone"></i>&nbsp;Autres Email</span>
                                 {{ form_widget(form.otherEmail, {'attr':{'class':'form-control form-control-sm'}}) }}
                             </div>
-                        </div>
-                    </div>
-                    <div class="col-4">
-                        <h5>Réseaux sociaux</h5>
-                        {# Numéro Domicile #}
-                        <div class="row mb-1">
-                            <div class="col-12">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-facebook"></i></span>
-                                    {{ form_widget(form.facebook, {'attr':{'class':'form-control form-control-sm'}}) }}
-                                </div>
+                        </td>
+                    </tr>
+                    <tr class="align-middle">
+                        <td class="table-light">Réseaux Sociaux</td>
+                        <td>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-facebook"></i></span>
+                                {{ form_widget(form.facebook, {'attr':{'class':'form-control form-control-sm'}}) }}
                             </div>
-                        </div>
-                        {# Numéro Bureau #}
-                        <div class="row mb-1">
-                            <div class="col-12">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-instagram"></i></span>
-                                    {{ form_widget(form.instagram, {'attr':{'class':'form-control form-control-sm'}}) }}
-                                </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-linkedin"></i></span>
+                                {{ form_widget(form.linkedin, {'attr':{'class':'form-control form-control-sm'}}) }}
                             </div>
-                        </div>
-                        {# Numéro Portable #}
-                        <div class="row mb-1">
-                            <div class="col-12">
-                                <div class="input-group">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-linkedin"></i></span>
-                                    {{ form_widget(form.linkedin, {'attr':{'class':'form-control form-control-sm'}}) }}
-                                </div>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <span class="input-group-text" id="basic-addon1"><i class="fa-brands fa-instagram"></i></span>
+                                {{ form_widget(form.instagram, {'attr':{'class':'form-control form-control-sm'}}) }}
                             </div>
-                        </div>
-                    </div>
-                </div>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
+
     </div>
     <div class="col-4">
-        <div class="card bg-secondary">
+        <div class="card">
             <div class="card-body">
                 <table class="table table-sm">
                     <tr>
-                        <td colspan="3"></td>
+                        <td colspan="3"><h5>PARAMETRES</h5></td>
                     </tr>
                     <tr class="align-middle">
-                        <td class="col-md-2">Avatar</td>
+                        <td class="table-light col-md-2">Avatar</td>
                         <td class="col-md-5">{{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}</td>
                         <td class="col-md-5"></td>
                     </tr>
                     <tr class="align-middle">
-                        <td>{{ form_label(form.sector, 'Secteur', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td class="table-light">{{ form_label(form.sector, 'Secteur', {'label_attr': {'class':'form-label'}}) }}</td>
                         <td>{{ form_widget(form.sector, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                         <td>{{ form_errors(form.sector) }}</td>
                     </tr>
                     <tr class="align-middle">
-                        <td>{{ form_label(form.referent, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td class="table-light">{{ form_label(form.referent, '', {'label_attr': {'class':'form-label'}}) }}</td>
                         <td>{{ form_widget(form.referent) }}</td>
                         <td>{{ form_errors(form.referent) }}</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3"><h5>FICHE DE PRESENTATION</h5></td>
+                    </tr>
+                    <tr class="align-middle">
+                        <td class="table-light">{{ form_label(form.employedPrez, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td colspan="2">{{ form_widget(form.employedPrez, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                     </tr>
                 </table>
 

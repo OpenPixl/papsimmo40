@@ -73,6 +73,12 @@ liip_imagine:
                 thumbnail:
                     size: [ 330, 248 ]
                     mode: outbond
+        noscollaborateurs_card:
+            quality: 150
+            filters:
+                thumbnail:
+                    size: [ 330, 248 ]
+                    mode: outbond
         oneproperty_galleryAdmin:
             quality: 150
             filters:

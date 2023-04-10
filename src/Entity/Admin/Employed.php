@@ -12,6 +12,7 @@ use App\Repository\Admin\EmployedRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
@@ -142,6 +143,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'forEmployed', targetEntity: Contact::class)]
     private Collection $contacts;
+
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $employedPrez = null;
 
     public function __construct()
     {
@@ -685,6 +689,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $contact->setForEmployed(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEmployedPrez(): ?string
+    {
+        return $this->employedPrez;
+    }
+
+    public function setEmployedPrez(?string $employedPrez): self
+    {
+        $this->employedPrez = $employedPrez;
 
         return $this;
     }

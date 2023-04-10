@@ -1,0 +1,26 @@
+<div class="row">
+    <div class="col-12">
+        <h3 class="text-center">Nos collaborateurs</h3>
+    </div>
+</div>
+<div class="row">
+    {% for employed in employeds %}
+    <div class="col-3">
+        <p class="text-center">
+            {% if employed.avatarName is null %}
+            <img class="img-fluid rounded-circle" src="{{ asset('images/png/LogoPAPSimmo-Blanc.png')|imagine_filter('noscollaborateurs_card') }}" alt="logo papsimmo">
+            {% else %}
+            <img src="" alt="{{ employed.avatarName }}">
+            {% endif %}
+        </p>
+        <p class="text-center">
+            {{ employed.firstName }} {{ employed.lastName }}
+        </p>
+    </div>
+    {% else %}
+    <div class="col-12">
+
+    </div>
+    {% endfor %}
+</div>
+

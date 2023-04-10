@@ -60,29 +60,24 @@
                 <div class="col-sm-12">
                     <h6>CONTENU DE SECTION</h6>
                     <hr>
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.content, 'Contenu', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.content, {'attr': {'class': 'form-select form-select-sm'}})
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.oneArticle, 'Article', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.oneArticle, {'attr': {'class': 'form-select form-select-sm'}})
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.OneCategory, 'Catégorie', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.OneCategory, {'attr': {'class': 'form-select form-select-sm'}})
-                    }
-                    %}
-
-                    {% include('include/form/select.html.twig') with {
-                        'form_label':form_label(form.oneEmployed, 'Collaborateur', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_select':form_widget(form.oneEmployed, {'attr': {'class': 'form-select form-select-sm'}})
-                    }
-                    %}
+                    <table class="table table-borderless">
+                        <tr>
+                            <td>{{ form_label(form.content,'Contenu', {'label_attr': {'class':'col-form-label'}}) }}</td>
+                            <td>{{ form_widget(form.content, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_label(form.oneArticle,'', {'label_attr': {'class':'col-form-label'}}) }}</td>
+                            <td>{{ form_widget(form.oneArticle, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_label(form.OneCategory,'', {'label_attr': {'class':'col-form-label'}}) }}</td>
+                            <td>{{ form_widget(form.OneCategory, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                        </tr>
+                        <tr>
+                            <td>{{ form_label(form.oneEmployed,'', {'label_attr': {'class':'col-form-label'}}) }}</td>
+                            <td>{{ form_widget(form.oneEmployed, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                        </tr>
+                    </table>
                 </div>
             </div>
             <div class="row g-0">
