@@ -14,6 +14,10 @@
         //
         // ---------------------------------------
 
+            // Récupération de l'id dans l'url
+            const urlCourante = document.location.href.replace(/\/$/, "");
+            const idProperty = urlCourante.substring (urlCourante.lastIndexOf( "/" )+1 );
+
             // récupération des id des panels
             const navInformations = document.getElementById("navInformations");
             const navCustomers = document.getElementById("navCustomers");
@@ -186,24 +190,6 @@
 
             // PARTIE Définition / Type de bien
             // ---------------------------------------
-            // Select
-            const tspropertyDefinition = new TomSelect("#property_step1_propertyDefinition",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
-
             // Ouverture de la modal
             const modalPropertyDefinition = document.getElementById('modalPropertyDefinition')
             const PropertyDefinition = new bootstrap.Modal(modalPropertyDefinition, { keyboard: true })
@@ -269,95 +255,21 @@
 
             // PARTIE Destination du bien
             // ---------------------------------------
-            // Select projet - Destination
-            const tsprojet = new TomSelect("#property_step1_projet",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
-            // Select projet - Destination
-            const tssscategory = new TomSelect("#property_step1_sscategory",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
+            // Alimentation du Select Transaction
+            let family = document.getElementById('property_step1_family')
+            let familyValue = family.value
+            let rubric = document.getElementById('property_step1_rubric')
+            let rubricss = document.getElementById('property_step1_rubricss')
 
-            // PARTIE Destination du bien
-            // ---------------------------------------
-            // Select Family - Destination
-            const tsfamily = new TomSelect("#property_step1_family",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
-            // Select Rubric - Destination
-            const tsrubric = new TomSelect("#property_step1_rubric",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
-            // Select Rubricss - Destination
-            const tsrubricss = new TomSelect("#property_step1_rubricss",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
-
+            axios
+                .get('/gestapp/choice/property/family/value')
+                .then(function(response){
+                    let families = response.data.families
+                    families.forEach((element) => {
+                        var newOption = new Option (element['name'], element['id']);
+                        family.options.add (newOption);
+                    })
+                })
             // PARTIE Code postal et Ville - API
             // ---------------------------------------
             const commune = document.getElementById('property_step1_city')

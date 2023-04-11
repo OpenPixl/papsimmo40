@@ -15,9 +15,10 @@
 
 
 {% block content %}
+
 <section class="container" id="op_page_header">
     {% if app.request.get('_route') == 'op_webapp_public_homepage'%}
-    <div class="row mt-2">
+    <div class="row pt-2">
         <div class="col-12">
             {% if application.IsShowTitleSiteHome == 1 %}
                 <h1 class="text-center title">{{ application.nameSite }}</h1>
@@ -26,7 +27,8 @@
         </div>
     </div>
     {% else %}
-    <div class="row mt-2">
+    {% if page.isShowtitle == 1 %}
+    <div class="row pt-2">
     {% if page.isShowtitle == 1 %}
         <div class="row">
             <div class="col-12">
@@ -35,12 +37,16 @@
         </div>
         <div class="row">
             <div class="col-12">
-                <article>{{ page.description|raw }}</article>
+                <article>
+                    <p class="text-center">{{ page.description|raw }}</p>
+                </article>
             </div>
         </div>
     {% endif %}
     </div>
     {% endif %}
+    {% endif %}
+
 </section>
 
 <section id="op_page_content">

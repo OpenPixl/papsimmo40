@@ -77,8 +77,12 @@ liip_imagine:
             quality: 150
             filters:
                 thumbnail:
-                    size: [ 330, 248 ]
+                    size: [ 200, 150 ]
                     mode: outbond
+                background:
+                    color: '#ffffff'
+                    size: [ 200, 200 ]
+                    position: center
         oneproperty_galleryAdmin:
             quality: 150
             filters:

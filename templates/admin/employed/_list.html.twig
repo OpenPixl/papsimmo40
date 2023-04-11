@@ -14,7 +14,7 @@
     </thead>
     <tbody>
     {% for employed in employeds %}
-        <tr>
+        <tr class="align-middle">
             <td>{{ employed.id }}</td>
             <td><a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}">{{ employed.firstName }} {{ employed.lastName }}</a></td>
             <td>{{ employed.email }}</td>
@@ -34,9 +34,9 @@
             <td>{{ employed.createdAt ? employed.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ employed.updatedAt ? employed.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
-                <a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-pen-to-square"></i></a>
-                <a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-file-xmark"></i></a>
-                <a href="{{ path('op_admin_employed_adminresetpassword', {'id': employed.id}) }}"><i class="fa-duotone fa-key"></i></a>
+                <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-pen-to-square"></i></a>
+                <a class="btn btn-sm btn-outline-danger" href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-file-xmark"></i></a>
+                <a class="btn btn-sm btn-outline-warning" href="{{ path('op_admin_employed_adminresetpassword', {'id': employed.id}) }}"><i class="fa-duotone fa-key"></i></a>
             </td>
         </tr>
     {% else %}

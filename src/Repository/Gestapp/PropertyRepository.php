@@ -345,6 +345,58 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     // ----------------------------------------------
+    // Requête : Liste les biens (filtrés sur les collaborateurs) - Partie public
+    // ----------------------------------------------
+    public function listPropertiesPublishByEmployed($user)
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->leftJoin('p.options', 'c')
+            ->leftJoin('p.propertyDefinition', 'pd')
+            ->leftJoin('p.publication', 'pu')
+            ->leftJoin('c.denomination', 'd')
+            ->leftJoin('c.banner', 'b')
+            ->addSelect('
+                p.projet as projet,
+                p.dupMandat as dupMandat,
+                p.isArchived as isArchived,
+                d.name as denomination,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.annonce as annonce,
+                p.priceFai as priceFai,
+                p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
+                p.piece as piece,
+                p.room as room,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.createdAt,
+                p.updatedAt,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                pd.name as propertyDefinition,
+                b.name AS banner,
+                b.bannerFilename AS bannerFilename,
+                pd.id AS idpropertyDefinition
+            ')
+            ->where('e.id = :user')
+            ->andWhere('p.isArchived = 0')
+            ->andWhere('pu.isWebpublish = 1')
+            ->setParameter('user', $user)
+            ->orderBy('p.RefMandat', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // ----------------------------------------------
     // Requête : Liste les biens en cours de création (filtrés sur les collaborateurs) - Partie Admin
     // ----------------------------------------------
     public function listPropertiesByEmployedIncreating($user)

@@ -25,6 +25,44 @@ body{
   }
 }
 
+#op_page_header{
+  h1, h2, h3, .h1, .h2, .h3{
+    color: #069697;
+    font-family: Montserrat-light,sans-serif;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  p {
+    font-family: Montserrat-regular,sans-serif;
+  }
+}
+
+#op_page_content{
+  #allemployed{
+    h1, h2, h3, .h1, .h2, .h3{
+      color: #ffffff;
+      font-family: Montserrat-light,sans-serif;
+      font-size: 1.3rem;
+    }
+  }
+}
+
+#prez_collaborateur {
+  h1, h2, h3, .h1, .h2, .h3{
+    color: #069697;
+    font-family: Montserrat-light,sans-serif;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
+  i{
+    color:$primary-color;
+  }
+}
+
 #oneproperty_header_sm{
   #informations{
     #property_price{
@@ -171,6 +209,73 @@ body{
     font-family: Montserrat-regular,sans-serif;
     font-size: 1rem;
     text-decoration: none;
+  }
+}
+
+#member-card{
+  #Calque_1{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    z-index: 1;
+  }
+  .card {
+    border: none;
+    border-radius: 0;
+    box-shadow: 0 0 12px 0 rgba(0,0,0,0.6);
+  }
+  .card-img, .card-img-top {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+  }
+  .banner{
+    position: absolute;
+    top: -1.5rem;
+    left : -1.5rem;
+    z-index: 2;
+    color: #FFFFFF;
+  }
+  .name{
+    position: absolute;
+    bottom: 4rem;
+    z-index: 2;
+    left: 0.5rem;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: "Montserrat-light", sans-serif;
+  }
+  .city{
+    position: absolute;
+    font-style: italic;
+    bottom: 2.6rem;
+    z-index: 2;
+    left: 0.5rem;
+    color: #FFFFFF;
+    font-size: 14px;
+    font-family: "Montserrat-regular", sans-serif;
+  }
+  .annonce{
+    position: absolute;
+    bottom: 0;
+    z-index: 2;
+    left: 0.5rem;
+    color: #FFFFFF;
+    width:14rem;
+    p{
+      margin-bottom: 0.2rem;
+      font-size: 12px;
+
+      font-family: "Montserrat-light", sans-serif;
+    }
+  }
+  .price{
+    position: absolute;
+    bottom: 1rem;
+    z-index: 2;
+    right: 0.5rem;
+    color: $primary-color;
+    font-size: 16px;
+    font-family: "Montserrat-regular", sans-serif;
   }
 }
 
@@ -429,6 +534,9 @@ body{
   }
 }
 
+#noscollaborateurs{
+  background: $secondary-color;
+}
 
 @include media-breakpoint-up(md){
   body{

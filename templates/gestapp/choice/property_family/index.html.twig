@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}propertyFamily index{% endblock %}
+
+{% block body %}
+    <h1>propertyFamily index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Code</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for property_family in property_families %}
+            <tr>
+                <td>{{ property_family.id }}</td>
+                <td>{{ property_family.name }}</td>
+                <td>{{ property_family.code }}</td>
+                <td>
+                    <a href="{{ path('app_gestapp_choice_property_family_show', {'id': property_family.id}) }}">show</a>
+                    <a href="{{ path('app_gestapp_choice_property_family_edit', {'id': property_family.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_choice_property_family_new') }}">Create new</a>
+{% endblock %}

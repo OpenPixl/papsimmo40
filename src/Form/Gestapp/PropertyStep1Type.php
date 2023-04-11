@@ -147,18 +147,14 @@ class PropertyStep1Type extends AbstractType
                 },
                 'required'=>false
             ])
-            ->add('family', EntityType::class, [
+            ->add('family',  EntityType::class, [
                 'label'=> 'Transaction',
-                'placeholder' => 'Transaction',
                 'class' => propertyFamily::class,
                 'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('s')
-                        ->orderBy('s.name', 'ASC');
+                    return $er->createQueryBuilder('f')
+                        ->orderBy('f.name', 'ASC');
                 },
                 'choice_label' => 'name',
-                'choice_attr' => function (propertyFamily $family, $key, $index) {
-                    return ['data-data' => $family->getName() ];
-                },
                 'required'=>false
             ])
             ->add('rubric', EntityType::class, [

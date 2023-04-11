@@ -39,6 +39,16 @@ class propertyFamilyRepository extends ServiceEntityRepository
         }
     }
 
+    public function value(): array
+    {
+        return $this->createQueryBuilder('f')
+            ->select('f.id AS id, f.name AS name')
+            ->orderBy('f.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return propertyFamily[] Returns an array of propertyFamily objects
 //     */

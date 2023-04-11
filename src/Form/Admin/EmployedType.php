@@ -7,6 +7,7 @@ use App\Repository\Admin\EmployedRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -61,8 +62,12 @@ class EmployedType extends AbstractType
             ->add('facebook')
             ->add('instagram')
             ->add('linkedin')
+            ->add('isWebpublish', CheckboxType::class, [
+                'required' => false
+            ])
             ->add('employedPrez', TextareaType::class,[
-                'label'=>'Présentation'
+                'label'=>'Présentation',
+                'required' => false
             ])
         ;
     }

@@ -154,13 +154,13 @@
                     <p>Compléter ces informations pour garantir la publication du bien sur les plateformes de diffusion.</p>
                     <table class="table table-sm table-borderless">
                         <tr class="align-middle">
-                            <td>{{ form_label(form.projet, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.projet) }}</td>
-                            <td></td>
+                            <td class="col-5">{{ form_label(form.projet, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td class="col-6">{{ form_widget(form.projet, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                            <td class="col-1"></td>
                         </tr>
                         <tr class="align-middle">
                             <td>{{ form_label(form.propertyDefinition, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.propertyDefinition) }}</td>
+                            <td>{{ form_widget(form.propertyDefinition, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <td><button id="addPropertyDefinition" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button></td>
                             {% else %}
@@ -169,22 +169,22 @@
                         </tr>
                         <tr class="align-middle">
                             <td>{{ form_label(form.sscategory, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.sscategory) }}</td>
+                            <td>{{ form_widget(form.sscategory, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td></td>
                         </tr>
                         <tr id="family" class="align-middle">
                             <td>{{ form_label(form.family, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.family) }}</td>
+                            <td>{{ form_widget(form.family, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td></td>
                         </tr>
                         <tr id="rubric" class="align-middle">
                             <td>{{ form_label(form.rubric, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.rubric) }}</td>
+                            <td>{{ form_widget(form.rubric, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td></td>
                         </tr>
                         <tr id="rubricss" class="align-middle">
                             <td>{{ form_label(form.rubricss, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.rubricss) }}</td>
+                            <td>{{ form_widget(form.rubricss, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td></td>
                         </tr>
                     </table>

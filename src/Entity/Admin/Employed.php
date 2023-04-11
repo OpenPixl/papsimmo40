@@ -147,6 +147,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $employedPrez = null;
 
+    #[ORM\Column]
+    private ?bool $isWebpublish = false;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -701,6 +704,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setEmployedPrez(?string $employedPrez): self
     {
         $this->employedPrez = $employedPrez;
+
+        return $this;
+    }
+
+    public function isIsWebpublish(): ?bool
+    {
+        return $this->isWebpublish;
+    }
+
+    public function setIsWebpublish(bool $isWebpublish): self
+    {
+        $this->isWebpublish = $isWebpublish;
 
         return $this;
     }

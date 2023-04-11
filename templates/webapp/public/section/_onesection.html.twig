@@ -22,19 +22,16 @@
             </div>
         {% else %}
         {% endif %}
-
-
+        {% if section.isShowdescription == 1 %}
         <div id="section_description" class="mb-3">
-            {% if section.isShowdescription == 1 %}
                 <div class="row">
                     <div class="col-12">
                         <p>{{ section.description|raw }}</p>
                         {# Espace de démarcation à cet endroit #}
                     </div>
                 </div>
-            {% endif %}
         </div>
-
+        {% endif %}
         <div id="section_content" class="row">
             <div class="col-12">
                 {# Affiche un ensemble de test si aucun contenu n'est sélectionné #}

@@ -3,9 +3,11 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\Property;
 use App\Form\Admin\EmployedType;
 use App\Form\Admin\ResettingPasswordType;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\PropertyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -26,7 +28,7 @@ class EmployedController extends AbstractController
     public function AllEmployed(Request $request, EmployedRepository $employedRepository)
     {
         return $this->render('webapp/page/employed/allemployed.html.twig', [
-            'employeds' => $employedRepository->findBy(['isVerified'=>1]),
+            'employeds' => $employedRepository->findBy(['isWebpublish'=>1]),
         ]);
     }
 
@@ -69,6 +71,19 @@ class EmployedController extends AbstractController
         return $this->render('admin/employed/show.html.twig', [
             'employed' => $employed,
         ]);
+    }
+
+    #[Route('/withproperty/{id}', name: 'op_admin_employed_showwithproperty', methods: ['GET'])]
+    public function showwithproperty(Employed $employed, PropertyRepository $propertyRepository): Response
+    {
+        $properties = $propertyRepository->listPropertiesPublishByEmployed($employed->getId());
+        //dd($properties);
+
+        return $this->render('admin/employed/showwithproperties.html.twig', [
+            'employed' => $employed,
+            'properties' => $properties
+        ]);
+
     }
 
     #[Route('/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]

@@ -117,6 +117,10 @@
                         <td colspan="3"><h5>FICHE DE PRESENTATION</h5></td>
                     </tr>
                     <tr class="align-middle">
+                        <td class="table-light" colspan="2">{{ form_label(form.isWebpublish, 'Activer sa page sur le site', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td>{{ form_widget(form.isWebpublish) }}</td>
+                    </tr>
+                    <tr class="align-middle">
                         <td class="table-light">{{ form_label(form.employedPrez, '', {'label_attr': {'class':'form-label'}}) }}</td>
                         <td colspan="2">{{ form_widget(form.employedPrez, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                     </tr>
