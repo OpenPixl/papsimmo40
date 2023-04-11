@@ -1,4 +1,5 @@
 {{ form_start(form, {'attr': {'id' : 'FormEmployed'}}) }}
+{% if is_granted('ROLE_SUPER_ADMIN') %}
 <div class="row">
     <div class="col-12">
         <div class="alert alert-secondary">
@@ -9,6 +10,7 @@
         </div>
     </div>
 </div>
+{% endif %}
 <div class="row g-1">
     <div class="col-8">
         <div class="card mb-1">

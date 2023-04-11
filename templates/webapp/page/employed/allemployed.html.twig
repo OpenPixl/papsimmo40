@@ -3,9 +3,9 @@
     <div class="col-12 col-md-6 col-lg-3">
         <p class="text-center">
             {% if employed.avatarName is null %}
-            <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/LogoPAPSimmo-Blanc.jpg')|imagine_filter('noscollaborateurs_card') }}" alt="logo papsimmo">
+            <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/LogoPAPSimmo-Blanc.jpg')|imagine_filter('noscollaborateursvierge_card') }}" alt="logo papsimmo">
             {% else %}
-            <img src="" alt="{{ employed.avatarName }}">
+            <img class="img-fluid rounded-circle" src="{{ asset('images/avatar/' ~ employed.avatarName)|imagine_filter('noscollaborateurs_card') }}" alt="{{ employed.avatarName }}">
             {% endif %}
         </p>
         <h2 class="text-center">

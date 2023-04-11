@@ -73,7 +73,7 @@ liip_imagine:
                 thumbnail:
                     size: [ 330, 248 ]
                     mode: outbond
-        noscollaborateurs_card:
+        noscollaborateursvierge_card:
             quality: 150
             filters:
                 thumbnail:
@@ -83,6 +83,12 @@ liip_imagine:
                     color: '#ffffff'
                     size: [ 200, 200 ]
                     position: center
+        noscollaborateurs_card:
+            quality: 150
+            filters:
+                thumbnail:
+                    size: [ 200, 200 ]
+                    mode: outbond
         oneproperty_galleryAdmin:
             quality: 150
             filters:
