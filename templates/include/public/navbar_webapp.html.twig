@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('op_webapp_public_homepage')}}">
             {% if application.logoName %}
-                <img src="{{ vich_uploader_asset(application, 'faviconFile') }}" alt="{{ application.logoName }}" width="24">
+                {{ dump(application) }}
             {% else %}
                 <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" width="40">
             {% endif %}
@@ -67,7 +67,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('op_webapp_public_homepage')}}">
             {% if application.logoName %}
-                <img src="{{ vich_uploader_asset(application, 'faviconFile') }}" alt="{{ application.logoName }}" width="24">
+                <img class="img-fluid" src="{{ asset('images/application/') ~ application.logoName }}" alt="Logo Papsimmo" style="max-width: 40px;">
             {% else %}
                 <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" width="40">
             {% endif %}
@@ -116,7 +116,7 @@
         <div class="row">
             <div class="col-12 col-lg-6 d-flex flex-column align-items-center justify-content-center">
                 <div class="d-flex justify-content-end">
-                    <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="Logo Papsimmo">
+                    <img class="img-fluid" src="{{ asset('images/application/') ~ application.logoName }}" alt="Logo Papsimmo" style="max-width: 400px;">
                 </div>
                 <div class="d-flex justify-content-end">
                     <img class="img-fluid" src="{{ asset('images/png/accroche.png') }}" alt="PAPSImmo Accroche">
