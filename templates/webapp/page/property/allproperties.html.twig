@@ -8,7 +8,7 @@
                         {# Instertion de la bannière #}
                         {% if property.banner == "coup-de-coeur" %}
                             <div class="banner">
-                                <img src="{{ asset('images/svg/coeur.svg') }}" alt="CoupDeCoeur">
+                                <img src="{{ asset('images/svg/') ~ property.bannerFilename }}" alt="{{ property.banner }}">
                             </div>
                         {% elseif property.banner == "exclusivité" %}
                             <div class="banner">

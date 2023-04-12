@@ -73,6 +73,14 @@ class ContactController extends AbstractController
         ], 200);
     }
 
+    /***
+     * Envoie d'un message depuis le Footer de la page.
+     *
+     * @param Request $request
+     * @param ContactRepository $contactRepository
+     * @param MailerInterface $mailer
+     * @return Response
+     */
     #[Route('/new', name: 'op_admin_contact_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ContactRepository $contactRepository, MailerInterface $mailer): Response
     {
@@ -88,14 +96,13 @@ class ContactController extends AbstractController
 
             $email = (new Email())
                 ->from($contact->getEmail())
-                ->to('xavier.burke@openpixl.fr')
+                ->to('contact@papsimmo.fr')
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
                 //->priority(Email::PRIORITY_HIGH)
                 ->subject('[PAPs Immo] : Nouvelle demande de contact depuis votre site')
                 ->text($contact->getContent());
-
             try {
                 $mailer->send($email);
             } catch (TransportExceptionInterface $e) {

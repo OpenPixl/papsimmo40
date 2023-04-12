@@ -210,6 +210,7 @@ class DocumentController extends AbstractController
     #[Route('/del/{id}', name: 'op_gestapp_document_del', methods: ['POST'])]
     public function del(Document $document, DocumentRepository $documentRepository)
     {
+        //dd($document);
         $name = $document->getName();
         $typeDoc = $document->getTypeDoc();
         if($name)
@@ -218,7 +219,7 @@ class DocumentController extends AbstractController
             {
                 $directory = 'pdf_directory';
             }
-            elseif($typeDoc =='word')
+            elseif($typeDoc =='Word')
             {
                 $directory = 'word_directory';
             }
@@ -230,7 +231,9 @@ class DocumentController extends AbstractController
             {
                 $directory = 'mp4_directory';
             }
+            //dd($directory);
             $pathheader = $this->getParameter($directory).'/'.$name;
+            //dd($pathheader);
             // On vérifie si l'image existe
             if(file_exists($pathheader)){
                 unlink($pathheader);

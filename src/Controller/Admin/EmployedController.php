@@ -14,17 +14,16 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 
-#[Route('/opadmin/employed')]
 class EmployedController extends AbstractController
 {
 
-    #[Route('/api/users', name: 'op_admin_employeds')]
+    #[Route('/opadmin/employed/api/users', name: 'op_admin_employeds')]
     public function employeds(Request $request, EmployedRepository $repository)
     {
         return $this->json($repository->search($request->query->get('e')));
     }
 
-    #[Route('/AllEmployed', name: 'op_admin_employeds_allEmployed', methods: ['GET'])]
+    #[Route('/opadmin/employed/AllEmployed', name: 'op_admin_employeds_allEmployed', methods: ['GET'])]
     public function AllEmployed(Request $request, EmployedRepository $employedRepository)
     {
         return $this->render('webapp/page/employed/allemployed.html.twig', [
@@ -33,7 +32,7 @@ class EmployedController extends AbstractController
     }
 
 
-    #[Route('/', name: 'op_admin_employed_index', methods: ['GET'])]
+    #[Route('/opadmin/employed/', name: 'op_admin_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
         return $this->render('admin/employed/index.html.twig', [
@@ -41,12 +40,12 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/changepassword/{id}', name: 'op_admin_employed_changepassword', methods: ['GET'])]
+    #[Route('/opadmin/employed/changepassword/{id}', name: 'op_admin_employed_changepassword', methods: ['GET'])]
     public function changePassword(Employed $employed){
 
     }
 
-    #[Route('/new', name: 'op_admin_employed_new', methods: ['GET', 'POST'])]
+    #[Route('/opadmin/employed/new', name: 'op_admin_employed_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $employed = new Employed();
@@ -65,7 +64,7 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'op_admin_employed_show', methods: ['GET'])]
+    #[Route('/opadmin/employed/{id}', name: 'op_admin_employed_show', methods: ['GET'])]
     public function show(Employed $employed): Response
     {
         return $this->render('admin/employed/show.html.twig', [
@@ -73,7 +72,7 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/withproperty/{id}', name: 'op_admin_employed_showwithproperty', methods: ['GET'])]
+    #[Route('/webapp/withproperty/{id}', name: 'op_admin_employed_showwithproperty', methods: ['GET'])]
     public function showwithproperty(Employed $employed, PropertyRepository $propertyRepository): Response
     {
         $properties = $propertyRepository->listPropertiesPublishByEmployed($employed->getId());
@@ -86,7 +85,7 @@ class EmployedController extends AbstractController
 
     }
 
-    #[Route('/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]
+    #[Route('/opadmin/employed/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
     {
         $form = $this->createForm(EmployedType::class, $employed, [
@@ -107,7 +106,7 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'op_admin_employed_delete', methods: ['POST'])]
+    #[Route('/opadmin/employed/{id}', name: 'op_admin_employed_delete', methods: ['POST'])]
     public function delete(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$employed->getId(), $request->request->get('_token'))) {
@@ -117,7 +116,7 @@ class EmployedController extends AbstractController
         return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/adminresetpassword', name: 'op_admin_employed_adminresetpassword', methods: ['GET', 'POST'])]
+    #[Route('/opadmin/employed/{id}/adminresetpassword', name: 'op_admin_employed_adminresetpassword', methods: ['GET', 'POST'])]
     public function adminResetPassword(Request $request, Employed $employed, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $form = $this->createForm(ResettingPasswordType::class, $employed);
