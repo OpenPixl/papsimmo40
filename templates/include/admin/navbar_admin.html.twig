@@ -2,8 +2,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('op_admin_dashboard_index') }}">
             {% if application.logoName %}
-                <img src="{{ vich_uploader_asset(application, 'faviconFile') }}" alt="{{ application.logoName }}" width="24px">
-                 - SoftwarePAPs
+                <img class="img-fluid" src="{{ asset('images/application/') ~ application.logoName }}" alt="Logo Papsimmo" style="max-width: 40px;">                 - SoftwarePAPs
             {% else %}
                 <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" width="40px"> - SoftwarePAPS
             {% endif %}
