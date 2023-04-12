@@ -19,7 +19,7 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="{{ path('op_webapp_public_homepage')}}">
             {% if application.logoName %}
-                {{ dump(application) }}
+                <img class="img-fluid" src="{{ asset('images/application/') ~ application.logoName }}" alt="Logo Papsimmo" style="max-width: 40px;">
             {% else %}
                 <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" width="40">
             {% endif %}
