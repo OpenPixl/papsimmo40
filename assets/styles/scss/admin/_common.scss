@@ -21,7 +21,6 @@ a {
   }
 }
 
-
 .ts-control {
   padding: 6px 6px !important;
   border-radius: 3px !important;
@@ -90,6 +89,18 @@ a {
   }
 }
 
+.modal{
+  .modal-title{
+    color: #0d0d0d;
+  }
+  table{
+    tr{
+      td{
+        color: #0d0d0d;
+      }
+    }
+  }
+}
 
 /****
  Form

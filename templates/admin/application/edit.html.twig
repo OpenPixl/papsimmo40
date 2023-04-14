@@ -2,11 +2,141 @@
 
 {% block title %}Edit Application{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+            // ----------------------------
+            // Bloc Bannière
+            // ----------------------------
+
+            // I. Préparation de la modale
+            const modalPropertyBanner = document.getElementById('modalPropertyBanner')
+            const PropertyBanner = new bootstrap.Modal(modalPropertyBanner, { keyboard: true })
+            const addPropertyBanner = document.getElementById('addPropertyBanner')
+            addPropertyBanner.addEventListener('click', function(event){
+                event.preventDefault()
+                PropertyBanner.show()
+            })
+            // II. Envoi du formulaire ajout de la bannière
+            let property_banner = document.getElementById('FormPropertyBanner')
+            property_banner.addEventListener('submit', function (event) {
+                event.preventDefault()
+                let url_property_banner = '/gestapp/choice/property/banner/new'
+                let data_property_banner = new FormData(property_banner)
+                axios
+                    .post(url_property_banner, data_property_banner)
+                    .then(function(response)
+                    {
+                        const liste = document.getElementById('listBanner').innerHTML = response.data.listbanners
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            })
+            // III. Suppression de la bannière
+            const SupprBanner  = document.getElementById('SupprBanner')
+            SupprBanner.addEventListener('show.bs.modal', function (event) {
+                let a = event.relatedTarget
+                let recipient = a.getAttribute('data-bs-whatever')
+                let btnSubmit = SupprBanner.querySelector('.modal-footer #btnDelBanner')
+                btnSubmit.href = a.href
+            })
+
+            // Code de suppression lors du clic sur le bouton de la modal "Suppr"
+            function onClickDelBanner(event){
+                event.preventDefault()
+                const url = this.href
+                axios
+                    .post(url)
+                    .then(function(response)
+                    {
+                        // rafraichissement du tableau
+                        const liste = document.getElementById('listBanner').innerHTML = response.data.listbanner
+                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
+                            link.addEventListener('click', onClickDelBanner)
+                        })
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster");
+                        var message = response.data.message;
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation : true, autohide: true, delay : 3000});
+                        toastElement.show();
+                    })
+                    .catch(function(error){
+                        console.log(error);
+                    })
+            }
+
+            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+            document.querySelectorAll('a.js-data-suppr').forEach(function(link){
+                link.addEventListener('click', onClickDelBanner)
+            })
+        }
+    </script>
+{% endblock %}
+
 {% block content %}
 
-    <h1>Paramètres de l'application</h1>
+    <h1>APPLICATION - Paramètres</h1>
 
+    <ul class="nav nav-tabs justify-content-end" id="navApplicationParameters" role="tablist">
+        <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#InformationGenerales" type="button" role="tab" aria-controls="home" aria-selected="true">INFORMATIONS GENERALES</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#images" type="button" role="tab" aria-controls="images" aria-selected="false">IMAGES / AFFICHAGES</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#transactions" type="button" role="tab" aria-controls="transactions" aria-selected="false">TRANSACTIONS</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-bs-toggle="tab" data-bs-target="#contacts" type="button" role="tab" aria-controls="contacts" aria-selected="false">CONTACTS</button>
+        </li>
+        <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Profile</button>
+        </li>
+    </ul>
     {{ include('admin/application/_form.html.twig', {'button_label': "Mettre à jour les informations de l'application"}) }}
+{% endblock %}
 
-
+{% block modal %}
+    {{ parent() }}
+    {# Modal d'ajout d'une bannière #}
+    <div class="modal fade" id="modalPropertyBanner" tabindex="-1" aria-labelledby="addPropertyBanner" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une Bannière :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::new')) }}
+            </div>
+        </div>
+    </div>
+    {# Modal de suppression d'une bannière #}
+    <div class="modal fade" id="SupprBanner" tabindex="-1" aria-labelledby="SupprBanner" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-danger" id="exampleModalLabel">Suppression de la bannière</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">
+                        Vous êtes sur le point de supprimer la bannière sélectionnée.
+                        <br>
+                        Etes-vous sur de vouloir continuer.
+                    </p>
+                    <input type="hidden" id="recipient-name">
+                </div>
+                <div class="modal-footer">
+                    <a id="btnDelBanner" href="#" type="button" class="btn btn-danger js-data-suppr" data-bs-dismiss="modal">Supprimer</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

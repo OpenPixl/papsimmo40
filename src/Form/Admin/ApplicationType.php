@@ -29,7 +29,7 @@ class ApplicationType extends AbstractType
                 'required' => false
             ])
             ->add('isOnline', CheckboxType::class, [
-                'label' => 'mettre le site en ligne ?',
+                'label' => 'Mettre le site hors-ligne ?',
                 'required' => false
             ])
             ->add('adminEmail', TextType::class, [

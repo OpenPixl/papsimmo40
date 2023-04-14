@@ -75,6 +75,21 @@
             </div>
             <section id="modals">
             {% block modal %}
+                {# annonce toaster #}
+                <div aria-live="polite" aria-atomic="true" class="position-relative">
+                    <div class="toast-container position-absolute top-50 end-0 p-3">
+                        <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                            <div class="toast-header">
+                                <strong class="me-auto">Bootstrap</strong>
+                                <small>11 mins ago</small>
+                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                            </div>
+                            <div class="toast-body">
+                                Hello, world! This is a toast message.
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <div class="modal fade" id="NewSupport" tabindex="-1" aria-labelledby="NewSupport" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">

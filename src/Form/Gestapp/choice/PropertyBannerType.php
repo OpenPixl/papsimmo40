@@ -35,7 +35,8 @@ class PropertyBannerType extends AbstractType
                     new File([
                         'maxSize' => '4096k',
                         'mimeTypes' => [
-                            'image/svg+xml'
+                            'image/svg+xml',
+                            'image/png'
                         ],
                         'mimeTypesMessage' => 'Veuillez choisir un fichier au format SVG',
                     ])

@@ -26,7 +26,7 @@ class PublicController extends AbstractController
             return $this->redirectToRoute('op_admin_dashboard_first_install');
         } else {
             $isOnline = $application->getIsOnline();
-            if ($isOnline == 0) {
+            if ($isOnline == 1) {
                 return $this->redirectToRoute('op_webapp_public_offline');
             } else {
                 return $this->render('webapp/public/index.html.twig', [
@@ -48,7 +48,7 @@ class PublicController extends AbstractController
         } else {
             $isOnline = $application->getIsOnline();
             //dd($isOnline);
-            if ($isOnline == 1) {
+            if ($isOnline == 0) {
                 return $this->redirectToRoute('op_webapp_public_homepage');
             } else {
                 return $this->redirectToRoute('op_webapp_public_offline');
@@ -68,8 +68,8 @@ class PublicController extends AbstractController
             return $this->redirectToRoute('op_admin_dashboard_first_install');
         } else {
             $isOnline = $application->getIsOnline();
-            //dd($isOnline);
-            if ($isOnline == 0) {
+
+            if ($isOnline == 1) {
                 return $this->render('webapp/public/offline.html.twig', [
                     'application' => $application
                 ]);

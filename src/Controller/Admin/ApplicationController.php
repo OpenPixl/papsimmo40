@@ -55,7 +55,9 @@ class ApplicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $applicationRepository->add($application);
-            return $this->redirectToRoute('op_admin_application_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_admin_application_edit', [
+                'id' => $application->getId(),
+            ], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('admin/application/edit.html.twig', [

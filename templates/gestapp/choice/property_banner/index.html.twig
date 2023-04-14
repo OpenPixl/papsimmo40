@@ -1,43 +1,8 @@
-{% extends 'base.html.twig' %}
+<div class="d-flex justify-content-between">
+    <h6 class="text-start">Liste des bannières</h6>
+    <p class="text-end"><a id="addPropertyBanner" href=""><i class="fa-regular fa-circle-plus fa-lg"></i></a></p>
+</div>
+<div id="listBanner">
+    {{ include('gestapp/choice/property_banner/_listbanner.html.twig') }}
+</div>
 
-{% block title %}PropertyBanner index{% endblock %}
-
-{% block body %}
-    <h1>PropertyBanner index</h1>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>BannerFilename</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for property_banner in property_banners %}
-            <tr>
-                <td>{{ property_banner.id }}</td>
-                <td>{{ property_banner.name }}</td>
-                <td>{{ property_banner.slug }}</td>
-                <td>{{ property_banner.bannerFilename }}</td>
-                <td>{{ property_banner.createdAt ? property_banner.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ property_banner.updatedAt ? property_banner.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('app_gestapp_choice_property_banner_show', {'id': property_banner.id}) }}">show</a>
-                    <a href="{{ path('app_gestapp_choice_property_banner_edit', {'id': property_banner.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="7">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_gestapp_choice_property_banner_new') }}">Create new</a>
-{% endblock %}
