@@ -127,10 +127,7 @@
                         document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                             link.addEventListener('click', DelProperty)
                         })
-                        // Mise en place de l'évenement pour l'ouverture de la modale de suppression d'un bien
-                        document.querySelectorAll('a.ModalDelProperty').forEach(function(link){
-                            link.addEventListener('click', ModalDelProperty)
-                        })
+
                         // initialisation du toaster
                         var toastHTMLElement = document.getElementById("toaster");
                         var message = response.data.message;
@@ -161,11 +158,6 @@
                         // Mise en place de l'évenement pour la suppression d'un bien
                         document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                             link.addEventListener('click', DelProperty)
-                        })
-
-                        // Mise en place de l'évenement pour l'ouverture de la modale de suppression d'un bien
-                        document.querySelectorAll('a.ModalDelProperty').forEach(function(link){
-                            link.addEventListener('click', ModalDelProperty)
                         })
 
                         // initialisation du toaster
@@ -208,11 +200,6 @@
             // Mise en place de l'évenement pour la suppression d'un bien
             document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                 link.addEventListener('click', DelProperty)
-            })
-
-            // Mise en place de l'évenement pour l'ouverture de la modale de suppression d'un bien
-            document.querySelectorAll('a.ModalDelProperty').forEach(function(link){
-                link.addEventListener('click', ModalDelProperty)
             })
 
 

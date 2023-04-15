@@ -516,8 +516,19 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
+            ->leftJoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftJoin('c.banner', 'b')
             ->join('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
+            ->leftJoin('p.publication','pu')
             ->addSelect('
+                p.priceFai as priceFai,
+                p.annonce as annonce,
+                p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
+                d.id as idpropertyDefinition,
+                d.name as denomination,
+                b.name as banner,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 p.id as id,
@@ -540,6 +551,7 @@ class PropertyRepository extends ServiceEntityRepository
             ')
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')
+            ->andWhere('pu.isWebpublish = 1')
             ->orderBy('p.id', 'ASC')
             ->getQuery()
             ->getResult()

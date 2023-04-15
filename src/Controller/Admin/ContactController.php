@@ -209,7 +209,7 @@ Cordialement");
 
             $email = (new Email())
                 ->from($contact->getEmail())
-                ->to('xavier.burke@openpixl.fr') // Mettre en fin de test le code pour l'utilisateur courant
+                ->to($employed->getEmail()) // Mettre en fin de test le code pour l'utilisateur courant
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')

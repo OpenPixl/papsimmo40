@@ -565,7 +565,7 @@ class PropertyController extends AbstractController
         $complementRepository->remove($complement);
 
         if($hasAccess == true){
-            $data = $propertyRepository->listAllProperties();
+            $data = $propertyRepository->findAll();
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -685,7 +685,7 @@ class PropertyController extends AbstractController
     public function AllProperties(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
 
-        $data = $propertyRepository->listAllProperties();
+        $data = $propertyRepository->AllProperties();
         //dd($data);
 
         $properties = $paginator->paginate(

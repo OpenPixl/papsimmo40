@@ -13,10 +13,13 @@
         // Mise en place des options de chargement
         //
         // ---------------------------------------
-
+            // Préparation "Liste dynamique"
+            // -------------------------------------
             // Récupération de l'id dans l'url
             const urlCourante = document.location.href.replace(/\/$/, "");
             const idProperty = urlCourante.substring (urlCourante.lastIndexOf( "/" )+1 );
+            const Property = Array()
+            axios.get
 
             // récupération des id des panels
             const navInformations = document.getElementById("navInformations");
