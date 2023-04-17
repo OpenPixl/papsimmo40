@@ -85,6 +85,30 @@ class EmployedController extends AbstractController
 
     }
 
+    #[Route('/opadmin/employed/isactiv/{id}', name: 'op_admin_employed_isactiv', methods: ['POST'])]
+    public function isactiv(Employed $employed, EmployedRepository $employedRepository): Response
+    {
+        $verified = $employed->isVerified();
+
+        if($verified == true){
+            $isActiv = "désactivé";
+            $employed->setIsVerified(0);
+        }else{
+            $isActiv = "activé";
+            $employed->setIsVerified(1);
+        }
+        $employedRepository->add($employed, true);
+        $employeds = $employedRepository->findAll();
+
+        return $this->json([
+            'code' => 200,
+            'message' => "Le compte du collaborateur est actuellement <b>" . $isActiv. "</b>.",
+            'liste' => $this->renderView('admin/employed/_list.html.twig', [
+                'employeds' => $employeds
+            ])
+        ],200);
+    }
+
     #[Route('/opadmin/employed/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
     {
