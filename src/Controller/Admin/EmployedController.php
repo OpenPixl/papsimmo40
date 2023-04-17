@@ -27,7 +27,7 @@ class EmployedController extends AbstractController
     public function AllEmployed(Request $request, EmployedRepository $employedRepository)
     {
         return $this->render('webapp/page/employed/allemployed.html.twig', [
-            'employeds' => $employedRepository->findBy(['isWebpublish'=>1]),
+            'employeds' => $employedRepository->publishEmployedOnApp(),
         ]);
     }
 

@@ -62,6 +62,19 @@ class EmployedRepository extends ServiceEntityRepository implements PasswordUpgr
         $this->_em->flush();
     }
 
+    public function publishEmployedOnApp()
+    {
+        return $this->createQueryBuilder('e')
+            ->andWhere('e.isVerified = :isVerified')
+            ->andWhere('e.isWebpublish = :isWebpublish')
+            ->setParameter('isVerified', 1)
+            ->setParameter('isWebpublish', 1)
+            ->orderBy('e.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Employed[] Returns an array of Employed objects
     //  */
