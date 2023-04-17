@@ -516,43 +516,36 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
-            ->leftJoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
             ->join('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
-            ->leftJoin('p.publication','pu')
+            ->leftJoin('p.publication', 'pu')
             ->addSelect('
-                p.priceFai as priceFai,
-                p.annonce as annonce,
-                p.surfaceHome as surfaceHome,
-                p.surfaceLand as surfaceLand,
-                d.id as idpropertyDefinition,
-                d.name as denomination,
-                b.name as banner,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
+                pu.isWebpublish as isWebpublish,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
                 p.name as name,
-                e.id as refEmployed,
-                e.firstName as firstName,
-                e.lastName as lastName,
-                e.avatarName as avatarName,
+                p.annonce as annonce,
+                p.priceFai as priceFai,
+                p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
+                d.name as denomination,
                 p.piece as piece,
                 p.room as room,
-                pd.name as propertyDefinition,
-                p.adress as adress,
-                p.complement as complement,
-                p.zipcode as zipcode,
                 p.city as city,
-                p.createdAt as createdAt,
-                p.updatedAt as updatedAt
+                pd.name as propertyDefinition,
+                b.name as banner,
+                b.bannerFilename AS bannerFilename,
+                pd.id AS idpropertyDefinition
             ')
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult()
             ;
