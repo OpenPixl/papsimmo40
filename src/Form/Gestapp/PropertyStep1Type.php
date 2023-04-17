@@ -149,6 +149,7 @@ class PropertyStep1Type extends AbstractType
             ])
             ->add('family',  EntityType::class, [
                 'label'=> 'Transaction',
+                'placeholder' => 'Type de transaction',
                 'class' => propertyFamily::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('f')
@@ -159,7 +160,7 @@ class PropertyStep1Type extends AbstractType
             ])
             ->add('rubric', EntityType::class, [
                 'label'=> 'Rubrique',
-                'placeholder' => 'Rubrique',
+                'placeholder' => 'Type de rubrique',
                 'class' => propertyRubric::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')
@@ -173,7 +174,7 @@ class PropertyStep1Type extends AbstractType
             ])
             ->add('rubricss', EntityType::class, [
                 'label'=> 'Sous rubrique',
-                'placeholder' => 'Sous rubrique',
+                'placeholder' => 'Type de sous rubrique',
                 'class' => propertyRubricss::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('s')

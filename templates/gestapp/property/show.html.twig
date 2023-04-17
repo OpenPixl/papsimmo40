@@ -18,8 +18,9 @@
             // Récupération de l'id dans l'url
             const urlCourante = document.location.href.replace(/\/$/, "");
             const idProperty = urlCourante.substring (urlCourante.lastIndexOf( "/" )+1 );
-            const Property = Array()
-            axios.get
+            let family = document.getElementById('property_step1_family')
+            let rubric = document.getElementById('property_step1_rubric')
+            let rubricss = document.getElementById('property_step1_rubricss')
 
             // récupération des id des panels
             const navInformations = document.getElementById("navInformations");
@@ -259,20 +260,63 @@
             // PARTIE Destination du bien
             // ---------------------------------------
             // Alimentation du Select Transaction
-            let family = document.getElementById('property_step1_family')
-            let familyValue = family.value
-            let rubric = document.getElementById('property_step1_rubric')
-            let rubricss = document.getElementById('property_step1_rubricss')
-
+            let rubricsData = []
+            let rubricssData = []
             axios
                 .get('/gestapp/choice/property/family/value')
                 .then(function(response){
-                    let families = response.data.families
-                    families.forEach((element) => {
-                        var newOption = new Option (element['name'], element['id']);
-                        family.options.add (newOption);
+                    let familiesValues = response.data.families
+                    let rubricsValues = response.data.rubrics
+                    let rubricssValues = response.data.rubricss
+                    //familiesValues.forEach((element) => {
+                    //    var newOption = new Option (element['name'], element['id']);
+                    //    family.options.add (newOption);
+                    //})
+                    rubricsValues.forEach((element) => {
+                        rubricsData.push(element)
+                    })
+                    rubricssValues.forEach((element) => {
+                        rubricssData.push(element)
                     })
                 })
+            if(rubric.value >= 1){
+                document.getElementById('rowRubric').removeAttribute('style')
+                console.log('vide')
+            }
+            if(rubricss.value >= 1){
+                document.getElementById('rowRubricss').removeAttribute('style')
+            }
+            family.addEventListener('change', function(event){
+                let value = parseInt(this.value)                                            // on récupère la valeur du Select
+                let results = rubricsData.filter(valeur => {                                // on boucle sur le tableau pour filtrer selon la valeur
+                    if(valeur.family === value) return true
+                })
+                let options = document.querySelectorAll('#property_step1_rubric option');   // suppression des options du select
+                options.forEach(o => o.remove());
+                results.forEach((element) => {                                              // on créer les nouvelles sur le résultat du filtre
+                    let newOption = new Option (element['name'], element['id']);
+                    rubric.options.add (newOption);
+                })
+                document.getElementById('rowRubric').removeAttribute('style')
+            })
+
+            rubric.addEventListener('change', function(event){
+                let value = parseInt(this.value)                                            // on récupère la valeur du Select
+                let results = rubricssData.filter(valeur => {                                // on boucle sur le tableau pour filtrer selon la valeur
+                    if(valeur.parentrubric === value) return true
+                })
+                let options = document.querySelectorAll('#property_step1_rubricss option');   // suppression des options du select
+                options.forEach(o => o.remove());
+                if(results.length >= 1){
+                    results.forEach((element) => {                                              // on créer les nouvelles sur le résultat du filtre
+                        let newOption = new Option (element['name'], element['id']);
+                        rubric.options.add (newOption);
+                    })
+                    document.getElementById('rowRubricss').removeAttribute('style')
+                }
+            })
+
+
             // PARTIE Code postal et Ville - API
             // ---------------------------------------
             const commune = document.getElementById('property_step1_city')

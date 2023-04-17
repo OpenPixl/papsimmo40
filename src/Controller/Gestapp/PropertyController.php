@@ -338,6 +338,7 @@ class PropertyController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id}/edit', name: 'op_gestapp_property_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Property $property, PropertyRepository $propertyRepository): Response
     {
@@ -404,7 +405,6 @@ class PropertyController extends AbstractController
                 'code'=> 200,
                 'message' => "Les informations générales ont été correctement ajoutées au bien."
             ], 200);
-
         }
         //dd($form->isSubmitted());
         return $this->renderform('gestapp/property/Step/firststep.html.twig',[

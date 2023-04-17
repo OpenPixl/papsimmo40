@@ -8,7 +8,7 @@
                     <div class="col">
                         <p class="text-danger">
                             Ce bien ne possède pas de numéro de mandat.
-                            Vous ne pourrez pas continuer sa création tant que ce champs est vide.
+                            Vous ne pourrez pas continuer sa création tant que ce champ est vide.
                         </p>
                     </div>
                 </div>
@@ -54,12 +54,8 @@
                                 </tr>
                             </tbody>
                         </table>
-
-
-
                     </div>
                 </div>
-
         </div>
         <hr>
         <div class="col-sm-9">
@@ -172,17 +168,17 @@
                             <td>{{ form_widget(form.sscategory, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td></td>
                         </tr>
-                        <tr id="family" class="align-middle">
-                            <td>{{ form_label(form.family, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.family, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                            <td></td>
+                        <tr id="RowFamily" class="align-middle">
+                            <td class="col-5">{{ form_label(form.family, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td class="col-6">{{ form_widget(form.family, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                            <td class="col-1"></td>
                         </tr>
-                        <tr id="rubric" class="align-middle">
-                            <td>{{ form_label(form.rubric, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.rubric, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                            <td></td>
+                        <tr id="rowRubric" class="align-middle" style="display:none">
+                            <td class="col-5">{{ form_label(form.rubric, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                            <td class="col-6">{{ form_widget(form.rubric, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                            <td class="col-1"></td>
                         </tr>
-                        <tr id="rubricss" class="align-middle">
+                        <tr id="rowRubricss" class="align-middle" style="display:none">
                             <td>{{ form_label(form.rubricss, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
                             <td>{{ form_widget(form.rubricss, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td></td>

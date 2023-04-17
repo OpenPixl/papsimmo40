@@ -5,6 +5,8 @@ namespace App\Controller\Gestapp\choice;
 use App\Entity\Gestapp\choice\propertyFamily;
 use App\Form\Gestapp\choice\propertyFamilyType;
 use App\Repository\Gestapp\choice\propertyFamilyRepository;
+use App\Repository\Gestapp\choice\propertyRubricRepository;
+use App\Repository\Gestapp\choice\propertyRubricssRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -22,13 +24,17 @@ class propertyFamilyController extends AbstractController
     }
 
     #[Route('/value/', name: 'app_gestapp_choice_property_family_value', methods: ['GET'])]
-    public function value(propertyFamilyRepository $propertyFamilyRepository)
+    public function value(propertyFamilyRepository $propertyFamilyRepository, propertyRubricRepository $rubricRepository, propertyRubricssRepository $rubricssRepository)
     {
         $families = $propertyFamilyRepository->value();
+        $rubrics = $rubricRepository->value();
+        $rubricss = $rubricssRepository->value();
         //dd($families);
         return $this->json([
             'code' => 200,
-            'families' => $families
+            'families' => $families,
+            'rubrics' => $rubrics,
+            'rubricss' => $rubricss
         ], 200);
     }
 
