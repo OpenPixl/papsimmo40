@@ -22,15 +22,15 @@
             <div class="col-8">
                 <h1 class="text-start">
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        Agent <strong>PAPs immo</strong><br>
+                        Agent <strong>{{ employed.firstName }} {{ employed.lastName }}</strong><br>
                     {% else %}
-                        Collaborateur
+                        Collaborateur {{ employed.firstName }} {{ employed.lastName }}
                     {% endif %}
-                    {{ employed.firstName }} {{ employed.lastName }}
+
                 </h1>
                 {% if employed.sector is null %}
                 {% else %}
-                    <p class="text-center"></p>
+                    <h2 class="text-start">Sur le secteur : {{ employed.sector }}</h2>
                 {% endif %}
                 {% if employed.employedPrez is null %}
                 <p class="text-start">
