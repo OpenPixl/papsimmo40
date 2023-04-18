@@ -21,7 +21,11 @@
             </div>
             <div class="col-8">
                 <h1 class="text-start">
-                    Agent mandataire <strong>PAPs immo</strong><br>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        Agent <strong>PAPs immo</strong><br>
+                    {% else %}
+                        Collaborateur
+                    {% endif %}
                     {{ employed.firstName }} {{ employed.lastName }}
                 </h1>
                 {% if employed.sector is null %}
