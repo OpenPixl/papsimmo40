@@ -140,6 +140,81 @@ class EmployedController extends AbstractController
         return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
     }
 
+    #[Route('/del/{id}', name: 'op_admin_employed_del', methods: ['POST'])]
+    public function del(Request $request, Employed $employed,EmployedRepository $employedRepository): Response
+    {
+        $user = $this->getUser();
+        $admin = $employedRepository->find($user->getId());
+
+        $Roles = $employed->getRoles();
+        if(in_array('ROLE_SUPER_ADMIN',$Roles)){
+            $employeds = $employedRepository->findAll();
+
+            return $this->json([
+                'code' => '200',
+                'message' => "L'utilisateur ne peut pas être supprimé de la plateforme.
+                            <br>Il s'agit d'un compte Administrateur.",
+                'liste' => $this->renderView('admin/employed/_list.html.twig', [
+                    'employeds' => $employeds
+                ])
+            ],200);
+        }else{
+            // Action sur les clients de l'user
+            $clients = $employed->getCustomer();
+            foreach ($clients as $client){
+                $employed->removeCustomer($client);
+                $admin->addCustomer($client);
+            }
+            // Action sur les propriétés de l'user
+            $properties = $employed->getProperties();
+            foreach ($properties as $property){
+                $employed->removeProperty($property);
+                $admin->addProperty($property);
+            }
+            // Action sur les Articles de l'user
+            $articles = $employed->getArticles();
+            foreach ($articles as $article){
+                $employed->removeArticle($article);
+                $admin->addArticle($article);
+            }
+            // Action sur les sections de l'user
+            $sections = $employed->getSections();
+            foreach ($sections as $section){
+                $employed->removeSection($section);
+                $admin->addSection($section);
+            }
+            // Action sur les Pages de l'user
+            $pages = $employed->getPages();
+            foreach ($pages as $page){
+                $employed->removePage($page);
+                $admin->addPage($page);
+            }
+            // Action sur les Contacts de l'user
+            $contacts = $employed->getContacts();
+            foreach ($contacts as $contact){
+                $employed->removeContact($contact);
+            }
+            // Action sur les Pages de l'user
+            $projects = $employed->getProjects();
+            foreach ($projects as $project){
+                $employed->removeProject($project);
+                $admin->addProject($project);
+            }
+
+            $employedRepository->remove($employed);
+
+            $employeds = $employedRepository->findAll();
+
+            return $this->json([
+                'code' => '200',
+                'message' => "L'utilisateur a été correctement supprimé de la plateforme.<br>Tous les éléments créer par ce dernier vous ont été réattribué.",
+                'liste' => $this->renderView('admin/employed/_list.html.twig', [
+                    'employeds' => $employeds
+                ])
+            ],200);
+        }
+    }
+
     #[Route('/opadmin/employed/{id}/adminresetpassword', name: 'op_admin_employed_adminresetpassword', methods: ['GET', 'POST'])]
     public function adminResetPassword(Request $request, Employed $employed, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {

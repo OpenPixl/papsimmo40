@@ -35,7 +35,7 @@
             <td>{{ employed.updatedAt ? employed.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
                 <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-pen-to-square"></i></a>
-                <a class="btn btn-sm btn-outline-danger" href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-file-xmark"></i></a>
+                <a class="btn btn-sm btn-outline-danger js-delete" href="{{ path('op_admin_employed_del', {'id': employed.id}) }}"><i class="fa-duotone fa-file-xmark"></i></a>
                 <a class="btn btn-sm btn-outline-warning" href="{{ path('op_admin_employed_adminresetpassword', {'id': employed.id}) }}"><i class="fa-duotone fa-key"></i></a>
             </td>
         </tr>

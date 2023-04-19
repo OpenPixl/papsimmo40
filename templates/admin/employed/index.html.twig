@@ -9,7 +9,7 @@
         // Activé/désactivé le collaborateur
         function IsActivEmployed(event){
             event.preventDefault()
-            const url = this.href
+            let url = this.href
             axios
                 .post(url)
                 .then(function(response){
@@ -25,11 +25,44 @@
                     document.querySelectorAll('a.js-isverified').forEach(function(link){
                         link.addEventListener('click', IsActivEmployed)
                     })
+                    // Mise en place de l'évenement pour la suppression d'un bien
+                    document.querySelectorAll('a.js-delete').forEach(function(link){
+                        link.addEventListener('click', IsActivEmployed)
+                    })
                 })
         }
+        function DelEmployed(event){
+            event.preventDefault()
+            let url = this.href
+            axios
+                .post(url)
+                .then(function(response){
+                    document.getElementById('liste').innerHTML = response.data.liste
+                    // initialisation du toaster
+                    var toastHTMLElement = document.getElementById("toaster");
+                    var message = response.data.message;
+                    var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                    toastBody.innerHTML = message;
+                    var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true,autohide: true,delay: 3000,});
+                    toastElement.show();
+                    // Mise en place de l'évenement pour la suppression d'un bien
+                    document.querySelectorAll('a.js-isverified').forEach(function(link){
+                        link.addEventListener('click', IsActivEmployed)
+                    })
+                    // Mise en place de l'évenement pour la suppression d'un bien
+                    document.querySelectorAll('a.js-delete').forEach(function(link){
+                        link.addEventListener('click', IsActivEmployed)
+                    })
+                })
+        }
+
         // Mise en place de l'évenement pour la suppression d'un bien
         document.querySelectorAll('a.js-isverified').forEach(function(link){
             link.addEventListener('click', IsActivEmployed)
+        })
+        // Mise en place de l'évenement pour la suppression d'un bien
+        document.querySelectorAll('a.js-delete').forEach(function(link){
+            link.addEventListener('click', DelEmployed)
         })
     }
 </script>
