@@ -76,7 +76,7 @@
                         var toastHTMLElement = document.getElementById("toaster");
                         var message = response.data.message;
                         var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
+                        toastBody.innerHTML = message;
                         var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
                         toastElement.show();
                         // Ajout dans le TomSelect de la nouvelle option.
@@ -111,7 +111,7 @@
                         var toastHTMLElement = document.getElementById("toaster");
                         var message = response.data.message;
                         var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
+                        toastBody.innerHTML = message;
                         var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
                         toastElement.show();
                         formAddDocument.reset()
