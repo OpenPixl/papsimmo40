@@ -128,9 +128,12 @@
             // Code d'ouverture de la modale de suppression d'une ligne en mode création d'un bien
             function ModalSupprDocument(event){
                 event.preventDefault()
+                let btnSupprDocument = document.getElementById('btnSupprDocument')
+                let url = btnSupprDocument.href
                 SupprDocument.show()
                 document.getElementById('submitSupprDocument').href = btnSupprDocument.href
             }
+
             submitSupprDocument.addEventListener('click', function(event){
                 event.preventDefault()
                 let urlSupprDocument = this.href
@@ -208,7 +211,7 @@
                 </div>
             </div>
         </div>
-        {# Ajout d'une catégorie #}
+        {# Suppression d'un document #}
         <div class="modal fade" id="SupprDocument" tabindex="-1" aria-labelledby="SupprDocument" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
