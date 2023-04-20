@@ -77,17 +77,6 @@ class DocumentController extends AbstractController
                 // instead of its contents
                 $document->setName($newpdfFileName);
                 $document->setPdf($newpdfFileName);
-            }else{
-                $documents = $documentRepository->findAll();
-
-                return $this->json([
-                    'code' => 200,
-                    'message' => "<b>Attention,</b> le système ne détecte pas de fichier PDF.",
-                    'list' => $this->renderView('gestapp/document/_list.html.twig',[
-                        'documents' => $documents
-                    ])
-
-                ], 200);
             }
 
             // si Word
@@ -113,17 +102,6 @@ class DocumentController extends AbstractController
                 // instead of its contents
                 $document->setName($newwordFileName);
                 $document->setDoc($newwordFileName);
-            }else{
-                $documents = $documentRepository->findAll();
-
-                return $this->json([
-                    'code' => 200,
-                    'message' => "<b>Attention,</b> le système ne détecte pas de fichier texte.",
-                    'list' => $this->renderView('gestapp/document/_list.html.twig',[
-                        'documents' => $documents
-                    ])
-
-                ], 200);
             }
 
             // si Excel
@@ -148,17 +126,6 @@ class DocumentController extends AbstractController
                 // instead of its contents
                 $document->setName($newexcelFileName);
                 $document->setSheet($newexcelFileName);
-            }else{
-                $documents = $documentRepository->findAll();
-
-                return $this->json([
-                    'code' => 200,
-                    'message' => "<b>Attention,</b> le système ne détecte pas de fichier Excel ou autres tableurs.",
-                    'list' => $this->renderView('gestapp/document/_list.html.twig',[
-                        'documents' => $documents
-                    ])
-
-                ], 200);
             }
 
             // Si Mp4
@@ -183,17 +150,6 @@ class DocumentController extends AbstractController
                 // instead of its contents
                 $document->setName($newmp4FileName);
                 $document->setMp4($newmp4FileName);
-            }else{
-                $documents = $documentRepository->findAll();
-
-                return $this->json([
-                    'code' => 200,
-                    'message' => "<b>Attention,</b> le système ne détecte pas de fichier Vidéo.",
-                    'list' => $this->renderView('gestapp/document/_list.html.twig',[
-                        'documents' => $documents
-                    ])
-
-                ], 200);
             }
 
             $documentRepository->add($document, true);
@@ -293,6 +249,25 @@ class DocumentController extends AbstractController
             'liste' => $this->renderView('gestapp/document/_list.html.twig',[
                 'documents' => $documents
             ])
+        ], 200);
+    }
+
+    #[Route('/updateposition/{idcol}/{key}', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
+    public function updatePosition($idcol, $key, DocumentRepository $documentRepository)
+    {
+        //dd($idcol);
+        // récupérer la photo correspondant à l'id
+        $doc = $documentRepository->findOneBy(['position' => $idcol]);
+        $pos = $doc->getPosition();
+        // mettre à jour le positionnnement
+        $doc->setPosition($key+1);
+
+        // mettre à jour la bdd
+        $documentRepository->add($doc,true);
+
+        return $this->json([
+            'code' => '200',
+            'message' => 'Déplacement effectué'
         ], 200);
     }
 }

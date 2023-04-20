@@ -46,6 +46,9 @@ class Document
     #[ORM\ManyToOne(inversedBy: 'documents')]
     private ?CatDocument $category = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $position = null;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -186,6 +189,18 @@ class Document
     public function setCategory(?CatDocument $category): self
     {
         $this->category = $category;
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): self
+    {
+        $this->position = $position;
 
         return $this;
     }

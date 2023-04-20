@@ -155,6 +155,39 @@
                     })
             })
 
+            // ------------------------------------
+            // Génération du Sortable - Dépalcement des photos et ordres d'affichages
+            //-------------------------------------
+            const sortableDoc = document.getElementById("sortDoc")
+            new Sortable(sortableDoc, {
+                animation:150,
+                // Called by any change to the list (add / update / remove)
+                onSort: function (event) {
+                    let cols = sortableDoc.children
+                    console.log(cols)
+                    // on boucle sur le résultat des enfants pour envoyer au controller la modification du positionnement des photos
+                    for(i = 0; i < cols.length; i++){
+                        let idcol = cols[i].id
+                        let key = i
+                        let url = "/gestapp/document/updateposition/"+ idcol + "/" + key
+                        axios
+                            .post(url)
+                            .then(function(response){
+                                // initialisation du toaster bootstrap
+                                var toastHTMLElement = document.getElementById("toaster");
+                                var message = response.data.message;
+                                var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                                toastBody.textContent = message;
+                                var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
+                                toastElement.show();
+                            })
+                            .catch(function(error){
+                                console.log(error);
+                            })
+                    }
+                },
+            })
+
             // Mise en place de l'évenement pour la suppression d'un bien en cours de création
             document.querySelectorAll('a.btnModalSupprDocument').forEach(function(link){
                 link.addEventListener('click', ModalSupprDocument)
