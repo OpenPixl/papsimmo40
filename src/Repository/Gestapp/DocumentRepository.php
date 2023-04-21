@@ -39,6 +39,15 @@ class DocumentRepository extends ServiceEntityRepository
         }
     }
 
+    public function lastDocument(): array
+    {
+        return $this->createQueryBuilder('d')
+            ->orderBy('d.position', 'DESC')
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getResult();
+    }
+
 //    /**
 //     * @return Document[] Returns an array of Document objects
 //     */

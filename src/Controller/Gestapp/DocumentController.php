@@ -47,6 +47,8 @@ class DocumentController extends AbstractController
     public function new2(Request $request, DocumentRepository $documentRepository, SluggerInterface $slugger): Response
     {
         $document = new Document();
+        $lastdocument = $documentRepository->findOneBy([],['position' => 'DESC']);
+
         $form = $this->createForm(DocumentType::class, $document, [
             'action' => $this->generateUrl('op_gestapp_document_new2'),
             'method' => 'POST'
@@ -151,7 +153,7 @@ class DocumentController extends AbstractController
                 $document->setName($newmp4FileName);
                 $document->setMp4($newmp4FileName);
             }
-
+            $document->setPosition($lastdocument->getPosition() + 1);
             $documentRepository->add($document, true);
 
             $documents = $documentRepository->findAll();
