@@ -54,7 +54,7 @@ class DocumentController extends AbstractController
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
-
+        //dd($lastdocument);
         if ($form->isSubmitted() && $form->isValid()) {
             // Si Pdf -> code d'injection d'un fichier PDF
             /** @var UploadedFile $logoFile */
@@ -153,7 +153,11 @@ class DocumentController extends AbstractController
                 $document->setName($newmp4FileName);
                 $document->setMp4($newmp4FileName);
             }
-            $document->setPosition($lastdocument->getPosition() + 1);
+            if($lastdocument == null){
+                $document->setPosition(1);
+            }else{
+                $document->setPosition($lastdocument->getPosition() + 1);
+            }
             $documentRepository->add($document, true);
 
             $documents = $documentRepository->findAll();
