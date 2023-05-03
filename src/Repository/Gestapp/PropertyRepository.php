@@ -565,7 +565,9 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
         $query->addSelect('
+                p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
+                pu.isWebpublish as isWebpublish,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -573,22 +575,15 @@ class PropertyRepository extends ServiceEntityRepository
                 p.annonce as annonce,
                 p.priceFai as priceFai,
                 p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
                 d.name as denomination,
                 p.piece as piece,
                 p.room as room,
-                p.adress as adress,
-                p.complement as complement,
-                p.zipcode as zipcode,
                 p.city as city,
-                p.createdAt,
-                p.updatedAt,
-                e.id as refEmployed,
-                e.firstName as firstName,
-                e.lastName as lastName,
-                e.avatarName as avatarName,
                 pd.name as propertyDefinition,
-                b.name AS banner,
-                b.bannerFilename AS bannerFilename 
+                b.name as banner,
+                b.bannerFilename AS bannerFilename,
+                pd.id AS idpropertyDefinition
         ');
         $query->where('p.isIncreating = 0');
         $query->andWhere('pu.isWebpublish = 1');

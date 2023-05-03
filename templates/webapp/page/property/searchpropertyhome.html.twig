@@ -31,32 +31,25 @@
                             {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
                             <div class="card-img-overlay">
                                 {# Instertion de la bannière #}
-                                {% if property.banner == "coup-de-coeur" %}
+                                {% if property.bannerFilename is not null %}
                                     <div class="banner">
-                                        <img src="{{ asset('images/svg/coeur.svg') }}" alt="CoupDeCoeur">
-                                    </div>
-                                {% elseif property.banner == "exclusivité" %}
-                                    <div class="banner">
-                                        <img src="{{ asset('images/svg/exclu.svg') }}" alt="Exclusivité">
-                                    </div>
-                                {% elseif property.banner == "a-saisir" %}
-                                    <div class="banner">
-                                        <img src="{{ asset('images/svg/asaisir.svg') }}" alt="Exclusivité">
-                                    </div>
-                                {% elseif property.banner == "derniere-minute" %}
-                                    <div class="banner">
-                                        <img src="{{ asset('images/svg/flash.svg') }}" alt="Exclusivité">
+                                        <img src="{{ asset('images/svg/') ~ property.bannerFilename }}" alt="{{ property.banner }}">
                                     </div>
                                 {% endif %}
-
                                 <div class="name">
-                                    {{ property.propertyDefinition }}  | {{ property.denomination }} |  m2
+                                    {{ property.propertyDefinition }}  |
+                                    {{ property.denomination }} |
+                                    {% if property.idpropertyDefinition == 5 or property.idpropertyDefinition == 15 or property.idpropertyDefinition == 16 or property.idpropertyDefinition == 19 or property.idpropertyDefinition == 20 or property.idpropertyDefinition == 23 %}
+                                        {{ property.surfaceLand }} m2
+                                    {% else %}
+                                        {{ property.surfaceHome}} m2
+                                    {% endif %}
                                 </div>
                                 <div class="city">
                                     {{ property.city }}
                                 </div>
                                 <div class="annonce">
-                                    {{ property.annonce|u.truncate(75, ' ...') }}
+                                    {{ property.annonce|u.truncate(60, ' ...')|markdown_to_html }}
                                 </div>
                                 <div class="price">
                                     {{ property.priceFai }} €

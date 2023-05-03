@@ -253,13 +253,16 @@ class CustomerController extends AbstractController
     #[Route('/{id}/edit', name: 'op_gestapp_customer_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Customer $customer, CustomerRepository $customerRepository): Response
     {
-        $form = $this->createForm(Customer2Type::class, $customer);
+        $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form->isValid());
             $customerRepository->add($customer);
-            return $this->redirectToRoute('op_gestapp_customer_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_gestapp_customer_edit', ['id'=>$customer->getId()], Response::HTTP_SEE_OTHER);
         }
+
+        //dd($form->isSubmitted());
 
         return $this->renderForm('gestapp/customer/edit.html.twig', [
             'customer' => $customer,
@@ -278,7 +281,7 @@ class CustomerController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        $view = $this->renderForm('gestapp/customer/_form.html.twig', [
+        $view = $this->renderForm('gestapp/customer/_form2.html.twig', [
             'customer' => $customer,
             'form' => $form
         ]);

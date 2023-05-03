@@ -17,23 +17,12 @@ class Customer2Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Prénom & Nom'
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom'
-            ])
-            ->add('ddn', DateType::class, [
-                'label' => 'Date de naissance',
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
-                'required' => false,
-                'by_reference' => true,
-            ])
-            ->add('ddnIn', TextType::class, [
-                'label' => 'à'
             ])
             ->add('adress', TextType::class, [
                 'label' => 'Adresse',
@@ -56,7 +45,7 @@ class Customer2Type extends AbstractType
                 'empty_data' =>''
             ])
             ->add('home', TextType::class, [
-                'label' => 'Tel Personnel',
+                'label' => 'Téléphone',
                 'required' => false,
                 'empty_data' =>''
             ])
@@ -67,31 +56,23 @@ class Customer2Type extends AbstractType
             ])
             ->add('gsm', TextType::class, [
                 'label' => 'Tel Portable',
-                'required' => false
-            ])
-            ->add('fax', TextType::class, [
-                'label' => 'Fax',
-                'required' => false,
-                'empty_data' =>''
+                'required' => true
             ])
             ->add('otherEmail', TextType::class, [
                 'label' => 'Email',
-                'required' => false
+                'required' => true
             ])
-            ->add('facebook', TextType::class, [
-                'label' => 'Page Facebook',
+            ->add('ddn', DateType::class, [
+                'label' => 'Date de naissance',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
                 'required' => false,
-                'empty_data' =>''
+                'by_reference' => true,
             ])
-            ->add('instagram', TextType::class, [
-                'label' => 'Page instagram',
-                'required' => false,
-                'empty_data' =>''
-            ])
-            ->add('linkedin', TextType::class, [
-                'label' => 'Page linkedin',
-                'required' => false,
-                'empty_data' =>''
+            ->add('ddnIn', TextType::class, [
+                'label' => 'à'
             ])
         ;
     }

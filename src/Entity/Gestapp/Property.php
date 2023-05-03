@@ -126,7 +126,7 @@ class Property
     #[ORM\Column(type: 'decimal', precision: 10, scale: '0', nullable: true)]
     private $priceFai;
 
-    #[ORM\Column(type: 'string',  length: 4, nullable: true)]
+    #[ORM\Column(type: 'date', nullable: true)]
     private $eeaYear;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -627,12 +627,12 @@ class Property
         return $this;
     }
 
-    public function getEeaYear(): ?string
+    public function getEeaYear(): ?\DateTimeInterface
     {
         return $this->eeaYear;
     }
 
-    public function setEeaYear(?string $eeaYear): self
+    public function setEeaYear(\DateTimeInterface $eeaYear): self
     {
         $this->eeaYear = $eeaYear;
 

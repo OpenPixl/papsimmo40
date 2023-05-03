@@ -14,16 +14,17 @@
                 var modalTitle = SupprCustomer.querySelector('.modal-title')
                 var modalText = SupprCustomer.querySelector('.modal-text')
                 var modalBodyInput = SupprCustomer.querySelector('.modal-body input')
+                var modalFootera = SupprCustomer.querySelector('.modal-footer .data-supprcustomer')
                 modalTitle.textContent = "Suppression d'un article"
-                modalBodyInput.value = recipient
                 modalText.innerHTML = "Vous êtes sur le point de supprimer le client sélectionné.<br><b>Etes-vous sur de vouloir continuer ?</b>"
+                modalFootera.href = '/gestapp/customer/del/' + recipient
             })
             // Code de suppression lors du clic sur le bouton de la modal "Suppr"
             function onClickDelEvent(event){
                 event.preventDefault()
-                const id = document.getElementById('recipient-name').value
+                const url = document.getElementById('BtnSupprCustomer').href
                 axios
-                    .post('/gestapp/customer/del/' + id)
+                    .post(url)
                     .then(function(response)
                     {
                         // rafraichissement du tableau
@@ -99,10 +100,9 @@
                     </div>
                     <div class="modal-body">
                         <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
-                        <input type="hidden" id="recipient-name">
                     </div>
                     <div class="modal-footer">
-                        <a href="#" type="button" class="btn btn-danger data-supprcustomer" data-bs-dismiss="modal">Supprimer</a>
+                        <a id="BtnSupprCustomer" href="#" type="button" class="btn btn-danger data-supprcustomer" data-bs-dismiss="modal">Supprimer</a>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </div>

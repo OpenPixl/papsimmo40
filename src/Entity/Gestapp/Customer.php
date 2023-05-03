@@ -58,11 +58,14 @@ class Customer
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
     private $gsm;
 
-    #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    private $fax;
-
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $otherEmail;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $ddn = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $ddnIn = null;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $facebook;
@@ -88,12 +91,6 @@ class Customer
 
     #[ORM\ManyToMany(targetEntity: Property::class, mappedBy: 'Customer')]
     private $properties;
-
-    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    private ?\DateTimeInterface $ddn = null;
-
-    #[ORM\Column(length: 100, nullable: true)]
-    private ?string $ddnIn = null;
 
     /**
      * Permet d'initialiser le slug !
@@ -257,18 +254,6 @@ class Customer
     public function setGsm(string $gsm): self
     {
         $this->gsm = $gsm;
-
-        return $this;
-    }
-
-    public function getFax(): ?string
-    {
-        return $this->fax;
-    }
-
-    public function setFax(?string $fax): self
-    {
-        $this->fax = $fax;
 
         return $this;
     }

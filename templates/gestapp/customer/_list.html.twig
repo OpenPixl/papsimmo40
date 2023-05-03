@@ -34,8 +34,8 @@
             <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d') : '' }}</td>
             <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d') : '' }}</td>
             <td>
-                <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-eye"></i></a>
-                <a class="btn btn-sm btn-outline-danger delcustomer" type="button" data-bs-toggle="modal" data-bs-target="#SupprCustomer" data-bs-whatever="{{ customer.id }}"><i class="fa-duotone fa-file-circle-xmark"></i></a>
+                <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}" class="btn btn-sm btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voir"><i class="fa-duotone fa-eye"></i></a>
+                <a class="btn btn-sm btn-outline-danger delcustomer" type="button" data-bs-toggle="modal" data-bs-target="#SupprCustomer" data-bs-whatever="{{ customer.id }}" ><i class="fa-duotone fa-file-circle-xmark" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Supprimer"></i></a>
 
             </td>
         </tr>
