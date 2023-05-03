@@ -163,17 +163,18 @@
                 // Called by any change to the list (add / update / remove)
                 onSort: function (event) {
                     let cols = sortableDoc.children
-                    let data = []
+                    let data = Array()
                     // on boucle sur le résultat des enfants pour envoyer au controller la modification du positionnement des photos
                     for(i = 0; i < cols.length; i++){
                         let idcol = cols[i].id
                         let key = i
                         data.push({"key" : key, "idcol" : parseInt(idcol)})
                     }
-                    let url = "/gestapp/document/updateposition/" + data
+                    let url = "/gestapp/document/updateposition"
                     axios
-                        .post(url)
+                        .post(url, data)
                         .then(function(response){
+                            //document.getElementById('listDocument').innerHTML = response.data.listDocument
                             // initialisation du toaster bootstrap
                             var toastHTMLElement = document.getElementById("toaster");
                             var message = response.data.message;

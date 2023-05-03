@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Gestapp\Document;
 use App\Form\Gestapp\DocumentType;
 use App\Repository\Gestapp\DocumentRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -22,6 +23,32 @@ class DocumentController extends AbstractController
         return $this->render('gestapp/document/index.html.twig', [
             'documents' => $documentRepository->findAll(),
         ]);
+    }
+    #[Route('/updateposition', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
+    public function updatePosition(EntityManagerInterface $entityManager, Request $request)
+    {
+        $data = json_decode($request->getContent(), true);
+
+        foreach ($data as $d){
+            //dd($d['idcol']);
+            // récupérer le doc correspondant à la position
+            $doc = $entityManager->getRepository(Document::class)->findOneBy(['position' => $d['idcol']]);
+            // mettre à jour le positionnnement
+            $doc->setPosition($d['key'] +1);
+            // mettre à jour la bdd
+            $entityManager->persist($doc);
+        }
+        $entityManager->flush();
+
+        $documents = $entityManager->getRepository(Document::class)->findAll();
+
+        return $this->json([
+            'code' => '200',
+            'message' => 'Déplacement effectué',
+            'listDocument' => $this->renderView('gestapp/document/_list.html.twig',[
+                'documents' => $documents
+            ]),
+        ], 200);
     }
 
     #[Route('/new', name: 'op_gestapp_document_new', methods: ['GET', 'POST'])]
@@ -258,29 +285,5 @@ class DocumentController extends AbstractController
         ], 200);
     }
 
-    #[Route('/updateposition/{data}', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
-    public function updatePosition($data, DocumentRepository $documentRepository, Request $request)
-    {
-        dd($data);
 
-        foreach ($datas as $data){
-            dd($data['idcol']);
-            // récupérer le doc correspondant à la position
-            $doc = $documentRepository->findOneBy(['position' => $data['idcol']]);
-            dd($data);
-            $pos = $doc->getPosition();
-        }
-
-
-        // mettre à jour le positionnnement
-        $doc->setPosition($key+1);
-
-        // mettre à jour la bdd
-        $documentRepository->add($doc,true);
-
-        return $this->json([
-            'code' => '200',
-            'message' => 'Déplacement effectué'
-        ], 200);
-    }
 }
