@@ -216,7 +216,7 @@
                 <p><span class="subtitle">Estimation énergie basse : </span>{% if property.dpeEstimateEnergyDown is not
                         empty %}{{ property.dpeEstimateEnergyDown }} €{% else %}non communiqué{% endif %}</p>
                 <p><span class="subtitle">Estimation énergie élevée : </span>{% if property.dpeEstimateEnergyUp is not empty %}{{property.dpeEstimateEnergyUp}} €{% else %}non communiqué{% endif %}</p>
-                <p><span class="subtitle">Année de référence : </span>{% if property.anneeref is not empty %}{{ property.anneeref }}{% else %}non communiqué{% endif %}</p>
+                <p><span class="subtitle">Année de référence : </span>{% if property.anneeref is not empty %}{{ property.anneeref|date("Y") }}{% else %}non communiqué{% endif %}</p>
             </div>
             <div>
                 <h3 class="title-h3">Piéces</h3>
