@@ -258,13 +258,20 @@ class DocumentController extends AbstractController
         ], 200);
     }
 
-    #[Route('/updateposition/{idcol}/{key}', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
-    public function updatePosition($idcol, $key, DocumentRepository $documentRepository)
+    #[Route('/updateposition/{data}', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
+    public function updatePosition($data, DocumentRepository $documentRepository, Request $request)
     {
-        //dd($idcol);
-        // récupérer la photo correspondant à l'id
-        $doc = $documentRepository->findOneBy(['position' => $idcol]);
-        $pos = $doc->getPosition();
+        dd($data);
+
+        foreach ($datas as $data){
+            dd($data['idcol']);
+            // récupérer le doc correspondant à la position
+            $doc = $documentRepository->findOneBy(['position' => $data['idcol']]);
+            dd($data);
+            $pos = $doc->getPosition();
+        }
+
+
         // mettre à jour le positionnnement
         $doc->setPosition($key+1);
 

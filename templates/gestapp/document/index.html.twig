@@ -163,27 +163,28 @@
                 // Called by any change to the list (add / update / remove)
                 onSort: function (event) {
                     let cols = sortableDoc.children
-                    console.log(cols)
+                    let data = []
                     // on boucle sur le résultat des enfants pour envoyer au controller la modification du positionnement des photos
                     for(i = 0; i < cols.length; i++){
                         let idcol = cols[i].id
                         let key = i
-                        let url = "/gestapp/document/updateposition/"+ idcol + "/" + key
-                        axios
-                            .post(url)
-                            .then(function(response){
-                                // initialisation du toaster bootstrap
-                                var toastHTMLElement = document.getElementById("toaster");
-                                var message = response.data.message;
-                                var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                                toastBody.textContent = message;
-                                var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
-                                toastElement.show();
-                            })
-                            .catch(function(error){
-                                console.log(error);
-                            })
+                        data.push({"key" : key, "idcol" : parseInt(idcol)})
                     }
+                    let url = "/gestapp/document/updateposition/" + data
+                    axios
+                        .post(url)
+                        .then(function(response){
+                            // initialisation du toaster bootstrap
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
+                            toastElement.show();
+                        })
+                        .catch(function(error){
+                            console.log(error);
+                        })
                 },
             })
 
