@@ -50,6 +50,19 @@ class propertyRubricRepository extends ServiceEntityRepository
             ;
     }
 
+    public function listbyfamily($family): array
+    {
+        return $this->createQueryBuilder('r')
+            ->leftjoin('r.propertyFamily', 'f')
+            ->select('r.id AS id, r.name AS name')
+            ->andWhere('f.id = :family')
+            ->setParameter('family', $family)
+            ->orderBy('r.name', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return propertyRubric[] Returns an array of propertyRubric objects
 //     */

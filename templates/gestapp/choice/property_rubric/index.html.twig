@@ -1,8 +1,8 @@
 <div class="d-flex justify-content-between">
-    <h6 class="text-start">Liste des Transactions</h6>
+    <h6 class="text-start">Liste des rubriques</h6>
     <p class="text-end"><a id="addPropertyBanner" href=""><i class="fa-regular fa-circle-plus fa-lg"></i></a></p>
 </div>
-<div id="listFamily">
+<div id="listRubric">
     <table class="table">
         <thead>
         <tr>
@@ -11,10 +11,9 @@
         </tr>
         </thead>
         <tbody>
-        {% for property_family in property_families %}
+        {% for property_rubric in property_rubrics %}
             <tr>
-                <td>{{ property_family.name }} <small>({{ property_family.code }})</small></td>
-                <td></td>
+                <td>{{ property_rubric.name }} <small>({{ property_rubric.code }})</small></td>
                 <td>
                 </td>
             </tr>
@@ -26,3 +25,5 @@
         </tbody>
     </table>
 </div>
+
+

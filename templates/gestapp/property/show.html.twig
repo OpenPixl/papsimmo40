@@ -18,9 +18,13 @@
             // Récupération de l'id dans l'url
             const urlCourante = document.location.href.replace(/\/$/, "");
             const idProperty = urlCourante.substring (urlCourante.lastIndexOf( "/" )+1 );
+            let city = document.getElementById('City')
             let family = document.getElementById('property_step1_family')
             let rubric = document.getElementById('property_step1_rubric')
             let rubricss = document.getElementById('property_step1_rubricss')
+            let FamValue = family.value
+            let RubValue = rubric.value
+            let RubssValue = rubricss.value
 
             // récupération des id des panels
             const navInformations = document.getElementById("navInformations");
@@ -259,70 +263,136 @@
 
             // PARTIE Destination du bien
             // ---------------------------------------
-            // Alimentation du Select Transaction
-            let rubricsData = []
-            let rubricssData = []
-            axios
-                .get('/gestapp/choice/property/family/value')
-                .then(function(response){
-                    let familiesValues = response.data.families
-                    let rubricsValues = response.data.rubrics
-                    let rubricssValues = response.data.rubricss
-                    //familiesValues.forEach((element) => {
-                    //    var newOption = new Option (element['name'], element['id']);
-                    //    family.options.add (newOption);
-                    //})
-                    rubricsValues.forEach((element) => {
-                        rubricsData.push(element)
-                    })
-                    rubricssValues.forEach((element) => {
-                        rubricssData.push(element)
-                    })
-                })
-            if(rubric.value >= 1){
-                document.getElementById('rowRubric').removeAttribute('style')
-                console.log('vide')
-            }
-            if(rubricss.value >= 1){
-                document.getElementById('rowRubricss').removeAttribute('style')
-            }
-            family.addEventListener('change', function(event){
-                let value = parseInt(this.value)                                            // on récupère la valeur du Select
-                let results = rubricsData.filter(valeur => {                                // on boucle sur le tableau pour filtrer selon la valeur
-                    if(valeur.family === value) return true
-                })
-                let options = document.querySelectorAll('#property_step1_rubric option');   // suppression des options du select
-                options.forEach(o => o.remove());
-                results.forEach((element) => {                                              // on créer les nouvelles sur le résultat du filtre
-                    let newOption = new Option (element['name'], element['id']);
-                    rubric.options.add (newOption);
-                })
-                document.getElementById('rowRubric').removeAttribute('style')
-                console.log(results)
-            })
 
-            rubric.addEventListener('change', function(event){
-                let value = parseInt(this.value)                                             // on récupère la valeur du Select
-                let results = rubricssData.filter(valeur => {                                // on boucle sur le tableau pour filtrer selon la valeur
-                    if(valeur.parentrubric === value) return true
-                })
-                let options = document.querySelectorAll('#property_step1_rubricss option');  // suppression des options du select
-                options.forEach(o => o.remove());
-                if(results.length >= 1){
-                    results.forEach((element) => {                                           // on créer les nouvelles sur le résultat du filtre
-                        let newOption = new Option (element['name'], element['id']);
-                        rubric.options.add (newOption);
-                    })
-                    document.getElementById('rowRubricss').removeAttribute('style')
-                    console.log(results)
+            function removeOptions(selectElement) {
+                var i, L = selectElement.options.length - 1;
+                for(i = L; i >= 0; i--) {
+                    selectElement.remove(i);
                 }
+            }
+            // Alimentation du Select Transaction
+            let rubricsData = []                                // Accueillera les valeurs des rubriques de biens
+            let rubricssData = []                               // Accueillera les valeurs des sous-rubriques de biens
+
+            // Remplissage du Select des rubriques si bien déjà enregistré.
+            if(rubric.value >=1){
+                document.getElementById('rowRubric').removeAttribute('style')
+                axios
+                    .get('/gestapp/choice/property/family/rubric/' + FamValue)
+                    .then(function(response){
+                        let rubricsValues = response.data.rubrics
+                        // suppression des options du select
+                        removeOptions(rubric);
+                        let test = []
+                        rubricsValues.forEach((element) => {
+                            if (element.id === parseInt(RubValue)){
+                                let newOption = new Option (element.name, element.id, false, true);
+                                rubric.options.add (newOption);
+                            }else{
+                                let newOption = new Option (element.name, element.id);
+                                rubric.options.add (newOption);
+                            }
+                        })
+                    })
+            }
+            // Remplissage du Select des sous rubriques si bien déjà enregistré.
+            if(rubricss.value >=1){
+                document.getElementById('rowRubricss').removeAttribute('style')
+                axios
+                    .get('/gestapp/choice/property/family/rubricss/' + RubssValue)
+                    .then(function(response){
+                        let rubricsValues = response.data.rubricss
+                        // suppression des options du select
+                        removeOptions(rubricss);
+                        rubricsValues.forEach((element) => {
+                            if (element.id === parseInt(RubssValue)){
+                                let newOption = new Option (element.name, element.id, false, true);
+                                rubricss.options.add (newOption);
+                            }else{
+                                let newOption = new Option (element.name, element.id);
+                                rubricss.options.add (newOption);
+                            }
+                        })
+                    })
+            }
+
+            // Opération sur changement du select Transaction
+            family.addEventListener('change', function(event){
+                let FamValue = parseInt(this.value)
+                axios
+                    .get('/gestapp/choice/property/family/rubric/' + FamValue)
+                    .then(function(response){
+                        let rubricsValues = response.data.rubrics
+                        // suppression des options du select
+                        removeOptions(rubric);
+                        rubricsValues.forEach((element) => {
+                            if (element.id === parseInt(RubValue)){
+                                let newOption = new Option (element.name, element.id, false, true);
+                                rubric.options.add (newOption);
+                            }else{
+                                let newOption = new Option (element.name, element.id);
+                                rubric.options.add (newOption);
+                            }
+                        })
+                    })
+                document.getElementById('rowRubric').removeAttribute('style')
             })
 
+            // Opération sur changement du select Rubrique
+            rubric.addEventListener('change', function(event){
+                let RubValue = parseInt(this.value)
+                axios
+                    .get('/gestapp/choice/property/family/rubricss/' + RubValue)
+                    .then(function(response){
+                        let rubricsValues = response.data.rubricss
+                        // suppression des options du select
+                        removeOptions(rubricss);
+                        if(rubricsValues.length >= 1){
+                            document.getElementById('rowRubricss').removeAttribute('style')
+                        }else{
+                            document.getElementById('rowRubricss').setAttribute("style", 'display:none;')
+                        }
+                        rubricsValues.forEach((element) => {
+                            if (element.id === parseInt(RubssValue)){
+                                let newOption = new Option (element.name, element.id, false, true);
+                                rubricss.options.add (newOption);
+                            }else{
+                                let newOption = new Option (element.name, element.id);
+                                rubricss.options.add (newOption);
+                            }
+                        })
+                    })
+
+
+            })
 
             // PARTIE Code postal et Ville - API
             // ---------------------------------------
             const commune = document.getElementById('property_step1_city')
-            //commune.style.display = 'none'
+            const zipcode = document.getElementById('property_step1_zipcode')
+            const SelectCity = document.getElementById('selectcity')
+            const addresseInput = document.getElementById('property_step1_adress')
+            addresseInput.addEventListener('input', function(event){
+                let coord = this.value
+                coord.replaceAll(' ','+')
+                axios
+                    .get('https://api-adresse.data.gouv.fr/search/?q='+coord.replaceAll(' ','+')+"&limit=10")
+                    .then(function(response){
+                        let features = response.data.features
+                        removeOptions(SelectCity);
+                        features.forEach((element) => {
+                            let name = element['properties']['postcode']+" - "+element['properties']['city']
+                            let OptSelectCity = new Option (name, name, false, true);
+                            SelectCity.options.add(OptSelectCity);
+                        })
+                    })
+            })
+            SelectCity.addEventListener('change', function (event){
+                let value = this.value.split(' ')
+                console.log(value)
+                zipcode.value = value[0]
+                commune.value = value[2]
+            })
 
         // ---------------------------------------
         // STEP 2 : Enregistrement du ou des acheteurs

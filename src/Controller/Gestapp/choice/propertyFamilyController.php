@@ -38,6 +38,30 @@ class propertyFamilyController extends AbstractController
         ], 200);
     }
 
+    #[Route('/rubric/{idfamily}', name: 'app_gestapp_choice_property_family', methods: ['GET'])]
+    public function rubric($idfamily, propertyFamilyRepository $familyRepository, propertyRubricRepository $rubricRepository)
+    {
+        $family = $familyRepository->find($idfamily);
+        $rubrics = $rubricRepository->listbyfamily($family);
+
+        return $this->json([
+            'code' => 200,
+            'rubrics' => $rubrics,
+        ], 200);
+    }
+
+    #[Route('/rubricss/{idrubric}', name: 'app_gestapp_choice_property_rubric', methods: ['GET'])]
+    public function rubricss($idrubric, propertyRubricRepository $rubricRepository, propertyRubricssRepository $rubricssRepository)
+    {
+        $rubric = $rubricRepository->find($idrubric);
+        $rubricss = $rubricssRepository->listbyrubric($rubric);
+
+        return $this->json([
+            'code' => 200,
+            'rubricss' => $rubricss,
+        ], 200);
+    }
+
     #[Route('/new', name: 'app_gestapp_choice_property_family_new', methods: ['GET', 'POST'])]
     public function new(Request $request, propertyFamilyRepository $propertyFamilyRepository): Response
     {

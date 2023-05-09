@@ -23,6 +23,43 @@ body{
   p{
     font-family: 'Montserrat-regular', sans-serif;
   }
+  .pagination {
+    margin-top: 0;
+    margin-bottom: 0 !important;
+    border: 1px solid #008cba;
+    font-size: .875rem;
+    .page-link {
+      border-color: transparent;
+      color: #008cba;
+      border-radius: 0 0 0 0;
+      margin-left: 0.1em;
+      margin-right: 0.1em;
+    }
+  }
+
+  .pagination .page-item:first-child .page-link,
+  .pagination .page-item:last-child .page-link,
+  .pagination-lg .page-item:first-child .page-link,
+  .pagination-lg .page-item:last-child .page-link,
+  .pagination-sm .page-item:first-child .page-link,
+  .pagination-sm .page-item:last-child .page-link {
+    border-radius: 0 0 0 0;
+  }
+
+  .page-item.active .page-link {
+    z-index: 0 !important;
+    color: #fff;
+    background-color: $secondary-color;
+    border-color: $secondary-color;
+    border-radius: 0 0 0 0;
+  }
+
+  .page-item.disabled .page-link {
+    background-color: #fff;
+    border-color: none !important;
+    color: #929292;
+    pointer-events: none;
+  }
 }
 
 #op_page_header{

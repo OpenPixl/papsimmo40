@@ -15,6 +15,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -83,12 +84,12 @@ class PropertyStep1Type extends AbstractType
                 'required' => false,
                 'empty_data' =>''
             ])
-            ->add('zipcode',TextType::class, [
+            ->add('zipcode',HiddenType::class, [
                 'label' => 'Code postal',
                 'required' => false,
                 'empty_data' =>''
             ])
-            ->add('city',TextType::class, [
+            ->add('city',HiddenType::class, [
                 'label' => 'Commune',
                 'required' => false,
                 'empty_data' =>''

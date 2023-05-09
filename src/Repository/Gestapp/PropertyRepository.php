@@ -100,7 +100,11 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.banner', 'b')
             ->join('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
+            ->leftJoin('p.family', 'f')
+            ->leftJoin('p.rubric', 'ru')
             ->addSelect('
+                ru.name as rubricName,
+                f.code as familycode,
                 p.projet as projet,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
@@ -312,8 +316,11 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
-            ->join('p.propertyDefinition', 'pd')
+            ->leftJoin('p.family', 'f')
+            ->leftJoin('p.rubric', 'ru')
             ->addSelect('
+                ru.name as rubricName,
+                f.code as familycode,
                 p.projet as projet,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
@@ -655,9 +662,15 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
         $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('p.family', 'f');
+        $query->leftjoin('p.rubric', 'ru');
+        $query->leftjoin('p.rubricss', 'rus');
         $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->select('
+                f.code as familyCode,
+                ru.code as rubricCode,
+                rus.code as rubricssCode,
                 c.wc as wc,
                 c.washroom AS washroom,
                 c.sanitation as sanitation,                
@@ -723,9 +736,15 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
         $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('p.family', 'f');
+        $query->leftjoin('p.rubric', 'ru');
+        $query->leftjoin('p.rubricss', 'rus');
         $query->where('pu.isPublishMeilleur = 1 OR pu.isPublishleboncoin = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->select('
+                f.code as familyCode,
+                ru.code as rubricCode,
+                rus.code as rubricssCode,
                 pu.isPublishleboncoin AS leboncoin,
                 pu.isPublishMeilleur AS seloger,
                 c.wc as wc,
@@ -794,8 +813,14 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('c.propertyOrientation', 'po');
         $query->leftjoin('c.propertyEnergy', 'pe');
         $query->where('pu.isPublishseloger = 1');            // filtre sur la publication Paru-Vendu
+        $query->leftjoin('p.family', 'f');
+        $query->leftjoin('p.rubric', 'ru');
+        $query->leftjoin('p.rubricss', 'rus');
         $query->andWhere('p.isArchived = 0');
         $query->select('
+                f.code as familyCode,
+                ru.code as rubricCode,
+                rus.code as rubricssCode,
                 pu.isPublishleboncoin AS leboncoin,
                 pu.isPublishMeilleur AS seloger,
                 c.wc as wc,

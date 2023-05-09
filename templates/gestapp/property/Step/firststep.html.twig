@@ -99,7 +99,10 @@
                         </div>
                         <div class="col-6">
                             {{ form_errors(form.city) }}
-                            {{ form_widget(form.city, {'attr': {'class': 'form-select form-select-sm', 'placeholder':'Commune'}}) }}
+                            {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
+                            <select id="selectcity" class="form-select form-select-sm">
+                                <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
+                            </select>
                         </div>
                     </div>
                     {# STEP 1 : Ligna de l'annonce #}
@@ -173,12 +176,12 @@
                             <td class="col-6">{{ form_widget(form.family, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td class="col-1"></td>
                         </tr>
-                        <tr id="rowRubric" class="align-middle" style="display:none">
+                        <tr id="rowRubric" class="align-middle" style="display: none;">
                             <td class="col-5">{{ form_label(form.rubric, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
                             <td class="col-6">{{ form_widget(form.rubric, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td class="col-1"></td>
                         </tr>
-                        <tr id="rowRubricss" class="align-middle" style="display:none">
+                        <tr id="rowRubricss" class="align-middle" style="display: none;">
                             <td>{{ form_label(form.rubricss, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
                             <td>{{ form_widget(form.rubricss, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td></td>

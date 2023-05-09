@@ -685,17 +685,22 @@ class PropertyController extends AbstractController
     public function AllProperties(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
 
+        // Récupération de la page si elle existe
+        $page = $request;
+        //dd($page);
+
         $data = $propertyRepository->AllProperties();
         //dd($data);
 
         $properties = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
-            12
+            24
         );
 
         return $this->renderForm('webapp/page/property/allproperties.html.twig', [
             'properties' => $properties,
+            'page' => $request->query->getInt('page', 1),
         ]);
 
     }

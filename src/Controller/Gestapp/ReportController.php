@@ -55,19 +55,19 @@ class ReportController extends AbstractController
             }
             // Clé de détermination PARUVENDU - FAMILLE
             if($property['projet']){
-                $famille = $property['projet'];
+                $famille = $property['familyCode'];
             }else{
                 $famille = "";
             }
             // Clé de détermination PARUVENDU - RUBRIQUE
             if($property['propertyDefinition']){
-                $rubrique = $property['propertyCode'];
+                $rubrique = $property['rubricCode'];
             }else{
                 $rubrique = "00";
             }
             // Clé de détermination PARUVENDU - SSRUBRIQUE
             if($property['ssCategory']){
-                $ssrubrique = $property['ssCategory'];
+                $ssrubrique = $property['rubricssCode'];
             }else{
                 $ssrubrique = "000";
             }
@@ -370,7 +370,6 @@ class ReportController extends AbstractController
                 $diagDPEChoice = "NS";
                 $diagGESChoice = "NS";
             }
-
 
             // Création d'une ligne du tableau
             $data = array(

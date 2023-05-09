@@ -13,7 +13,7 @@
                             <p class="card-text">Ce bien est en cours d'édition.<br>Pensez à le finaliser :</p>
                             <a href="{{path('op_gestapp_property_show', {'id' : property.id})}}" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button>
+                                <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#SupprIncreatring" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button>
                             {% endif %}
                         </div>
                     </div>
@@ -38,7 +38,7 @@
                                 <p class="card-text">Ce bien est en cours d'édition.<br>Pensez à le finaliser :</p>
                                 <a href="{{path('op_gestapp_property_show', {'id' : property.id})}}" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
                                 {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button>
+                                    <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#SupprIncreatring" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button>
                                 {% endif %}
                             </div>
                         </div>
