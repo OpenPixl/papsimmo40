@@ -238,6 +238,13 @@ class ReportController extends AbstractController
                 $mandatAt ="";
             }
 
+            // Préparation de la date de création RefDPE
+            if ($property['RefDPE'] && $property['RefDPE'] instanceof \DateTime) {
+                $RefDPE = $property['RefDPE']->format('d/m/Y');
+            }else{
+                $RefDPE ="";
+            }
+
             // Calcul des honoraires en %
             $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
@@ -700,7 +707,7 @@ class ReportController extends AbstractController
                 '""',                                                       // 325 - Version DPE
                 '"'.$property['dpeEstimateEnergyDown'].'"',                 // 326 - DPE coût min conso
                 '"'.$property['dpeEstimateEnergyUp'].'"',                   // 327 - DPE coût max conso
-                '"'.$property['RefDPE'].'"',                                // 328 - DPE date référence conso
+                '"'.$RefDPE.'"',                                // 328 - DPE date référence conso
                 '""',                                                       // 329 - Surface terrasse
                 '""',                                                       // 330 - DPE coût conso annuelle
                 '""',                                                       // 331 - Loyer de base
@@ -777,6 +784,13 @@ class ReportController extends AbstractController
                 $mandatAt = $property['mandatAt']->format('d/m/Y');
             }else{
                 $mandatAt ="";
+            }
+
+            // Préparation de la date de création RefDPE
+            if ($property['RefDPE'] && $property['RefDPE'] instanceof \DateTime) {
+                $RefDPE = $property['RefDPE']->format('d/m/Y');
+            }else{
+                $RefDPE ="";
             }
 
             // Calcul des honoraires en %
@@ -1235,7 +1249,7 @@ class ReportController extends AbstractController
                 '""',                                                       // 325 - Version DPE
                 '"'.$property['dpeEstimateEnergyDown'].'"',                 // 326 - DPE coût min conso
                 '"'.$property['dpeEstimateEnergyUp'].'"',                   // 327 - DPE coût max conso
-                '"'.$property['RefDPE'].'"',                                // 328 - DPE date référence conso
+                '"'.$RefDPE.'"',                                            // 328 - DPE date référence conso
                 '""',                                                       // 329 - Surface terrasse
                 '""',                                                       // 330 - DPE coût conso annuelle
                 '""',                                                       // 331 - Loyer de base
