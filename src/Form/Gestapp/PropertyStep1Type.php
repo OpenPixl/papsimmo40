@@ -84,7 +84,7 @@ class PropertyStep1Type extends AbstractType
                 'required' => false,
                 'empty_data' =>''
             ])
-            ->add('zipcode',HiddenType::class, [
+            ->add('zipcode',TextType::class, [
                 'label' => 'Code postal',
                 'required' => false,
                 'empty_data' =>''
