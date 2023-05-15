@@ -194,6 +194,11 @@ class PropertyController extends AbstractController
         // Clonage des publications de la propriété
         $publication = $property->getPublication();
         $dupublication = clone $publication;
+        $dupublication->setIsWebpublish(0);
+        $dupublication->setIsPublishParven(0);
+        $dupublication->setIsPublishMeilleur(0);
+        $dupublication->setIsPublishleboncoin(0);
+        $dupublication->setIsPublishseloger(0);
         $publicationRepository->add($dupublication);
 
         // Clonage de la propriété
