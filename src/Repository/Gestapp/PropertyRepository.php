@@ -316,6 +316,7 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
+            ->join('p.propertyDefinition', 'pd')
             ->leftJoin('p.family', 'f')
             ->leftJoin('p.rubric', 'ru')
             ->addSelect('

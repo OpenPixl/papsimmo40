@@ -17,10 +17,13 @@
                     <div class="col">
                         {# STEP 1 : Ligne du titre de l'annonce du bien #}
                         <table class="table table-sm">
+                            <thead>
+                            <tr>
+                                <td colspan="9"></td>
+                            </tr>
+                            </thead>
                             <tbody>
-                                <tr>
-                                    <td colspan="9"></td>
-                                </tr>
+
                                 <tr class="align-middle table-light">
                                     {% if property.dupMandat is not empty %}
                                     <td class="col-md-2">Numéro de Mandat : <b>{{ property.refMandat }}{{ property.dupMandat }}</b></td>
@@ -57,64 +60,76 @@
                     </div>
                 </div>
         </div>
-        <hr>
         <div class="col-sm-9">
-            <div class="card text-dark bg-light">
+            <div class="card">
                 <div class="card-body">
-                    INFORMATIONS DU BIEN
-                    <input id="property_id" type="hidden" value="{{ property.id }}">
-                    <hr>
+                    <table class="table">
+                        <thead>
+                        <tr>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                            <td class="col-1"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="align-middle">
+                            <td class="col-1" colspan="6">
+                                INFORMATIONS DU BIEN
+                            </td>
+                            <td class="col-1" colspan="6">
+                                <input id="property_id" type="hidden" value="{{ property.id }}">
+                            </td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td class="table-light" colspan="2">{{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                            <td colspan="10">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td class="table-light" colspan="2">{{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                            <td colspan="4">{{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td class="table-light" colspan="2">{{ form_label(form.complement, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                            <td colspan="4">{{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td class="table-light" colspan="2">{{ form_label(form.zipcode, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                            <td colspan="1">{{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                            <td colspan="3">
+                                {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
+                                <select id="selectcity" class="form-select form-select-sm">
+                                    <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr class="align-middle">
+                            <td class="table-light" colspan="2">{{ form_label(form.annonce, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                            <td colspan="10">{{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce"}}) }}</td>
+                        </tr>
+                        </tbody>
+                    </table>
+
+
                     {# STEP 1 : Ligne du titre de l'annonce du bien #}
-                    <div class="row mb-1 mt-1 g-1">
-                        {{ form_errors(form.name) }}
-                        {{ form_label(form.name, '', {'label_attr': {'class':'col-sm-2  form-label'}}) }}
-                        <div class="col-10">
-                            {{ form_errors(form.name) }}
-                            {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
-                    </div>
+
                     {# STEP 1 : Ligne de l'adresse physique du bien #}
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-2">
-                            {{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-8">
-                            {{ form_errors(form.adress) }}
-                            {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ligne 1'}}) }}
-                        </div>
-                    </div>
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="offset-2 col-8">
-                            {{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ligne 2'}}) }}
-                        </div>
-                    </div>
+
                     {# STEP 1 : Ligne de l'adresse physique du bien - Cp  #}
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-2">
-                            {{ form_label(form.city, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-2">
-                            {{ form_errors(form.zipcode) }}
-                            {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Code Postal'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_errors(form.city) }}
-                            {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
-                            <select id="selectcity" class="form-select form-select-sm">
-                                <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
-                            </select>
-                        </div>
-                    </div>
+
                     {# STEP 1 : Ligna de l'annonce #}
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-2">
-                            {{ form_label(form.annonce, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-10">
-                            {{ form_errors(form.annonce) }}
-                            {{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce"}}) }}
-                        </div>
-                    </div>
+
                     {# STEP 1 : Ligne des Pièces et chambres #}
                     <div class="row mb-1 mt-1 g-1">
                         <div class="col-2">

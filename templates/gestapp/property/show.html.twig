@@ -371,7 +371,6 @@
             const SelectCity = document.getElementById('selectcity')
             const addresseInput = document.getElementById('property_step1_adress')
             zipcode.addEventListener('input', function(event){
-                console.log(zipcode.length)
                 if(zipcode.value.length === 5)
                 {
                     let coord = this.value
@@ -379,7 +378,6 @@
                         .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
                         .then(function(response){
                             let features = response.data
-                            console.log(features)
                             removeOptions(SelectCity);
                             features.forEach((element) => {
                                 let name = element['codePostal']+" - "+element['nomCommune']
