@@ -1295,6 +1295,9 @@ class ReportController extends AbstractController
             }
         }
 
+        // PARTIE IV : Dépôt du fichier Zip sur le serveur
+
+
         return $this->json([
             'code' => 200,
             'message' => 'Le fichier Zip a été correctement généré.' . $app
@@ -1304,7 +1307,7 @@ class ReportController extends AbstractController
     /**
      * Génération du Fichiers CSV pour Figaro
      **/
-    #[Route('/report/annoncesfigaro', name: 'app_gestapp_report_annonces')]
+    #[Route('/report/annoncesfigaro', name: 'app_gestapp_report_annoncesfigaro')]
     public function PropertyCSV4(PropertyRepository $propertyRepository, PhotoRepository $photoRepository, ComplementRepository $complementRepository): Response
     {
         // PARTIE I : Génération du fichier CSV
@@ -1495,7 +1498,7 @@ class ReportController extends AbstractController
 
             // Création d'une ligne du tableau
             $data = array(
-                '"RC-1860977"',                                               // 1 - Identifiant Agence
+                '"107428"',                                                 // 1 - Identifiant Agence
                 '"'.$property['ref'].'"',                                   // 2 - Référence agence du bien
                 '"Vente"',                                                  // 3 - Type d’annonce
                 '"'.$bien.'"',                                              // 4 - Type de bien
@@ -1835,20 +1838,20 @@ class ReportController extends AbstractController
         //dd($content);
 
         // PARTIE II : Génération du fichier CSV
-        $file = 'doc/report/Annonces/Annonces.csv';                                  // Chemin du fichier
+        $file = 'doc/report/Annoncesfigaro/Annonces.csv';                                  // Chemin du fichier
         if(file_exists($file))
         {
             unlink($file);                                                  // Suppression du précédent s'il existe
-            file_put_contents('doc/report/Annonces/Annonces.csv', $content); // Génération du fichier dans l'arborescence du fichiers du site
+            file_put_contents('doc/report/Annoncesfigaro/Annonces.csv', $content); // Génération du fichier dans l'arborescence du fichiers du site
         }
-        file_put_contents('doc/report/Annonces/Annonces.csv', $content);     // Génération du fichier dans l'arborescence du fichiers du site
+        file_put_contents('doc/report/Annoncesfigaro/Annonces.csv', $content);     // Génération du fichier dans l'arborescence du fichiers du site
 
         // PARTIE III : Constitution du dossier zip
-        $Rep = 'doc/report/Annonces/';
+        $Rep = 'doc/report/Annoncesfigaro/';
         $zip = new \ZipArchive();                                          // instanciation de la classe Zip
         if(is_dir($Rep))
         {
-            if($zip->open('RC-1860977.zip', ZipArchive::CREATE) == TRUE)
+            if($zip->open('107428.zip', ZipArchive::CREATE) == TRUE)
             {
                 $fichiers = scandir($Rep);
                 unset($fichiers[0], $fichiers[1]);
@@ -1862,7 +1865,7 @@ class ReportController extends AbstractController
                     }
                 }
                 $zip->close();
-                rename('RC-1860977.zip', 'doc/report/RC-1860977.zip');
+                rename('107428.zip', 'doc/report/107428.zip');
             }else{
                 dd('Erreur');
             }

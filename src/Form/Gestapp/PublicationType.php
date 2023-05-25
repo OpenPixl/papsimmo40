@@ -38,6 +38,10 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur "Se Loger" ?',
                 'required' => false
             ])
+            ->add('isPublishfigaro', CheckboxType::class, [
+                'label' => 'Publié sur "Figaro Immo" ?',
+                'required' => false
+            ])
             //->add('sector', ChoiceType::class, [
             //    'label' => 'Secteur',
             //    'choices'  => [

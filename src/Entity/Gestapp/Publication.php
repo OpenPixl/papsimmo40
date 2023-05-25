@@ -34,6 +34,9 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishseloger = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishfigaro = false;
+
 
     public function getId(): ?int
     {
@@ -124,6 +127,18 @@ class Publication
     public function setIsPublishseloger(bool $isPublishseloger): self
     {
         $this->isPublishseloger = $isPublishseloger;
+
+        return $this;
+    }
+
+    public function isIsPublishfigaro(): ?bool
+    {
+        return $this->isPublishfigaro;
+    }
+
+    public function setIsPublishfigaro(bool $isPublishfigaro): self
+    {
+        $this->isPublishfigaro = $isPublishfigaro;
 
         return $this;
     }
