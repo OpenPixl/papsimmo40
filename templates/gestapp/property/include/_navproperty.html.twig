@@ -9,6 +9,8 @@
         <button class="btn btn-sm btn-outline-dark" id="btnMListArchived" disabled>Afficher les biens archivés</button>
         <button class="btn btn-sm btn-outline-warning" id="SupprRows" disabled>Archivages des biens sélectionnés</button>
         {% endif %}
-
+    </div>
+    <div id="blockPagination">
+        {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
     </div>
 </div>

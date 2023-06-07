@@ -1,6 +1,6 @@
 <section class="property-edit">
     {{ form_start(form, {'attr': {'id': 'FormAddInformation'}}) }}
-    <div class="row g-1 mt-2">
+    <div class="row g-2 mt-2">
         <div class="col-sm-12">
 
                 {% if property.refMandat is empty %}
@@ -23,12 +23,16 @@
                             </tr>
                             </thead>
                             <tbody>
-
                                 <tr class="align-middle table-light">
                                     {% if property.dupMandat is not empty %}
                                     <td class="col-md-2">Numéro de Mandat : <b>{{ property.refMandat }}{{ property.dupMandat }}</b></td>
                                     {% else %}
-                                    <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
+                                        {# controle si le mandat porte le numéro 0 #}
+                                        {% if property.refMandat == 0 %}
+                                        <td class="col-md-2" id="colRefMandat"><button class="btn btn-sm btn-light" id="AddMandat">Ajouter le mandat</button></td>
+                                        {% else %}
+                                        <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
+                                        {% endif %}
                                     {% endif %}
                                     <td class="col-md-1">{{ form_label(form.mandatAt, 'Date du mandat') }}</td>
                                     <td class="col-md-1">{{ form_widget(form.mandatAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
@@ -61,102 +65,80 @@
                 </div>
         </div>
         <div class="col-sm-9">
-            <div class="card">
-                <div class="card-body">
-                    <table class="table">
-                        <thead>
-                        <tr>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                            <td class="col-1"></td>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr class="align-middle">
-                            <td class="col-1" colspan="6">
-                                INFORMATIONS DU BIEN
-                            </td>
-                            <td class="col-1" colspan="6">
-                                <input id="property_id" type="hidden" value="{{ property.id }}">
-                            </td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="table-light" colspan="2">{{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                            <td colspan="10">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                            </td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="table-light" colspan="2">{{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                            <td colspan="4">{{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                            </td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="table-light" colspan="2">{{ form_label(form.complement, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                            <td colspan="4">{{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                            </td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="table-light" colspan="2">{{ form_label(form.zipcode, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                            <td colspan="1">{{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
-                            <td colspan="3">
-                                {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
-                                <select id="selectcity" class="form-select form-select-sm">
-                                    <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="table-light" colspan="2">{{ form_label(form.annonce, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                            <td colspan="10">{{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce"}}) }}</td>
-                        </tr>
-                        </tbody>
-                    </table>
+            <table class="table">
+                <tbody>
+                <tr class="align-middle">
+                    <td class="col-1" colspan="3">
+                        INFORMATIONS DU BIEN
+                    </td>
+                    <td class="col-1"></td>
+                    <td class="col-1"></td>
+                    <td class="col-1"></td>
+                    <td class="col-1"></td>
+                    <td class="col-1"></td>
+                    <td class="col-1"></td>
+                    <td class="col-1"></td>
+                    <td class="col-1"></td>
+                    <td class="col-1"></td>
+                    <td class="col-1" colspan="6">
+                        <input id="property_id" type="hidden" value="{{ property.id }}">
+                    </td>
+                </tr>
+                <tr class="align-middle">
+                    <td class="table-light" colspan="2">{{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                    <td colspan="10">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                    </td>
+                </tr>
+                <tr class="align-middle">
+                    <td class="table-light" colspan="2">{{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                    <td colspan="4">{{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                    </td>
+                </tr>
+                <tr class="align-middle">
+                    <td class="table-light" colspan="2">{{ form_label(form.complement, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                    <td colspan="4">{{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                    </td>
+                </tr>
+                <tr class="align-middle">
+                    <td class="table-light" colspan="2">{{ form_label(form.zipcode, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                    <td colspan="1">{{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                    <td colspan="3">
+                        {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
+                        <select id="selectcity" class="form-select form-select-sm">
+                            <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr class="align-middle">
+                    <td class="table-light" colspan="2">{{ form_label(form.annonce, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                    <td colspan="10">{{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce"}}) }}</td>
+                </tr>
+                </tbody>
+            </table>
 
-
-                    {# STEP 1 : Ligne du titre de l'annonce du bien #}
-
-                    {# STEP 1 : Ligne de l'adresse physique du bien #}
-
-                    {# STEP 1 : Ligne de l'adresse physique du bien - Cp  #}
-
-                    {# STEP 1 : Ligna de l'annonce #}
-
-                    {# STEP 1 : Ligne des Pièces et chambres #}
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-2">
-                            {{ form_label(form.piece, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-2">
-                            {{ form_errors(form.annonce) }}
-                            {{ form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
-                        <div class="col-1"></div>
-                        <div class="col-2">
-                            {{ form_label(form.room, '', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-2">
-                            {{ form_widget(form.room, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
+            <div class="row mb-1 mt-1 g-1">
+                <div class="col-2">
+                    {{ form_label(form.piece, '', {'label_attr': {'class':'form-label'}}) }}
+                </div>
+                <div class="col-2">
+                    {{ form_errors(form.annonce) }}
+                    {{ form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                </div>
+                <div class="col-1"></div>
+                <div class="col-2">
+                    {{ form_label(form.room, '', {'label_attr': {'class':'form-label'}}) }}
+                </div>
+                <div class="col-2">
+                    {{ form_widget(form.room, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                </div>
+            </div>
+            <div class="row mb-1 mt-1 g-1">
+                {{ form_label(form.constructionAt, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
+                <div class="col-sm-3">
+                    <div class="input-group">
+                        <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
+                        {{ form_widget(form.constructionAt, {'attr': {'class': 'form-control form-control-sm'}}) }}
                     </div>
-                    <div class="row mb-1 mt-1 g-1">
-                        {{ form_label(form.constructionAt, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
-                        <div class="col-sm-3">
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
-                                {{ form_widget(form.constructionAt, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
         </div>

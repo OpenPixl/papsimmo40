@@ -180,6 +180,9 @@ class Property
     #[ORM\ManyToOne(inversedBy: 'properties')]
     private ?propertyRubricss $rubricss = null;
 
+    #[ORM\Column]
+    private ?bool $isNomandat = false;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -875,6 +878,18 @@ class Property
     public function setRubricss(?propertyRubricss $rubricss): self
     {
         $this->rubricss = $rubricss;
+
+        return $this;
+    }
+
+    public function isIsNomandat(): ?bool
+    {
+        return $this->isNomandat;
+    }
+
+    public function setIsNomandat(bool $isNomandat): self
+    {
+        $this->isNomandat = $isNomandat;
 
         return $this;
     }

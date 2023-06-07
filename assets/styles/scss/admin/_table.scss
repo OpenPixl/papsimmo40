@@ -1,0 +1,33 @@
+table{
+  font-size: 0.8rem;
+  thead{
+    tr{}
+    td{}
+  }
+  tbody{
+    border-top: 1px solid #cccccc;
+    border-bottom: 1px solid #cccccc;
+    tr{
+      border-top: none;
+      border-bottom: none;
+      td{
+        color : #2e2e2e;
+        padding-top: 0.1rem;
+        padding-bottom: 0.1rem;
+        border-style: none !important;
+        h1,h2,h3,h4,h5,h6{
+          margin-top: 0.3rem;
+          margin-bottom: 0.3rem;
+        }
+        .input-group{
+          padding-top: 0.1rem;
+          padding-bottom: 0.1rem;
+        }
+        textarea{
+
+        }
+      }
+    }
+
+  }
+}

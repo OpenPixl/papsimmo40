@@ -221,7 +221,7 @@ class PropertyController extends AbstractController
 
     }
 
-    #[Route('/add/{refMandat}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
+    #[Route('/add/{isNomandat}/{refMandat}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
     public function add(
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
@@ -230,7 +230,8 @@ class PropertyController extends AbstractController
         PropertyEquipementRepository $propertyEquipementRepository,
         OtherOptionRepository $otherOptionRepository,
         PropertyDefinitionRepository $propertyDefinitionRepository,
-        $refMandat
+        $isNomandat,
+        $refMandat,
         )
     {
         // Récupération du collaborateur
@@ -302,6 +303,7 @@ class PropertyController extends AbstractController
         $property->setPublication($publication);
         $property->setIsIncreating(1);
         $property->setRefMandat($RefMandat);
+        $property->setIsNomandat($isNomandat);
         $property->setMandatAt(new \DateTime('now'));
         $property->setIsWithoutExclusivity(1);
         $property->setProjet('VH');

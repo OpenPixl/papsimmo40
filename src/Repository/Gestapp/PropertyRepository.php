@@ -82,6 +82,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
+            ->andWhere('p.isNomandat = 0')
             ->orderBy('p.id', 'DESC')
             ->setMaxResults(10)
             ->getQuery()
@@ -90,7 +91,8 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     // ----------------------------------------------
-    // Requête :
+    // Partie Admin
+    // Requête : liste tous les biens
     // ----------------------------------------------
     public function listAllProperties()
     {
@@ -125,6 +127,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.city as city,
                 p.createdAt,
                 p.updatedAt,
+                p.isNomandat as isNomandat,
                 e.id as refEmployed,
                 e.firstName as firstName,
                 e.lastName as lastName,
@@ -143,7 +146,8 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     // ----------------------------------------------
-    // Requête : Liste les biens archivés - Partie Admin
+    // Partie Admin
+    // Requête : Liste les biens archivés
     // ----------------------------------------------
     public function listAllPropertiesArchived()
     {
@@ -190,7 +194,8 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     // ----------------------------------------------
-    // Requête : Liste les biens et leur publications - Partie Admin
+    // Partie Admin
+    // Requête : Liste les biens et leur publications
     // ----------------------------------------------
     public function listPublication()
     {
@@ -341,7 +346,8 @@ class PropertyRepository extends ServiceEntityRepository
                 p.zipcode as zipcode,
                 p.city as city,
                 p.createdAt as createdAt,
-                p.updatedAt as updatedAt
+                p.updatedAt as updatedAt,
+                p.isNomandat as isNomandat
             ')
             ->where('e.id = :user')
             ->andWhere('p.isArchived = 0')
@@ -397,6 +403,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->where('e.id = :user')
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
+            ->andWhere('p.isNomandat = 1')
             ->setParameter('user', $user)
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
@@ -652,6 +659,10 @@ class PropertyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // ----------------------------------------------
+    // Partie Admin
+    // Requête : Recherche les biens pour la génération CSV
+    // ----------------------------------------------
     public function reportpropertycsv()
     {
         $query = $this->createQueryBuilder('p');
@@ -668,6 +679,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.rubricss', 'rus');
         $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
+        $query->andWhere('p.isNomandat = 0');
         $query->select('
                 f.code as familyCode,
                 ru.code as rubricCode,
@@ -726,6 +738,10 @@ class PropertyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // ----------------------------------------------
+    // Partie Admin
+    // Requête : Recherche les biens pour la génération CSV
+    // ----------------------------------------------
     public function reportpropertycsv2()
     {
         $query = $this->createQueryBuilder('p');
@@ -742,6 +758,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.rubricss', 'rus');
         $query->where('pu.isPublishMeilleur = 1 OR pu.isPublishleboncoin = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
+        $query->andWhere('p.isNomandat = 0');
         $query->select('
                 f.code as familyCode,
                 ru.code as rubricCode,
@@ -802,6 +819,10 @@ class PropertyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // ----------------------------------------------
+    // Partie Admin
+    // Requête : Recherche les biens pour la génération CSV
+    // ----------------------------------------------
     public function reportpropertycsv3()
     {
         $query = $this->createQueryBuilder('p');
@@ -818,6 +839,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
         $query->andWhere('p.isArchived = 0');
+        $query->andWhere('p.isNomandat = 0');
         $query->select('
                 f.code as familyCode,
                 ru.code as rubricCode,

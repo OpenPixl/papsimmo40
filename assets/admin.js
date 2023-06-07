@@ -12,8 +12,8 @@ import tinymce from "tinymce";
 // Mise en place de l'éditeur TinyMCE sur la partie Admin
 tinymce.init({
     selector: '.tinymce',
-    plugins: 'image table advtable lists',
-    toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image table',
+    plugins: 'image table lists',
+    toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image',
     images_file_types: 'jpg,svg,webp',
     language: 'fr_FR',
     language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',

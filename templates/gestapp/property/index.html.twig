@@ -70,7 +70,9 @@
             const modalAddNewProperty = document.getElementById('modalAddNewProperty')
             const NewProperty = new bootstrap.Modal(modalAddNewProperty, { keyboard: true })
             const addNewProperty = document.getElementById('addNewProperty')
+            const submitAddnewproperty = document.getElementById('submitAddnewproperty')
             const ArrayMandats = []
+
             axios
                 .get('/gestapp/property/getlistmandats')
                 .then(function(response){
@@ -83,9 +85,18 @@
             addNewProperty.addEventListener('click', function(event){
                 event.preventDefault()
                 NewProperty.show()
-
             })
-            // II. Modification de l'addresse de traitement sur l'input
+            // condition si le bien doit etre créer sans numéro de mandat
+            document.getElementById('nomandat').addEventListener('change', function(event){
+                if(this.checked){
+                    document.getElementById('tabMandat').setAttribute("class", "d-none")
+                    document.getElementById("submitAddnewproperty").href = '/gestapp/property/add/0/0'
+                }else {
+                    document.getElementById('tabMandat').classList.remove("d-none");
+                    document.getElementById('tabMandat').setAttribute("class", "table")
+                }
+            })
+            // III. Modification de l'addresse de traitement sur l'input
             document.getElementById('refMandat').addEventListener('input', function(event){
                 let newmandat = parseInt(document.getElementById('refMandat').value)
                 let flag = 0
@@ -97,13 +108,35 @@
                 if(flag === 1){
                     document.getElementById("refMandat").classList.remove("is-valid")
                     document.getElementById("refMandat").classList.add("is-invalid")
-                    document.getElementById('tdconsign').textContent = "Veuillez corriger ce numéro de mandat"
-                    document.getElementById("submitAddnewproperty").href = '#'
+                    document.getElementById('tdconsign').innerHTML = 'Veuillez corriger ce numéro de mandat, <br>il est présent dans la liste des biens <b>Paps immo</b>'
+
                 }else{
                     document.getElementById("refMandat").classList.remove("is-invalid")
                     document.getElementById("refMandat").classList.add("is-valid")
                     document.getElementById('tdconsign').textContent = "Numéro de mandat valide."
-                    document.getElementById("submitAddnewproperty").href = '/gestapp/property/add/' + newmandat
+                }
+            })
+
+            document.getElementById("submitAddnewproperty").addEventListener('click', function(event){
+                if(document.getElementById("refMandat").value === "" ){
+                    if(document.getElementById("nomandat").checked !== true){
+                        event.preventDefault()
+                        alert("Attention, si vous souhaitez créer un bien sans numéro de mandat, veuillez cochez la case. Sinon entrez un numéro de mandat valid.")
+                    }else{
+                        event.preventDefault()
+                        submitAddnewproperty.href = '/gestapp/property/add/1/0'
+                        window.location.href = submitAddnewproperty.href
+                    }
+                }else{
+                    if(document.getElementById("refMandat").classList.contains('is-valid')){
+                        event.preventDefault()
+                        let nummandat = document.getElementById("refMandat").value
+                        submitAddnewproperty.href = '/gestapp/property/add/0/' + nummandat
+                        window.location.href = submitAddnewproperty.href
+                    }else{
+                        event.preventDefault()
+                        alert("Attention, le numéro de mandat n'est pas valide. Veuillez entrez un numéro de mandat valid")
+                    }
                 }
             })
 
@@ -329,30 +362,30 @@
         <div class="modal-dialog modal-lg modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-info" id="exampleModalLabel">Création d'un nouveau bien à la vente</h5>
+                    <h5 class="modal-title text-info" id="exampleModalLabel">Edition d'un nouveau bien</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <table class="table table-sm">
-                        <tr>
-
-                            <td colspan="2">
-                                <b>Attention :</b>
-                            </td>
+                        <tr class="align-middle">
+                            <td class=""><b>Attention :</b> Dans le cas ou vous souhaiteriez créer un bien sans numéro de mandat, <br>veuillez cliquez dans la case suivante.</td>
+                            <td><input id="nomandat" type="checkbox" name="nomandat" class="form-check-input"></td>
                         </tr>
+                    </table>
+                    <table id="tabMandat" class="table table-sm">
                         <tr class="align-middle">
                             <td id="tdconsign" class="col-sm-8 table-light">
-                                Le numéro de mandat généré sera vérifié par le système.
+                                Veuillez inscrire un numéro de mandat pour la création d'un bien.
                             </td>
                             <td class="col-sm-4"><input type="text" id="refMandat" name="refMandat" class="form-control form-control-sm"></td>
                         </tr>
                     </table>
                     <input type="hidden" id="lastMandat">
-
                 </div>
                 <div class="modal-footer">
                     {% set refmandat = 0 %}
-                    <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'refMandat': refmandat}) }}" class="btn btn-info">Accéder à la fiche</a>
+                    {% set isnomandat = 0 %}
+                    <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'isNomandat':isnomandat,'refMandat': refmandat}) }}" class="btn btn-info">Accéder à la fiche</a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>

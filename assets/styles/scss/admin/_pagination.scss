@@ -1,0 +1,39 @@
+#blockPagination{
+  border: solid 1px #0079a1;
+  .pagination {
+    margin-top: 0;
+    margin-bottom: 0 !important;
+    font-size: .875rem;
+    .page-link {
+      border-color: transparent;
+      color: #008cba;
+      border-radius: 0 0 0 0;
+      margin-left: 0.1em;
+      margin-right: 0.1em;font-size: 0.8rem;
+    }
+    .page-item.active .page-link {
+      z-index: 0 !important;
+      color: #fff;
+      background-color: #008cba;
+      border-color: #0079a1;
+      border-radius: 0 0 0 0;
+    }
+
+    .page-item.disabled .page-link {
+      background-color: #fff;
+      border-color: #dee2e6;
+      color: #929292;
+      pointer-events: none;
+    }
+  }
+  .pagination .page-item:first-child .page-link,
+  .pagination .page-item:last-child .page-link,
+  .pagination-lg .page-item:first-child .page-link,
+  .pagination-lg .page-item:last-child .page-link,
+  .pagination-sm .page-item:first-child .page-link,
+  .pagination-sm .page-item:last-child .page-link {
+    border-radius: 0 0 0 0;
+  }
+}
+
+

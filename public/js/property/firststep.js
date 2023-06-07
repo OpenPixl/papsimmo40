@@ -75,14 +75,14 @@ ClassicEditor
 
 // initialisation du focus sur le champs refMandat
 const focus = document.getElementById('property_step1_refMandat');
-focus.focus()
+focus.focus();
 
 // Récupération et envoie des données du formulaire
-let FormAddInformation = document.getElementById('FormAddInformation')
+let FormAddInformation = document.getElementById('FormAddInformation');
 FormAddInformation.addEventListener('submit', function (event) {
-    event.preventDefault()
-    let urladdInformation = FormAddInformation.action
-    let dataaddInformation = new FormData(FormAddInformation)
+    event.preventDefault();
+    let urladdInformation = FormAddInformation.action;
+    let dataaddInformation = new FormData(FormAddInformation);
     axios
         .post(urladdInformation, dataaddInformation)
         .then(function(response)
@@ -96,5 +96,5 @@ FormAddInformation.addEventListener('submit', function (event) {
         })
         .catch(function(error){
             console.log(error);
-        })
-})
+        });
+});

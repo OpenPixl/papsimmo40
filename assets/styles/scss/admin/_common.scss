@@ -67,33 +67,6 @@ a {
   }
 }
 
-#content_main{
-  table{
-    tbody{
-      tr{
-        border-top: 1px solid #cccccc;
-        border-bottom: 1px solid #cccccc;
-        td{
-          color : #2e2e2e;
-          padding-top: 0.1rem;
-          padding-bottom: 0.1rem;
-          h1,h2,h3,h4,h5,h6{
-            margin-top: 0.3rem;
-            margin-bottom: 0.3rem;
-          }
-          .input-group{
-            padding-top: 0.1rem;
-            padding-bottom: 0.1rem;
-          }
-          textarea{
-
-          }
-        }
-      }
-    }
-  }
-}
-
 .card{
   .card-text{
       font-size: 0.8rem;
@@ -213,43 +186,7 @@ ol, ul, dl {
   }
 }
 
-.pagination {
-  margin-top: 0;
-  margin-bottom: 0 !important;
-  border: 1px solid #008cba;
-  font-size: .875rem;
-}
 
-.pagination .page-item:first-child .page-link,
-.pagination .page-item:last-child .page-link,
-.pagination-lg .page-item:first-child .page-link,
-.pagination-lg .page-item:last-child .page-link,
-.pagination-sm .page-item:first-child .page-link,
-.pagination-sm .page-item:last-child .page-link {
-  border-radius: 0 0 0 0;
-}
-.pagination .page-link {
-  border-color: transparent;
-  color: #008cba;
-  border-radius: 0 0 0 0;
-  margin-left: 0.1em;
-  margin-right: 0.1em;
-}
-
-.page-item.active .page-link {
-  z-index: 0 !important;
-  color: #fff;
-  background-color: #008cba;
-  border-color: #0079a1;
-  border-radius: 0 0 0 0;
-}
-
-.page-item.disabled .page-link {
-  background-color: #fff;
-  border-color: #dee2e6;
-  color: #929292;
-  pointer-events: none;
-}
 
 //*** ------------- Screen de type "sm" et inférieur ---------------- ***//
 @media (min-width: 768px) {
