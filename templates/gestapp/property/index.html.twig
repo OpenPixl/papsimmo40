@@ -4,61 +4,10 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="module" src="{{ asset('js/property/index/onload.js') }}"></script>
+    <script type="module" src="{{ asset('js/property/index/endMandat.js') }}"></script>
     <script>
         window.onload = function(){
-
-        // ----------------------------------------------------------------
-        // STEP 0 : A l'initialisation de la page
-        // ----------------------------------------------------------------
-
-            // ajout des tableaux complémentaires
-            axios
-                .get('/gestapp/property/propertyDiffusion')
-                .then(function(response){
-                    document.getElementById('listDiffusion').innerHTML = response.data.listdiffusion
-                })
-            axios
-                .get('/gestapp/property/listarchived')
-                .then(function(response){
-                    document.getElementById("listArchived").innerHTML = response.data.listarchived
-                })
-            const list = document.getElementById('list')
-            const listDiffusion = document.getElementById("listDiffusion")
-            const listArchived = document.getElementById("listArchived")
-            // Afficher le tableau des diffusions pour chaque bien
-            document.getElementById('btnListDiffusion').onclick = function(event){
-                listDiffusion.className = listDiffusion.className !== 'show' ? 'show' : 'hide';
-                if(listDiffusion.className === 'show') {
-                    listDiffusion.style.display = 'block'
-                    list.style.display = 'none'
-                    listArchived.style.display = 'none'
-                    document.getElementById('btnListDiffusion').textContent = 'Retour sur la liste des biens'
-                }
-                if(listDiffusion.className === 'hide') {
-                    listDiffusion.style.display = 'none'
-                    list.style.display = 'block'
-                    listArchived.style.display = 'none'
-                    document.getElementById('btnListDiffusion').textContent = 'Afficher la diffusions des biens'
-                }
-            }
-            // Afficher le tableau des biens archivés
-            document.getElementById('btnMListArchived').onclick = function(event){
-
-                listArchived.className = listArchived.className !== 'show' ? 'show' : 'hide';
-                if(listArchived.className === 'show') {
-                    listArchived.style.display = 'block'
-                    list.style.display = 'none'
-                    listDiffusion.style.display = 'none'
-                    document.getElementById('btnMListArchived').textContent = 'Retour sur la liste des biens'
-                }
-                if(listArchived.className === 'hide') {
-                    listArchived.style.display = 'none';
-                    list.style.display = 'block';
-                    listDiffusion.style.display = 'none'
-                    document.getElementById('btnMListArchived').textContent = 'Afficher les biens archivés'
-                }
-
-            }
 
         // ----------------------------------------------------------------
         // STEP 1 : Après l'initialisation de la page
@@ -352,6 +301,44 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal pour la date de fin de mandat #}
+    <div class="modal fade" id="modalDateEndMandat" tabindex="-1" aria-labelledby="modalDateEndMandat" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">Déclaration de fin de mandat</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="">
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="modal-text">Veuillez sélectionnée la date de fin de mandat.</p>
+                            </div>
+                        </div>
+                        <div class="row justify-content-center">
+                            <div class="col-6">
+                                <div class="input-group mt-3 mb-3">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar"></i></span>
+                                    <input id="dateEndMandat" type="date" class="form-control form-control-sm flatpickr flatpickr-input" name="dateEndMandat">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <p class="modal-text">En validant, ce bien sera mis en archive et ne sera plus publié chez nos partenaires et notre site.</p>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button id="submitDateEndMandat" type="submit" class="btn btn-warning" data-bs-dismiss="modal">Valider</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>

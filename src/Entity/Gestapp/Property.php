@@ -13,6 +13,7 @@ use App\Repository\Gestapp\PropertyRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -182,6 +183,9 @@ class Property
 
     #[ORM\Column]
     private ?bool $isNomandat = false;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateEndmandat = null;
 
     public function __construct()
     {
@@ -890,6 +894,18 @@ class Property
     public function setIsNomandat(bool $isNomandat): self
     {
         $this->isNomandat = $isNomandat;
+
+        return $this;
+    }
+
+    public function getDateEndmandat(): ?\DateTimeInterface
+    {
+        return $this->dateEndmandat;
+    }
+
+    public function setDateEndmandat(?\DateTimeInterface $dateEndmandat): self
+    {
+        $this->dateEndmandat = $dateEndmandat;
 
         return $this;
     }

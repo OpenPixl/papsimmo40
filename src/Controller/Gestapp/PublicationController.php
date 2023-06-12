@@ -4,8 +4,11 @@ namespace App\Controller\Gestapp;
 
 use App\Entity\Gestapp\Publication;
 use App\Form\Gestapp\PublicationType;
+use App\Repository\Gestapp\ComplementRepository;
+use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
+use App\Service\ftptransfertService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,7 +52,14 @@ class PublicationController extends AbstractController
     }
 
     #[Route('/showbyproperty/{id}', name: 'op_admin_contact_showbyproperty', methods: ['GET','POST'])]
-    public function showByProperty(Request $request, Publication $publication, PublicationRepository $publicationRepository, PropertyRepository $propertyRepository): Response
+    public function showByProperty(
+        Request $request,
+        Publication $publication,
+        PublicationRepository $publicationRepository,
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+        ftptransfertService $ftptransfertService): Response
     {
         $form = $this->createForm(PublicationType::class, $publication,[
             'action' => $this->generateUrl('op_admin_contact_showbyproperty', ['id' => $publication->getId()]),
@@ -59,10 +69,15 @@ class PublicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $publicationRepository->add($publication);
-            // mettre la propirété en fin de parcours création
+            // mettre la propriété en fin de parcours création
             $property = $propertyRepository->findOneBy(['publication'=>$publication->getId()]);
             $property->setIsIncreating(0);
             $propertyRepository->add($property);
+            $ftptransfertService->selogerFTP(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository
+            );
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -81,6 +96,7 @@ class PublicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $publicationRepository->add($publication);
+
             return $this->redirectToRoute('app_gestapp_publication_index', [], Response::HTTP_SEE_OTHER);
         }
 

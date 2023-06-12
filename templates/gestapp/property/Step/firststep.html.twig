@@ -65,7 +65,7 @@
                 </div>
         </div>
         <div class="col-sm-9">
-            <table class="table">
+            <table class="table table-sm">
                 <tbody>
                 <tr class="align-middle">
                     <td class="col-1" colspan="3">
@@ -149,6 +149,7 @@
                     <hr>
                     <p>Compléter ces informations pour garantir la publication du bien sur les plateformes de diffusion.</p>
                     <table class="table table-sm table-borderless">
+                        {# partie de code pour les champs "Projets", "PropertyDéfinition" et "sscategory"
                         <tr class="align-middle">
                             <td class="col-5">{{ form_label(form.projet, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
                             <td class="col-6">{{ form_widget(form.projet, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
@@ -168,6 +169,7 @@
                             <td>{{ form_widget(form.sscategory, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
                             <td></td>
                         </tr>
+                        #}
                         <tr id="RowFamily" class="align-middle">
                             <td class="col-5">{{ form_label(form.family, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
                             <td class="col-6">{{ form_widget(form.family, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>

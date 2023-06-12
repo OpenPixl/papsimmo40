@@ -1,12 +1,12 @@
 {% extends 'admin.html.twig' %}
 
-{% block title %}Property{% endblock %}
+{% block title %}SoftPAPs - Gestion d'un bien{% endblock %}
+
 
 {% block javascripts %}
     {{ parent() }}
     <script>
         window.onload = function() {
-
         // ---------------------------------------
         //
         // STEP 0 :
@@ -132,11 +132,13 @@
             // function édition du mandat
 
             const btnAddMandat = document.getElementById('AddMandat')
-            const modalAddMandat = new bootstrap.Modal(document.getElementById('modalAddMandat'),{focus:true,keyboard: false})
-            btnAddMandat.addEventListener('click', function(event){
-                event.preventDefault()
-                modalAddMandat.show
-            })
+            if(btnAddMandat !== null ){
+                const modalAddMandat = new bootstrap.Modal(document.getElementById('modalAddMandat'),{focus:true,keyboard: false})
+                btnAddMandat.addEventListener('click', function(event){
+                    event.preventDefault()
+                })
+            }
+
 
             // initialisation du focus sur le champ refMandat
             const focus = document.getElementById('property_step1_refMandat');
@@ -211,10 +213,13 @@
             const modalPropertyDefinition = document.getElementById('modalPropertyDefinition')
             const PropertyDefinition = new bootstrap.Modal(modalPropertyDefinition, { keyboard: true })
             const addPropertyDefinition = document.getElementById('addPropertyDefinition')
-            addPropertyDefinition.addEventListener('click', function(event){
-                event.preventDefault()
-                PropertyDefinition.show()
-            })
+            if(addPropertyDefinition !== null){
+                addPropertyDefinition.addEventListener('click', function(event){
+                    event.preventDefault()
+                    PropertyDefinition.show()
+                })
+            }
+
 
             // PARTIE Orientation du bien - Envoi du formulaire
             let FormPropertyDefinition = document.getElementById('FormPropertyDefinition')
@@ -1789,7 +1794,7 @@
     {# Etiquettes du panel si le bien est entièrement enregistré #}
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a id="navInformations2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
+            <a id="navInformations2" class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
         </li>
         <li class="nav-item">
             <a id="navCustomers2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>

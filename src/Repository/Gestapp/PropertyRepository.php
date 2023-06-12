@@ -201,7 +201,7 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
-            ->join('p.publication', 'pu')
+            ->leftJoin('p.publication', 'pu')
             ->addSelect('
                 pu.isPublishParven as isPublishParven,
                 pu.isWebpublish as isWebpublish,
@@ -209,6 +209,7 @@ class PropertyRepository extends ServiceEntityRepository
                 pu.isPublishseloger as isPublishseloger,
                 pu.isPublishMeilleur as isPublishMeilleur,
                 pu.isPublishleboncoin as isPublishleboncoin,
+                pu.isPublishfigaro as isPublishfigaro,
                 p.dupMandat as dupMandat,
                 p.id as id,
                 p.ref as ref,

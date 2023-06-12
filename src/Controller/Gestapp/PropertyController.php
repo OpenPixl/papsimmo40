@@ -21,6 +21,7 @@ use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Webapp\choice\CategoryRepository;
+use Doctrine\DBAL\Types\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -694,10 +695,8 @@ class PropertyController extends AbstractController
 
         // Récupération de la page si elle existe
         $page = $request;
-        //dd($page);
 
         $data = $propertyRepository->AllProperties();
-        //dd($data);
 
         $properties = $paginator->paginate(
             $data,
@@ -712,4 +711,31 @@ class PropertyController extends AbstractController
 
     }
 
+    /**
+     * Mettre en place l'archivage d'un bien selon une date de fin de mandat
+     */
+    #[Route('/add_dateendmandat/{id}', name: 'op_gestapp_properties_adddateendmandat', methods: ['POST'])]
+    public function addDateEndMandat(Property $property, PropertyRepository $propertyRepository, Request $request)
+    {
+        $form = $this->createFormBuilder($property)
+            ->add('dateEndmandat', DateType::class)
+            ->getForm();
+        $form->handleRequest($form);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $propertyRepository->add($property);
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le bien sera automatiquement archivée."
+
+            ], 200);
+        }
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Le bien sera automatiquement archivée."
+
+        ], 200);
+
+    }
 }

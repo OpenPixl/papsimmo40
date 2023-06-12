@@ -1,10 +1,11 @@
 <div class="mt-2">
     <p>
         <b>Support des diffusions :</b><br>
-        <span class="badge bg-light text-dark">PV :</span> Paru Vendu |
+        | <span class="badge bg-light text-dark">PV :</span> Paru Vendu |
         <span class="badge bg-light text-dark">SL :</span> Se loger, logic immo |
         <span class="badge bg-light text-dark">MA :</span> Meilleurs agents |
-        <span class="badge bg-light text-dark">LB :</span> Le Bon Coin, A vendre et à louer
+        <span class="badge bg-light text-dark">LB :</span> Le Bon Coin, A vendre et à louer |
+        <span class="badge bg-light text-dark">FIG :</span> Le Figaro Immobilier |
     </p>
 </div>
 <table class="table">
@@ -20,10 +21,7 @@
         <th>Mandat</th>
         <th>Titre annonce</th>
         <th>En ligne</th>
-        <th>PV</th>
-        <th>SL</th>
-        <th>MA</th>
-        <th>LB</th>
+        <th>Publication</th>
         <th>actions</th>
     </tr>
     </thead>
@@ -54,11 +52,16 @@
             <td>{{ property.refMandat }}</td>
             {% endif %}
             <td>{{ property.name|u.truncate(60, ' ...') }}</td>
-            <td>{% if property.isWebpublish == 0 %}<i class="fa-thin fa-globe text-danger"></i>{% else %}<i class="fa-thin fa-globe text-success"></i>{% endif %}</td>
-            <td>{% if property.isPublishParven == 0 %}<i class="fa-light fa-circle-minus text-danger"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
-            <td>{% if property.isPublishseloger == 0 %}<i class="fa-light fa-circle-minus text-danger"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
-            <td>{% if property.isPublishMeilleur == 0 %}<i class="fa-light fa-circle-minus text-danger"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
-            <td>{% if property.isPublishleboncoin == 0 %}<i class="fa-light fa-circle-minus text-danger"></i>{% else %}<i class="fa-sharp fa-light fa-circle-check text-success"></i>{% endif %}</td>
+            <td>
+                {% if property.isWebpublish == 1 %}<i class="fa-thin fa-globe text-success"></i>{% else %}<i class="fa-thin fa-globe text-danger"></i>{% endif %}
+            </td>
+            <td>
+                {% if property.isPublishParven == 1 %}<span class="badge bg-light text-dark">PV</span>{% endif %}
+                {% if property.isPublishseloger == 1 %}<span class="badge bg-light text-dark">SL</span>{% endif %}
+                {% if property.isPublishMeilleur == 1 %}<span class="badge bg-light text-dark">MA</span>{% endif %}
+                {% if property.isPublishleboncoin == 1 %}<span class="badge bg-light text-dark">LB</span>{% endif %}
+                {% if property.isPublishfigaro == 1 %}<span class="badge bg-light text-dark">FIG</span>{% endif %}
+            </td>
             <td>
                 <div id="action_property" class="btn-group">
                     <button type="button" id="action_property" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">

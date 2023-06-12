@@ -1,3 +1,0 @@
-Version=4.09
-Application= PapsSoftware / v1.1
-Devise=Euro
