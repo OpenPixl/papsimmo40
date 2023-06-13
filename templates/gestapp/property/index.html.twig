@@ -315,27 +315,7 @@
                     <h5 class="modal-title text-warning" id="exampleModalLabel">Déclaration de fin de mandat</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div class="modal-body">
-                    <form action="">
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="modal-text">Veuillez sélectionnée la date de fin de mandat.</p>
-                            </div>
-                        </div>
-                        <div class="row justify-content-center">
-                            <div class="col-6">
-                                <div class="input-group mt-3 mb-3">
-                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar"></i></span>
-                                    <input id="dateEndMandat" type="date" class="form-control form-control-sm flatpickr flatpickr-input" name="dateEndMandat">
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-12">
-                                <p class="modal-text">En validant, ce bien sera mis en archive et ne sera plus publié chez nos partenaires et notre site.</p>
-                            </div>
-                        </div>
-                    </form>
+                <div id="modalBodyDateEndMandat" class="modal-body">
                 </div>
                 <div class="modal-footer">
                     <button id="submitDateEndMandat" type="submit" class="btn btn-warning" data-bs-dismiss="modal">Valider</button>
@@ -355,7 +335,7 @@
                 <div class="modal-body">
                     <table class="table table-sm">
                         <tr class="align-middle">
-                            <td class=""><b>Attention :</b> Dans le cas ou vous souhaiteriez créer un bien sans numéro de mandat, <br>veuillez cliquez dans la case suivante.</td>
+                            <td class=""><b>Attention :</b> Dans le cas où vous souhaiteriez créer un bien sans numéro de mandat, <br>veuillez cliquez dans la case suivante.</td>
                             <td><input id="nomandat" type="checkbox" name="nomandat" class="form-check-input"></td>
                         </tr>
                     </table>

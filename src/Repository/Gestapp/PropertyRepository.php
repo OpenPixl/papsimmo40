@@ -105,6 +105,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.family', 'f')
             ->leftJoin('p.rubric', 'ru')
             ->addSelect('
+                p.dateEndmandat as dateEndmandat,
                 ru.name as rubricName,
                 f.code as familycode,
                 p.projet as projet,
@@ -158,6 +159,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.dateEndmandat as dateEndmandat,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 d.name as denomination,
@@ -326,6 +328,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.family', 'f')
             ->leftJoin('p.rubric', 'ru')
             ->addSelect('
+                p.dateEndmandat as dateEndmandat,
                 ru.name as rubricName,
                 f.code as familycode,
                 p.projet as projet,

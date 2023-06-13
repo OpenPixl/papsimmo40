@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
 use App\Form\Gestapp\PropertyAvenantType;
+use App\Form\Gestapp\PropertyEndMandatType;
 use App\Form\Gestapp\PropertyImageType;
 use App\Form\Gestapp\PropertyStep1Type;
 use App\Form\Gestapp\PropertyStep2Type;
@@ -21,7 +22,8 @@ use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Webapp\choice\CategoryRepository;
-use Doctrine\DBAL\Types\DateType;
+use DateTimeZone;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -714,28 +716,115 @@ class PropertyController extends AbstractController
     /**
      * Mettre en place l'archivage d'un bien selon une date de fin de mandat
      */
-    #[Route('/add_dateendmandat/{id}', name: 'op_gestapp_properties_adddateendmandat', methods: ['POST'])]
-    public function addDateEndMandat(Property $property, PropertyRepository $propertyRepository, Request $request)
+    #[Route('/add_dateendmandat/{id}', name: 'op_gestapp_properties_adddateendmandat', methods: ['GET','POST'])]
+    public function addDateEndMandat(Property $property, PropertyRepository $propertyRepository, Request $request, PaginatorInterface $paginator)
     {
-        $form = $this->createFormBuilder($property)
-            ->add('dateEndmandat', DateType::class)
-            ->getForm();
-        $form->handleRequest($form);
+        $form = $this->createForm(PropertyEndMandatType::class, $property, [
+            'action' => $this->generateUrl('op_gestapp_properties_adddateendmandat',['id'=>$property->getId()]),
+            'method' => 'POST'
+        ]);
+
+        $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $propertyRepository->add($property);
-            return $this->json([
-                'code'=> 200,
-                'message' => "Le bien sera automatiquement archivée."
+            $propertyRepository->add($property, true);
 
-            ], 200);
+            $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+            $user = $this->getUser();
+
+            if($hasAccess == true){
+                //$data = $propertyRepository->findAll();
+                // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
+                $data = $propertyRepository->listAllProperties();
+                //dd($data);
+                $properties = $paginator->paginate(
+                    $data,
+                    $request->query->getInt('page', 1),
+                    10
+                );
+                return $this->json([
+                    'code'=> 200,
+                    'message' => "L'annulation de fin de mandat est bien prise en compte",
+                    'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+                        'properties' => $properties,
+                        'user' => $user
+                    ])
+                ], 200);
+            }else{
+                // dans ce cas, nous listons les propriétés de l'utilisateurs courant
+                $data = $propertyRepository->listPropertiesByemployed($user);
+                $properties = $paginator->paginate(
+                    $data,
+                    $request->query->getInt('page', 1),
+                    10
+                );
+                return $this->json([
+                    'code'=> 200,
+                    'message' => "L'annulation de fin de mandat est bien prise en compte",
+                    'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+                        'properties' => $properties,
+                        'user' => $user
+                    ])
+                ], 200);
+            }
         }
-
+        //dd($form);
         return $this->json([
-            'code'=> 200,
-            'message' => "Le bien sera automatiquement archivée."
-
+            'form' => $this->renderForm('gestapp/property/_formdateendmandat.html.twig', [
+                'form' => $form,
+                'property' => $property
+            ])
         ], 200);
 
     }
+
+    /**
+     * Annule l'archivage d'un bien selon une date de fin de mandat
+     */
+    #[Route('/dis_dateendmandat/{id}', name: 'op_gestapp_properties_disdateendmandat', methods: ['GET','POST'])]
+    public function disDateEndMandat(Property $property, PropertyRepository $propertyRepository, Request $request, PaginatorInterface $paginator)
+    {
+        $property->setDateEndmandat(null);
+        $propertyRepository->add($property, true);
+
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        if($hasAccess == true){
+            //$data = $propertyRepository->findAll();
+            // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
+            $data = $propertyRepository->listAllProperties();
+            //dd($data);
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+            return $this->json([
+                'code'=> 200,
+                'message' => "L'annulation de fin de mandat est bien prise en compte",
+                'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+                    'properties' => $properties,
+                    'user' => $user
+                ])
+            ], 200);
+        }else{
+            // dans ce cas, nous listons les propriétés de l'utilisateurs courant
+            $data = $propertyRepository->listPropertiesByemployed($user);
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+            return $this->json([
+                'code'=> 200,
+                'message' => "L'annulation de fin de mandat est bien prise en compte",
+                'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+                    'properties' => $properties,
+                    'user' => $user
+                ])
+            ], 200);
+        }
+    }
+
 }

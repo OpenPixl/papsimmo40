@@ -21,23 +21,23 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
-class PropertyAvenantType extends AbstractType
+class PropertyEndMandatType extends AbstractType
 {
+    public function __construct(private UrlGeneratorInterface $url){
+
+    }
 
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('price', IntegerType::class, [
-                'label' => 'Prix de vente',
-                'required' => false
-            ])
-            ->add('honoraires', IntegerType::class, [
-                'label' => 'honoraires',
-                'required' => false
-            ])
-            ->add('priceFai', IntegerType::class, [
-                'label' => 'Prix FAI',
-                'required' => false
+            ->add('dateEndmandat', DateType::class, [
+                'label'=> 'Date de fin de mandat',
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => false,
+                'by_reference' => true,
             ])
         ;
     }
