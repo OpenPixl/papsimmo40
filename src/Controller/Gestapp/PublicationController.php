@@ -73,7 +73,14 @@ class PublicationController extends AbstractController
             $property = $propertyRepository->findOneBy(['publication'=>$publication->getId()]);
             $property->setIsIncreating(0);
             $propertyRepository->add($property);
+            // Service de dépot sur serveur le serveur FTP "SeLoger"
             $ftptransfertService->selogerFTP(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository
+            );
+            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            $ftptransfertService->figaroFTP(
                 $propertyRepository,
                 $photoRepository,
                 $complementRepository

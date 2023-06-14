@@ -187,6 +187,9 @@ class Property
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateEndmandat = null;
 
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $archivedAt = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -906,6 +909,18 @@ class Property
     public function setDateEndmandat(?\DateTimeInterface $dateEndmandat): self
     {
         $this->dateEndmandat = $dateEndmandat;
+
+        return $this;
+    }
+
+    public function getArchivedAt(): ?\DateTimeInterface
+    {
+        return $this->archivedAt;
+    }
+
+    public function setArchivedAt(?\DateTimeInterface $archivedAt): self
+    {
+        $this->archivedAt = $archivedAt;
 
         return $this;
     }

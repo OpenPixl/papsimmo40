@@ -21,9 +21,7 @@ use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
-use App\Repository\Webapp\choice\CategoryRepository;
-use DateTimeZone;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use App\Service\ArchivePropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,16 +32,26 @@ use Knp\Component\Pager\PaginatorInterface;
 class PropertyController extends AbstractController
 {
     #[Route('/', name: 'op_gestapp_property_index', methods: ['GET'])]
-    public function index(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request  $request): Response
+    public function index(
+        PropertyRepository $propertyRepository,
+        PaginatorInterface $paginator,
+        Request $request,
+        PublicationRepository $publicationRepository,
+        CadasterRepository $cadasterRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+        ArchivePropertyService $archiveProperty
+    ): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
 
+        $archiveProperty->onArchive($propertyRepository);
+        $archiveProperty->DelArchived($propertyRepository, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
+
         if($hasAccess == true){
-            //$data = $propertyRepository->findAll();
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
-            //dd($data);
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -478,6 +486,7 @@ class PropertyController extends AbstractController
     public function archived(Request $request, Property $property, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
     {
         $property->setIsArchived(1);
+        $property->setArchivedAt(new \DateTime('+90 days'));
         $propertyRepository->add($property);
 
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');

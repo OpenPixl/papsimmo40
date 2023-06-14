@@ -6,8 +6,10 @@ namespace App\Service;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use phpseclib3\Net\SSH2;
 use Symfony\Component\HttpFoundation\RequestStack;
 use phpseclib\Net\SFTP;
+use phpseclib\Crypt\RSA;
 use ZipArchive;
 
 class ftptransfertService
@@ -28,7 +30,14 @@ class ftptransfertService
         $request = $this->requestStack->getCurrentRequest();
         $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
 
-        $app = $request->getUri();
+        // Création de l'url pour les photos
+        $fullHttp = $request->getUri();
+        $parsedUrl = parse_url($fullHttp);
+        if (!$parsedUrl['port']){
+            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'];
+        }else{
+            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'];
+        }
 
         $rows = array();
         foreach ($properties as $property){
@@ -108,7 +117,7 @@ class ftptransfertService
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<30; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = 'http://'.$app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
+                        ${'url'.$key+1} = $app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
@@ -585,6 +594,55 @@ class ftptransfertService
                 dd('Erreur');
             }
         }
+
+
+        // IV. Dépôt sur le serveur de FTP
+        $server = 'transferts.seloger.com';
+        $port = 991;
+        $username = 'PapsSoftware';
+        $password = '6O7kwyPu';
+
+        // Connexion au serveur FTP
+        $connId = ftp_ssl_connect($server, $port);
+        if (!$connId) {
+            // Gestion des erreurs de connexion
+            exit('Impossible de se connecter au serveur FTP.');
+        }
+        // Authentification FTP
+        $login = ftp_login($connId, $username, $password);
+        if (!$login) {
+            // Gestion des erreurs d'authentification
+            exit('Erreur lors de l\'authentification FTP.');
+        }
+
+        // Activer le mode passif
+        ftp_pasv($connId, true);
+
+        // Chemin du fichier local à transférer
+        $fullHttp = $request->getUri();
+        $parsedUrl = parse_url($fullHttp);
+        if (!$parsedUrl['port']){
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/RC-1860977.zip';
+        }else{
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'].'/doc/report/RC-1860977.zip';
+        }
+        // Chemin de destination sur le serveur FTP
+        $cheminDestination = 'RC-1860977.zip';
+
+        // Ouvrir le fichier local en lecture
+        $fp = fopen($fichierLocal, 'r');
+
+        // Transfert du fichier
+        if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
+            echo 'Le fichier a été transféré avec succès.';
+        } else {
+            // Gestion des erreurs de transfert
+            echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
+        }
+
+        // Fermeture du flux et de la connexion FTP
+        fclose($fp);
+        ftp_close($connId);
     }
 
     public function figaroFTP(
@@ -596,7 +654,15 @@ class ftptransfertService
         $request = $this->requestStack->getCurrentRequest();
         // PARTIE I : Génération du fichier CSV
         $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
-        $app = $request->getUri();    // On récupère l'url de l'appl pour les url des photos
+
+        // Création de l'url pour les photos
+        $fullHttp = $request->getUri();
+        $parsedUrl = parse_url($fullHttp);
+        if (!$parsedUrl['port']){
+            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'];
+        }else{
+            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'];
+        }
 
         $rows = array();                                                    // Construction du tableau
         foreach ($properties as $property){
@@ -639,7 +705,7 @@ class ftptransfertService
                 $dpeAt ="";
             }
 
-            // Préparation de la date de réation mandat
+            // Préparation de la date de création mandat
             if ($property['mandatAt'] instanceof \DateTime) {
                 $mandatAt = $property['mandatAt']->format('d/m/Y');
             }else{
@@ -676,7 +742,7 @@ class ftptransfertService
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<30; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = 'http://'.$app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
+                        ${'url'.$key+1} = $app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
@@ -1155,24 +1221,44 @@ class ftptransfertService
             }
         }
 
-        $ftp = new FTP('figarocms.fr');
-        if (!$ftp->login('tld-openpixl', '8fRa!Qfj4#')) {
+        // IV. Dépôt sur le serveur de FTP
+        $server = 'ftp.figarocms.fr';
+        $port = 21;
+        $username = 'tld-openpixl';
+        $password = '8fRa!Qfj4#';
+        // Connexion au serveur FTP
+        $connId = ftp_connect($server, $port);
+        if (!$connId) {
             // Gestion des erreurs de connexion
             exit('Impossible de se connecter au serveur FTP.');
         }
-        // Chemin du fichier local à transférer
-        $fichierLocal = '/chemin/vers/votre/fichier.txt';
+        // Authentification FTP
+        $login = ftp_login($connId, $username, $password);
+        if (!$login) {
+            // Gestion des erreurs d'authentification
+            exit('Erreur lors de l\'authentification FTP.');
+        }
 
+        // Chemin du fichier local à transférer
+        $fullHttp = $request->getUri();
+        $parsedUrl = parse_url($fullHttp);
+        if (!$parsedUrl['port']){
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/107428.zip';
+        }else{
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'].'/doc/report/107428.zip';
+        }
         // Chemin de destination sur le serveur FTP
-        $cheminDestination = '/chemin/de/destination/fichier.txt';
+        $cheminDestination = '107428.zip';
 
         // Transfert du fichier
-        if (!$ftp->put($cheminDestination, $fichierLocal, FTP::SOURCE_LOCAL_FILE)) {
+        if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
+            echo 'Le fichier a été transféré avec succès.';
+        } else {
             // Gestion des erreurs de transfert
-            exit('Erreur lors du transfert du fichier sur le serveur FTP.');
+            echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
         }
 
         // Fermeture de la connexion FTP
-        $ftp->disconnect();
+        ftp_close($connId);
     }
 }

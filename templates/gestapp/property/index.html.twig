@@ -136,12 +136,10 @@
                         document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                             link.addEventListener('click', DelPropertyIncreating)
                         })
-
                         // Mise en place de l'évenement pour la suppression d'un bien
                         document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
                             link.addEventListener('click', DelProperty)
                         })
-
                         // initialisation du toaster
                         var toastHTMLElement = document.getElementById("toaster")
                         var message = response.data.message
