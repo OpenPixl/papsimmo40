@@ -653,7 +653,7 @@ class ftptransfertService
     {
         $request = $this->requestStack->getCurrentRequest();
         // PARTIE I : Génération du fichier CSV
-        $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
+        $properties = $propertyRepository->reportpropertyfigaroFTP();            // On récupère les biens à publier sur SeLoger
 
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
@@ -844,6 +844,9 @@ class ftptransfertService
                 $diagDPEChoice = "NS";
                 $diagGESChoice = "NS";
             }
+
+            // création SSfamille
+            $ssfamile = $property['ssfamille'];
 
 
             // Création d'une ligne du tableau

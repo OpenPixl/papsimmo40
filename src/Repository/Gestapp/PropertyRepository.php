@@ -904,6 +904,87 @@ class PropertyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // ----------------------------------------------
+    // Partie Admin
+    // Requête : Recherche les biens pour le dépot FTP FigaroImmo
+    // ----------------------------------------------
+    public function reportpropertyfigaroFTP()
+    {
+        $query = $this->createQueryBuilder('p');
+        $query->join('p.refEmployed', 'e');
+        $query->join('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->leftJoin('c.denomination', 'd');
+        $query->join('p.propertyDefinition', 'pd');
+        $query->join('p.publication', 'pu');
+        $query->leftjoin('p.sscategory', 'ss');
+        $query->leftjoin('c.propertyOrientation', 'po');
+        $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->where('pu.isPublishseloger = 1');            // filtre sur la publication Paru-Vendu
+        $query->leftjoin('p.family', 'f');
+        $query->leftjoin('p.rubric', 'ru');
+        $query->leftjoin('p.rubricss', 'rus');
+        $query->andWhere('p.isArchived = 0');
+        $query->andWhere('p.isNomandat = 0');
+        $query->select('
+                f.code as familyCode,
+                ru.code as rubricCode,
+                rus.code as rubricssCode,
+                pu.isPublishleboncoin AS leboncoin,
+                pu.isPublishMeilleur AS seloger,
+                c.wc as wc,
+                c.washroom AS washroom,
+                c.sanitation as sanitation,
+                p.eeaYear AS RefDPE,
+                p.diagChoice AS diagChoice,                
+                c.coproprietyTaxe as chargeCopro,
+                c.coproperty as copro,
+                pe.name AS energy,
+                pe.slCode AS slCode,
+                c.disponibilityAt as disponibilityAt,
+                po.name AS orientation,
+                p.mandatAt as mandatAt,
+                p.isArchived as isArchived,
+                pd.code as propertyCode,
+                pd.name as propertyDefinition,
+                ss.code as ssCategory,
+                c.id AS idComplement,
+                c.bathroom as bathroom,
+                c.balcony as balcony,
+                c.terrace as terrace,
+                c.isFurnished as isFurnished,
+                c.level as level,
+                c.coproperty as coproperty,
+                e.email as email,
+                e.gsm as gsm,
+                e.firstName as firstName,
+                e.lastName AS lastName,
+                p.dupMandat as dup,
+                p.projet as projet,
+                p.isWithExclusivity as isWithExclusivity,
+                p.price,
+                p.ref AS ref,
+                p.dpeAt as dpeAt, 
+                p.dpeEstimateEnergyDown as dpeEstimateEnergyDown,
+                p.dpeEstimateEnergyUp as dpeEstimateEnergyUp,
+                p.constructionAt as constructionAt,
+                p.piece as piece,
+                p.room as room,
+                p.surfaceLand as surfaceLand,
+                p.surfaceHome as surfaceHome,
+                p.priceFai,
+                p.diagGes as diagGes,
+                p.diagDpe as diagDpe,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.adress as adress,
+                p.annonce as annonce,
+                p.name as name,
+                p.RefMandat as refMandat,
+                p.id as id
+            ');
+        return $query->getQuery()->getResult();
+    }
+
     // /**
     //  * @return Property[] Returns an array of Property objects
     //  */

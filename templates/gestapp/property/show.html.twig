@@ -355,10 +355,12 @@
             // Opération sur changement du select Rubrique
             rubric.addEventListener('change', function(event){
                 let RubValue = parseInt(this.value)
+                console.log(RubValue)
                 axios
                     .get('/gestapp/choice/property/family/rubricss/' + RubValue)
                     .then(function(response){
                         let rubricsValues = response.data.rubricss
+                        console.log(rubricsValues)
                         // suppression des options du select
                         removeOptions(rubricss);
                         if(rubricsValues.length >= 1){
