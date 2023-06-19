@@ -98,9 +98,9 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
-            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftjoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
-            ->join('p.propertyDefinition', 'pd')
+            ->leftjoin('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->leftJoin('p.family', 'f')
             ->leftJoin('p.rubric', 'ru')
@@ -154,9 +154,9 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
-            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftjoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
-            ->join('p.propertyDefinition', 'pd')
+            ->leftjoin('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
                 p.dateEndmandat as dateEndmandat,
@@ -324,7 +324,10 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
-            ->join('p.propertyDefinition', 'pd')
+            ->leftjoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftJoin('c.banner', 'b')
+            ->leftjoin('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
             ->leftJoin('p.family', 'f')
             ->leftJoin('p.rubric', 'ru')
             ->addSelect('
@@ -671,9 +674,9 @@ class PropertyRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p');
         $query->join('p.refEmployed', 'e');
-        $query->join('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->leftjoin('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
         $query->leftjoin('c.denomination', 'd');
-        $query->join('p.propertyDefinition', 'pd');
+        $query->leftjoin('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
@@ -750,9 +753,9 @@ class PropertyRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p');
         $query->join('p.refEmployed', 'e');
-        $query->join('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->leftjoin('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
         $query->leftjoin('c.denomination', 'd');
-        $query->join('p.propertyDefinition', 'pd');
+        $query->leftjoin('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
@@ -831,14 +834,13 @@ class PropertyRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p');
         $query->join('p.refEmployed', 'e');
-        $query->join('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
-        $query->leftJoin('c.denomination', 'd');
-        $query->join('p.propertyDefinition', 'pd');
+        $query->leftjoin('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->leftjoin('c.denomination', 'd');
+        $query->leftjoin('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
         $query->leftjoin('c.propertyEnergy', 'pe');
-        $query->where('pu.isPublishseloger = 1');            // filtre sur la publication Paru-Vendu
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -912,14 +914,13 @@ class PropertyRepository extends ServiceEntityRepository
     {
         $query = $this->createQueryBuilder('p');
         $query->join('p.refEmployed', 'e');
-        $query->join('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
-        $query->leftJoin('c.denomination', 'd');
-        $query->join('p.propertyDefinition', 'pd');
+        $query->leftjoin('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->leftjoin('c.denomination', 'd');
+        $query->leftjoin('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
         $query->leftjoin('c.propertyEnergy', 'pe');
-        $query->where('pu.isPublishseloger = 1');            // filtre sur la publication Paru-Vendu
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
