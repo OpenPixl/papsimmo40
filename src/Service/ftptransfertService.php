@@ -30,6 +30,8 @@ class ftptransfertService
         $request = $this->requestStack->getCurrentRequest();
         $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
 
+        //dd($properties);
+
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
         $parsedUrl = parse_url($fullHttp);
