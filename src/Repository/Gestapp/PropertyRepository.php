@@ -769,7 +769,9 @@ class PropertyRepository extends ServiceEntityRepository
         $query->select('
                 f.code as familyCode,
                 ru.code as rubricCode,
+                ru.name as rubricName,
                 rus.code as rubricssCode,
+                rus.name as rubricssName,
                 pu.isPublishleboncoin AS leboncoin,
                 pu.isPublishMeilleur AS seloger,
                 c.wc as wc,

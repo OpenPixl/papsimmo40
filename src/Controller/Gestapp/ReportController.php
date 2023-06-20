@@ -187,7 +187,7 @@ class ReportController extends AbstractController
     {
         $properties = $propertyRepository->reportpropertycsv2();
 
-        //dd($properties);
+        dd($properties);
 
         $app = $this->container->get('router')->getContext()->getHost();
         //dd($properties);
@@ -383,7 +383,7 @@ class ReportController extends AbstractController
                 '"papsimmo"',                                               // 1 - Identifiant Agence
                 '"'.$refProperty.'"',                                   // 2 - Référence agence du bien
                 '"Vente"',                                                  // 3 - Type d’annonce
-                '"'.$bien.'"',                                              // 4 - Type de bien
+                '"'.$property['rubricName'].'"',                                              // 4 - Type de bien
                 '"'.$property['zipcode'].'"',                               // 5 - CP
                 '"'.$property['city'].'"',                                  // 6 - Ville
                 '"France"',                                                 // 7 - Pays
@@ -707,7 +707,7 @@ class ReportController extends AbstractController
                 '""',                                                       // 325 - Version DPE
                 '"'.$property['dpeEstimateEnergyDown'].'"',                 // 326 - DPE coût min conso
                 '"'.$property['dpeEstimateEnergyUp'].'"',                   // 327 - DPE coût max conso
-                '"'.$RefDPE.'"',                                // 328 - DPE date référence conso
+                '"'.$RefDPE.'"',                                            // 328 - DPE date référence conso
                 '""',                                                       // 329 - Surface terrasse
                 '""',                                                       // 330 - DPE coût conso annuelle
                 '""',                                                       // 331 - Loyer de base
