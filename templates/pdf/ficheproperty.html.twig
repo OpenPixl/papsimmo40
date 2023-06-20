@@ -24,7 +24,20 @@
         {{ include('pdf/include/_headerpdf.html.twig') }}
         <div id="Details">
             <div id="Title">
-                <h2 class="title-h2">INFO - {{ property.name }}</h2>
+                {% set texte = property.name %}
+                {% set mots = texte|split(' ') %}
+                {% set nouveau_texte = '' %}
+                {% set compteur = 0 %}
+
+                {% for mot in mots %}
+                    {% if compteur == 10 %}
+                        {% set nouveau_texte = nouveau_texte ~ '<br>' %}
+                        {% set compteur = 0 %}
+                    {% endif %}
+                    {% set nouveau_texte = nouveau_texte ~ mot ~ ' ' %}
+                    {% set compteur = compteur + 1 %}
+                {% endfor %}
+                <h2 class="title-h2">{{ nouveau_texte| }}</h2>
             </div>
             <div id="Content" class="row">
                 <div id="FirstImg" class="col-50">

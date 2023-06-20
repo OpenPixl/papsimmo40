@@ -846,6 +846,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
+        $query->where('pu.isPublishseloger = 1');
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
         $query->select('
@@ -926,6 +927,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
+        $query->where('pu.isPublishfigaro = 1');
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
         $query->select('
