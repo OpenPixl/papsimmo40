@@ -19,6 +19,7 @@
         {% endif %}
         <th>Ref</th>
         <th>Mandat</th>
+        <th>Prix</th>
         <th>Titre annonce</th>
         <th>En ligne</th>
         <th>Publication</th>
@@ -51,6 +52,7 @@
             {% else %}
             <td>{{ property.refMandat }}</td>
             {% endif %}
+            <td>{{ property.priceFai }}€</td>
             <td>{{ property.name|u.truncate(60, ' ...') }}</td>
             <td>
                 {% if property.isWebpublish == 1 %}<i class="fa-thin fa-globe text-success"></i>{% else %}<i class="fa-thin fa-globe text-danger"></i>{% endif %}
