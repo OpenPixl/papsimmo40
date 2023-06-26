@@ -225,7 +225,7 @@ class ftptransfertService
 
             // Création d'une ligne du tableau
             $data = array(
-                '"RC-1860977"',                                               // 1 - Identifiant Agence
+                '"RC-1860977"',                                             // 1 - Identifiant Agence
                 '"'.$property['ref'].'"',                                   // 2 - Référence agence du bien
                 '"Vente"',                                                  // 3 - Type d’annonce
                 '"'.$bien.'"',                                              // 4 - Type de bien
@@ -655,7 +655,7 @@ class ftptransfertService
     {
         $request = $this->requestStack->getCurrentRequest();
         // PARTIE I : Génération du fichier CSV
-        $properties = $propertyRepository->reportpropertyfigaroFTP();            // On récupère les biens à publier sur SeLoger
+        $properties = $propertyRepository->reportpropertyfigaroFTP();           // On récupère les biens à publier sur SeLoger
 
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
@@ -666,7 +666,7 @@ class ftptransfertService
             $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'];
         }
 
-        $rows = array();                                                    // Construction du tableau
+        $rows = array();                                                        // Construction du tableau
         foreach ($properties as $property){
             // Description de l'annonce
             $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );

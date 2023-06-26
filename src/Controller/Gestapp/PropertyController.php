@@ -190,6 +190,7 @@ class PropertyController extends AbstractController
     {
         // Vérification si property été dupliqué
         $dup = $property->getDupMandat();
+        $ref = $property->getRef();
         if($dup){
             $dup++;
             //dd($dup);
@@ -216,6 +217,7 @@ class PropertyController extends AbstractController
         $dupproperty = clone $property;
 
         // Numéro de duplicata
+        $dupproperty->setRef($ref.$dup);
         $dupproperty->setDupMandat($dup);
         $dupproperty->setOptions($dupcomplement);
         $dupproperty->setPublication($dupublication);
