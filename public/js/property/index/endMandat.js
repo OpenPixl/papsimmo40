@@ -35,21 +35,23 @@ submitDateEndMandat.addEventListener('click', function(event){
 });
 
 // Annule la procédure de mise du bien hors mandat
-disDateEndMandat.addEventListener('click', function(event){
-    event.preventDefault();
-    let recipient = this.getAttribute('data-bs-whatever');
-    let url = '/gestapp/property/dis_dateendmandat/' + recipient;
-    axios
-        .get(url)
-        .then(function(response){
-            const liste = document.getElementById('list').innerHTML = response.data.liste;
-            // initialisation du toaster
-            var toastHTMLElement = document.getElementById("toaster");
-            var message = response.data.message;
-            var toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
-            toastBody.innerHTML = message;
-            var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,});
-            toastElement.show();
-        })
-    ;
-});
+if(disDateEndMandat){
+    disDateEndMandat.addEventListener('click', function(event){
+        event.preventDefault();
+        let recipient = this.getAttribute('data-bs-whatever');
+        let url = '/gestapp/property/dis_dateendmandat/' + recipient;
+        axios
+            .get(url)
+            .then(function(response){
+                const liste = document.getElementById('list').innerHTML = response.data.liste;
+                // initialisation du toaster
+                var toastHTMLElement = document.getElementById("toaster");
+                var message = response.data.message;
+                var toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                toastBody.innerHTML = message;
+                var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,});
+                toastElement.show();
+            })
+        ;
+    });
+}

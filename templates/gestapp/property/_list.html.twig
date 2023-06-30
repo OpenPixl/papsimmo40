@@ -86,10 +86,12 @@
                     <ul  class="dropdown-menu" aria-labelledby="action_property">
                         <li><a class="dropdown-item" href="{{ path('op_gestapp_property_show', {'id': property.id}) }}"><i class="fa-duotone fa-file-pen"></i> Consulter la fiche du bien</a></li>
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-duotone fa-print"></i> Imprimer la fiche</a></li>
-                        {% if property.dateEndmandat is not null %}
-                        <li><a class="dropdown-item" id="btnDisDateEndMandat" href="" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-calendar-minus"></i> Annuler la fin de mandat</a></li>
-                        {% else %}
-                        <li><a class="dropdown-item" id="btnModalDateEndMandat" href="#" data-bs-toggle="modal" data-bs-target="#modalDateEndMandat" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-calendar-plus"></i> Mettre une fin de mandat</a></li>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if property.dateEndmandat is not null %}
+                                <li><a class="dropdown-item" id="btnDisDateEndMandat" href="" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-calendar-minus"></i> Annuler la fin de mandat</a></li>
+                            {% else %}
+                                <li><a class="dropdown-item" id="btnModalDateEndMandat" href="#" data-bs-toggle="modal" data-bs-target="#modalDateEndMandat" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-calendar-plus"></i> Mettre une fin de mandat</a></li>
+                            {% endif %}
                         {% endif %}
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ path('op_gestapp_property_duplicate', {'id': property.id}) }}"><i class="fa-duotone fa-copy"></i> Dupliquer la fiche</a></li>
@@ -99,7 +101,7 @@
                         #}
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><hr class="dropdown-divider"></li>
-                            <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Archiver le bien</a>
+                            <li><a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-taped"></i> Archiver le bien</a></li>
                         {% endif %}
                     </ul>
                 </div>

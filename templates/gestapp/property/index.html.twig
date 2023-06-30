@@ -172,19 +172,15 @@
                 modalFooterA.href = '/gestapp/property/increatingdel/' + recipient
             })
 
-            // Mise en place de l'évenement pour la suppression d'un bien en cours de création
-            document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
-                link.addEventListener('click', DelPropertyIncreating)
-            })
-
-            // Mise en place de l'évenement pour la suppression d'un bien
-            document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
-                link.addEventListener('click', DelProperty)
-            })
+            // Code d'ouverture de la modale de suppression d'un bien archivé
+            const ModalSupprCreating = document.getElementById('SupprCreating')
+            function SupprCreating(event){
+                console.log('Ok')
+            }
 
             // PARTIE : Archivages de plusieurs biens
             // -----------------------
-            // sélectionner toutes les checkBoxs à partir de la checkbox du ht de page
+            // sélectionner toutes les checkBox's à partir de la checkbox du ht de page
             let arrayCheckbox = []
             document.getElementById('CheckAllProperties').onclick = function() {
                 let checkboxes = document.getElementsByName('CheckProperty');
@@ -209,6 +205,20 @@
                     console.log(arrayCheckbox)
                 }
             }
+
+            // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+            document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
+                link.addEventListener('click', DelPropertyIncreating)
+            })
+
+            // Mise en place de l'évenement pour la suppression d'un bien
+            document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
+                link.addEventListener('click', DelProperty)
+            })
+
+            // Mise en place de l'évenement pour la suppression d'un bien
+            const dropdownItems = document.querySelectorAll('.ModalSupprCreating');
+            console.log(dropdownItems)
 
         }
     </script>
@@ -277,7 +287,7 @@
                 </div>
                 <div class="modal-body">
                     <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
-                    <input type="hidden" id="recipient-name">
+                    <input type="text" id="recipient-name">
                 </div>
                 <div class="modal-footer">
                     <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>

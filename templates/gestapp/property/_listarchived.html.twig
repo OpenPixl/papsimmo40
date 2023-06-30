@@ -71,11 +71,12 @@
                         #}
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><hr class="dropdown-divider"></li>
-                            <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Publish-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Désarchiver</a>
-
+                            <li><a class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Publish-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-open"></i> Désarchiver</a></li>
+                            <li><a class="dropdown-item ModalSupprCreating" data-bs-toggle="modal" data-bs-target="#SupprCreating" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a></li>
                         {% endif %}
                     </ul>
                 </div>
+                <a class="btn btn-sm btn-outline-warning ModalSupprCreating" data-bs-toggle="modal" data-bs-target="#SupprCreating" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
                 {# Modal de suppression property #}
                 <div class="modal fade" id="Suppr2-{{ property.id }}" tabindex="-1" aria-labelledby="Suppr2-{{ property.id }}" aria-hidden="true">
                     <div class="modal-dialog">
