@@ -14,8 +14,8 @@
 
                         <div class="card-img-overlay">
                             <div class="name">
-                                {{ property.propertyDefinition }}  |
-                                {{ property.denomination }} |
+                                {{ property.rubric }}  |
+                                {{ property.rubric }} |
                                 {% if property.idpropertyDefinition == 5 or property.idpropertyDefinition == 15 or property.idpropertyDefinition == 16 or property.idpropertyDefinition == 19 or property.idpropertyDefinition == 20 or property.idpropertyDefinition == 23 %}
                                 {{ property.surfaceLand }} m2
                                 {% else %}
@@ -90,7 +90,7 @@
         </div>
     {% else %}
         <div class="row justify-content-center g-2">
-            <div class="flickity-button-white" data-flickity='{"resize":false, "pageDots": false,"cellAlign": "left", "wrapAround": true, "imagesLoaded": true, "freeScroll": true }'>
+            {# <div class="flickity-button-white" data-flickity='{"resize":false, "pageDots": false,"cellAlign": "left", "wrapAround": true, "imagesLoaded": true, "freeScroll": true }'> #}
                 {% for property in properties %}
                     <div class="col-xs-12 col-sm-6 col-md-6 col-xl-4 col-xxl-4 p-4 g-3">
                         <div id="member-card" class="card">
@@ -104,9 +104,9 @@
                                 {% endif %}
 
                                 <div class="name">
-                                    {{ property.propertyDefinition }}  |
-                                    {{ property.denomination }} |
-                                    {% if property.idpropertyDefinition == 5 or property.idpropertyDefinition == 15 or property.idpropertyDefinition == 16 or property.idpropertyDefinition == 19 or property.idpropertyDefinition == 20 or property.idpropertyDefinition == 23 %}
+                                    {{ property.rubric }} |
+                                    {{ property.rubricss }} |
+                                    {% if property.idrubric == 56 or property.idrubric == 58 or property.idrubric == 50 or property.idrubric == 43 or property.idrubric == 22 or property.idrubric == 29 or property.idrubric == 52 or property.idrubric == 57 %}
                                         {{ property.surfaceLand }} m2
                                     {% else %}
                                         {{ property.surfaceHome}} m2
@@ -171,10 +171,9 @@
                             </svg>
                             <a href="{{ path('op_gestapp_properties_oneproperty', {'id': property.id}) }}" class="stretched-link"></a>
                         </div>
-
                     </div>
                 {% endfor %}
-            </div>
+            {# </div>  #}
         </div>
     {% endif %}
 
