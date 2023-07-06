@@ -186,8 +186,7 @@ class ReportController extends AbstractController
     public function PropertyCSV2(PropertyRepository $propertyRepository, PhotoRepository $photoRepository, ComplementRepository $complementRepository): Response
     {
         $properties = $propertyRepository->reportpropertycsv2();
-
-        dd($properties);
+        //dd($properties);
 
         $app = $this->container->get('router')->getContext()->getHost();
         //dd($properties);
