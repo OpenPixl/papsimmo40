@@ -549,7 +549,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
-            ->join('p.propertyDefinition', 'pd')
+            ->leftjoin('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->leftJoin('p.publication', 'pu')
             ->addSelect('
