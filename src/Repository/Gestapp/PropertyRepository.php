@@ -350,6 +350,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.ref as ref,
                 p.RefMandat as refMandat,
                 p.name as name,
+                p.priceFai AS priceFai,
                 e.id as refEmployed,
                 e.firstName as firstName,
                 e.lastName as lastName,

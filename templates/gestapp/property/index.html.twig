@@ -206,6 +206,38 @@
                 }
             }
 
+            function removeOptions(selectElement) {
+                var i, L = selectElement.options.length - 1;
+                for(i = L; i >= 0; i--) {
+                    selectElement.remove(i);
+                }
+            }
+
+            function modalTransferate(event){
+                event.preventDefault();
+                let a = event.originalTarget.getAttribute('data-bs-whatever')
+                let modal = document.getElementById('modalTransferate')
+                let SelectEmployed = document.getElementById('SelectEmployed')
+                let form = document.getElementById('transferateForm')
+                form.action = "/gestapp/property/transferate/" + a
+                axios
+                    .get('/opadmin/selectemployed/')
+                    .then(function(response){
+                        let categoriesValues = response.data.employeds
+                        // suppression des options du select
+                        removeOptions(SelectEmployed);
+                        categoriesValues.forEach((element) => {
+                            if (element.id === parseInt(categoriesValues)){
+                                let newOption = new Option (element.firstName+" "+element.lastName, element.id, false, true);
+                                SelectEmployed.options.add (newOption);
+                            }else{
+                                let newOption = new Option (element.firstName+" "+element.lastName, element.id);
+                                SelectEmployed.options.add (newOption);
+                            }
+                        })
+                    })
+            }
+
             // Mise en place de l'évenement pour la suppression d'un bien en cours de création
             document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                 link.addEventListener('click', DelPropertyIncreating)
@@ -216,9 +248,9 @@
                 link.addEventListener('click', DelProperty)
             })
 
-            // Mise en place de l'évenement pour la suppression d'un bien
-            const dropdownItems = document.querySelectorAll('.ModalSupprCreating');
-            console.log(dropdownItems)
+            document.querySelectorAll('a.Modaltransferate').forEach(function(link){
+                link.addEventListener('click', modalTransferate)
+            })
 
         }
     </script>
@@ -314,7 +346,32 @@
             </div>
         </div>
     </div>
+    {# Modal de duplication vers un collaborateur #}
+    <div class="modal fade" id="modalTransferate" tabindex="-1" aria-labelledby="modalTransferate" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">Transfert d'un bien vers un collaborateur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form id="transferateForm" action="#" method="post">
+                <div class="modal-body">
+                    <p class="modal-text">Vous êtes sur le point de transférer le bien :</p>
+                    <p>Veuillez choisir un collaborateur :</p>
 
+                        <select id="SelectEmployed" class="form-select form-select-sm" aria-label="Default select example" name="SelectEmployed">
+
+                        </select>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-sm btn-warning" data-bs-dismiss="modal">Transférer</button>
+                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
+                </div>
+                </form>
+            </div>
+        </div>
+    </div>
     {# Modal pour la date de fin de mandat #}
     <div class="modal fade" id="modalDateEndMandat" tabindex="-1" aria-labelledby="modalDateEndMandat" aria-hidden="true">
         <div class="modal-dialog">

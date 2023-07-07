@@ -40,6 +40,16 @@ class EmployedController extends AbstractController
         ]);
     }
 
+    #[Route('/opadmin/selectemployed/', name: 'op_admin_employed_selectemployed', methods: ['GET'])]
+    public function selectemployed(EmployedRepository $employedRepository): Response
+    {
+        $employeds = $employedRepository->selectEmployed();
+        return $this->json([
+            'code' => '200',
+            'employeds' => $employeds
+        ],200);
+    }
+
     #[Route('/opadmin/employed/changepassword/{id}', name: 'op_admin_employed_changepassword', methods: ['GET'])]
     public function changePassword(Employed $employed){
 

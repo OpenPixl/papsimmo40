@@ -75,6 +75,22 @@ class EmployedRepository extends ServiceEntityRepository implements PasswordUpgr
             ;
     }
 
+    public function selectEmployed()
+    {
+        return $this->createQueryBuilder('e')
+            ->select('
+                e.id as id,
+                e.firstName as firstName,
+                e.lastName as lastName
+            ')
+            ->andWhere('e.isVerified = :isVerified')
+            ->setParameter('isVerified', 1)
+            ->orderBy('e.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Employed[] Returns an array of Employed objects
     //  */

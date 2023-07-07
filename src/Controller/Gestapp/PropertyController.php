@@ -234,6 +234,61 @@ class PropertyController extends AbstractController
 
     }
 
+    #[Route('/transferate/{id}', name:'op_gestapp_property_duplicate', methods: ['GET', 'POST'])]
+    public function transferate(
+        Property $property,
+        ComplementRepository $complementRepository,
+        PublicationRepository $publicationRepository,
+        PropertyRepository $propertyRepository,
+        EmployedRepository $employedRepository,
+        Request $request
+    )
+    {
+        $idemployed = $request->request->get('SelectEmployed');
+        $employed = $employedRepository->find($idemployed);
+
+        // Vérification si property été dupliqué
+        $dup = $property->getDupMandat();
+        $ref = $property->getRef();
+        if($dup){
+            $dup++;
+            //dd($dup);
+        }else{
+            $dup = 'A';
+        }
+
+        // Clonage des options de la propriété
+        $complement = $property->getOptions();
+        $dupcomplement = clone $complement;
+        $complementRepository->add($dupcomplement);
+
+        // Clonage des publications de la propriété
+        $publication = $property->getPublication();
+        $dupublication = clone $publication;
+        $dupublication->setIsWebpublish(0);
+        $dupublication->setIsPublishParven(0);
+        $dupublication->setIsPublishMeilleur(0);
+        $dupublication->setIsPublishleboncoin(0);
+        $dupublication->setIsPublishseloger(0);
+        $publicationRepository->add($dupublication);
+
+        // Clonage de la propriété
+        $dupproperty = clone $property;
+
+        // Numéro de duplicata
+        $dupproperty->setRef($ref.$dup);
+        $dupproperty->setRefEmployed($employed);
+        $dupproperty->setDupMandat($dup);
+        $dupproperty->setOptions($dupcomplement);
+        $dupproperty->setPublication($dupublication);
+        $dupproperty->setIsIncreating(0);
+
+        //dd($dupproperty);
+        $propertyRepository->add($dupproperty);
+
+        return $this->redirectToRoute('op_gestapp_property_index');
+    }
+
     #[Route('/add/{isNomandat}/{refMandat}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
     public function add(
         PropertyRepository $propertyRepository,
