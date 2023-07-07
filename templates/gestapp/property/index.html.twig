@@ -215,7 +215,8 @@
 
             function modalTransferate(event){
                 event.preventDefault();
-                let a = event.originalTarget.getAttribute('data-bs-whatever')
+                console.log(event.delegateTarget)
+                let a = event.delegateTarget.getAttribute('id')
                 let modal = document.getElementById('modalTransferate')
                 let SelectEmployed = document.getElementById('SelectEmployed')
                 let form = document.getElementById('transferateForm')

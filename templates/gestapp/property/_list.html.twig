@@ -95,7 +95,7 @@
                         {% endif %}
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ path('op_gestapp_property_duplicate', {'id': property.id}) }}"><i class="fa-duotone fa-copy"></i> Dupliquer la fiche</a></li>
-                        <li><a type="button" class="dropdown-item Modaltransferate" data-bs-toggle="modal" data-bs-target="#modalTransferate" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-copy"></i> Dupliquer et transférer la fiche</a></li>
+                        <li><a id="{{ property.id }}" type="button" class="dropdown-item Modaltransferate" data-bs-toggle="modal" data-bs-target="#modalTransferate" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-copy"></i> Dupliquer et transférer la fiche</a></li>
                         {#
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_dip', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat DIP</a></li>
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
