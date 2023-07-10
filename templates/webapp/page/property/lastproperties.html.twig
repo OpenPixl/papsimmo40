@@ -14,8 +14,8 @@
 
                         <div class="card-img-overlay">
                             <div class="name">
-                                {{ property.rubric }}  |
                                 {{ property.rubric }} |
+                                {{ property.rubricss }} |
                                 {% if property.idpropertyDefinition == 5 or property.idpropertyDefinition == 15 or property.idpropertyDefinition == 16 or property.idpropertyDefinition == 19 or property.idpropertyDefinition == 20 or property.idpropertyDefinition == 23 %}
                                 {{ property.surfaceLand }} m2
                                 {% else %}
@@ -26,7 +26,7 @@
                                 {{ property.city }}
                             </div>
                             <div class="annonce">
-                                {{ property.annonce|u.truncate(60, ' ...')|markdown_to_html }}
+                                {{ property.name|u.truncate(60, ' ...')|e('html') }}
                             </div>
                             <div class="price">
                                 {{ property.priceFai }} €
@@ -116,7 +116,7 @@
                                     {{ property.city }}
                                 </div>
                                 <div class="annonce">
-                                    {{ property.annonce|u.truncate(60, ' ...')|markdown_to_html }}
+                                    {{ property.name|u.truncate(60, ' ...')|raw }}
                                 </div>
                                 <div class="price">
                                     {{ property.priceFai }} €
