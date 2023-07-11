@@ -190,7 +190,7 @@ class Property
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $archivedAt = null;
 
-    #[ORM\Column(length: 60, nullable: true)]
+    #[ORM\Column(length: 90, nullable: true)]
     private ?string $annonceSlug = null;
 
     public function __construct()
