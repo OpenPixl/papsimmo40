@@ -15,7 +15,8 @@
 /public/build/*.*
 /public/images/
 /public/images/*.*
-/public/doc/report/*.*
+/public/doc/report/Annonces/*.*
+/public/doc/report/Annoncesfigaro/*.*
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
