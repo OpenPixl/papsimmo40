@@ -59,17 +59,20 @@ class ftptransfertService
             }
 
             // Sélection du type de bien
-            $propertyDefinition = $property['propertyDefinition'];
+            $propertyDefinition = $property['rubric'];
             if($propertyDefinition == 'Propriété / Château') {
                 $bien = 'Château';
             }elseif($propertyDefinition == 'Vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
                 $bien = 'Immeuble';
             }elseif($propertyDefinition == 'A définir'){
                 $bien = 'Inconnu';
+            }elseif($propertyDefinition == 'Loft'){
+                $bien = 'loft/atelier/surface';
             }elseif($propertyDefinition == 'Atelier'){
                 $bien = 'loft/atelier/surface';
-            }
-            elseif($propertyDefinition == 'Parking / Garage'){
+            }elseif($propertyDefinition == 'Parking'){
+                $bien = 'Parking/box';
+            }elseif($propertyDefinition == 'Garage'){
                 $bien = 'Parking/box';
             }else{
                 $bien = $propertyDefinition;
@@ -684,17 +687,20 @@ class ftptransfertService
             }
 
             // Sélection du type de bien
-            $propertyDefinition = $property['propertyDefinition'];
+            $propertyDefinition = $property['rubric'];
             if($propertyDefinition == 'Propriété / Château') {
                 $bien = 'Château';
-            }elseif($propertyDefinition == 'Vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
+            }elseif($propertyDefinition == 'Vente'){
                 $bien = 'Immeuble';
             }elseif($propertyDefinition == 'A définir'){
                 $bien = 'Inconnu';
+            }elseif($propertyDefinition == 'Loft'){
+                $bien = 'loft/atelier/surface';
             }elseif($propertyDefinition == 'Atelier'){
                 $bien = 'loft/atelier/surface';
-            }
-            elseif($propertyDefinition == 'Parking / Garage'){
+            }elseif($propertyDefinition == 'Parking'){
+                $bien = 'Parking/box';
+            }elseif($propertyDefinition == 'Garage'){
                 $bien = 'Parking/box';
             }else{
                 $bien = $propertyDefinition;
@@ -848,7 +854,7 @@ class ftptransfertService
             }
 
             // création SSfamille
-            $ssfamile = $property['ssfamille'];
+            $ssfamile = $property['rubricss'];
 
 
             // Création d'une ligne du tableau

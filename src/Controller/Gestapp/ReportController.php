@@ -1335,20 +1335,20 @@ class ReportController extends AbstractController
             }
 
             // Sélection du type de bien
-            $propertyDefinition = $property['propertyDefinition'];
-            if($propertyDefinition == 'Propriété / Château') {
+            $rubric = $property['rubric'];
+            if($rubric == 'Propriété / Château') {
                 $bien = 'Château';
-            }elseif($propertyDefinition == 'Vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
+            }elseif($rubric == 'Vente'){
                 $bien = 'Immeuble';
-            }elseif($propertyDefinition == 'A définir'){
+            }elseif($rubric == 'A définir'){
                 $bien = 'Inconnu';
-            }elseif($propertyDefinition == 'Atelier'){
+            }elseif($rubric == 'Atelier'){
                 $bien = 'loft/atelier/surface';
             }
-            elseif($propertyDefinition == 'Parking / Garage'){
+            elseif($rubric == 'Parking / Garage'){
                 $bien = 'Parking/box';
             }else{
-                $bien = $propertyDefinition;
+                $bien = $rubric;
             }
 
             // Préparation de la date dpeAt
@@ -1838,7 +1838,7 @@ class ReportController extends AbstractController
             $rows[] = implode('!#', $data);
         }
         $content = implode("\n", $rows);
-        dd($content);
+        //dd($content);
 
         // PARTIE II : Génération du fichier CSV
         $file = 'doc/report/Annoncesfigaro/Annonces.csv';                                  // Chemin du fichier

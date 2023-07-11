@@ -17,6 +17,9 @@ use App\Repository\Gestapp\CadasterRepository;
 use App\Repository\Gestapp\choice\OtherOptionRepository;
 use App\Repository\Gestapp\choice\PropertyDefinitionRepository;
 use App\Repository\Gestapp\choice\PropertyEquipementRepository;
+use App\Repository\Gestapp\choice\propertyFamilyRepository;
+use App\Repository\Gestapp\choice\propertyRubricRepository;
+use App\Repository\Gestapp\choice\propertyRubricssRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
@@ -301,6 +304,9 @@ class PropertyController extends AbstractController
         PropertyEquipementRepository $propertyEquipementRepository,
         OtherOptionRepository $otherOptionRepository,
         PropertyDefinitionRepository $propertyDefinitionRepository,
+        propertyFamilyRepository $familyRepository,
+        propertyRubricRepository $rubricRepository,
+        propertyRubricssRepository $rubricssRepository,
         $isNomandat,
         $refMandat,
         )
@@ -308,7 +314,7 @@ class PropertyController extends AbstractController
         // Récupération du collaborateur
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
-        // prépartion des complement au bien
+        // préparation des complements au bien
         $complement = new Complement();
         $complement->setTerrace(0);
         $complement->setWashroom(0);
@@ -337,8 +343,14 @@ class PropertyController extends AbstractController
             $RefMandat = 22;
         }
 
-        // Création de l'entité Property
+        $family = $familyRepository->find(8);
+        $rubric = $rubricRepository->find(48);
+        $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
+
         $property = new Property();
+        $property->setFamily($family);
+        $property->setRubric($rubric);
+        $property->setRubricss($rubricss);
         $property->setPiece(0);
         $property->setRoom(0);
         $property->setName('Nouveau bien');
@@ -478,6 +490,9 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //dd($form->getData());
+            $data = str_replace(array( "\n", "\r", "</p><p>" ), array( '', '', ' ' ), html_entity_decode($property->getAnnonce()) );
+            $annonceSlug = substr(strip_tags($data, '<br>'), 0, 59);
+            $property->setAnnonceSlug($annonceSlug);
             $propertyRepository->add($property);
             return $this->json([
                 'code'=> 200,

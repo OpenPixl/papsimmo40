@@ -787,10 +787,11 @@ class PropertyRepository extends ServiceEntityRepository
         $query->andWhere('p.isNomandat = 0');
         $query->select('
                 f.code as familyCode,
+                f.name as family,
                 ru.code as rubricCode,
-                ru.name as rubricName,
+                ru.name as rubric,
                 rus.code as rubricssCode,
-                rus.name as rubricssName,
+                rus.name as rubricss,
                 pu.isPublishleboncoin AS leboncoin,
                 pu.isPublishMeilleur AS seloger,
                 c.wc as wc,
@@ -870,8 +871,11 @@ class PropertyRepository extends ServiceEntityRepository
         $query->andWhere('p.isNomandat = 0');
         $query->select('
                 f.code as familyCode,
+                f.name as family,
                 ru.code as rubricCode,
+                ru.name as rubric,
                 rus.code as rubricssCode,
+                rus.name as rubricss,
                 pu.isPublishleboncoin AS leboncoin,
                 pu.isPublishMeilleur AS seloger,
                 c.wc as wc,
@@ -951,8 +955,11 @@ class PropertyRepository extends ServiceEntityRepository
         $query->andWhere('p.isNomandat = 0');
         $query->select('
                 f.code as familyCode,
+                f.name as family,
                 ru.code as rubricCode,
+                ru.name as rubric,
                 rus.code as rubricssCode,
+                rus.name as rubricss,
                 pu.isPublishleboncoin AS leboncoin,
                 pu.isPublishMeilleur AS seloger,
                 c.wc as wc,
