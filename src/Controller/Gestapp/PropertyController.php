@@ -170,6 +170,9 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
+            $annonceSlug = substr(strip_tags($data, '<br>'), 0, 59);
+            $property->setAnnonceSlug($annonceSlug);
             $propertyRepository->add($property);
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }

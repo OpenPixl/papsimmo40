@@ -26,7 +26,7 @@
                                 {{ property.city }}
                             </div>
                             <div class="annonce">
-                                {{ property.name|u.truncate(60, ' ...')|e('html') }}
+                                {{ property.annonceSlug|u.truncate(60, ' ...') }}
                             </div>
                             <div class="price">
                                 {{ property.priceFai }} €
@@ -116,7 +116,7 @@
                                     {{ property.city }}
                                 </div>
                                 <div class="annonce">
-                                    {{ property.name|u.truncate(60, ' ...')|raw }}
+                                    {{ property.annonceSlug|u.truncate(60, ' ...') }}
                                 </div>
                                 <div class="price">
                                     {{ property.priceFai }} €

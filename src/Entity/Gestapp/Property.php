@@ -190,6 +190,9 @@ class Property
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $archivedAt = null;
 
+    #[ORM\Column(length: 60, nullable: true)]
+    private ?string $annonceSlug = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -925,4 +928,15 @@ class Property
         return $this;
     }
 
+    public function getAnnonceSlug(): ?string
+    {
+        return $this->annonceSlug;
+    }
+
+    public function setAnnonceSlug(?string $annonceSlug): self
+    {
+        $this->annonceSlug = $annonceSlug;
+
+        return $this;
+    }
 }

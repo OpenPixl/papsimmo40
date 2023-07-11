@@ -62,6 +62,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.rubric', 'ru')
             ->leftJoin('p.rubricss', 'rus')
             ->addSelect('
+                p.annonceSlug as annonceSlug,
                 fa.name as family,
                 rus.name as rubricss,
                 ru.id as idrubric,
@@ -553,7 +554,15 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftjoin('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->leftJoin('p.publication', 'pu')
+            ->leftJoin('p.family', 'fa')
+            ->leftJoin('p.rubric', 'ru')
+            ->leftJoin('p.rubricss', 'rus')
             ->addSelect('
+                p.annonceSlug as annonceSlug,
+                fa.name as family,
+                rus.name as rubricss,
+                ru.id as idrubric,
+                ru.name as rubric,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 pu.isWebpublish as isWebpublish,
