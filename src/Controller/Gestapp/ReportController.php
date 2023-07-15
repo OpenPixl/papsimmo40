@@ -382,7 +382,7 @@ class ReportController extends AbstractController
                 '"papsimmo"',                                               // 1 - Identifiant Agence
                 '"'.$refProperty.'"',                                   // 2 - Référence agence du bien
                 '"Vente"',                                                  // 3 - Type d’annonce
-                '"'.$property['rubricName'].'"',                                              // 4 - Type de bien
+                '"'.$property['rubric'].'"',                                              // 4 - Type de bien
                 '"'.$property['zipcode'].'"',                               // 5 - CP
                 '"'.$property['city'].'"',                                  // 6 - Ville
                 '"France"',                                                 // 7 - Pays
