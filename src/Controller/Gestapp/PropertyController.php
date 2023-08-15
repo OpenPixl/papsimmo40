@@ -2,7 +2,6 @@
 
 namespace App\Controller\Gestapp;
 
-use App\Entity\Gestapp\choice\PropertyDefinition;
 use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
@@ -82,7 +81,6 @@ class PropertyController extends AbstractController
     #[Route('/propertyDiffusion', name: 'op_gestapp_property_diffusion', methods: ['GET']) ]
     public function propertyDiffusion(PropertyRepository $propertyRepository)
     {
-
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true) {
@@ -90,8 +88,6 @@ class PropertyController extends AbstractController
         }else{
             $listProperties = $propertyRepository->listPublicationEmployed($user->getId());
         }
-
-        //dd($listProperties);
 
         return $this->json([
             'code' => 200,
@@ -486,10 +482,8 @@ class PropertyController extends AbstractController
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
-        //dd($request->getContent());
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($form->getData());
             $data = str_replace(array( "\n", "\r", "</p><p>" ), array( '', '', ' ' ), html_entity_decode($property->getAnnonce()) );
             $annonceSlug = substr(strip_tags($data, '<br>'), 0, 59);
             $property->setAnnonceSlug($annonceSlug);
@@ -499,7 +493,6 @@ class PropertyController extends AbstractController
                 'message' => "Les informations générales ont été correctement ajoutées au bien."
             ], 200);
         }
-        //dd($form->isSubmitted());
         return $this->renderform('gestapp/property/Step/firststep.html.twig',[
             'form'=>$form,
             'property'=>$property,
