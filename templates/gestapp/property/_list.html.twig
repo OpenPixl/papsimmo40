@@ -93,7 +93,7 @@
                                 <li><a class="dropdown-item" id="btnModalDateEndMandat" href="#" data-bs-toggle="modal" data-bs-target="#modalDateEndMandat" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-calendar-plus"></i> Mettre une fin de mandat</a></li>
                             {% endif %}
                         {% endif %}
-                        <li><a href="#">Engager la vente</a></li>
+                        <li><a href="{{ path('op_gestapp_transaction_index') }}">Engager la vente</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item" href="{{ path('op_gestapp_property_duplicate', {'id': property.id}) }}"><i class="fa-duotone fa-copy"></i> Dupliquer la fiche</a></li>
                         <li><a id="{{ property.id }}" type="button" class="dropdown-item Modaltransferate" data-bs-toggle="modal" data-bs-target="#modalTransferate" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-copy"></i> Dupliquer et transférer la fiche</a></li>

@@ -92,6 +92,9 @@ class Customer
     #[ORM\ManyToMany(targetEntity: Property::class, mappedBy: 'Customer')]
     private $properties;
 
+    #[ORM\ManyToMany(targetEntity: Transaction::class, mappedBy: 'customer')]
+    private Collection $transactions;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -107,6 +110,7 @@ class Customer
     {
         $this->contacts = new ArrayCollection();
         $this->properties = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -409,6 +413,33 @@ class Customer
     public function setDdnIn(?string $ddnIn): self
     {
         $this->ddnIn = $ddnIn;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->addCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            $transaction->removeCustomer($this);
+        }
 
         return $this;
     }

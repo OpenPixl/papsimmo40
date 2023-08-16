@@ -190,8 +190,11 @@ class Property
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $archivedAt = null;
 
-    #[ORM\Column(length: 90, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $annonceSlug = null;
+
+    #[ORM\OneToMany(mappedBy: 'Property', targetEntity: Transaction::class)]
+    private Collection $transactions;
 
     public function __construct()
     {
@@ -200,6 +203,7 @@ class Property
         $this->photos = new ArrayCollection();
         $this->cadastre = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     /**
@@ -936,6 +940,36 @@ class Property
     public function setAnnonceSlug(?string $annonceSlug): self
     {
         $this->annonceSlug = $annonceSlug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getProperty() === $this) {
+                $transaction->setProperty(null);
+            }
+        }
 
         return $this;
     }
