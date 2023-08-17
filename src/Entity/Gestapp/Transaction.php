@@ -31,6 +31,9 @@ class Transaction
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
+    #[ORM\Column(length: 25)]
+    private ?string $name = null;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -112,6 +115,18 @@ class Transaction
     public function setUpdatedAt(): self
     {
         $this->updatedAt = new \DateTime('now');
+
+        return $this;
+    }
+
+    public function getName(): ?string
+    {
+        return $this->name;
+    }
+
+    public function setName(string $name): static
+    {
+        $this->name = $name;
 
         return $this;
     }

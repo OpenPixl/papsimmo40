@@ -2,8 +2,10 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Transaction;
 use App\Form\Gestapp\TransactionType;
+use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,9 +24,10 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'op_gestapp_transaction_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    #[Route('/new/{idproperty}', name: 'op_gestapp_transaction_new', methods: ['GET', 'POST'])]
+    public function new(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository): Response
     {
+        $property = $propertyRepository->find($idproperty);
         $transaction = new Transaction();
         $form = $this->createForm(TransactionType::class, $transaction);
         $form->handleRequest($request);
@@ -37,6 +40,7 @@ class TransactionController extends AbstractController
         }
 
         return $this->renderForm('gestapp/transaction/new.html.twig', [
+            'property' => $property,
             'transaction' => $transaction,
             'form' => $form,
         ]);

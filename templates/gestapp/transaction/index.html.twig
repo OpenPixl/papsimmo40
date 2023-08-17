@@ -2,16 +2,16 @@
 
 {% block title %}Transaction index{% endblock %}
 
-{% block main %}
-    <h1>Transaction index</h1>
+{% block content %}
+    <h1>TRANSACTIONS - Ventes</h1>
 
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
-                <th>State</th>
-                <th>CreatedAt</th>
-                <th>UpdatedAt</th>
+                <th>Numéro de transaction</th>
+                <th>Etat</th>
+                <th>Crée le</th>
+                <th>Mis à jour le</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -23,8 +23,8 @@
                 <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ transaction.updatedAt ? transaction.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_gestapp_transaction_show', {'id': transaction.id}) }}">show</a>
-                    <a href="{{ path('app_gestapp_transaction_edit', {'id': transaction.id}) }}">edit</a>
+                    <a href="{{ path('app_gestapp_transaction_show', {'id': transaction.id}) }}">Voit</a>
+                    <a href="{{ path('app_gestapp_transaction_edit', {'id': transaction.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}
@@ -34,6 +34,4 @@
         {% endfor %}
         </tbody>
     </table>
-
-    <a href="{{ path('app_gestapp_transaction_new') }}">Create new</a>
 {% endblock %}

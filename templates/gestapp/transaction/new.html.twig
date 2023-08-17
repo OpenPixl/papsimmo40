@@ -1,11 +1,11 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}New Transaction{% endblock %}
 
-{% block body %}
-    <h1>Create new Transaction</h1>
+{% block content %}
+    <h1>Engager une vente immobilière sur la référence <b>{{ property.ref }}</b></h1>
 
     {{ include('gestapp/transaction/_form.html.twig') }}
 
-    <a href="{{ path('app_gestapp_transaction_index') }}">back to list</a>
+    <a href="{{ path('op_gestapp_transaction_index') }}">back to list</a>
 {% endblock %}
