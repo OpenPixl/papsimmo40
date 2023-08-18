@@ -530,6 +530,8 @@ class PropertyRepository extends ServiceEntityRepository
                 c.location as location,
                 c.disponibilityAt as disponibilityAt,
                 c.level as level,
+                c.coproperty as coproperty,
+                c.copropertyTax as copropertyTax,
                 p.createdAt as createdAt,
                 p.updatedAt as updatedAt
             ')
