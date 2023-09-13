@@ -180,7 +180,7 @@ class ReportController extends AbstractController
     }
 
     /**
-     * Génération du Fichiers CSV pour MeilleurAgent
+     * Génération du Fichiers CSV pour MeilleurAgent/LeBonCoin
      **/
     #[Route('/report/report_properties_csv2', name: 'app_gestapp_report_propertycsv2')]
     public function PropertyCSV2(PropertyRepository $propertyRepository, PhotoRepository $photoRepository, ComplementRepository $complementRepository): Response
@@ -333,34 +333,34 @@ class ReportController extends AbstractController
             //dd($equipments);
 
             // BILAN DPE
-            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 50 ){
+            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 70 ){
                 $bilanDpe = 'A';
-            }elseif($property['diagDpe'] > 50 and $property['diagDpe'] <= 90 ){
+            }elseif($property['diagDpe'] > 70 and $property['diagDpe'] <= 110 ){
                 $bilanDpe = 'B';
-            }elseif($property['diagDpe'] > 90 and $property['diagDpe'] <= 150 ){
+            }elseif($property['diagDpe'] > 110 and $property['diagDpe'] <= 180 ){
                 $bilanDpe = 'C';
-            }elseif($property['diagDpe'] > 150 and $property['diagDpe'] <= 230 ){
+            }elseif($property['diagDpe'] > 180 and $property['diagDpe'] <= 250 ){
                 $bilanDpe = 'D';
-            }elseif($property['diagDpe'] > 230 and $property['diagDpe'] <= 330 ){
+            }elseif($property['diagDpe'] > 250 and $property['diagDpe'] <= 330 ){
                 $bilanDpe = 'E';
-            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 450 ){
+            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 420 ){
                 $bilanDpe = 'F';
             }else{
                 $bilanDpe = 'G';
             }
 
             // Bilan GES
-            if($property['diagGes'] > 0 and $property['diagGes'] <= 50 ){
+            if($property['diagGes'] > 0 and $property['diagGes'] <= 6 ){
                 $bilanGes = 'A';
-            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 90 ){
+            }elseif($property['diagGes'] > 6 and $property['diagGes'] <= 11 ){
                 $bilanGes = 'B';
-            }elseif($property['diagGes'] > 90 and $property['diagGes'] <= 150 ){
+            }elseif($property['diagGes'] > 11 and $property['diagGes'] <= 30 ){
                 $bilanGes = 'C';
-            }elseif($property['diagGes'] > 150 and $property['diagGes'] <= 230 ){
+            }elseif($property['diagGes'] > 30 and $property['diagGes'] <= 50 ){
                 $bilanGes = 'D';
-            }elseif($property['diagGes'] > 230 and $property['diagGes'] <= 330 ){
+            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 70 ){
                 $bilanGes = 'E';
-            }elseif($property['diagGes'] > 330 and $property['diagGes'] <= 450 ){
+            }elseif($property['diagGes'] > 70 and $property['diagGes'] <= 100 ){
                 $bilanGes = 'F';
             }else{
                 $bilanGes = 'G';
@@ -554,9 +554,9 @@ class ReportController extends AbstractController
                 '"'.$url19.'"',                                             // 173 - Photo 19
                 '"'.$url20.'"',                                             // 174 - Photo 20
                 '""',                                                       // 175 - Identifiant technique
-                '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
+                '"'.$bilanDpe.'"',                               // 176 - Consommation énergie
                 '"'.$diagDPEChoice.'"',                                     // 177 - Bilan consommation énergie
-                '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
+                '"'.$bilanGes.'"',                               // 178 - Emissions GES
                 '"'.$diagGESChoice.'"',                                     // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '"'.$property['ssCategory'].'"',                            // 181 - Sous type de bien
@@ -718,7 +718,7 @@ class ReportController extends AbstractController
 
         $content = implode("\n", $rows);
 
-        //dd($content);
+        //dd($rows);
 
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');
@@ -878,34 +878,34 @@ class ReportController extends AbstractController
             //dd($equipments);
 
             // BILAN DPE
-            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 50 ){
+            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 70 ){
                 $bilanDpe = 'A';
-            }elseif($property['diagDpe'] > 50 and $property['diagDpe'] <= 90 ){
+            }elseif($property['diagDpe'] > 70 and $property['diagDpe'] <= 110 ){
                 $bilanDpe = 'B';
-            }elseif($property['diagDpe'] > 90 and $property['diagDpe'] <= 150 ){
+            }elseif($property['diagDpe'] > 110 and $property['diagDpe'] <= 180 ){
                 $bilanDpe = 'C';
-            }elseif($property['diagDpe'] > 150 and $property['diagDpe'] <= 230 ){
+            }elseif($property['diagDpe'] > 180 and $property['diagDpe'] <= 250 ){
                 $bilanDpe = 'D';
-            }elseif($property['diagDpe'] > 230 and $property['diagDpe'] <= 330 ){
+            }elseif($property['diagDpe'] > 250 and $property['diagDpe'] <= 330 ){
                 $bilanDpe = 'E';
-            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 450 ){
+            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 420 ){
                 $bilanDpe = 'F';
             }else{
                 $bilanDpe = 'G';
             }
 
             // Bilan GES
-            if($property['diagGes'] > 0 and $property['diagGes'] <= 50 ){
+            if($property['diagGes'] > 0 and $property['diagGes'] <= 6 ){
                 $bilanGes = 'A';
-            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 90 ){
+            }elseif($property['diagGes'] > 6 and $property['diagGes'] <= 11 ){
                 $bilanGes = 'B';
-            }elseif($property['diagGes'] > 90 and $property['diagGes'] <= 150 ){
+            }elseif($property['diagGes'] > 11 and $property['diagGes'] <= 30 ){
                 $bilanGes = 'C';
-            }elseif($property['diagGes'] > 150 and $property['diagGes'] <= 230 ){
+            }elseif($property['diagGes'] > 30 and $property['diagGes'] <= 50 ){
                 $bilanGes = 'D';
-            }elseif($property['diagGes'] > 230 and $property['diagGes'] <= 330 ){
+            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 70 ){
                 $bilanGes = 'E';
-            }elseif($property['diagGes'] > 330 and $property['diagGes'] <= 450 ){
+            }elseif($property['diagGes'] > 70 and $property['diagGes'] <= 100 ){
                 $bilanGes = 'F';
             }else{
                 $bilanGes = 'G';
@@ -1100,9 +1100,9 @@ class ReportController extends AbstractController
                 '"'.$url19.'"',                                             // 173 - Photo 19
                 '"'.$url20.'"',                                             // 174 - Photo 20
                 '""',                                                       // 175 - Identifiant technique
-                '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
+                '"'.$bilanDpe.'"',                                          // 176 - Consommation énergie
                 '"'.$diagDPEChoice.'"',                                     // 177 - Bilan consommation énergie
-                '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
+                '"'.$bilanGes.'"',                                          // 178 - Emissions GES
                 '"'.$diagGESChoice.'"',                                     // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '"'.$property['ssCategory'].'"',                            // 181 - Sous type de bien
@@ -1454,34 +1454,34 @@ class ReportController extends AbstractController
             //dd($equipments);
 
             // BILAN DPE
-            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 50 ){
+            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 70 ){
                 $bilanDpe = 'A';
-            }elseif($property['diagDpe'] > 50 and $property['diagDpe'] <= 90 ){
+            }elseif($property['diagDpe'] > 70 and $property['diagDpe'] <= 110 ){
                 $bilanDpe = 'B';
-            }elseif($property['diagDpe'] > 90 and $property['diagDpe'] <= 150 ){
+            }elseif($property['diagDpe'] > 110 and $property['diagDpe'] <= 180 ){
                 $bilanDpe = 'C';
-            }elseif($property['diagDpe'] > 150 and $property['diagDpe'] <= 230 ){
+            }elseif($property['diagDpe'] > 180 and $property['diagDpe'] <= 250 ){
                 $bilanDpe = 'D';
-            }elseif($property['diagDpe'] > 230 and $property['diagDpe'] <= 330 ){
+            }elseif($property['diagDpe'] > 250 and $property['diagDpe'] <= 330 ){
                 $bilanDpe = 'E';
-            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 450 ){
+            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 420 ){
                 $bilanDpe = 'F';
             }else{
                 $bilanDpe = 'G';
             }
 
             // Bilan GES
-            if($property['diagGes'] > 0 and $property['diagGes'] <= 50 ){
+            if($property['diagGes'] > 0 and $property['diagGes'] <= 6 ){
                 $bilanGes = 'A';
-            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 90 ){
+            }elseif($property['diagGes'] > 6 and $property['diagGes'] <= 11 ){
                 $bilanGes = 'B';
-            }elseif($property['diagGes'] > 90 and $property['diagGes'] <= 150 ){
+            }elseif($property['diagGes'] > 11 and $property['diagGes'] <= 30 ){
                 $bilanGes = 'C';
-            }elseif($property['diagGes'] > 150 and $property['diagGes'] <= 230 ){
+            }elseif($property['diagGes'] > 30 and $property['diagGes'] <= 50 ){
                 $bilanGes = 'D';
-            }elseif($property['diagGes'] > 230 and $property['diagGes'] <= 330 ){
+            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 70 ){
                 $bilanGes = 'E';
-            }elseif($property['diagGes'] > 330 and $property['diagGes'] <= 450 ){
+            }elseif($property['diagGes'] > 70 and $property['diagGes'] <= 100 ){
                 $bilanGes = 'F';
             }else{
                 $bilanGes = 'G';
@@ -1676,9 +1676,9 @@ class ReportController extends AbstractController
                 '"'.$url19.'"',                                             // 173 - Photo 19
                 '"'.$url20.'"',                                             // 174 - Photo 20
                 '""',                                                       // 175 - Identifiant technique
-                '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
+                '"'.$bilanDpe.'"',                                          // 176 - Consommation énergie
                 '"'.$diagDPEChoice.'"',                                     // 177 - Bilan consommation énergie
-                '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
+                '"'.$bilanGes.'"',                                          // 178 - Emissions GES
                 '"'.$diagGESChoice.'"',                                     // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '""',                                                       // 181 - Sous type de bien
