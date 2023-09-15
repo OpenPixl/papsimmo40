@@ -528,7 +528,7 @@ class ftptransfertService
                 '""',// 298 - Latitude
                 '""',// 299 - Longitude
                 '""',// 300 - Précision GPS
-                '""',// 301 - Version Format
+                '"4.11"',// 301 - Version Format
                 '""',// 302 - Honoraires à la charge de l'acquéreur
                 '""',// 303 - Prix hors honoraires acquéreur
                 '""',// 304 - Modalités charges locataire
@@ -1159,7 +1159,7 @@ class ftptransfertService
                 '""',// 298 - Latitude
                 '""',// 299 - Longitude
                 '""',// 300 - Précision GPS
-                '""',// 301 - Version Format
+                '"4.11"',// 301 - Version Format
                 '""',// 302 - Honoraires à la charge de l'acquéreur
                 '""',// 303 - Prix hors honoraires acquéreur
                 '""',// 304 - Modalités charges locataire
