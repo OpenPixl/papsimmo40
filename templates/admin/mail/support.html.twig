@@ -1,5 +1,20 @@
-<h5>Contacter le support</h5>
-<hr>
-{{ include('admin/mail/_form.html.twig') }}
+{% extends 'admin.html.twig' %}
+
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h5>Demande de support</h5>
+            <hr>
+            <p>
+                <b>Bonjour {{ app.user.firstName }} {{ app.user.lastName }}</b><br>
+                Pour toute demande de support, veuillez completer le formulaire ci-dessous en précisant les détails de votre besoin.<br>Nous mettrons en oeuvre une réponse adaptée dans les plus brefs délais.
+            </p>
+            {{ include('admin/mail/_form.html.twig') }}
+        </div>
+    </div>
+
+{% endblock %}
+
 
 

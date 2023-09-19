@@ -35,6 +35,10 @@
                         language: 'fr_FR',
                         language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
                     });
+
+                    document.getElementById('btnContactSupport').addEventListener('click', function(event){
+                        event.preventDefault()
+                    })
                 }
             </script>
         {% endblock %}

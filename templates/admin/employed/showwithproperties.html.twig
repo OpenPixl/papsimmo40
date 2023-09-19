@@ -65,10 +65,9 @@
                                         <img src="{{ asset('images/svg/') ~ property.bannerFilename }}" alt="{{ property.banner }}">
                                     </div>
                                 {% endif %}
-
                                 <div class="name">
-                                    {{ property.propertyDefinition }}  |
-                                    {{ property.denomination }} |
+                                    {{ property.rubric }}  |
+                                    {{ property.rubricss }} |
                                     {% if property.idpropertyDefinition == 5 or property.idpropertyDefinition == 15 or property.idpropertyDefinition == 16 or property.idpropertyDefinition == 19 or property.idpropertyDefinition == 20 or property.idpropertyDefinition == 23 %}
                                         {{ property.surfaceLand }} m2
                                     {% else %}
@@ -79,7 +78,7 @@
                                     {{ property.city }}
                                 </div>
                                 <div class="annonce">
-                                    {{ property.annonce|u.truncate(75, ' ...')|markdown_to_html }}
+                                    {{ property.annonceSlug|u.truncate(60, ' ...') }}
                                 </div>
                                 <div class="price">
                                     {{ property.priceFai }} €
@@ -137,7 +136,7 @@
                     </div>
                 {% else %}
                     <div class="col-xs-12 col-sm-6 col-md-4 col-xl-2 col-xxl-2">
-                        <p>Pas de biens publiés pour l'instant.</p>
+                        <p>Pas de biens publiés</p>
                     </div>
                 {% endfor %}
             </div>

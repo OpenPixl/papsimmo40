@@ -52,7 +52,7 @@ class PropertyRepository extends ServiceEntityRepository
     public function fivelastproperties()
     {
         return $this->createQueryBuilder('p')
-            ->join('p.refEmployed', 'e')
+            ->leftjoin('p.refEmployed', 'e')
             ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
             ->leftjoin('p.propertyDefinition', 'pd')
@@ -377,22 +377,29 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     // ----------------------------------------------
-    // Requête : Liste les biens (filtrés sur les collaborateurs) - Partie public
+    // Requête : Liste les biens publiés filtrés sur un collaborateur - Partie public
     // ----------------------------------------------
     public function listPropertiesPublishByEmployed($user)
     {
         return $this->createQueryBuilder('p')
-            ->join('p.refEmployed', 'e')
-            ->leftJoin('p.options', 'c')
-            ->leftJoin('p.propertyDefinition', 'pd')
-            ->leftJoin('p.publication', 'pu')
-            ->leftJoin('c.denomination', 'd')
+            ->leftjoin('p.refEmployed', 'e')
+            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
+            ->leftjoin('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
+            ->leftJoin('p.publication', 'pu')
+            ->leftJoin('p.family', 'fa')
+            ->leftJoin('p.rubric', 'ru')
+            ->leftJoin('p.rubricss', 'rus')
             ->addSelect('
-                p.projet as projet,
+                p.annonceSlug as annonceSlug,
+                fa.name as family,
+                rus.name as rubricss,
+                ru.id as idrubric,
+                ru.name as rubric,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
-                d.name as denomination,
+                pu.isWebpublish as isWebpublish,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -401,27 +408,19 @@ class PropertyRepository extends ServiceEntityRepository
                 p.priceFai as priceFai,
                 p.surfaceHome as surfaceHome,
                 p.surfaceLand as surfaceLand,
+                d.name as denomination,
                 p.piece as piece,
                 p.room as room,
-                p.adress as adress,
-                p.complement as complement,
-                p.zipcode as zipcode,
                 p.city as city,
-                p.createdAt,
-                p.updatedAt,
-                e.id as refEmployed,
-                e.firstName as firstName,
-                e.lastName as lastName,
-                e.avatarName as avatarName,
                 pd.name as propertyDefinition,
-                b.name AS banner,
+                b.name as banner,
                 b.bannerFilename AS bannerFilename,
                 pd.id AS idpropertyDefinition
             ')
             ->where('e.id = :user')
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
-            ->andWhere('p.isNomandat = 1')
+            //->andWhere('p.isNomandat = 0')
             ->setParameter('user', $user)
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
@@ -550,7 +549,7 @@ class PropertyRepository extends ServiceEntityRepository
     public function AllProperties()
     {
         return $this->createQueryBuilder('p')
-            ->join('p.refEmployed', 'e')
+            ->leftjoin('p.refEmployed', 'e')
             ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
             ->leftjoin('p.propertyDefinition', 'pd')
