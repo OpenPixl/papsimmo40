@@ -403,10 +403,10 @@ class ftptransfertService
                 '"'.$url19.'"',                                             // 173 - Photo 19
                 '"'.$url20.'"',                                             // 174 - Photo 20
                 '""',                                                       // 175 - Identifiant technique
-                '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
-                '"'.$diagDPEChoice.'"',                                     // 177 - Bilan consommation énergie
-                '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
-                '"'.$diagGESChoice.'"',                                     // 179 - Bilan émission GES
+                '"'.$diagDPEChoice.'"',                                     // 176 - Consommation énergie
+                '"'.$property['diagDpe'].'"',                               // 177 - Bilan consommation énergie
+                '"'.$diagGESChoice.'"',                                     // 178 - Emissions GES
+                '"'.$property['diagGes'].'"',                               // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '"'.$property['ssCategory'].'"',                            // 181 - Sous type de bien
                 '""',                                                       // 182 - Périodes de disponibilité
@@ -1034,10 +1034,10 @@ class ftptransfertService
                 '"'.$url19.'"',                                             // 173 - Photo 19
                 '"'.$url20.'"',                                             // 174 - Photo 20
                 '""',                                                       // 175 - Identifiant technique
-                '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
-                '"'.$diagDPEChoice.'"',                                     // 177 - Bilan consommation énergie
-                '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
-                '"'.$diagGESChoice.'"',                                     // 179 - Bilan émission GES
+                '"'.$diagDPEChoice.'"',                                     // 176 - Consommation énergie
+                '"'.$property['diagDpe'].'"',                               // 177 - Bilan consommation énergie
+                '"'.$diagGESChoice.'"',                                     // 178 - Emissions GES
+                '"'.$property['diagGes'].'"',                               // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '""',                                                       // 181 - Sous type de bien
                 '""',                                                       // 182 - Périodes de disponibilité
@@ -1271,5 +1271,27 @@ class ftptransfertService
 
         // Fermeture de la connexion FTP
         ftp_close($connId);
+    }
+
+    public function greenacresFTP(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository
+    )
+    {
+        $request = $this->requestStack->getCurrentRequest();
+
+        // PARTIE I : Génération du fichier XML
+        // -------------------------------------------------------------
+        $properties = $propertyRepository->reportpropertyGreenacresFTP();
+        // Création de l'url pour les photos
+        $fullHttp = $request->getUri();
+        $parsedUrl = parse_url($fullHttp);
+        if (!$parsedUrl['port']){
+            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'];
+        }else{
+            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'];
+        }
+
     }
 }

@@ -103,7 +103,6 @@ class PublicationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $publicationRepository->add($publication);
-
             return $this->redirectToRoute('app_gestapp_publication_index', [], Response::HTTP_SEE_OTHER);
         }
 

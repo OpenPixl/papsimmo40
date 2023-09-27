@@ -332,10 +332,10 @@ class PropertyController extends AbstractController
         $date = new \DateTime();
         $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);             // Récupération de la dernière propriété enregistrée
         if($lastproperty){
-            $refNumDate = $date->format('Y').'/'.$date->format('m');        // contruction de la première partie de référence
+            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
             $RefMandat = $refMandat;                           // construction du numéro de mandat obligatoire
         }else{
-            $refNumDate = $date->format('Y').'/'.$date->format('m');        // contruction de la première partie de référence
+            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
             $RefMandat = 22;
         }
 
