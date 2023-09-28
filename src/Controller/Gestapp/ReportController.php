@@ -554,10 +554,10 @@ class ReportController extends AbstractController
                 '"'.$url19.'"',                                             // 173 - Photo 19
                 '"'.$url20.'"',                                             // 174 - Photo 20
                 '""',                                                       // 175 - Identifiant technique
-                '"'.$diagDPEChoice.'"',                                     // 176 - Consommation énergie
-                '"'.$property['diagDpe'].'"',                               // 177 - Bilan consommation énergie
-                '"'.$diagGESChoice.'"',                                     // 178 - Emissions GES
-                '"'.$property['diagGes'].'"',                               // 179 - Bilan émission GES
+                '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
+                '"'.$diagDPEChoice.'"',                                     // 177 - Bilan consommation énergie
+                '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
+                '"'.$diagGESChoice.'"',                                     // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '"'.$property['ssCategory'].'"',                            // 181 - Sous type de bien
                 '""',                                                       // 182 - Périodes de disponibilité
