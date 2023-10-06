@@ -180,49 +180,48 @@ class ftptransfertService
             $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
             //dd($equipments);
 
-            // BILAN DPE
-            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 50 ){
-                $bilanDpe = 'A';
-            }elseif($property['diagDpe'] > 50 and $property['diagDpe'] <= 90 ){
-                $bilanDpe = 'B';
-            }elseif($property['diagDpe'] > 90 and $property['diagDpe'] <= 150 ){
-                $bilanDpe = 'C';
-            }elseif($property['diagDpe'] > 150 and $property['diagDpe'] <= 230 ){
-                $bilanDpe = 'D';
-            }elseif($property['diagDpe'] > 230 and $property['diagDpe'] <= 330 ){
-                $bilanDpe = 'E';
-            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 450 ){
-                $bilanDpe = 'F';
-            }else{
-                $bilanDpe = 'G';
-            }
 
-            // Bilan GES
-            if($property['diagGes'] > 0 and $property['diagGes'] <= 50 ){
-                $bilanGes = 'A';
-            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 90 ){
-                $bilanGes = 'B';
-            }elseif($property['diagGes'] > 90 and $property['diagGes'] <= 150 ){
-                $bilanGes = 'C';
-            }elseif($property['diagGes'] > 150 and $property['diagGes'] <= 230 ){
-                $bilanGes = 'D';
-            }elseif($property['diagGes'] > 230 and $property['diagGes'] <= 330 ){
-                $bilanGes = 'E';
-            }elseif($property['diagGes'] > 330 and $property['diagGes'] <= 450 ){
-                $bilanGes = 'F';
-            }else{
-                $bilanGes = 'G';
-            }
 
             if($property['diagChoice'] == "obligatoire"){
-                $diagDPEChoice = "D";
-                $diagGESChoice = "E";
+                // BILAN DPE
+                if($property['diagDpe'] > 0 and $property['diagDpe'] <= 50 ){
+                    $bilanDpe = 'A';
+                }elseif($property['diagDpe'] > 50 and $property['diagDpe'] <= 90 ){
+                    $bilanDpe = 'B';
+                }elseif($property['diagDpe'] > 90 and $property['diagDpe'] <= 150 ){
+                    $bilanDpe = 'C';
+                }elseif($property['diagDpe'] > 150 and $property['diagDpe'] <= 230 ){
+                    $bilanDpe = 'D';
+                }elseif($property['diagDpe'] > 230 and $property['diagDpe'] <= 330 ){
+                    $bilanDpe = 'E';
+                }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 450 ){
+                    $bilanDpe = 'F';
+                }else{
+                    $bilanDpe = 'G';
+                }
+
+                // Bilan GES
+                if($property['diagGes'] > 0 and $property['diagGes'] <= 50 ){
+                    $bilanGes = 'A';
+                }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 90 ){
+                    $bilanGes = 'B';
+                }elseif($property['diagGes'] > 90 and $property['diagGes'] <= 150 ){
+                    $bilanGes = 'C';
+                }elseif($property['diagGes'] > 150 and $property['diagGes'] <= 230 ){
+                    $bilanGes = 'D';
+                }elseif($property['diagGes'] > 230 and $property['diagGes'] <= 330 ){
+                    $bilanGes = 'E';
+                }elseif($property['diagGes'] > 330 and $property['diagGes'] <= 450 ){
+                    $bilanGes = 'F';
+                }else{
+                    $bilanGes = 'G';
+                }
             }elseif($property['diagChoice'] == "vierge"){
-                $diagDPEChoice = "VI";
-                $diagGESChoice = "VI";
+                $bilanDpe = "VI";
+                $bilanGes = "VI";
             }else{
-                $diagDPEChoice = "NS";
-                $diagGESChoice = "NS";
+                $bilanDpe = "NS";
+                $bilanGes = "NS";
             }
 
 
@@ -808,49 +807,46 @@ class ftptransfertService
             $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
             //dd($equipments);
 
-            // BILAN DPE
-            if($property['diagDpe'] > 0 and $property['diagDpe'] <= 50 ){
-                $bilanDpe = 'A';
-            }elseif($property['diagDpe'] > 50 and $property['diagDpe'] <= 90 ){
-                $bilanDpe = 'B';
-            }elseif($property['diagDpe'] > 90 and $property['diagDpe'] <= 150 ){
-                $bilanDpe = 'C';
-            }elseif($property['diagDpe'] > 150 and $property['diagDpe'] <= 230 ){
-                $bilanDpe = 'D';
-            }elseif($property['diagDpe'] > 230 and $property['diagDpe'] <= 330 ){
-                $bilanDpe = 'E';
-            }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 450 ){
-                $bilanDpe = 'F';
-            }else{
-                $bilanDpe = 'G';
-            }
-
-            // Bilan GES
-            if($property['diagGes'] > 0 and $property['diagGes'] <= 50 ){
-                $bilanGes = 'A';
-            }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 90 ){
-                $bilanGes = 'B';
-            }elseif($property['diagGes'] > 90 and $property['diagGes'] <= 150 ){
-                $bilanGes = 'C';
-            }elseif($property['diagGes'] > 150 and $property['diagGes'] <= 230 ){
-                $bilanGes = 'D';
-            }elseif($property['diagGes'] > 230 and $property['diagGes'] <= 330 ){
-                $bilanGes = 'E';
-            }elseif($property['diagGes'] > 330 and $property['diagGes'] <= 450 ){
-                $bilanGes = 'F';
-            }else{
-                $bilanGes = 'G';
-            }
-
             if($property['diagChoice'] == "obligatoire"){
-                $diagDPEChoice = "D";
-                $diagGESChoice = "E";
+                // BILAN DPE
+                if($property['diagDpe'] > 0 and $property['diagDpe'] <= 50 ){
+                    $bilanDpe = 'A';
+                }elseif($property['diagDpe'] > 50 and $property['diagDpe'] <= 90 ){
+                    $bilanDpe = 'B';
+                }elseif($property['diagDpe'] > 90 and $property['diagDpe'] <= 150 ){
+                    $bilanDpe = 'C';
+                }elseif($property['diagDpe'] > 150 and $property['diagDpe'] <= 230 ){
+                    $bilanDpe = 'D';
+                }elseif($property['diagDpe'] > 230 and $property['diagDpe'] <= 330 ){
+                    $bilanDpe = 'E';
+                }elseif($property['diagDpe'] > 330 and $property['diagDpe'] <= 450 ){
+                    $bilanDpe = 'F';
+                }else{
+                    $bilanDpe = 'G';
+                }
+
+                // Bilan GES
+                if($property['diagGes'] > 0 and $property['diagGes'] <= 50 ){
+                    $bilanGes = 'A';
+                }elseif($property['diagGes'] > 50 and $property['diagGes'] <= 90 ){
+                    $bilanGes = 'B';
+                }elseif($property['diagGes'] > 90 and $property['diagGes'] <= 150 ){
+                    $bilanGes = 'C';
+                }elseif($property['diagGes'] > 150 and $property['diagGes'] <= 230 ){
+                    $bilanGes = 'D';
+                }elseif($property['diagGes'] > 230 and $property['diagGes'] <= 330 ){
+                    $bilanGes = 'E';
+                }elseif($property['diagGes'] > 330 and $property['diagGes'] <= 450 ){
+                    $bilanGes = 'F';
+                }else{
+                    $bilanGes = 'G';
+                }
             }elseif($property['diagChoice'] == "vierge"){
-                $diagDPEChoice = "VI";
-                $diagGESChoice = "VI";
+                $bilanDpe = "VI";
+                $bilanGes = "VI";
             }else{
-                $diagDPEChoice = "NS";
-                $diagGESChoice = "NS";
+                $bilanDpe = "NS";
+                $bilanGes = "NS";
             }
 
             // création SSfamille
@@ -1035,9 +1031,9 @@ class ftptransfertService
                 '"'.$url20.'"',                                             // 174 - Photo 20
                 '""',                                                       // 175 - Identifiant technique
                 '"'.$property['diagDpe'].'"',                               // 176 - Consommation énergie
-                '"'.$diagDPEChoice.'"',                                     // 177 - Bilan consommation énergie
+                '"'.$bilanDpe.'"',                                          // 177 - Bilan consommation énergie
                 '"'.$property['diagGes'].'"',                               // 178 - Emissions GES
-                '"'.$diagGESChoice.'"',                                     // 179 - Bilan émission GES
+                '"'.$bilanGes.'"',                                          // 179 - Bilan émission GES
                 '""',                                                       // 180 - Identifiant quartier (obsolète)
                 '""',                                                       // 181 - Sous type de bien
                 '""',                                                       // 182 - Périodes de disponibilité
