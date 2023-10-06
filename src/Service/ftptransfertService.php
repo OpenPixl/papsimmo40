@@ -552,7 +552,7 @@ class ftptransfertService
                 '""',// 322 - Localisation
                 '""',// 323 - Nom du modèle
                 '"'.$dpeAt.'"',                                             // 324 - Date réalisation DPE
-                '""',                                                       // 325 - Version DPE
+                '“DPE_v07-2021” ',                                          // 325 - Version DPE
                 '"'.$property['dpeEstimateEnergyDown'].'"',                 // 326 - DPE coût min conso
                 '"'.$property['dpeEstimateEnergyUp'].'"',                   // 327 - DPE coût max conso
                 '"'.$RefDPE.'"',                                            // 328 - DPE date référence conso
@@ -1183,7 +1183,7 @@ class ftptransfertService
                 '""',// 322 - Localisation
                 '""',// 323 - Nom du modèle
                 '"'.$dpeAt.'"',                                             // 324 - Date réalisation DPE
-                '""',                                                       // 325 - Version DPE
+                '“DPE_v07-2021” ',                                          // 325 - Version DPE
                 '"'.$property['dpeEstimateEnergyDown'].'"',                 // 326 - DPE coût min conso
                 '"'.$property['dpeEstimateEnergyUp'].'"',                   // 327 - DPE coût max conso
                 '"'.$RefDPE.'"',                                            // 328 - DPE date référence conso
