@@ -100,7 +100,7 @@ class Property
     #[ORM\Column(type: 'integer')]
     private $reflastnumber;
 
-    #[ORM\Column(type: 'string', length: 7)]
+    #[ORM\Column(type: 'string', length: 14)]
     private $refnumdate;
 
     #[ORM\Column(type: 'string', length: 255)]
@@ -190,7 +190,7 @@ class Property
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $archivedAt = null;
 
-    #[ORM\Column(length: 90, nullable: true)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $annonceSlug = null;
 
     public function __construct()
