@@ -1864,16 +1864,27 @@ class ReportController extends AbstractController
     /**
      * Génération du Fichiers XML pour green-acres
      **/
+<<<<<<< HEAD
     #[Route('/report/annoncesGreenAcres', name: 'app_gestapp_report_annoncesgreenacres')]
+=======
+    #[Route('/report/annoncesfigaro', name: 'app_gestapp_report_annoncesfigaro')]
+>>>>>>> GreenAcres
     public function PropertyGreenAcres(
         PropertyRepository   $propertyRepository,
         PhotoRepository      $photoRepository,
         ComplementRepository $complementRepository): Response
     {
         // PARTIE I : Génération du fichier CSV
+<<<<<<< HEAD
         $properties = $propertyRepository->reportpropertyGreenacresFTP();            // On récupère les biens à publier sur SeLoger
         $app = $this->container->get('router')->getContext()->getHost();    // On récupère l'url de l'appl pour les url des photos
 
+=======
+        $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
+        $app = $this->container->get('router')->getContext()->getHost();    // On récupère l'url de l'appl pour les url des photos
+
+        $rows = array();                                                    // Construction du tableau
+>>>>>>> GreenAcres
         foreach ($properties as $property) {
             // Description de l'annonce
             $data = str_replace(array("\n", "\r"), array('', ''), html_entity_decode($property['annonce']));
@@ -1933,7 +1944,10 @@ class ReportController extends AbstractController
 
             // Récupération des images liées au bien
             $photos = $photoRepository->findNameBy(['property' => $property['id']]);
+<<<<<<< HEAD
 
+=======
+>>>>>>> GreenAcres
             if (!$photos) {                                                                       // Si aucune photo présente
                 $url = [];
                 $titrephoto = [];
@@ -2053,6 +2067,7 @@ class ReportController extends AbstractController
                 $diagDPEChoice = "NS";
                 $diagGESChoice = "NS";
             }
+<<<<<<< HEAD
 
             $data = [
                 'reference' => '',
@@ -2072,10 +2087,15 @@ class ReportController extends AbstractController
 
         $xmlContent = $this->renderView('gestapp/report/greenacrees.html.twig', []);
 
+=======
+        }                               // manque la définition de chaque balise
+
+>>>>>>> GreenAcres
         // PARTIE II : Génération du fichier CSV
         $file = 'doc/report/AnnoncesGreen/annonces.xml';                                  // Chemin du fichier
         if (file_exists($file)) {
             unlink($file);                                                  // Suppression du précédent s'il existe
+<<<<<<< HEAD
             file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
         }
         file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
@@ -2085,5 +2105,15 @@ class ReportController extends AbstractController
         $response->headers->set('Content-type', 'text/xml');
 
         return $response;
+=======
+            file_put_contents('doc/report/Annoncesfigaro/Annonces.csv', $content); // Génération du fichier dans l'arborescence du fichiers du site
+        }
+        file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $content);     // Génération du fichier dans l'arborescence du fichiers du site
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Le fichier XML a été correctement généré.' . $app
+        ]);
+>>>>>>> GreenAcres
     }
 }
