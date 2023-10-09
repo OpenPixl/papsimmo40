@@ -594,19 +594,27 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     /**
-     * Rechercher un bien depuis le searchProperty
+     * Rechercher un bien depuis le searchProperty dans le header du site
      * @return void
      */
     public function SearchPropertyHome($keys)
     {
         $query = $this->createQueryBuilder('p');
-        $query->join('p.refEmployed', 'e');
-        $query->join('p.options', 'c'); // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->leftjoin('p.refEmployed', 'e');
+        $query->leftjoin('p.options', 'c');    // p.options correspond à la table "Complement" d'où l'alias "c"
         $query->leftjoin('c.banner', 'b');
-        $query->join('c.denomination', 'd');
-        $query->join('p.propertyDefinition', 'pd');
-        $query->join('p.publication', 'pu');
+        $query->leftjoin('c.denomination', 'd');
+        $query->leftJoin('p.propertyDefinition', 'pd');
+        $query->leftjoin('p.publication', 'pu');
+        $query->leftJoin('p.family', 'fa');
+        $query->leftJoin('p.rubric', 'ru');
+        $query->leftJoin('p.rubricss', 'rus');
         $query->addSelect('
+                p.annonceSlug as annonceSlug,
+                fa.name as family,
+                rus.name as rubricss,
+                ru.id as idrubric,
+                ru.name as rubric,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
                 pu.isWebpublish as isWebpublish,
