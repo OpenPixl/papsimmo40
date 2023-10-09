@@ -877,7 +877,6 @@ class PropertyRepository extends ServiceEntityRepository
                 ru.name as rubric,
                 rus.code as rubricssCode,
                 rus.name as rubricss,
-                pu.isPublishleboncoin AS leboncoin,
                 pu.isPublishMeilleur AS seloger,
                 c.wc as wc,
                 c.washroom AS washroom,
@@ -961,8 +960,7 @@ class PropertyRepository extends ServiceEntityRepository
                 ru.name as rubric,
                 rus.code as rubricssCode,
                 rus.name as rubricss,
-                pu.isPublishleboncoin AS leboncoin,
-                pu.isPublishMeilleur AS seloger,
+                pu.isPublishfigaro AS figaro,
                 c.wc as wc,
                 c.washroom AS washroom,
                 c.sanitation as sanitation,
@@ -1035,7 +1033,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
-        $query->where('pu.isPublishfigaro = 1');
+        $query->where('pu.isPublishgreenacres = 1');
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
         $query->select('
@@ -1045,8 +1043,7 @@ class PropertyRepository extends ServiceEntityRepository
                 ru.name as rubric,
                 rus.code as rubricssCode,
                 rus.name as rubricss,
-                pu.isPublishleboncoin AS leboncoin,
-                pu.isPublishMeilleur AS seloger,
+                pu.isPublishgreenacres AS greenacres,
                 c.wc as wc,
                 c.washroom AS washroom,
                 c.sanitation as sanitation,

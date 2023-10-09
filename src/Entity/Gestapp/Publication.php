@@ -37,6 +37,9 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishfigaro = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishgreenacres = false;
+
 
     public function getId(): ?int
     {
@@ -139,6 +142,17 @@ class Publication
     public function setIsPublishfigaro(bool $isPublishfigaro): self
     {
         $this->isPublishfigaro = $isPublishfigaro;
+
+        return $this;
+    }
+
+    public function isIsPublishgreenacres(): ?bool
+    {
+        return $this->isPublishgreenacres;
+    }
+    public function setIsPublishgreenacres(bool $isPublishgreenacres): self
+    {
+        $this->isPublishgreenacres = $isPublishgreenacres;
 
         return $this;
     }
