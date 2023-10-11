@@ -2029,6 +2029,7 @@ class ReportController extends AbstractController
                 'accountReference' => '',
                 'title' => $property['name'],
                 'price' => $property['priceFai'],
+                'fees' => $property['fees'],
                 'pictureNumber' => count($photos),
                 'department' => substr($property['zipcode'],0,2),
                 'city' => $property['city'],

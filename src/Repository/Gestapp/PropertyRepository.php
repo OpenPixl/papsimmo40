@@ -1083,6 +1083,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.projet as projet,
                 p.isWithExclusivity as isWithExclusivity,
                 p.price,
+                p.honoraires as fees,
                 p.ref AS ref,
                 p.dpeAt as dpeAt, 
                 p.dpeEstimateEnergyDown as dpeEstimateEnergyDown,

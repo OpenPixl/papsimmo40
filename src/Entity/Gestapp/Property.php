@@ -193,6 +193,12 @@ class Property
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $annonceSlug = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2, nullable: true)]
+    private ?string $rent = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2, nullable: true)]
+    private ?string $rentCharge = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -936,6 +942,30 @@ class Property
     public function setAnnonceSlug(?string $annonceSlug): self
     {
         $this->annonceSlug = $annonceSlug;
+
+        return $this;
+    }
+
+    public function getRent(): ?string
+    {
+        return $this->rent;
+    }
+
+    public function setRent(?string $rent): self
+    {
+        $this->rent = $rent;
+
+        return $this;
+    }
+
+    public function getRentCharge(): ?string
+    {
+        return $this->rentCharge;
+    }
+
+    public function setRentCharge(?string $rentCharge): self
+    {
+        $this->rentCharge = $rentCharge;
 
         return $this;
     }

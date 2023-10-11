@@ -53,6 +53,16 @@ class PropertyStep2Type extends AbstractType
                 'label' => 'Prix FAI',
                 'required' => false
             ])
+
+            ->add('rent', IntegerType::class, [
+                'label' => 'Loyer',
+                'required' => false
+            ])
+            ->add('rentCharge', IntegerType::class, [
+                'label' => 'Charges mensuelles',
+                'required' => false
+            ])
+
             ->add('dpeAt', DateType::class, [
                 'label'=> 'Date du DPE',
                 'widget' => 'single_text',

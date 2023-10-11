@@ -1,11 +1,7 @@
-<advert>
-    <reference>A5sjfnystgvjzw1h</reference>
-    <accountReference>892318a</accountReference>
-    <price>367000</price>
-    <pictureNumber>11</pictureNumber>
-    <department>40</department>
-    <city>Gamarde-les-Bains</city>
-    <postalCode>40380</postalCode>
-    <country>fr</country>
-    <status>Publiée</status>
-</advert>
+<?xml version="1.0" encoding="utf-8"?>
+<Envelope>
+    <Body>
+        <add_adverts>
+                    </add_adverts>
+    </Body>
+</Envelope>
