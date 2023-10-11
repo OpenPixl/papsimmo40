@@ -70,6 +70,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>{{ form_label(form.isPublishgreenacres, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            {{ form_widget(form.isPublishgreenacres, {'attr': {'class': 'form-check-input'}}) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td>{{ form_label(form.isSocialNetwork, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
                     <td>
                         <div class="form-check form-switch">
