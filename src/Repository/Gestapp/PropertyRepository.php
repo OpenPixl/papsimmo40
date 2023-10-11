@@ -476,6 +476,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.refEmployed', 'e')
             ->leftJoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
+            ->leftJoin('p.family', 'f')
             ->leftJoin('c.propertyState', 'ps')
             ->leftJoin('c.propertyEnergy', 'pe')
             ->leftJoin('c.propertyOrientation', 'po')
@@ -484,6 +485,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.propertyTypology', 'pt')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                f.name as family,
                 p.eeaYear as anneeRefNRJ,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
@@ -512,6 +514,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.eeaYear as anneeref,
                 p.constructionAt as constructionAt,
                 p.priceFai as priceFai,
+                p.rent as rent,
                 pd.name as propertyDefinition,
                 p.adress as adress,
                 p.complement as complement,
@@ -573,6 +576,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.name as name,
                 p.annonce as annonce,
                 p.priceFai as priceFai,
+                p.rent as rent,
                 p.surfaceHome as surfaceHome,
                 p.surfaceLand as surfaceLand,
                 d.name as denomination,
@@ -587,6 +591,110 @@ class PropertyRepository extends ServiceEntityRepository
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // ----------------------------------------------
+    // Requête : Liste tous les biens disponible à la vente - Partie accueil
+    // ----------------------------------------------
+    public function AllPropertiesSales()
+    {
+        return $this->createQueryBuilder('p')
+            ->leftjoin('p.refEmployed', 'e')
+            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftJoin('c.banner', 'b')
+            ->leftjoin('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
+            ->leftJoin('p.publication', 'pu')
+            ->leftJoin('p.family', 'fa')
+            ->leftJoin('p.rubric', 'ru')
+            ->leftJoin('p.rubricss', 'rus')
+            ->addSelect('
+                p.annonceSlug as annonceSlug,
+                fa.name as family,
+                rus.name as rubricss,
+                ru.id as idrubric,
+                ru.name as rubric,
+                p.dupMandat as dupMandat,
+                p.isArchived as isArchived,
+                pu.isWebpublish as isWebpublish,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.annonce as annonce,
+                p.priceFai as priceFai,
+                p.rent as rent,
+                p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
+                d.name as denomination,
+                p.piece as piece,
+                p.room as room,
+                p.city as city,
+                pd.name as propertyDefinition,
+                b.name as banner,
+                b.bannerFilename AS bannerFilename,
+                pd.id AS idpropertyDefinition
+            ')
+            ->where('p.isIncreating = 0')
+            ->andWhere('p.isArchived = 0')
+            ->andWhere('pu.isWebpublish = 1')
+            ->andWhere('p.family = 8')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // ----------------------------------------------
+    // Requête : Liste tous les biens disponible à la location - Partie accueil
+    // ----------------------------------------------
+    public function AllPropertiesRent()
+    {
+        return $this->createQueryBuilder('p')
+            ->leftjoin('p.refEmployed', 'e')
+            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftJoin('c.banner', 'b')
+            ->leftjoin('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
+            ->leftJoin('p.publication', 'pu')
+            ->leftJoin('p.family', 'fa')
+            ->leftJoin('p.rubric', 'ru')
+            ->leftJoin('p.rubricss', 'rus')
+            ->addSelect('
+                p.annonceSlug as annonceSlug,
+                fa.name as family,
+                rus.name as rubricss,
+                ru.id as idrubric,
+                ru.name as rubric,
+                p.dupMandat as dupMandat,
+                p.isArchived as isArchived,
+                pu.isWebpublish as isWebpublish,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.annonce as annonce,
+                p.priceFai as priceFai,
+                p.rent as rent,
+                p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
+                d.name as denomination,
+                p.piece as piece,
+                p.room as room,
+                p.city as city,
+                pd.name as propertyDefinition,
+                b.name as banner,
+                b.bannerFilename AS bannerFilename,
+                pd.id AS idpropertyDefinition
+            ')
+            ->where('p.isIncreating = 0')
+            ->andWhere('p.isArchived = 0')
+            ->andWhere('pu.isWebpublish = 1')
+            ->andWhere('p.family = 5')
             ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult()

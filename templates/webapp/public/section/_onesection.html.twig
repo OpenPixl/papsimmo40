@@ -54,9 +54,12 @@
                 {# Affiche tous les collaborateurs #}
                 {% elseif section.content == 'All_Employed'%}
                     {{ render(controller('App\\Controller\\Admin\\EmployedController::AllEmployed')) }}
-                {# Affiche tous les biens #}
-                {% elseif section.content == 'All_properties'%}
-                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllProperties')) }}
+                {# Affiche tous les biens à la vente #}
+                {% elseif section.content == 'All_properties_sales'%}
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllPropertiesSales')) }}
+                    {# Affiche tous les biens à la location #}
+                {% elseif section.content == 'All_properties_rent'%}
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllPropertiesRent')) }}
                 {# Affiche tous les biens par secteurs #}
                 {% elseif section.content == 'Sector_ofProperties'%}
                 {# Affiche les 5 derniers biens #}

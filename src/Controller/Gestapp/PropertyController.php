@@ -766,16 +766,43 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * Affiche tous les biens immobiliers sur la page "Nos biens".
+     * Affiche tous les biens immobiliers dans la section adaptée".
      */
-    #[Route('/allproperties', name: 'op_gestapp_properties_allproperty', methods: ['GET'])]
-    public function AllProperties(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
+    #[Route('/allpropertiessales', name: 'op_gestapp_properties_allpropertysales', methods: ['GET'])]
+    public function AllPropertiesSales(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
 
         // Récupération de la page si elle existe
         $page = $request;
 
-        $data = $propertyRepository->AllProperties();
+        $data = $propertyRepository->AllPropertiesSales();
+
+        //dd($data);
+
+        $properties = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            24
+        );
+
+        return $this->renderForm('webapp/page/property/allproperties.html.twig', [
+            'properties' => $properties,
+            'page' => $request->query->getInt('page', 1),
+        ]);
+
+    }
+
+    /**
+     * Affiche tous les biens immobiliers dans la section adaptée".
+     */
+    #[Route('/allpropertiesrent', name: 'op_gestapp_properties_allpropertyrent', methods: ['GET'])]
+    public function AllPropertiesRent(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
+    {
+
+        // Récupération de la page si elle existe
+        $page = $request;
+
+        $data = $propertyRepository->AllPropertiesRent();
 
         $properties = $paginator->paginate(
             $data,

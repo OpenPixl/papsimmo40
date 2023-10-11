@@ -44,7 +44,7 @@
                     {% if firstphoto is not empty %}
                         <img class="img-adapt" src="{{ asset('images/galery/' ~ firstphoto.galeryFrontName)|imagine_filter('oneproperty_image') }}" alt="{{ firstphoto.galeryFrontName }}">
                     {% else %}
-                        <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
+                        <img class="img-fluid" src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
                     {% endif %}
                 </div>
                 <div id="Informations" class="col-50">
@@ -56,7 +56,7 @@
                             </tr>
                             <tr>
                                 <th>Transaction :</th>
-                                <td colspan="3">VENTE</td>
+                                <td colspan="3">{{ property.family }}</td>
                             </tr>
                             <tr>
                                 <th>Type :</th>

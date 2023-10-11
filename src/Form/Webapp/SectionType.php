@@ -21,7 +21,7 @@ class SectionType extends AbstractType
                     'ARTICLES' => [
                         'Un article' => 'One_article',
                         'Un article en pdf' => 'article_pdf',
-                        'Une categorie' => 'Category',
+                        'Une catégorie' => 'Category',
                     ],
                     'Collaborateur' =>[
                         "un collaborateur" => "One_Employed",
@@ -29,7 +29,8 @@ class SectionType extends AbstractType
                         "Liste de tous les collaborateurs" => "All_Employed"
                     ],
                     'Propriétés' => [
-                        'Liste des proporiétés' => 'All_properties',
+                        'Liste des propriétés à la vente' => 'All_properties_sales',
+                        'Liste des propriétés à la location' => 'All_properties_rent',
                         "liste des avis" => "Sector_ofProperties",
                         'Les dernières propriétés' => 'Last_property'
                     ],
