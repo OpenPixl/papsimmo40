@@ -236,7 +236,7 @@ class PropertyController extends AbstractController
 
     }
 
-    #[Route('/transferate/{id}', name:'op_gestapp_property_duplicate', methods: ['GET', 'POST'])]
+    #[Route('/transferate/{id}', name:'op_gestapp_property_transferate', methods: ['GET', 'POST'])]
     public function transferate(
         Property $property,
         ComplementRepository $complementRepository,
