@@ -1157,6 +1157,7 @@ class PropertyRepository extends ServiceEntityRepository
                 f.name as family,
                 ru.code as rubricCode,
                 ru.name as rubric,
+                ru.en as rubric_en,
                 rus.code as rubricssCode,
                 rus.name as rubricss,
                 pu.isPublishgreenacres AS greenacres,

@@ -4,13 +4,12 @@
         <add_adverts>
             {% for advert in adverts%}
                 <advert>
-                    <account_id>555a</account_id>
-                    <reference>555a-1244</reference>
+                    <account_id>{{ advert.accountReference }}</account_id>
+                    <reference>{{ advert.accountReference }}-{{ advert.reference }}</reference>
                     <price>{{ advert.price }}</price>
                     <currency>EUR</currency>
-                    <has_included_fees>1</has_included_fees>
+                    <has_included_fees>0</has_included_fees>
                     <agency_rates_type>0</agency_rates_type>
-                    <agency_rates>2.5</agency_rates>
                     <fees>{{ advert.fees }}</fees>
                     <postal_code>{{ advert.postalCode }}</postal_code>
                     <city>{{ advert.city }}</city>
@@ -35,28 +34,14 @@
                     <balconies_number>{{ advert.balcony }}</balconies_number>
                     <open_parkings_number>1</open_parkings_number>
                     <boxes_number>1</boxes_number>
-                    <has_cellar>1</has_cellar>
-                    <has_fireplace>1</has_fireplace>
-                    <has_parquet>1</has_parquet>
                     <has_elevator>1</has_elevator>
-                    <has_closets>1</has_closets>
-                    <has_air_conditioning>1</has_air_conditioning>
+                    <has_closets>{% if advert.wc > 0 %}1{% else %}0{% endif %}</has_closets>
                     <has_intercom>1</has_intercom>
                     <has_building_code>1</has_building_code>
                     <has_building_manager>1</has_building_manager>
                     <has_handicap_access>1</has_handicap_access>
                     <has_alarm>1</has_alarm>
-                    <has_separate_toilet>1</has_separate_toilet>
-                    <has_separate_entrance>1</has_separate_entrance>
-                    <has_living_room>1</has_living_room>
-                    <has_dining_room>1</has_dining_room>
-                    <is_not_overlooked>1</is_not_overlooked>
-                    <is_south_facing>1</is_south_facing>
-                    <is_east_facing>1</is_east_facing>
-                    <is_west_facing>1</is_west_facing>
-                    <is_north_facing>1</is_north_facing>
-                    <kitchen_type>5</kitchen_type>
-                    <charges>2</charges>{{ advert.isFurnished }}
+                    <charges>2</charges>
                     <furnished>{% if advert.isFurnished == true %}1{% else %}0{% endif %}</furnished>
                     <heating>none</heating>
                     <pics>
@@ -66,7 +51,9 @@
                             </pic>
                         {% endfor %}
                     </pics>
-
+                    <publications>
+                        <greenacres>1</greenacres>
+                    </publications>
                 </advert>
             {% endfor %}
         </add_adverts>

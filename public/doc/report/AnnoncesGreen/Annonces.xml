@@ -2,6 +2,282 @@
 <Envelope>
     <Body>
         <add_adverts>
+                            <advert>
+                    <account_id>892318a</account_id>
+                    <reference>892318a-2023/04-3</reference>
+                    <price>296800</price>
+                    <currency>EUR</currency>
+                    <has_included_fees>0</has_included_fees>
+                    <agency_rates_type>0</agency_rates_type>
+                    <fees>16800</fees>
+                    <postal_code>40100</postal_code>
+                    <city>DAX</city>
+                    <advert_type>properties</advert_type>
+                    <title_fr>Immeuble</title_fr>
+                    <summary_fr>Au centre de Dax, cet immeuble à usage d&#039;habitation est composé de 2 studios, de 2 T2 et 1 sous-sol.&lt;br&gt; - au rez-de-chaussée : 2 studios avec coin cuisine, espace nuit avec placard,  salle d&#039;eau (meuble vasque, douche, wc)&lt;br&gt;- au premier étage : - un appartement de type 2 pièces comprenant une pièce de vie avec cuisine, une chambre, une salle de bain (meuble vasque, baignoire, wc)&lt;br&gt;- au deuxième étage : - un appartement mansardé de type 2 pièces comprenant une pièce de vie, une cuisine, une chambre, une salle d&#039;eau (meuble vasque, douche) et wc séparé.&lt;br&gt;Le tout sur un terrain de 359 m² avec parking privatif.&lt;br&gt;Rapport locatif environ 20 000 euros de revenus fonciers par an.&lt;br&gt;Pas de copropriété, parfait pour investisseur.&lt;br&gt;Taxe foncière : 2248€Prix : 296 800€&lt;br&gt;Contact  06 77 31 26 39 ou  contact@papsimmo.frLes informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</summary_fr>
+                    <country_code>fr</country_code>
+                    <property_type>building</property_type>
+                    <habitable_surface>144</habitable_surface>
+                    <land_surface>359</land_surface>
+                    <dpe_type>E</dpe_type>
+                    <dpe_value>308</dpe_value>
+                    <ges_type>B</ges_type>
+                    <ges_value>10</ges_value>
+                    <rooms_number>6</rooms_number>
+                    <bedrooms_number>4</bedrooms_number>
+                    <baths_number>0</baths_number>
+                    <showers_number>0</showers_number>
+                    <floor>0</floor>
+                    <has_pool>0</has_pool>
+                    <has_terrace>0</has_terrace>
+                    <balconies_number>3</balconies_number>
+                    <open_parkings_number>1</open_parkings_number>
+                    <boxes_number>1</boxes_number>
+                    <has_cellar>1</has_cellar>
+                    <has_fireplace>1</has_fireplace>
+                    <has_parquet>1</has_parquet>
+                    <has_elevator>1</has_elevator>
+                    <has_closets>1</has_closets>
+                    <has_air_conditioning>1</has_air_conditioning>
+                    <has_intercom>1</has_intercom>
+                    <has_building_code>1</has_building_code>
+                    <has_building_manager>1</has_building_manager>
+                    <has_handicap_access>1</has_handicap_access>
+                    <has_alarm>1</has_alarm>
+                    <has_separate_toilet>1</has_separate_toilet>
+                    <has_separate_entrance>1</has_separate_entrance>
+                    <has_living_room>1</has_living_room>
+                    <has_dining_room>1</has_dining_room>
+                    <is_not_overlooked>1</is_not_overlooked>
+                    <is_south_facing>1</is_south_facing>
+                    <is_east_facing>1</is_east_facing>
+                    <is_west_facing>1</is_west_facing>
+                    <is_north_facing>1</is_north_facing>
+                    <kitchen_type>5</kitchen_type>
+                    <charges>2</charges>
+                    <furnished>0</furnished>
+                    <heating>none</heating>
+                    <pics>
+                                                    <pic order="1">
+                                http://127.0.0.1/images/galery/dscn4491-6450bddb2bfdd180269098.jpg
+                            </pic>
+                                                    <pic order="2">
+                                http://127.0.0.1/images/galery/20230428-133031-6450be04ed67e545951404.jpg
+                            </pic>
+                                                    <pic order="3">
+                                http://127.0.0.1/images/galery/img-1637-6450be3313abf995090194.jpg
+                            </pic>
+                                                    <pic order="4">
+                                http://127.0.0.1/images/galery/img-1638-6450be468befd606669978.jpg
+                            </pic>
+                                                    <pic order="5">
+                                http://127.0.0.1/images/galery/2020-stud-1-6450a021af8cb403804418.jpg
+                            </pic>
+                                                    <pic order="6">
+                                http://127.0.0.1/images/galery/2020-stud-2-6450adaf33006426976929.jpg
+                            </pic>
+                                                    <pic order="7">
+                                http://127.0.0.1/images/galery/img-1639-6450be2581b0f310396792.jpg
+                            </pic>
+                                                    <pic order="8">
+                                http://127.0.0.1/images/galery/20230428-133025-6450be6ae9f3f607280841.jpg
+                            </pic>
+                                            </pics>
+                    <publications>
+                        <greenacres>1</greenacres>
+                    </publications>
+                </advert>
+                            <advert>
+                    <account_id>892318a</account_id>
+                    <reference>892318a-2022/12-1A</reference>
+                    <price>249000</price>
+                    <currency>EUR</currency>
+                    <has_included_fees>0</has_included_fees>
+                    <agency_rates_type>0</agency_rates_type>
+                    <fees>15000</fees>
+                    <postal_code>40400</postal_code>
+                    <city>TARTAS</city>
+                    <advert_type>properties</advert_type>
+                    <title_fr>PROPRIETE AVEC MAISONS, DÉPENDANCE/GRANGE.</title_fr>
+                    <summary_fr>À une quarantaine de kilomètres de l’océan et à mi-chemin entre Dax et Mont de Marsan, cette propriété de 5 086 m² clôturée comprend : Une maison traditionnelle avec une entrée/chaufferie, un couloir desservant, une cuisine équipée, un grand espace pièce de vie avec accès terrasse, un beau salon/séjour, trois chambres, une salle d&#039;eau refaite en 2017/2018 (douche italienne, lavabo, bidet), WC séparé plus une dépendance (ancienne maison type landaise) à entièrement rénover sur environ 100 m² au sol pour créer une deuxième habitation et/ou gite, maison d&#039;hôte grâce à ses nombreuses pièces (8) et son grenier aménageable plus une grande grange d&#039;environ 70 m² en bois et une petite dépendance atypique avec abri bois. Le tout dans un airial de 5 086 m² arboré, clôturé et sans vis-à-vis, au calme avec un ruisseau. Après avoir effectué quelques travaux, ce havre de paix et de tranquillité sera pour votre famille, un véritable lieu de vie dans la nature. &lt;br&gt;Taxe foncière : 696 €Prix : 249 000€&lt;br&gt;Contact  06 77 31 26 99&lt;br&gt;Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</summary_fr>
+                    <country_code>fr</country_code>
+                    <property_type>building</property_type>
+                    <habitable_surface>93</habitable_surface>
+                    <land_surface>5086</land_surface>
+                    <dpe_type>D</dpe_type>
+                    <dpe_value>219</dpe_value>
+                    <ges_type>E</ges_type>
+                    <ges_value>68</ges_value>
+                    <rooms_number>6</rooms_number>
+                    <bedrooms_number>3</bedrooms_number>
+                    <baths_number>0</baths_number>
+                    <showers_number>1</showers_number>
+                    <floor>0</floor>
+                    <has_pool>0</has_pool>
+                    <has_terrace>0</has_terrace>
+                    <balconies_number>0</balconies_number>
+                    <open_parkings_number>1</open_parkings_number>
+                    <boxes_number>1</boxes_number>
+                    <has_cellar>1</has_cellar>
+                    <has_fireplace>1</has_fireplace>
+                    <has_parquet>1</has_parquet>
+                    <has_elevator>1</has_elevator>
+                    <has_closets>1</has_closets>
+                    <has_air_conditioning>1</has_air_conditioning>
+                    <has_intercom>1</has_intercom>
+                    <has_building_code>1</has_building_code>
+                    <has_building_manager>1</has_building_manager>
+                    <has_handicap_access>1</has_handicap_access>
+                    <has_alarm>1</has_alarm>
+                    <has_separate_toilet>1</has_separate_toilet>
+                    <has_separate_entrance>1</has_separate_entrance>
+                    <has_living_room>1</has_living_room>
+                    <has_dining_room>1</has_dining_room>
+                    <is_not_overlooked>1</is_not_overlooked>
+                    <is_south_facing>1</is_south_facing>
+                    <is_east_facing>1</is_east_facing>
+                    <is_west_facing>1</is_west_facing>
+                    <is_north_facing>1</is_north_facing>
+                    <kitchen_type>5</kitchen_type>
+                    <charges>2</charges>
+                    <furnished>0</furnished>
+                    <heating>none</heating>
+                    <pics>
+                                                    <pic order="1">
+                                http://127.0.0.1/images/galery/dsc-0875-hdr-646230e5b8381892385670.jpg
+                            </pic>
+                                                    <pic order="2">
+                                http://127.0.0.1/images/galery/dsc-0888-hdr-646230c979574534358433.jpg
+                            </pic>
+                                                    <pic order="3">
+                                http://127.0.0.1/images/galery/dsc-0768-hdr-6462310cde7e5453275875.jpg
+                            </pic>
+                                                    <pic order="4">
+                                http://127.0.0.1/images/galery/dsc-0773-hdr-646231179618e442577051.jpg
+                            </pic>
+                                                    <pic order="5">
+                                http://127.0.0.1/images/galery/dsc-0793-hdr-64623124bee5b258080950.jpg
+                            </pic>
+                                                    <pic order="6">
+                                http://127.0.0.1/images/galery/dsc-0823-hdr-64623170e8d01825180124.jpg
+                            </pic>
+                                                    <pic order="7">
+                                http://127.0.0.1/images/galery/dsc-0863-hdr-6462318445a7e509982848.jpg
+                            </pic>
+                                                    <pic order="8">
+                                http://127.0.0.1/images/galery/dsc-0838-hdr-6462318d0fe2f063761397.jpg
+                            </pic>
+                                                    <pic order="9">
+                                http://127.0.0.1/images/galery/dsc-0858-hdr-646231b8256b5801267982.jpg
+                            </pic>
+                                                    <pic order="10">
+                                http://127.0.0.1/images/galery/dsc-0898-hdr-646231d10517b524454751.jpg
+                            </pic>
+                                                    <pic order="11">
+                                http://127.0.0.1/images/galery/20220413-103557-646231ff21de5136138665.jpg
+                            </pic>
+                                            </pics>
+                    <publications>
+                        <greenacres>1</greenacres>
+                    </publications>
+                </advert>
+                            <advert>
+                    <account_id>892318a</account_id>
+                    <reference>892318a-2023/05-1</reference>
+                    <price>334800</price>
+                    <currency>EUR</currency>
+                    <has_included_fees>0</has_included_fees>
+                    <agency_rates_type>0</agency_rates_type>
+                    <fees>20000</fees>
+                    <postal_code>40090</postal_code>
+                    <city>MAZEROLLES</city>
+                    <advert_type>properties</advert_type>
+                    <title_fr>Maison neuve 3 chambres sur terrain de 588 m²</title_fr>
+                    <summary_fr>À côté de Mont de Marsan, sur la commune de Mazerolles, très belle maison de 2023 avec prestation de qualité.&lt;br&gt;Elle vous accueille par une entrée/hall  avec espace placard, un salon-séjour spacieux, très lumineux avec une cuisine, qui est très fonctionnelle puisqu&#039;à la fois ouverte sur le séjour et accolée au cellier et arrière-cuisine, 3 grandes chambres de plus de 12 m² dont 1 avec dressing et salle d&#039;eau,  une salle de bain avec douche, un espace pour baignoire d&#039;angle, meuble vasque et un WC séparé avec lave main. &lt;br&gt;Presque 50% de la surface habitable sont consacrés à l&#039;espace commun (salon, séjour, cuisine). &lt;br&gt;Vous serez séduit par sa terrasse couverte, son garage intégré. Pour vous assurer un confort de vie, un mode de chauffage par climatisation gainable multi-zones, volets roulants électriques centralisés.&lt;br&gt;Construite sur un terrain de 588 m² situé dans un tout nouveau lotissement, produit rare et très recherché.Prix : 344 800€&lt;br&gt;Contact 06 77 31 26 39 ou  contact@papsimmo.frLes informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</summary_fr>
+                    <country_code>fr</country_code>
+                    <property_type>building</property_type>
+                    <habitable_surface>118</habitable_surface>
+                    <land_surface>588</land_surface>
+                    <dpe_type>A</dpe_type>
+                    <dpe_value>5</dpe_value>
+                    <ges_type>A</ges_type>
+                    <ges_value>2</ges_value>
+                    <rooms_number>5</rooms_number>
+                    <bedrooms_number>3</bedrooms_number>
+                    <baths_number>0</baths_number>
+                    <showers_number>2</showers_number>
+                    <floor>0</floor>
+                    <has_pool>0</has_pool>
+                    <has_terrace>1</has_terrace>
+                    <balconies_number>0</balconies_number>
+                    <open_parkings_number>1</open_parkings_number>
+                    <boxes_number>1</boxes_number>
+                    <has_cellar>1</has_cellar>
+                    <has_fireplace>1</has_fireplace>
+                    <has_parquet>1</has_parquet>
+                    <has_elevator>1</has_elevator>
+                    <has_closets>1</has_closets>
+                    <has_air_conditioning>1</has_air_conditioning>
+                    <has_intercom>1</has_intercom>
+                    <has_building_code>1</has_building_code>
+                    <has_building_manager>1</has_building_manager>
+                    <has_handicap_access>1</has_handicap_access>
+                    <has_alarm>1</has_alarm>
+                    <has_separate_toilet>1</has_separate_toilet>
+                    <has_separate_entrance>1</has_separate_entrance>
+                    <has_living_room>1</has_living_room>
+                    <has_dining_room>1</has_dining_room>
+                    <is_not_overlooked>1</is_not_overlooked>
+                    <is_south_facing>1</is_south_facing>
+                    <is_east_facing>1</is_east_facing>
+                    <is_west_facing>1</is_west_facing>
+                    <is_north_facing>1</is_north_facing>
+                    <kitchen_type>5</kitchen_type>
+                    <charges>2</charges>
+                    <furnished>0</furnished>
+                    <heating>none</heating>
+                    <pics>
+                                                    <pic order="1">
+                                http://127.0.0.1/images/galery/20230503-181358-6465d238a4638604148977.jpg
+                            </pic>
+                                                    <pic order="2">
+                                http://127.0.0.1/images/galery/20230503-180905-6465d2a34f50a286353273.jpg
+                            </pic>
+                                                    <pic order="3">
+                                http://127.0.0.1/images/galery/20230503-174638-6465d3aa337e7173350497.jpg
+                            </pic>
+                                                    <pic order="4">
+                                http://127.0.0.1/images/galery/20230503-174711-6465d35a1ea48862354545.jpg
+                            </pic>
+                                                    <pic order="5">
+                                http://127.0.0.1/images/galery/20230503-174605-6465d37404a87704141782.jpg
+                            </pic>
+                                                    <pic order="6">
+                                http://127.0.0.1/images/galery/20230503-174311-6465d44bc863d545946253.jpg
+                            </pic>
+                                                    <pic order="7">
+                                http://127.0.0.1/images/galery/20230503-174424-6465d38c4af0e054330968.jpg
+                            </pic>
+                                                    <pic order="8">
+                                http://127.0.0.1/images/galery/20230503-174513-6465d39a5c1f2047763603.jpg
+                            </pic>
+                                                    <pic order="9">
+                                http://127.0.0.1/images/galery/20230503-174538-6465d3f340620796922978.jpg
+                            </pic>
+                                                    <pic order="10">
+                                http://127.0.0.1/images/galery/20230503-174141-6465d3fcb64fd204588334.jpg
+                            </pic>
+                                                    <pic order="11">
+                                http://127.0.0.1/images/galery/dscn4510-6465d442cbf89365140843.jpg
+                            </pic>
+                                                    <pic order="12">
+                                http://127.0.0.1/images/galery/dscn4514-6465d4625f608888821062.jpg
+                            </pic>
+                                            </pics>
+                    <publications>
+                        <greenacres>1</greenacres>
+                    </publications>
+                </advert>
                     </add_adverts>
     </Body>
 </Envelope>
