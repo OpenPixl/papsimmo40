@@ -31,6 +31,9 @@ class propertyRubric
     #[ORM\OneToMany(mappedBy: 'rubric', targetEntity: Property::class)]
     private Collection $properties;
 
+    #[ORM\Column(length: 40, nullable: true)]
+    private ?string $en = null;
+
     public function __construct()
     {
         $this->rubricss = new ArrayCollection();
@@ -139,6 +142,18 @@ class propertyRubric
                 $property->setRubric(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getEn(): ?string
+    {
+        return $this->en;
+    }
+
+    public function setEn(string $en): static
+    {
+        $this->en = $en;
 
         return $this;
     }

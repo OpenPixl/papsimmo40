@@ -2025,8 +2025,8 @@ class ReportController extends AbstractController
 
 
             $xml = [
-                'reference' => '',
-                'accountReference' => '',
+                'reference' => $property['ref'],
+                'accountReference' => '892318a',
                 'title' => $property['name'],
                 'price' => $property['priceFai'],
                 'fees' => $property['fees'],
@@ -2048,6 +2048,7 @@ class ReportController extends AbstractController
                 'ges_value' => $property['diagGes'],
                 'bathroom' => $property['bathroom'],
                 'washroom' => $property['washroom'],
+                'wc' => $property['wc'],
                 'terrace' => $property['terrace'],
                 'balcony' => $property['balcony'],
                 'level' => $property['level'],
