@@ -206,6 +206,7 @@ class Property
         $this->photos = new ArrayCollection();
         $this->cadastre = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     /**

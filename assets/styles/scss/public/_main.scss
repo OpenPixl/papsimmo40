@@ -56,7 +56,7 @@ body{
 
   .page-item.disabled .page-link {
     background-color: #fff;
-    border-color: none !important;
+    //border-color: none !important;
     color: #929292;
     pointer-events: none;
   }
@@ -573,6 +573,13 @@ body{
 
 #noscollaborateurs{
   background: $secondary-color;
+}
+
+form{
+  select{
+    font-family: "Montserrat-light", sans-serif;
+    font-size: 0.8rem;
+  }
 }
 
 @include media-breakpoint-up(md){
