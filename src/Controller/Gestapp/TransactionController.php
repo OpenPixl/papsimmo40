@@ -46,11 +46,42 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'op_gestapp_transaction_show', methods: ['GET'])]
-    public function show(Transaction $transaction): Response
+    #[Route('/add/{idproperty}', name: 'op_gestapp_transaction_add', methods: ['GET'])]
+    public function add(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository)
     {
+        $property = $propertyRepository->find($idproperty);
+        $isTransaction = $property->isIsTransaction();
+        $id = $property->getId();
+        if($isTransaction == true){
+            return $this->redirectToRoute('op_gestapp_transaction_index', [], Response::HTTP_SEE_OTHER);
+            // mettre en flash que le bien est déjà en, cours de transaction.
+        }
+        $name = 'trans-'.$property->getRef();
+        $transaction = new Transaction();
+        $transaction->setProperty($property);
+        $transaction->setState('open');
+        $transaction->setName($name);
+        $entityManager->persist($transaction);
+        $property->setIsTransaction(1);
+        $entityManager->persist($property);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('op_gestapp_transaction_show', [
+            'id' => $transaction->getId()
+        ]);
+    }
+
+    #[Route('/{id}', name: 'op_gestapp_transaction_show', methods: ['GET'])]
+    public function show(Request $request, Transaction $transaction): Response
+    {
+
+        $property = $transaction->getProperty();
+        $customers = $transaction->getCustomer();
+
         return $this->render('gestapp/transaction/show.html.twig', [
             'transaction' => $transaction,
+            'property' => $property,
+            'customers' => $customers
         ]);
     }
 

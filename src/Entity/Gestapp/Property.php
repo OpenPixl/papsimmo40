@@ -199,6 +199,9 @@ class Property
     #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2, nullable: true)]
     private ?string $rentCharge = null;
 
+    #[ORM\Column]
+    private ?bool $isTransaction = false;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -967,6 +970,18 @@ class Property
     public function setRentCharge(?string $rentCharge): self
     {
         $this->rentCharge = $rentCharge;
+
+        return $this;
+    }
+
+    public function isIsTransaction(): ?bool
+    {
+        return $this->isTransaction;
+    }
+
+    public function setIsTransaction(bool $isTransaction): static
+    {
+        $this->isTransaction = $isTransaction;
 
         return $this;
     }

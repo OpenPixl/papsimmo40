@@ -115,17 +115,30 @@ class CustomerRepository extends ServiceEntityRepository
             ;
     }
 
+    public function listbytransaction($transac)
+    {
+        return $this->createQueryBuilder('c')
+            ->join('c.transactions', 't')
+            ->andWhere('t.id = :transac')
+            ->setParameter('transac', $transac)
+            ->orderBy('c.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     /**
      * Rechercher un client depuis le search
      * @return void
      */
     public function SearchCustomers($keys)
     {
+
         $query = $this->createQueryBuilder('c');
         $query->where('c.isArchived = 0');
         if($keys != null){
             $query
-                ->andWhere('MATCH_AGAINST(c.firstName, c.lastName) AGAINST (:keys boolean)>0')
+                ->andWhere('MATCH_AGAINST(c.firstName, c.lastName) AGAINST (:keys boolean) > 0')
                 ->setParameter('keys', $keys);
         }
         return $query->getQuery()->getResult();

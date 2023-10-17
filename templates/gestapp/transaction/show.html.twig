@@ -1,34 +1,175 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Transaction{% endblock %}
 
-{% block body %}
-    <h1>Transaction</h1>
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        window.onload = function(){
+            // PARTIE Ajout d'un vendeur en Javascript
+            // -----------------------------------------
+            // Préparation de la Modal d'ajout d'un vendeur à la fiche
+            const modalAddCustomer = document.getElementById('modalCustomer')
+            modalAddCustomer.addEventListener('show.bs.modal', function (event) {
+                // Button that triggered the modal
+                var button = event.relatedTarget
+                // extraction de la variable
+                var recipient = button.getAttribute('data-bs-whatever')
+                // mise à jour du lien de soumission du formulaire.
+                var modalContent = modalAddCustomer.querySelector('.modal-footer')
+                var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
+                modalSubmit.href = '/gestapp/customer/addcustomerjson/2/' + recipient
+            })
+            // Evènement sur le bouton btnAddCustomers
+            const btnAddCustomer = document.getElementById('btnAddCustomer')
+            btnAddCustomer.onclick = function (event) {
+                event.preventDefault()
+                // récupération des élements nécéssaire à la création du client depuis le bouton
+                let urlEditCustomer = this.href
+                let FormEditCustomer = document.getElementById('FormEditCustomer')
+                let dataEditCustomer = new FormData(FormEditCustomer)
+                // envoie des données
+                axios
+                    .post(urlEditCustomer, dataEditCustomer)
+                    .then(function (response) {
+                        const liste = document.getElementById('ListTransactCustomers').innerHTML = response.data.liste;
+                        // modalAddCustomer.addEventListener('hide.bs.modal')
+                        // Rajouter les events
+                        // Ajout d'un évènement sur le click AddCustomerSearch
+                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
+                            link.addEventListener('click', AddCustomerSearch);
+                        })
+                        // Ajout d'un évènement sur le click supprcustomer
+                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
+                            link.addEventListener('click', SupprCustomer);
+                        })
+                        // Ajout d'un évènement sur le click du selecteur EditCustomer
+                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
+                            link.addEventListener('click', EditCustomer);
+                        })
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            }
+        }
+    </script>
+{% endblock %}
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ transaction.id }}</td>
-            </tr>
-            <tr>
-                <th>State</th>
-                <td>{{ transaction.state }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ transaction.updatedAt ? transaction.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-        </tbody>
-    </table>
+{% block contentTitle %}
+    <div class="row d-flex justify-content-between" >
+        <div class="col-sm-12">
+            <h1>TRANSACTION - Ref : {{ transaction.name }}</h1>
+        </div>
+    </div>
+{% endblock %}
 
-    <a href="{{ path('app_gestapp_transaction_index') }}">back to list</a>
+{% block content %}
+    <div class="row mb-2">
+        <div class="col-12" id="transState">
+            <div class="row mt-3 mb-3 justify-content-center">
+                <div class="col-2 text-center">
+                    <a href="#">
+                        <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                    </a>
+                    <p>Ouverture de la transaction</p>
+                </div>
+                <div class="col-2 text-center">
+                    <a href="#" class="disabled">
+                        <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                    </a>
+                    <p>Signature promesse de vente</p>
+                </div>
+                <div class="col-2 text-center">
+                    <a href="#">
+                        <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                    </a>
+                    <p>Offre de pret</p>
+                </div>
+                <div class="col-2 text-center">
+                    <a href="#">
+                        <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                    </a>
+                    <p>Signature acte de vente</p>
+                </div>
+                <div class="col-2 text-center">
+                    <a href="#">
+                        <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                    </a>
+                    <p>Remise de clef</p>
+                </div>
+            </div>
+            <div class="progress">
+                {% set progress = 0 %}
+                {% if transaction.state == 'open' %}
+                    {% set progress = 20 %}
+                {% elseif transaction.state == 'promise' %}
+                    {% set progress = 40 %}
+                {% elseif transaction.state == 'quotation' %}
+                    {% set progress = 60 %}
+                {% elseif transaction.state == 'definitive_sale' %}
+                    {% set progress = 80 %}
+                {% elseif transaction.state == 'key_delivery' %}
+                    {% set progress = 100 %}
+                {% endif %}
+                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-2">
+        <div class="col-12">
+            <h4>Etape 1 : Désignation Acheteur.s pour l'offre de vente</h4>
+        </div>
+        <div class="col-3" id="choiceCustomer">
+            <div class="row mt-2">
+                <div class="col-sm-12">
+                    <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="{{ transaction.id }}">
+                        Ajouter un acheteur sur ce bien.
+                    </button>
+                    <hr>
+                    <div class="card text-dark bg-light">
+                        <div class="card-header">
+                            <h5><b>Rechercher </b>un vendeur</h5>
+                        </div>
+                        <div class="card-body">
+                            {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer', {'idproperty': property.id })) }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-9">
+            <div class="row mt-2 g-1" id="ListTransactCustomers">
+                {% include('gestapp/customer/_listecustomers.html.twig') %}
+            </div>
+        </div>
+    </div>
 
-    <a href="{{ path('app_gestapp_transaction_edit', {'id': transaction.id}) }}">edit</a>
+    <a href="{{ path('op_gestapp_transaction_index') }}">Back to list</a>
+    <a href="{{ path('op_gestapp_transaction_edit', {'id': transaction.id}) }}">Edit</a>
+{% endblock %}
 
-    {{ include('gestapp/transaction/_delete_form.html.twig') }}
+
+{% block modal %}
+    {{ parent() }}
+    <!-- Ajout d'un vendeur sur un bien -->
+    <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un acheteur à cette transaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
+                    <input id="idProperty" type="hidden" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

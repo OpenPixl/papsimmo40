@@ -8,6 +8,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>Numéro de transaction</th>
                 <th>Etat</th>
                 <th>Crée le</th>
@@ -19,12 +20,29 @@
         {% for transaction in transactions %}
             <tr>
                 <td>{{ transaction.id }}</td>
-                <td>{{ transaction.state }}</td>
+                <td>{{ transaction.name }}</td>
+                <td>
+                    {% set progress = 0 %}
+                    {% if transaction.state == 'open' %}
+                        {% set progress = 20 %}
+                    {% elseif transaction.state == 'promise' %}
+                        {% set progress = 40 %}
+                    {% elseif transaction.state == 'quotation' %}
+                        {% set progress = 60 %}
+                    {% elseif transaction.state == 'definitive_sale' %}
+                        {% set progress = 80 %}
+                    {% elseif transaction.state == 'key_delivery' %}
+                        {% set progress = 100 %}
+                    {% endif %}
+                    <div class="progress">
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
+                    </div>
+                </td>
                 <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>{{ transaction.updatedAt ? transaction.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('app_gestapp_transaction_show', {'id': transaction.id}) }}">Voit</a>
-                    <a href="{{ path('app_gestapp_transaction_edit', {'id': transaction.id}) }}">Modifier</a>
+                    <a href="{{ path('op_gestapp_transaction_show', {'id': transaction.id}) }}">Voir</a>
+                    <a href="{{ path('op_gestapp_transaction_edit', {'id': transaction.id}) }}">Modifier</a>
                 </td>
             </tr>
         {% else %}

@@ -13,8 +13,10 @@
                 {% endif %}
                 {{ customer.zipcode }} {{ customer.city }}
             </p>
-            <button id="btnEditCustomer" class="btn btn-sm btn-default editCustomer" data-bs-toggle="modal" data-bs-target="#editCustomer" data-bs-whatever="{{ customer.id }}-{{ idproperty }}"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</button>
-            <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="btn btn-sm btn-default supprcustomer"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
+            {% if customer.customerChoice == 'Vendeur' %}
+            <button id="btnEditCustomer" class="btn btn-sm btn-default editCustomer" data-bs-toggle="modal" data-bs-target="#editCustomer" data-bs-whatever="{{ customer.id }}-{{ option }}"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</button>
+            <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': option}) }}" class="btn btn-sm btn-default supprcustomer"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
+            {% endif %}
         </div>
     </div>
 </div>

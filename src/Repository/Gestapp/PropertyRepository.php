@@ -113,6 +113,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.family', 'f')
             ->leftJoin('p.rubric', 'ru')
             ->addSelect('
+                p.isTransaction as isTransaction,
                 p.dateEndmandat as dateEndmandat,
                 ru.name as rubricName,
                 f.code as familycode,
@@ -341,6 +342,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.family', 'f')
             ->leftJoin('p.rubric', 'ru')
             ->addSelect('
+                p.isTransaction as isTransaction,
                 p.dateEndmandat as dateEndmandat,
                 ru.name as rubricName,
                 f.code as familycode,
