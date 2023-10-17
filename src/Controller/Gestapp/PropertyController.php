@@ -688,7 +688,7 @@ class PropertyController extends AbstractController
     }
 
     /**
-     * Liste les 5 derniers biens immobiliers sur la page d'accueil.
+     * Liste les 10 derniers biens immobiliers sur la page d'accueil.
      */
     #[Route('/lastproperty', name: 'op_gestapp_properties_lastproperty', methods: ['GET'])]
     public function LastProperty(PropertyRepository $propertyRepository)
