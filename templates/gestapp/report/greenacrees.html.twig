@@ -3,7 +3,16 @@
     <Body>
         <add_adverts>
             {% for advert in adverts%}
+                {% set pool = 0%}
+                {% set elevator = 0%}
+                {% set intercom = 0%}
+                {% set digicode = 0%}
+                {% set manager = 0%}
+                {% set handicap = 0%}
+                {% set alarm = 0%}
+
                 <advert>
+                    {{ adverts.equipments }}
                     <account_id>{{ advert.accountReference }}</account_id>
                     <reference>{{ advert.accountReference }}-{{ advert.reference }}</reference>
                     <price>{{ advert.price }}</price>

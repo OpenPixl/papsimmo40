@@ -416,6 +416,7 @@ class PropertyController extends AbstractController
     public function show(Property $property): Response
     {
         $complement = $property->getOptions();
+        //dd($complement);
 
         return $this->render('gestapp/property/show.html.twig', [
             'property' => $property,

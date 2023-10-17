@@ -45,6 +45,18 @@ class PropertyEquipementRepository extends ServiceEntityRepository
         }
     }
 
+    public function listEquipments($idcomplement)
+    {
+        return $this->createQueryBuilder('e')
+            ->leftJoin('e.complements', 'c')
+            ->andWhere('e.id = :id')
+            ->setParameter('id', $idcomplement)
+            ->orderBy('e.id', 'ASC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return PropertyEquipement[] Returns an array of PropertyEquipement objects
     //  */

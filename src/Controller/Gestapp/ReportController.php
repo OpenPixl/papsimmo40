@@ -2,6 +2,8 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Gestapp\choice\PropertyEquipement;
+use App\Repository\Gestapp\choice\PropertyEquipementRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
@@ -1868,7 +1870,10 @@ class ReportController extends AbstractController
     public function PropertyGreenAcres(
         PropertyRepository   $propertyRepository,
         PhotoRepository      $photoRepository,
-        ComplementRepository $complementRepository): Response
+        ComplementRepository $complementRepository,
+        PropertyEquipementRepository $propertyEquipementRepository
+
+    ): Response
     {
         // PARTIE I : Génération du fichier CSV
 
@@ -1973,8 +1978,9 @@ class ReportController extends AbstractController
 
             // Equipements
             $idcomplement = $property['idComplement'];
-            $equipments = $complementRepository->findBy(['id' => $idcomplement]);
-            //dd($equipments);
+            //dd($idcomplement);
+            $equipments = $propertyEquipementRepository->listEquipments($idcomplement);
+            dd($equipments);
 
             // BILAN DPE
             if ($property['diagDpe'] > 0 and $property['diagDpe'] <= 70) {
@@ -2025,6 +2031,7 @@ class ReportController extends AbstractController
 
 
             $xml = [
+                'equipments' => $equipments,
                 'reference' => $property['ref'],
                 'accountReference' => '892318a',
                 'title' => $property['name'],
@@ -2059,24 +2066,10 @@ class ReportController extends AbstractController
 
         }
 
-        $xmlContent = $this->renderView('gestapp/report/greenacrees.html.twig', [
-            'adverts' => $adverts
-        ]);
+        //$xmlContent = $this->renderView('gestapp/report/greenacrees.html.twig', [            'adverts' => $adverts        ]);
 
 
-        // PARTIE II : Génération du fichier CSV
-        $file = 'doc/report/AnnoncesGreen/annonces.xml';                                  // Chemin du fichier
-        if (file_exists($file)) {
-            unlink($file);                                                  // Suppression du précédent s'il exist
-            file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
-        }
-        file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
-
-        // return response in XML format
-        $response = new Response($xmlContent);
-        $response->headers->set('Content-type', 'text/xml');
-
-        return $response;
+        return $this->render('gestapp/report/greenacrees.html.twig', [            'adverts' => $property        ]);
 
     }
 }
