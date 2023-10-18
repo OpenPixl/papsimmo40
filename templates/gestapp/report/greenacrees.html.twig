@@ -10,9 +10,7 @@
                 {% set manager = 0%}
                 {% set handicap = 0%}
                 {% set alarm = 0%}
-
                 <advert>
-                    {{ adverts.equipments }}
                     <account_id>{{ advert.accountReference }}</account_id>
                     <reference>{{ advert.accountReference }}-{{ advert.reference }}</reference>
                     <price>{{ advert.price }}</price>
@@ -38,21 +36,14 @@
                     <baths_number>{{ advert.bathroom }}</baths_number>
                     <showers_number>{{ advert.washroom }}</showers_number>
                     <floor>{{ advert.level }}</floor>
-                    <has_pool>0</has_pool>
                     <has_terrace>{% if advert.terrace > 0 %}1{% else %}0{% endif %}</has_terrace>
                     <balconies_number>{{ advert.balcony }}</balconies_number>
-                    <open_parkings_number>1</open_parkings_number>
-                    <boxes_number>1</boxes_number>
-                    <has_elevator>1</has_elevator>
                     <has_closets>{% if advert.wc > 0 %}1{% else %}0{% endif %}</has_closets>
-                    <has_intercom>1</has_intercom>
-                    <has_building_code>1</has_building_code>
-                    <has_building_manager>1</has_building_manager>
-                    <has_handicap_access>1</has_handicap_access>
-                    <has_alarm>1</has_alarm>
-                    <charges>2</charges>
+                    {% if advert.charge is not null %}
+                    <charges>{{ advert.charge }}</charges>
+                    {% endif %}
                     <furnished>{% if advert.isFurnished == true %}1{% else %}0{% endif %}</furnished>
-                    <heating>none</heating>
+                    <heating>{{ advert.heating }}</heating>
                     <pics>
                         {% for pic in advert.pics %}
                             <pic order="{{ loop.index }}">
@@ -60,6 +51,11 @@
                             </pic>
                         {% endfor %}
                     </pics>
+                    <test>
+                        {% for equipment in equipments %}
+                            {% if loop.first %}{{ equipment.name }} - {% elseif loop.last%}{{ equipment.name }}{% else %} {{ equipment.name }} - {% endif %}
+                        {% endfor %}
+                    </test>
                     <publications>
                         <greenacres>1</greenacres>
                     </publications>

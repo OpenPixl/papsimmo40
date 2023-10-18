@@ -215,6 +215,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->leftJoin('p.publication', 'pu')
             ->addSelect('
+                pu.isPublishgreenacres as isPublishgreenacres,
                 pu.isPublishParven as isPublishParven,
                 pu.isWebpublish as isWebpublish,
                 pu.isSocialNetwork as isSocialNetwork,
@@ -256,6 +257,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.publication', 'pu')
             ->addSelect('
+                pu.isPublishgreenacres as isPublishgreenacres,
                 pu.isPublishParven as isPublishParven,
                 pu.isWebpublish as isWebpublish,
                 pu.isSocialNetwork as isSocialNetwork,

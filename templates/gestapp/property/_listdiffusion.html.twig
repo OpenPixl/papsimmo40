@@ -6,6 +6,7 @@
         <span class="badge bg-light text-dark">MA :</span> Meilleurs agents |
         <span class="badge bg-light text-dark">LB :</span> Le Bon Coin, A vendre et à louer |
         <span class="badge bg-light text-dark">FIG :</span> Le Figaro Immobilier |
+        <span class="badge bg-light text-dark">GA :</span> Green ACRES |
     </p>
 </div>
 <table class="table">
@@ -63,6 +64,7 @@
                 {% if property.isPublishMeilleur == 1 %}<span class="badge bg-light text-dark">MA</span>{% endif %}
                 {% if property.isPublishleboncoin == 1 %}<span class="badge bg-light text-dark">LB</span>{% endif %}
                 {% if property.isPublishfigaro == 1 %}<span class="badge bg-light text-dark">FIG</span>{% endif %}
+                {% if property.isPublishgreenacres == 1 %}<span class="badge bg-light text-dark">GA</span>{% endif %}
             </td>
             <td>
                 <div id="action_property" class="btn-group">

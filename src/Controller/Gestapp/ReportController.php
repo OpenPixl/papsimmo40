@@ -1882,48 +1882,60 @@ class ReportController extends AbstractController
 
         $adverts = [];                                                    // Construction du tableau
         foreach ($properties as $property) {
+            $property = $propertyRepository->find($property['id']);
+            //dd($property);
+
+            // Equipement
+            $options = $property->getOptions();
+            $equipment = $options->getPropertyOtheroption();
+
+            // Publication
+            $publication = $property->getPublication();
+
+            //rubric
+            $rubric = $property->getRubric();
+
             // Description de l'annonce
-            $data = str_replace(array("\n", "\r"), array('', ''), html_entity_decode($property['annonce']));
+            $data = str_replace(array("\n", "\r"), array('', ''), html_entity_decode($property->getAnnonce()));
             $annonce = strip_tags($data, '<br>');
             //dd($annonce);
 
             // Contruction de la référence de l'anonnce
-            $dup = $property['dup'];
+            $dup = $property->getDupMandat();
             if ($dup) {
-                $refProperty = $property['ref'] . $dup;
-                $refMandat = $property['refMandat'] . $dup;
+                $refProperty = $property->getRef() . $dup;
+                $refMandat = $property->getRefMandat() . $dup;
             } else {
-                $refProperty = $property['ref'];
-                $refMandat = $property['refMandat'];
+                $refProperty = $property->getRef();
+                $refMandat = $property->getRefMandat();
             }
 
             // Préparation de la date dpeAt
-            if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {
-                $dpeAt = $property['dpeAt']->format('d/m/Y');
+            if ($property->getDpeAt() && $property->getDpeAt() instanceof \DateTime) {
+                $dpeAt = $property->getDpeAt()->format('d/m/Y');
             } else {
                 $dpeAt = "";
             }
 
             // Préparation de la date de réation mandat
-            if ($property['mandatAt'] && $property['mandatAt'] instanceof \DateTime) {
-                $mandatAt = $property['mandatAt']->format('d/m/Y');
+            if ($property->getMandatAt() && $property->getMandatAt() instanceof \DateTime) {
+                $mandatAt = $property->getMandatAt()->format('d/m/Y');
             } else {
                 $mandatAt = "";
             }
 
             // Préparation de la date de création RefDPE
-            if ($property['RefDPE'] && $property['RefDPE'] instanceof \DateTime) {
-                $RefDPE = $property['RefDPE']->format('d/m/Y');
+            if ($property->getEeaYear() && $property->getEeaYear() instanceof \DateTime) {
+                $RefDPE = $property->getEeaYear()->format('d/m/Y');
             } else {
                 $RefDPE = "";
             }
 
             // Calcul des honoraires en %
-            $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
-            //dd($property['price'], $property['priceFai'], $honoraires);
+            $honoraires = round(100 - (($property->getPrice() * 100) / $property->getPriceFai()), 2);
 
             // Récupération des images liées au bien
-            $photos = $photoRepository->findNameBy(['property' => $property['id']]);
+            $photos = $photoRepository->findNameBy(['property' => $property->getId()]);
 
             $pics = [];
             if (!$photos) {                                                                       // Si aucune photo présente
@@ -1932,7 +1944,7 @@ class ReportController extends AbstractController
                 foreach($photos as $photo)
                 {
                     $urlphoto = 'http://' . $app . '/images/galery/' . $photo['galeryFrontName'];
-                    $titrephoto = 'Photo-' . $property['ref'] . '-' . + 1;
+                    $titrephoto = 'Photo-' . $property->getRef() . '-' . + 1;
                     $pic = [
                         'urlphoto' => $urlphoto,
                         'titrephoto' => $titrephoto,
@@ -1943,7 +1955,8 @@ class ReportController extends AbstractController
             }
 
             // Orientation
-            $orientation = $property['orientation'];
+            $orientation = $options->getPropertyOrientation();
+            //dd($orientation);
             if ($orientation = 'nord') {
                 $nord = 1;
                 $est = 0;
@@ -1970,56 +1983,50 @@ class ReportController extends AbstractController
             $publications = 'SL';
 
             // Transformation terrace en booléen
-            if ($property['terrace']) {
+            if ($options->getTerrace()) {
                 $terrace = 1;
             } else {
                 $terrace = 0;
             }
 
-            // Equipements
-            $idcomplement = $property['idComplement'];
-            //dd($idcomplement);
-            $equipments = $propertyEquipementRepository->listEquipments($idcomplement);
-            dd($equipments);
-
             // BILAN DPE
-            if ($property['diagDpe'] > 0 and $property['diagDpe'] <= 70) {
+            if ($property->getDiagDpe() > 0 and $property->getDiagDpe() <= 70) {
                 $bilanDpe = 'A';
-            } elseif ($property['diagDpe'] > 70 and $property['diagDpe'] <= 110) {
+            } elseif ($property->getDiagDpe() > 70 and $property->getDiagDpe() <= 110) {
                 $bilanDpe = 'B';
-            } elseif ($property['diagDpe'] > 110 and $property['diagDpe'] <= 180) {
+            } elseif ($property->getDiagDpe() > 110 and $property->getDiagDpe() <= 180) {
                 $bilanDpe = 'C';
-            } elseif ($property['diagDpe'] > 180 and $property['diagDpe'] <= 250) {
+            } elseif ($property->getDiagDpe() > 180 and $property->getDiagDpe() <= 250) {
                 $bilanDpe = 'D';
-            } elseif ($property['diagDpe'] > 250 and $property['diagDpe'] <= 330) {
+            } elseif ($property->getDiagDpe() > 250 and $property->getDiagDpe() <= 330) {
                 $bilanDpe = 'E';
-            } elseif ($property['diagDpe'] > 330 and $property['diagDpe'] <= 420) {
+            } elseif ($property->getDiagDpe() > 330 and $property->getDiagDpe() <= 420) {
                 $bilanDpe = 'F';
             } else {
                 $bilanDpe = 'G';
             }
 
             // Bilan GES
-            if ($property['diagGes'] > 0 and $property['diagGes'] <= 6) {
+            if ($property->getDiagGes() > 0 and $property->getDiagGes() <= 6) {
                 $bilanGes = 'A';
-            } elseif ($property['diagGes'] > 6 and $property['diagGes'] <= 11) {
+            } elseif ($property->getDiagGes() > 6 and $property->getDiagGes() <= 11) {
                 $bilanGes = 'B';
-            } elseif ($property['diagGes'] > 11 and $property['diagGes'] <= 30) {
+            } elseif ($property->getDiagGes() > 11 and $property->getDiagGes() <= 30) {
                 $bilanGes = 'C';
-            } elseif ($property['diagGes'] > 30 and $property['diagGes'] <= 50) {
+            } elseif ($property->getDiagGes() > 30 and $property->getDiagGes() <= 50) {
                 $bilanGes = 'D';
-            } elseif ($property['diagGes'] > 50 and $property['diagGes'] <= 70) {
+            } elseif ($property->getDiagGes() > 50 and $property->getDiagGes() <= 70) {
                 $bilanGes = 'E';
-            } elseif ($property['diagGes'] > 70 and $property['diagGes'] <= 100) {
+            } elseif ($property->getDiagGes() > 70 and $property->getDiagGes() <= 100) {
                 $bilanGes = 'F';
             } else {
                 $bilanGes = 'G';
             }
 
-            if ($property['diagChoice'] == "obligatoire") {
+            if ($property->getDiagChoice() == "obligatoire") {
                 $diagDPEChoice = "D";
                 $diagGESChoice = "E";
-            } elseif ($property['diagChoice'] == "vierge") {
+            } elseif ($property->getDiagChoice() == "vierge") {
                 $diagDPEChoice = "VI";
                 $diagGESChoice = "VI";
             } else {
@@ -2029,47 +2036,62 @@ class ReportController extends AbstractController
 
             //dd($property['rubric_en']);
 
-
             $xml = [
-                'equipments' => $equipments,
-                'reference' => $property['ref'],
+                'equipments' => $equipment ,
+                'reference' => $property->getRef(),
                 'accountReference' => '892318a',
-                'title' => $property['name'],
-                'price' => $property['priceFai'],
-                'fees' => $property['fees'],
+                'title' => $property->getName(),
+                'price' => $property->getPriceFai(),
+                'fees' => $property->getHonoraires(),
                 'pictureNumber' => count($photos),
-                'department' => substr($property['zipcode'],0,2),
-                'city' => $property['city'],
-                'postalCode' => $property['zipcode'],
+                'department' => substr($property->getZipcode(),0,2),
+                'city' => $property->getCity(),
+                'postalCode' => $property->getZipcode(),
                 'country' => 'fr',
-                'status' => $property['greenacres'],
+                'status' => $publication->isIsPublishgreenacres(),
                 'annonce' => $annonce,
-                'type' => $property['rubric_en'],
-                'surfaceLand' => $property['surfaceLand'],
-                'surfaceHome' => $property['surfaceHome'],
-                'rooms' => $property['piece'],
-                'bedrooms' => $property['room'],
+                'type' => $rubric->getEn(),
+                'surfaceLand' => $property->getSurfaceLand(),
+                'surfaceHome' => $property->getSurfaceHome(),
+                'rooms' => $property->getPiece(),
+                'bedrooms' => $property->getRoom(),
                 'dpe' => $bilanDpe,
-                'dpe_value' => $property['diagDpe'],
+                'dpe_value' => $property->getDiagDpe(),
                 'ges' => $bilanGes,
-                'ges_value' => $property['diagGes'],
-                'bathroom' => $property['bathroom'],
-                'washroom' => $property['washroom'],
-                'wc' => $property['wc'],
-                'terrace' => $property['terrace'],
-                'balcony' => $property['balcony'],
-                'level' => $property['level'],
-                'isFurnished' => $property['isFurnished'],
+                'ges_value' => $property->getDiagGes(),
+                'bathroom' => $options->getBathroom(),
+                'washroom' => $options->getWashroom(),
+                'wc' => $options->getWc(),
+                'terrace' => $options->getTerrace(),
+                'balcony' => $options->getBalcony(),
+                'level' => $options->getLevel(),
+                'isFurnished' => $options->getIsFurnished(),
+                'heating' => $options->getPropertyEnergy(),
+                'charge' => $property->getRentCharge(),
                 'pics' => $pics
             ];
             array_push($adverts, $xml);
 
         }
 
-        //$xmlContent = $this->renderView('gestapp/report/greenacrees.html.twig', [            'adverts' => $adverts        ]);
+        $xmlContent = $this->renderView('gestapp/report/greenacrees.html.twig', [
+            'adverts' => $adverts
+        ]);
 
 
-        return $this->render('gestapp/report/greenacrees.html.twig', [            'adverts' => $property        ]);
+        // PARTIE II : Génération du fichier CSV
+        $file = 'doc/report/AnnoncesGreen/annonces.xml';                                  // Chemin du fichier
+        if (file_exists($file)) {
+            unlink($file);                                                  // Suppression du précédent s'il exist
+            file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
+        }
+        file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
+
+        // return response in XML format
+        $response = new Response($xmlContent);
+        $response->headers->set('Content-type', 'text/xml');
+
+        return $response;
 
     }
 }
