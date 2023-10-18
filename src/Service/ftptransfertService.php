@@ -1488,12 +1488,12 @@ class ftptransfertService
 
 
         // PARTIE II : Génération du fichier CSV
-        $file = 'doc/report/AnnoncesGreen/annonces.xml';                                  // Chemin du fichier
+        $file = 'doc/report/AnnoncesGreen/892318a.xml';                                  // Chemin du fichier
         if (file_exists($file)) {
             unlink($file);                                                  // Suppression du précédent s'il exist
-            file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
+            file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
         }
-        file_put_contents('doc/report/AnnoncesGreen/Annonces.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
+        file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
 
         // IV. Dépôt sur le serveur de FTP
         $server = 'ftp.green-acres.com';
@@ -1517,12 +1517,12 @@ class ftptransfertService
         $fullHttp = $request->getUri();
         $parsedUrl = parse_url($fullHttp);
         if (!$parsedUrl['port']){
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/107428.zip';
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/AnnoncesGreen/892318a.xml';
         }else{
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'].'/doc/report/107428.zip';
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'].'/doc/report/AnnoncesGreen/892318a.xml';
         }
         // Chemin de destination sur le serveur FTP
-        $cheminDestination = '107428.zip';
+        $cheminDestination = '892318a.xml';
 
         // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
