@@ -28,3 +28,21 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+
+    App\Service\ftptransfertService:
+        arguments:
+            # SE LOGER
+            $urlftpseloger: '%env(URL_FTP_SELOGER)%'
+            $portftpseloger: '%env(PORT_FTP_SELOGER)%'
+            $loginftpseloger: '%env(LOGIN_FTP_SELOGER)%'
+            $passwordftpseloger: '%env(PASSWORD_FTP_SELOGER)%'
+            # FIGARO
+            $urlftpfigaro: '%env(URL_FTP_FIGARO)%'
+            $portftpfigaro: '%env(PORT_FTP_FIGARO)%'
+            $loginftpfigaro: '%env(LOGIN_FTP_FIGARO)%'
+            $passwordftpfigaro: '%env(PASSWORD_FTP_FIGARO)%'
+            # GREEN ACRES
+            $urlftpga: '%env(URL_FTP_GA)%'
+            $portftpga: '%env(PORT_FTP_GA)%'
+            $loginftpga: '%env(LOGIN_FTP_GA)%'
+            $passwordftpga: '%env(PASSWORD_FTP_GA)%'

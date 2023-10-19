@@ -18,7 +18,13 @@ class ftptransfertService
     private $requestStack;
 
 
-    public function __construct(RequestStack $requestStack, private Environment $twig)
+    public function __construct(
+        RequestStack $requestStack,
+        private Environment $twig,
+        public string $urlftpseloger, public string $portftpseloger, public string $loginftpseloger, public string $passwordftpseloger,
+        public string $urlftpfigaro, public string $portftpfigaro, public string $loginftpfigaro, public string $passwordftpfigaro,
+        public string $urlftpga, public string $portftpga, public string $loginftpga, public string $passwordftpga,
+    )
     {
         $this->requestStack = $requestStack;
     }
@@ -602,10 +608,10 @@ class ftptransfertService
 
 
         // IV. Dépôt sur le serveur de FTP
-        $server = 'transferts.seloger.com';
-        $port = 991;
-        $username = 'PapsSoftware';
-        $password = '6O7kwyPu';
+        $server = $this->urlftpseloger;
+        $port = $this->portftpseloger;
+        $username = $this->loginftpseloger;
+        $password = $this->passwordftpseloger;
 
         // Connexion au serveur FTP
         $connId = ftp_ssl_connect($server, $port);
@@ -1230,10 +1236,10 @@ class ftptransfertService
         }
 
         // IV. Dépôt sur le serveur de FTP
-        $server = 'ftp.figarocms.fr';
-        $port = 21;
-        $username = 'tld-openpixl';
-        $password = '8fRa!Qfj4#';
+        $server = $this->urlftpfigaro;
+        $port = $this->portftpfigaro;
+        $username = $this->loginftpfigaro;
+        $password = $this->passwordftpfigaro;
         // Connexion au serveur FTP
         $connId = ftp_connect($server, $port);
         if (!$connId) {
@@ -1496,10 +1502,10 @@ class ftptransfertService
         file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
 
         // IV. Dépôt sur le serveur de FTP
-        $server = 'ftp.green-acres.com';
-        $port = 21;
-        $username = '892318a';
-        $password = '3nQa0f3WV3TaCgiK';
+        $server = $this->urlftpga;
+        $port = $this->portftpga;
+        $username = $this->loginftpga;
+        $password = $this->passwordftpga;
         // Connexion au serveur FTP
         $connId = ftp_connect($server, $port);
         if (!$connId) {
