@@ -42,6 +42,7 @@ class ftptransfertService
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
         $parsedUrl = parse_url($fullHttp);
+        dd($parsedUrl);
         if (!$parsedUrl['port']){
             $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'];
         }else{
