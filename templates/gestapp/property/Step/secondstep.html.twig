@@ -126,6 +126,14 @@
                         </div>
                         <div class="row">
                             <div class="col-5">
+                                <span class="align-middle">{{ form_label(form.rentChargeHonoraire, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                            </div>
+                            <div class="col-7">
+                                {{ form_widget(form.rentChargeHonoraire, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-5">
                                 <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
                             <div class="col-7">

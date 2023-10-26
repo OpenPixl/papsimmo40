@@ -860,6 +860,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.rent as rent,
                 p.rentCharge as rentCharge,
                 p.rentChargeModsPayment as rentChargeModsPayment,
+                p.rentChargeHonoraire as rentChargeHonoraire,
                 p.dupMandat as dup,
                 p.mandatAt as mandatAt,
                 p.isArchived as isArchived,

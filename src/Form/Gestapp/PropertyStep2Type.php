@@ -78,6 +78,9 @@ class PropertyStep2Type extends AbstractType
             ->add('warrantyDeposit', IntegerType::class, [
                 'label' => 'Dépôt de garantie'
             ])
+            ->add('rentChargeHonoraire', IntegerType::class, [
+                'label' => 'Honoraire sur charge locataire'
+            ])
             ->add('dpeAt', DateType::class, [
                 'label'=> 'Date du DPE',
                 'widget' => 'single_text',

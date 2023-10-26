@@ -103,6 +103,7 @@ class ReportController extends AbstractController
                 $rentWithCharge = "";
                 $rentChargeModsPayment = "";
                 $warrantyDeposit = "";
+                $rentChargeHonoraire = "";
             }else{
                 $price = "";
                 $priceFai = "";
@@ -111,6 +112,7 @@ class ReportController extends AbstractController
                 $rentWithCharge = $rent + $rentCharge;
                 $warrantyDeposit = $property['warrantyDeposit'];
                 $rentChargeModsPayment = $property['rentChargeModsPayment'];
+                $rentChargeHonoraire = $property['rentChargeHonoraire'];
             }
             //dd($rentWithCharge);
 
@@ -141,7 +143,7 @@ class ReportController extends AbstractController
                 '"' . $rentWithCharge . '"',                                // 23 - Loyer Charges comprises
                 '"' . $rent . '"',                                          // 24 - Loyer sans charges
                 '"' . $rentCharge . '"',                                    // 25 - Charges
-                '"0"',                                                      // 26 - Honoraires Charges Locataires
+                '"' . $rentChargeHonoraire . '"',                           // 26 - Honoraires Charges Locataires
                 '"0"',                                                      // 27 - A ajouter dans la BDD - Terrain ou bien Constructible
                 '"' . $property['surfaceHome'] . '"',                       // 28
                 '"' . $property['surfaceLand'] . '"',                       // 29

@@ -208,6 +208,9 @@ class Property
     #[ORM\Column(nullable: true)]
     private ?int $warrantyDeposit = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $rentChargeHonoraire = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1012,6 +1015,18 @@ class Property
     public function setWarrantyDeposit(?int $warrantyDeposit): static
     {
         $this->warrantyDeposit = $warrantyDeposit;
+
+        return $this;
+    }
+
+    public function getRentChargeHonoraire(): ?int
+    {
+        return $this->rentChargeHonoraire;
+    }
+
+    public function setRentChargeHonoraire(?int $rentChargeHonoraire): static
+    {
+        $this->rentChargeHonoraire = $rentChargeHonoraire;
 
         return $this;
     }

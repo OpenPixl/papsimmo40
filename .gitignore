@@ -17,6 +17,7 @@
 /public/images/
 /public/images/*.*
 /public/doc/report/Annonces/*.*
+/public/doc/report/AnnoncesGreen/*.*
 /public/doc/report/Annoncesfigaro/*.*
 npm-debug.log
 yarn-error.log
