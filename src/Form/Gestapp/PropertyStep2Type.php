@@ -62,7 +62,22 @@ class PropertyStep2Type extends AbstractType
                 'label' => 'Charges mensuelles',
                 'required' => false
             ])
-
+            ->add('rentChargeModsPayment', ChoiceType::class, [
+                'label' => 'Modalités de règlement',
+                'choices'  => [
+                    'Forfaitaires mensuelles' => "1",
+                    'Remboursement annuel par le locataire' => '2',
+                    'Prévisionnelles mensuelles avec régularisation annuelle' => '3'
+                ],
+                'choice_attr' => [
+                    'Forfaitaires mensuelles' => ['data-data' => 'Forfaitaires mensuelles'],
+                    'Remboursement annuel par le locataire' => ['data-data' => 'Remboursement annuel par le locataire'],
+                    'Prévisionnelles mensuelles avec régularisation annuelle' => ['data-data' => 'Prévisionnelles mensuelles avec régularisation annuelle']
+                ],
+            ])
+            ->add('warrantyDeposit', IntegerType::class, [
+                'label' => 'Dépôt de garantie'
+            ])
             ->add('dpeAt', DateType::class, [
                 'label'=> 'Date du DPE',
                 'widget' => 'single_text',

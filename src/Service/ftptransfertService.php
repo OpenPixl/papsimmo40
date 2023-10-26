@@ -41,12 +41,13 @@ class ftptransfertService
 
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
-        $parsedUrl = parse_url($fullHttp);
-        dd($parsedUrl);
-        if (!$parsedUrl['port']){
-            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'];
+        $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
+        $port = parse_url($fullHttp, PHP_URL_PORT);
+        $host = parse_url($fullHttp, PHP_URL_HOST);
+        if (!$port){
+            $app = $scheme.'://'.$host;
         }else{
-            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'];
+            $app = $scheme.'://'.$host.':'.$port;
         }
 
         $rows = array();
@@ -609,19 +610,19 @@ class ftptransfertService
 
 
         // IV. Dépôt sur le serveur de FTP
-        $server = $this->urlftpseloger;
-        $port = $this->portftpseloger;
-        $username = $this->loginftpseloger;
-        $password = $this->passwordftpseloger;
+        $ftpserver = $this->urlftpseloger;
+        $ftpport = $this->portftpseloger;
+        $ftpusername = $this->loginftpseloger;
+        $ftppassword = $this->passwordftpseloger;
 
         // Connexion au serveur FTP
-        $connId = ftp_ssl_connect($server, $port);
+        $connId = ftp_ssl_connect($ftpserver, $ftpport);
         if (!$connId) {
             // Gestion des erreurs de connexion
             exit('Impossible de se connecter au serveur FTP.');
         }
         // Authentification FTP
-        $login = ftp_login($connId, $username, $password);
+        $login = ftp_login($connId, $ftpusername, $ftppassword);
         if (!$login) {
             // Gestion des erreurs d'authentification
             exit('Erreur lors de l\'authentification FTP.');
@@ -633,10 +634,10 @@ class ftptransfertService
         // Chemin du fichier local à transférer
         $fullHttp = $request->getUri();
         $parsedUrl = parse_url($fullHttp);
-        if (!$parsedUrl['port']){
+        if (!$port){
             $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/RC-1860977.zip';
         }else{
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'].'/doc/report/RC-1860977.zip';
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$port.'/doc/report/RC-1860977.zip';
         }
         // Chemin de destination sur le serveur FTP
         $cheminDestination = 'RC-1860977.zip';
@@ -669,11 +670,13 @@ class ftptransfertService
 
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
-        $parsedUrl = parse_url($fullHttp);
-        if (!$parsedUrl['port']){
-            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'];
+        $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
+        $port = parse_url($fullHttp, PHP_URL_PORT);
+        $host = parse_url($fullHttp, PHP_URL_HOST);
+        if (!$port){
+            $app = $scheme.'://'.$host;
         }else{
-            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'];
+            $app = $scheme.'://'.$host.':'.$port;
         }
 
         $rows = array();                                                        // Construction du tableau
@@ -1237,30 +1240,28 @@ class ftptransfertService
         }
 
         // IV. Dépôt sur le serveur de FTP
-        $server = $this->urlftpfigaro;
-        $port = $this->portftpfigaro;
-        $username = $this->loginftpfigaro;
-        $password = $this->passwordftpfigaro;
+        $ftpserver = $this->urlftpfigaro;
+        $ftpport = $this->portftpfigaro;
+        $ftpusername = $this->loginftpfigaro;
+        $ftppassword = $this->passwordftpfigaro;
         // Connexion au serveur FTP
-        $connId = ftp_connect($server, $port);
+        $connId = ftp_connect($ftpserver, $ftpport);
         if (!$connId) {
             // Gestion des erreurs de connexion
             exit('Impossible de se connecter au serveur FTP.');
         }
         // Authentification FTP
-        $login = ftp_login($connId, $username, $password);
+        $login = ftp_login($connId, $ftpusername, $ftppassword);
         if (!$login) {
             // Gestion des erreurs d'authentification
             exit('Erreur lors de l\'authentification FTP.');
         }
 
-        // Chemin du fichier local à transférer
-        $fullHttp = $request->getUri();
-        $parsedUrl = parse_url($fullHttp);
-        if (!$parsedUrl['port']){
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/107428.zip';
+        // Création de l'url pour les photos
+        if (!$port){
+            $fichierLocal = $scheme.'://'.$host;
         }else{
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'].'/doc/report/107428.zip';
+            $fichierLocal = $scheme.'://'.$host.':'.$port;
         }
         // Chemin de destination sur le serveur FTP
         $cheminDestination = '107428.zip';
@@ -1289,11 +1290,13 @@ class ftptransfertService
 
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
-        $parsedUrl = parse_url($fullHttp);
-        if (!$parsedUrl['port']){
-            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'];
+        $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
+        $port = parse_url($fullHttp, PHP_URL_PORT);
+        $host = parse_url($fullHttp, PHP_URL_HOST);
+        if (!$port){
+            $app = $scheme.'://'.$host;
         }else{
-            $app = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'];
+            $app = $scheme.'://'.$host.':'.$port;
         }
 
         $adverts = [];                                                    // Construction du tableau
@@ -1503,30 +1506,28 @@ class ftptransfertService
         file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
 
         // IV. Dépôt sur le serveur de FTP
-        $server = $this->urlftpga;
-        $port = $this->portftpga;
-        $username = $this->loginftpga;
-        $password = $this->passwordftpga;
+        $ftpserver = $this->urlftpga;
+        $ftpport = $this->portftpga;
+        $ftpusername = $this->loginftpga;
+        $ftppassword = $this->passwordftpga;
         // Connexion au serveur FTP
-        $connId = ftp_connect($server, $port);
+        $connId = ftp_connect($ftpserver, $ftpport);
         if (!$connId) {
             // Gestion des erreurs de connexion
             exit('Impossible de se connecter au serveur FTP.');
         }
         // Authentification FTP
-        $login = ftp_login($connId, $username, $password);
+        $login = ftp_login($connId, $ftpusername, $ftppassword);
         if (!$login) {
             // Gestion des erreurs d'authentification
             exit('Erreur lors de l\'authentification FTP.');
         }
 
         // Chemin du fichier local à transférer
-        $fullHttp = $request->getUri();
-        $parsedUrl = parse_url($fullHttp);
-        if (!$parsedUrl['port']){
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/AnnoncesGreen/892318a.xml';
+        if (!$port){
+            $fichierLocal = $scheme.'://'.$host.'/doc/report/AnnoncesGreen/892318a.xml';
         }else{
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$parsedUrl['port'].'/doc/report/AnnoncesGreen/892318a.xml';
+            $fichierLocal = $scheme.'://'.$host.':'.$port.'/doc/report/AnnoncesGreen/892318a.xml';
         }
         // Chemin de destination sur le serveur FTP
         $cheminDestination = '892318a.xml';

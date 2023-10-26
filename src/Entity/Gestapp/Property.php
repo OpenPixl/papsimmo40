@@ -193,14 +193,20 @@ class Property
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $annonceSlug = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2, nullable: true)]
-    private ?string $rent = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $rent = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 7, scale: 2, nullable: true)]
-    private ?string $rentCharge = null;
+    #[ORM\Column(nullable: true)]
+    private ?int $rentCharge = null;
 
     #[ORM\Column]
     private ?bool $isTransaction = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $rentChargeModsPayment = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $warrantyDeposit = null;
 
     public function __construct()
     {
@@ -950,24 +956,24 @@ class Property
         return $this;
     }
 
-    public function getRent(): ?string
+    public function getRent(): ?int
     {
         return $this->rent;
     }
 
-    public function setRent(?string $rent): self
+    public function setRent(?int $rent): self
     {
         $this->rent = $rent;
 
         return $this;
     }
 
-    public function getRentCharge(): ?string
+    public function getRentCharge(): ?int
     {
         return $this->rentCharge;
     }
 
-    public function setRentCharge(?string $rentCharge): self
+    public function setRentCharge(?int $rentCharge): self
     {
         $this->rentCharge = $rentCharge;
 
@@ -982,6 +988,30 @@ class Property
     public function setIsTransaction(bool $isTransaction): static
     {
         $this->isTransaction = $isTransaction;
+
+        return $this;
+    }
+
+    public function getRentChargeModsPayment(): ?int
+    {
+        return $this->rentChargeModsPayment;
+    }
+
+    public function setRentChargeModsPayment(?int $rentChargeModsPayment): static
+    {
+        $this->rentChargeModsPayment = $rentChargeModsPayment;
+
+        return $this;
+    }
+
+    public function getWarrantyDeposit(): ?int
+    {
+        return $this->warrantyDeposit;
+    }
+
+    public function setWarrantyDeposit(?int $warrantyDeposit): static
+    {
+        $this->warrantyDeposit = $warrantyDeposit;
 
         return $this;
     }

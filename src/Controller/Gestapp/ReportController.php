@@ -94,6 +94,25 @@ class ReportController extends AbstractController
                     }
                 }
             }
+            // si bien en situation de vente
+            If($property['price'] > 0){
+                $price = $property['price'];
+                $priceFai = $property['priceFai'];
+                $rent = "";
+                $rentCharge = "";
+                $rentWithCharge = "";
+                $rentChargeModsPayment = "";
+                $warrantyDeposit = "";
+            }else{
+                $price = "";
+                $priceFai = "";
+                $rent = $property['rent'];
+                $rentCharge = $property['rentCharge'];
+                $rentWithCharge = $rent + $rentCharge;
+                $warrantyDeposit = $property['warrantyDeposit'];
+                $rentChargeModsPayment = $property['rentChargeModsPayment'];
+            }
+            //dd($rentWithCharge);
 
             // Alimentation d'une ligne du fichier CSV
             $data = array(
@@ -106,11 +125,11 @@ class ReportController extends AbstractController
                 '""',                                                   // 7 - code INSEE COMMUNE
                 '"' . $property['zipcode'] . '"',                           // 8 - Code postal
                 '"' . $property['city'] . '"',                              // 9 - Commune
-                'France',                                               // 10 - Pays
+                'France',                                                   // 10 - Pays
                 '"' . $property['name'] . '"',                              // 11 - Titre
                 '"' . $annonce . '"',                                       // 12 - Annonce
                 '"' . $property['gsm'] . '"',                               // 13 - Téléphone vendeur
-                '""',                                                   // 14 - Téléphone 2 vendeur - Fax
+                '""',                                                       // 14 - Téléphone 2 vendeur - Fax
                 '"' . $property['email'] . '"',                             // 15 - Email Vendeur
                 '"' . $url1 . '"',                                          // 16 - Chemin de la 1ère photo
                 '"' . $url2 . '"',                                          // 17 - Chemin de la 2de photo
@@ -118,12 +137,12 @@ class ReportController extends AbstractController
                 '"' . $url4 . '"',                                          // 19 - Chemin de la 4ème photo
                 '"' . $url5 . '"',                                          // 20 - Chemin de la 5ème photo
                 '"' . $url6 . '"',                                          // 21 - Chemin de la 6ème photo
-                '"' . $property['priceFai'] . '"',                          // 22 - Prix
-                '"0"',                                                  // 23 - Loyer Charges comprises
-                '"0"',                                                  // 24 - Loyer sans charges
-                '"0"',                                                  // 25 - Charges
-                '"0"',                                                  // 26 - Honoraires Charges Locataires
-                '"0"',                                                  // 27 - A ajouter dans la BDD - Terrain ou bien Constructible
+                '"' . $priceFai . '"',                                      // 22 - Prix
+                '"' . $rentWithCharge . '"',                                // 23 - Loyer Charges comprises
+                '"' . $rent . '"',                                          // 24 - Loyer sans charges
+                '"' . $rentCharge . '"',                                    // 25 - Charges
+                '"0"',                                                      // 26 - Honoraires Charges Locataires
+                '"0"',                                                      // 27 - A ajouter dans la BDD - Terrain ou bien Constructible
                 '"' . $property['surfaceHome'] . '"',                       // 28
                 '"' . $property['surfaceLand'] . '"',                       // 29
                 '""',                                                   // 30 - Nom du Quartier
@@ -137,7 +156,7 @@ class ReportController extends AbstractController
                 "1",                                                    // 38 - Mettre en ligne le bien - PV
                 '""',                                                   // 39 - Ancienneté
                 '"' . $property['constructionAt'] . '"',                    // 40 - Année de construction
-                '""',                                                   // 41 - Dépot de garantie
+                '""',                                // 41 - Dépot de garantie
                 '"' . $property['room'] . '"',                              // 42 - Nombre de chambres
                 '"' . $property['bathroom'] . '"',                          // 43 - Nombre de salles de bain
                 '""',                                                   // 44 - Nombre de parking extérieur
@@ -155,9 +174,9 @@ class ReportController extends AbstractController
                 '"' . $url7 . '"',                                          // 56 - url photo 7
                 '"' . $url8 . '"',                                          // 57 - url photo 8
                 '"' . $url9 . '"',                                          // 58 - url photo 9
-                '""',                                                   // 59 - Modalité Règlement charges - Location
+                '"' . $rentChargeModsPayment . '"',                                                   // 59 - Modalité Règlement charges - Location
                 '""',                                                   // 60 - Complement de loyer
-                '""',                                                   // 61 - Dépôt de garantie
+                '"' . $warrantyDeposit . '"',                                                   // 61 - Dépôt de garantie
                 '""',                                                   // 62
                 '"' . $property['price'] . '"',                             // 63 -
                 '""',                                                   // 64 - url Baremes Honoraires

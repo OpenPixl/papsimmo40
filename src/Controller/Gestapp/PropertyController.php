@@ -372,6 +372,10 @@ class PropertyController extends AbstractController
         $property->setPrice(0);
         $property->setHonoraires(0);
         $property->setPriceFai(0);
+        $property->setRent(0);
+        $property->setRentCharge(0);
+        $property->setRentChargeModsPayment(1);
+        $property->setWarrantyDeposit(0);
         $property->setDiagChoice('obligatoire');
         $property->setDiagDpe(0);
         $property->setDiagGes(0);
