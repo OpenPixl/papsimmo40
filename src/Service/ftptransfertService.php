@@ -241,15 +241,15 @@ class ftptransfertService
             $data = array(
                 '"papsimmo"',                                               // 1 - Identifiant Agence
                 '"' . $refProperty . '"',                                   // 2 - Référence agence du bien
-                '"Vente"',                                                  // 3 - Type d’annonce
-                '"' . $property['rubric'] . '"',                                              // 4 - Type de bien
-                '"' . $property['zipcode'] . '"',                               // 5 - CP
-                '"' . $property['city'] . '"',                                  // 6 - Ville
+                '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
+                '"' . $property['rubric'] . '"',                            // 4 - Type de bien
+                '"' . $property['zipcode'] . '"',                           // 5 - CP
+                '"' . $property['city'] . '"',                              // 6 - Ville
                 '"France"',                                                 // 7 - Pays
-                '"' . $property['adress'] . '"',                                // 8 - Adresse
+                '"' . $property['adress'] . '"',                            // 8 - Adresse
                 '""',                                                       // 9 - Quartier / Proximité
                 '""',                                                       // 10 - Activités commerciales
-                '"' . $property['priceFai'] . '"',                              // 11 - Prix / Loyer / Prix de cession
+                '"' . $property['priceFai'] . '"',                          // 11 - Prix / Loyer / Prix de cession
                 '""',                                                       // 12 - Loyer / mois murs
                 '"0"',                                                      // 13 - Loyer CC
                 '"0"',                                                      // 14 - Loyer HT
@@ -874,15 +874,15 @@ class ftptransfertService
             $data = array(
                 '"papsimmo"',                                               // 1 - Identifiant Agence
                 '"' . $refProperty . '"',                                   // 2 - Référence agence du bien
-                '"Vente"',                                                  // 3 - Type d’annonce
-                '"' . $property['rubric'] . '"',                                              // 4 - Type de bien
-                '"' . $property['zipcode'] . '"',                               // 5 - CP
-                '"' . $property['city'] . '"',                                  // 6 - Ville
+                '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
+                '"' . $property['rubric'] . '"',                            // 4 - Type de bien
+                '"' . $property['zipcode'] . '"',                           // 5 - CP
+                '"' . $property['city'] . '"',                              // 6 - Ville
                 '"France"',                                                 // 7 - Pays
-                '"' . $property['adress'] . '"',                                // 8 - Adresse
+                '"' . $property['adress'] . '"',                            // 8 - Adresse
                 '""',                                                       // 9 - Quartier / Proximité
                 '""',                                                       // 10 - Activités commerciales
-                '"' . $property['priceFai'] . '"',                              // 11 - Prix / Loyer / Prix de cession
+                '"' . $property['priceFai'] . '"',                          // 11 - Prix / Loyer / Prix de cession
                 '""',                                                       // 12 - Loyer / mois murs
                 '"0"',                                                      // 13 - Loyer CC
                 '"0"',                                                      // 14 - Loyer HT
@@ -1209,7 +1209,7 @@ class ftptransfertService
             $rows[] = implode('!#', $data);
         }
         $content = implode("\n", $rows);
-        //dd($content);
+        dd($content);
 
         // PARTIE II : Génération du fichier CSV
         $file = 'doc/report/Annoncesfigaro/Annonces.csv';                                  // Chemin du fichier

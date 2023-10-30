@@ -709,7 +709,7 @@ class PropertyRepository extends ServiceEntityRepository
     // ----------------------------------------------
     // Requête : Liste tous les biens disponible à la location pour professionnels - Partie accueil
     // ----------------------------------------------
-    public function AllPropertiesCommerceRent()
+    public function AllCommercesRent()
     {
         return $this->createQueryBuilder('p')
             ->leftjoin('p.refEmployed', 'e')

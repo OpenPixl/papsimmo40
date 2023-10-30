@@ -17,6 +17,7 @@ class PropertyService
         //dd($famille);
         if($famille == 8 ){
             //dd('vente immobilier');
+            $destination = 'vente';
             $price = $property->getPrice();
             $priceFai = $property->getPriceFai();
             $rent = "";
@@ -41,6 +42,7 @@ class PropertyService
             $commerceSurfaceDivisibleMax = "";
         }elseif($famille == 5){
             //dd('location immobilier');
+            $destination = 'location';
             $price = "";
             $priceFai = "";
             $rent = $property->getRent();
@@ -65,14 +67,15 @@ class PropertyService
             $commerceSurfaceDivisibleMax = "";
         }elseif($famille == 4 && $rubric == 8){
             //dd('location pro');
+            $destination = 'location';
             $price = "";
             $priceFai = "";
-            $rent = "";
-            $rentCharge = "";
-            $rentWithCharge = "";
-            $rentChargeModsPayment = "";
-            $warrantyDeposit = "";
-            $rentChargeHonoraire = "";
+            $rent = $property->getRent();
+            $rentCharge = $property->getRentCharge();
+            $rentWithCharge = $rent + $rentCharge;
+            $warrantyDeposit = $property->getWarrantyDeposit();
+            $rentChargeModsPayment = $property->getRentChargeModsPayment();
+            $rentChargeHonoraire = $property->getRentChargeHonoraire();
             $commerceAnnualRentGlobal = $property->getCommerceAnnualRentGlobal();
             $commerceAnnualChargeRentGlobal = $property->getCommerceAnnualChargeRentGlobal();
             $commerceAnnualRentMeter = $property->getCommerceAnnualRentMeter();
@@ -121,6 +124,7 @@ class PropertyService
             $commerceSurfaceDivisibleMax = $property->getCommerceSurfaceDivisibleMax();
         }
         return array(
+            'destination' => $destination,
             'price' => $price, 'priceFai' => $priceFai,
             'rent' => $rent, 'rentCharge' => $rentCharge, 'rentWithCharge' => $rentWithCharge, 'rentChargeModsPayment' => $rentChargeModsPayment, 'rentChargeHonoraire' => $rentChargeHonoraire,
             'warrantyDeposit' => $warrantyDeposit,

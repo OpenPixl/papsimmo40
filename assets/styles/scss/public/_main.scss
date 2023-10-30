@@ -77,6 +77,14 @@ body{
 }
 
 #op_page_content{
+  h1, h2, h3, .h1, .h2, .h3{
+    color: #069697;
+    font-family: Montserrat-light,sans-serif;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+  }
   #allemployed{
     h1, h2, h3, .h1, .h2, .h3{
       color: #ffffff;

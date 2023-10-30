@@ -24,6 +24,7 @@ use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Service\ArchivePropertyService;
+use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -76,6 +77,32 @@ class PropertyController extends AbstractController
                 'user' => $user
             ]);
         }
+    }
+
+    /**
+     * Affiche tous les biens immobiliers en location dans la section adaptée".
+     */
+    #[Route('/allRentCommerce', name: 'op_gestapp_properties_allrentcommerce', methods: ['GET'])]
+    public function AllRentCommerce(
+        PropertyRepository $propertyRepository,
+        PaginatorInterface $paginator,
+        Request $request
+    ): Response
+    {
+        // Récupération de la page si elle existe
+        $page = $request;
+        $data = $propertyRepository->AllCommercesRent();
+        $properties = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            24
+        );
+
+        return $this->renderForm('webapp/page/property/allproperties.html.twig', [
+            'properties' => $properties,
+            'page' => $request->query->getInt('page', 1),
+        ]);
+
     }
 
     #[Route('/propertyDiffusion', name: 'op_gestapp_property_diffusion', methods: ['GET']) ]
@@ -866,7 +893,7 @@ class PropertyController extends AbstractController
      * Affiche tous les biens immobiliers dans la section adaptée".
      */
     #[Route('/allpropertiesrent', name: 'op_gestapp_properties_allpropertyrent', methods: ['GET'])]
-    public function AllPropertiesRent(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
+    public function AllPropertiesRent(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request): Response
     {
 
         // Récupération de la page si elle existe
@@ -887,30 +914,7 @@ class PropertyController extends AbstractController
 
     }
 
-    /**
-     * Affiche tous les biens immobiliers dans la section adaptée".
-     */
-    #[Route('/allpropertiesrentCommerce', name: 'op_gestapp_properties_allpropertyrentCommerce', methods: ['GET'])]
-    public function AllPropertiesRentCommerce(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
-    {
 
-        // Récupération de la page si elle existe
-        $page = $request;
-
-        $data = $propertyRepository->AllPropertiesRentCommerce();
-
-        $properties = $paginator->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            24
-        );
-
-        return $this->renderForm('webapp/page/property/allproperties.html.twig', [
-            'properties' => $properties,
-            'page' => $request->query->getInt('page', 1),
-        ]);
-
-    }
 
     /**
      * Mettre en place l'archivage d'un bien selon une date de fin de mandat
