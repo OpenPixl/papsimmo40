@@ -1307,8 +1307,13 @@ class ftptransfertService
 
         $adverts = [];                                                    // Construction du tableau
         foreach ($properties as $property) {
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $this->propertyService->getDestination($propriete);
             $property = $propertyRepository->find($property['id']);
             //dd($property);
+
+            $charge = $destination['charge'];
 
             // Equipement
             $options = $property->getOptions();
@@ -1405,7 +1410,7 @@ class ftptransfertService
             }
 
             // publication sur les réseaux
-            $publications = 'SL';
+            // $publications = 'SL';
 
             // Transformation terrace en booléen
             if ($options->getTerrace()) {
@@ -1492,7 +1497,8 @@ class ftptransfertService
                 'level' => $options->getLevel(),
                 'isFurnished' => $options->getIsFurnished(),
                 'heating' => $options->getPropertyEnergy(),
-                'pics' => $pics
+                'pics' => $pics,
+                'charge' => $charge
             ];
             array_push($adverts, $xml);
 
