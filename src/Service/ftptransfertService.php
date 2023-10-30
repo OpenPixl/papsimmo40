@@ -21,6 +21,7 @@ class ftptransfertService
     public function __construct(
         RequestStack $requestStack,
         private Environment $twig,
+        private PropertyService $propertyService,
         public string $urlftpseloger, public string $portftpseloger, public string $loginftpseloger, public string $passwordftpseloger,
         public string $urlftpfigaro, public string $portftpfigaro, public string $loginftpfigaro, public string $passwordftpfigaro,
         public string $urlftpga, public string $portftpga, public string $loginftpga, public string $passwordftpga,
@@ -33,7 +34,6 @@ class ftptransfertService
         PropertyRepository $propertyRepository,
         PhotoRepository $photoRepository,
         ComplementRepository $complementRepository,
-        PropertyService $propertyService
     )
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -56,7 +56,7 @@ class ftptransfertService
         foreach ($properties as $property){
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
-            $destination = $propertyService->getDestination($propriete);
+            $destination = $this->propertyService->getDestination($propriete);
             // Description de l'annonce
             $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
             $annonce = strip_tags($data, '<br>');
@@ -320,7 +320,7 @@ class ftptransfertService
                 '""',                                       // 79 - Chiffre d’affaire
                 '""',                                       // 80 - Longueur façade (m)
                 '"0"',                                      // 81 - Duplex
-                '"' . $listpublications . '"',                                  // 82 - Publications
+                '"' . $publications . '"',                                  // 82 - Publications
                 '"0"',                                      // 83 - Mandat en exclusivité
                 '"0"',                                      // 84 - Coup de cœur
                 '"' . $url1 . '"',                                              // 85 - Photo 1
@@ -665,7 +665,6 @@ class ftptransfertService
         PropertyRepository $propertyRepository,
         PhotoRepository $photoRepository,
         ComplementRepository $complementRepository,
-        PropertyService $propertyService
     )
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -687,7 +686,7 @@ class ftptransfertService
         foreach ($properties as $property){
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
-            $destination = $propertyService->getDestination($propriete);
+            $destination = $this->propertyService->getDestination($propriete);
             // Description de l'annonce
             $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
             $annonce = strip_tags($data, '<br>');
@@ -811,7 +810,7 @@ class ftptransfertService
             }
 
             // publication sur les réseaux
-            $publications = 'SL';
+            $publications = 'Figaro';
 
             // Transformation terrace en booléen
             if($property['terrace']){
@@ -954,7 +953,7 @@ class ftptransfertService
                 '""',                                       // 79 - Chiffre d’affaire
                 '""',                                       // 80 - Longueur façade (m)
                 '"0"',                                      // 81 - Duplex
-                '"' . $listpublications . '"',                                  // 82 - Publications
+                '"' . $publications . '"',                                  // 82 - Publications
                 '"0"',                                      // 83 - Mandat en exclusivité
                 '"0"',                                      // 84 - Coup de cœur
                 '"' . $url1 . '"',                                              // 85 - Photo 1
