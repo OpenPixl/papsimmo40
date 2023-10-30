@@ -41,6 +41,8 @@
                     <has_closets>{% if advert.wc > 0 %}1{% else %}0{% endif %}</has_closets>
                     {% if advert.charge is not null %}
                     <charges>{{ advert.charge }}</charges>
+                    {% else %}
+                        <charges>0</charges>
                     {% endif %}
                     <furnished>{% if advert.isFurnished == true %}1{% else %}0{% endif %}</furnished>
                     <heating>{{ advert.heating }}</heating>
