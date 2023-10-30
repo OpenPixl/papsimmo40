@@ -2068,7 +2068,7 @@ class ReportController extends AbstractController
             array_push($adverts, $xml);
 
         }
-
+        //dd($adverts);
         $xmlContent = $this->renderView('gestapp/report/greenacrees.html.twig', [
             'adverts' => $adverts
         ]);

@@ -53,11 +53,7 @@
                             </pic>
                         {% endfor %}
                     </pics>
-                    <test>
-                        {% for equipment in equipments %}
-                            {% if loop.first %}{{ equipment.name }} - {% elseif loop.last%}{{ equipment.name }}{% else %} {{ equipment.name }} - {% endif %}
-                        {% endfor %}
-                    </test>
+
                     <publications>
                         <greenacres>1</greenacres>
                     </publications>

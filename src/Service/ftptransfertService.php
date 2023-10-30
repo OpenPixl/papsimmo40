@@ -1313,7 +1313,7 @@ class ftptransfertService
             $property = $propertyRepository->find($property['id']);
             //dd($property);
 
-            $charge = $destination['charge'];
+            $charge = $destination['rentCharge'];
 
             // Equipement
             $options = $property->getOptions();
