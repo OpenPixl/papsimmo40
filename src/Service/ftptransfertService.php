@@ -614,7 +614,7 @@ class ftptransfertService
 
         // IV. Dépôt sur le serveur de FTP
         $ftpserver = $this->urlftpseloger;
-        $ftpport = intval($this->portftpseloger);
+        $ftpport = $this->portftpseloger;
         $ftpusername = $this->loginftpseloger;
         $ftppassword = $this->passwordftpseloger;
 
@@ -1247,7 +1247,7 @@ class ftptransfertService
 
         // IV. Dépôt sur le serveur de FTP
         $ftpserver = $this->urlftpfigaro;
-        $ftpport = intval($this->portftpfigaro);
+        $ftpport = $this->portftpfigaro;
         $ftpusername = $this->loginftpfigaro;
         $ftppassword = $this->passwordftpfigaro;
         // Connexion au serveur FTP
