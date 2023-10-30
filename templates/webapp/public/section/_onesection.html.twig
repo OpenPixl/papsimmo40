@@ -36,11 +36,6 @@
             <div class="col-12">
                 {# Affiche un ensemble de test si aucun contenu n'est sélectionné #}
                 {% if section.content == 'none' %}
-                <div>
-                    <article>
-                        <header><h2>{{ section.name }}</h2></header>
-                    </article>
-                </div>
                 {# Affiche un article #}
                 {% elseif section.content == 'One_article' %}
                     {{ render(controller('App\\Controller\\Webapp\\ArticlesController::OneArticle', {'id': section.oneArticle})) }}
@@ -57,9 +52,12 @@
                 {# Affiche tous les biens à la vente #}
                 {% elseif section.content == 'All_properties_sales'%}
                     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllPropertiesSales')) }}
-                    {# Affiche tous les biens à la location #}
+                {# Affiche tous les biens à la location #}
                 {% elseif section.content == 'All_properties_rent'%}
                     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllPropertiesRent')) }}
+                {# Affiche tous les biens pro à la location #}
+                {% elseif section.content == 'All_commerces_rent'%}
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllPropertiesRentCommerce')) }}
                 {# Affiche tous les biens par secteurs #}
                 {% elseif section.content == 'Sector_ofProperties'%}
                 {# Affiche les 5 derniers biens #}

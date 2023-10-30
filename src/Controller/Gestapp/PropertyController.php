@@ -888,6 +888,31 @@ class PropertyController extends AbstractController
     }
 
     /**
+     * Affiche tous les biens immobiliers dans la section adaptée".
+     */
+    #[Route('/allpropertiesrentCommerce', name: 'op_gestapp_properties_allpropertyrentCommerce', methods: ['GET'])]
+    public function AllPropertiesRentCommerce(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
+    {
+
+        // Récupération de la page si elle existe
+        $page = $request;
+
+        $data = $propertyRepository->AllPropertiesRentCommerce();
+
+        $properties = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            24
+        );
+
+        return $this->renderForm('webapp/page/property/allproperties.html.twig', [
+            'properties' => $properties,
+            'page' => $request->query->getInt('page', 1),
+        ]);
+
+    }
+
+    /**
      * Mettre en place l'archivage d'un bien selon une date de fin de mandat
      */
     #[Route('/add_dateendmandat/{id}', name: 'op_gestapp_properties_adddateendmandat', methods: ['GET','POST'])]

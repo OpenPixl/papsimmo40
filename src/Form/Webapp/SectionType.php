@@ -23,17 +23,21 @@ class SectionType extends AbstractType
                         'Un article en pdf' => 'article_pdf',
                         'Une catégorie' => 'Category',
                     ],
-                    'Collaborateur' =>[
+                    'COLLABORATEUR' =>[
                         "un collaborateur" => "One_Employed",
                         "Une équipe" => "One_staff",
                         "Liste de tous les collaborateurs" => "All_Employed"
                     ],
-                    'Propriétés' => [
+                    'PROPRIETES' => [
                         'Liste des propriétés à la vente' => 'All_properties_sales',
                         'Liste des propriétés à la location' => 'All_properties_rent',
                         "liste des avis" => "Sector_ofProperties",
                         'Les dernières propriétés' => 'Last_property'
                     ],
+                    'IMMEUBLES PROFESSIONNEL' => [
+                        'Liste des immeubles pro à la vente' => 'All_commerces_sales',
+                        'Liste des immeubles pro à la location' => 'All_commerces_rent'
+                    ]
                 ],
             ])
             ->add('isShowtitle')

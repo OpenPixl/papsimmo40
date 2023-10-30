@@ -11,8 +11,12 @@ class PropertyService
     // Destination commerciale du bien (Vente particulier, vente commerce, location particulier, vente commerce)
     public function getDestination(Property $property)
     {
+        //dd($property);
         $famille = $property->getFamily()->getId();
-        if($famille = 8){
+        $rubric = $property->getRubric()->getId();
+        //dd($famille);
+        if($famille == 8 ){
+            //dd('vente immobilier');
             $price = $property->getPrice();
             $priceFai = $property->getPriceFai();
             $rent = "";
@@ -21,7 +25,22 @@ class PropertyService
             $rentChargeModsPayment = "";
             $warrantyDeposit = "";
             $rentChargeHonoraire = "";
-        }else{
+            $commerceAnnualRentGlobal = "";
+            $commerceAnnualChargeRentGlobal = "";
+            $commerceAnnualRentMeter = "";
+            $commerceAnnualChargeRentMeter = "";
+            $commerceChargeRentMonthHt = "";
+            $commerceRentAnnualCc = "";
+            $commerceRentAnnualHt = "";
+            $commerceChargeRentAnnualHt = "";
+            $commerceRentAnnualMeterCc = "";
+            $commerceRentAnnualMeterHt = "";
+            $commerceChargeRentAnnualMeterHt = "";
+            $commerceSurfaceDivisible = "";
+            $commerceSurfaceDivisibleMin = "";
+            $commerceSurfaceDivisibleMax = "";
+        }elseif($famille == 5){
+            //dd('location immobilier');
             $price = "";
             $priceFai = "";
             $rent = $property->getRent();
@@ -30,11 +49,86 @@ class PropertyService
             $warrantyDeposit = $property->getWarrantyDeposit();
             $rentChargeModsPayment = $property->getRentChargeModsPayment();
             $rentChargeHonoraire = $property->getRentChargeHonoraire();
+            $commerceAnnualRentGlobal = "";
+            $commerceAnnualChargeRentGlobal = "";
+            $commerceAnnualRentMeter = "";
+            $commerceAnnualChargeRentMeter = "";
+            $commerceChargeRentMonthHt = "";
+            $commerceRentAnnualCc = "";
+            $commerceRentAnnualHt = "";
+            $commerceChargeRentAnnualHt = "";
+            $commerceRentAnnualMeterCc = "";
+            $commerceRentAnnualMeterHt = "";
+            $commerceChargeRentAnnualMeterHt = "";
+            $commerceSurfaceDivisible = "";
+            $commerceSurfaceDivisibleMin = "";
+            $commerceSurfaceDivisibleMax = "";
+        }elseif($famille == 4 && $rubric == 8){
+            //dd('location pro');
+            $price = "";
+            $priceFai = "";
+            $rent = "";
+            $rentCharge = "";
+            $rentWithCharge = "";
+            $rentChargeModsPayment = "";
+            $warrantyDeposit = "";
+            $rentChargeHonoraire = "";
+            $commerceAnnualRentGlobal = $property->getCommerceAnnualRentGlobal();
+            $commerceAnnualChargeRentGlobal = $property->getCommerceAnnualChargeRentGlobal();
+            $commerceAnnualRentMeter = $property->getCommerceAnnualRentMeter();
+            $commerceAnnualChargeRentMeter = $property->getCommerceAnnualChargeRentMeter();
+            if($property->IsCommerceChargeRentMonthHt() == 0){
+                $commerceChargeRentMonthHt = 'non';
+            }else{
+                $commerceChargeRentMonthHt = 'oui';
+            }
+            if($property->IsCommerceRentAnnualCc() == 0){
+                $commerceRentAnnualCc = 'non';
+            }else{
+                $commerceRentAnnualCc = 'oui';
+            }
+            if($property->IsCommerceRentAnnualHt() == 0){
+                $commerceRentAnnualHt = 'non';
+            }else{
+                $commerceRentAnnualHt = 'oui';
+            }
+            if($property->IsCommerceChargeRentAnnualHt() == 0){
+                $commerceChargeRentAnnualHt = 'non';
+            }else{
+                $commerceChargeRentAnnualHt = 'oui';
+            }
+            if($property->IsCommerceRentAnnualMeterCc() == 0){
+                $commerceRentAnnualMeterCc = 'non';
+            }else{
+                $commerceRentAnnualMeterCc = 'oui';
+            }
+            if($property->IsCommerceRentAnnualMeterHt() == 0){
+                $commerceRentAnnualMeterHt = 'non';
+            }else{
+                $commerceRentAnnualMeterHt = 'oui';
+            }
+            if($property->IsCommerceChargeRentAnnualMeterHt() == 0){
+                $commerceChargeRentAnnualMeterHt = 'non';
+            }else{
+                $commerceChargeRentAnnualMeterHt = 'oui';
+            }
+            if($property->IsCommerceSurfaceDivisible() == 0){
+                $commerceSurfaceDivisible = 'non';
+            }else{
+                $commerceSurfaceDivisible = 'oui';
+            }
+            $commerceSurfaceDivisibleMin = $property->getCommerceSurfaceDivisibleMin();
+            $commerceSurfaceDivisibleMax = $property->getCommerceSurfaceDivisibleMax();
         }
         return array(
             'price' => $price, 'priceFai' => $priceFai,
             'rent' => $rent, 'rentCharge' => $rentCharge, 'rentWithCharge' => $rentWithCharge, 'rentChargeModsPayment' => $rentChargeModsPayment, 'rentChargeHonoraire' => $rentChargeHonoraire,
-            'warrantyDeposit' => $warrantyDeposit
+            'warrantyDeposit' => $warrantyDeposit,
+            'commerceAnnualRentGlobal' => $commerceAnnualRentGlobal, 'commerceAnnualChargeRentGlobal' => $commerceAnnualChargeRentGlobal, 'commerceAnnualRentMeter' => $commerceAnnualRentMeter,
+            'commerceAnnualChargeRentMeter' => $commerceAnnualChargeRentMeter, 'commerceChargeRentMonthHt' => $commerceChargeRentMonthHt, 'commerceRentAnnualCc' => $commerceRentAnnualCc,
+            'commerceRentAnnualHt'=> $commerceRentAnnualHt, 'commerceChargeRentAnnualHt' => $commerceChargeRentAnnualHt, 'commerceRentAnnualMeterCc' => $commerceRentAnnualMeterCc,
+            'commerceRentAnnualMeterHt' => $commerceRentAnnualMeterHt, 'commerceChargeRentAnnualMeterHt'=>$commerceChargeRentAnnualMeterHt, 'commerceSurfaceDivisible'=>$commerceSurfaceDivisible,
+            'commerceSurfaceDivisibleMin'=>$commerceSurfaceDivisibleMin, 'commerceSurfaceDivisibleMax'=>$commerceSurfaceDivisibleMax
         );
     }
 

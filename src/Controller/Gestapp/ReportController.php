@@ -207,7 +207,12 @@ class ReportController extends AbstractController
      * Génération du Fichiers CSV pour MeilleurAgent/LeBonCoin
      **/
     #[Route('/report/report_properties_csv2', name: 'app_gestapp_report_propertycsv2')]
-    public function PropertyCSV2(PropertyRepository $propertyRepository, PhotoRepository $photoRepository, ComplementRepository $complementRepository): Response
+    public function PropertyCSV2(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+        PropertyService $propertyService,
+    ): Response
     {
         $properties = $propertyRepository->reportpropertycsv2();
         //dd($properties);
@@ -217,6 +222,9 @@ class ReportController extends AbstractController
 
         $rows = array();
         foreach ($properties as $property) {
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $propertyService->getDestination($propriete);
             // Description de l'annonce
             $data = str_replace(array("\n", "\r"), array('', ''), html_entity_decode($property['annonce']));
             $annonce = strip_tags($data, '<br>');
@@ -591,29 +599,29 @@ class ReportController extends AbstractController
                 '"0"',                                                      // 190 - Résidence
                 '"0"',                                                      // 191 - Parquet
                 '"0"',                                                      // 192 - Vis-à-vis
-                '""',                                   // 193 - Transport : Ligne
-                '""',                                   // 194 - Transport : Station
-                '""',                                   // 195 - Durée bail
-                '""',                                   // 196 - Places en salle
-                '""',                                   // 197 - Monte-charge
-                '""',                                   // 198 - Quai
-                '""',                                   // 199 - Nombre de bureaux
-                '""',                                   // 200 - Prix du droit d’entrée
-                '""',                                   // 201 - Prix masqué
-                '""',                                   // 202 - Loyer annuel global
-                '""',                                   // 203 - Charges annuelles globales
-                '""',                                   // 204 - Loyer annuel au m2
-                '""',                                   // 205 - Charges annuelles au m2
-                '"0"',                                  // 206 - Charges mensuelles  Loyer annuel CC HT
-                '"0"',                                  // 207 - Loyer annuel CC
-                '"0"',                                  // 208 - Loyer annuel HT
-                '"0"',                                  // 209 - Charges annuelles HT
-                '"0"',                                  // 210 - Loyer annuel au m2 CC
-                '"0"',                                  // 211 - Loyer annuel au m2 HT
-                '"0"',                                  // 212 - Charges annuelles au m2 HT
-                '"0"',                                  // 213 - Divisible
-                '""',                                   // 214 - Surface divisible minimale
-                '""',                                   // 215 - Surface divisible maximale
+                '""',                                                       // 193 - Transport : Ligne
+                '""',                                                       // 194 - Transport : Station
+                '""',                                                       // 195 - Durée bail
+                '""',                                                       // 196 - Places en salle
+                '""',                                                       // 197 - Monte-charge
+                '""',                                                       // 198 - Quai
+                '""',                                                       // 199 - Nombre de bureaux
+                '""',                                                       // 200 - Prix du droit d’entrée
+                '""',                                                       // 201 - Prix masqué
+                '"'.$destination['commerceAnnualRentGlobal'].'"',           // 202 - Loyer annuel global
+                '"'.$destination['commerceAnnualChargeRentGlobal'].'"',     // 203 - Charges annuelles globales
+                '"'.$destination['commerceAnnualRentMeter'].'"',            // 204 - Loyer annuel au m2
+                '"'.$destination['commerceAnnualChargeRentMeter'].'"',      // 205 - Charges annuelles au m2
+                '"'.$destination['commerceChargeRentMonthHt'].'"',          // 206 - Charges mensuelles  Loyer annuel CC HT
+                '"'.$destination['commerceRentAnnualCc'].'"',               // 207 - Loyer annuel CC
+                '"'.$destination['commerceRentAnnualHt'].'"',               // 208 - Loyer annuel HT
+                '"'.$destination['commerceChargeRentAnnualHt'].'"',         // 209 - Charges annuelles HT
+                '"'.$destination['commerceRentAnnualMeterCc'].'"',          // 210 - Loyer annuel au m2 CC
+                '"'.$destination['commerceRentAnnualMeterHt'].'"',          // 211 - Loyer annuel au m2 HT
+                '"'.$destination['commerceChargeRentAnnualMeterHt'].'"',    // 212 - Charges annuelles au m2 HT
+                '"'.$destination['commerceSurfaceDivisible'].'"',           // 213 - Divisible
+                '"'.$destination['commerceSurfaceDivisibleMin'].'"',        // 214 - Surface divisible minimale
+                '"'.$destination['commerceSurfaceDivisibleMax'].'"',        // 215 - Surface divisible maximale
                 '""',                                   // 216 - Surface séjour
                 '""',                                   // 217 - Nombre de véhicules
                 '""',                                   // 218 - Prix du droit au bail
@@ -1330,7 +1338,7 @@ class ReportController extends AbstractController
     ): Response
     {
         // PARTIE I : Génération du fichier CSV
-        $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
+        $properties = $propertyRepository->reportpropertyfigaroFTP();            // On récupère les biens à publier sur SeLoger
         $app = $this->container->get('router')->getContext()->getHost();    // On récupère l'url de l'appl pour les url des photos
 
         $rows = array();                                                    // Construction du tableau
