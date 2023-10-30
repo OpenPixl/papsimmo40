@@ -24,6 +24,8 @@ flatpickr(".flatpickrtime", {
 const list = document.getElementById('list');
 const listDiffusion = document.getElementById("listDiffusion");
 const listArchived = document.getElementById("listArchived");
+const btnDiffusion = document.getElementById('btnListDiffusion');
+const btnArchived = document.getElementById('btnListArchived');
 
 // ajout des tableaux complémentaires
 axios
@@ -44,13 +46,15 @@ document.getElementById('btnListDiffusion').onclick = function(event){
         listDiffusion.style.display = 'block';
         list.style.display = 'none';
         listArchived.style.display = 'none';
-        document.getElementById('btnListDiffusion').textContent = 'Retour sur la liste des biens';
+        btnDiffusion.textContent = 'Retour sur la liste des biens';
+        btnArchived.addClass("disabled");
     }
     if(listDiffusion.className === 'hide') {
         listDiffusion.style.display = 'none';
         list.style.display = 'block';
         listArchived.style.display = 'none';
-        document.getElementById('btnListDiffusion').textContent = 'Afficher la diffusions des biens';
+        btnDiffusion.textContent = 'Afficher la diffusions des biens';
+        btnArchived.removeClass("disabled");
     }
 };
 

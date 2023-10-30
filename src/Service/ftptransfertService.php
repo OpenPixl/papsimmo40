@@ -12,6 +12,7 @@ use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
 use Twig\Environment;
 use ZipArchive;
+use App\Service\PropertyService;
 
 class ftptransfertService
 {
@@ -32,7 +33,8 @@ class ftptransfertService
     public function selogerFTP(
         PropertyRepository $propertyRepository,
         PhotoRepository $photoRepository,
-        ComplementRepository $complementRepository)
+        ComplementRepository $complementRepository,
+    )
     {
         $request = $this->requestStack->getCurrentRequest();
         $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
@@ -188,8 +190,6 @@ class ftptransfertService
             $idcomplement = $property['idComplement'];
             $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
             //dd($equipments);
-
-
 
             if($property['diagChoice'] == "obligatoire"){
                 // BILAN DPE

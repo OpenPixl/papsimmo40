@@ -10,7 +10,7 @@
         window.onload = function(){
 
         // ----------------------------------------------------------------
-        // STEP 1 : Après l'initialisation de la page
+        // STEP 0 : Après l'initialisation de la page
         // ----------------------------------------------------------------
 
             // Ouverture de la modale d'ajout d'un bien / propriété avec intégration du Numéro de mandat modifiable par le créateur
@@ -89,9 +89,44 @@
                 }
             })
 
+        // ----------------------------------------------------------------
+        // STEP 1 : Fonctionnalités liées à l'archivage de bien
+        // ----------------------------------------------------------------
+
             // Archivages d'un bien en création
             // ----------------------------------------------------------------
             // I.
+            // fucntion d'archivage d'un bien
+            function ArchivageProperty(event)
+            {
+                event.preventDefault();
+                const url = this.href;
+                axios
+                    .post(url)
+                    .then(function(response) {
+                        // rafraichissement du tableau
+                        document.getElementById('list').innerHTML = response.data.liste;
+                        document.getElementById('listArchived').innerHTML = response.data.listeArchived
+                        // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
+                            link.addEventListener('click', DelPropertyIncreating)
+                        })
+                        // Mise en place de l'évenement pour l'archivage d'un bien
+                        document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
+                            link.addEventListener('click', ArchivageProperty)
+                        })
+                        document.querySelectorAll('a.Modaltransferate').forEach(function(link){
+                            link.addEventListener('click', modalTransferate)
+                        })
+                        // initialisation du toaster
+                        var toastHTMLElement = document.getElementById("toaster")
+                        var message = response.data.message
+                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.innerHTML = message
+                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,})
+                        toastElement.show()
+                    })
+            }
             function DelPropertyIncreating(event)
             {
                 event.preventDefault();
@@ -105,9 +140,12 @@
                         document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                             link.addEventListener('click', DelPropertyIncreating)
                         })
-                        // Mise en place de l'évenement pour la suppression d'un bien
+                        // Mise en place de l'évenement pour l'archivage d'un bien
                         document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
-                            link.addEventListener('click', DelProperty)
+                            link.addEventListener('click', ArchivageProperty)
+                        })
+                        document.querySelectorAll('a.Modaltransferate').forEach(function(link){
+                            link.addEventListener('click', modalTransferate)
                         })
 
                         // initialisation du toaster
@@ -122,33 +160,6 @@
             }
 
 
-            function DelProperty(event)
-            {
-                event.preventDefault();
-                const url = this.href;
-                axios
-                    .post(url)
-                    .then(function(response) {
-                        // rafraichissement du tableau
-                        const liste = document.getElementById('list').innerHTML = response.data.liste;
-
-                        // Mise en place de l'évenement pour la suppression d'un bien en cours de création
-                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
-                            link.addEventListener('click', DelPropertyIncreating)
-                        })
-                        // Mise en place de l'évenement pour la suppression d'un bien
-                        document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
-                            link.addEventListener('click', DelProperty)
-                        })
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster")
-                        var message = response.data.message
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.innerHTML = message
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,})
-                        toastElement.show()
-                    })
-            }
 
             // Code d'ouverture de la modale de suppression d'une ligne en mode création d'un bien
             var Suppr = document.getElementById('SupprIncreatring')
@@ -177,6 +188,51 @@
             function SupprCreating(event){
                 console.log('Ok')
             }
+
+            // PARTIE : Désarchivages d'un bien ou de plusieurs
+            // -----------------------
+            // ouverture de la modale
+            const modalDisarchived = document.getElementById('modalDisarchived')
+            modalDisarchived.addEventListener('show.bs.modal', function(event){
+                // Récupération du bouton cliqué et extraction de la variable transmise dans le data-bs-whatever
+                let button = event.relatedTarget
+                let recipient = button.getAttribute('data-bs-whatever')
+                // Attribution pour le cleint et la propriété des éléments insclus dans le data-bs-whatever
+                let modalTitle = modalDisarchived.querySelector('.modal-title')
+                let modalText = modalDisarchived.querySelector('.modal-text')
+                let modalSubmit = modalDisarchived.querySelector('.modal-footer a')
+                modalTitle.textContent = 'Désarchivage du bien séléctionné'
+                modalText.outerHTML = '<p><b>Attention</b><br>En cliquant sur le bouton "Désarchiver", le bien sélectionné sera repositionné parmi les biens actifs.</p>'
+                modalSubmit.href = 'disarchived/' + recipient
+            })
+            let submitModal = document.getElementById('submitModal')
+            submitModal.addEventListener('click', function (event){
+                event.preventDefault()
+                let url = this.href
+                axios
+                    .post(url)
+                    .then(function(response){
+                        document.getElementById('list').innerHTML = response.data.liste;
+                        document.getElementById('listArchived').innerHTML = response.data.listeArchived
+                        // Events
+                        // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
+                            link.addEventListener('click', DelPropertyIncreating)
+                        })
+                        // Mise en place de l'évenement pour l'archivage d'un bien
+                        document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
+                            link.addEventListener('click', ArchivageProperty)
+                        })
+                        document.querySelectorAll('a.Modaltransferate').forEach(function(link){
+                            link.addEventListener('click', modalTransferate)
+                        })
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
+            })
+
 
             // PARTIE : Archivages de plusieurs biens
             // -----------------------
@@ -243,12 +299,10 @@
             document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                 link.addEventListener('click', DelPropertyIncreating)
             })
-
-            // Mise en place de l'évenement pour la suppression d'un bien
+            // Mise en place de l'évenement pour l'archivage d'un bien
             document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
-                link.addEventListener('click', DelProperty)
+                link.addEventListener('click', ArchivageProperty)
             })
-
             document.querySelectorAll('a.Modaltransferate').forEach(function(link){
                 link.addEventListener('click', modalTransferate)
             })
@@ -342,6 +396,25 @@
                 </div>
                 <div class="modal-footer">
                     <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# Modal pour le désarchibage du bien sélectionné #}
+    <div class="modal fade" id="modalDisarchived" tabindex="-1" aria-labelledby="Publish" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                    <input type="hidden" id="recipient-name">
+                </div>
+                <div class="modal-footer">
+                    <a href="#" id="submitModal" type="button" class="btn btn-warning" data-bs-dismiss="modal">Désarchiver le bien</a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>

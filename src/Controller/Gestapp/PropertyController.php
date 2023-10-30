@@ -571,11 +571,23 @@ class PropertyController extends AbstractController
                 $request->query->getInt('page', 1),
                 10
             );
+            $data2 = $propertyRepository->listAllPropertiesArchived();
+            $propertiesArchived = $paginator->paginate(
+                $data2,
+                $request->query->getInt('page', 1),
+                10
+            );
         }else{
             // dans ce cas, nous listons les propriétés de l'utilisateurs courant
             $data = $propertyRepository->listPropertiesByemployed($user);
             $properties = $paginator->paginate(
                 $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+            $data2 = $propertyRepository->listAllPropertiesArchived();
+            $propertiesArchived = $paginator->paginate(
+                $data2,
                 $request->query->getInt('page', 1),
                 10
             );
@@ -586,8 +598,61 @@ class PropertyController extends AbstractController
             'message' => "Le bien a été archivé sur le site.",
             'liste' => $this->renderView('gestapp/property/_list.html.twig', [
                 'properties' => $properties
+            ]),
+            'listeArchived' => $this->renderView('gestapp/property/_listarchived.html.twig', [
+                'properties' => $propertiesArchived
             ])
         ], 200);
+    }
+
+    #[Route('/disarchived/{id}', name: 'op_gestapp_property_disarchived', methods: ['POST'])]
+    public function disarchived(Request $request, Property $property, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
+    {
+        $property->setIsArchived(0);
+        $property->setArchivedAt(null);
+        $propertyRepository->add($property);
+
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+        if($hasAccess == true){
+            $data = $propertyRepository->listAllProperties();
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+            $data2 = $propertyRepository->listAllPropertiesArchived();
+            $propertiesArchived = $paginator->paginate(
+                $data2,
+                $request->query->getInt('page', 1),
+                10
+            );
+        }else{
+            // dans ce cas, nous listons les propriétés de l'utilisateurs courant
+            $data = $propertyRepository->listPropertiesByemployed($user);
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+            $data2 = $propertyRepository->listAllPropertiesArchived();
+            $propertiesArchived = $paginator->paginate(
+                $data2,
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
+        return $this->json([
+            'code'=> 200,
+            'message' => "Le bien a été archivé sur le site.",
+            'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+                'properties' => $properties
+            ]),
+            'listeArchived' => $this->renderView('gestapp/property/_listarchived.html.twig', [
+                'properties' => $propertiesArchived
+            ])
+        ], 200);
+
     }
 
     #[Route('/increatingdel/{id}', name:'op_gestapp_property_increatingdel', methods: ['POST'] )]
