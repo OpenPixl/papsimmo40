@@ -276,7 +276,7 @@ class ReportController extends AbstractController
             }
 
             // Calcul des honoraires en %
-            $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
+            // $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
 
             // Récupération des images liées au bien

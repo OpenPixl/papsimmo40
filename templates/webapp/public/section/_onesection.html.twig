@@ -66,7 +66,7 @@
                 {% elseif section.content == 'article_pdf'%}
                     {{ render(controller('App\\Controller\\Admin\\PdfRenderedController::pdfarticletohtml', {'idarticle': section.oneArticle})) }}
                 {% else %}
-
+                    <p>Prochainement</p>
                 {% endif %}
             </div>
         </div>
