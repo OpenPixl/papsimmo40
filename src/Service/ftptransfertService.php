@@ -1209,7 +1209,7 @@ class ftptransfertService
             $rows[] = implode('!#', $data);
         }
         $content = implode("\n", $rows);
-        dd($content);
+        //dd($content);
 
         // PARTIE II : Génération du fichier CSV
         $file = 'doc/report/Annoncesfigaro/Annonces.csv';                                  // Chemin du fichier
