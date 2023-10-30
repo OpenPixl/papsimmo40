@@ -33,6 +33,7 @@ class ftptransfertService
         PropertyRepository $propertyRepository,
         PhotoRepository $photoRepository,
         ComplementRepository $complementRepository,
+        PropertyService $propertyService
     )
     {
         $request = $this->requestStack->getCurrentRequest();
@@ -663,7 +664,8 @@ class ftptransfertService
     public function figaroFTP(
         PropertyRepository $propertyRepository,
         PhotoRepository $photoRepository,
-        ComplementRepository $complementRepository
+        ComplementRepository $complementRepository,
+        PropertyService $propertyService
     )
     {
         $request = $this->requestStack->getCurrentRequest();
