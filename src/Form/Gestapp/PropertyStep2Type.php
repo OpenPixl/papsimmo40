@@ -81,6 +81,69 @@ class PropertyStep2Type extends AbstractType
             ->add('rentChargeHonoraire', IntegerType::class, [
                 'label' => 'Honoraire sur charge locataire'
             ])
+            ->add('commerceAnnualRentGlobal', NumberType::class, [
+                'label' => 'Loyer annuel global'
+            ])
+            ->add('commerceAnnualChargeRentGlobal', NumberType::class, [
+                'label' => 'Charge annuelle global'
+            ])
+            ->add('commerceAnnualRentMeter', NumberType::class, [
+                'label' => 'Loyer annuel au M²'
+            ])
+            ->add('commerceAnnualChargeRentMeter', NumberType::class, [
+                'label' => 'Charge annuelle au M²'
+            ])
+            ->add('commerceChargeRentMonthHt', CheckboxType::class, [
+                'label' => 'Charges mensuelles HT',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('commerceRentAnnualCc', CheckboxType::class, [
+                'label' => 'Loyer annuel CC',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('commerceRentAnnualHt', CheckboxType::class, [
+                'label' => 'Loyer annuel HT',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('commerceChargeRentAnnualHt', CheckboxType::class, [
+                'label' => 'Charge annuelle HT',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('commerceRentAnnualMeterCc', CheckboxType::class, [
+                'label' => 'Charge annuelle par M² CC ?',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('commerceRentAnnualMeterHt', CheckboxType::class, [
+                'label' => 'Loyer annuel par M² HT ?',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('commerceChargeRentAnnualMeterHt', CheckboxType::class, [
+                'label' => 'Charge annuelle par M² HT ?',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('commerceSurfaceDivisible', CheckboxType::class, [
+                'label' => 'Surface Divisible ?',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('commerceSurfaceDivisibleMin')
+            ->add('commerceSurfaceDivisibleMax')
+
             ->add('dpeAt', DateType::class, [
                 'label'=> 'Date du DPE',
                 'widget' => 'single_text',

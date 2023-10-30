@@ -211,6 +211,48 @@ class Property
     #[ORM\Column(nullable: true)]
     private ?int $rentChargeHonoraire = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $commerceAnnualRentGlobal = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $commerceAnnualChargeRentGlobal = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $commerceAnnualRentMeter = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $commerceAnnualChargeRentMeter = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceChargeRentMonthHt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceRentAnnualCc = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceRentAnnualHt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceChargeRentAnnualHt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceRentAnnualMeterCc = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceRentAnnualMeterHt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceChargeRentAnnualMeterHt = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceSurfaceDivisible = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $commerceSurfaceDivisibleMin = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $commerceSurfaceDivisibleMax = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1027,6 +1069,174 @@ class Property
     public function setRentChargeHonoraire(?int $rentChargeHonoraire): static
     {
         $this->rentChargeHonoraire = $rentChargeHonoraire;
+
+        return $this;
+    }
+
+    public function getCommerceAnnualRentGlobal(): ?string
+    {
+        return $this->commerceAnnualRentGlobal;
+    }
+
+    public function setCommerceAnnualRentGlobal(?string $commerceAnnualRentGlobal): static
+    {
+        $this->commerceAnnualRentGlobal = $commerceAnnualRentGlobal;
+
+        return $this;
+    }
+
+    public function getCommerceAnnualChargeRentGlobal(): ?string
+    {
+        return $this->commerceAnnualChargeRentGlobal;
+    }
+
+    public function setCommerceAnnualChargeRentGlobal(string $commerceAnnualChargeRentGlobal): static
+    {
+        $this->commerceAnnualChargeRentGlobal = $commerceAnnualChargeRentGlobal;
+
+        return $this;
+    }
+
+    public function getCommerceAnnualRentMeter(): ?string
+    {
+        return $this->commerceAnnualRentMeter;
+    }
+
+    public function setCommerceAnnualRentMeter(?string $commerceAnnualRentMeter): static
+    {
+        $this->commerceAnnualRentMeter = $commerceAnnualRentMeter;
+
+        return $this;
+    }
+
+    public function getCommerceAnnualChargeRentMeter(): ?string
+    {
+        return $this->commerceAnnualChargeRentMeter;
+    }
+
+    public function setCommerceAnnualChargeRentMeter(?string $commerceAnnualChargeRentMeter): static
+    {
+        $this->commerceAnnualChargeRentMeter = $commerceAnnualChargeRentMeter;
+
+        return $this;
+    }
+
+    public function isCommerceChargeRentMonthHt(): ?bool
+    {
+        return $this->commerceChargeRentMonthHt;
+    }
+
+    public function setCommerceChargeRentMonthHt(?bool $commerceChargeRentMonthHt): static
+    {
+        $this->commerceChargeRentMonthHt = $commerceChargeRentMonthHt;
+
+        return $this;
+    }
+
+    public function isCommerceRentAnnualCc(): ?bool
+    {
+        return $this->commerceRentAnnualCc;
+    }
+
+    public function setCommerceRentAnnualCc(?bool $commerceRentAnnualCc): static
+    {
+        $this->commerceRentAnnualCc = $commerceRentAnnualCc;
+
+        return $this;
+    }
+
+    public function isCommerceRentAnnualHt(): ?bool
+    {
+        return $this->commerceRentAnnualHt;
+    }
+
+    public function setCommerceRentAnnualHt(?bool $commerceRentAnnualHt): static
+    {
+        $this->commerceRentAnnualHt = $commerceRentAnnualHt;
+
+        return $this;
+    }
+
+    public function isCommerceChargeRentAnnualHt(): ?bool
+    {
+        return $this->commerceChargeRentAnnualHt;
+    }
+
+    public function setCommerceChargeRentAnnualHt(?bool $commerceChargeRentAnnualHt): static
+    {
+        $this->commerceChargeRentAnnualHt = $commerceChargeRentAnnualHt;
+
+        return $this;
+    }
+
+    public function isCommerceRentAnnualMeterCc(): ?bool
+    {
+        return $this->commerceRentAnnualMeterCc;
+    }
+
+    public function setCommerceRentAnnualMeterCc(?bool $commerceRentAnnualMeterCc): static
+    {
+        $this->commerceRentAnnualMeterCc = $commerceRentAnnualMeterCc;
+
+        return $this;
+    }
+
+    public function isCommerceRentAnnualMeterHt(): ?bool
+    {
+        return $this->commerceRentAnnualMeterHt;
+    }
+
+    public function setCommerceRentAnnualMeterHt(?bool $commerceRentAnnualMeterHt): static
+    {
+        $this->commerceRentAnnualMeterHt = $commerceRentAnnualMeterHt;
+
+        return $this;
+    }
+
+    public function isCommerceChargeRentAnnualMeterHt(): ?bool
+    {
+        return $this->commerceChargeRentAnnualMeterHt;
+    }
+
+    public function setCommerceChargeRentAnnualMeterHt(?bool $commerceChargeRentAnnualMeterHt): static
+    {
+        $this->commerceChargeRentAnnualMeterHt = $commerceChargeRentAnnualMeterHt;
+
+        return $this;
+    }
+
+    public function isCommerceSurfaceDivisible(): ?bool
+    {
+        return $this->commerceSurfaceDivisible;
+    }
+
+    public function setCommerceSurfaceDivisible(?bool $commerceSurfaceDivisible): static
+    {
+        $this->commerceSurfaceDivisible = $commerceSurfaceDivisible;
+
+        return $this;
+    }
+
+    public function getCommerceSurfaceDivisibleMin(): ?string
+    {
+        return $this->commerceSurfaceDivisibleMin;
+    }
+
+    public function setCommerceSurfaceDivisibleMin(?string $commerceSurfaceDivisibleMin): static
+    {
+        $this->commerceSurfaceDivisibleMin = $commerceSurfaceDivisibleMin;
+
+        return $this;
+    }
+
+    public function getCommerceSurfaceDivisibleMax(): ?string
+    {
+        return $this->commerceSurfaceDivisibleMax;
+    }
+
+    public function setCommerceSurfaceDivisibleMax(?string $commerceSurfaceDivisibleMax): static
+    {
+        $this->commerceSurfaceDivisibleMax = $commerceSurfaceDivisibleMax;
 
         return $this;
     }
