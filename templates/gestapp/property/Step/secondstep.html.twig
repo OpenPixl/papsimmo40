@@ -1,37 +1,12 @@
 <section class="property-edit">
     {{ form_start(form, {'attr': {'id': 'FormAddEstimate'}}) }}
     <div class="row g-1 mt-2">
-        <div class="col-2">
-            {# Bloc des surfaces #}
-            <div class="card text-dark bg-light">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>SURFACES</div>
-                    </div>
-                    <hr>
-                    <div class="row mb-1 mt-1 g-1">
-                        <div class="col-6">
-                            {{ form_label(form.surfaceLand, 'Terrain', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.surfaceLand, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_label(form.surfaceHome, 'Habitable', {'label_attr': {'class':'form-label'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.surfaceHome, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-3">
+        <div class="col-4">
             {# Bloc des Estimations #}
             <div id="sale" class="card text-dark bg-light">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <div>Prix de vente</div>
+                        <div>VENTE IMMOBILIERE</div>
                     </div>
                     <hr>
                     <div id="detailPrice">
@@ -96,7 +71,7 @@
             <div id="rent" class="card text-dark bg-light">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
-                        <div>Loyer</div>
+                        <div>LOCATION IMMOBILIERE</div>
                     </div>
                     <hr>
                     <div id="detailPrice">
@@ -143,8 +118,131 @@
                     </div>
                 </div>
             </div>
+            <div id="rentCommerce" class="card text-dark bg-light">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>LOCATIONS COMMERCIALES</div>
+                    </div>
+                    <hr>
+                    <div id="detailPrice">
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="align-middle">{{ form_label(form.commerceAnnualRentGlobal, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                            </div>
+                            <div class="col-4">
+                                {{ form_widget(form.commerceAnnualRentGlobal, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceAnnualChargeRentGlobal, '', {'label_attr': {'class':'form-label'}}) }}
+                            </div>
+                            <div class="col-4">
+                                {{ form_widget(form.commerceAnnualChargeRentGlobal, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="align-middle">{{ form_label(form.commerceAnnualRentMeter, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                            </div>
+                            <div class="col-4">
+                                {{ form_widget(form.commerceAnnualRentMeter, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="align-middle">{{ form_label(form.commerceAnnualChargeRentMeter, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                            </div>
+                            <div class="col-4">
+                                {{ form_widget(form.commerceAnnualChargeRentMeter, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceChargeRentMonthHt) }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.commerceChargeRentMonthHt) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceRentAnnualCc) }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.commerceRentAnnualCc) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceRentAnnualHt) }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.commerceRentAnnualHt) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceChargeRentAnnualHt) }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.commerceChargeRentAnnualHt) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceRentAnnualMeterCc) }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.commerceRentAnnualMeterCc) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceRentAnnualMeterHt) }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.commerceRentAnnualMeterHt) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceChargeRentAnnualMeterHt) }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.commerceChargeRentAnnualMeterHt) }}
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="col-6">
+                                {{ form_label(form.commerceSurfaceDivisible) }}
+                            </div>
+                            <div class="col-sm-4">
+                                {{ form_widget(form.commerceSurfaceDivisible) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="align-middle">{{ form_label(form.commerceSurfaceDivisibleMin, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                            </div>
+                            <div class="col-4">
+                                {{ form_widget(form.commerceSurfaceDivisibleMin, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-6">
+                                <span class="align-middle">{{ form_label(form.commerceSurfaceDivisibleMax, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                            </div>
+                            <div class="col-4">
+                                {{ form_widget(form.commerceSurfaceDivisibleMax, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-3">
+        <div class="col-4">
             {# Bloc des diagnostiques #}
             <div class="card text-dark bg-light">
                 <div class="card-body">
@@ -227,6 +325,29 @@
                         {{ render(controller('App\\Controller\\Gestapp\\CadasterController::ListByProperty', {'idproperty':property.id})) }}
                     </div>
                     <input type="hidden" name="token" value="{{ csrf_token('step-chiffres') }}"/>
+                </div>
+            </div>
+            {# Bloc des surfaces #}
+            <div class="card text-dark bg-light">
+                <div class="card-body">
+                    <div class="d-flex justify-content-between">
+                        <div>SURFACES</div>
+                    </div>
+                    <hr>
+                    <div class="row mb-1 mt-1 g-1">
+                        <div class="col-6">
+                            {{ form_label(form.surfaceLand, 'Terrain', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.surfaceLand, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_label(form.surfaceHome, 'Habitable', {'label_attr': {'class':'form-label'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.surfaceHome, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
