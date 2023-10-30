@@ -1357,7 +1357,7 @@ class ftptransfertService
             }
 
             // Calcul des honoraires en %
-            $honoraires = round(100 - (($property->getPrice() * 100) / $property->getPriceFai()), 2);
+            //$honoraires = round(100 - (($property->getPrice() * 100) / $property->getPriceFai()), 2);
 
             // Récupération des images liées au bien
             $photos = $photoRepository->findNameBy(['property' => $property->getId()]);
