@@ -882,7 +882,6 @@ class PropertyRepository extends ServiceEntityRepository
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
         $query->select('
-                
                 f.code as familyCode,
                 ru.code as rubricCode,
                 rus.code as rubricssCode,

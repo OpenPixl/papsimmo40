@@ -28,16 +28,19 @@ class ReportController extends AbstractController
      * Génération du Fichiers CSV pour PARUVendu
      **/
     #[Route('/report/report_properties_csv', name: 'app_gestapp_report_propertycsv')]
-    public function PropertyCSV(PropertyRepository $propertyRepository, PhotoRepository $photoRepository): Response
+    public function PropertyCSV(PropertyRepository $propertyRepository, PhotoRepository $photoRepository,PropertyService $propertyService): Response
     {
         $properties = $propertyRepository->reportpropertycsv();
+        //dd($properties);
 
         $app = $this->container->get('router')->getContext()->getHost();
         //dd($properties);
 
         $rows = array();
         foreach ($properties as $property) {
-
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $propertyService->getDestination($propriete);
             $data = str_replace(array("\n", "\r"), array('', ''), html_entity_decode($property['annonce']));
             $annonce = strip_tags($data, '<br>');
 
@@ -63,13 +66,13 @@ class ReportController extends AbstractController
                 $famille = "";
             }
             // Clé de détermination PARUVENDU - RUBRIQUE
-            if ($property['propertyDefinition']) {
+            if ($property['familyCode']) {
                 $rubrique = $property['rubricCode'];
             } else {
                 $rubrique = "00";
             }
             // Clé de détermination PARUVENDU - SSRUBRIQUE
-            if ($property['ssCategory']) {
+            if ($property['rubricCode']) {
                 $ssrubrique = $property['rubricssCode'];
             } else {
                 $ssrubrique = "000";
@@ -119,13 +122,13 @@ class ReportController extends AbstractController
 
             // Alimentation d'une ligne du fichier CSV
             $data = array(
-                '"3C14110"',                                            // 1 - code Client fournis par PV
+                '"3C14110"',                                                // 1 - code Client fournis par PV
                 '"' . $refProperty . '"',                                   // 2 - Référence ANNONCE du PAPSIMMO
-                '"I"',                                                  // 3 - Code Pour les biens immobiliers correspondance PV
+                '"I"',                                                      // 3 - Code Pour les biens immobiliers correspondance PV
                 '"' . $famille . '"',                                       // 4 - famille Paru-Vendu
                 '"' . $rubrique . '"',                                      // 5 - rubrique Paru-Vendu
                 '"' . $ssrubrique . '"',                                    // 6 - sous rubrique Paru-Vendu
-                '""',                                                   // 7 - code INSEE COMMUNE
+                '""',                                                       // 7 - code INSEE COMMUNE
                 '"' . $property['zipcode'] . '"',                           // 8 - Code postal
                 '"' . $property['city'] . '"',                              // 9 - Commune
                 'France',                                                   // 10 - Pays
