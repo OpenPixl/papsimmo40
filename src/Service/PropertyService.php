@@ -11,7 +11,6 @@ class PropertyService
     // Destination commerciale du bien (Vente particulier, vente commerce, location particulier, vente commerce)
     public function getDestination(Property $property)
     {
-        dd($property);
         $famille = $property->getFamily()->getId();
         $rubric = $property->getRubric()->getId();
         //dd($famille);

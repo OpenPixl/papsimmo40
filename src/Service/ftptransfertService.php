@@ -250,7 +250,7 @@ class ftptransfertService
                 '""',                                                       // 9 - Quartier / Proximité
                 '""',                                                       // 10 - Activités commerciales
                 '"' . $property['priceFai'] . '"',                              // 11 - Prix / Loyer / Prix de cession
-                '"' . $destionation['rent'] . '"',                              // 12 - Loyer / mois murs
+                '"' . $destination['rent'] . '"',                              // 12 - Loyer / mois murs
                 '"' . $destination['rentCC'] . '"',                             // 13 - Loyer CC
                 '"' . $destination['rentHT'] . '"',                             // 14 - Loyer HT
                 '"' . $destination['rentChargeHonoraire'] . '"',                // 15 - Honoraires
@@ -883,7 +883,7 @@ class ftptransfertService
                 '""',                                                       // 9 - Quartier / Proximité
                 '""',                                                       // 10 - Activités commerciales
                 '"' . $property['priceFai'] . '"',                              // 11 - Prix / Loyer / Prix de cession
-                '"' . $destionation['rent'] . '"',                              // 12 - Loyer / mois murs
+                '"' . $destination['rent'] . '"',                              // 12 - Loyer / mois murs
                 '"' . $destination['rentCC'] . '"',                             // 13 - Loyer CC
                 '"' . $destination['rentHT'] . '"',                             // 14 - Loyer HT
                 '"' . $destination['rentChargeHonoraire'] . '"',                // 15 - Honoraires
