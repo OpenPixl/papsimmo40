@@ -13,10 +13,12 @@ class PropertyService
     {
         $famille = $property->getFamily()->getId();
         $rubric = $property->getRubric()->getId();
+        //$rubricss = $property->getRubricss()->getId();
         //dd($famille);
         if($famille == 8 ){
             //dd('vente immobilier');
             $destination = 'vente';
+            $typeBien = $property->getRubric()->getName();
             $price = $property->getPrice();
             $priceFai = $property->getPriceFai();
             $rent = "";
@@ -45,6 +47,7 @@ class PropertyService
         }elseif($famille == 5){
             //dd('location immobilier');
             $destination = 'location';
+            $typeBien = $property->getRubric()->getName();
             $price = "";
             $priceFai = "";
             $rent = $property->getRent();
@@ -73,6 +76,7 @@ class PropertyService
         }elseif($famille == 4 && $rubric == 8){
             //dd('location pro');
             $destination = 'location';
+            $typeBien = $property->getRubricss()->getName();
             $price = "";
             $priceFai = "";
             $rent = $property->getRent();
@@ -132,7 +136,7 @@ class PropertyService
             $commerceSurfaceDivisibleMax = $property->getCommerceSurfaceDivisibleMax();
         }
         return array(
-            'destination' => $destination,
+            'destination' => $destination, 'typeBien' => $typeBien,
             'price' => $price, 'priceFai' => $priceFai,
             'rent' => $rent, 'rentCharge' => $rentCharge, 'rentWithCharge' => $rentWithCharge, 'rentChargeModsPayment' => $rentChargeModsPayment, 'rentChargeHonoraire' => $rentChargeHonoraire,
             'rentCC' => $rentCC, 'rentHT' => $rentHT, 'rentWallMonth' => $rentWallMonth,
