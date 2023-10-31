@@ -239,7 +239,7 @@ class ftptransfertService
 
             // Création d'une ligne du tableau
             $data = array(
-                '"papsimmo"',                                               // 1 - Identifiant Agence
+                '"RC1860977"',                                               // 1 - Identifiant Agence
                 '"' . $refProperty . '"',                                   // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
                 '"' . $property['rubric'] . '"',                            // 4 - Type de bien
@@ -249,11 +249,11 @@ class ftptransfertService
                 '"' . $property['adress'] . '"',                            // 8 - Adresse
                 '""',                                                       // 9 - Quartier / Proximité
                 '""',                                                       // 10 - Activités commerciales
-                '"' . $property['priceFai'] . '"',                          // 11 - Prix / Loyer / Prix de cession
-                '""',                                                       // 12 - Loyer / mois murs
-                '"0"',                                                      // 13 - Loyer CC
-                '"0"',                                                      // 14 - Loyer HT
-                '""',                                                       // 15 - Honoraires
+                '"' . $property['priceFai'] . '"',                              // 11 - Prix / Loyer / Prix de cession
+                '"' . $destionation['rent'] . '"',                              // 12 - Loyer / mois murs
+                '"' . $destination['rentCC'] . '"',                             // 13 - Loyer CC
+                '"' . $destination['rentHT'] . '"',                             // 14 - Loyer HT
+                '"' . $destination['rentChargeHonoraire'] . '"',                // 15 - Honoraires
                 '"' . $property['surfaceHome'] . '"',                           // 16 - Surface (m²)
                 '"' . $property['surfaceLand'] . '"',                           // 17 - Surface terrain (m²)
                 '"' . $property['piece'] . '"',                                 // 18 - NB de pièces
@@ -872,7 +872,7 @@ class ftptransfertService
 
             // Création d'une ligne du tableau
             $data = array(
-                '"papsimmo"',                                               // 1 - Identifiant Agence
+                '"1074280"',                                               // 1 - Identifiant Agence
                 '"' . $refProperty . '"',                                   // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
                 '"' . $property['rubric'] . '"',                            // 4 - Type de bien
@@ -882,11 +882,11 @@ class ftptransfertService
                 '"' . $property['adress'] . '"',                            // 8 - Adresse
                 '""',                                                       // 9 - Quartier / Proximité
                 '""',                                                       // 10 - Activités commerciales
-                '"' . $property['priceFai'] . '"',                          // 11 - Prix / Loyer / Prix de cession
-                '""',                                                       // 12 - Loyer / mois murs
-                '"0"',                                                      // 13 - Loyer CC
-                '"0"',                                                      // 14 - Loyer HT
-                '""',                                                       // 15 - Honoraires
+                '"' . $property['priceFai'] . '"',                              // 11 - Prix / Loyer / Prix de cession
+                '"' . $destionation['rent'] . '"',                              // 12 - Loyer / mois murs
+                '"' . $destination['rentCC'] . '"',                             // 13 - Loyer CC
+                '"' . $destination['rentHT'] . '"',                             // 14 - Loyer HT
+                '"' . $destination['rentChargeHonoraire'] . '"',                // 15 - Honoraires
                 '"' . $property['surfaceHome'] . '"',                           // 16 - Surface (m²)
                 '"' . $property['surfaceLand'] . '"',                           // 17 - Surface terrain (m²)
                 '"' . $property['piece'] . '"',                                 // 18 - NB de pièces

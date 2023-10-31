@@ -11,7 +11,7 @@ class PropertyService
     // Destination commerciale du bien (Vente particulier, vente commerce, location particulier, vente commerce)
     public function getDestination(Property $property)
     {
-        //dd($property);
+        dd($property);
         $famille = $property->getFamily()->getId();
         $rubric = $property->getRubric()->getId();
         //dd($famille);
@@ -27,6 +27,9 @@ class PropertyService
             $warrantyDeposit = "";
             $rentChargeHonoraire = "";
             $commerceAnnualRentGlobal = "";
+            $rentCC = "";
+            $rentHT = "";
+            $rentWallMonth = "";
             $commerceAnnualChargeRentGlobal = "";
             $commerceAnnualRentMeter = "";
             $commerceAnnualChargeRentMeter = "";
@@ -51,6 +54,9 @@ class PropertyService
             $warrantyDeposit = $property->getWarrantyDeposit();
             $rentChargeModsPayment = $property->getRentChargeModsPayment();
             $rentChargeHonoraire = $property->getRentChargeHonoraire();
+            $rentCC = $property->isRentCC();
+            $rentHT = $property->isRentHT();
+            $rentWallMonth = $property->getRentWallMonth();
             $commerceAnnualRentGlobal = "";
             $commerceAnnualChargeRentGlobal = "";
             $commerceAnnualRentMeter = "";
@@ -76,6 +82,9 @@ class PropertyService
             $warrantyDeposit = $property->getWarrantyDeposit();
             $rentChargeModsPayment = $property->getRentChargeModsPayment();
             $rentChargeHonoraire = $property->getRentChargeHonoraire();
+            $rentCC = $property->isRentCC();
+            $rentHT = $property->isRentHT();
+            $rentWallMonth = $property->getRentWallMonth();
             $commerceAnnualRentGlobal = $property->getCommerceAnnualRentGlobal();
             $commerceAnnualChargeRentGlobal = $property->getCommerceAnnualChargeRentGlobal();
             $commerceAnnualRentMeter = $property->getCommerceAnnualRentMeter();
@@ -127,6 +136,7 @@ class PropertyService
             'destination' => $destination,
             'price' => $price, 'priceFai' => $priceFai,
             'rent' => $rent, 'rentCharge' => $rentCharge, 'rentWithCharge' => $rentWithCharge, 'rentChargeModsPayment' => $rentChargeModsPayment, 'rentChargeHonoraire' => $rentChargeHonoraire,
+            'rentCC' => $rentCC, 'rentHT' => $rentHT, 'rentWallMonth' => $rentWallMonth,
             'warrantyDeposit' => $warrantyDeposit,
             'commerceAnnualRentGlobal' => $commerceAnnualRentGlobal, 'commerceAnnualChargeRentGlobal' => $commerceAnnualChargeRentGlobal, 'commerceAnnualRentMeter' => $commerceAnnualRentMeter,
             'commerceAnnualChargeRentMeter' => $commerceAnnualChargeRentMeter, 'commerceChargeRentMonthHt' => $commerceChargeRentMonthHt, 'commerceRentAnnualCc' => $commerceRentAnnualCc,

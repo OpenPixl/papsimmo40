@@ -253,6 +253,18 @@ class Property
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $commerceSurfaceDivisibleMax = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $rentWallMonth = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $rentCC = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $rentHT = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    private ?string $honoraire = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1237,6 +1249,54 @@ class Property
     public function setCommerceSurfaceDivisibleMax(?string $commerceSurfaceDivisibleMax): static
     {
         $this->commerceSurfaceDivisibleMax = $commerceSurfaceDivisibleMax;
+
+        return $this;
+    }
+
+    public function getRentWallMonth(): ?string
+    {
+        return $this->rentWallMonth;
+    }
+
+    public function setRentWallMonth(?string $rentWallMonth): static
+    {
+        $this->rentWallMonth = $rentWallMonth;
+
+        return $this;
+    }
+
+    public function isRentCC(): ?bool
+    {
+        return $this->rentCC;
+    }
+
+    public function setRentCC(?bool $rentCC): static
+    {
+        $this->rentCC = $rentCC;
+
+        return $this;
+    }
+
+    public function isRentHT(): ?bool
+    {
+        return $this->rentHT;
+    }
+
+    public function setRentHT(?bool $rentHT): static
+    {
+        $this->rentHT = $rentHT;
+
+        return $this;
+    }
+
+    public function getHonoraire(): ?string
+    {
+        return $this->honoraire;
+    }
+
+    public function setHonoraire(?string $honoraire): static
+    {
+        $this->honoraire = $honoraire;
 
         return $this;
     }

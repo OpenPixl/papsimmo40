@@ -81,6 +81,18 @@ class PropertyStep2Type extends AbstractType
             ->add('rentChargeHonoraire', IntegerType::class, [
                 'label' => 'Honoraire sur charge locataire'
             ])
+            ->add('rentCC', CheckboxType::class, [
+                'label' => 'Loyer CC',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
+            ->add('rentHT', CheckboxType::class, [
+                'label' => 'Loyer HT',
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
             ->add('commerceAnnualRentGlobal', NumberType::class, [
                 'label' => 'Loyer annuel global'
             ])
