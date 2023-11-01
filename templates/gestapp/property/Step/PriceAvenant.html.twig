@@ -1,18 +1,22 @@
 {{ form_start(avenant, {'attr': {'id':'FormAddAvenant'}}) }}
-<div class="row mb-1 mt-1 g-1">
+<div class="row">
     <div class="col-6">
         <span class="align-middle">{{ form_label(avenant.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
     </div>
     <div class="col-6">
         {{ form_widget(avenant.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
     </div>
+</div>
+<div class="row">
     <div class="col-6">
         {{ form_label(avenant.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
     </div>
     <div class="col-6">
         {{ form_widget(avenant.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
     </div>
-    <hr>
+</div>
+<hr>
+<div class="row">
     <div class="col-6">
         {{ form_label(avenant.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
     </div>

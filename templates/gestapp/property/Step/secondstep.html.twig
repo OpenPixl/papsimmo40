@@ -3,7 +3,7 @@
     <div class="row g-1 mt-2">
         <div class="col-4">
             {# Bloc des Estimations #}
-            <div id="sale" class="card text-dark bg-light">
+            <div id="sale" class="card text-dark">
                 <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <div>VENTE IMMOBILIERE</div>
@@ -11,20 +11,24 @@
                     <hr>
                     <div id="detailPrice">
                         {% if property.isIncreating > 0 %}
-                            <div class="row mb-1 mt-1 g-1">
+                            <div class="row">
                                 <div class="col-5">
                                     <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
                                 </div>
                                 <div class="col-7">
                                     {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-5">
                                     {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
                                 <div class="col-7">
                                     {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
-                                <hr>
+                            </div>
+                            <hr>
+                            <div class="row">
                                 <div class="col-5">
                                     {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
@@ -33,25 +37,38 @@
                                 </div>
                             </div>
                         {% else %}
-                            <div class="row mb-1 mt-1 g-1">
-                                <p>
-                                    <small>Le prix de vente et les honoraires ont été fixés à la création du bien. <br>
-                                        Pour toute modification, cliquez sur le bouton ci-dessous.
-                                    </small>
-                                </p>
-                                <a id="addAvenant" class="btn btn-sm btn-outline-dark">Créer un avenant</a>
+                            <div class="row">
+                                <div class="col-12">
+                                    <p>
+                                        <small>Le prix de vente et les honoraires ont été fixés à la création du bien. <br>
+                                            Pour toute modification, cliquez sur le bouton ci-dessous.
+                                        </small>
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <a id="addAvenant" class="btn btn-sm btn-outline-dark w-100">Créer un avenant</a>
+                                </div>
+                            </div>
+                            <hr>
+                            <div class="row">
                                 <div class="col-5">
                                     <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
                                 </div>
                                 <div class="col-7">
                                     {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-5">
                                     {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
                                 <div class="col-7">
                                     {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
                                 </div>
+                            </div>
+                            <div class="row">
                                 <div class="col-5">
                                     {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
@@ -287,7 +304,7 @@
                         <div>DPE & GES</div>
                     </div>
                     <hr>
-                    <div class="row mb-1 g-1">
+                    <div class="row g-1">
                         <div class="col-5">
                             {{ form_label(form.diagChoice, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
@@ -295,7 +312,7 @@
                             {{ form_widget(form.diagChoice) }}
                         </div>
                     </div>
-                    <div id="block_dpeAt" class="row mb-1 mt-1 g-1">
+                    <div id="block_dpeAt" class="row g-1">
                         {{ form_label(form.dpeAt, "Date d'expertise", {'label_attr': {'class':'col-sm-6  form-label'}}) }}
                         <div class="col-sm-6">
                             <div class="input-group">
@@ -304,13 +321,15 @@
                             </div>
                         </div>
                     </div>
-                    <div id="block_diagResult" class="row mb-1 mt-1 g-1">
+                    <div id="block_diagResult" class="row g-1">
                         <div class="col-6">
                             <span class="align-middle">{{ form_label(form.diagDpe, 'DPE', {'label_attr': {'class':'form-label'}}) }}</span>
                         </div>
                         <div class="col-6">
                             {{ form_widget(form.diagDpe, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
+                    </div>
+                    <div class="row g-1">
                         <div class="col-6">
                             {{ form_label(form.diagGes, 'GES', {'label_attr': {'class':'form-label'}}) }}
                         </div>
@@ -318,7 +337,7 @@
                             {{ form_widget(form.diagGes, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                     </div>
-                    <div id="block_estimation" class="row mb-1 mt-1 g-1">
+                    <div id="block_estimation" class="row g-1">
                         <div class="col-12"><p><b>Estimation énergétique annuelle</b></p></div>
                         <div class="row mb-1 mt-1 g-1">
                             {{ form_label(form.eeaYear, '', {'label_attr': {'class':'col-sm-6  form-label'}}) }}
