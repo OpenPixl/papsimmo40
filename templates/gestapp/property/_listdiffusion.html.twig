@@ -1,12 +1,39 @@
+{% set pv = 0 %}
+{% set sl = 0 %}
+{% set lb = 0 %}
+{% set fig = 0 %}
+{% set ma = 0 %}
+{% set ga = 0 %}
+{% for property in listproperties|filter(p => p.isPublishParven == 1) %}
+    {% set pv = pv + 1 %}
+{% endfor %}
+{% for property in listproperties|filter(p => p.isPublishseloger == 1) %}
+    {% set sl = sl + 1 %}
+{% endfor %}
+{% for property in listproperties|filter(p => p.isPublishleboncoin == 1) %}
+    {% set lb = lb + 1 %}
+{% endfor %}
+{% for property in listproperties|filter(p => p.isPublishfigaro == 1) %}
+    {% set fig = fig + 1 %}
+{% endfor %}
+{% for property in listproperties|filter(p => p.isPublishMeilleur == 1) %}
+    {% set ma = ma + 1 %}
+{% endfor %}
+{% for property in listproperties|filter(p => p.isPublishgreenacres == 1) %}
+    {% set ga = ga + 1 %}
+{% endfor %}
+
 <div class="mt-2">
     <p>
-        <b>Support des diffusions :</b><br>
-        | <span class="badge bg-light text-dark">PV :</span> Paru Vendu |
-        <span class="badge bg-light text-dark">SL :</span> Se loger, logic immo |
-        <span class="badge bg-light text-dark">MA :</span> Meilleurs agents |
-        <span class="badge bg-light text-dark">LB :</span> Le Bon Coin, A vendre et à louer |
-        <span class="badge bg-light text-dark">FIG :</span> Le Figaro Immobilier |
-        <span class="badge bg-light text-dark">GA :</span> Green ACRES |
+        <b>Support des diffusions :</b>
+    </p>
+    <p>  |
+        <span class="badge bg-light text-dark">PV :</span> Paru Vendu <span class="badge rounded-pill bg-warning">{{ pv }}</span> |
+        <span class="badge bg-light text-dark">SL :</span> Se loger, logic immo <span class="badge rounded-pill bg-warning">{{ sl }}</span> |
+        <span class="badge bg-light text-dark">MA :</span> Meilleurs agents <span class="badge rounded-pill bg-warning">{{ ma }}</span> |
+        <span class="badge bg-light text-dark">LB :</span> Le Bon Coin, A vendre et à louer <span class="badge rounded-pill bg-warning">{{ lb }}</span> |
+        <span class="badge bg-light text-dark">FIG :</span> Le Figaro Immobilier <span class="badge rounded-pill bg-warning">{{ fig }}</span> |
+        <span class="badge bg-light text-dark">GA :</span> Green ACRES <span class="badge rounded-pill bg-warning">{{ ga }}</span> |
     </p>
 </div>
 <table class="table">

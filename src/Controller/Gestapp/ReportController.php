@@ -441,35 +441,35 @@ class ReportController extends AbstractController
                 '"' . $property['bathroom'] . '"',                              // 29 - NB de salles de bain
                 '"' . $property['sanitation'] . '"',                            // 30 - NB de salles d’eau
                 '"' . $property['wc'] . '"',                                    // 31 - NB de WC
-                '"0"',                                                      // 32 - WC séparés
+                '"0"',                                                          // 32 - WC séparés
                 '"' . $property['slCode'] . '"',                                // 33 - Type de chauffage
-                '""',                                                       // 34 - Type de cuisine
+                '""',                                                           // 34 - Type de cuisine
                 '"' . $sud . '"',                                               // 35 - Orientation sud
                 '"' . $est . '"',                                               // 36 - Orientation est
                 '"' . $ouest . '"',                                             // 37 - Orientation ouest
                 '"' . $nord . '"',                                              // 38 - Orientation nord
                 '"' . $property['balcony'] . '"',                               // 39 - NB balcons
-                '""',                                                       // 40 - SF Balcon
+                '""',                                                           // 40 - SF Balcon
                 '"0"',// 41 - Ascenseur
                 '"0"',// 42 - Cave
-                '""',                                                       // 43 - NB de parkings
-                '"0"',                                                      // 44 - NB de boxes
+                '""',                                                           // 43 - NB de parkings
+                '"0"',                                                          // 44 - NB de boxes
                 '"0"',// 45 - Digicode
                 '"0"',// 46 - Interphone
                 '"0"',// 47 - Gardien
                 '"' . $terrace . '"',                                           // 48 - Terrasse
-                '""',                                                       // 49 - Prix semaine Basse Saison
-                '""',                                                       // 50 - Prix quinzaine Basse Saison
-                '""',                                                       // 51 - Prix mois / Basse Saison
-                '""',                                                       // 52 - Prix semaine Haute Saison
-                '""',                                                       // 53 - Prix quinzaine Haute Saison
-                '""',                                                       // 54 - Prix mois Haute Saison
-                '""',                                                       // 55 - NB de personnes
-                '""',                                                       // 56 - Type de résidence
-                '""',                                                       // 57 - Situation
-                '""',                                                       // 58 - NB de couverts
-                '""',                                                       // 59 - NB de lits doubles
-                '""',                                                       // 60 - NB de lits simples
+                '""',                                                           // 49 - Prix semaine Basse Saison
+                '""',                                                           // 50 - Prix quinzaine Basse Saison
+                '""',                                                           // 51 - Prix mois / Basse Saison
+                '""',                                                           // 52 - Prix semaine Haute Saison
+                '""',                                                           // 53 - Prix quinzaine Haute Saison
+                '""',                                                           // 54 - Prix mois Haute Saison
+                '""',                                                           // 55 - NB de personnes
+                '""',                                                           // 56 - Type de résidence
+                '""',                                                           // 57 - Situation
+                '""',                                                           // 58 - NB de couverts
+                '""',                                                           // 59 - NB de lits doubles
+                '""',                                                           // 60 - NB de lits simples
                 '"0"',// 61 - Alarme
                 '"0"',// 62 - Câble TV
                 '"0"',// 63 - Calme

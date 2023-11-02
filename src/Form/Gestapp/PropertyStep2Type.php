@@ -75,7 +75,7 @@ class PropertyStep2Type extends AbstractType
                     'Prévisionnelles mensuelles avec régularisation annuelle' => ['data-data' => 'Prévisionnelles mensuelles avec régularisation annuelle']
                 ],
             ])
-            ->add('warrantyDeposit', IntegerType::class, [
+            ->add('warrantyDeposit', NumberType::class, [
                 'label' => 'Dépôt de garantie'
             ])
             ->add('rentChargeHonoraire', IntegerType::class, [
