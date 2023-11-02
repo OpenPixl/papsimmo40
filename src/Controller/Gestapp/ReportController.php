@@ -410,17 +410,18 @@ class ReportController extends AbstractController
 
             // Création d'une ligne du tableau
             $data = array(
-                '"3C14110"',                                                // 1 - Identifiant Agence
-                '"' . $refProperty . '"',                                   // 2 - Référence agence du bien
-                '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
-                '"' . $property['rubric'] . '"',                            // 4 - Type de bien
-                '"' . $property['zipcode'] . '"',                           // 5 - CP
-                '"' . $property['city'] . '"',                              // 6 - Ville
-                '"France"',                                                 // 7 - Pays
-                '"' . $property['adress'] . '"',                            // 8 - Adresse
-                '""',                                                       // 9 - Quartier / Proximité
+                '"3C14110"',                                                    // 1 - Identifiant Agence
+                '"' . $refProperty . '"',                                       // 2 - Référence agence du bien
+                '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
+                '"' . $property['rubric'] . '"',                                // 4 - Type de bien
+                '"' . $property['zipcode'] . '"',                               // 5 - CP
+                '"' . $property['city'] . '"',                                  // 6 - Ville
+                '"France"',                                                     // 7 - Pays
+                '"' . $property['adress'] . '"',                                // 8 - Adresse
+                '""',                                                           // 9 - Quartier / Proximité
+                '""',                                                           // 10 - Activités commerciales
                 '"' . $property['priceFai'] . '"',                              // 11 - Prix / Loyer / Prix de cession
-                '"' . $destination['rent'] . '"',                              // 12 - Loyer / mois murs
+                '"' . $destination['rent'] . '"',                               // 12 - Loyer / mois murs
                 '"' . $destination['rentCC'] . '"',                             // 13 - Loyer CC
                 '"' . $destination['rentHT'] . '"',                             // 14 - Loyer HT
                 '"' . $destination['rentChargeHonoraire'] . '"',                // 15 - Honoraires                                                 // 15 - Honoraires
@@ -431,12 +432,12 @@ class ReportController extends AbstractController
                 '"' . $property['name'] . '"',                                  // 20 - Libellé
                 '"' . $annonce . '"',                                           // 21 - Descriptif
                 '"' . $property['disponibilityAt'] . '"',                       // 22 - Date de disponibilité
-                '""',                                                       // 23 - Charges
+                '""',                                                           // 23 - Charges
                 '"' . $property['level'] . '"',                                 // 24 - Etage
-                '""',                                                       // 25 - NB d’étages
+                '""',                                                           // 25 - NB d’étages
                 '"' . $property['isFurnished'] . '"',                           // 26 - Meublé
                 '"' . $property['constructionAt'] . '"',                        // 27 - Année de construction
-                '""',                                                       // 28 - Refait à neuf
+                '""',                                                           // 28 - Refait à neuf
                 '"' . $property['bathroom'] . '"',                              // 29 - NB de salles de bain
                 '"' . $property['sanitation'] . '"',                            // 30 - NB de salles d’eau
                 '"' . $property['wc'] . '"',                                    // 31 - NB de WC
