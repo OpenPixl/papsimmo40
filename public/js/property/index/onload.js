@@ -59,18 +59,18 @@ document.getElementById('btnListDiffusion').onclick = function(event){
 };
 
 // Afficher le tableau des biens archivés
-document.getElementById('btnMListArchived').onclick = function(event){
+document.getElementById('btnListArchived').onclick = function(event){
     listArchived.className = listArchived.className !== 'show' ? 'show' : 'hide';
     if(listArchived.className === 'show') {
         listArchived.style.display = 'block';
         list.style.display = 'none';
         listDiffusion.style.display = 'none';
-        document.getElementById('btnMListArchived').textContent = 'Retour sur la liste des biens';
+        document.getElementById('btnListArchived').textContent = 'Retour sur la liste des biens';
     }
     if(listArchived.className === 'hide') {
         listArchived.style.display = 'none';
         list.style.display = 'block';
         listDiffusion.style.display = 'none';
-        document.getElementById('btnMListArchived').textContent = 'Afficher les biens archivés';
+        document.getElementById('btnListArchived').textContent = 'Afficher les biens archivés';
     }
 };

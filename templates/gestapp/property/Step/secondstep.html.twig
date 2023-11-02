@@ -124,7 +124,8 @@
                                 {{ form_widget(form.rentChargeHonoraire, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
                         </div>
-                        <div class="row">
+                        {% if property.family.id == 5 %}
+                        <div class="row" id="warrantyDeposit">
                             <div class="col-5">
                                 <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -132,6 +133,7 @@
                                 {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
                         </div>
+                        {% endif %}
                         <div class="row">
                             <div class="col-6">
                                 {{ form_label(form.rentCC) }}
@@ -213,6 +215,16 @@
                                 </div>
                             </div>
                         </div>
+                        {% if property.family.id == 4 and property.rubric.id == 8 %}
+                        <div class="row" id="warrantyDepositCommerce">
+                            <div class="col-6">
+                                <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                            </div>
+                            <div class="col-4">
+                                {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                        </div>
+                        {% endif %}
                         <div class="row">
                             <div class="col-6">
                                 {{ form_label(form.commerceChargeRentMonthHt) }}

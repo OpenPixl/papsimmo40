@@ -413,7 +413,7 @@ class ReportController extends AbstractController
                 '"3C14110"',                                                    // 1 - Identifiant Agence
                 '"' . $refProperty . '"',                                       // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
-                '"' . $property['rubric'] . '"',                                // 4 - Type de bien
+                '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
                 '"' . $property['city'] . '"',                                  // 6 - Ville
                 '"France"',                                                     // 7 - Pays

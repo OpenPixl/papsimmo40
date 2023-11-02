@@ -22,7 +22,6 @@
             let FamValue = family.value
             let RubValue = rubric.value
             let RubssValue = rubricss.value
-            console.log(RubssValue)
 
             // récupération des id des panels
             const navInformations = document.getElementById("navInformations");
@@ -689,11 +688,22 @@
             // ---------------------------------------
             const sales = document.getElementById('sale')
             const rent = document.getElementById('rent')
-
-            if(family.value == 5) {
-
+            const rentCommerce = document.getElementById('rentCommerce')
+            console.log(family.value)
+            if(family.value == 4 && rubric.value == 8) {
+                console.log('location pro')
+                sales.classList.add('d-none')
+                rent.classList.add('d-none')
+                document.getElementById('warrantyDeposit').remove()
+            }else if (family.value == 5) {
+                sales.classList.add('d-none')
+                rentCommerce.classList.add('d-none')
+                document.getElementById('warrantyDepositCommerce').remove()
             }else{
-
+                rent.classList.add('d-none')
+                rentCommerce.classList.add('d-none')
+                document.getElementById('warrantyDeposit').remove()
+                document.getElementById('warrantyDepositCommerce').remove()
             }
 
             // Calcul des taux et honoraires de PAPS
