@@ -162,6 +162,14 @@
                     <hr>
                     <div id="detailPrice">
                         <div class="row">
+                            <div class="col-12">
+                                <div class="form-check form-switch form-check-reverse">
+                                    {{ form_label(form.commerceRentalAnnual, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                    {{ form_widget(form.commerceRentalAnnual, {'attr': {'class': 'form-check-input'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
                             <div class="col-6">
                                 <span class="align-middle">{{ form_label(form.commerceAnnualRentGlobal, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>

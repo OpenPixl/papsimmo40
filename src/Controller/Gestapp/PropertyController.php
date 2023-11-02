@@ -544,6 +544,18 @@ class PropertyController extends AbstractController
         //dd($request->getContent());
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $rentalAnnual = $form->get('commerceRentalAnnual')->getData();
+            if($rentalAnnual == 0){
+                $commerceAnnualRentGlobal = ($form->get('commerceAnnualRentGlobal')->getData())*12;
+                $commerceAnnualChargeRentGlobal = ($form->get('commerceAnnualChargeRentGlobal')->getData())*12;
+                $commerceAnnualRentMeter = ($form->get('commerceAnnualRentMeter')->getData())*12;
+                $commerceAnnualChargeRentMeter = ($form->get('commerceAnnualChargeRentMeter')->getData())*12;
+                //dd($rentalAnnual,$commerceAnnualRentGlobal);
+                $property->setCommerceAnnualRentGlobal($commerceAnnualRentGlobal);
+                $property->setCommerceAnnualChargeRentGlobal($commerceAnnualChargeRentGlobal);
+                $property->setCommerceAnnualRentMeter($commerceAnnualRentMeter);
+                $property->setCommerceAnnualChargeRentMeter($commerceAnnualChargeRentMeter);
+            }
             $propertyRepository->add($property);
             return $this->json([
                 'code'=> 200,

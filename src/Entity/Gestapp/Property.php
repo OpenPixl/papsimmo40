@@ -265,6 +265,9 @@ class Property
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
     private ?string $honoraire = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $commerceRentalAnnual = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1297,6 +1300,18 @@ class Property
     public function setHonoraire(?string $honoraire): static
     {
         $this->honoraire = $honoraire;
+
+        return $this;
+    }
+
+    public function isCommerceRentalAnnual(): ?bool
+    {
+        return $this->commerceRentalAnnual;
+    }
+
+    public function setCommerceRentalAnnual(?bool $commerceRentalAnnual): static
+    {
+        $this->commerceRentalAnnual = $commerceRentalAnnual;
 
         return $this;
     }

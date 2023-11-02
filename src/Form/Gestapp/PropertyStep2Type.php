@@ -93,17 +93,23 @@ class PropertyStep2Type extends AbstractType
                     'class' => 'checkbox-inline checkbox-switch',
                 ],
             ])
+            ->add('commerceRentalAnnual',CheckboxType::class, [
+                'label' => "Le loyer et les charges présentés sont-ils annuels ?",
+                'label_attr' => [
+                    'class' => 'checkbox-inline checkbox-switch',
+                ],
+            ])
             ->add('commerceAnnualRentGlobal', NumberType::class, [
-                'label' => 'Loyer annuel global'
+                'label' => 'Loyer global'
             ])
             ->add('commerceAnnualChargeRentGlobal', NumberType::class, [
-                'label' => 'Charge annuelle global'
+                'label' => 'Charge global'
             ])
             ->add('commerceAnnualRentMeter', NumberType::class, [
-                'label' => 'Loyer annuel au M²'
+                'label' => 'Loyer au M²'
             ])
             ->add('commerceAnnualChargeRentMeter', NumberType::class, [
-                'label' => 'Charge annuelle au M²'
+                'label' => 'Charge au M²'
             ])
             ->add('commerceChargeRentMonthHt', CheckboxType::class, [
                 'label' => 'Charges mensuelles HT',
