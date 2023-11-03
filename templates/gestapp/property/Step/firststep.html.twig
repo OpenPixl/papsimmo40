@@ -2,67 +2,66 @@
     {{ form_start(form, {'attr': {'id': 'FormAddInformation'}}) }}
     <div class="row g-2 mt-2">
         <div class="col-sm-12">
-
-                {% if property.refMandat is empty %}
-                <div class="row" id="FormMandat">
-                    <div class="col">
-                        <p class="text-danger">
-                            Ce bien ne possède pas de numéro de mandat.
-                            Vous ne pourrez pas continuer sa création tant que ce champ est vide.
-                        </p>
-                    </div>
+            {% if property.refMandat is empty %}
+            <div class="row" id="FormMandat">
+                <div class="col">
+                    <p class="text-danger">
+                        Ce bien ne possède pas de numéro de mandat.
+                        Vous ne pourrez pas continuer sa création tant que ce champ est vide.
+                    </p>
                 </div>
-                {% endif %}
-                <div class="row">
-                    <div class="col">
-                        {# STEP 1 : Ligne du titre de l'annonce du bien #}
-                        <table class="table table-sm">
-                            <thead>
-                            <tr>
-                                <td colspan="9"></td>
-                            </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="align-middle table-light">
-                                    {% if property.dupMandat is not empty %}
-                                    <td class="col-md-2">Numéro de Mandat : <b>{{ property.refMandat }}{{ property.dupMandat }}</b></td>
+            </div>
+            {% endif %}
+            <div class="row">
+                <div class="col">
+                    {# STEP 1 : Ligne du titre de l'annonce du bien #}
+                    <table class="table table-sm">
+                        <thead>
+                        <tr>
+                            <td colspan="9"></td>
+                        </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="align-middle table-light">
+                                {% if property.dupMandat is not empty %}
+                                <td class="col-md-2">Numéro de Mandat : <b>{{ property.refMandat }}{{ property.dupMandat }}</b></td>
+                                {% else %}
+                                    {# controle si le mandat porte le numéro 0 #}
+                                    {% if property.refMandat == 0 %}
+                                    <td class="col-md-2" id="colRefMandat"><button class="btn btn-sm btn-light" id="AddMandat">Ajouter le mandat</button></td>
                                     {% else %}
-                                        {# controle si le mandat porte le numéro 0 #}
-                                        {% if property.refMandat == 0 %}
-                                        <td class="col-md-2" id="colRefMandat"><button class="btn btn-sm btn-light" id="AddMandat">Ajouter le mandat</button></td>
-                                        {% else %}
-                                        <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
-                                        {% endif %}
+                                    <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
                                     {% endif %}
-                                    <td class="col-md-1">{{ form_label(form.mandatAt, 'Date du mandat') }}</td>
-                                    <td class="col-md-1">{{ form_widget(form.mandatAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
-                                    <td class="col-md-1">{{ form_label(form.ref, '') }}</td>
-                                    <td class="col-md-1">{{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
-                                    <td class="col-md-1"></td>
-                                    <td class="col-md-1">
-                                        <div class="form-check">
-                                            {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                            {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                        </div>
-                                    </td>
-                                    <td class="col-md-1">
-                                        <div class="form-check">
-                                            {{ form_widget(form.isSemiExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                            {{ form_label(form.isSemiExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                        </div>
-                                    </td>
-                                    <td class="col-md-1">
-                                        <div class="form-check">
-                                            {{ form_widget(form.isWithExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                            {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                        </div>
-                                    </td>
-                                    <td class="col-sm-1"></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                                {% endif %}
+                                <td class="col-md-1">{{ form_label(form.mandatAt, 'Date du mandat') }}</td>
+                                <td class="col-md-1">{{ form_widget(form.mandatAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                                <td class="col-md-1">{{ form_label(form.ref, '') }}</td>
+                                <td class="col-md-1">{{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                                <td class="col-md-1"></td>
+                                <td class="col-md-1">
+                                    <div class="form-check">
+                                        {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                        {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                    </div>
+                                </td>
+                                <td class="col-md-1">
+                                    <div class="form-check">
+                                        {{ form_widget(form.isSemiExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                        {{ form_label(form.isSemiExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                    </div>
+                                </td>
+                                <td class="col-md-1">
+                                    <div class="form-check">
+                                        {{ form_widget(form.isWithExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                        {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                                    </div>
+                                </td>
+                                <td class="col-sm-1"></td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
+            </div>
         </div>
         <div class="col-sm-9">
             <table class="table table-sm">
@@ -143,49 +142,38 @@
             </div>
         </div>
         <div class="col-sm-3">
-            <div class="card text-dark bg-light">
-                <div class="card-body">
-                    DESTINATION DU BIEN
-                    <hr>
-                    <p>Compléter ces informations pour garantir la publication du bien sur les plateformes de diffusion.</p>
-                    <table class="table table-sm table-borderless">
-                        {# partie de code pour les champs "Projets", "PropertyDéfinition" et "sscategory"
-                        <tr class="align-middle">
-                            <td class="col-5">{{ form_label(form.projet, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td class="col-6">{{ form_widget(form.projet, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                            <td class="col-1"></td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td>{{ form_label(form.propertyDefinition, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.propertyDefinition, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <td><button id="addPropertyDefinition" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button></td>
-                            {% else %}
-                            <td><button id="addPropertyDefinition" class="btn btn-sm btn-light" disabled><i class="fa-duotone fa-circle-plus text-light"></i></button></td>
-                            {% endif %}
-                        </tr>
-                        <tr class="align-middle">
-                            <td>{{ form_label(form.sscategory, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.sscategory, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                            <td></td>
-                        </tr>
-                        #}
-                        <tr id="RowFamily" class="align-middle">
-                            <td class="col-5">{{ form_label(form.family, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td class="col-6">{{ form_widget(form.family, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                            <td class="col-1"></td>
-                        </tr>
-                        <tr id="rowRubric" class="align-middle">
-                            <td class="col-5">{{ form_label(form.rubric, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td class="col-6">{{ form_widget(form.rubric, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                            <td class="col-1"></td>
-                        </tr>
-                        <tr id="rowRubricss" class="align-middle">
-                            <td>{{ form_label(form.rubricss, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
-                            <td>{{ form_widget(form.rubricss, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                            <td></td>
-                        </tr>
-                    </table>
+            <div class="row mb-1">
+                <div class="col-12">
+                    <div class="card text-dark bg-light">
+                        <div class="card-body">
+                            DESTINATION DU BIEN
+                            <hr>
+                            <p>Compléter ces informations pour garantir la publication du bien sur les plateformes de diffusion.</p>
+                            <table class="table table-sm table-borderless">
+
+                                <tr id="RowFamily" class="align-middle">
+                                    <td class="col-5">{{ form_label(form.family, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                                    <td class="col-6">{{ form_widget(form.family, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                                    <td class="col-1"></td>
+                                </tr>
+                                <tr id="rowRubric" class="align-middle">
+                                    <td class="col-5">{{ form_label(form.rubric, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                                    <td class="col-6">{{ form_widget(form.rubric, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                                    <td class="col-1"></td>
+                                </tr>
+                                <tr id="rowRubricss" class="align-middle">
+                                    <td>{{ form_label(form.rubricss, '', {'label_attr': {'class':'m-0 form-label'}}) }}</td>
+                                    <td>{{ form_widget(form.rubricss, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
+                                    <td></td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div id="carte"></div>
                 </div>
             </div>
         </div>

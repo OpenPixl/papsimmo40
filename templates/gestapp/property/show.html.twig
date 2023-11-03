@@ -12,7 +12,7 @@
         // Mise en place des options de chargement
         // ---------------------------------------
 
-            // Préparation "Liste dynamique" - Récupération de l'id dans l'url
+            // Preparation "Liste dynamique" - Récupération de l'id dans l'url
             const urlCourante = document.location.href.replace(/\/$/, "");
             const idProperty = urlCourante.substring (urlCourante.lastIndexOf( "/" ) + 1 );
             let city = document.getElementById('City')
@@ -411,6 +411,14 @@
                 commune.value = value[2].toUpperCase()
             })
 
+            // Partie map
+            let carte = L.map('carte').setView([43.8909, -0.5009], 15);
+            L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
+                attribution: '&copy; OpenStreetMap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributeurs',
+                minZoom: 10,
+                maxZoom: 16
+            }).addTo(carte);
+
         // ---------------------------------------
         // STEP 2 : Enregistrement du ou des acheteurs
         //
@@ -689,9 +697,8 @@
             const sales = document.getElementById('sale')
             const rent = document.getElementById('rent')
             const rentCommerce = document.getElementById('rentCommerce')
-            console.log(family.value)
+
             if(family.value == 4 && rubric.value == 8) {
-                console.log('location pro')
                 sales.classList.add('d-none')
                 rent.classList.add('d-none')
                 document.getElementById('warrantyDeposit').remove()
@@ -702,8 +709,6 @@
             }else{
                 rent.classList.add('d-none')
                 rentCommerce.classList.add('d-none')
-                document.getElementById('warrantyDeposit').remove()
-                document.getElementById('warrantyDepositCommerce').remove()
             }
 
             // Calcul des taux et honoraires de PAPS
