@@ -46,6 +46,7 @@ class ftptransfertService
         $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
         $port = parse_url($fullHttp, PHP_URL_PORT);
         $host = parse_url($fullHttp, PHP_URL_HOST);
+        //dd($scheme, $port, $host);
         if (!$port){
             $app = $scheme.'://'.$host;
         }else{
@@ -640,7 +641,8 @@ class ftptransfertService
 
         // Ouvrir le fichier local en lecture
         $fp = fopen($fichierLocal, 'r');
-
+        //dd($fp);
+        //dd(ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY));
         // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
             echo 'Le fichier a été transféré avec succès.';
@@ -1249,15 +1251,15 @@ class ftptransfertService
             exit('Erreur lors de l\'authentification FTP.');
         }
 
-        // Création de l'url pour les photos
+        $fullHttp = $request->getUri();
+        $parsedUrl = parse_url($fullHttp);
         if (!$port){
-            $fichierLocal = $scheme.'://'.$host;
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/107428.zip';
         }else{
-            $fichierLocal = $scheme.'://'.$host.':'.$port;
+            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$port.'/doc/report/107428.zip';
         }
         // Chemin de destination sur le serveur FTP
         $cheminDestination = '107428.zip';
-
         // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
             echo 'Le fichier a été transféré avec succès.';
