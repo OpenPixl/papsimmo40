@@ -21,7 +21,7 @@ class ftptransfertService
     public function __construct(
         RequestStack $requestStack,
         private Environment $twig,
-        private PropertyService $propertyService,
+        public PropertyService $propertyService,
         public string $urlftpseloger, public string $portftpseloger, public string $loginftpseloger, public string $passwordftpseloger,
         public string $urlftpfigaro, public string $portftpfigaro, public string $loginftpfigaro, public string $passwordftpfigaro,
         public string $urlftpga, public string $portftpga, public string $loginftpga, public string $passwordftpga,
@@ -62,15 +62,8 @@ class ftptransfertService
             $annonce = strip_tags($data, '<br>');
             //dd($annonce);
 
-            // Contruction de la référence de l'anonnce
-            $dup = $property['dup'];
-            if($dup){
-                $refProperty = $property['ref'].$dup;
-                $refMandat = $property['refMandat'].$dup;
-            }else{
-                $refProperty = $property['ref'];
-                $refMandat = $property['refMandat'];
-            }
+            // Récupération de la reference
+            $refs = $this->propertyService->getRefs($propriete);
 
             // Sélection du type de bien
             $propertyDefinition = $property['rubric'];
@@ -239,18 +232,18 @@ class ftptransfertService
 
             // Création d'une ligne du tableau
             $data = array(
-                '"RC1860977"',                                              // 1 - Identifiant Agence
-                '"' . $refProperty . '"',                                   // 2 - Référence agence du bien
-                '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
-                '"' . $destination['typeBien'] . '"',                       // 4 - Type de bien
-                '"' . $property['zipcode'] . '"',                           // 5 - CP
-                '"' . $property['city'] . '"',                              // 6 - Ville
-                '"France"',                                                 // 7 - Pays
-                '"' . $property['adress'] . '"',                            // 8 - Adresse
-                '""',                                                       // 9 - Quartier / Proximité
-                '""',                                                       // 10 - Activités commerciales
+                '"RC1860977"',                                                  // 1 - Identifiant Agence
+                '"' . $refs['ref'] . '"',                                       // 2 - Référence agence du bien
+                '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
+                '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
+                '"' . $property['zipcode'] . '"',                               // 5 - CP
+                '"' . $property['city'] . '"',                                  // 6 - Ville
+                '"France"',                                                     // 7 - Pays
+                '"' . $property['adress'] . '"',                                // 8 - Adresse
+                '""',                                                           // 9 - Quartier / Proximité
+                '""',                                                           // 10 - Activités commerciales
                 '"' . $property['priceFai'] . '"',                              // 11 - Prix / Loyer / Prix de cession
-                '"' . $destination['rent'] . '"',                              // 12 - Loyer / mois murs
+                '"' . $destination['rent'] . '"',                               // 12 - Loyer / mois murs
                 '"' . $destination['rentCC'] . '"',                             // 13 - Loyer CC
                 '"' . $destination['rentHT'] . '"',                             // 14 - Loyer HT
                 '"' . $destination['rentChargeHonoraire'] . '"',                // 15 - Honoraires
@@ -261,31 +254,31 @@ class ftptransfertService
                 '"' . $property['name'] . '"',                                  // 20 - Libellé
                 '"' . $annonce . '"',                                           // 21 - Descriptif
                 '"' . $property['disponibilityAt'] . '"',                       // 22 - Date de disponibilité
-                '""',                                                       // 23 - Charges
+                '""',                                                           // 23 - Charges
                 '"' . $property['level'] . '"',                                 // 24 - Etage
-                '""',                                                       // 25 - NB d’étages
+                '""',                                                           // 25 - NB d’étages
                 '"' . $property['isFurnished'] . '"',                           // 26 - Meublé
                 '"' . $property['constructionAt'] . '"',                        // 27 - Année de construction
-                '""',                                                       // 28 - Refait à neuf
+                '""',                                                           // 28 - Refait à neuf
                 '"' . $property['bathroom'] . '"',                              // 29 - NB de salles de bain
                 '"' . $property['sanitation'] . '"',                            // 30 - NB de salles d’eau
                 '"' . $property['wc'] . '"',                                    // 31 - NB de WC
-                '"0"',                                                      // 32 - WC séparés
+                '"0"',                                                          // 32 - WC séparés
                 '"' . $property['slCode'] . '"',                                // 33 - Type de chauffage
-                '""',                                                       // 34 - Type de cuisine
+                '""',                                                           // 34 - Type de cuisine
                 '"' . $sud . '"',                                               // 35 - Orientation sud
                 '"' . $est . '"',                                               // 36 - Orientation est
                 '"' . $ouest . '"',                                             // 37 - Orientation ouest
                 '"' . $nord . '"',                                              // 38 - Orientation nord
                 '"' . $property['balcony'] . '"',                               // 39 - NB balcons
-                '""',                                                       // 40 - SF Balcon
-                '"0"',// 41 - Ascenseur
-                '"0"',// 42 - Cave
-                '""',                                                       // 43 - NB de parkings
-                '"0"',                                                      // 44 - NB de boxes
-                '"0"',// 45 - Digicode
-                '"0"',// 46 - Interphone
-                '"0"',// 47 - Gardien
+                '""',                                                           // 40 - SF Balcon
+                '"0"',                                                          // 41 - Ascenseur
+                '"0"',                                                          // 42 - Cave
+                '""',                                                           // 43 - NB de parkings
+                '"0"',                                                          // 44 - NB de boxes
+                '"0"',                                                          // 45 - Digicode
+                '"0"',                                                          // 46 - Interphone
+                '"0"',                                                          // 47 - Gardien
                 '"' . $terrace . '"',                                           // 48 - Terrasse
                 '""',                                                       // 49 - Prix semaine Basse Saison
                 '""',                                                       // 50 - Prix quinzaine Basse Saison
@@ -350,7 +343,7 @@ class ftptransfertService
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refMandat . '"',                             // 112 - N° de mandat
+                '"' . $refs['refMandat'] . '"',                                  // 112 - N° de mandat
                 '"' . $mandatAt . '"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
@@ -692,15 +685,8 @@ class ftptransfertService
             $annonce = strip_tags($data, '<br>');
             //dd($annonce);
 
-            // Contruction de la référence de l'anonnce
-            $dup = $property['dup'];
-            if($dup){
-                $refProperty = $property['ref'].$dup;
-                $refMandat = $property['refMandat'].$dup;
-            }else{
-                $refProperty = $property['ref'];
-                $refMandat = $property['refMandat'];
-            }
+            // Récupération de la reference
+            $refs = $this->propertyService->getRefs($propriete);
 
             // Sélection du type de bien
             $propertyDefinition = $property['rubric'];
@@ -873,7 +859,7 @@ class ftptransfertService
             // Création d'une ligne du tableau
             $data = array(
                 '"1074280"',                                               // 1 - Identifiant Agence
-                '"' . $refProperty . '"',                                   // 2 - Référence agence du bien
+                '"' . $refs['ref'] . '"',                                   // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                       // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                           // 5 - CP
@@ -983,7 +969,7 @@ class ftptransfertService
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refMandat . '"',                             // 112 - N° de mandat
+                '"' . $refs['refMandat'] . '"',                                 // 112 - N° de mandat
                 '"' . $mandatAt . '"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire

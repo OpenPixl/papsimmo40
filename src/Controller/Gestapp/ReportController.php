@@ -233,15 +233,8 @@ class ReportController extends AbstractController
             $annonce = strip_tags($data, '<br>');
             //dd($annonce);
 
-            // Contruction de la référence de l'anonnce
-            $dup = $property['dup'];
-            if ($dup) {
-                $refProperty = $property['ref'] . $dup;
-                $refMandat = $property['refMandat'] . $dup;
-            } else {
-                $refProperty = $property['ref'];
-                $refMandat = $property['refMandat'];
-            }
+            // Récupération de la reference
+            $refs = $propertyService->getRefs($propriete);
 
             // Sélection du type de bien
             $propertyDefinition = $property['propertyDefinition'];
@@ -264,7 +257,7 @@ class ReportController extends AbstractController
                 $dpeAt = "";
             }
 
-            // Préparation de la date de réation mandat
+            // Préparation de la date de création mandat
             if ($property['mandatAt'] && $property['mandatAt'] instanceof \DateTime) {
                 $mandatAt = $property['mandatAt']->format('d/m/Y');
             } else {
@@ -411,7 +404,7 @@ class ReportController extends AbstractController
             // Création d'une ligne du tableau
             $data = array(
                 '"papsimmo"',                                                   // 1 - Identifiant Agence
-                '"' . $refProperty . '"',                                       // 2 - Référence agence du bien
+                '"' . $refs['ref'] . '"',                                       // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
@@ -521,7 +514,7 @@ class ReportController extends AbstractController
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refMandat . '"',                             // 112 - N° de mandat
+                '"' . $refs['refMandat'] . '"',                             // 112 - N° de mandat
                 '"' . $mandatAt . '"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire

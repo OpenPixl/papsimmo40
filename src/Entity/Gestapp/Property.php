@@ -268,6 +268,12 @@ class Property
     #[ORM\Column(nullable: true)]
     private ?bool $commerceRentalAnnual = null;
 
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 4, nullable: true)]
+    private ?string $coordLong = null;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 4, nullable: true)]
+    private ?string $coordLat = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1312,6 +1318,30 @@ class Property
     public function setCommerceRentalAnnual(?bool $commerceRentalAnnual): static
     {
         $this->commerceRentalAnnual = $commerceRentalAnnual;
+
+        return $this;
+    }
+
+    public function getCoordLong(): ?string
+    {
+        return $this->coordLong;
+    }
+
+    public function setCoordLong(?string $coordLong): static
+    {
+        $this->coordLong = $coordLong;
+
+        return $this;
+    }
+
+    public function getCoordLat(): ?string
+    {
+        return $this->coordLat;
+    }
+
+    public function setCoordLat(?string $coordLat): static
+    {
+        $this->coordLat = $coordLat;
 
         return $this;
     }

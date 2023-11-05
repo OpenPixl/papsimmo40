@@ -9,6 +9,7 @@ use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Service\ftptransfertService;
+use App\Service\PropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -59,7 +60,8 @@ class PublicationController extends AbstractController
         PropertyRepository $propertyRepository,
         PhotoRepository $photoRepository,
         ComplementRepository $complementRepository,
-        ftptransfertService $ftptransfertService): Response
+        ftptransfertService $ftptransfertService,
+    ): Response
     {
         $form = $this->createForm(PublicationType::class, $publication,[
             'action' => $this->generateUrl('op_admin_contact_showbyproperty', ['id' => $publication->getId()]),
@@ -77,13 +79,13 @@ class PublicationController extends AbstractController
             $ftptransfertService->selogerFTP(
                 $propertyRepository,
                 $photoRepository,
-                $complementRepository
+                $complementRepository,
             );
             // Service de dépot sur serveur le serveur FTP "figaroImmo"
             $ftptransfertService->figaroFTP(
                 $propertyRepository,
                 $photoRepository,
-                $complementRepository
+                $complementRepository,
             );
             // Service de dépot sur serveur le serveur FTP "figaroImmo"
             $ftptransfertService->greenacresFTP(

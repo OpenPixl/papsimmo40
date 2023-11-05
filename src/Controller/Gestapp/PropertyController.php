@@ -24,6 +24,7 @@ use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Service\ArchivePropertyService;
+use App\Service\PropertyService;
 use JetBrains\PhpStorm\NoReturn;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -215,17 +216,11 @@ class PropertyController extends AbstractController
         ComplementRepository $complementRepository,
         PublicationRepository $publicationRepository,
         PropertyRepository $propertyRepository,
+        PropertyService $propertyService
     )
     {
         // Vérification si property été dupliqué
-        $dup = $property->getDupMandat();
-        $ref = $property->getRef();
-        if($dup){
-            $dup++;
-            //dd($dup);
-        }else{
-            $dup = 'A';
-        }
+        $refs = $propertyService->getRefs($property);
 
         // Clonage des options de la propriété
         $complement = $property->getOptions();
@@ -246,8 +241,8 @@ class PropertyController extends AbstractController
         $dupproperty = clone $property;
 
         // Numéro de duplicata
-        $dupproperty->setRef($ref.$dup);
-        $dupproperty->setDupMandat($dup);
+        $dupproperty->setRef($refs['ref']);
+        $dupproperty->setDupMandat($refs['dup']);
         $dupproperty->setOptions($dupcomplement);
         $dupproperty->setPublication($dupublication);
         $dupproperty->setIsIncreating(0);
@@ -270,6 +265,7 @@ class PropertyController extends AbstractController
         PublicationRepository $publicationRepository,
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
+        PropertyService $propertyService,
         Request $request
     )
     {
@@ -277,14 +273,7 @@ class PropertyController extends AbstractController
         $employed = $employedRepository->find($idemployed);
 
         // Vérification si property été dupliqué
-        $dup = $property->getDupMandat();
-        $ref = $property->getRef();
-        if($dup){
-            $dup++;
-            //dd($dup);
-        }else{
-            $dup = 'A';
-        }
+        $refs = $propertyService->getRefs($property);
 
         // Clonage des options de la propriété
         $complement = $property->getOptions();
@@ -305,9 +294,9 @@ class PropertyController extends AbstractController
         $dupproperty = clone $property;
 
         // Numéro de duplicata
-        $dupproperty->setRef($ref.$dup);
+        $dupproperty->setRef($refs['ref']);
         $dupproperty->setRefEmployed($employed);
-        $dupproperty->setDupMandat($dup);
+        $dupproperty->setDupMandat($refs['dup']);
         $dupproperty->setOptions($dupcomplement);
         $dupproperty->setPublication($dupublication);
         $dupproperty->setIsIncreating(0);

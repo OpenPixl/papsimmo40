@@ -152,15 +152,22 @@ class PropertyService
     // Génération des références pour les diffuseurs
     public function getRefs(Property $property)
     {
+        // Vérification si property été dupliqué
         $dup = $property->getDupMandat();
-        if ($dup) {
-            $refProperty = $property->getRef() . $dup;
-            $refMandat = $property->getRefMandat() . $dup;
-        } else {
-            $refProperty = $property->getRef();
-            $refMandat = $property->getRefMandat();
+        $ref = $property->getRef();
+        $mandat = $property->getRefMandat();
+        if($dup){
+            $dup++;
+            $initRef = substr($ref, 0,-1 );
+            $newRef = $initRef.$dup;
+            $initMandat = substr($mandat, 0,-1 );
+            $newMandat = $initMandat.$dup;
+        }else{
+            $dup = 'A';
+            $newRef = $ref.$dup;
+            $newMandat = $mandat.$dup;
         }
-        return array($refMandat, $refProperty);
+        return array('ref'=>$newRef, 'dup'=> $dup, 'refMandat' => $newMandat);
     }
 
     // Détermination des classes des diagnostique dpe et ges
