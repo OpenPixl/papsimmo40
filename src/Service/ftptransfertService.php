@@ -646,7 +646,7 @@ class ftptransfertService
             echo 'Le fichier a été transféré avec succès.';
         } else {
             // Gestion des erreurs de transfert
-            echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
+            echo 'Téléversement sur "SE loger" - Erreur lors du transfert du fichier sur le serveur FTP.';
         }
 
         // Fermeture du flux et de la connexion FTP
@@ -1263,7 +1263,7 @@ class ftptransfertService
             echo 'Le fichier a été transféré avec succès.';
         } else {
             // Gestion des erreurs de transfert
-            echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
+            echo 'Téléversement sur "Figaro Immo" - Erreur lors du transfert du fichier sur le serveur FTP.';
         }
 
         // Fermeture de la connexion FTP
