@@ -1184,6 +1184,8 @@ class ftptransfertService
         // Chemin de destination sur le serveur FTP
         $cheminDestination = '107428.zip';
         // Transfert du fichier
+
+        //dd(ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY));
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
             echo 'Le fichier a été transféré avec succès.';
         } else {
@@ -1456,6 +1458,7 @@ class ftptransfertService
         $cheminDestination = '892318a.xml';
 
         // Transfert du fichier
+        //dd(ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY));
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
             echo 'Le fichier a été transféré avec succès.';
         } else {

@@ -49,7 +49,7 @@ class ArchivePropertyService{
         $now = new \DateTime('now');
 
         if($property->getArchivedAt() >= $now){
-            // Suppression des entités liées à la propriété
+            // Suppression des entités l  ées à la propriété
             $publication = $property->getPublication();
             $complement = $property->getOptions();
             // 1.Supression des images liées à la propriété
