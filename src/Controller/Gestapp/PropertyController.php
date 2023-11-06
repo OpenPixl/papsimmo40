@@ -50,9 +50,6 @@ class PropertyController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
 
-        $archiveProperty->onArchive($propertyRepository);
-        $archiveProperty->DelArchived($propertyRepository, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
-
         if($hasAccess == true){
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
@@ -127,11 +124,25 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/listarchived', name: 'op_gestapp_property_listarchived', methods: ['GET'])]
-    public function listArchived(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
+    public function listArchived(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        CadasterRepository $cadasterRepository,
+        PublicationRepository $publicationRepository,
+        ComplementRepository $complementRepository,
+        ArchivePropertyService $archivePropertyService,
+        PaginatorInterface $paginator,
+        Request $request)
     {
         // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
+        $properties = $propertyRepository->listAllPropertiesArchived();
+        foreach($properties as $p)
+        {
+            $property = $propertyRepository->find($p['id']);
+            //$archiveProperty->onArchive($propertyRepository);
+            $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
+        }
         $data = $propertyRepository->listAllPropertiesArchived();
-        //dd($data);
         $properties = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
@@ -588,6 +599,7 @@ class PropertyController extends AbstractController
     {
         $property->setIsArchived(1);
         $property->setArchivedAt(new \DateTime('+90 days'));
+        //dd($property);
         $propertyRepository->add($property);
 
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');

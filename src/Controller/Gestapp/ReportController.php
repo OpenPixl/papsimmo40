@@ -359,47 +359,9 @@ class ReportController extends AbstractController
             $equipments = $complementRepository->findBy(['id' => $idcomplement]);
             //dd($equipments);
 
-            if ($property['diagChoice'] == "obligatoire") {
-                // BILAN DPE
-                if ($property['diagDpe'] > 0 and $property['diagDpe'] <= 50) {
-                    $bilanDpe = 'A';
-                } elseif ($property['diagDpe'] > 50 and $property['diagDpe'] <= 90) {
-                    $bilanDpe = 'B';
-                } elseif ($property['diagDpe'] > 90 and $property['diagDpe'] <= 150) {
-                    $bilanDpe = 'C';
-                } elseif ($property['diagDpe'] > 150 and $property['diagDpe'] <= 230) {
-                    $bilanDpe = 'D';
-                } elseif ($property['diagDpe'] > 230 and $property['diagDpe'] <= 330) {
-                    $bilanDpe = 'E';
-                } elseif ($property['diagDpe'] > 330 and $property['diagDpe'] <= 450) {
-                    $bilanDpe = 'F';
-                } else {
-                    $bilanDpe = 'G';
-                }
-
-                // Bilan GES
-                if ($property['diagGes'] > 0 and $property['diagGes'] <= 50) {
-                    $bilanGes = 'A';
-                } elseif ($property['diagGes'] > 50 and $property['diagGes'] <= 90) {
-                    $bilanGes = 'B';
-                } elseif ($property['diagGes'] > 90 and $property['diagGes'] <= 150) {
-                    $bilanGes = 'C';
-                } elseif ($property['diagGes'] > 150 and $property['diagGes'] <= 230) {
-                    $bilanGes = 'D';
-                } elseif ($property['diagGes'] > 230 and $property['diagGes'] <= 330) {
-                    $bilanGes = 'E';
-                } elseif ($property['diagGes'] > 330 and $property['diagGes'] <= 450) {
-                    $bilanGes = 'F';
-                } else {
-                    $bilanGes = 'G';
-                }
-            } elseif ($property['diagChoice'] == "vierge") {
-                $bilanDpe = "VI";
-                $bilanGes = "VI";
-            } else {
-                $bilanDpe = "NS";
-                $bilanGes = "NS";
-            }
+            // Récupération DPE & GES
+            $bilanDpe = $propertyService->getClasseDpe($propriete);
+            $bilanGes = $propertyService->getClasseGes($propriete);
 
             // Création d'une ligne du tableau
             $data = array(

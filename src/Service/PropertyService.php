@@ -215,7 +215,7 @@ class PropertyService
             }else{
                 $bilanGes = 'G';
             }
-        }elseif($property['diagChoice'] == "vierge"){
+        }elseif($property->getDiagChoice() == "vierge"){
             $bilanGes = "VI";
         }else{
             $bilanGes = "NS";
