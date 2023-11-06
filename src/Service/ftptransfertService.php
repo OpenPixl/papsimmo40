@@ -572,9 +572,12 @@ class ftptransfertService
         $ftpport = $this->portftpseloger;
         $ftpusername = $this->loginftpseloger;
         $ftppassword = $this->passwordftpseloger;
+        //dd($ftpserver, $ftpport, $ftpusername, $ftppassword);
+
 
         // Connexion au serveur FTP
         $connId = ftp_ssl_connect($ftpserver, $ftpport);
+        dd($connId);
         if (!$connId) {
             // Gestion des erreurs de connexion
             exit('Impossible de se connecter au serveur FTP.');
