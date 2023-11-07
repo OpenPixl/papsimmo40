@@ -109,7 +109,6 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->leftjoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
-            ->leftjoin('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->leftJoin('p.family', 'f')
             ->leftJoin('p.rubric', 'ru')
@@ -143,10 +142,8 @@ class PropertyRepository extends ServiceEntityRepository
                 e.firstName as firstName,
                 e.lastName as lastName,
                 e.avatarName as avatarName,
-                pd.name as propertyDefinition,
                 b.name AS banner,
-                b.bannerFilename AS bannerFilename,
-                pd.id AS idpropertyDefinition
+                b.bannerFilename AS bannerFilename
             ')
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')

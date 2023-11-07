@@ -572,12 +572,9 @@ class ftptransfertService
         $ftpport = $this->portftpseloger;
         $ftpusername = $this->loginftpseloger;
         $ftppassword = $this->passwordftpseloger;
-        //dd($ftpserver, $ftpport, $ftpusername, $ftppassword);
-
 
         // Connexion au serveur FTP
         $connId = ftp_ssl_connect($ftpserver, $ftpport);
-        dd($connId);
         if (!$connId) {
             // Gestion des erreurs de connexion
             exit('Impossible de se connecter au serveur FTP.');
@@ -605,8 +602,6 @@ class ftptransfertService
 
         // Ouvrir le fichier local en lecture
         $fp = fopen($fichierLocal, 'r');
-        //dd($fp);
-        //dd(ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY));
         // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
             echo 'Le fichier a été transféré avec succès.';
@@ -774,7 +769,6 @@ class ftptransfertService
             // Equipements
             $idcomplement = $property['idComplement'];
             $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
-            //dd($equipments);
 
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
@@ -1123,7 +1117,6 @@ class ftptransfertService
             $rows[] = implode('!#', $data);
         }
         $content = implode("\n", $rows);
-        //dd($content);
 
         // PARTIE II : Génération du fichier CSV
         $file = 'doc/report/Annoncesfigaro/Annonces.csv';                                  // Chemin du fichier
@@ -1186,9 +1179,8 @@ class ftptransfertService
         }
         // Chemin de destination sur le serveur FTP
         $cheminDestination = '107428.zip';
-        // Transfert du fichier
 
-        //dd(ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY));
+        // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
             echo 'Le fichier a été transféré avec succès.';
         } else {
@@ -1461,7 +1453,6 @@ class ftptransfertService
         $cheminDestination = '892318a.xml';
 
         // Transfert du fichier
-        //dd(ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY));
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
             echo 'Le fichier a été transféré avec succès.';
         } else {
