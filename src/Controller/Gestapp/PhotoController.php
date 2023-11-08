@@ -49,6 +49,18 @@ class PhotoController extends AbstractController
         ]);
     }
 
+    #[Route('/list/{idproperty}', name: 'op_gestapp_photo_includeinlistproperty', methods: ['GET'])]
+    public function includeinlistproperty(PhotoRepository $photoRepository, PropertyRepository $propertyRepository, $idproperty, Request $request): Response
+    {
+        $photo = $photoRepository->FirstPhoto($idproperty);
+        if(!$photo){
+            return $this->render('gestapp/photo/includeinlistpropertynull.html.twig');
+        }
+        return $this->render('gestapp/photo/includeinlistproperty.html.twig', [
+            'photo' => $photo,
+        ]);
+    }
+
     #[Route('/new/{idproperty}', name: 'op_gestapp_photo_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PhotoRepository $photoRepository, $idproperty, PropertyRepository $propertyRepository): Response
     {

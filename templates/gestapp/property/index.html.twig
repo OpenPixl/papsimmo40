@@ -67,20 +67,22 @@
             })
 
             document.getElementById("submitAddnewproperty").addEventListener('click', function(event){
+                const destination = document.getElementById('SelectDestination').value
+
                 if(document.getElementById("refMandat").value === "" ){
                     if(document.getElementById("nomandat").checked !== true){
                         event.preventDefault()
                         alert("Attention, si vous souhaitez créer un bien sans numéro de mandat, veuillez cochez la case. Sinon entrez un numéro de mandat valid.")
                     }else{
                         event.preventDefault()
-                        submitAddnewproperty.href = '/gestapp/property/add/1/0'
+                        submitAddnewproperty.href = '/gestapp/property/add/1/0/' + destination
                         window.location.href = submitAddnewproperty.href
                     }
                 }else{
                     if(document.getElementById("refMandat").classList.contains('is-valid')){
                         event.preventDefault()
                         let nummandat = document.getElementById("refMandat").value
-                        submitAddnewproperty.href = '/gestapp/property/add/0/' + nummandat
+                        submitAddnewproperty.href = '/gestapp/property/add/0/' + nummandat + '/' + destination
                         window.location.href = submitAddnewproperty.href
                     }else{
                         event.preventDefault()
@@ -481,13 +483,26 @@
                             </td>
                             <td class="col-sm-4"><input type="text" id="refMandat" name="refMandat" class="form-control form-control-sm"></td>
                         </tr>
+                        <tr class="align-middle">
+                            <td class="col-sm-8 table-light">
+                                Ce bien est pour un usage de :
+                            </td>
+                            <td class="col-sm-4">
+                                <select name="SelectDestination" id="SelectDestination" class="form-select form-select-sm">
+                                    <option value="81">Vente pour particulier</option>
+                                    <option value="51">Location pour particulier</option>
+                                    <option value="49">Vente pour professionnel</option>
+                                    <option value="48">Location pour professionnel</option>
+                                </select>
+                            </td>
+                        </tr>
                     </table>
                     <input type="hidden" id="lastMandat">
                 </div>
                 <div class="modal-footer">
                     {% set refmandat = 0 %}
                     {% set isnomandat = 0 %}
-                    <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'isNomandat':isnomandat,'refMandat': refmandat}) }}" class="btn btn-info">Accéder à la fiche</a>
+                    <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'isNomandat':isnomandat,'refMandat': refmandat, 'destination':4}) }}" class="btn btn-info">Accéder à la fiche</a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>

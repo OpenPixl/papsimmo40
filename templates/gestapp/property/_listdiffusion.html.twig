@@ -40,12 +40,12 @@
     <thead>
     <tr>
         {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
-        <th>Collaborateur</th>
+            <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
+            <th></th>
+            <th>Collaborateur</th>
         {% else %}
         <th></th>
         {% endif %}
-        <th>Ref</th>
         <th>Mandat</th>
         <th>Prix</th>
         <th>Titre annonce</th>
@@ -60,25 +60,37 @@
 
         <tr class="align-middle">
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <td>
-                <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
-            </td>
-            <td>
-                {% if property.avatarName is not null %}
-                <img class="rounded-circle" src="{{ asset('images/avatar/' ~ property.avatarName) }}" alt="{{ property.avatarName }}" style="height:50px;width:50px">
-                {% else %}
-                <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
-                {% endif %}
-                {{ property.firstName }} {{ property.lastName }}
-            </td>
+                <td>
+                    <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
+                </td>
+                <td>
+                    {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
+                </td>
+                <td>
+                    {% if property.avatarName is not null %}
+                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ property.avatarName) }}" alt="{{ property.avatarName }}" style="height:50px;width:50px">
+                    {% else %}
+                        <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+                    {% endif %}
+                    {{ property.firstName }} {{ property.lastName }}
+                </td>
+
             {% else %}
-            <th>{{ property.id }}</th>
+                <td>
+                    <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
+                </td>
+                <td>
+                    {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
+                </td>
             {% endif %}
-            <td>{{ property.ref }}</td>
-            {% if property.dupMandat is not empty %}
-            <td>{{ property.refMandat }}{{ property.dupMandat }}</td>
+            {% if property.isNomandat == 0 %}
+                {% if property.dupMandat is not empty %}
+                    <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
+                {% else %}
+                    <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
+                {% endif %}
             {% else %}
-            <td>{{ property.refMandat }}</td>
+                <td><span class="badge bg-secondary">Sans mandat</span></td>
             {% endif %}
             <td>{{ property.priceFai }}€</td>
             <td>{{ property.name|u.truncate(60, ' ...') }}<br>{{ property.zipcode }} {{ property.city }}</td>
@@ -107,10 +119,6 @@
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_dip', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat DIP</a></li>
                         <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
                         #}
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <li><hr class="dropdown-divider"></li>
-                            <a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Archiver</a>
-                        {% endif %}
                     </ul>
                 </div>
                 {# Modal de suppression property #}

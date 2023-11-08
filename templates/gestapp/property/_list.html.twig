@@ -10,11 +10,12 @@
             <tr>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
+                    <th>Ref</th>
                     <th>Collaborateur</th>
                 {% else %}
                     <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
+                    <th>Ref</th>
                 {% endif %}
-                <th>Ref</th>
                 <th>Mandat</th>
                 <th>Type de bien</th>
                 <th>Prix</th>
@@ -42,6 +43,9 @@
                             <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
                         </td>
                         <td>
+                            {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
+                        </td>
+                        <td>
                             {% if property.avatarName is not null %}
                                 <img class="rounded-circle" src="{{ asset('images/avatar/' ~ property.avatarName) }}" alt="{{ property.avatarName }}" style="height:50px;width:50px">
                             {% else %}
@@ -49,18 +53,22 @@
                             {% endif %}
                             {{ property.firstName }} {{ property.lastName }}
                         </td>
+
                     {% else %}
                         <td>
                             <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
                         </td>
+                        <td>
+                            {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
+                        </td>
                     {% endif %}
-                    <td>{{ property.ref }}</td>
+
                     {# boucle si la propriété est indexé avec un mandat #}
                     {% if property.isNomandat == 0 %}
                         {% if property.dupMandat is not empty %}
-                            <td>{{ property.refMandat }}{{ property.dupMandat }}</td>
+                            <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
                         {% else %}
-                            <td>{{ property.refMandat }}</td>
+                            <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
                         {% endif %}
                     {% else %}
                         <td><span class="badge bg-secondary">Sans mandat</span></td>

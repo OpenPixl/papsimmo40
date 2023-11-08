@@ -1278,10 +1278,10 @@ class ftptransfertService
             $pics = [];
             if (!$photos) {                                                                       // Si aucune photo présente
                 $pics = [];
-            } else {
+            }else {
                 foreach($photos as $photo)
                 {
-                    $urlphoto = 'http://' . $app . '/images/galery/' . $photo['galeryFrontName'];
+                    $urlphoto = $app . '/images/galery/' . $photo['galeryFrontName'];
                     $titrephoto = 'Photo-' . $property->getRef() . '-' . + 1;
                     $pic = [
                         'urlphoto' => $urlphoto,

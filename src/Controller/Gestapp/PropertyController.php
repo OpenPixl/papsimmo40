@@ -318,7 +318,7 @@ class PropertyController extends AbstractController
         return $this->redirectToRoute('op_gestapp_property_index');
     }
 
-    #[Route('/add/{isNomandat}/{refMandat}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
+    #[Route('/add/{isNomandat}/{refMandat}/{destination}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
     public function add(
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
@@ -332,6 +332,7 @@ class PropertyController extends AbstractController
         propertyRubricssRepository $rubricssRepository,
         $isNomandat,
         $refMandat,
+        $destination
         )
     {
         // Récupération du collaborateur
@@ -366,8 +367,8 @@ class PropertyController extends AbstractController
             $RefMandat = 22;
         }
 
-        $family = $familyRepository->find(8);
-        $rubric = $rubricRepository->find(48);
+        $family = $familyRepository->find(substr($destination, 0,-1));
+        $rubric = $rubricRepository->find(substr($destination, -1,1));
         $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
 
         $property = new Property();
@@ -516,8 +517,12 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //$annonce = $form->get('annonce')->getData();
+            //dd($annonce);
             $data = str_replace(array( "\n", "\r", "</p><p>" ), array( '', '', ' ' ), html_entity_decode($property->getAnnonce()) );
+
             $annonceSlug = substr(strip_tags($data, '<br>'), 0, 59);
+            //dd($data, $annonceSlug);
             $property->setAnnonceSlug($annonceSlug);
             $propertyRepository->add($property);
             return $this->json([

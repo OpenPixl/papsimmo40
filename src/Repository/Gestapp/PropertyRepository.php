@@ -166,6 +166,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftjoin('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.isNomandat as isNomandat,
                 p.dateEndmandat as dateEndmandat,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
@@ -212,6 +213,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->leftJoin('p.publication', 'pu')
             ->addSelect('
+                pu.isWebpublish as isNomandat,
                 pu.isPublishgreenacres as isPublishgreenacres,
                 pu.isPublishParven as isPublishParven,
                 pu.isWebpublish as isWebpublish,
@@ -254,6 +256,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->join('p.publication', 'pu')
             ->addSelect('
+                p.isNomandat as isNomandat,
                 pu.isPublishgreenacres as isPublishgreenacres,
                 pu.isPublishParven as isPublishParven,
                 pu.isWebpublish as isWebpublish,
