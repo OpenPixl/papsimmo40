@@ -25,6 +25,7 @@ class ftptransfertService
         public string $urlftpseloger, public string $portftpseloger, public string $loginftpseloger, public string $passwordftpseloger,
         public string $urlftpfigaro, public string $portftpfigaro, public string $loginftpfigaro, public string $passwordftpfigaro,
         public string $urlftpga, public string $portftpga, public string $loginftpga, public string $passwordftpga,
+        public string $urlftpvi, public string $portftpvi, public string $loginftpvi, public string $passwordftpvi,
     )
     {
         $this->requestStack = $requestStack;
@@ -1425,7 +1426,18 @@ class ftptransfertService
         }
         file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
 
-        // IV. Dépôt sur le serveur de FTP
+        // IV. Dépôt sur le serveur de FTP GREEN ACRES
+        // -------------------------------------------
+
+        // Chemin du fichier local à transférer
+        if (!$port){
+            $fichierLocal = $scheme.'://'.$host.'/doc/report/AnnoncesGreen/892318a.xml';
+        }else{
+            $fichierLocal = $scheme.'://'.$host.':'.$port.'/doc/report/AnnoncesGreen/892318a.xml';
+        }
+        // Chemin de destination sur le serveur FTP
+        $cheminDestination = '892318a.xml';
+
         $ftpserver = $this->urlftpga;
         $ftpport = $this->portftpga;
         $ftpusername = $this->loginftpga;
@@ -1442,16 +1454,6 @@ class ftptransfertService
             // Gestion des erreurs d'authentification
             exit('Erreur lors de l\'authentification FTP.');
         }
-
-        // Chemin du fichier local à transférer
-        if (!$port){
-            $fichierLocal = $scheme.'://'.$host.'/doc/report/AnnoncesGreen/892318a.xml';
-        }else{
-            $fichierLocal = $scheme.'://'.$host.':'.$port.'/doc/report/AnnoncesGreen/892318a.xml';
-        }
-        // Chemin de destination sur le serveur FTP
-        $cheminDestination = '892318a.xml';
-
         // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
             echo 'Le fichier a été transféré avec succès.';
@@ -1459,8 +1461,35 @@ class ftptransfertService
             // Gestion des erreurs de transfert
             echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
         }
-
         // Fermeture de la connexion FTP
         ftp_close($connId);
+
+        // IV. Dépôt sur le serveur de FTP VIZZIT
+        // -------------------------------------------
+        $ftpserver2 = $this->urlftpvi;
+        $ftpport2 = $this->portftpvi;
+        $ftpusername2 = $this->loginftpvi;
+        $ftppassword2 = $this->passwordftpvi;
+        // Connexion au serveur FTP
+        $connId2 = ftp_connect($ftpserver2, $ftpport2);
+        if (!$connId2) {
+            // Gestion des erreurs de connexion
+            exit('Impossible de se connecter au serveur FTP.');
+        }
+        // Authentification FTP
+        $login2 = ftp_login($connId2, $ftpusername2, $ftppassword2);
+        if (!$login2) {
+            // Gestion des erreurs d'authentification
+            exit('Erreur lors de l\'authentification FTP.');
+        }
+        // Transfert du fichier
+        if (ftp_put($connId2, $cheminDestination, $fichierLocal, FTP_BINARY)) {
+            echo 'Le fichier a été transféré avec succès.';
+        } else {
+            // Gestion des erreurs de transfert
+            echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
+        }
+        // Fermeture de la connexion FTP
+        ftp_close($connId2);
     }
 }

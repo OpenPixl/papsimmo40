@@ -46,3 +46,8 @@ services:
             $portftpga: '%env(PORT_FTP_GA)%'
             $loginftpga: '%env(LOGIN_FTP_GA)%'
             $passwordftpga: '%env(PASSWORD_FTP_GA)%'
+            # VIZZIT
+            $urlftpvi: '%env(URL_FTP_VI)%'
+            $portftpvi: '%env(PORT_FTP_VI)%'
+            $loginftpvi: '%env(LOGIN_FTP_VI)%'
+            $passwordftpvi: '%env(PASSWORD_FTP_VI)%'
