@@ -59,7 +59,12 @@
         {# Ligne du adresse #}
         <td class="table-light" colspan="3">{{ form_label(form.zipcode, '', {'label_attr': {'class':'form-label'}}) }}</td>
         <td colspan="2">{{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Rue, voie, ...'}}) }}</td>
-        <td colspan="4">{{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Rue, voie, ...'}}) }}</td>
+        <td colspan="4">
+            {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
+            <select id="selectcity" class="form-select form-select-sm">
+                <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
+            </select>
+        </td>
         <td></td>
         <td></td>
         <td></td>

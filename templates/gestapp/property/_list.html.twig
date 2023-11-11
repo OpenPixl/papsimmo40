@@ -132,7 +132,13 @@
                                     <div class="modal-body">
                                         <p class="modal-text">Attention, Vous êtes sur le point d'archiver le bien suivant :</p>
                                         <p class="text-center"><b>{{ property.name }}</b></p>
-                                        <p class="text-center">Sous mandat n°: {{ property.refMandat }}.</p>
+                                        <p class="text-center">
+                                            {% if property.dupMandat is not empty %}
+                                                Sous mandat n°: {{ property.refMandat }}{{ property.dupMandat }}.
+                                            {% else %}
+                                                Sous mandat n°: {{ property.refMandat }}.
+                                            {% endif %}
+                                        </p>
                                         <p class="text-center">Ce bien sera archivé sur une période de 30 jours.<br>Êtes-vous sûr de vouloir continuer ?</p>
                                         <input type="hidden" id="recipient-name">
                                     </div>

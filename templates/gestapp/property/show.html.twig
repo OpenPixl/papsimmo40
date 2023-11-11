@@ -715,9 +715,8 @@
             // ---------------------------------------
             // Modification des tarifs selon le prix vendeur et les honoraires
             document.getElementById('property_step2_price').addEventListener('change', function () {
-                var price = parseInt(document.getElementById("property_step2_price").value)
-                document.getElementById("property_step2_honoraires").value = price * 0.3;
-                var honoraire = parseInt(document.getElementById("property_step2_honoraires").value)
+                let price = parseInt(document.getElementById("property_step2_price").value)
+                let honoraire = parseInt(document.getElementById("property_step2_honoraires").value)
                 document.getElementById('property_step2_priceFai').value = price + honoraire
             })
             document.getElementById('property_step2_honoraires').addEventListener('change', function () {
@@ -730,7 +729,6 @@
             if (property_avenant_price !== null) {
                 property_avenant_price.addEventListener('change', function () {
                     let price = parseInt(property_avenant_price.value)
-                    document.getElementById("property_avenant_honoraires").value = price * 0.3;
                     let honoraire = parseInt(document.getElementById("property_avenant_honoraires").value)
                     document.getElementById('property_avenant_priceFai').value = price + honoraire
                 })
