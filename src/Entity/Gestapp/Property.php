@@ -16,13 +16,22 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
 #[ORM\Index(name: 'property_idx', columns: ["ref", "name", "zipcode", "city"], flags: ['fulltext'])]
-
+#[ApiResource(
+    operations: [
+        new Get(normalizationContext: ['groups' => 'property:item']),
+        new GetCollection(normalizationContext: ['groups' => 'property:list'])
+    ],
+    paginationEnabled: false,
+)]
 class Property
 {
     #[ORM\Id]
@@ -31,6 +40,7 @@ class Property
     private $id;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $ref;
 
     #[ORM\Column(type: 'string', length: 100)]
