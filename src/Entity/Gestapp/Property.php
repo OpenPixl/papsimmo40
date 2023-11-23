@@ -26,11 +26,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[Vich\Uploadable]
 #[ORM\Index(name: 'property_idx', columns: ["ref", "name", "zipcode", "city"], flags: ['fulltext'])]
 #[ApiResource(
-    operations: [
+    normalizationContext:['groups' => 'property:list'],
+    denormalizationContext:['groups' => 'property:write'],
+    Operations: [
         new Get(normalizationContext: ['groups' => 'property:item']),
         new GetCollection(normalizationContext: ['groups' => 'property:list'])
     ],
-    paginationEnabled: false,
+
+    paginationEnabled: false
 )]
 class Property
 {

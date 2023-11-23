@@ -1,4 +1,6 @@
 api_platform:
+    title: "SoftPAP's REST API"
+    description: 'A Symfony API to manage a library'
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:
