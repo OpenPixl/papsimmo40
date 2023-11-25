@@ -1,6 +1,6 @@
 api_platform:
     title: "SoftPAP's REST API"
-    description: 'A Symfony API to manage a library'
+    description: "Documentation des points d'entrée de l'API"
     mapping:
         paths: ['%kernel.project_dir%/src/Entity']
     patch_formats:

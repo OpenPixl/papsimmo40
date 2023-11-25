@@ -28,9 +28,10 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     normalizationContext:['groups' => 'property:list'],
     denormalizationContext:['groups' => 'property:write'],
-    Operations: [
+    operations: [
         new Get(normalizationContext: ['groups' => 'property:item']),
-        new GetCollection(normalizationContext: ['groups' => 'property:list'])
+        new GetCollection(normalizationContext: ['groups' => 'property:list']),
+
     ],
 
     paginationEnabled: false

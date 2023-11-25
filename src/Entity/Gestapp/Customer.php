@@ -2,6 +2,10 @@
 
 namespace App\Entity\Gestapp;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use App\Controller\Api\GetTokenEmployed;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Repository\Gestapp\CustomerRepository;
@@ -14,7 +18,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Index(name: 'customer_idx', columns: ["first_name", "last_name"], flags: ['fulltext'])]
-
+#[ApiResource(
+    shortName: 'Clients',
+    operations: [
+        new Get(normalizationContext: ['groups' => 'employed:item']),
+        new GetCollection(normalizationContext: ['groups' => 'employed:list']),
+    ],
+    paginationEnabled: false,
+)]
 class Customer
 {
     #[ORM\Id]

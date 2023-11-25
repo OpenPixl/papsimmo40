@@ -4,7 +4,10 @@ namespace App\Entity\Admin;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\GetCollection;
+use App\Controller\Api\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
@@ -24,6 +27,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EmployedRepository::class)]
@@ -31,9 +35,24 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 #[UniqueEntity(fields: ['email'], message: 'un compte avec la même adresse mail existe déjà')]
 #[ApiResource(
+    shortName: 'Collaborateurs',
     operations: [
         new Get(normalizationContext: ['groups' => 'employed:item']),
-        new GetCollection(normalizationContext: ['groups' => 'employed:list'])
+        new GetCollection(normalizationContext: ['groups' => 'employed:list']),
+        new Get(²   
+            name: 'getTokenByNumCollaborator',
+            uriTemplate: '/employed/{numCollaborator}/getToken',
+            requirements: ['numCollaborator' => '\d+'],
+            controller: GetTokenEmployed::class,
+            normalizationContext: ['groups' => 'employed:item'],
+            uriVariables: [
+                'numCollaborator' => 'numCollaborator'
+            ],
+            openapiContext: [
+                'summary' => "Récupérer un token par l'identifiant du mandataire",
+                'description' => "Récupérer un token par l'identifiant du mandataire",
+            ]
+        )
     ],
     paginationEnabled: false,
 )]
@@ -179,7 +198,17 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(length: 6)]
     #[Groups(['employed:list', 'employed:item'])]
+    #[Assert\Length(
+        min: 6,
+        minMessage: 'Nous attendons 6 caractères, il en manque',
+        max: 6,
+        maxMessage: 'Nous attendons 6 caractères, il y en a trop',
+    )]
     private ?string $numCollaborator = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['employed:list', 'employed:item'])]
+    private ?string $urlWeb = null;
 
     public function __construct()
     {
@@ -759,6 +788,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNumCollaborator(string $numCollaborator): static
     {
         $this->numCollaborator = $numCollaborator;
+
+        return $this;
+    }
+
+    public function getUrlWeb(): ?string
+    {
+        return $this->urlWeb;
+    }
+
+    public function setUrlWeb(?string $urlWeb): static
+    {
+        $this->urlWeb = $urlWeb;
 
         return $this;
     }

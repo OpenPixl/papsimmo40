@@ -9,3 +9,7 @@ kernel:
 authentication_token:
     path: /authentication_token
     methods: ['POST']
+
+get_token:
+    path: /api/get_token_numCollaborator
+    methods: [ 'POST' ]
