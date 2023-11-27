@@ -4,9 +4,11 @@ namespace App\Entity\Admin;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Put;
 use App\Controller\Api\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
@@ -39,7 +41,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
     operations: [
         new Get(normalizationContext: ['groups' => 'employed:item']),
         new GetCollection(normalizationContext: ['groups' => 'employed:list']),
-        new Get(²   
+        new Get(
             name: 'getTokenByNumCollaborator',
             uriTemplate: '/employed/{numCollaborator}/getToken',
             requirements: ['numCollaborator' => '\d+'],
@@ -51,6 +53,14 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             openapiContext: [
                 'summary' => "Récupérer un token par l'identifiant du mandataire",
                 'description' => "Récupérer un token par l'identifiant du mandataire",
+            ]
+        ),
+        new Patch(
+            uriTemplate: '/employed/{id}/update',
+            normalizationContext: ['groups' => ['employed:write:patch']],
+            openapiContext: [
+                'summary' => "Mettre à jour les informations du collaborateur",
+                'description' => "Mettre à jour les informations du collaborateur",
             ]
         )
     ],
@@ -87,7 +97,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -97,18 +107,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $sector;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
@@ -149,35 +159,35 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $avatarSize;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $home;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $desk;
 
     #[ORM\Column(type: 'string', length: 14)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $gsm;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $fax;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $otherEmail;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $facebook;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $instagram;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $linkedin;
 
     #[ORM\Column(type: 'datetime')]
@@ -190,7 +200,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $contacts;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private ?string $employedPrez = null;
 
     #[ORM\Column]
@@ -207,7 +217,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $numCollaborator = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['employed:list', 'employed:item'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private ?string $urlWeb = null;
 
     public function __construct()
