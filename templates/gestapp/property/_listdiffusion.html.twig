@@ -83,6 +83,7 @@
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
                 </td>
             {% endif %}
+            {# boucle si la propriété est indexé avec un mandat #}
             {% if property.isNomandat == 0 %}
                 {% if property.dupMandat is not empty %}
                     <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
