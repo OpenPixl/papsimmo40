@@ -19,6 +19,7 @@
                 var modalTitle = Suppr.querySelector('.modal-title')
                 var modalText = Suppr.querySelector('.modal-text')
                 var modalBodyInput = Suppr.querySelector('.modal-body input')
+                document.getElementById('bntSubmitForm').href = '/admin/contact/del/' + recipient
                 modalTitle.innerHTML = "<h3>Toutes les demandes</h3><p>Suppression d'une demande de renseignement</p>"
                 modalBodyInput.value = recipient
                 modalText.innerHTML = "Vous êtes sur le point de supprimer le message de prise de renseignement sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
@@ -27,30 +28,19 @@
             // block suppression lors du clic sur le bouton de la modal "Suppr"
             function onClickDelEvent(event){
                 event.preventDefault()
-                const id = document.getElementById('recipient-name').value
+                let url = this.href
+                console.log(url)
                 axios
-                    .post('/admin/contact/del/'+ id)
-                    .then(function(response)
-                    {
-                        // rafraichissement du tableau
-                        const listallcontact = document.getElementById('listallcontact').innerHTML = response.data.listallcontact
-                        // ------------------------------------------------------
-                        // Déclaration des différents Events présent sur la page
-                        // ------------------------------------------------------
+                    .post(url)
+                    .then(function(response){
+                        document.getElementById('listallcontact').innerHTML = response.data.listallcontact
                         // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
                         document.querySelectorAll('a.btnSupprAllContacts').forEach(function(link){
                             link.addEventListener('click', onClickDelEvent)
                         })
-                        // Activation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation:true,autohide:true,delay:3000});
-                        toastElement.show();
                     })
-                    .catch(function(error){
-                        console.log(error);
+                    .catch(function(response){
+                        console.log(response.error)
                     })
             }
             // ------------------------------------------------------
@@ -154,7 +144,7 @@
                         <input type="hidden" id="recipient-name">
                     </div>
                     <div class="modal-footer">
-                        <a href="#" type="button" class="btn btn-danger btnSupprAllContacts" data-bs-dismiss="modal">Supprimer</a>
+                        <a id="bntSubmitForm" href="/admin/contact/del/" class="btn btn-danger btnSupprAllContacts" data-bs-dismiss="modal">Supprimer</a>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </div>

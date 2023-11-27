@@ -93,63 +93,7 @@
                     {% endif %}
                     <td>{{ property.updatedAt ? property.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
                     <td>
-                        <div id="action_property" class="btn-group">
-                            <button type="button" id="action_property" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                                Action
-                            </button>
-                            <ul class="dropdown-menu" aria-labelledby="action_property">
-                                <li><a class="dropdown-item" href="{{ path('op_gestapp_property_show', {'id': property.id}) }}"><i class="fa-duotone fa-file-pen"></i> Consulter la fiche du bien</a></li>
-                                <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-duotone fa-print"></i> Imprimer la fiche</a></li>
-                                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                    {% if property.dateEndmandat is not null %}
-                                        <li><a class="dropdown-item" id="btnDisDateEndMandat" href="" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-calendar-minus"></i> Annuler la fin de mandat</a></li>
-                                    {% else %}
-                                        <li><a class="dropdown-item" id="btnModalDateEndMandat" href="#" data-bs-toggle="modal" data-bs-target="#modalDateEndMandat" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-calendar-plus"></i> Mettre une fin de mandat</a></li>
-                                    {% endif %}
-                                {% endif %}
-                                <li><a class="dropdown-item {% if property.isTransaction == 1 %}disabled{% endif %}" href="{{ path('op_gestapp_transaction_add', {'idproperty': property.id}) }}"><i class="fa-duotone fa-house-circle-check"></i> Engager la vente</a></li>
-                                <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item" href="{{ path('op_gestapp_property_duplicate', {'id': property.id}) }}"><i class="fa-duotone fa-copy"></i> Dupliquer la fiche</a></li>
-                                <li><a id="{{ property.id }}" type="button" class="dropdown-item Modaltransferate" data-bs-toggle="modal" data-bs-target="#modalTransferate" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-copy"></i> Dupliquer et transférer la fiche</a></li>
-                                {#
-                                <li><a class="dropdown-item" href="{{ path('op_admin_pdf_dip', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat DIP</a></li>
-                                <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
-                                #}
-                                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                    <li><hr class="dropdown-divider"></li>
-                                    <li><a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-taped"></i> Archiver le bien</a></li>
-                                {% endif %}
-                            </ul>
-                        </div>
-                        {# Modal de suppression property #}
-                        <div class="modal fade" id="Suppr2-{{ property.id }}" tabindex="-1" aria-labelledby="Suppr2-{{ property.id }}" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title text-warning" id="exampleModalLabel">Archivage d'un bien</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        <p class="modal-text">Attention, Vous êtes sur le point d'archiver le bien suivant :</p>
-                                        <p class="text-center"><b>{{ property.name }}</b></p>
-                                        <p class="text-center">
-                                            {% if property.dupMandat is not empty %}
-                                                Sous mandat n°: {{ property.refMandat }}{{ property.dupMandat }}.
-                                            {% else %}
-                                                Sous mandat n°: {{ property.refMandat }}.
-                                            {% endif %}
-                                        </p>
-                                        <p class="text-center">Ce bien sera archivé sur une période de 30 jours.<br>Êtes-vous sûr de vouloir continuer ?</p>
-                                        <input type="hidden" id="recipient-name">
-                                    </div>
-                                    <div class="modal-footer">
-                                        <a href="{{ path('op_gestapp_property_archived', {'id':property.id}) }}" type="button" class="btn btn-sm btn-warning jsModalDelProperty" data-bs-dismiss="modal">Je valide</a>
-                                        <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
+                        {% include('gestapp/property/include/_btnchoice.html.twig') %}
                     </td>
                 </tr>
             {% else %}

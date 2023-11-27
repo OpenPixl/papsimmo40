@@ -213,6 +213,8 @@ class PropertyRepository extends ServiceEntityRepository
             ->join('p.refEmployed', 'e')
             ->leftJoin('p.publication', 'pu')
             ->addSelect('
+                p.isTransaction as isTransaction,
+                p.dateEndmandat as dateEndmandat,
                 pu.isWebpublish as isNomandat,
                 pu.isPublishgreenacres as isPublishgreenacres,
                 pu.isPublishParven as isPublishParven,

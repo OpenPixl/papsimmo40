@@ -106,43 +106,7 @@
                 {% if property.isPublishgreenacres == 1 %}<span class="badge bg-light text-dark">GA</span>{% endif %}
             </td>
             <td>
-                <div id="action_property" class="btn-group">
-                    <button type="button" id="action_property" class="btn btn-sm btn-primary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        Action
-                    </button>
-                    <ul  class="dropdown-menu" aria-labelledby="action_property">
-                        <li><a class="dropdown-item" href="{{ path('op_gestapp_property_show', {'id': property.id}) }}"><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
-                        <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a></li>
-                        <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{{ path('op_gestapp_property_duplicate', {'id': property.id}) }}"><i class="fa-thin fa-file-pen"></i> Dupliquer</a></li>
-                        {#
-                        <li><a class="dropdown-item" href="{{ path('op_admin_pdf_dip', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat DIP</a></li>
-                        <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
-                        #}
-                    </ul>
-                </div>
-                {# Modal de suppression property #}
-                <div class="modal fade" id="Suppr2-{{ property.id }}" tabindex="-1" aria-labelledby="Suppr2-{{ property.id }}" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-warning" id="exampleModalLabel">Archivage d'un bien</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="modal-text">Attention, Vous êtes sur le point d'archiver le bien suivant :</p>
-                                <p class="text-center"><b>{{ property.name }}</b></p>
-                                <p class="text-center">Sous mandat n°: {{ property.refMandat }}.</p>
-                                <p class="text-center">Ce bien sera archivé sur une période de 30 jours.<br>Êtes-vous sûr de vouloir continuer ?</p>
-                                <input type="hidden" id="recipient-name">
-                            </div>
-                            <div class="modal-footer">
-                                <a href="{{ path('op_gestapp_property_archived', {'id':property.id}) }}" type="button" class="btn btn-sm btn-warning jsModalDelProperty" data-bs-dismiss="modal">Je valide</a>
-                                <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                {% include('gestapp/property/include/_btnchoice.html.twig') %}
             </td>
         </tr>
     {% else %}
