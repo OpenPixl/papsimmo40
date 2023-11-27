@@ -47,7 +47,7 @@ document.getElementById('btnListDiffusion').onclick = function(event){
         list.style.display = 'none';
         listArchived.style.display = 'none';
         btnDiffusion.textContent = 'Retour sur la liste des biens';
-        btnArchived.addClass("disabled");
+        btnArchived.classList.add("disabled");
     }
     if(listDiffusion.className === 'hide') {
         listDiffusion.style.display = 'none';
