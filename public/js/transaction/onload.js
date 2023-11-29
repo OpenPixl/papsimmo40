@@ -20,9 +20,6 @@ flatpickr(".flatpickrtime", {
 });
 
 const valueProperty = document.getElementById('valueProperty').value;
-// Préparation de la Modal d'ajout d'un vendeur à la fiche
-const modalAddCustomer = document.getElementById('modalCustomer');
-const btnAddCustomer = document.getElementById('btnAddCustomer');
 
 let validStep1 = document.getElementById('btnToStepTwo');
 let validStep2 = document.getElementById('btnToStepTree');
@@ -131,13 +128,39 @@ validStep5.addEventListener('click', function(event){
         });
 });
 
-modalAddCustomer.addEventListener('show.bs.modal', function (event) {
+const modalCustomer = document.getElementById('modalCustomer');
+let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
+
+modalCustomer.addEventListener('show.bs.modal', function (event){
     // Button that triggered the modal
-    var button = event.relatedTarget;
+    let button = event.relatedTarget;
     // extraction de la variable
-    var recipient = button.getAttribute('data-bs-whatever');
-    // mise à jour du lien de soumission du formulaire.
-    var modalContent = modalAddCustomer.querySelector('.modal-footer');
-    var modalSubmit = modalAddCustomer.querySelector('.modal-footer a');
-    modalSubmit.href = '/gestapp/customer/addcustomerjson/2/' + recipient;
+    let recipient = button.getAttribute('data-bs-whatever');
+    let crud = recipient.split('-')[0];
+    let contentTitle = recipient.split('-')[1];
+    let id = recipient.split('-')[2];
+    let form = modalCustomer.querySelector('.modalBodyForm');
+    let modalSubmit = modalCustomer.querySelector('.modal-footer a');
+    if(crud === 'ADD'){
+        axios
+            .get('/gestapp/customer/addcustomerjson/2/' + id)
+            .then(function(response){
+                form.innerHTML = response.data.formView;
+            });
+        modalSubmit.href = '/gestapp/customer/addcustomerjson/2/' + id;
+    }
 });
+
+function submitCustomer(event){
+    event.preventDefault;
+    let formCustomer = document.getElementById('FormEditCustomer');
+    let action = formCustomer.action;
+    let data = new FormData(formCustomer);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('ListTransactCustomers').innerHTML = response.data.liste;
+            btnSubmitCustomer.addEventListener('click', submitCustomer);
+        });
+}
+btnSubmitCustomer.addEventListener('click', submitCustomer);

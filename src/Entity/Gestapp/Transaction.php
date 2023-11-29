@@ -149,7 +149,6 @@ class Transaction
         return $this->dateAtPromise;
     }
 
-    #[ORM\PrePersist]
     public function setDateAtPromise(\DateTimeInterface $dateAtPromise): static
     {
         $this->dateAtPromise = $dateAtPromise;

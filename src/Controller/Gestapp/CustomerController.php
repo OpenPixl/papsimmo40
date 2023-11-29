@@ -170,6 +170,7 @@ class CustomerController extends AbstractController
         $employed = $employedRepository->find($user);
 
         $customer = new Customer();
+
         $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_addcustomerjson', [
                 'id'=> $customer->getId(),
@@ -210,10 +211,12 @@ class CustomerController extends AbstractController
             }
 
         }else{
+            //dd('cool');
             $transac = $transactionRepository->find($option);
             //dd($transac);
             $idproperty = $transac->getProperty();
             $customerChoice = $customerChoiceRepository->find(2);
+            //dd($idproperty,$customerChoice);
             if ($form->isSubmitted() && $form->isValid()) {
                 // Contruction de la référence pour chaque propriété
                 $date = new \DateTime();
@@ -240,17 +243,18 @@ class CustomerController extends AbstractController
             }
         }
 
-        // liste tous les clients attachés à leur propriété
-        $customers = $customerRepository->listbyproperty($property);
+        //dd('erreur soumission');
+
+        $view = $this->render('gestapp/customer/add.html.twig', [
+            'customer' => $customer,
+            'form' => $form
+        ]);
 
         return $this->json([
-            'code'=> 200,
-            'message' => "Une erreur est apparue durant l'ajout du client.",
-            'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                'customers' => $customers,
-                'option' => $option
-            ])
-        ], 200);
+            'code' => 200,
+            'message' => 'formulaire présenté',
+            'formView' => $view->getContent()
+        ]);
     }
 
     #[Route('/addcustomer', name: 'op_gestapp_customer_addcustomer',  methods: ['GET', 'POST'])]

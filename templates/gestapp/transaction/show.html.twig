@@ -96,7 +96,7 @@
                 <div class="col-3" id="choiceCustomer">
                     <div class="row mt-2">
                         <div class="col-sm-12">
-                            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="{{ transaction.id }}">
+                            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
                                 Ajouter un acheteur sur ce bien.
                             </button>
                             <hr>
@@ -185,12 +185,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
+                    <div class="modalBodyForm">
+
+                    </div>
                     <input id="idProperty" type="hidden" value="">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                    <a id="btnSubmitCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
                 </div>
             </div>
         </div>
