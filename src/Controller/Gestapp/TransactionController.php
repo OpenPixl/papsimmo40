@@ -121,9 +121,6 @@ class TransactionController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        //dd($transaction);
-
-
         if ($form->isSubmitted() && $form->isValid()) {
             $transaction->setState('quotation');
             $entityManager->persist($transaction);
@@ -134,11 +131,6 @@ class TransactionController extends AbstractController
                 'message' => 'Promesse de vente réalisée.'
             ], 200);
         }
-
-        $view = $this->render('gestapp/transaction/_formstep2.html.twig', [
-            'transaction' => $transaction,
-            'form' => $form
-        ]);
 
         return $this->renderForm('gestapp/transaction/_formstep2.html.twig', [
             'transaction' => $transaction,
