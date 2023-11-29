@@ -4,153 +4,173 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        window.onload = function(){
-            // PARTIE Ajout d'un vendeur en Javascript
-            // -----------------------------------------
-            // Préparation de la Modal d'ajout d'un vendeur à la fiche
-            const modalAddCustomer = document.getElementById('modalCustomer')
-            modalAddCustomer.addEventListener('show.bs.modal', function (event) {
-                // Button that triggered the modal
-                var button = event.relatedTarget
-                // extraction de la variable
-                var recipient = button.getAttribute('data-bs-whatever')
-                // mise à jour du lien de soumission du formulaire.
-                var modalContent = modalAddCustomer.querySelector('.modal-footer')
-                var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
-                modalSubmit.href = '/gestapp/customer/addcustomerjson/2/' + recipient
-            })
-            // Evènement sur le bouton btnAddCustomers
-            const btnAddCustomer = document.getElementById('btnAddCustomer')
-            btnAddCustomer.onclick = function (event) {
-                event.preventDefault()
-                // récupération des élements nécéssaire à la création du client depuis le bouton
-                let urlEditCustomer = this.href
-                let FormEditCustomer = document.getElementById('FormEditCustomer')
-                let dataEditCustomer = new FormData(FormEditCustomer)
-                // envoie des données
-                axios
-                    .post(urlEditCustomer, dataEditCustomer)
-                    .then(function (response) {
-                        const liste = document.getElementById('ListTransactCustomers').innerHTML = response.data.liste;
-                        // modalAddCustomer.addEventListener('hide.bs.modal')
-                        // Rajouter les events
-                        // Ajout d'un évènement sur le click AddCustomerSearch
-                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
-                            link.addEventListener('click', AddCustomerSearch);
-                        })
-                        // Ajout d'un évènement sur le click supprcustomer
-                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
-                            link.addEventListener('click', SupprCustomer);
-                        })
-                        // Ajout d'un évènement sur le click du selecteur EditCustomer
-                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
-                            link.addEventListener('click', EditCustomer);
-                        })
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        console.log(error);
-                    })
-            }
-        }
-    </script>
+    <script type="module" src="{{ asset('js/transaction/onload.js') }}"></script>
 {% endblock %}
 
 {% block contentTitle %}
     <div class="row d-flex justify-content-between" >
         <div class="col-sm-12">
             <h1>TRANSACTION - Ref : {{ transaction.name }}</h1>
+            <input id="valueProperty" type="hidden" value="{{ transaction.id }}">
         </div>
     </div>
 {% endblock %}
 
 {% block content %}
-    <div class="row mb-2">
-        <div class="col-12" id="transState">
+    <div class="row mb-2 align-items-center">
+        <div class="col-2">
+            <p class="text-center">
+                <img class="img-fluid" src="{{ vich_uploader_asset(photo) }}" alt="">
+            </p>
+
+        </div>
+        <div class="col-10" id="transState">
             <div class="row mt-3 mb-3 justify-content-center">
                 <div class="col-2 text-center">
-                    <a href="#">
+                    <a id="icoStepOne" href="#">
                         <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
                     </a>
                     <p>Ouverture de la transaction</p>
                 </div>
                 <div class="col-2 text-center">
-                    <a href="#" class="disabled">
+                    <a id="icoStepTwo" href="#" class="disabled">
                         <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
                     </a>
                     <p>Signature promesse de vente</p>
                 </div>
                 <div class="col-2 text-center">
-                    <a href="#">
+                    <a id="icoSteptree" href="#">
                         <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
                     </a>
                     <p>Offre de pret</p>
                 </div>
                 <div class="col-2 text-center">
-                    <a href="#">
+                    <a id="icoStepfour"  href="#">
                         <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
                     </a>
                     <p>Signature acte de vente</p>
                 </div>
                 <div class="col-2 text-center">
-                    <a href="#">
+                    <a id="icoStepFive" href="#">
                         <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
                     </a>
                     <p>Remise de clef</p>
                 </div>
+                <div class="col-2 text-center">
+                    <a id="icoStepFive" href="#">
+                        <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                    </a>
+                    <p>Dossier finalisé</p>
+                </div>
             </div>
-            <div class="progress">
-                {% set progress = 0 %}
-                {% if transaction.state == 'open' %}
-                    {% set progress = 20 %}
-                {% elseif transaction.state == 'promise' %}
-                    {% set progress = 40 %}
-                {% elseif transaction.state == 'quotation' %}
-                    {% set progress = 60 %}
-                {% elseif transaction.state == 'definitive_sale' %}
-                    {% set progress = 80 %}
-                {% elseif transaction.state == 'key_delivery' %}
-                    {% set progress = 100 %}
-                {% endif %}
-                <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12">
-            <h4>Etape 1 : Désignation Acheteur.s pour l'offre de vente</h4>
-        </div>
-        <div class="col-3" id="choiceCustomer">
-            <div class="row mt-2">
-                <div class="col-sm-12">
-                    <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="{{ transaction.id }}">
-                        Ajouter un acheteur sur ce bien.
-                    </button>
-                    <hr>
-                    <div class="card text-dark bg-light">
-                        <div class="card-header">
-                            <h5><b>Rechercher </b>un vendeur</h5>
-                        </div>
-                        <div class="card-body">
-                            {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer', {'idproperty': property.id })) }}
-                        </div>
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="progress">
+                        {% set progress = 0 %}
+                        {% if transaction.state == 'open' %}
+                            {% set progress = 15 %}
+                        {% elseif transaction.state == 'promise' %}
+                            {% set progress = 30 %}
+                        {% elseif transaction.state == 'quotation' %}
+                            {% set progress = 45 %}
+                        {% elseif transaction.state == 'definitive_sale' %}
+                            {% set progress = 60 %}
+                        {% elseif transaction.state == 'key_delivery' %}
+                            {% set progress = 80 %}
+                        {% elseif transaction.state == 'finished' %}
+                            {% set progress = 100 %}
+                        {% endif %}
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
                     </div>
                 </div>
             </div>
+
         </div>
-        <div class="col-9">
-            <div class="row mt-2 g-1" id="ListTransactCustomers">
-                {% include('gestapp/customer/_listecustomers.html.twig') %}
+    </div>
+    <div class="row">
+        <div class="col-12" id="blocks">
+            <div class="row mt-2 {% if transaction.state == 'open' %}activ{% else %}d-none{% endif %}" id="stepOne" name="step">
+                <div class="col-12">
+                    <h4>Etape 1 : Désignation Acheteur.s pour l'offre de vente</h4>
+                </div>
+                <div class="col-3" id="choiceCustomer">
+                    <div class="row mt-2">
+                        <div class="col-sm-12">
+                            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="{{ transaction.id }}">
+                                Ajouter un acheteur sur ce bien.
+                            </button>
+                            <hr>
+                            <div class="card text-dark bg-light">
+                                <div class="card-header">
+                                    <h5><b>Rechercher </b>un vendeur</h5>
+                                </div>
+                                <div class="card-body">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-9">
+                    <div class="row mt-2 g-1" id="ListTransactCustomers">
+                        {% include('gestapp/customer/_listecustomers.html.twig') %}
+                    </div>
+                </div>
+                <div class="col-12 mt-3">
+                    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+                    <a id="btnToStepTwo" href="{{ path('op_gestapp_transaction_secondstep', {'id': transaction.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le.s client.s</a>
+                </div>
+            </div>
+            <div class="row mt-2 animate__animated animate__fadein {% if transaction.state == 'promise' %}activ{% else %}d-none{% endif %}" id="stepTwo" name="step">
+                <div class="col-12">
+                    <h4>Etape 2 : validation de la signature de promesse de vente</h4>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\TransactionController::step2', {'id': transaction.id})) }}
+
+            </div>
+            <div class="row mt-2 animate__animated animate__fadein {% if transaction.state == 'quotation' %}activ{% else %}d-none{% endif %}" id="stepTree" name="step">
+                <div class="col-12">
+                    <h4>Etape 3 : Offre de prêt</h4>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\TransactionController::step3', {'id': transaction.id})) }}
+            </div>
+            <div class="row mt-2 animate__animated animate__fadein {% if transaction.state == 'definitive_sale' %}activ{% else %}d-none{% endif %}" id="stepFour" name="step">
+                <div class="col-12">
+                    <h4>Etape 4 : Acte de vente</h4>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\TransactionController::step4', {'id': transaction.id})) }}
+            </div>
+            <div class="row mt-2 animate__animated animate__fadein {% if transaction.state == 'key_delivery' %}activ{% else %}d-none{% endif %}" id="stepFive" name="step">
+                <div class="col-12">
+                    <h4>Etape 5 : Remise des clefs</h4>
+                </div>
+                {{ render(controller('App\\Controller\\Gestapp\\TransactionController::step5', {'id': transaction.id})) }}
+            </div>
+            <div class="row mt-2 animate__animated animate__fadein {% if transaction.state == 'finished' %}activ{% else %}d-none{% endif %}" id="stepSix" name="step">
+                <div class="col-12">
+                    <h4>Récapitulatif du dossier finalisé</h4>
+                    <p>Le dossier de transaction sur ce bien est finalisé.</p>
+                    <table class="table table-sm">
+                        <tr class="aling-middle">
+                            <td>Date d'ouverture du dossier</td>
+                            <td>{{ transaction.createdAt|date('d m Y') }}</td>
+                        </tr>
+                        <tr class="aling-middle">
+                            <td>Date de signature du compromis</td>
+                            <td>{{ transaction.dateAtPromise|date('d m Y') }}</td>
+                        </tr>
+                        <tr class="aling-middle">
+                            <td>Date de remise des clefs</td>
+                            <td>{{ transaction.dateAtKeys|date('d m Y') }}</td>
+                        </tr>
+                    </table>
+                </div>
+                <div class="col-12 mt-3">
+                    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+                </div>
             </div>
         </div>
     </div>
-    <div class="row mt-2">
 
-    </div>
-
-    <a href="{{ path('op_gestapp_transaction_index') }}">Back to list</a>
-    <a href="{{ path('op_gestapp_transaction_edit', {'id': transaction.id}) }}">Edit</a>
 {% endblock %}
 
 
@@ -171,6 +191,21 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# annonce toaster #}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-50 end-0 p-3">
+            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">SoftPAPS</strong>
+                    <small>A l'instant</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
                 </div>
             </div>
         </div>

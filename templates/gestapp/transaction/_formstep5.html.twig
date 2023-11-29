@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+<div id="formStep5" class="col-12">
+    <div class="row g-3 align-items-center">
+        <div class="col-3">
+            {{ form_label(form.dateAtKeys) }}
+        </div>
+        <div class="col-2">
+            {{ form_widget(form.dateAtKeys, {'attr': {'class':'flatpickr flatpickr-input'}}) }}
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+    <button type="submit" id="btnToStepSix" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider la remise des clefs.</button>
+</div>
+{{ form_end(form) }}

@@ -127,25 +127,6 @@ form{
 
 #carte { height: 350px; }
 
-.form-check {
-  display: block;
-  min-height: 1.5rem;
-  padding-left: calc(var(--bs-gutter-x) * 0.5);
-  margin-bottom: 0.125rem;
-}
-
-.form-switch .form-check-input {
-  margin-left: calc(var(--bs-gutter-x)*-0.5);
-}
-.form-switch .form-check-label {
-  margin-left: 0.5rem;
-}
-
-label {
-  margin-bottom: 0.5rem;
-  margin-top: 0.5rem;
-}
-
 ol, ul, dl {
   margin-top: 0;
   margin-bottom: 0;

@@ -153,6 +153,18 @@ class CustomerRepository extends ServiceEntityRepository
             ->getResult();
     }
 
+    public function findCustomerWithTransaction($transaction)
+    {
+        return $this->createQueryBuilder('c')
+            ->leftJoin("c.transactions", "t")
+            ->select('count(c.id)')
+            ->andWhere("t.id = :transaction")
+            ->setParameter("transaction", $transaction)
+            ->addGroupBy('c.id')
+            ->getQuery()
+            ->getResult();
+    }
+
     // /**
     //  * @return Customer[] Returns an array of Customer objects
     //  */

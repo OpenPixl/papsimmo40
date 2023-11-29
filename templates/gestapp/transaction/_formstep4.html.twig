@@ -1,0 +1,16 @@
+{{ form_start(form) }}
+<div id="formStep4" class="col-12">
+    <div class="row g-3 align-items-center">
+        <div class="col-3">
+            {{ form_label(form.dateAtSale) }}
+        </div>
+        <div class="col-2">
+            {{ form_widget(form.dateAtSale, {'attr': {'class':'flatpickr flatpickr-input'}}) }}
+        </div>
+    </div>
+</div>
+<div class="col-12">
+    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+    <button type="submit" id="btnToStepFive" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider la signature de l'acte de vente</button>
+</div>
+{{ form_end(form) }}

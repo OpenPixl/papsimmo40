@@ -5,6 +5,7 @@ namespace App\Entity\Gestapp;
 use App\Repository\Gestapp\TransactionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
@@ -33,6 +34,18 @@ class Transaction
 
     #[ORM\Column(length: 25)]
     private ?string $name = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateAtPromise = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isValidQuotation = false;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateAtSale = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateAtKeys = null;
 
     public function __construct()
     {
@@ -127,6 +140,55 @@ class Transaction
     public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
+    }
+
+    public function getDateAtPromise(): ?\DateTimeInterface
+    {
+        return $this->dateAtPromise;
+    }
+
+    #[ORM\PrePersist]
+    public function setDateAtPromise(\DateTimeInterface $dateAtPromise): static
+    {
+        $this->dateAtPromise = $dateAtPromise;
+
+        return $this;
+    }
+
+    public function isIsValidQuotation(): ?bool
+    {
+        return $this->isValidQuotation;
+    }
+
+    public function setIsValidQuotation(?bool $isValidQuotation): static
+    {
+        $this->isValidQuotation = $isValidQuotation;
+
+        return $this;
+    }
+
+    public function getDateAtSale(): ?\DateTimeInterface
+    {
+        return $this->dateAtSale;
+    }
+
+    public function setDateAtSale(?\DateTimeInterface $dateAtSale): static
+    {
+        $this->dateAtSale = $dateAtSale;
+
+        return $this;
+    }
+
+    public function getDateAtKeys(): ?\DateTimeInterface
+    {
+        return $this->dateAtKeys;
+    }
+
+    public function setDateAtKeys(?\DateTimeInterface $dateAtKeys): static
+    {
+        $this->dateAtKeys = $dateAtKeys;
 
         return $this;
     }

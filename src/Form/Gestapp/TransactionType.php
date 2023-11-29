@@ -21,11 +21,12 @@ class TransactionType extends AbstractType
             ->add('state', ChoiceType::class,[
                 'label' => 'Etat du dossier',
                 'choices'  => [
-                    'Ouverture du dossier' => "open",
-                    'promesse de vente' => 'promise',
-                    'offre de prêt' => 'quotation',
-                    'acte de vente définitif' => 'definitive_sale',
-                    'remise des clés' => 'key_delivery',
+                    'Ouverture du dossier' => 'open',
+                    'Promesse de vente' => 'promise',
+                    'Offre de prêt' => 'quotation',
+                    'Acte de vente définitif' => 'definitive_sale',
+                    'Remise des clés' => 'key_delivery',
+                    'Dossier finalisé' => 'finished'
                 ],
                 'choice_attr' => [
                     'Ouverture du dossier' => ['data-data' => 'open'],
@@ -33,6 +34,7 @@ class TransactionType extends AbstractType
                     'offre de prêt' => ['data-data' => 'quotation'],
                     'acte de vente définitif' => ['data-data' => 'definitive sale'],
                     'remise des clés' => ['data-data' => 'key delivery'],
+                    'Dossier finalisé' => ['data-data' => 'finished']
                 ],
             ])
             ->add('customer', EntityType::class, [
