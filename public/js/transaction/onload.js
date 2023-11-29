@@ -62,6 +62,7 @@ validStep1.addEventListener('click', function(event){
         .then(function(response){
             step2.classList.remove('d-none');
             step1.classList.add('d-none');
+            document.querySelector('.progress-bar').setAttribute('aria-valuenow', 30);
         })
         .catch(function (error) {
             console.log(error);

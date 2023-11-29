@@ -1,9 +1,9 @@
 {{ form_start(form) }}
-<div id="formStep3" class="col-12">
+<div id="formStep3" class="col-12 mt-3">
     {{ form_widget(form.isValidQuotation, {'attr': {'class':'form-check-input'}}) }}
     {{ form_label(form.isValidQuotation) }}
 </div>
-<div class="col-12">
+<div class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
     <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider l'offre de prêt</button>
 </div>

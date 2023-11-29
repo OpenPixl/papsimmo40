@@ -151,6 +151,15 @@
                     <p>Le dossier de transaction sur ce bien est finalisé.</p>
                     <table class="table table-sm">
                         <tr class="aling-middle">
+                            <td>Acheteur.s</td>
+                            <td>
+                                {% for customer in transaction.customer %}
+                                    <p>{{ customer.firstname }} {{ customer.lastName }}</p>
+                                    <p class="text-light">{{ customer.home }} | {{ customer.gsm }}</p>
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        <tr class="aling-middle">
                             <td>Date d'ouverture du dossier</td>
                             <td>{{ transaction.createdAt|date('d m Y') }}</td>
                         </tr>
