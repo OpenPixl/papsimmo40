@@ -14,10 +14,21 @@ security:
                 class: App\Entity\Admin\Employed
                 property: email
     firewalls:
+        api:
+                   pattern: ^/api
+                   stateless: true
+                   provider: app_user_provider
+                   jwt: ~
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
+            json_login:
+                check_path: /authentication_token
+                username_path: email
+                password_path: password
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
             lazy: true
             provider: app_user_provider
             custom_authenticator: App\Security\Admin\LoginAuthenticator
@@ -36,6 +47,10 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/opadmin, roles: ROLE_EMPLOYED }
+        - { path: ^/api/properties, roles: ROLE_USER }
+        - { path: ^/api/employed, roles: ROLE_USER }
+        - { path: ^/api/collaborateur, roles: ROLE_USER }
+        - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
         # - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:

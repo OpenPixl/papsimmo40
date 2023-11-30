@@ -1,0 +1,12 @@
+api_platform:
+    title: "SoftPAP's REST API"
+    description: "Documentation des points d'entrée de l'API"
+    mapping:
+        paths: ['%kernel.project_dir%/src/Entity']
+    patch_formats:
+        json: ['application/merge-patch+json']
+    swagger:
+        api_keys:
+            JWT:
+                name: authorization
+                type: header

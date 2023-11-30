@@ -16,13 +16,26 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
-
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
 #[ORM\Index(name: 'property_idx', columns: ["ref", "name", "zipcode", "city"], flags: ['fulltext'])]
+#[ApiResource(
+    normalizationContext:['groups' => 'property:list'],
+    denormalizationContext:['groups' => 'property:write'],
+    operations: [
+        new Get(normalizationContext: ['groups' => 'property:item']),
+        new GetCollection(normalizationContext: ['groups' => 'property:list']),
 
+    ],
+
+    paginationEnabled: false
+)]
 class Property
 {
     #[ORM\Id]
@@ -31,9 +44,11 @@ class Property
     private $id;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $ref;
 
     #[ORM\Column(type: 'string', length: 100)]
+    #[Groups(['property:list', 'property:item'])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 100)]
@@ -43,54 +58,70 @@ class Property
     private $refEmployed;
 
     #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $annonce;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $piece;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $room;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $surfaceLand;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $surfaceHome;
 
     #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $dpeAt;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $diagDpe;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $diagGes;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $adress;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $complement;
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $zipcode;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $city;
 
     #[ORM\OneToOne(targetEntity: Complement::class, cascade: ['persist', 'remove'])]
+    #[Groups(['property:list', 'property:item'])]
     private $options;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['property:list', 'property:item'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['property:list', 'property:item'])]
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'properties')]
     private $Customer;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['property:list', 'property:item'])]
     private $isIncreating = true;
 
     #[ORM\OneToOne(targetEntity: Publication::class, cascade: ['persist', 'remove'])]
@@ -98,24 +129,31 @@ class Property
     private $publication;
 
     #[ORM\Column(type: 'integer')]
+    #[Groups(['property:list', 'property:item'])]
     private $reflastnumber;
 
     #[ORM\Column(type: 'string', length: 14)]
+    #[Groups(['property:list', 'property:item'])]
     private $refnumdate;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['property:list', 'property:item'])]
     private $RefMandat;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $dpeEstimateEnergyDown;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $dpeEstimateEnergyUp;
 
     #[ORM\Column(type: 'string', length: 4, nullable: true)]
+    #[Groups(['property:list', 'property:item'])]
     private $constructionAt;
 
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
+    #[Groups(['property:list', 'property:item'])]
     private $photos;
 
     #[ORM\Column(type: 'integer', nullable: true)]

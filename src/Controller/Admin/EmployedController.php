@@ -63,8 +63,11 @@ class EmployedController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $numCollaborator = rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10);
             $employed->setPassword($userPasswordHasher->hashPassword($employed,'papsimmo'));
+            $employed->setNumCollaborator($numCollaborator);
             $employedRepository->add($employed);
+
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }
 

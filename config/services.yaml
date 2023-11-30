@@ -52,3 +52,7 @@ services:
             $portftpvi: '%env(PORT_FTP_VI)%'
             $loginftpvi: '%env(LOGIN_FTP_VI)%'
             $passwordftpvi: '%env(PASSWORD_FTP_VI)%'
+
+    App\OpenApi\JwtDecorator:
+        decorates: 'api_platform.openapi.factory'
+        arguments: [ '@.inner' ]

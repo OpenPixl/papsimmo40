@@ -2,6 +2,11 @@
 
 namespace App\Entity\Gestapp;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use App\Controller\Api\GetTokenEmployed;
+use Symfony\Component\Serializer\Annotation\Groups;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Repository\Gestapp\CustomerRepository;
@@ -14,7 +19,17 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ORM\Index(name: 'customer_idx', columns: ["first_name", "last_name"], flags: ['fulltext'])]
+#[ApiResource(
+    shortName: 'Client',
+    normalizationContext:['groups' => 'client:list'],
+    denormalizationContext:['groups' => 'client:write'],
+    operations: [
+        new Get(normalizationContext: ['groups' => 'client:item']),
+        new GetCollection(normalizationContext: ['groups' => 'client:list']),
+    ],
 
+    paginationEnabled: false
+)]
 class Customer
 {
     #[ORM\Id]
@@ -23,12 +38,15 @@ class Customer
     private $id;
 
     #[ORM\Column(type: 'string', length: 25, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $RefCustomer;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 125)]
@@ -38,42 +56,55 @@ class Customer
     private $customerChoice;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['customer:list', 'customer:item'])]
     private $adress;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $complement;
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $zipcode;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $city;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $home;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $desk;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $gsm;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $otherEmail;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private ?\DateTimeInterface $ddn = null;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private ?string $ddnIn = null;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $facebook;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $instagram;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['client:list', 'client:item'])]
     private $linkedin;
 
     #[ORM\Column(type: 'boolean')]

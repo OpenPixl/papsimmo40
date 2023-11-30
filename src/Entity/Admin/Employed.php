@@ -2,6 +2,14 @@
 
 namespace App\Entity\Admin;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Put;
+use App\Controller\Api\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
@@ -18,14 +26,46 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Serializer\Annotation\SerializedName;
+use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EmployedRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
 #[UniqueEntity(fields: ['email'], message: 'un compte avec la même adresse mail existe déjà')]
+#[ApiResource(
+    shortName: 'Collaborateurs',
+    operations: [
+        new Get(normalizationContext: ['groups' => 'employed:item']),
+        new GetCollection(normalizationContext: ['groups' => 'employed:list']),
+        new Get(
+            name: 'getTokenByNumCollaborator',
+            uriTemplate: '/employed/{numCollaborator}/getToken',
+            requirements: ['numCollaborator' => '\d+'],
+            controller: GetTokenEmployed::class,
+            normalizationContext: ['groups' => 'employed:item'],
+            uriVariables: [
+                'numCollaborator' => 'numCollaborator'
+            ],
+            openapiContext: [
+                'summary' => "Récupérer un token par l'identifiant du mandataire",
+                'description' => "Récupérer un token par l'identifiant du mandataire",
+            ]
+        ),
+        new Patch(
+            uriTemplate: '/employed/{id}/update',
+            normalizationContext: ['groups' => ['employed:write:patch']],
+            openapiContext: [
+                'summary' => "Mettre à jour les informations du collaborateur",
+                'description' => "Mettre à jour les informations du collaborateur",
+            ]
+        )
+    ],
+    paginationEnabled: false,
+)]
 class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 {
 
@@ -57,6 +97,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -66,18 +107,22 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $sector;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
+    #[Groups(['employed:list', 'employed:item'])]
     private $referent;
 
     #[ORM\Column(type: 'boolean')]
@@ -106,33 +151,43 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $avatarFile;
 
     #[ORM\Column(type: 'string', nullable: true)]
+    #[Groups(['employed:list', 'employed:item'])]
     private $avatarName;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['employed:list', 'employed:item'])]
     private $avatarSize;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $home;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $desk;
 
     #[ORM\Column(type: 'string', length: 14)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $gsm;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $fax;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $otherEmail;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $facebook;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $instagram;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private $linkedin;
 
     #[ORM\Column(type: 'datetime')]
@@ -145,10 +200,25 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $contacts;
 
     #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private ?string $employedPrez = null;
 
     #[ORM\Column]
     private ?bool $isWebpublish = false;
+
+    #[ORM\Column(length: 6)]
+    #[Groups(['employed:list', 'employed:item'])]
+    #[Assert\Length(
+        min: 6,
+        minMessage: 'Nous attendons 6 caractères, il en manque',
+        max: 6,
+        maxMessage: 'Nous attendons 6 caractères, il y en a trop',
+    )]
+    private ?string $numCollaborator = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    private ?string $urlWeb = null;
 
     public function __construct()
     {
@@ -716,6 +786,30 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsWebpublish(bool $isWebpublish): self
     {
         $this->isWebpublish = $isWebpublish;
+
+        return $this;
+    }
+
+    public function getNumCollaborator(): ?string
+    {
+        return $this->numCollaborator;
+    }
+
+    public function setNumCollaborator(string $numCollaborator): static
+    {
+        $this->numCollaborator = $numCollaborator;
+
+        return $this;
+    }
+
+    public function getUrlWeb(): ?string
+    {
+        return $this->urlWeb;
+    }
+
+    public function setUrlWeb(?string $urlWeb): static
+    {
+        $this->urlWeb = $urlWeb;
 
         return $this;
     }
