@@ -38,8 +38,8 @@ class Transaction
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateAtPromise = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?bool $isValidQuotation = false;
+    #[ORM\Column(type: 'string')]
+    private string $promisePdfFilename;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateAtSale = null;
@@ -156,14 +156,14 @@ class Transaction
         return $this;
     }
 
-    public function isIsValidQuotation(): ?bool
+    public function getPromisePdfFilename(): string
     {
-        return $this->isValidQuotation;
+        return $this->promisePdfFilename;
     }
 
-    public function setIsValidQuotation(?bool $isValidQuotation): static
+    public function setPromisePdfFilename(string $promisePdfFilename): self
     {
-        $this->isValidQuotation = $isValidQuotation;
+        $this->promisePdfFilename = $promisePdfFilename;
 
         return $this;
     }

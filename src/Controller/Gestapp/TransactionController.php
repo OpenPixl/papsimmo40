@@ -18,6 +18,9 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[Route('/gestapp/transaction')]
 class TransactionController extends AbstractController
@@ -111,6 +114,26 @@ class TransactionController extends AbstractController
         ]);
     }
 
+    #[Route('/step1/{id}', name: 'op_gestapp_transaction_step1', methods: ['POST'])]
+    function step1(Transaction $transaction, EntityManagerInterface $entityManager, CustomerRepository $customerRepository,Request $request)
+    {
+        $listCustomer = $customerRepository->findCustomerWithTransaction($transaction->getId());
+        if(count($listCustomer) > 0){
+            $transaction->setState('promise');
+            $entityManager->persist($transaction);
+            $entityManager->flush();
+            return $this->json([
+                'code' => 200,
+                'message' => 'Etape validée',
+            ],200);
+        }else{
+            return $this->json([
+                'code' => 300,
+                'message' => 'Attention, pas de client enregistré pour cette transaction.',
+            ],200);
+        }
+    }
+
     #[Route('/{id}/step2', name: 'op_gestapp_transaction_step2', methods: ['GET', 'POST'])]
     public function step2(Request $request, Transaction $transaction, EntityManagerInterface $entityManager): Response
     {
@@ -122,13 +145,13 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $transaction->setState('quotation');
+            $transaction->setState('deposit');
             $entityManager->persist($transaction);
             $entityManager->flush();
 
             return $this->json([
                 'code' => 200,
-                'message' => 'Promesse de vente réalisée.'
+                'message' => 'Date de promesse de vente enregistrée.'
             ], 200);
         }
 
@@ -138,7 +161,7 @@ class TransactionController extends AbstractController
         ]);
     }
     #[Route('/{id}/step3', name: 'op_gestapp_transaction_step3', methods: ['GET', 'POST'])]
-    public function step3(Request $request, Transaction $transaction, EntityManagerInterface $entityManager): Response
+    public function step3(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(Transactionstep3Type::class, $transaction, [
             'attr' => ['id'=>'transactionstep3'],
@@ -147,17 +170,35 @@ class TransactionController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        //dd($transaction);
-
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $transaction->setState('definitive_sale');
-            $entityManager->persist($transaction);
-            $entityManager->flush();
+
+            $pdf = $form->get('promisePdfFilename')->getData();
+            if($pdf){
+                $originalFilename = pathinfo($pdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$pdf->guessExtension();
+                try {
+                    $pdf->move(
+                        $this->getParameter('transaction_promise_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setPromisePdfFilename($newFilename);
+                $transaction->setState('definitive_sale');
+                $entityManager->persist($transaction);
+                $entityManager->flush();
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => 'Promesse de vente réalisée.'
+                ], 200);
+            }
 
             return $this->json([
-                'code' => 200,
-                'message' => 'Promesse de vente réalisée.'
+                'code' => 300,
+                'message' => 'Il manque le document en pdf.'
             ], 200);
         }
 
@@ -176,11 +217,8 @@ class TransactionController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        //dd($transaction);
-
-
         if ($form->isSubmitted() && $form->isValid()) {
-            $transaction->setState('key_delivery');
+            $transaction->setState('finished');
             $entityManager->persist($transaction);
             $entityManager->flush();
 
@@ -237,29 +275,5 @@ class TransactionController extends AbstractController
         }
 
         return $this->redirectToRoute('op_gestapp_transaction_index', [], Response::HTTP_SEE_OTHER);
-    }
-
-    #[Route('/secondstep/{id}', name: 'op_gestapp_transaction_secondstep', methods: ['POST'])]
-    function secondstep(Transaction $transaction, EntityManagerInterface $entityManager, CustomerRepository $customerRepository,Request $request)
-    {
-        $listCustomer = $customerRepository->findCustomerWithTransaction($transaction->getId());
-        //dd($listCustomer);
-        if($listCustomer){
-            $transaction->setState('promise');
-            $entityManager->persist($transaction);
-            $entityManager->flush();
-            return $this->json([
-                'code' => 200,
-                'message' => 'Etape validée',
-            ],200);
-        }else{
-            return $this->json([
-                'code' => 300,
-                'message' => 'Attention, pas de client enregistré pour cette transaction.',
-            ],200);
-        }
-
-
-
     }
 }

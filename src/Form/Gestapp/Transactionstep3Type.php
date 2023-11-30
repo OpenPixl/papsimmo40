@@ -2,25 +2,33 @@
 
 namespace App\Form\Gestapp;
 
-use App\Entity\Gestapp\choice\PropertyBanner;
-use App\Entity\Gestapp\Customer;
+
 use App\Entity\Gestapp\Transaction;
-use Doctrine\ORM\EntityRepository;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class Transactionstep3Type extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('isValidQuotation', CheckboxType::class,[
-                'label' => 'Une offre de prêt existe'
+            ->add('promisePdfFilename', FileType::class,[
+                'label' => "Déposer le dossier PDF du compromis",
+                'mapped' => false,
+                //'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '1024k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
             ])
         ;
     }

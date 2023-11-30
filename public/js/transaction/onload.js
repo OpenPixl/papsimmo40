@@ -1,7 +1,6 @@
 // PARTIE Ajout d'un vendeur en Javascript
 // -----------------------------------------
 
-
 // mise en place du datapicker flatpickr sur les champs de date
 flatpickr(".flatpickr", {
     "locale": "fr",
@@ -25,18 +24,16 @@ let validStep1 = document.getElementById('btnToStepTwo');
 let validStep2 = document.getElementById('btnToStepTree');
 let validStep3 = document.getElementById('btnToStepFour');
 let validStep4 = document.getElementById('btnToStepFive');
-let validStep5 = document.getElementById('btnToStepSix');
 
 let step1 = document.getElementById('stepOne');
 let step2 = document.getElementById('stepTwo');
 let step3 = document.getElementById('stepTree');
 let step4 = document.getElementById('stepFour');
 let step5 = document.getElementById('stepFive');
-let step6 = document.getElementById('stepSix');
 
 let icoStepOne = document.getElementById('icoStepOne');
 let icoStepTwo = document.getElementById('icoStepTwo');
-let icoSteptree = document.getElementById('icoSteptree');
+let icoStepTree = document.getElementById('icoStepTree');
 let icoStepFour = document.getElementById('icoStepFour');
 let icoStepFive = document.getElementById('icoStepFive');
 
@@ -44,15 +41,77 @@ const FormStep2 = document.getElementById('transactionstep2');
 const FormStep3 = document.getElementById('transactionstep3');
 const FormStep4 = document.getElementById('transactionstep4');
 const FormStep5 = document.getElementById('transactionstep5');
-const Blocks = document.getElementById("blocks");
+const blocks = document.getElementById("blocks");
 icoStepOne.addEventListener('click', function(event){
-    step2.classList.add('d-none');
-    step1.classList.remove('d-none');
+    let blockchild = blocks.querySelector('.activ');
+    if (blockchild !== null) {
+        // 👇️ this runs
+        console.log('✅ element has child with id of child-3');
+        blockchild.classList.add('d-none');
+        blockchild.classList.remove('activ');
+        step1.classList.add('activ');
+        step1.classList.remove('d-none');
+    } else {
+        console.log('⛔️ element does NOT have child with id');
+    }
+});
+icoStepTwo.addEventListener('click', function(event){
+    let blockchild = blocks.querySelector('.activ');
+    if (blockchild !== null) {
+        // 👇️ this runs
+        console.log('✅ element has child with id of child-3');
+        blockchild.classList.add('d-none');
+        blockchild.classList.remove('activ');
+        step2.classList.add('activ');
+        step2.classList.remove('d-none');
+    } else {
+        console.log('⛔️ element does NOT have child with id');
+    }
+});
+icoStepTree.addEventListener('click', function(event){
+    let blockchild = blocks.querySelector('.activ');
+    if (blockchild !== null) {
+        // 👇️ this runs
+        console.log('✅ element has child with id of child-3');
+        blockchild.classList.add('d-none');
+        blockchild.classList.remove('activ');
+        step3.classList.add('activ');
+        step3.classList.remove('d-none');
+    } else {
+        console.log('⛔️ element does NOT have child with id');
+    }
+});
+icoStepFour.addEventListener('click', function(event){
+    let blockchild = blocks.querySelector('.activ');
+    if (blockchild !== null) {
+        // 👇️ this runs
+        console.log('✅ element has child with id of child-3');
+        blockchild.classList.add('d-none');
+        blockchild.classList.remove('activ');
+        step4.classList.add('activ');
+        step4.classList.remove('d-none');
+    } else {
+        console.log('⛔️ element does NOT have child with id');
+    }
+});
+icoStepFive.addEventListener('click', function(event){
+    let blockchild = blocks.querySelector('.activ');
+    if (blockchild !== null) {
+        // 👇️ this runs
+        console.log('✅ element has child with id of child-3');
+        blockchild.classList.add('d-none');
+        blockchild.classList.remove('activ');
+        step5.classList.add('activ');
+        step5.classList.remove('d-none');
+    } else {
+        console.log('⛔️ element does NOT have child with id');
+    }
 });
 icoStepTwo.addEventListener('click', function(event){
     step3.classList.add('d-none');
     step2.classList.remove('d-none');
 });
+
 // validation étapes acheteurs
 validStep1.addEventListener('click', function(event){
     event.preventDefault();
@@ -60,9 +119,21 @@ validStep1.addEventListener('click', function(event){
     axios
         .post(url)
         .then(function(response){
-            step2.classList.remove('d-none');
-            step1.classList.add('d-none');
-            document.querySelector('.progress-bar').setAttribute('aria-valuenow', 30);
+            let code = response.data.code;
+            if(code == 200){
+                step2.classList.remove('d-none');
+                step1.classList.add('d-none');
+                document.querySelector('.progress-bar').setAttribute('aria-valuenow', '40');
+            }else {
+                // initialisation du toaster
+                let toastHTMLElement = document.getElementById("toaster");
+                let message = response.data.message;
+                let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                toastBody.textContent = message;
+                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                toastElement.show();
+            }
+
         })
         .catch(function (error) {
             console.log(error);
@@ -91,8 +162,20 @@ validStep3.addEventListener('click', function(event){
     axios
         .post(actionForm, dataForm)
         .then(function(response){
-            step4.classList.remove('d-none');
-            step3.classList.add('d-none');
+            let code = response.data.code;
+            if(code == 200){
+                step4.classList.remove('d-none');
+                step3.classList.add('d-none');
+            }else{
+                // initialisation du toaster
+                let toastHTMLElement = document.getElementById("toaster");
+                let message = response.data.message;
+                let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                toastBody.textContent = message;
+                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                toastElement.show();
+            }
+
         })
         .catch(function (error) {
             console.log(error);
@@ -113,25 +196,9 @@ validStep4.addEventListener('click', function(event){
             console.log(error);
         });
 });
-// validation de la remise des clefs
-validStep5.addEventListener('click', function(event){
-    event.preventDefault();
-    let actionForm = FormStep5.action;
-    let dataForm = new FormData(FormStep5);
-    axios
-        .post(actionForm, dataForm)
-        .then(function(response){
-            step6.classList.remove('d-none');
-            step5.classList.add('d-none');
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
 
 const modalCustomer = document.getElementById('modalCustomer');
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
-
 modalCustomer.addEventListener('show.bs.modal', function (event){
     // Button that triggered the modal
     let button = event.relatedTarget;

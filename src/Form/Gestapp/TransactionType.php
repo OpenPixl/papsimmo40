@@ -23,17 +23,15 @@ class TransactionType extends AbstractType
                 'choices'  => [
                     'Ouverture du dossier' => 'open',
                     'Promesse de vente' => 'promise',
-                    'Offre de prêt' => 'quotation',
+                    'Dépôt de dossier' => 'deposit',
                     'Acte de vente définitif' => 'definitive_sale',
-                    'Remise des clés' => 'key_delivery',
                     'Dossier finalisé' => 'finished'
                 ],
                 'choice_attr' => [
                     'Ouverture du dossier' => ['data-data' => 'open'],
                     'promesse de vente' => ['data-data' => 'promise'],
-                    'offre de prêt' => ['data-data' => 'quotation'],
+                    'Dépôt de dossier' => ['data-data' => 'deposit'],
                     'acte de vente définitif' => ['data-data' => 'definitive sale'],
-                    'remise des clés' => ['data-data' => 'key delivery'],
                     'Dossier finalisé' => ['data-data' => 'finished']
                 ],
             ])
