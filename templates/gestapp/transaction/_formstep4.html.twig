@@ -8,6 +8,24 @@
             {{ form_widget(form.dateAtSale, {'attr': {'class':'flatpickr flatpickr-input'}}) }}
         </div>
     </div>
+    <div class="row align-items-center">
+        <div class="col-3">
+            {{ form_label(form.actePdfFilename) }}
+        </div>
+        <div class="col-4">
+            {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+        </div>
+    </div>
+    {% if transaction.actePdfFilename is not empty%}
+    <div class="row align-items-center">
+        <div class="col-3">
+            Document déposé :
+        </div>
+        <div class="col-4">
+            {{ transaction.actePdfFilename }}
+        </div>
+    </div>
+    {% endif %}
 </div>
 <div class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>

@@ -172,13 +172,14 @@ class TransactionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $pdf = $form->get('promisePdfFilename')->getData();
-            if($pdf){
-                $originalFilename = pathinfo($pdf->getClientOriginalName(), PATHINFO_FILENAME);
+            $promisepdf = $form->get('promisePdfFilename')->getData();
+            //dd($pdf);
+            if($promisepdf){
+                $originalFilename = pathinfo($promisepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$pdf->guessExtension();
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$promisepdf->guessExtension();
                 try {
-                    $pdf->move(
+                    $promisepdf->move(
                         $this->getParameter('transaction_promise_directory'),
                         $newFilename
                     );
@@ -208,7 +209,7 @@ class TransactionController extends AbstractController
         ]);
     }
     #[Route('/{id}/step4', name: 'op_gestapp_transaction_step4', methods: ['GET', 'POST'])]
-    public function step4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager): Response
+    public function step4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(Transactionstep4Type::class, $transaction, [
             'attr' => ['id'=>'transactionstep4'],
@@ -218,6 +219,31 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $actepdf = $form->get('actePdfFilename')->getData();
+            if($actepdf){
+                $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$actepdf->guessExtension();
+                try {
+                    $actepdf->move(
+                        $this->getParameter('transaction_acte_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setPromisePdfFilename($newFilename);
+                $transaction->setState('finished');
+                $entityManager->persist($transaction);
+                $entityManager->flush();
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => 'Promesse de vente réalisée.'
+                ], 200);
+
+            }
             $transaction->setState('finished');
             $entityManager->persist($transaction);
             $entityManager->flush();

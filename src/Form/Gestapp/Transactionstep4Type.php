@@ -10,8 +10,10 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class Transactionstep4Type extends AbstractType
 {
@@ -26,6 +28,21 @@ class Transactionstep4Type extends AbstractType
                 'html5' => false,
                 'required' => false,
                 'by_reference' => true,
+            ])
+            ->add('actePdfFilename', FileType::class,[
+                'label' => "Déposer le dossier PDF de l'acte, le fichier ne doit pas dépasser 10Mo de taille",
+                'mapped' => false,
+                //'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10238k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
             ])
         ;
     }

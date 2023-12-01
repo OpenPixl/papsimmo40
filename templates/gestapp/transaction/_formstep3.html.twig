@@ -8,6 +8,7 @@
             {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
         </div>
     </div>
+    {% if transaction.promisePdfFilename is not empty%}
     <div class="row">
         <div class="col-3">
             Document déposé :
@@ -15,15 +16,8 @@
         <div class="col-4">
             {{ transaction.promisePdfFilename }}
         </div>
-        <div class="col-4">
-            <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="form-check-label" for="flexCheckDefault">
-                    Supprimer le document ?
-                </label>
-            </div>
-        </div>
     </div>
+    {% endif %}
 </div>
 <div class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>

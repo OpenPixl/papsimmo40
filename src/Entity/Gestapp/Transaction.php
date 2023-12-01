@@ -47,6 +47,9 @@ class Transaction
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateAtKeys = null;
 
+    #[ORM\Column(type: 'string')]
+    private string $actePdfFilename;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -188,6 +191,17 @@ class Transaction
     public function setDateAtKeys(?\DateTimeInterface $dateAtKeys): static
     {
         $this->dateAtKeys = $dateAtKeys;
+
+        return $this;
+    }
+    public function getActePdfFilename(): string
+    {
+        return $this->actePdfFilename;
+    }
+
+    public function setActePdfFilename(string $actePdfFilename): self
+    {
+        $this->actePdfFilename = $actePdfFilename;
 
         return $this;
     }

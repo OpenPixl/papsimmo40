@@ -33,11 +33,15 @@
                         {% set progress = 60 %}
                     {% elseif transaction.state == 'definitive_sale' %}
                         {% set progress = 80 %}
-                    {% elseif transaction.state == 'key_delivery' %}
+                    {% elseif transaction.state == 'finished' %}
                         {% set progress = 100 %}
                     {% endif %}
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+                            {% if progress == 100 %}
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                            {% endif %}
+                        </div>
                     </div>
                 </td>
                 <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
