@@ -66,9 +66,9 @@ class Transaction
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?\DateTimeInterface $dateAtPromise = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: true)]
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
-    private string $promisePdfFilename;
+    private ?string $promisePdfFilename = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
@@ -78,9 +78,9 @@ class Transaction
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?\DateTimeInterface $dateAtKeys = null;
 
-    #[ORM\Column(type: 'string')]
+    #[ORM\Column(type: 'string', nullable: true)]
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
-    private string $actePdfFilename;
+    private ?string $actePdfFilename = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?Employed $refEmployed = null;
@@ -202,7 +202,7 @@ class Transaction
         return $this;
     }
 
-    public function getPromisePdfFilename(): string
+    public function getPromisePdfFilename(): ?string
     {
         return $this->promisePdfFilename;
     }
@@ -237,7 +237,7 @@ class Transaction
 
         return $this;
     }
-    public function getActePdfFilename(): string
+    public function getActePdfFilename(): ?string
     {
         return $this->actePdfFilename;
     }

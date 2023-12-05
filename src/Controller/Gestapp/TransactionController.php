@@ -67,6 +67,7 @@ class TransactionController extends AbstractController
     #[Route('/add/{idproperty}', name: 'op_gestapp_transaction_add', methods: ['GET'])]
     public function add(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository)
     {
+        $user = $this->getUser();
         $property = $propertyRepository->find($idproperty);
         $isTransaction = $property->isIsTransaction();
         $id = $property->getId();
@@ -79,6 +80,7 @@ class TransactionController extends AbstractController
         $transaction->setProperty($property);
         $transaction->setState('open');
         $transaction->setName($name);
+        $transaction->setRefEmployed($user->getId());
         $entityManager->persist($transaction);
         $property->setIsTransaction(1);
         $entityManager->persist($property);
