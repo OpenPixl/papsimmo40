@@ -2,15 +2,36 @@
 
 namespace App\Entity\Gestapp;
 
+use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Entity\Admin\Employed;
 use App\Repository\Gestapp\TransactionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    normalizationContext:['groups' => 'transaction:list'],
+    denormalizationContext:['groups' => 'transaction:write'],
+    operations: [
+        new Get(normalizationContext: ['groups' => 'transaction:item']),
+        new GetCollection(normalizationContext: ['groups' => 'transaction:list']),
+        new Patch(
+            uriTemplate: '/transactions/{id}/update',
+            normalizationContext: ['groups' => ['transaction:write:patch']],
+            openapiContext: [
+                'summary' => "Mettre à jour les informations de transaction.",
+                'description' => "Mettre à jour les informations de transaction.",
+            ]
+        )
+    ],
+)]
 class Transaction
 {
     #[ORM\Id]
@@ -19,45 +40,57 @@ class Transaction
     private ?int $id = null;
 
     #[ORM\Column(length: 25)]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?string $state = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?Property $property = null;
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'transactions')]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private Collection $customer;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private $updatedAt;
 
     #[ORM\Column(length: 25)]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?string $name = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?\DateTimeInterface $dateAtPromise = null;
 
     #[ORM\Column(type: 'string')]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private string $promisePdfFilename;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?\DateTimeInterface $dateAtSale = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?\DateTimeInterface $dateAtKeys = null;
 
     #[ORM\Column(type: 'string')]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private string $actePdfFilename;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?Employed $refEmployed = null;
 
     #[ORM\Column]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?bool $isValidPromisepdf = false;
 
     #[ORM\Column]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?bool $isValidActepdf = false;
 
     public function __construct()

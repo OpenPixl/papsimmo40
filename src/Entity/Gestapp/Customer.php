@@ -38,15 +38,15 @@ class Customer
     private $id;
 
     #[ORM\Column(type: 'string', length: 25, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $RefCustomer;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 125)]
@@ -56,55 +56,55 @@ class Customer
     private $customerChoice;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['customer:list', 'customer:item'])]
+    #[Groups(['customer:list', 'customer:item', 'transaction:item'])]
     private $adress;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $complement;
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $zipcode;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $city;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $home;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $desk;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $gsm;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $otherEmail;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private ?\DateTimeInterface $ddn = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private ?string $ddnIn = null;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $facebook;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $instagram;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item'])]
+    #[Groups(['client:list', 'client:item', 'transaction:item'])]
     private $linkedin;
 
     #[ORM\Column(type: 'boolean')]

@@ -218,6 +218,22 @@ class TransactionController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}/step3admin', name: 'op_gestapp_transaction_step3admin', methods: ['GET', 'POST'])]
+    public function step3Admin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $transaction->setState('definitive_sale');
+        $transaction->setIsValidPromisepdf(1);
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        return $this->json([
+            'code' => 300,
+            'message' => "Le dossier est validé par l'administrateur."
+        ], 200);
+    }
+
     #[Route('/{id}/step4', name: 'op_gestapp_transaction_step4', methods: ['GET', 'POST'])]
     public function step4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -243,8 +259,7 @@ class TransactionController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-                $transaction->setPromisePdfFilename($newFilename);
-                $transaction->setState('finished');
+                $transaction->setActePdfFilename($newFilename);
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 
@@ -254,7 +269,6 @@ class TransactionController extends AbstractController
                 ], 200);
 
             }
-            $transaction->setState('finished');
             $entityManager->persist($transaction);
             $entityManager->flush();
 
@@ -268,6 +282,21 @@ class TransactionController extends AbstractController
             'transaction' => $transaction,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/step4admin', name: 'op_gestapp_transaction_step4admin', methods: ['GET', 'POST'])]
+    public function step4Admin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $transaction->setState('finsihed');
+        $transaction->setIsValidActepdf(1);
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        return $this->json([
+            'code' => 300,
+            'message' => "Le dossier est validé par l'administrateur."
+        ], 200);
     }
 
     #[Route('/{id}/step5', name: 'op_gestapp_transaction_step5', methods: ['GET', 'POST'])]
@@ -299,8 +328,6 @@ class TransactionController extends AbstractController
             'form' => $form,
         ]);
     }
-
-
 
     #[Route('/{id}', name: 'op_gestapp_transaction_delete', methods: ['POST'])]
     public function delete(Request $request, Transaction $transaction, EntityManagerInterface $entityManager): Response
