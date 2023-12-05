@@ -10,10 +10,11 @@
             <tr>
                 <th class="col-1"></th>
                 <th>Numéro de transaction</th>
-                <th>Etat</th>
+                <th>Collaborateur</th>
+                <th class="col-1">Etat</th>
                 <th>Crée le</th>
                 <th>Mis à jour le</th>
-                <th>actions</th>
+                <th class="col-2">actions</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +24,14 @@
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': transaction.property.id})) }}
                 </td>
                 <td class="align-left">{{ transaction.name }}</td>
+                <td>
+                    {% if transaction.refEmployed.avatarName is not null %}
+                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ transaction.refEmployed.avatarName) }}" alt="{{ transaction.refEmployed.avatarName }}" style="height:50px;width:50px">
+                    {% else %}
+                        <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+                    {% endif %}
+                    {{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}
+                </td>
                 <td>
                     {% set progress = 0 %}
                     {% if transaction.state == 'open' %}

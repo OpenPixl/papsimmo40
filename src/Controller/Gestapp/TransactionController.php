@@ -28,8 +28,17 @@ class TransactionController extends AbstractController
     #[Route('/', name: 'op_gestapp_transaction_index', methods: ['GET'])]
     public function index(TransactionRepository $transactionRepository): Response
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        if($hasAccess == true){
+            $transactions = $transactionRepository->findAll();
+        }else{
+            $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId()]);
+        }
+
         return $this->render('gestapp/transaction/index.html.twig', [
-            'transactions' => $transactionRepository->findAll(),
+            'transactions' => $transactions,
         ]);
     }
 
@@ -163,6 +172,8 @@ class TransactionController extends AbstractController
     #[Route('/{id}/step3', name: 'op_gestapp_transaction_step3', methods: ['GET', 'POST'])]
     public function step3(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+
         $form = $this->createForm(Transactionstep3Type::class, $transaction, [
             'attr' => ['id'=>'transactionstep3'],
             'action' => $this->generateUrl('op_gestapp_transaction_step3', ['id' => $transaction->getId()]),
@@ -187,7 +198,6 @@ class TransactionController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $transaction->setPromisePdfFilename($newFilename);
-                $transaction->setState('definitive_sale');
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 

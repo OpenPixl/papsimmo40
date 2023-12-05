@@ -21,6 +21,7 @@
 </div>
 <div class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-    <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider l'offre de prêt</button>
+    <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document fournis</button>
+    <button type="{% if is_granted('ROLE_ADMIN') %}submit{% else %}button{% endif %}" id="btnWaitToStepFour" class="btn btn-sm btn-outline-primary d-none {% if is_granted('ROLE_ADMIN') %}{% else %}disabled{% endif %}"><i class="fa-duotone fa-hourglass-start"></i> En attente de validation</button>
 </div>
 {{ form_end(form) }}

@@ -7,6 +7,7 @@ use App\Repository\Gestapp\choice\PropertyEquipementRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PropertyEquipementRepository::class)]
 class PropertyEquipement
@@ -17,6 +18,7 @@ class PropertyEquipement
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $name;
 
     #[ORM\ManyToMany(targetEntity: Complement::class, mappedBy: 'propertyEquipment')]

@@ -4,6 +4,7 @@ namespace App\Entity\Gestapp\choice;
 
 use App\Repository\Gestapp\choice\PropertyStateRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PropertyStateRepository::class)]
 class PropertyState
@@ -14,6 +15,7 @@ class PropertyState
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $name;
 
     public function getId(): ?int

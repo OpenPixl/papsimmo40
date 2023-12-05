@@ -7,6 +7,7 @@ use App\Repository\Gestapp\choice\propertyRubricRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: propertyRubricRepository::class)]
 class propertyRubric
@@ -17,9 +18,11 @@ class propertyRubric
     private ?int $id = null;
 
     #[ORM\Column(length: 45)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 3)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private ?string $code = null;
 
     #[ORM\OneToMany(mappedBy: 'propertyRubric', targetEntity: propertyRubricss::class)]

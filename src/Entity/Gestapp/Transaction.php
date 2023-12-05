@@ -2,6 +2,7 @@
 
 namespace App\Entity\Gestapp;
 
+use App\Entity\Admin\Employed;
 use App\Repository\Gestapp\TransactionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -49,6 +50,15 @@ class Transaction
 
     #[ORM\Column(type: 'string')]
     private string $actePdfFilename;
+
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?Employed $refEmployed = null;
+
+    #[ORM\Column]
+    private ?bool $isValidPromisepdf = false;
+
+    #[ORM\Column]
+    private ?bool $isValidActepdf = false;
 
     public function __construct()
     {
@@ -202,6 +212,42 @@ class Transaction
     public function setActePdfFilename(string $actePdfFilename): self
     {
         $this->actePdfFilename = $actePdfFilename;
+
+        return $this;
+    }
+
+    public function getRefEmployed(): ?Employed
+    {
+        return $this->refEmployed;
+    }
+
+    public function setRefEmployed(?Employed $refEmployed): static
+    {
+        $this->refEmployed = $refEmployed;
+
+        return $this;
+    }
+
+    public function isIsValidPromisepdf(): ?bool
+    {
+        return $this->isValidPromisepdf;
+    }
+
+    public function setIsValidPromisepdf(bool $isValidPromisepdf): static
+    {
+        $this->isValidPromisepdf = $isValidPromisepdf;
+
+        return $this;
+    }
+
+    public function isIsValidActepdf(): ?bool
+    {
+        return $this->isValidActepdf;
+    }
+
+    public function setIsValidActepdf(bool $isValidActepdf): static
+    {
+        $this->isValidActepdf = $isValidActepdf;
 
         return $this;
     }

@@ -21,6 +21,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ComplementRepository::class)]
 class Complement
@@ -31,15 +32,19 @@ class Complement
     private $id;
 
     #[ORM\ManyToOne(targetEntity: Denomination::class)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $denomination;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $location;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $disponibility;
 
     #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $disponibilityAt;
 
     #[ORM\ManyToOne(targetEntity: ApartmentType::class)]
@@ -55,60 +60,79 @@ class Complement
     private $HouseEquipment;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $level;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $jointness= false;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $washroom;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $bathroom;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $wc;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $terrace;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $balcony;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $sanitation;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $isFurnished = false;
 
     #[ORM\ManyToOne(targetEntity: PropertyState::class)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $propertyState;
 
     #[ORM\ManyToOne(targetEntity: PropertyEnergy::class)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $propertyEnergy;
 
+
     #[ORM\ManyToMany(targetEntity: PropertyEquipement::class, inversedBy: 'complements')]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $propertyEquipment;
 
     #[ORM\ManyToOne(targetEntity: PropertyTypology::class)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $propertyTypology;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: 2, nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $propertyTax;
 
     #[ORM\ManyToOne(targetEntity: PropertyOrientation::class)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $propertyOrientation;
 
     #[ORM\ManyToMany(targetEntity: OtherOption::class, inversedBy: 'complements')]
     private $propertyOtheroption;
 
     #[ORM\Column(type: 'boolean')]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $coproperty = false;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private ?string $coproprietyTaxe = null;
 
     #[ORM\ManyToOne(inversedBy: 'complements')]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private ?PropertyBanner $banner = null;
 
     public function __construct()

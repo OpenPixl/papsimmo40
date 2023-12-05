@@ -2,6 +2,7 @@
 
 namespace App\Entity\Gestapp;
 
+use ApiPlatform\Metadata\Patch;
 use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\PropertyDefinition;
@@ -31,7 +32,14 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(normalizationContext: ['groups' => 'property:item']),
         new GetCollection(normalizationContext: ['groups' => 'property:list']),
-
+        new Patch(
+            uriTemplate: '/properties/{id}/update',
+            normalizationContext: ['groups' => ['property:write:patch']],
+            openapiContext: [
+                'summary' => "Mettre à jour les informations du collaborateur",
+                'description' => "Mettre à jour les informations du collaborateur",
+            ]
+        )
     ],
 
     paginationEnabled: false
@@ -44,11 +52,11 @@ class Property
     private $id;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $ref;
 
     #[ORM\Column(type: 'string', length: 100)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 100)]
@@ -58,63 +66,63 @@ class Property
     private $refEmployed;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $annonce;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $piece;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $room;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $surfaceLand;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $surfaceHome;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $dpeAt;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $diagDpe;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $diagGes;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $adress;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $complement;
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $zipcode;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $city;
 
     #[ORM\OneToOne(targetEntity: Complement::class, cascade: ['persist', 'remove'])]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $options;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $createdAt;
 
     #[ORM\Column(type: 'datetime')]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $updatedAt;
 
     #[ORM\ManyToMany(targetEntity: Customer::class, inversedBy: 'properties')]
@@ -129,31 +137,31 @@ class Property
     private $publication;
 
     #[ORM\Column(type: 'integer')]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $reflastnumber;
 
     #[ORM\Column(type: 'string', length: 14)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $refnumdate;
 
     #[ORM\Column(type: 'string', length: 255)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $RefMandat;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $dpeEstimateEnergyDown;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $dpeEstimateEnergyUp;
 
     #[ORM\Column(type: 'string', length: 4, nullable: true)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $constructionAt;
 
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
-    #[Groups(['property:list', 'property:item'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $photos;
 
     #[ORM\Column(type: 'integer', nullable: true)]

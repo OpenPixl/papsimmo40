@@ -4,6 +4,7 @@ namespace App\Entity\Gestapp\choice;
 
 use App\Repository\Gestapp\choice\PropertyOrientationRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PropertyOrientationRepository::class)]
 class PropertyOrientation
@@ -14,6 +15,7 @@ class PropertyOrientation
     private $id;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $name;
 
     public function getId(): ?int

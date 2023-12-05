@@ -3,6 +3,7 @@
 namespace App\Entity\Gestapp\choice;
 
 use App\Repository\Gestapp\choice\PropertyEnergyRepository;
+use Symfony\Component\Serializer\Annotation\Groups;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PropertyEnergyRepository::class)]
@@ -14,6 +15,7 @@ class PropertyEnergy
     private $id;
 
     #[ORM\Column(type: 'string', length: 255)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $name;
 
     #[ORM\Column(length: 5, nullable: true)]

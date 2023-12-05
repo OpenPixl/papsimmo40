@@ -154,7 +154,7 @@ validStep2.addEventListener('click', function(event){
             console.log(error);
         });
 });
-// validation offre de prêt
+// validation Dépôt de doc compromis
 validStep3.addEventListener('click', function(event){
     event.preventDefault();
     let actionForm = FormStep3.action;
@@ -164,6 +164,7 @@ validStep3.addEventListener('click', function(event){
         .then(function(response){
             let code = response.data.code;
             if(code == 200){
+                // Mettre en place le bouton de validation du compromis de vente
                 step4.classList.remove('d-none');
                 step3.classList.add('d-none');
             }else{
@@ -180,6 +181,9 @@ validStep3.addEventListener('click', function(event){
         .catch(function (error) {
             console.log(error);
         });
+});
+validAdminStep3.addEventListener('click', function(event){
+    event.preventDefault;
 });
 // validation de l'acte de vente
 validStep4.addEventListener('click', function(event){

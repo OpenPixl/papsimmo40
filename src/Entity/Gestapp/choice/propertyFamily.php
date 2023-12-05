@@ -7,6 +7,7 @@ use App\Repository\Gestapp\choice\propertyFamilyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: propertyFamilyRepository::class)]
 class propertyFamily
@@ -17,6 +18,7 @@ class propertyFamily
     private ?int $id = null;
 
     #[ORM\Column(length: 25)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private ?string $name = null;
 
     #[ORM\Column(length: 3)]

@@ -7,6 +7,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[ORM\HasLifecycleCallbacks]
@@ -39,15 +40,18 @@ class Photo
      * Nom du fichier
      */
     #[ORM\Column(type:'string', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $galeryFrontName;
 
     /**
      * Taille du fichier
      */
     #[ORM\Column(type:'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $galeryFrontSize;
 
     #[ORM\Column]
+    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private ?int $position = null;
 
     public function getId(): ?int

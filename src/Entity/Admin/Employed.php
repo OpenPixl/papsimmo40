@@ -13,6 +13,7 @@ use App\Controller\Api\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
+use App\Entity\Gestapp\Transaction;
 use App\Entity\Webapp\Articles;
 use App\Entity\Webapp\Page;
 use App\Entity\Webapp\Section;
@@ -220,6 +221,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
     private ?string $urlWeb = null;
 
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Transaction::class)]
+    private Collection $transactions;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -229,6 +233,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->sections = new ArrayCollection();
         $this->pages = new ArrayCollection();
         $this->contacts = new ArrayCollection();
+        $this->transactions = new ArrayCollection();
     }
 
     /**
@@ -810,6 +815,36 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setUrlWeb(?string $urlWeb): static
     {
         $this->urlWeb = $urlWeb;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getRefEmployed() === $this) {
+                $transaction->setRefEmployed(null);
+            }
+        }
 
         return $this;
     }
