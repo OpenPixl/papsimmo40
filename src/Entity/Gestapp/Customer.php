@@ -5,8 +5,6 @@ namespace App\Entity\Gestapp;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
-use App\Controller\Api\GetTokenEmployed;
-use Symfony\Component\Serializer\Annotation\Groups;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Repository\Gestapp\CustomerRepository;
@@ -15,6 +13,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\HasLifecycleCallbacks]

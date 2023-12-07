@@ -4,12 +4,11 @@ namespace App\Entity\Admin;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Link;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Put;
-use App\Controller\Api\GetTokenEmployed;
+use App\Controller\Api\Admin\Employed\AddEmployed;
+use App\Controller\Api\Admin\Employed\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
@@ -29,7 +28,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -54,6 +52,15 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             openapiContext: [
                 'summary' => "Récupérer un token par l'identifiant du mandataire",
                 'description' => "Récupérer un token par l'identifiant du mandataire",
+            ]
+        ),
+        new Post(
+            uriTemplate: '/employed',
+            controller: AddEmployed::class,
+            normalizationContext: ['groups' => 'employed:write:post'],
+            openapiContext: [
+                'summary' => "Ajoute un collaborateur",
+                'description' => "Ajoute un collaborateur",
             ]
         ),
         new Patch(
@@ -98,7 +105,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -108,18 +115,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
     private $sector;
 
     #[ORM\ManyToOne(targetEntity: self::class)]

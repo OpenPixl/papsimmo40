@@ -2,7 +2,7 @@
 
 namespace App\Entity\Gestapp;
 
-use ApiPlatform\Metadata\Patch;
+use App\Controller\Api\Admin\Employed\AddEmployed;
 use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\PropertyDefinition;
@@ -19,6 +19,8 @@ use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\GetCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
 
@@ -30,18 +32,24 @@ use Symfony\Component\Serializer\Annotation\Groups;
     normalizationContext:['groups' => 'property:list'],
     denormalizationContext:['groups' => 'property:write'],
     operations: [
-        new Get(normalizationContext: ['groups' => 'property:item']),
-        new GetCollection(normalizationContext: ['groups' => 'property:list']),
-        new Patch(
-            uriTemplate: '/properties/{id}/update',
-            normalizationContext: ['groups' => ['property:write:patch']],
+        new Get(
+            normalizationContext: ['groups' => 'property:item']),
+        new GetCollection(
+            normalizationContext: ['groups' => 'property:list']),
+        new Post(
+            uriTemplate: '/property',
+            controller: AddEmployed::class,
+            normalizationContext: ['groups' => ['property:write:post']],
             openapiContext: [
-                'summary' => "Mettre à jour les informations du collaborateur",
-                'description' => "Mettre à jour les informations du collaborateur",
+                'summary' => "Ajouter une propriété",
+                'description' => "Ajouter une propriété",
             ]
+        ),
+        new Patch(
+            uriTemplate: '/property/{id}/update',
+            normalizationContext: ['groups' => ['property:write:patch']],
         )
     ],
-
     paginationEnabled: false
 )]
 class Property
@@ -52,7 +60,7 @@ class Property
     private $id;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'property:write:post'])]
     private $ref;
 
     #[ORM\Column(type: 'string', length: 100)]
@@ -93,7 +101,7 @@ class Property
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $diagDpe;
 
-    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $diagGes;
 
@@ -478,12 +486,12 @@ class Property
         return $this;
     }
 
-    public function getDiagGes(): ?string
+    public function getDiagGes(): ?int
     {
         return $this->diagGes;
     }
 
-    public function setDiagGes(string $diagGes): self
+    public function setDiagGes(int $diagGes): self
     {
         $this->diagGes = $diagGes;
 
