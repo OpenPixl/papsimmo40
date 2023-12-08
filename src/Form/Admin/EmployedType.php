@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -68,6 +69,15 @@ class EmployedType extends AbstractType
             ->add('employedPrez', TextareaType::class,[
                 'label'=>'Présentation',
                 'required' => false
+            ])
+            ->add('dateEmployed', DateType::class, [
+                'label'=> "Date d'entrée",
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => false,
+                'by_reference' => true,
             ])
         ;
     }

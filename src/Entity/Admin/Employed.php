@@ -12,6 +12,7 @@ use App\Controller\Api\Admin\Employed\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
+use App\Entity\Gestapp\Reco;
 use App\Entity\Gestapp\Transaction;
 use App\Entity\Webapp\Articles;
 use App\Entity\Webapp\Page;
@@ -231,6 +232,12 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Transaction::class)]
     private Collection $transactions;
 
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Reco::class)]
+    private Collection $recos;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateEmployed = null;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -241,6 +248,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->pages = new ArrayCollection();
         $this->contacts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->recos = new ArrayCollection();
     }
 
     /**
@@ -852,6 +860,48 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $transaction->setRefEmployed(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reco>
+     */
+    public function getRecos(): Collection
+    {
+        return $this->recos;
+    }
+
+    public function addReco(Reco $reco): static
+    {
+        if (!$this->recos->contains($reco)) {
+            $this->recos->add($reco);
+            $reco->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReco(Reco $reco): static
+    {
+        if ($this->recos->removeElement($reco)) {
+            // set the owning side to null (unless already changed)
+            if ($reco->getRefEmployed() === $this) {
+                $reco->setRefEmployed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDateEmployed(): ?\DateTimeInterface
+    {
+        return $this->dateEmployed;
+    }
+
+    public function setDateEmployed(?\DateTimeInterface $dateEmployed): static
+    {
+        $this->dateEmployed = $dateEmployed;
 
         return $this;
     }
