@@ -731,7 +731,7 @@ class PropertyController extends AbstractController
         }
     }
 
-    #[Route('/del/{id}', name:'op_gestapp_property_del', methods: ['POST'] )]
+    #[Route('/del/{id}', name:'op_gestapp_property_del', methods: ['POST', 'GET'] )]
     public function Del(
         Request $request,
         Property $property,
@@ -746,7 +746,6 @@ class PropertyController extends AbstractController
         $user = $this->getUser();
         $publication = $property->getPublication();
         $complement = $property->getOptions();
-
 
         // Supression des images liées à la propriété
         $photos = $photoRepository->findBy(['property' => $property]);
@@ -767,7 +766,7 @@ class PropertyController extends AbstractController
         $complementRepository->remove($complement);
 
         if($hasAccess == true){
-            $data = $propertyRepository->findAll();
+            $data = $propertyRepository->listAllPropertiesArchived();
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -775,7 +774,7 @@ class PropertyController extends AbstractController
             );
         }else{
             // dans ce cas, nous listons les propriétés de l'utilisateurs courant
-            $data = $propertyRepository->listPropertiesByemployed($user);
+            $data = $propertyRepository->listPropertiesByemployed($user->getId());
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -786,7 +785,7 @@ class PropertyController extends AbstractController
         return $this->json([
             'code'=> 200,
             'message' => 'Les informations du bien : <br>' .$nameProperty. '<br> ont été correctement supprimé.',
-            'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+            'liste' => $this->renderView('gestapp/property/_listarchived.html.twig', [
                 'properties' => $properties
             ])
         ], 200);

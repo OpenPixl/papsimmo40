@@ -9,15 +9,14 @@
             <tr>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
-                    <th>Ref</th>
+                    <th></th>
                     <th>Collaborateur</th>
                 {% else %}
-                <th></th>
+                    <th></th>
+                    <th></th>
                 {% endif %}
-                <th>Ref</th>
                 <th>Mandat</th>
                 <th>Type de bien</th>
-                <th></th>
                 <th>Titre annonce</th>
                 <th>Piece</th>
                 <th>chambre</th>
@@ -53,19 +52,18 @@
                         {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
                     </td>
                 {% endif %}
-                    {% if property.isNomandat == 0 %}
-                        {% if property.dupMandat is not empty %}
-                            <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
-                        {% else %}
-                            <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
-                        {% endif %}
+                {% if property.isNomandat == 0 %}
+                    {% if property.dupMandat is not empty %}
+                        <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
                     {% else %}
-                        <td><span class="badge bg-secondary">Sans mandat</span></td>
+                        <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
                     {% endif %}
+                {% else %}
+                    <td><span class="badge bg-secondary">Sans mandat</span></td>
+                {% endif %}
                 <td>
                     <p class="badge bg-primary mb-0">{{ property.propertyDefinition }}</p>
                 </td>
-                <td></td>
                 <td>{{ property.name|u.truncate(60, ' ...') }}</td>
                 <td>{{ property.piece }}</td>
                 <td>{{ property.room }}</td>
@@ -90,11 +88,10 @@
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item ModalDisarchived" data-bs-toggle="modal" data-bs-target="#modalDisarchived" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-open"></i> Désarchiver</a></li>
-                                <li><a class="dropdown-item ModalSupprCreating" data-bs-toggle="modal" data-bs-target="#SupprCreating" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a></li>
                             {% endif %}
                         </ul>
                     </div>
-                    <a class="btn btn-sm btn-outline-warning ModalSupprCreating" data-bs-toggle="modal" data-bs-target="#SupprCreating" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
+                    <a id="btnSupprArchived"  class="btn btn-sm btn-outline-warning" href="{{ path('op_gestapp_property_del', {'id': property.id}) }}" data-bs-toggle="modal" data-bs-target="#modalSupprArchived" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
                     {# Modal de suppression property #}
                     <div class="modal fade" id="Suppr2-{{ property.id }}" tabindex="-1" aria-labelledby="Suppr2-{{ property.id }}" aria-hidden="true">
                         <div class="modal-dialog">
