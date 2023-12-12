@@ -8,6 +8,8 @@ use App\Form\Admin\EmployedType;
 use App\Form\Admin\ResettingPasswordType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -123,7 +125,7 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/opadmin/employed/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
+    public function edit(Request $request, Employed $employed, EmployedRepository, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EmployedType::class, $employed, [
             'action'=>$this->generateUrl('op_admin_employed_edit', ['id' => $employed->getId()]),
@@ -132,7 +134,7 @@ class EmployedController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $employedRepository->add($employed);
+            $entityManager->flush();
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }
 
