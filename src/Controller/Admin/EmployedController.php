@@ -71,7 +71,7 @@ class EmployedController extends AbstractController
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/employed/new.html.twig', [
+        return $this->render('admin/employed/new.html.twig', [
             'employed' => $employed,
             'form' => $form,
         ]);
@@ -136,8 +136,7 @@ class EmployedController extends AbstractController
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }
 
-
-        return $this->renderForm('admin/employed/edit.html.twig', [
+        return $this->render('admin/employed/edit.html.twig', [
             'employed' => $employed,
             'form' => $form,
         ]);
