@@ -2,68 +2,51 @@
 
 {% block title %}Transaction index{% endblock %}
 
-{% block content %}
-    <h1>TRANSACTIONS - Ventes</h1>
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/transaction/indexPage.js') }}"></script>
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th class="col-1"></th>
-                <th>Numéro de transaction</th>
-                <th>Collaborateur</th>
-                <th class="col-1">Etat</th>
-                <th>Crée le</th>
-                <th>Mis à jour le</th>
-                <th class="col-2">actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for transaction in transactions %}
-            <tr class="align-middle">
-                <td>
-                    {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': transaction.property.id})) }}
-                </td>
-                <td class="align-left">{{ transaction.name }}</td>
-                <td>
-                    {% if transaction.refEmployed.avatarName is not null %}
-                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ transaction.refEmployed.avatarName) }}" alt="{{ transaction.refEmployed.avatarName }}" style="height:50px;width:50px">
-                    {% else %}
-                        <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
-                    {% endif %}
-                    {{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}
-                </td>
-                <td>
-                    {% set progress = 0 %}
-                    {% if transaction.state == 'open' %}
-                        {% set progress = 20 %}
-                    {% elseif transaction.state == 'promise' %}
-                        {% set progress = 40 %}
-                    {% elseif transaction.state == 'quotation' %}
-                        {% set progress = 60 %}
-                    {% elseif transaction.state == 'definitive_sale' %}
-                        {% set progress = 80 %}
-                    {% elseif transaction.state == 'finished' %}
-                        {% set progress = 100 %}
-                    {% endif %}
-                    <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
-                            {% if progress == 100 %}
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
-                            {% endif %}
-                        </div>
-                    </div>
-                </td>
-                <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ transaction.updatedAt ? transaction.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ path('op_gestapp_transaction_show', {'id': transaction.id}) }}" class="btn btn-sm btn-outline-primary">Voir</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
+        <li class="breadcrumb-item active">Transaction</li>
+        <li class="breadcrumb-item active"><a href="{{ path('op_gestapp_property_index') }}">Listes des ventes</a></li>
+    </ol>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>TRANSACTIONS - Ventes</h1>
+        </div>
+    </div>
+    <div class="row">
+        <div id="liste" class="col-12">
+            {{ include('gestapp/transaction/include/_list.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
+
+{% block modal %}
+    {{ parent() }}
+    {# Modal de suppression #}
+    <div class="modal fade" id="modalTransaction" tabindex="-1" aria-labelledby="modalTransaction" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">Vous êtes sur le point de supprimer la transaction.</p>
+                    <input type="hidden" id="recipient-name">
+                </div>
+                <div class="modal-footer">
+                    <a id="btnModalSubmit" href="#" type="button" class="btn btn-warning" data-bs-dismiss="modal">Supprimer</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

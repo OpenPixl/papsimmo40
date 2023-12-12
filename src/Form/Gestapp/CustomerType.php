@@ -36,7 +36,8 @@ class CustomerType extends AbstractType
                 'by_reference' => true,
             ])
             ->add('ddnIn', TextType::class, [
-                'label' => 'à'
+                'label' => 'à',
+                'required' => false,
             ])
             ->add('adress', TextType::class, [
                 'label' => 'Adresse',

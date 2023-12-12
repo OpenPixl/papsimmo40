@@ -341,4 +341,34 @@ class TransactionController extends AbstractController
 
         return $this->redirectToRoute('op_gestapp_transaction_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/del/{id}', name: 'op_gestapp_transaction_del', methods: ['POST'])]
+    public function del(Transaction $transaction, TransactionRepository $transactionRepository, PropertyRepository $propertyRepository, EntityManagerInterface $em): Response
+    {
+        $propertyId = $transaction->getProperty();
+        $property = $propertyRepository->find($propertyId->getId());
+
+        $property->setIsTransaction(0);
+        $em->persist($property);
+        //dd($property);
+        $em->remove($transaction);
+        $em->flush();
+
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        if($hasAccess == true){
+            $transactions = $transactionRepository->findAll();
+        }else{
+            $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId()]);
+        }
+
+        return $this->json([
+            'code'=>200,
+            'liste' => $this->renderView('gestapp/transaction/include/_list.html.twig', [
+                'transactions' => $transactions
+            ])
+        ], 200);
+    }
+
 }
