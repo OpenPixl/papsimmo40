@@ -127,6 +127,10 @@
                         var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,})
                         toastElement.show()
                     })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
             }
             function DelPropertyIncreating(event)
             {
@@ -156,6 +160,10 @@
                         toastBody.textContent = message;
                         var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true,autohide: true,delay: 3000})
                         toastElement.show();
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
                     })
 
             }

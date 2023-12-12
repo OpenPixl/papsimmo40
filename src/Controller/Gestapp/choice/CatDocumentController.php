@@ -16,9 +16,10 @@ class CatDocumentController extends AbstractController
     #[Route('/', name: 'app_gestapp_choice_cat_document_index', methods: ['GET'])]
     public function index(CatDocumentRepository $catDocumentRepository): Response
     {
-        return $this->render('gestapp/choice/cat_document/index.html.twig', [
-            'cat_documents' => $catDocumentRepository->findAll(),
-        ]);
+            $categories = $catDocumentRepository->findAll();
+            return $this->render('gestapp/document/categories.html.twig', [
+                'categories' => $categories,
+            ]);
     }
 
     #[Route('/new', name: 'app_gestapp_choice_cat_document_new', methods: ['GET', 'POST'])]
@@ -54,6 +55,26 @@ class CatDocumentController extends AbstractController
         return $this->render('gestapp/choice/cat_document/show.html.twig', [
             'cat_document' => $catDocument,
         ]);
+    }
+
+    #[Route('/json/{json}', name: 'app_gestapp_choice_cat_document_listcat', methods: ['GET', 'POST'])]
+    public function listcat(CatDocumentRepository $catDocumentRepository, $json): Response
+    {
+        if($json == 0){
+            $categories = $catDocumentRepository->findAll();
+            return $this->render('gestapp/document/categories.html.twig', [
+                'categories' => $categories,
+            ]);
+        }else{
+            $categories = $catDocumentRepository->findAll();
+            return $this->json([
+                'code' => 200,
+                'liste' => $this->renderView('gestapp/document/categories.html.twig', [
+                    'categories' => $categories,
+                ]),
+                'message' => 'Ok'
+            ], 200);
+        }
     }
 
     #[Route('/{id}/edit', name: 'app_gestapp_choice_cat_document_edit', methods: ['GET', 'POST'])]

@@ -90,6 +90,17 @@
                         TsPropertyBanner.addItem(response.data.cat)
                         addCategory.hide()
                     })
+                    .catch(function(error){
+                        console.log(error)
+                    })
+                axios
+                    .post('/gestapp/choice/cat/document/json/1')
+                    .then(function(response){
+                        document.getElementById('listCat').innerHTML = response.data.liste
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })
             })
 
             // PARTIE Ajout du document
@@ -155,7 +166,7 @@
             })
 
             // ------------------------------------
-            // Génération du Sortable - Dépalcement des photos et ordres d'affichages
+            // Génération du Sortable - Déplacement des documents et ordres d'affichages
             //-------------------------------------
             const sortableDoc = document.getElementById("sortDoc")
             new Sortable(sortableDoc, {
@@ -216,7 +227,7 @@
     <div id="docCategory" class="col-sm-12">
         <h4><i class="fa-duotone fa-ballot-check"></i> Choix d'une catégorie</h4>
         <div id="listCat">
-
+            {{ render(controller('App\\Controller\\Gestapp\\choice\\CatDocumentController::listcat', {'json':0}))}}
         </div>
     </div>
     <div id="listDocument" class="col-sm-12">

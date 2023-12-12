@@ -1,0 +1,14 @@
+<div class="row justify-content-center">
+    {% for categorie in categories %}
+        <div class="col-1">
+            <button class="btn btn-outline-primary btn-sm w-100" data-id="{{ categorie.id }}">
+                {{ categorie.name|upper }}
+            </button>
+        </div>
+    {% else %}
+        <div class="col-12">
+            pas de catégorie enregistrée
+        </div>
+    {% endfor %}
+</div>
+
