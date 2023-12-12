@@ -125,7 +125,7 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/opadmin/employed/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Employed $employed, EmployedRepository, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EmployedType::class, $employed, [
             'action'=>$this->generateUrl('op_admin_employed_edit', ['id' => $employed->getId()]),
