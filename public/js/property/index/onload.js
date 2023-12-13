@@ -26,6 +26,8 @@ const listDiffusion = document.getElementById("listDiffusion");
 const listArchived = document.getElementById("listArchived");
 const btnDiffusion = document.getElementById('btnListDiffusion');
 const btnArchived = document.getElementById('btnListArchived');
+const addNewProperty = document.getElementById('addNewProperty');
+const SupprRows = document.getElementById('SupprRows');
 
 // ajout des tableaux complémentaires
 axios
@@ -47,14 +49,22 @@ document.getElementById('btnListDiffusion').onclick = function(event){
         list.style.display = 'none';
         listArchived.style.display = 'none';
         btnDiffusion.textContent = 'Retour sur la liste des biens';
+        btnDiffusion.classList.remove('btn-outline-dark')
+        btnDiffusion.classList.add('btn-dark');
         btnArchived.classList.add("disabled");
+        addNewProperty.classList.add("disabled");
+        SupprRows.classList.add("disabled");
     }
     if(listDiffusion.className === 'hide') {
         listDiffusion.style.display = 'none';
         list.style.display = 'block';
         listArchived.style.display = 'none';
+        btnDiffusion.classList.remove('btn-dark')
+        btnDiffusion.classList.add('btn-outline-dark')
         btnDiffusion.textContent = 'Afficher la diffusions des biens';
-        btnArchived.removeClass("disabled");
+        btnArchived.classList.remove("disabled");
+        addNewProperty.classList.remove("disabled");
+        SupprRows.classList.remove("disabled");
     }
 };
 
@@ -65,12 +75,22 @@ document.getElementById('btnListArchived').onclick = function(event){
         listArchived.style.display = 'block';
         list.style.display = 'none';
         listDiffusion.style.display = 'none';
-        document.getElementById('btnListArchived').textContent = 'Retour sur la liste des biens';
+        btnArchived.textContent = 'Retour sur la liste des biens';
+        btnArchived.classList.remove('btn-outline-dark')
+        btnArchived.classList.add('btn-dark')
+        btnDiffusion.classList.add("disabled");
+        addNewProperty.classList.add("disabled");
+        SupprRows.classList.add("disabled");
     }
     if(listArchived.className === 'hide') {
-        listArchived.style.display = 'none';
-        list.style.display = 'block';
         listDiffusion.style.display = 'none';
-        document.getElementById('btnListArchived').textContent = 'Afficher les biens archivés';
+        list.style.display = 'block';
+        listArchived.style.display = 'none';
+        btnArchived.classList.remove('btn-dark')
+        btnArchived.classList.add('btn-outline-dark')
+        btnArchived.textContent = 'Afficher la diffusions des biens';
+        btnDiffusion.classList.remove("disabled");
+        addNewProperty.classList.remove("disabled");
+        SupprRows.classList.remove("disabled");
     }
 };

@@ -18,7 +18,7 @@ class Transactionstep3Type extends AbstractType
             ->add('promisePdfFilename', FileType::class,[
                 'label' => "Déposer le dossier PDF du compromis, le fichier ne doit pas dépasser 10Mo de taille",
                 'mapped' => false,
-                //'required' => false,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '10238k',

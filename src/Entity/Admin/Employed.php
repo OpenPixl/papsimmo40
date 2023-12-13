@@ -4,15 +4,15 @@ namespace App\Entity\Admin;
 
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Link;
-use ApiPlatform\Metadata\GetCollection;
-use ApiPlatform\Metadata\Put;
-use App\Controller\Api\GetTokenEmployed;
+use App\Controller\Api\Admin\Employed\AddEmployed;
+use App\Controller\Api\Admin\Employed\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
+use App\Entity\Gestapp\Reco;
 use App\Entity\Gestapp\Transaction;
 use App\Entity\Webapp\Articles;
 use App\Entity\Webapp\Page;
@@ -29,7 +29,6 @@ use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
-use Symfony\Component\Serializer\Annotation\SerializedName;
 use Symfony\Component\Validator\Constraints as Assert;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
@@ -54,6 +53,15 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
             openapiContext: [
                 'summary' => "Récupérer un token par l'identifiant du mandataire",
                 'description' => "Récupérer un token par l'identifiant du mandataire",
+            ]
+        ),
+        new Post(
+            uriTemplate: '/employed',
+            controller: AddEmployed::class,
+            normalizationContext: ['groups' => 'employed:write:post'],
+            openapiContext: [
+                'summary' => "Ajoute un collaborateur",
+                'description' => "Ajoute un collaborateur",
             ]
         ),
         new Patch(
@@ -98,7 +106,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -108,18 +116,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]
     private $slug;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
     private $sector;
 
     #[ORM\ManyToOne(targetEntity: self::class)]
@@ -224,6 +232,12 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Transaction::class)]
     private Collection $transactions;
 
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Reco::class)]
+    private Collection $recos;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $dateEmployed = null;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -234,6 +248,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->pages = new ArrayCollection();
         $this->contacts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->recos = new ArrayCollection();
     }
 
     /**
@@ -845,6 +860,48 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $transaction->setRefEmployed(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reco>
+     */
+    public function getRecos(): Collection
+    {
+        return $this->recos;
+    }
+
+    public function addReco(Reco $reco): static
+    {
+        if (!$this->recos->contains($reco)) {
+            $this->recos->add($reco);
+            $reco->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReco(Reco $reco): static
+    {
+        if ($this->recos->removeElement($reco)) {
+            // set the owning side to null (unless already changed)
+            if ($reco->getRefEmployed() === $this) {
+                $reco->setRefEmployed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getDateEmployed(): ?\DateTimeInterface
+    {
+        return $this->dateEmployed;
+    }
+
+    public function setDateEmployed(?\DateTimeInterface $dateEmployed): static
+    {
+        $this->dateEmployed = $dateEmployed;
 
         return $this;
     }

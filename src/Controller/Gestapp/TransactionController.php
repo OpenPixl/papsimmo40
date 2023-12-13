@@ -67,6 +67,7 @@ class TransactionController extends AbstractController
     #[Route('/add/{idproperty}', name: 'op_gestapp_transaction_add', methods: ['GET'])]
     public function add(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository)
     {
+        $user = $this->getUser();
         $property = $propertyRepository->find($idproperty);
         $isTransaction = $property->isIsTransaction();
         $id = $property->getId();
@@ -79,6 +80,7 @@ class TransactionController extends AbstractController
         $transaction->setProperty($property);
         $transaction->setState('open');
         $transaction->setName($name);
+        $transaction->setRefEmployed($user->getId());
         $entityManager->persist($transaction);
         $property->setIsTransaction(1);
         $entityManager->persist($property);
@@ -218,6 +220,22 @@ class TransactionController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/{id}/step3admin', name: 'op_gestapp_transaction_step3admin', methods: ['GET', 'POST'])]
+    public function step3Admin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $transaction->setState('definitive_sale');
+        $transaction->setIsValidPromisepdf(1);
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        return $this->json([
+            'code' => 300,
+            'message' => "Le dossier est validé par l'administrateur."
+        ], 200);
+    }
+
     #[Route('/{id}/step4', name: 'op_gestapp_transaction_step4', methods: ['GET', 'POST'])]
     public function step4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
@@ -243,8 +261,7 @@ class TransactionController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-                $transaction->setPromisePdfFilename($newFilename);
-                $transaction->setState('finished');
+                $transaction->setActePdfFilename($newFilename);
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 
@@ -254,7 +271,6 @@ class TransactionController extends AbstractController
                 ], 200);
 
             }
-            $transaction->setState('finished');
             $entityManager->persist($transaction);
             $entityManager->flush();
 
@@ -268,6 +284,21 @@ class TransactionController extends AbstractController
             'transaction' => $transaction,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/step4admin', name: 'op_gestapp_transaction_step4admin', methods: ['GET', 'POST'])]
+    public function step4Admin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $transaction->setState('finsihed');
+        $transaction->setIsValidActepdf(1);
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        return $this->json([
+            'code' => 300,
+            'message' => "Le dossier est validé par l'administrateur."
+        ], 200);
     }
 
     #[Route('/{id}/step5', name: 'op_gestapp_transaction_step5', methods: ['GET', 'POST'])]
@@ -300,8 +331,6 @@ class TransactionController extends AbstractController
         ]);
     }
 
-
-
     #[Route('/{id}', name: 'op_gestapp_transaction_delete', methods: ['POST'])]
     public function delete(Request $request, Transaction $transaction, EntityManagerInterface $entityManager): Response
     {
@@ -312,4 +341,34 @@ class TransactionController extends AbstractController
 
         return $this->redirectToRoute('op_gestapp_transaction_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/del/{id}', name: 'op_gestapp_transaction_del', methods: ['POST'])]
+    public function del(Transaction $transaction, TransactionRepository $transactionRepository, PropertyRepository $propertyRepository, EntityManagerInterface $em): Response
+    {
+        $propertyId = $transaction->getProperty();
+        $property = $propertyRepository->find($propertyId->getId());
+
+        $property->setIsTransaction(0);
+        $em->persist($property);
+        //dd($property);
+        $em->remove($transaction);
+        $em->flush();
+
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        if($hasAccess == true){
+            $transactions = $transactionRepository->findAll();
+        }else{
+            $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId()]);
+        }
+
+        return $this->json([
+            'code'=>200,
+            'liste' => $this->renderView('gestapp/transaction/include/_list.html.twig', [
+                'transactions' => $transactions
+            ])
+        ], 200);
+    }
+
 }

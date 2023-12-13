@@ -1,0 +1,58 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Reco index{% endblock %}
+
+{% block contentTitle %}
+    <div class="row d-flex justify-content-between" >
+        <div class="col-sm-12">
+            <h1>TRANSACTIONS - Liste des recommandations</h1>
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <button class="btn btn-outline-primary btn-sm">Ajouter une recommandation</button>
+        </div>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Annonceur</th>
+                <th>Client</th>
+                <th>Propriété</th>
+                <th>Statut</th>
+                <th>Créer le</th>
+                <th>Mise à jour</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for reco in recos %}
+            <tr>
+                <td><input type="checkbox"></td>
+                <td>{{ reco.announceFirstName }} {{ reco.announceLastName }}<br>{{ reco.announcePhone }} / {{ reco.announceEmail }}</td>
+
+                <td>{{ reco.customerFirstName }} {{ reco.customerLastName }}<br>{{ reco.customerPhone }} /{{ reco.customerEmail }}</td>
+                <td>{{ reco.propertyAddress }}<br>{{ reco.propertyComplement }}<br>{{ reco.propertyZipcode }} {{ reco.propertyCity }}</td>
+                <td>{{ reco.statutReco }}</td>
+                <td>{{ reco.createAt ? reco.createAt|date('Y-m-d') : '' }}</td>
+                <td>{{ reco.updateAt ? reco.updateAt|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('op_gestapp_reco_show', {'id': reco.id}) }}">voir</a>
+                    <a href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}">Modifier</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="19">Pas d'enregistrement.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_reco_new') }}">Ajouter</a>
+{% endblock %}

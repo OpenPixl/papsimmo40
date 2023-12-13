@@ -9,13 +9,13 @@
     <script>
         window.onload = function(){
 
-        // ----------------------------------------------------------------
-        // STEP 0 : Après l'initialisation de la page
-        // ----------------------------------------------------------------
+            // ----------------------------------------------------------------
+            // STEP 0 : Après l'initialisation de la page
+            // ----------------------------------------------------------------
 
             // Ouverture de la modale d'ajout d'un bien / propriété avec intégration du Numéro de mandat modifiable par le créateur
             // ----------------------------------------------------------------
-            // I. Ouverture de la modal
+            // I. Ouverture de la modale
             const modalAddNewProperty = document.getElementById('modalAddNewProperty')
             const NewProperty = new bootstrap.Modal(modalAddNewProperty, { keyboard: true })
             const addNewProperty = document.getElementById('addNewProperty')
@@ -127,6 +127,10 @@
                         var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,})
                         toastElement.show()
                     })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
+                    })
             }
             function DelPropertyIncreating(event)
             {
@@ -156,6 +160,10 @@
                         toastBody.textContent = message;
                         var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true,autohide: true,delay: 3000})
                         toastElement.show();
+                    })
+                    .catch(function (error) {
+                        // handle error
+                        console.log(error);
                     })
 
             }
@@ -293,6 +301,46 @@
                     })
             }
 
+            // PARTIE : suppression d'un bien ou de plusieurs
+            // -----------------------
+            // ouverture de la modale
+            const modalSupprArchived = document.getElementById('modalSupprArchived')
+            modalSupprArchived.addEventListener('show.bs.modal', function(event){
+                let url = document.getElementById("btnSupprArchived").href
+                console.log(url)
+                // Récupération du bouton cliqué et extraction de la variable transmise dans le data-bs-whatever
+                let button = event.relatedTarget
+                let recipient = button.getAttribute('data-bs-whatever')
+                // Attribution pour le client et la propriété des éléments insclus dans le data-bs-whatever
+                let modalTitle = modalSupprArchived.querySelector('.modal-title')
+                let modalText = modalSupprArchived.querySelector('.modal-text')
+                let modalSubmit = modalSupprArchived.querySelector('.modal-footer a')
+                modalSubmit.href = url
+            })
+            function supprArchivedProperty(event){
+                event.preventDefault()
+                let url = this.href
+                axios
+                    .post(url)
+                    .then(function(response){
+                        document.getElementById('listArchived').innerHTML = response.data.liste
+                        document.querySelector('a.supprArchivedProperty').addEventListener('click', supprArchivedProperty)
+                        // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+                        document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
+                            link.addEventListener('click', DelPropertyIncreating)
+                        })
+                        // Mise en place de l'évenement pour l'archivage d'un bien
+                        document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
+                            link.addEventListener('click', ArchivageProperty)
+                        })
+                        document.querySelectorAll('a.Modaltransferate').forEach(function(link){
+                            link.addEventListener('click', modalTransferate)
+                        })
+                    })
+            }
+
+            // Création des évènements JS
+            document.querySelector('a.supprArchivedProperty').addEventListener('click', supprArchivedProperty)
             // Mise en place de l'évenement pour la suppression d'un bien en cours de création
             document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
                 link.addEventListener('click', DelPropertyIncreating)
@@ -315,14 +363,6 @@
         <li class="breadcrumb-item active">Transaction</li>
         <li class="breadcrumb-item active"><a href="{{ path('op_gestapp_property_index') }}">Biens immobilier</a></li>
     </ol>
-{% endblock %}
-
-{% block contentTitle %}
-    <div class="row d-flex justify-content-between" >
-        <div class="col-sm-12">
-            <h1>TRANSACTIONS - Liste des biens</h1>
-        </div>
-    </div>
 {% endblock %}
 
 {% block content %}
@@ -363,16 +403,17 @@
             </div>
         </div>
     </div>
+    {# Modal pour la suppression du bien sélectionné#}
     <div class="modal fade" id="SupprCreating" tabindex="-1" aria-labelledby="SupprCreating" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">Suppression complète du bien</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
-                    <input type="text" id="recipient-name">
+                    <p class="modal-text"><b>Attention :</b> Vous êtes sur le point de supprimer le bien sélectionné.</p>
+                    <input type="hidden" id="recipient-name">
                 </div>
                 <div class="modal-footer">
                     <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
@@ -381,11 +422,12 @@
             </div>
         </div>
     </div>
-    <div class="modal fade" id="Publish" tabindex="-1" aria-labelledby="Publish" aria-hidden="true">
+    {# A définir à quoi il sert #}
+    <div class="modal fade" id="modalSupprArchived" tabindex="-1" aria-labelledby="Publish" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">Suppression complète du bien</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -393,7 +435,7 @@
                     <input type="hidden" id="recipient-name">
                 </div>
                 <div class="modal-footer">
-                    <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
+                    <a href="#" type="button" class="btn btn-warning supprArchivedProperty" data-bs-dismiss="modal">Supprimer</a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                 </div>
             </div>
@@ -430,11 +472,8 @@
                 <div class="modal-body">
                     <p class="modal-text">Vous êtes sur le point de transférer le bien :</p>
                     <p>Veuillez choisir un collaborateur :</p>
-
                         <select id="SelectEmployed" class="form-select form-select-sm" aria-label="Default select example" name="SelectEmployed">
-
                         </select>
-
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-sm btn-warning" data-bs-dismiss="modal">Transférer</button>

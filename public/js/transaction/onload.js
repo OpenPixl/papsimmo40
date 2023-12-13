@@ -23,7 +23,9 @@ const valueProperty = document.getElementById('valueProperty').value;
 let validStep1 = document.getElementById('btnToStepTwo');
 let validStep2 = document.getElementById('btnToStepTree');
 let validStep3 = document.getElementById('btnToStepFour');
+let validAdminStep3 = document.getElementById('btnWaitToStepFour');
 let validStep4 = document.getElementById('btnToStepFive');
+let validAdminStep4 = document.getElementById('btnWaitToStepFive');
 
 let step1 = document.getElementById('stepOne');
 let step2 = document.getElementById('stepTwo');
@@ -164,9 +166,11 @@ validStep3.addEventListener('click', function(event){
         .then(function(response){
             let code = response.data.code;
             if(code == 200){
+                let btnValidStep = document.getElementById('btnToStepFour');
+                let btnWaitStep = document.getElementById('btnWaitToStepFour');
                 // Mettre en place le bouton de validation du compromis de vente
-                step4.classList.remove('d-none');
-                step3.classList.add('d-none');
+                btnWaitStep.classList.remove('d-none');
+                btnValidStep.classList.add('d-none');
             }else{
                 // initialisation du toaster
                 let toastHTMLElement = document.getElementById("toaster");
@@ -183,7 +187,17 @@ validStep3.addEventListener('click', function(event){
         });
 });
 validAdminStep3.addEventListener('click', function(event){
-    event.preventDefault;
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            step4.classList.remove('d-none');
+            step3.classList.add('d-none');
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
 });
 // validation de l'acte de vente
 validStep4.addEventListener('click', function(event){
@@ -192,6 +206,23 @@ validStep4.addEventListener('click', function(event){
     let dataForm = new FormData(FormStep4);
     axios
         .post(actionForm, dataForm)
+        .then(function(response){
+            let btnValidStep = document.getElementById('btnToStepFive');
+            let btnWaitStep = document.getElementById('btnWaitToStepFive');
+            // Mettre en place le bouton de validation du compromis de vente
+            btnWaitStep.classList.remove('d-none');
+            btnValidStep.classList.add('d-none');
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+});
+
+validAdminStep4.addEventListener('click', function(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
         .then(function(response){
             step5.classList.remove('d-none');
             step4.classList.add('d-none');

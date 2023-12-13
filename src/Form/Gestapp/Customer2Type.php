@@ -72,7 +72,8 @@ class Customer2Type extends AbstractType
                 'by_reference' => true,
             ])
             ->add('ddnIn', TextType::class, [
-                'label' => 'à'
+                'label' => 'à',
+                'required' => false,
             ])
         ;
     }

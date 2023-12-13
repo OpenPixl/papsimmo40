@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Reco{% endblock %}
+
+{% block body %}
+    <h1>Reco</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ reco.id }}</td>
+            </tr>
+            <tr>
+                <th>AnnounceFirstName</th>
+                <td>{{ reco.announceFirstName }}</td>
+            </tr>
+            <tr>
+                <th>AnnounceLastName</th>
+                <td>{{ reco.announceLastName }}</td>
+            </tr>
+            <tr>
+                <th>AnnouncePhone</th>
+                <td>{{ reco.announcePhone }}</td>
+            </tr>
+            <tr>
+                <th>AnnounceEmail</th>
+                <td>{{ reco.announceEmail }}</td>
+            </tr>
+            <tr>
+                <th>CustomerFirstName</th>
+                <td>{{ reco.customerFirstName }}</td>
+            </tr>
+            <tr>
+                <th>CustomerLastName</th>
+                <td>{{ reco.customerLastName }}</td>
+            </tr>
+            <tr>
+                <th>CustomerPhone</th>
+                <td>{{ reco.customerPhone }}</td>
+            </tr>
+            <tr>
+                <th>CustomerEmail</th>
+                <td>{{ reco.customerEmail }}</td>
+            </tr>
+            <tr>
+                <th>PropertyAddress</th>
+                <td>{{ reco.propertyAddress }}</td>
+            </tr>
+            <tr>
+                <th>PropertyComplement</th>
+                <td>{{ reco.propertyComplement }}</td>
+            </tr>
+            <tr>
+                <th>PropertyZipcode</th>
+                <td>{{ reco.propertyZipcode }}</td>
+            </tr>
+            <tr>
+                <th>PropertyCity</th>
+                <td>{{ reco.propertyCity }}</td>
+            </tr>
+            <tr>
+                <th>PropertyLong</th>
+                <td>{{ reco.propertyLong }}</td>
+            </tr>
+            <tr>
+                <th>PropertyLat</th>
+                <td>{{ reco.propertyLat }}</td>
+            </tr>
+            <tr>
+                <th>StatutReco</th>
+                <td>{{ reco.statutReco }}</td>
+            </tr>
+            <tr>
+                <th>CreateAt</th>
+                <td>{{ reco.createAt ? reco.createAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdateAt</th>
+                <td>{{ reco.updateAt ? reco.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_reco_index') }}">back to list</a>
+
+    <a href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}">edit</a>
+
+    {{ include('gestapp/reco/_delete_form.html.twig') }}
+{% endblock %}

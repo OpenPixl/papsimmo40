@@ -115,6 +115,13 @@
                         <td>{{ form_widget(form.referent) }}</td>
                         <td>{{ form_errors(form.referent) }}</td>
                     </tr>
+                    {% if is_granted('ROLE_ADMIN') %}
+                    <tr class="align-middle">
+                        <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                        <td>{{ form_errors(form.dateEmployed) }}</td>
+                    </tr>
+                    {% endif %}
                     <tr>
                         <td colspan="3"><h5>FICHE DE PRESENTATION</h5></td>
                     </tr>

@@ -1,12 +1,15 @@
 {% extends 'admin.html.twig' %}
 
 {% block title %}Edit Employed{% endblock %}
+
 {% block stylesheets%}
     {{ parent() }}
     <link href="https://cdn.jsdelivr.net/npm/tom-select/dist/css/tom-select.css" rel="stylesheet">
 {% endblock %}
+
 {% block javascripts%}
     {{ parent() }}
+    <script type="module" src="{{ asset('js/employed/onload.js') }}"></script>
     <script>
         window.onload = function(){
             new TomSelect("#employed_referent",{
