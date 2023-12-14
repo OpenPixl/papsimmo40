@@ -570,12 +570,14 @@ class ftptransfertService
 
         // IV. Dépôt sur le serveur de FTP
         $ftpserver = $this->urlftpseloger;
-        $ftpport = intval($this->portftpseloger);
+        $ftpport = $this->portftpseloger;
         $ftpusername = $this->loginftpseloger;
         $ftppassword = $this->passwordftpseloger;
 
+        //dd('server : '.$ftpserver, 'password :'.$ftppassword, 'port : '.$ftpport, 'username : '.$ftpusername);
+
         // Connexion au serveur FTP
-        $connId = ftp_ssl_connect($ftpserver, $ftpport);
+        $connId = ftp_ssl_connect($ftpserver, intval($ftpport));
         if (!$connId) {
             // Gestion des erreurs de connexion
             exit('Impossible de se connecter au serveur FTP.');
@@ -1439,7 +1441,7 @@ class ftptransfertService
         $cheminDestination = '892318a.xml';
 
         $ftpserver = $this->urlftpga;
-        $ftpport = $this->portftpga;
+        $ftpport = intval($this->portftpga);
         $ftpusername = $this->loginftpga;
         $ftppassword = $this->passwordftpga;
         // Connexion au serveur FTP
@@ -1467,7 +1469,7 @@ class ftptransfertService
         // IV. Dépôt sur le serveur de FTP VIZZIT
         // -------------------------------------------
         $ftpserver2 = $this->urlftpvi;
-        $ftpport2 = $this->portftpvi;
+        $ftpport2 = intval($this->portftpvi);
         $ftpusername2 = $this->loginftpvi;
         $ftppassword2 = $this->passwordftpvi;
         // Connexion au serveur FTP
