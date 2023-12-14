@@ -1469,7 +1469,7 @@ class ftptransfertService
         // IV. Dépôt sur le serveur de FTP VIZZIT
         // -------------------------------------------
         $ftpserver2 = $this->urlftpvi;
-        $ftpport2 = intval($this->portftpvi);
+        $ftpport2 = $this->portftpvi;
         $ftpusername2 = $this->loginftpvi;
         $ftppassword2 = $this->passwordftpvi;
         // Connexion au serveur FTP
