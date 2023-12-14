@@ -577,7 +577,7 @@ class ftptransfertService
         //dd('server : '.$ftpserver, 'password :'.$ftppassword, 'port : '.$ftpport, 'username : '.$ftpusername);
 
         // Connexion au serveur FTP
-        $connId = ftp_ssl_connect($ftpserver, intval($ftpport));
+        $connId = ftp_ssl_connect($ftpserver, $ftpport);
         if (!$connId) {
             // Gestion des erreurs de connexion
             exit('Impossible de se connecter au serveur FTP.');
@@ -1157,7 +1157,7 @@ class ftptransfertService
 
         // IV. Dépôt sur le serveur de FTP
         $ftpserver = $this->urlftpfigaro;
-        $ftpport = intval($this->portftpfigaro);
+        $ftpport = $this->portftpfigaro;
         $ftpusername = $this->loginftpfigaro;
         $ftppassword = $this->passwordftpfigaro;
         // Connexion au serveur FTP
@@ -1441,7 +1441,7 @@ class ftptransfertService
         $cheminDestination = '892318a.xml';
 
         $ftpserver = $this->urlftpga;
-        $ftpport = intval($this->portftpga);
+        $ftpport = $this->portftpga;
         $ftpusername = $this->loginftpga;
         $ftppassword = $this->passwordftpga;
         // Connexion au serveur FTP
