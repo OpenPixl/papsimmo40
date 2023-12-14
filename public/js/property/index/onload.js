@@ -49,7 +49,7 @@ document.getElementById('btnListDiffusion').onclick = function(event){
         list.style.display = 'none';
         listArchived.style.display = 'none';
         btnDiffusion.textContent = 'Retour sur la liste des biens';
-        btnDiffusion.classList.remove('btn-outline-dark')
+        btnDiffusion.classList.remove('btn-outline-dark');
         btnDiffusion.classList.add('btn-dark');
         btnArchived.classList.add("disabled");
         addNewProperty.classList.add("disabled");
@@ -59,8 +59,8 @@ document.getElementById('btnListDiffusion').onclick = function(event){
         listDiffusion.style.display = 'none';
         list.style.display = 'block';
         listArchived.style.display = 'none';
-        btnDiffusion.classList.remove('btn-dark')
-        btnDiffusion.classList.add('btn-outline-dark')
+        btnDiffusion.classList.remove('btn-dark');
+        btnDiffusion.classList.add('btn-outline-dark');
         btnDiffusion.textContent = 'Afficher la diffusions des biens';
         btnArchived.classList.remove("disabled");
         addNewProperty.classList.remove("disabled");
@@ -76,8 +76,8 @@ document.getElementById('btnListArchived').onclick = function(event){
         list.style.display = 'none';
         listDiffusion.style.display = 'none';
         btnArchived.textContent = 'Retour sur la liste des biens';
-        btnArchived.classList.remove('btn-outline-dark')
-        btnArchived.classList.add('btn-dark')
+        btnArchived.classList.remove('btn-outline-dark');
+        btnArchived.classList.add('btn-dark');
         btnDiffusion.classList.add("disabled");
         addNewProperty.classList.add("disabled");
         SupprRows.classList.add("disabled");
@@ -86,9 +86,9 @@ document.getElementById('btnListArchived').onclick = function(event){
         listDiffusion.style.display = 'none';
         list.style.display = 'block';
         listArchived.style.display = 'none';
-        btnArchived.classList.remove('btn-dark')
-        btnArchived.classList.add('btn-outline-dark')
-        btnArchived.textContent = 'Afficher la diffusions des biens';
+        btnArchived.classList.remove('btn-dark');
+        btnArchived.classList.add('btn-outline-dark');
+        btnArchived.textContent = 'Afficher les biens archivés';
         btnDiffusion.classList.remove("disabled");
         addNewProperty.classList.remove("disabled");
         SupprRows.classList.remove("disabled");
