@@ -4,7 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
-    banners_directory: '%kernel.project_dir%/public/images/svg/'
+    avatars_directory: '%kernel.project_dir%/public/images/avatar'
+    banners_directory: '%kernel.project_dir%/public/images/svg'
     articles_pdf_directory: '%kernel.project_dir%/public/pdf/articles'
     pdf_directory: '%kernel.project_dir%/public/doc/pdf'
     word_directory: '%kernel.project_dir%/public/doc/word'

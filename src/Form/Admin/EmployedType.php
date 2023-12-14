@@ -10,11 +10,12 @@ use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Vich\UploaderBundle\Form\Type\VichImageType;
+use Symfony\Component\Validator\Constraints\File;
 
 class EmployedType extends AbstractType
 {
@@ -37,11 +38,25 @@ class EmployedType extends AbstractType
                     return $category ? ['data-data' => $category->getFirstName()] : [];
                 }),
             ])
-            ->add('avatarFile', VichImageType::class, [
+            ->add('avatarFile', FileType::class,[
+                'label' => "Avatar, le fichier ne doit pas dépasser 10Mo de taille",
+                'mapped' => false,
                 'required' => false,
-                'allow_delete' => true,
-                'delete_label' => 'Supprimer',
-                'download_label' => 'Télecharger',
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10000k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpg',
+                            'image/jpeg',
+                        ],
+                        'mimeTypesMessage' => 'Attention, veuillez charger un fichier au format jpg ou png',
+                    ])
+                ],
+            ])
+            ->add('isSupprAvatar', CheckboxType::class,[
+                'label' => "Supprimer",
+                'required' => false
             ])
             ->add('home', TextType::class, [
                 'label' => 'Domicile',

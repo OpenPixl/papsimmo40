@@ -77,29 +77,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 )]
 class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 {
-
-    public function serialize()
-    {
-        return serialize(array(
-            $this->id,
-            $this->password,
-            $this->roles,
-            $this->avatarName,
-            $this->avatarFile
-        ));
-    }
-
-    public function unserialize($serialized)
-    {
-        list (
-            $this->id,
-            $this->password,
-            $this->roles,
-            $this->avatarName,
-            $this->avatarFile
-            ) = unserialize($serialized);
-    }
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
@@ -161,11 +138,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'string', nullable: true)]
     #[Groups(['employed:list', 'employed:item'])]
-    private $avatarName;
+    private $avatarName = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
     #[Groups(['employed:list', 'employed:item'])]
-    private $avatarSize;
+    private $avatarSize = null;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
     #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
@@ -237,6 +214,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $dateEmployed = null;
+
+    #[ORM\Column]
+    private ?bool $isSupprAvatar = false;
 
     public function __construct()
     {
@@ -902,6 +882,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setDateEmployed(?\DateTimeInterface $dateEmployed): static
     {
         $this->dateEmployed = $dateEmployed;
+
+        return $this;
+    }
+
+    public function isIsSupprAvatar(): ?bool
+    {
+        return $this->isSupprAvatar;
+    }
+
+    public function setIsSupprAvatar(bool $isSupprAvatar): static
+    {
+        $this->isSupprAvatar = $isSupprAvatar;
 
         return $this;
     }

@@ -11,10 +11,12 @@ use App\Repository\Gestapp\PropertyRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EmployedController extends AbstractController
 {
@@ -58,16 +60,39 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/opadmin/employed/new', name: 'op_admin_employed_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function new(Request $request, SluggerInterface $slugger, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
     {
         $employed = new Employed();
         $form = $this->createForm(EmployedType::class, $employed);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // intégration d'une image
+            $avatarFile = $form->get('employed_avatarFile')->getData();
+            if ($avatarFile) {
+                $originalavatarFileName = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeavatarFileName = $slugger->slug($originalavatarFileName);
+                $newavatarFileName = $safeavatarFileName . '-' . uniqid() . '.' . $avatarFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $avatarFile->move(
+                        $this->getParameter('avatars_directory'),
+                        $newavatarFileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+            }
+
+
             $numCollaborator = rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10);
             $employed->setPassword($userPasswordHasher->hashPassword($employed,'papsimmo'));
             $employed->setNumCollaborator($numCollaborator);
+            $employed->setAvatarName($newavatarFileName);
+            $employed->setAvatarSize($avatarFile->getSize());
             $employedRepository->add($employed);
 
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
@@ -125,7 +150,7 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/opadmin/employed/{id}/edit', name: 'op_admin_employed_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Employed $employed, EmployedRepository $employedRepository, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, SluggerInterface $slugger, Employed $employed, EmployedRepository $employedRepository, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EmployedType::class, $employed, [
             'action'=>$this->generateUrl('op_admin_employed_edit', ['id' => $employed->getId()]),
@@ -134,6 +159,52 @@ class EmployedController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Suppression directe de l'avatar
+            $supprAvatarInput = $form->get('isSupprAvatar')->getData();
+            if($supprAvatarInput && $supprAvatarInput == true){
+                // récupération du nom de l'image
+                $avatarName = $employed->getAvatarName();
+                $pathheader = $this->getParameter('avatars_directory').'/'.$avatarName;
+                // On vérifie si l'image existe
+                if(file_exists($pathheader)){
+                    unlink($pathheader);
+                }
+                $employed->setAvatarName(null);
+                $employed->setIsSupprAvatar(0);
+            }
+
+            $avatarFile = $form->get('avatarFile')->getData();
+            if ($avatarFile) {
+                // Effacement du fichier bannièreFileName si il est présent en BDD
+                // récupération du nom de l'image
+                $avatarName = $employed->getAvatarName();
+                // suppression du Fichier
+                if($avatarName){
+                    $pathlogo = $this->getParameter('avatars_directory').'/'.$avatarName;
+                    // On vérifie si l'image existe
+                    if(file_exists($pathlogo)){
+                        unlink($pathlogo);
+                    }
+                }
+
+                $originalavatarFileName = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeavatarFileName = $slugger->slug($originalavatarFileName);
+                $newavatarFileName = $safeavatarFileName . '-' . uniqid() . '.' . $avatarFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $avatarFile->move(
+                        $this->getParameter('avatars_directory'),
+                        $newavatarFileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $employed->setAvatarName($newavatarFileName);
+            }
+
             $entityManager->flush();
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
         }

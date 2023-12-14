@@ -102,8 +102,30 @@
                     </tr>
                     <tr class="align-middle">
                         <td class="table-light col-md-2">Avatar</td>
-                        <td class="col-md-5">{{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}</td>
-                        <td class="col-md-5"></td>
+                        {% if employed.avatarName is not null %}
+                            <td class="col-md-5">
+                                {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+                                    <div class="mt-1">
+                                        <img src="{{ asset('images/avatar/' ~ employed.avatarName) }}" class="img-fluid" alt="{{ employed.avatarName }}">
+                                        <a href="{{ asset('images/avatar/' ~ employed.avatarName) }}">Télécharger</a>
+                                    </div>
+                            </td>
+                            <td class="col-md-5">
+                                {% if app.request.attributes.get('_route') == 'op_admin_employed_edit' %}
+                                    <div class="text-center col-8">
+                                        {{ form_label(form.isSupprAvatar, "Supprimer") }}
+                                        {{ form_widget(form.isSupprAvatar) }}
+                                    </div>
+                                {% endif %}
+                            </td>
+                        {% else %}
+                            <td class="col-md-5">
+                                {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+                            </td>
+                            <td class="col-md-5">
+                                {{ form_widget(form.isSupprAvatar, {'attr': {'style': 'display:none;'}}) }}
+                            </td>
+                        {% endif %}
                     </tr>
                     <tr class="align-middle">
                         <td class="table-light">{{ form_label(form.sector, 'Secteur', {'label_attr': {'class':'form-label'}}) }}</td>
