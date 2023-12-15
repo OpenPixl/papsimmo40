@@ -607,7 +607,7 @@ class ftptransfertService
         $fp = fopen($fichierLocal, 'r');
         // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
-            echo 'Le fichier a été transféré avec succès.';
+            echo 'Le fichier a été transféré avec succès sur "SE LOGER".';
         } else {
             // Gestion des erreurs de transfert
             echo 'Téléversement sur "SE loger" - Erreur lors du transfert du fichier sur le serveur FTP.';
@@ -1185,7 +1185,7 @@ class ftptransfertService
 
         // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
-            echo 'Le fichier a été transféré avec succès.';
+            echo 'Le fichier a été transféré avec succès sur "Figaro".';
         } else {
             // Gestion des erreurs de transfert
             echo 'Téléversement sur "Figaro Immo" - Erreur lors du transfert du fichier sur le serveur FTP.';
@@ -1444,6 +1444,8 @@ class ftptransfertService
         $ftpport = $this->portftpga;
         $ftpusername = $this->loginftpga;
         $ftppassword = $this->passwordftpga;
+
+        //dd('server : '.$ftpserver, 'password :'.$ftppassword, 'port : '.$ftpport, 'username : '.$ftpusername);
         // Connexion au serveur FTP
         $connId = ftp_connect($ftpserver, $ftpport);
         if (!$connId) {
@@ -1458,7 +1460,7 @@ class ftptransfertService
         }
         // Transfert du fichier
         if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
-            echo 'Le fichier a été transféré avec succès.';
+            echo 'Le fichier a été transféré avec succès sur "GreenAcres".';
         } else {
             // Gestion des erreurs de transfert
             echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
@@ -1486,7 +1488,7 @@ class ftptransfertService
         }
         // Transfert du fichier
         if (ftp_put($connId2, $cheminDestination, $fichierLocal, FTP_BINARY)) {
-            echo 'Le fichier a été transféré avec succès.';
+            echo 'Le fichier a été transféré avec succès sur VIZZIT.';
         } else {
             // Gestion des erreurs de transfert
             echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
