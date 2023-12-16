@@ -5,6 +5,7 @@ namespace App\Entity\Gestapp;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Repository\Gestapp\CustomerRepository;
@@ -13,6 +14,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use phpseclib3\Crypt\EC\Formats\Keys\OpenSSH;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
@@ -25,9 +27,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(normalizationContext: ['groups' => 'client:item']),
         new GetCollection(normalizationContext: ['groups' => 'client:list']),
+        new Patch(
+            uriTemplate: '/customer/{id}/update',
+            normalizationContext: ['groups' => ['client:write:patch']],
+            openapiContext: [
+                'summary' => "Mettre à jour les informations d'un client.",
+                'description' => "Mettre à jour les informations d'un client.",
+            ]
+        )
     ],
-
-    paginationEnabled: false
+    paginationEnabled: false,
 )]
 class Customer
 {
@@ -37,15 +46,15 @@ class Customer
     private $id;
 
     #[ORM\Column(type: 'string', length: 25, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:patch' ,'client:item', 'transaction:item'])]
     private $RefCustomer;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:patch' , 'client:item', 'transaction:item'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' , 'client:item', 'transaction:item'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 125)]
@@ -55,55 +64,55 @@ class Customer
     private $customerChoice;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['customer:list', 'customer:item', 'transaction:item'])]
+    #[Groups(['customer:list', 'client:write:edit' ,'customer:item', 'transaction:item'])]
     private $adress;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $complement;
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $zipcode;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $city;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $home;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $desk;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $gsm;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $otherEmail;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private ?\DateTimeInterface $ddn = null;
 
     #[ORM\Column(length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private ?string $ddnIn = null;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $facebook;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $instagram;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $linkedin;
 
     #[ORM\Column(type: 'boolean')]
@@ -111,6 +120,7 @@ class Customer
 
     #[ORM\ManyToOne(targetEntity: Employed::class, inversedBy: 'Customer')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private $refEmployed;
 
     #[ORM\Column(type: 'datetime')]
