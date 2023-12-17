@@ -37,40 +37,40 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 #[Vich\Uploadable]
 #[UniqueEntity(fields: ['email'], message: 'un compte avec la même adresse mail existe déjà')]
 #[ApiResource(
-    shortName: 'Collaborateurs',
+    shortName: 'Collaborateur',
     operations: [
         new Get(normalizationContext: ['groups' => 'employed:item']),
         new GetCollection(normalizationContext: ['groups' => 'employed:list']),
         new Get(
-            name: 'getTokenByNumCollaborator',
             uriTemplate: '/employed/{numCollaborator}/getToken',
-            requirements: ['numCollaborator' => '\d+'],
-            controller: GetTokenEmployed::class,
-            normalizationContext: ['groups' => 'employed:item'],
             uriVariables: [
                 'numCollaborator' => 'numCollaborator'
             ],
+            requirements: ['numCollaborator' => '\d+'],
+            controller: GetTokenEmployed::class,
             openapiContext: [
                 'summary' => "Récupérer un token par l'identifiant du mandataire",
                 'description' => "Récupérer un token par l'identifiant du mandataire",
-            ]
+            ],
+            normalizationContext: ['groups' => 'employed:item'],
+            name: 'getTokenByNumCollaborator'
         ),
         new Post(
             uriTemplate: '/employed',
             controller: AddEmployed::class,
-            normalizationContext: ['groups' => 'employed:write:post'],
             openapiContext: [
                 'summary' => "Ajoute un collaborateur",
                 'description' => "Ajoute un collaborateur",
-            ]
+            ],
+            normalizationContext: ['groups' => 'employed:write:post']
         ),
         new Patch(
             uriTemplate: '/employed/{id}/update',
-            normalizationContext: ['groups' => ['employed:write:patch']],
             openapiContext: [
                 'summary' => "Mettre à jour les informations du collaborateur",
                 'description' => "Mettre à jour les informations du collaborateur",
-            ]
+            ],
+            normalizationContext: ['groups' => ['employed:write:patch']]
         )
     ],
     paginationEnabled: false,
@@ -80,6 +80,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['reco:write:post'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
@@ -93,11 +94,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]

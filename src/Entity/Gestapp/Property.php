@@ -27,29 +27,30 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
-#[ORM\Index(name: 'property_idx', columns: ["ref", "name", "zipcode", "city"], flags: ['fulltext'])]
+#[ORM\Index(columns: ["ref", "name", "zipcode", "city"], name: 'property_idx', flags: ['fulltext'])]
 #[ApiResource(
-    normalizationContext:['groups' => 'property:list'],
-    denormalizationContext:['groups' => 'property:write'],
+    shortName: 'Propriété',
     operations: [
         new Get(
             normalizationContext: ['groups' => 'property:item']),
         new GetCollection(
             normalizationContext: ['groups' => 'property:list']),
         new Post(
-            uriTemplate: '/property',
+            uriTemplate: '/propriete',
             controller: AddEmployed::class,
-            normalizationContext: ['groups' => ['property:write:post']],
             openapiContext: [
                 'summary' => "Ajouter une propriété",
                 'description' => "Ajouter une propriété",
-            ]
+            ],
+            normalizationContext: ['groups' => ['property:write:post']]
         ),
         new Patch(
             uriTemplate: '/property/{id}/update',
             normalizationContext: ['groups' => ['property:write:patch']],
         )
     ],
+    normalizationContext: ['groups' => 'property:list'],
+    denormalizationContext: ['groups' => 'property:write'],
     paginationEnabled: false
 )]
 class Property

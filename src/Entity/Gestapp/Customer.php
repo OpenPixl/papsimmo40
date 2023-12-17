@@ -3,9 +3,12 @@
 namespace App\Entity\Gestapp;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Repository\Gestapp\CustomerRepository;
@@ -19,24 +22,30 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: CustomerRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[ORM\Index(name: 'customer_idx', columns: ["first_name", "last_name"], flags: ['fulltext'])]
+#[ORM\Index(columns: ["first_name", "last_name"], name: 'customer_idx', flags: ['fulltext'])]
 #[ApiResource(
     shortName: 'Client',
-    normalizationContext:['groups' => 'client:list'],
-    denormalizationContext:['groups' => 'client:write'],
     operations: [
-        new Get(normalizationContext: ['groups' => 'client:item']),
-        new GetCollection(normalizationContext: ['groups' => 'client:list']),
-        new Patch(
-            uriTemplate: '/customer/{id}/update',
-            normalizationContext: ['groups' => ['client:write:patch']],
+        new GetCollection(),
+        new GetCollection(
+            uriTemplate: 'employed/{id}/clients',
+            uriVariables: [
+                'id' => new Link(fromProperty: 'Customer' , fromClass: Employed::class)
+            ],
+            requirements: ['id' => '\d+'],
             openapiContext: [
-                'summary' => "Mettre à jour les informations d'un client.",
-                'description' => "Mettre à jour les informations d'un client.",
-            ]
-        )
-    ],
-    paginationEnabled: false,
+                'summary' => 'Obtenir la liste des clients selon le mandataire.',
+                'description' => 'Obtenir la liste des clients selon le mandataire.'
+            ],
+            normalizationContext: ['groups' => 'client:item']
+        ),
+        new Get(),
+        new Post(),
+        new Patch(
+            uriTemplate: 'client/{id}/update'
+        ),
+        new Delete()
+    ]
 )]
 class Customer
 {

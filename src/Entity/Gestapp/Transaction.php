@@ -17,20 +17,21 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ORM\Entity(repositoryClass: TransactionRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[ApiResource(
-    normalizationContext:['groups' => 'transaction:list'],
-    denormalizationContext:['groups' => 'transaction:write'],
+    shortName:'Transaction',
     operations: [
         new Get(normalizationContext: ['groups' => 'transaction:item']),
         new GetCollection(normalizationContext: ['groups' => 'transaction:list']),
         new Patch(
             uriTemplate: '/transactions/{id}/update',
-            normalizationContext: ['groups' => ['transaction:write:patch']],
             openapiContext: [
                 'summary' => "Mettre à jour les informations de transaction.",
                 'description' => "Mettre à jour les informations de transaction.",
-            ]
+            ],
+            normalizationContext: ['groups' => ['transaction:write:patch']]
         )
     ],
+    normalizationContext: ['groups' => 'transaction:list'],
+    denormalizationContext: ['groups' => 'transaction:write'],
 )]
 class Transaction
 {

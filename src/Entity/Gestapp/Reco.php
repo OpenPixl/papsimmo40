@@ -3,13 +3,47 @@
 namespace App\Entity\Gestapp;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Put;
 use App\Entity\Admin\Employed;
 use App\Repository\Gestapp\RecoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Attribute\Groups;
 
 #[ORM\Entity(repositoryClass: RecoRepository::class)]
-#[ApiResource]
+#[ApiResource(
+    shortName: 'Recommandation',
+    operations: [
+        new GetCollection(
+            openapiContext: [
+                'summary' => "Obtenir toutes les recomandations de l'API.",
+                'description' => "Obtenir toutes les recomandations de l'API.",
+            ],
+        ),
+        new GetCollection(
+            openapiContext: [
+                'summary' => "Obtenir uniquement les recomandations du mandataire.",
+                'description' => "Obtenir uniquement les recomandations du mandataire.",
+            ],
+        ),
+        new Post(
+            uriTemplate: '/recommandation',
+            openapiContext: [
+                'summary' => "Créer une nouvelle recommandation pour le mandataire",
+                'description' => "Créer une nouvelle recommandation pour le mandataire",
+            ],
+            normalizationContext: ['groups' => 'reco:write:post']
+        ),
+        new Patch(),
+        new Put(),
+        new Delete()
+    ],
+    paginationEnabled: false
+)]
 class Reco
 {
     #[ORM\Id]
@@ -19,51 +53,67 @@ class Reco
 
     #[ORM\ManyToOne(inversedBy: 'recos')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reco:write:post'])]
     private ?Employed $refEmployed = null;
 
     #[ORM\Column(length: 80)]
+    #[Groups(['reco:write:post'])]
     private ?string $announceFirstName = null;
 
     #[ORM\Column(length: 80, nullable: true)]
+    #[Groups(['reco:write:post'])]
     private ?string $announceLastName = null;
 
     #[ORM\Column(length: 14)]
+    #[Groups(['reco:write:post'])]
     private ?string $announcePhone = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['reco:write:post'])]
     private ?string $announceEmail = null;
 
     #[ORM\Column(length: 80)]
+    #[Groups(['reco:write:post'])]
     private ?string $customerFirstName = null;
 
     #[ORM\Column(length: 80, nullable: true)]
+    #[Groups(['reco:write:post'])]
     private ?string $customerLastName = null;
 
     #[ORM\Column(length: 14)]
+    #[Groups(['reco:write:post'])]
     private ?string $customerPhone = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['reco:write:post'])]
     private ?string $customerEmail = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['reco:write:post'])]
     private ?string $propertyAddress = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:write:post'])]
     private ?string $propertyComplement = null;
 
     #[ORM\Column(length: 5, nullable: true)]
+    #[Groups(['reco:write:post'])]
     private ?string $propertyZipcode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:write:post'])]
     private ?string $propertyCity = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 5, nullable: true)]
+    #[Groups(['reco:write:post'])]
     private ?string $propertyLong = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 5, nullable: true)]
+    #[Groups(['reco:write:post'])]
     private ?string $propertyLat = null;
 
     #[ORM\Column(length: 25)]
+    #[Groups(['reco:write:post'])]
     private ?string $statutReco = null;
 
     #[ORM\Column]
