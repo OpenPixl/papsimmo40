@@ -29,7 +29,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[Vich\Uploadable]
 #[ORM\Index(columns: ["ref", "name", "zipcode", "city"], name: 'property_idx', flags: ['fulltext'])]
 #[ApiResource(
-    shortName: 'Propriété',
+    shortName: 'Propriete',
     operations: [
         new Get(
             normalizationContext: ['groups' => 'property:item']),

@@ -48,8 +48,21 @@ security:
     access_control:
         - { path: ^/opadmin, roles: ROLE_EMPLOYED }
         - { path: ^/api/properties, roles: ROLE_USER }
+        - { path: ^/api/property, roles: ROLE_USER }
+        - { path: ^/api/propriete, roles: ROLE_USER }
+        - { path: ^/api/proprietes, roles: ROLE_USER }
         - { path: ^/api/employed, roles: ROLE_USER }
+        - { path: ^/api/employeds, roles: ROLE_USER }
         - { path: ^/api/collaborateur, roles: ROLE_USER }
+        - { path: ^/api/collaborateurs, roles: ROLE_USER }
+        - { path: ^/api/customers, roles: ROLE_USER }
+        - { path: ^/api/customer, roles: ROLE_USER }
+        - { path: ^/api/client, roles: ROLE_USER }
+        - { path: ^/api/clients, roles: ROLE_USER }
+        - { path: ^/api/recos, roles: ROLE_USER }
+        - { path: ^/api/reco, roles: ROLE_USER }
+        - { path: ^/api/recommandation, roles: ROLE_USER }
+        - { path: ^/api/recommandations, roles: ROLE_USER }
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
         # - { path: ^/profile, roles: ROLE_USER }
 
