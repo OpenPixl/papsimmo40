@@ -94,11 +94,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'reco:item'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'reco:item'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]

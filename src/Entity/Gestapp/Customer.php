@@ -44,7 +44,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Patch(
             uriTemplate: 'client/{id}/update'
         ),
-        new Delete()
     ]
 )]
 class Customer
