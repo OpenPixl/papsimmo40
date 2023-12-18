@@ -3,8 +3,10 @@
 namespace App\Entity\Gestapp;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use App\Entity\Admin\Employed;
 use App\Repository\Gestapp\TransactionRepository;
@@ -21,6 +23,18 @@ use Symfony\Component\Serializer\Annotation\Groups;
     operations: [
         new Get(normalizationContext: ['groups' => 'transaction:item']),
         new GetCollection(normalizationContext: ['groups' => 'transaction:list']),
+        new GetCollection(
+            uriTemplate: '/collaborateur/{id}/transactions',
+            uriVariables: [
+                'id' => new Link(fromProperty: 'transactions' , fromClass: Employed::class)
+            ],
+            requirements: ['id' => '\d+'],
+            openapiContext: [
+                'summary' => "Obtenir les transaction d'un mandataire.",
+                'description' => "Obtenir les transaction d'un mandataire.",
+            ],
+            normalizationContext: ['groups' => 'transaction:list']
+        ),
         new Patch(
             uriTemplate: '/transactions/{id}/update',
             openapiContext: [
@@ -28,7 +42,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'description' => "Mettre à jour les informations de transaction.",
             ],
             normalizationContext: ['groups' => ['transaction:write:patch']]
-        )
+        ),
+        new Delete()
     ],
     normalizationContext: ['groups' => 'transaction:list'],
     denormalizationContext: ['groups' => 'transaction:write'],

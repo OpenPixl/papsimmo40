@@ -45,8 +45,16 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
             normalizationContext: ['groups' => 'client:item']
         ),
-        new Get(),
-        new Post(),
+        new Get(openapiContext: [
+            'summary' => "Obtenir la fiche d'un client.",
+            'description' => "Obtenir la fiche d'un client.",
+        ],),
+        new Post(
+            openapiContext: [
+                'summary' => "Ajouter une fiche client.",
+                'description' => "Ajouter une fiche client.",
+            ],
+        ),
         new Patch(
             uriTemplate: 'client/{id}/update',
             openapiContext: [

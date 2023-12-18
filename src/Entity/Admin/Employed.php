@@ -84,7 +84,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch','transaction:list'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -94,11 +94,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'reco:item'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'reco:item','transaction:list'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'reco:item'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'reco:item','transaction:list'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]

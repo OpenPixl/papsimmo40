@@ -2,6 +2,7 @@
 
 namespace App\Entity\Gestapp;
 
+use ApiPlatform\Metadata\Link;
 use App\Controller\Api\Admin\Employed\AddEmployed;
 use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
@@ -32,9 +33,23 @@ use Symfony\Component\Serializer\Annotation\Groups;
     shortName: 'Propriete',
     operations: [
         new Get(
-            normalizationContext: ['groups' => 'property:item']),
+            normalizationContext: ['groups' => 'property:item']
+        ),
         new GetCollection(
-            normalizationContext: ['groups' => 'property:list']),
+            normalizationContext: ['groups' => 'property:list']
+        ),
+        new GetCollection(
+            uriTemplate: '/collaborateur/{id}/proprietes',
+            uriVariables: [
+                'id' => new Link(fromProperty: 'properties' , fromClass: Employed::class)
+            ],
+            requirements: ['id' => '\d+'],
+            openapiContext: [
+                'summary' => "Obtenir toutes les propriétés d'un mandataires.",
+                'description' => "Obtenir toutes les propriétés d'un mandataires.",
+            ],
+            normalizationContext: ['groups' => 'property:list']
+        ),
         new Post(
             uriTemplate: '/propriete',
             controller: AddEmployed::class,
