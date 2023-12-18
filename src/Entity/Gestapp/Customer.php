@@ -26,9 +26,15 @@ use Symfony\Component\Serializer\Annotation\Groups;
 #[ApiResource(
     shortName: 'Client',
     operations: [
-        new GetCollection(),
         new GetCollection(
-            uriTemplate: 'employed/{id}/clients',
+            openapiContext: [
+                'summary' => 'Obtenir la liste des clients.',
+                'description' => 'Obtenir la liste des clients.'
+            ],
+            normalizationContext: ['groups' => 'client:item']
+        ),
+        new GetCollection(
+            uriTemplate: 'collaborateur/{id}/clients',
             uriVariables: [
                 'id' => new Link(fromProperty: 'Customer' , fromClass: Employed::class)
             ],
@@ -42,8 +48,13 @@ use Symfony\Component\Serializer\Annotation\Groups;
         new Get(),
         new Post(),
         new Patch(
-            uriTemplate: 'client/{id}/update'
+            uriTemplate: 'client/{id}/update',
+            openapiContext: [
+                'summary' => "Mettre à jour la fiche d'un client.",
+                'description' => "Mettre à jour la fiche d'un client."
+            ],
         ),
+        new Delete()
     ]
 )]
 class Customer

@@ -45,7 +45,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => ['property:write:post']]
         ),
         new Patch(
-            uriTemplate: '/property/{id}/update',
+            uriTemplate: '/propriete/{id}/update',
             normalizationContext: ['groups' => ['property:write:patch']],
         )
     ],
