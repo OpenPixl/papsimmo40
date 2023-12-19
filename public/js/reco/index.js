@@ -53,6 +53,15 @@ function submitReco(event){
         .post(url)
         .then(function(response){
             document.getElementById('liste').innerHTML = response.data.liste;
+            // réinitialisation de l'évènement
+            btnSubmitReco.addEventListener('click', submitReco);
+            // initialisation et publication du toaster
+            var toastHTMLElement = document.getElementById("toaster")
+            var message = response.data.message
+            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+            toastBody.innerHTML = message
+            var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000,})
+            toastElement.show()
         })
         .catch(function(error){
             console.log(error);

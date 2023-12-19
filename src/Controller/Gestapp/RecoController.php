@@ -80,16 +80,21 @@ class RecoController extends AbstractController
     }
 
     #[Route('/{id}/step1', name: 'op_gestapp_reco_step1', methods: ['POST'])]
-    public function step1(Reco $reco, EntityManagerInterface $entityManager)
+    public function step1(Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager)
     {
         $reco->setIsRead(1);
         $reco->setStatutReco('employed_valid');
 
         $entityManager->flush();
 
+        $listrecos = $recoRepository->findAll();
+
         return $this->json([
             'code' => 200,
-            'message' => "Un email va être envoyé à l'administration pour validation complête de la recommandation."
+            'message' => "Un email va être envoyé à l'administration pour validation complête de la recommandation.",
+            'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig', [
+                'recos' => $listrecos
+            ])
         ], 200);
     }
 
@@ -106,8 +111,27 @@ class RecoController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => "Un email a été envoyé au mandataire pour l'inscription de la recommandation dans la plateforme.",
-            'liste' => $this->renderView('gestapp/property/_listdiffusion.html.twig', [
-                'listrecos' => $listrecos
+            'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig', [
+                'recos' => $listrecos
+            ])
+        ], 200);
+    }
+
+    #[Route('/{id}/step3', name: 'op_gestapp_reco_step3', methods: ['POST'])]
+    public function step3(Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager)
+    {
+        $reco->setIsRead(0);
+        $reco->setStatutReco('admin_valid');
+
+        $entityManager->flush();
+
+        $listrecos = $recoRepository->findAll();
+
+        return $this->json([
+            'code' => 200,
+            'message' => "Un email a été envoyé au mandataire pour l'inscription de la recommandation dans la plateforme.",
+            'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig', [
+                'recos' => $listrecos
             ])
         ], 200);
     }
