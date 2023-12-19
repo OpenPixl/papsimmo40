@@ -144,6 +144,9 @@ class Reco
     #[ORM\Column]
     private ?\DateTimeImmutable $updateAt = null;
 
+    #[ORM\Column]
+    private ?bool $isRead = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -361,6 +364,18 @@ class Reco
     public function setUpdateAt(\DateTimeImmutable $updateAt): static
     {
         $this->updateAt = $updateAt;
+
+        return $this;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): static
+    {
+        $this->isRead = $isRead;
 
         return $this;
     }

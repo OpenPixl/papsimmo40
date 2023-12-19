@@ -80,7 +80,7 @@ class TransactionController extends AbstractController
         $transaction->setProperty($property);
         $transaction->setState('open');
         $transaction->setName($name);
-        $transaction->setRefEmployed($user->getId());
+        $transaction->setRefEmployed($user);
         $entityManager->persist($transaction);
         $property->setIsTransaction(1);
         $entityManager->persist($property);
