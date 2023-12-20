@@ -244,14 +244,6 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
     let id = recipient.split('-')[2];
     let form = modalCustomer.querySelector('.modalBodyForm');
     let modalSubmit = modalCustomer.querySelector('.modal-footer a');
-    if(crud === 'ADD'){
-        axios
-            .get('/gestapp/customer/addcustomerjson/2/' + id)
-            .then(function(response){
-                form.innerHTML = response.data.formView;
-            });
-        modalSubmit.href = '/gestapp/customer/addcustomerjson/2/' + id;
-    }
 });
 
 function removeOptions(selectElement) {
@@ -263,42 +255,43 @@ function removeOptions(selectElement) {
 
 // PARTIE Codepostal sur création & modification du client
 // ---------------------------------------
-let commune2 = document.getElementById('customer2_city')
-let zipcode2 = document.getElementById('customer2_zipcode')
-let SelectCity2 = document.getElementById('selectcity2')
-let addresseInput2 = document.getElementById('pcustomer2_adress')
-
-    zipcode2.addEventListener('input', function(event){
-        if(zipcode2.value.length === 5)
-        {
-            let coord = this.value
+let commune2 = document.getElementById('customer2_city');
+let zipcode2 = document.getElementById('customer2_zipcode');
+let SelectCity2 = document.getElementById('selectcity2');
+let addresseInput2 = document.getElementById('customer2_adress');
+if(zipcode2 !== null) {
+    zipcode2.addEventListener('input', function (event) {
+        if (zipcode2.value.length === 5) {
+            let coord = this.value;
             axios
-                .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
-                .then(function(response){
-                    let features = response.data
+                .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
+                .then(function (response) {
+                    let features = response.data;
                     removeOptions(SelectCity2);
                     features.forEach((element) => {
-                        let name = element['codePostal']+" - "+element['nomCommune']
-                        let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
+                        let name = element['codePostal'] + " - " + element['nomCommune'];
+                        let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
                         SelectCity2.options.add(OptSelectCity);
-                    })
-                    if (SelectCity2.options.length === 1){
-                        let value = SelectCity2.value.split(' ')
-                        zipcode2.value = value[0]
-                        commune2.value = value[2].toUpperCase()
-                    }else{
-                        let value = SelectCity2.value.split(' ')
-                        zipcode2.value = value[0]
-                        commune2.value = value[2].toUpperCase()
+                    });
+                    if (SelectCity2.options.length === 1) {
+                        let value = SelectCity2.value.split(' ');
+                        zipcode2.value = value[0];
+                        commune2.value = value[2].toUpperCase();
+                    } else {
+                        let value = SelectCity2.value.split(' ');
+                        zipcode2.value = value[0];
+                        commune2.value = value[2].toUpperCase();
                     }
-                })
+                });
         }
-    })
+    });
     SelectCity2.addEventListener('change', function (event){
-        let value = this.value.split(' ')
-        zipcode2.value = value[0]
-        commune2.value = value[2].toUpperCase()
-    })
+        let value = this.value.split(' ');
+        zipcode2.value = value[0];
+        commune2.value = value[2].toUpperCase();
+    });
+}
+
 
 
 function submitCustomer(event){
