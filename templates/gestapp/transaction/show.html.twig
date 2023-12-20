@@ -42,31 +42,51 @@
                     <ul class="nav nav-justified">
                         <li class="nav-item">
                             <a id="icoStepOne" class="nav-link {% if progress >= 20 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                                {% if progress >= 20 %}
+                                    <img src="{{ asset('images/png/g9.png') }}" alt="" width="100px">
+                                {% else %}
+                                    <img src="{{ asset('images/png/g8.png') }}" alt="" width="100px">
+                                {% endif %}
                                 <br>Ouverture de la transaction
                             </a>
                         </li>
                         <li class="nav-item">
                             <a id="icoStepTwo" class="nav-link {% if progress >= 40 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                                {% if progress >= 40 %}
+                                    <img src="{{ asset('images/png/g11.png') }}" alt="" width="100px">
+                                {% else %}
+                                    <img src="{{ asset('images/png/g10.png') }}" alt="" width="100px">
+                                {% endif %}
                                 <br>Signature promesse de vente
                             </a>
                         </li>
                         <li class="nav-item">
                             <a id="icoStepTree" class="nav-link {% if progress >= 60 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                                {% if progress >= 60 %}
+                                    <img src="{{ asset('images/png/g13-5.png') }}" alt="" width="100px">
+                                {% else %}
+                                    <img src="{{ asset('images/png/g15.png') }}" alt="" width="100px">
+                                {% endif %}
                                 <br>Dépôt de dossier de vente
                             </a>
                         </li>
                         <li class="nav-item">
                             <a id="icoStepFour" class="nav-link {% if progress >= 80  %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                                {% if progress >= 80 %}
+                                    <img src="{{ asset('images/png/g11.png') }}" alt="" width="100px">
+                                {% else %}
+                                    <img src="{{ asset('images/png/g10.png') }}" alt="" width="100px">
+                                {% endif %}
                                 <br>Signature acte de vente
                             </a>
                         </li>
                         <li class="nav-item">
                             <a id="icoStepFive" class="nav-link {% if progress >= 100  %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                <img src="{{ asset('images/svg/PictoPAPSVente.svg') }}" alt="" width="100px">
+                                {% if progress >= 100 %}
+                                    <img src="{{ asset('images/png/g13-5.png') }}" alt="" width="100px">
+                                {% else %}
+                                    <img src="{{ asset('images/png/g15.png') }}" alt="" width="100px">
+                                {% endif %}
                                 <br>Dossier finalisé
                             </a>
                         </li>
