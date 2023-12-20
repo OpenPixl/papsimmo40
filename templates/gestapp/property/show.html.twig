@@ -1914,7 +1914,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer', {'type' : 1, 'option' : property.id})) }}
                     <input id="idProperty" type="hidden" value="">
                 </div>
                 <div class="modal-footer">
