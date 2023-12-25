@@ -1,0 +1,49 @@
+<div class="col-12">
+    <h4>Récapitulatif du dossier finalisé</h4>
+    <p>Le dossier de transaction sur ce bien est finalisé.</p>
+    <table class="table table-sm">
+        <tr class="align-middle">
+            <td class="col-2 table-light">Vendeur.s</td>
+            <td class="col-4">
+                {% for propr in transaction.property.customer %}
+                    <div class="card border-dark mb-1" style="width: 40%;">
+                        <div class="card-body">
+                            <h5 class="mt-0">{{ propr.firstname }} {{ propr.lastName }}</h5>
+                            <h6 class="card-subtitle">{{ propr.home }} | {{ propr.gsm }}</h6>
+                        </div>
+                    </div>
+                {% endfor %}
+            </td>
+            <td class="col-2 table-light">Acheteur.s</td>
+            <td class="col-4">
+                {% for buyer in transaction.customer %}
+                    <div class="card border-dark mb-1" style="width: 40%;">
+                        <div class="card-body">
+                            <h5 class="mt-0">{{ buyer.firstname }} {{ buyer.lastName }}</h5>
+                            <h6 class="card-subtitle">{{ buyer.home }} | {{ buyer.gsm }}</h6>
+                        </div>
+                    </div>
+                {% endfor %}
+            </td>
+        </tr>
+        <tr class="align-middle">
+            <td class="table-light">Date d'ouverture du dossier</td>
+            <td>{{ transaction.createdAt|format_datetime('full', 'none', locale='fr') }}</td>
+        </tr>
+        <tr class="align-middle">
+            <td class="table-light">Date de signature du compromis</td>
+            <td>{{ transaction.dateAtPromise|format_datetime('full', 'none', locale='fr') }}</td>
+            <td class="table-light">Compromis de vente en pdf : </td>
+            <td><a href="{{ asset('doc/transaction/promise/') ~ transaction.promisePdfFilename }}" download><i class="fa-duotone fa-circle-down"></i> Téléchargez le document</a></td>
+        </tr>
+        <tr class="align-middle">
+            <td class="table-light">Date de signature de l'acte final</td>
+            <td>{{ transaction.dateAtKeys|format_datetime('full', 'none', locale='fr') }}</td>
+            <td class="table-light">L'acte en pdf : </td>
+            <td><a href="{{ asset('doc/transaction/promise/') ~ transaction.promisePdfFilename }}" download><i class="fa-duotone fa-circle-down"></i> Téléchargez le document</a></td>
+        </tr>
+    </table>
+</div>
+<div class="col-12 mt-3">
+    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+</div>

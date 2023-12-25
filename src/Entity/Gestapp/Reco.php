@@ -147,6 +147,13 @@ class Reco
     #[ORM\Column]
     private ?bool $isRead = false;
 
+    #[ORM\ManyToOne(inversedBy: 'recos')]
+    #[Groups(['reco:item', 'reco:write:post'])]
+    private ?Property $refProperty = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $StatusPrescriber = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -376,6 +383,30 @@ class Reco
     public function setIsRead(bool $isRead): static
     {
         $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    public function getRefProperty(): ?Property
+    {
+        return $this->refProperty;
+    }
+
+    public function setRefProperty(?Property $refProperty): static
+    {
+        $this->refProperty = $refProperty;
+
+        return $this;
+    }
+
+    public function getStatusPrescriber(): ?string
+    {
+        return $this->StatusPrescriber;
+    }
+
+    public function setStatusPrescriber(string $StatusPrescriber): static
+    {
+        $this->StatusPrescriber = $StatusPrescriber;
 
         return $this;
     }

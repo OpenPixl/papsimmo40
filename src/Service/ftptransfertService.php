@@ -783,7 +783,7 @@ class ftptransfertService
 
             // Création d'une ligne du tableau
             $data = array(
-                '"1074280"',                                                // 1 - Identifiant Agence
+                '"107428"',                                                // 1 - Identifiant Agence
                 '"' . $refs['ref'] . '"',                                   // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                       // 4 - Type de bien

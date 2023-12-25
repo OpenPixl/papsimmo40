@@ -1,9 +1,9 @@
 <div class="row justify-content-center">
     {% for categorie in categories %}
         <div class="col-1">
-            <button class="btn btn-outline-primary btn-sm w-100" data-id="{{ categorie.id }}">
+            <a type="button" class="btn btn-outline-primary btn-sm w-100 btnCat" href="{{ path('op_gestapp_document_categorie', {'idcat': categorie.id}) }}">
                 {{ categorie.name|upper }}
-            </button>
+            </a>
         </div>
     {% else %}
         <div class="col-12">

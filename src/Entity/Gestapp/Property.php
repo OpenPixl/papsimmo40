@@ -17,7 +17,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\Patch;
@@ -27,7 +26,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
 #[ORM\Index(columns: ["ref", "name", "zipcode", "city"], name: 'property_idx', flags: ['fulltext'])]
 #[ApiResource(
     shortName: 'Propriete',
@@ -76,11 +74,11 @@ class Property
     private $id;
 
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch', 'property:write:post'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'property:write:post', 'reco:item'])]
     private $ref;
 
     #[ORM\Column(type: 'string', length: 100)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $name;
 
     #[ORM\Column(type: 'string', length: 100)]
@@ -90,51 +88,51 @@ class Property
     private $refEmployed;
 
     #[ORM\Column(type: 'text', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $annonce;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $piece;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $room;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $surfaceLand;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $surfaceHome;
 
     #[ORM\Column(type: 'date', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $dpeAt;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $diagDpe;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $diagGes;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $adress;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $complement;
 
     #[ORM\Column(type: 'string', length: 10, nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $zipcode;
 
     #[ORM\Column(type: 'string', length: 255, nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $city;
 
     #[ORM\OneToOne(targetEntity: Complement::class, cascade: ['persist', 'remove'])]
@@ -173,19 +171,19 @@ class Property
     private $RefMandat;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $dpeEstimateEnergyDown;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $dpeEstimateEnergyUp;
 
     #[ORM\Column(type: 'string', length: 4, nullable: true)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $constructionAt;
 
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Photo::class)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $photos;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -195,9 +193,11 @@ class Property
     private $honoraires;
 
     #[ORM\Column(type: 'decimal', precision: 10, scale: '0', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $priceFai;
 
     #[ORM\Column(type: 'date', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $eeaYear;
 
     #[ORM\Column(type: 'integer', nullable: true)]
@@ -344,6 +344,9 @@ class Property
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 4, nullable: true)]
     private ?string $coordLat = null;
 
+    #[ORM\OneToMany(mappedBy: 'refProperty', targetEntity: Reco::class)]
+    private Collection $recos;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -352,6 +355,7 @@ class Property
         $this->cadastre = new ArrayCollection();
         $this->contacts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->recos = new ArrayCollection();
     }
 
     /**
@@ -1412,6 +1416,36 @@ class Property
     public function setCoordLat(?string $coordLat): static
     {
         $this->coordLat = $coordLat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reco>
+     */
+    public function getRecos(): Collection
+    {
+        return $this->recos;
+    }
+
+    public function addReco(Reco $reco): static
+    {
+        if (!$this->recos->contains($reco)) {
+            $this->recos->add($reco);
+            $reco->setRefProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReco(Reco $reco): static
+    {
+        if ($this->recos->removeElement($reco)) {
+            // set the owning side to null (unless already changed)
+            if ($reco->getRefProperty() === $this) {
+                $reco->setRefProperty(null);
+            }
+        }
 
         return $this;
     }

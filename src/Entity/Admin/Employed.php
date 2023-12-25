@@ -30,11 +30,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
 use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EmployedRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
 #[UniqueEntity(fields: ['email'], message: 'un compte avec la même adresse mail existe déjà')]
 #[ApiResource(
     shortName: 'Collaborateur',
@@ -133,10 +131,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Page::class)]
     private $pages;
 
-    #[Vich\UploadableField(mapping: 'avatar_image', fileNameProperty:"avatarName", size:"avatarSize")]
-    #[Ignore]
-    private $avatarFile;
-
     #[ORM\Column(type: 'string', nullable: true)]
     #[Groups(['employed:list', 'employed:item'])]
     private $avatarName = null;
@@ -219,6 +213,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isSupprAvatar = false;
 
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Prescriber::class)]
+    private Collection $prescribers;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -230,6 +227,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->contacts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->recos = new ArrayCollection();
+        $this->prescribers = new ArrayCollection();
     }
 
     /**
@@ -895,6 +893,36 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsSupprAvatar(bool $isSupprAvatar): static
     {
         $this->isSupprAvatar = $isSupprAvatar;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Prescriber>
+     */
+    public function getPrescribers(): Collection
+    {
+        return $this->prescribers;
+    }
+
+    public function addPrescriber(Prescriber $prescriber): static
+    {
+        if (!$this->prescribers->contains($prescriber)) {
+            $this->prescribers->add($prescriber);
+            $prescriber->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removePrescriber(Prescriber $prescriber): static
+    {
+        if ($this->prescribers->removeElement($prescriber)) {
+            // set the owning side to null (unless already changed)
+            if ($prescriber->getRefEmployed() === $this) {
+                $prescriber->setRefEmployed(null);
+            }
+        }
 
         return $this;
     }

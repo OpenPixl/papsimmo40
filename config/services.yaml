@@ -13,6 +13,7 @@ parameters:
     mp4_directory: '%kernel.project_dir%/public/doc/mp4'
     transaction_promise_directory: '%kernel.project_dir%/public/doc/transaction/promise'
     transaction_acte_directory: '%kernel.project_dir%/public/doc/transaction/acte'
+    property_photo_directory: '%kernel.project_dir%/public/images/galery'
 
 services:
     # default configuration for services in *this* file

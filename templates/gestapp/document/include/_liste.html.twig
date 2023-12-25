@@ -1,0 +1,46 @@
+<h4><i class="fa-duotone fa-file-signature"></i> Documents</h4>
+<div class="row mt-3 g-1" id="sortDoc">
+    {% for document in documents|sort((a, b) => a.position <=> b.position) %}
+    <div id="{{ document.position }}" class="col-3">
+        <div class="card" style="border: 1px solid rgba(255, 255, 255, 0.13);background-color:#f3f3f3;padding-top: 0.5rem;padding-bottom: 0.5rem;">
+            <div class="row g-0 align-items-center">
+                <div class="col-md-2 text-center">
+                    {% if document.typeDoc == 'Pdf' %}
+                        <i class="fa-duotone fa-file-pdf fa-2xl"></i>
+                    {% elseif document.typeDoc == 'Word' %}
+                        <i class="fa-duotone fa-file-word fa-2xl"></i>
+                    {% elseif document.typeDoc == 'Excel' %}
+                        <i class="fa-duotone fa-file-excel fa-2xl"></i>
+                    {% elseif document.typeDoc == 'Mp4' %}
+                        <i class="fa-duotone fa-file-video fa-2xl"></i>
+                    {% endif %}
+                </div>
+                <div class="col-md-10">
+                    <div class="card-body">
+                        {% if document.typeDoc == 'Pdf' %}
+                        <a href="{{ asset('doc/pdf/') ~ document.name }}" class="stretched-link" style="text-decoration: none" download><i class="fa-duotone fa-eye"></i> {{ document.name }}</a>
+                        {% elseif document.typeDoc == 'Word' %}
+                        <a href="{{ asset('doc/word/') ~  document.name }}" class="stretched-link" style="text-decoration: none" download><i class="fa-duotone fa-eye"></i> {{ document.name }}</a>
+                        {% elseif document.typeDoc == 'Excel' %}
+                        <a href="{{ asset('doc/excel/') ~  document.name }}" class="stretched-link" style="text-decoration: none" download><i class="fa-duotone fa-eye"></i> {{ document.name }}</a>
+                        {% elseif document.typeDoc == 'Mp4' %}
+                        <a href="{{ asset('doc/mp4/') ~  document.name  }}" class="stretched-link" style="text-decoration: none" download><i class="fa-duotone fa-eye"></i> {{ document.name }}</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        <p class="text-center mt-1"><a id="btnSupprDocument" class="text-danger btnModalSupprDocument" href="{{ path('op_gestapp_document_del', {'id':document.id}) }}"><i class="fa-duotone fa-trash text-danger"></i> Suppression du document</a></p>
+        {% endif %}
+    </div>
+    {% else %}
+    <div class="col-1">
+        <div class="card">
+            <div class="card-body">
+                Il n'y a pas de document inscrit actuellement dans SoftPAP's
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</div>

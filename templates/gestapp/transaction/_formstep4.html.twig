@@ -27,7 +27,7 @@
     </div>
     {% endif %}
 </div>
-<div class="col-12 mt-3">
+<div id="submitStep" class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
     {% if transaction.isValidActepdf == 0 %}
     <button type="submit" id="btnToStepFive" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider la signature de l'acte de vente</button>

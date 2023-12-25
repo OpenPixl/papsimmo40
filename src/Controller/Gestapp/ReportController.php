@@ -73,7 +73,11 @@ class ReportController extends AbstractController
             }
             // Clé de détermination PARUVENDU - SSRUBRIQUE
             if ($property['rubricCode']) {
-                $ssrubrique = $property['rubricssCode'];
+                if($property['rubricssCode'] == 'STU'){
+                    $ssrubrique = "000";
+                }else{
+                    $ssrubrique = $property['rubricssCode'];
+                }
             } else {
                 $ssrubrique = "000";
             }

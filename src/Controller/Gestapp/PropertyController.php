@@ -53,6 +53,10 @@ class PropertyController extends AbstractController
         if($hasAccess == true){
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
+            // tri des bien avec date de fin de mandat inférérieur à aujourd'hui
+            foreach ($data as $d){
+
+            }
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -65,6 +69,7 @@ class PropertyController extends AbstractController
         }else{
             // dans ce cas, nous listons les propriétés de l'utilisateurs courant
             $data = $propertyRepository->listPropertiesByemployed($user);
+            // tri des bien avec date de fin de mandat inférérieur à aujourd'hui
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -277,6 +282,7 @@ class PropertyController extends AbstractController
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
         PropertyService $propertyService,
+        PhotoRepository $photoRepository,
         Request $request
     )
     {

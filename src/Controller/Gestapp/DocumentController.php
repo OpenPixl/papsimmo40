@@ -2,8 +2,10 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Gestapp\choice\CatDocument;
 use App\Entity\Gestapp\Document;
 use App\Form\Gestapp\DocumentType;
+use App\Repository\Gestapp\choice\CatDocumentRepository;
 use App\Repository\Gestapp\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -24,6 +26,21 @@ class DocumentController extends AbstractController
             'documents' => $documentRepository->findAll(),
         ]);
     }
+
+    #[Route('/{idcat}', name: 'op_gestapp_document_categorie', methods: ['GET'])]
+    public function categorie(DocumentRepository $documentRepository, $idcat): Response
+    {
+
+        $documents = $documentRepository->findBy(['category' => $idcat]);
+
+        return $this->json([
+            'code' => 200,
+            'liste' => $this->renderView('gestapp/document/include/_liste.html.twig', [
+                'documents' => $documents
+            ])
+        ], 200);
+    }
+
     #[Route('/updateposition', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
     public function updatePosition(EntityManagerInterface $entityManager, Request $request)
     {
@@ -45,7 +62,7 @@ class DocumentController extends AbstractController
         return $this->json([
             'code' => '200',
             'message' => 'Déplacement effectué',
-            'listDocument' => $this->renderView('gestapp/document/_list.html.twig',[
+            'listDocument' => $this->renderView('gestapp/document/include/_liste.html.twig',[
                 'documents' => $documents
             ]),
         ], 200);
@@ -192,7 +209,7 @@ class DocumentController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'message' => "Document ajouté à la BDD.",
-                'list' => $this->renderView('gestapp/document/_list.html.twig',[
+                'list' => $this->renderView('gestapp/document/_liste.html.twig',[
                     'documents' => $documents
                 ])
 
@@ -279,7 +296,7 @@ class DocumentController extends AbstractController
         return $this->json([
             'code' => '200',
             'message' => 'Le document a été correctement supprimé.',
-            'liste' => $this->renderView('gestapp/document/_list.html.twig',[
+            'liste' => $this->renderView('gestapp/document/_liste.html.twig',[
                 'documents' => $documents
             ])
         ], 200);

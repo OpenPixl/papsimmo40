@@ -200,9 +200,27 @@
                 },
             })
 
+            function FilterDocument(event){
+                event.preventDefault()
+                let url = this.href
+                axios
+                    .get(url)
+                    .then(function(response){
+                        document.getElementById('liste').innerHTML = response.data.liste
+                    })
+                    .catch(function (error){
+                        console.log(error)
+                    })
+            }
+
             // Mise en place de l'évenement pour la suppression d'un bien en cours de création
             document.querySelectorAll('a.btnModalSupprDocument').forEach(function(link){
                 link.addEventListener('click', ModalSupprDocument)
+            })
+
+            // Filtrage des documents
+            document.querySelectorAll('button.btnCat').forEach(function(link){
+                link.addEventListener('click', FilterDocument)
             })
 
         }
@@ -231,7 +249,7 @@
         </div>
     </div>
     <div id="listDocument" class="col-sm-12">
-        {% include('gestapp/document/_list.html.twig') %}
+        {% include('gestapp/document/include/_liste.html.twig') %}
     </div>
 </div>
 {% endblock %}

@@ -30,13 +30,6 @@ class Photo
     private $property;
 
     /**
-     * Insertion de l'image mise en avant liée à un article
-     * NOTE : Il ne s'agit pas d'un champ mappé des métadonnées de l'entité, mais d'une simple propriété.
-     **/
-    #[UploadableField(mapping: "galery_front", fileNameProperty: 'galeryFrontName', size: 'galeryFrontSize')]
-    private $galeryFrontFile;
-
-    /**
      * Nom du fichier
      */
     #[ORM\Column(type:'string', nullable: true)]
@@ -53,6 +46,9 @@ class Photo
     #[ORM\Column]
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private ?int $position = null;
+
+    #[ORM\Column(length: 250, nullable: true)]
+    private ?string $path = null;
 
     public function getId(): ?int
     {
@@ -155,6 +151,18 @@ class Photo
     public function setPosition(int $position): self
     {
         $this->position = $position;
+
+        return $this;
+    }
+
+    public function getPath(): ?string
+    {
+        return $this->path;
+    }
+
+    public function setPath(?string $path): static
+    {
+        $this->path = $path;
 
         return $this;
     }

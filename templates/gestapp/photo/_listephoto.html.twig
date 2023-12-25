@@ -2,10 +2,10 @@
     {% if loop.first %}
     <div class="col-3" id="{{ photo.id }}">
         <div class="card text-white bg-primary mb-1">
-            <img src="{{ asset('images/galery/') }}{{ photo.galeryFrontName }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}" style="width: 313px; height: 210px;">
+            <img src="{{ asset('images/galery/' ~ photo.path ~ '/' ~ photo.galeryFrontName) }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}" style="width: 313px; height: 210px;">
             <div class="card-img-overlay">
                 <a class="btn btn-sm btn-light" href="{{ path('op_gestapp_photo_show', {'id': photo.id}) }}"><i class="fa-duotone fa-image-landscape"></i></a>
-                <a class="btn btn-sm btn-light delphoto" href="{{ path('app_gestapp_photo_del', {'id': photo.id, 'idproperty': property.id}) }}"><i class="fa-duotone fa-camera-slash"></i></a>
+                <a class="btn btn-sm btn-light delphoto" href="{{ path('op_gestapp_photo_del', {'id': photo.id, 'idproperty': property.id}) }}"><i class="fa-duotone fa-camera-slash"></i></a>
             </div>
             <div class="card-body">
                 <p class="text-center">Image de profil</p>
@@ -15,10 +15,10 @@
     {% else %}
     <div class="col-3" id="{{ photo.id }}">
         <div class="card text-dark bg-light mb-1">
-            <img src="{{ asset('images/galery/') }}{{ photo.galeryFrontName }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}" style="width: 313px; height: 210px;">
+            <img src="{{ asset('images/galery/' ~ photo.path ~ '/' ~ photo.galeryFrontName) }}" class="card-img-top img-fluid" alt="{{ photo.galeryFrontName }}" style="width: 313px; height: 210px;">
             <div class="card-img-overlay">
                 <a class="btn btn-sm btn-light" href="{{ path('op_gestapp_photo_show', {'id': photo.id}) }}"><i class="fa-duotone fa-image-landscape"></i></a>
-                <a class="btn btn-sm btn-light delphoto" href="{{ path('app_gestapp_photo_del', {'id': photo.id, 'idproperty': property.id}) }}"><i class="fa-duotone fa-camera-slash"></i></a>
+                <a class="btn btn-sm btn-light delphoto" href="{{ path('op_gestapp_photo_del', {'id': photo.id, 'idproperty': property.id}) }}"><i class="fa-duotone fa-camera-slash"></i></a>
             </div>
             <div class="card-body">
                 <p class="text-center">Images de la galerie</p>

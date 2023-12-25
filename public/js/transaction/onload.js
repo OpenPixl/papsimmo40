@@ -44,6 +44,7 @@ const FormStep3 = document.getElementById('transactionstep3');
 const FormStep4 = document.getElementById('transactionstep4');
 const FormStep5 = document.getElementById('transactionstep5');
 const blocks = document.getElementById("blocks");
+// effet sur les icones de la barre de suivi
 icoStepOne.addEventListener('click', function(event){
     let blockchild = blocks.querySelector('.activ');
     if (blockchild !== null) {
@@ -125,7 +126,7 @@ validStep1.addEventListener('click', function(event){
             if(code == 200){
                 step2.classList.remove('d-none');
                 step1.classList.add('d-none');
-                document.querySelector('.progress-bar').setAttribute('aria-valuenow', '40');
+                document.getElementById('transState').innerHTML = response.data.transState;
             }else {
                 // initialisation du toaster
                 let toastHTMLElement = document.getElementById("toaster");
@@ -151,6 +152,7 @@ validStep2.addEventListener('click', function(event){
         .then(function(response){
             step3.classList.remove('d-none');
             step2.classList.add('d-none');
+            document.getElementById('transState').innerHTML = response.data.transState;
         })
         .catch(function (error) {
             console.log(error);
@@ -165,12 +167,9 @@ validStep3.addEventListener('click', function(event){
         .post(actionForm, dataForm)
         .then(function(response){
             let code = response.data.code;
-            if(code == 200){
-                let btnValidStep = document.getElementById('btnToStepFour');
-                let btnWaitStep = document.getElementById('btnWaitToStepFour');
-                // Mettre en place le bouton de validation du compromis de vente
-                btnWaitStep.classList.remove('d-none');
-                btnValidStep.classList.add('d-none');
+            if(code === 200){
+                document.getElementById('transState').innerHTML = response.data.transState;
+                document.getElementById('stepTree').innerHTML = response.data.step;
             }else{
                 // initialisation du toaster
                 let toastHTMLElement = document.getElementById("toaster");

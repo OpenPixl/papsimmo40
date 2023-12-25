@@ -222,4 +222,12 @@ class PropertyService
         }
         return $bilanGes;
     }
+
+    // Archivage des biens en expiration de mandat
+    public function expireAtOut(Property $property)
+    {
+        $property->setIsArchived(1);
+        $property->setArchivedAt(new \DateTime('+90 days'));
+    }
+
 }

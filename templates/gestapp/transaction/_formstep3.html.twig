@@ -19,11 +19,13 @@
     </div>
     {% endif %}
 </div>
-<div class="col-12 mt-3">
+<div id="submitStep" class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-    {% if transaction.isValidPromisepdf == 0 %}
-    <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document fournis</button>
+    {% if transaction.refEmployed.roles == 'ROLE_EMPLOYED' %}
+        <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le document pour contrôle</button>
+    {% else %}
+        <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
     {% endif %}
-    <a href="{{ path('op_gestapp_transaction_step3admin', {'id':transaction.id}) }}" id="btnWaitToStepFour" class="btn btn-sm btn-outline-primary {% if transaction.isValidPromisepdf == 0 %}d-none{% endif %} {% if is_granted('ROLE_ADMIN') %}{% else %}disabled{% endif %}"><i class="fa-duotone fa-hourglass-start"></i> En attente de validation</a>
-</div>
+
+    </div>
 {{ form_end(form) }}

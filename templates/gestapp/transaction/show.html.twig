@@ -17,18 +17,6 @@
 {% endblock %}
 
 {% block content %}
-    {% set progress = 0 %}
-    {% if transaction.state == 'open' %}
-        {% set progress = 20 %}
-    {% elseif transaction.state == 'promise' %}
-        {% set progress = 40 %}
-    {% elseif transaction.state == 'deposit' %}
-        {% set progress = 60 %}
-    {% elseif transaction.state == 'definitive_sale' %}
-        {% set progress = 80 %}
-    {% elseif transaction.state == 'finished' %}
-        {% set progress = 100 %}
-    {% endif %}
     <div class="row mb-2 align-items-center">
         <div class="col-2">
             <p class="text-center">
@@ -37,174 +25,25 @@
 
         </div>
         <div class="col-10" id="transState">
-            <div class="row mt-3 mb-3 justify-content-center">
-                <div class="col-12">
-                    <ul class="nav nav-justified">
-                        <li class="nav-item">
-                            <a id="icoStepOne" class="nav-link {% if progress >= 20 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                {% if progress >= 20 %}
-                                    <img src="{{ asset('images/png/g9.png') }}" alt="" width="100px">
-                                {% else %}
-                                    <img src="{{ asset('images/png/g8.png') }}" alt="" width="100px">
-                                {% endif %}
-                                <br>Ouverture de la transaction
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="icoStepTwo" class="nav-link {% if progress >= 40 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                {% if progress >= 40 %}
-                                    <img src="{{ asset('images/png/g11.png') }}" alt="" width="100px">
-                                {% else %}
-                                    <img src="{{ asset('images/png/g10.png') }}" alt="" width="100px">
-                                {% endif %}
-                                <br>Signature promesse de vente
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="icoStepTree" class="nav-link {% if progress >= 60 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                {% if progress >= 60 %}
-                                    <img src="{{ asset('images/png/g13-5.png') }}" alt="" width="100px">
-                                {% else %}
-                                    <img src="{{ asset('images/png/g15.png') }}" alt="" width="100px">
-                                {% endif %}
-                                <br>Dépôt de dossier de vente
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="icoStepFour" class="nav-link {% if progress >= 80  %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                {% if progress >= 80 %}
-                                    <img src="{{ asset('images/png/g11.png') }}" alt="" width="100px">
-                                {% else %}
-                                    <img src="{{ asset('images/png/g10.png') }}" alt="" width="100px">
-                                {% endif %}
-                                <br>Signature acte de vente
-                            </a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="icoStepFive" class="nav-link {% if progress >= 100  %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                                {% if progress >= 100 %}
-                                    <img src="{{ asset('images/png/g13-5.png') }}" alt="" width="100px">
-                                {% else %}
-                                    <img src="{{ asset('images/png/g15.png') }}" alt="" width="100px">
-                                {% endif %}
-                                <br>Dossier finalisé
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <div class="row align-items-center">
-                <div class="col-12">
-                    <div class="progress">
-                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
-                    </div>
-                </div>
-            </div>
-
+            {{ include('gestapp/transaction/include/_barandstep.html.twig') }}
         </div>
     </div>
     <div class="row">
         <div class="col-12" id="blocks">
             <div class="row mt-2 {% if transaction.state == 'open' %}activ{% else %}d-none{% endif %}" id="stepOne" name="step">
-                <div class="col-12">
-                    <h4>Etape 1 : Désignation Acheteur.s pour l'offre de vente</h4>
-                </div>
-                <div class="col-3" id="choiceCustomer">
-                    <div class="row mt-2">
-                        <div class="col-sm-12">
-                            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
-                                Ajouter un acheteur sur ce bien.
-                            </button>
-                            <hr>
-                            <div class="card text-dark bg-light">
-                                <div class="card-header">
-                                    <h5><b>Rechercher </b>un vendeur</h5>
-                                </div>
-                                <div class="card-body">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-9">
-                    <div class="row mt-2 g-1" id="ListTransactCustomers">
-                        {% include('gestapp/customer/_listecustomers.html.twig') %}
-                    </div>
-                </div>
-                <div class="col-12 mt-3">
-                    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-                    <a id="btnToStepTwo" href="{{ path('op_gestapp_transaction_step1', {'id': transaction.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le.s client.s</a>
-                </div>
+                {{ include('gestapp/transaction/include/_step1.html.twig') }}
             </div>
             <div class="row mt-2 {% if transaction.state == 'promise' %}activ{% else %}d-none{% endif %}" id="stepTwo" name="step">
-                <div class="col-12">
-                    <h4>Etape 2 : Date signature de promesse de vente</h4>
-                </div>
-                {{ render(controller('App\\Controller\\Gestapp\\TransactionController::step2', {'id': transaction.id})) }}
-
+                {{ include('gestapp/transaction/include/_step2.html.twig') }}
             </div>
             <div class="row mt-2 {% if transaction.state == 'deposit' %}activ{% else %}d-none{% endif %}" id="stepTree" name="step">
-                <div class="col-12">
-                    <h4>Etape 3 : Dépôt de dossier de vente</h4>
-                </div>
-                {{ render(controller('App\\Controller\\Gestapp\\TransactionController::step3', {'id': transaction.id})) }}
+                {{ include('gestapp/transaction/include/_step3.html.twig') }}
             </div>
             <div class="row mt-2 {% if transaction.state == 'definitive_sale' %}activ{% else %}d-none{% endif %}" id="stepFour" name="step">
-                <div class="col-12">
-                    <h4>Etape 4 : Acte de vente</h4>
-                </div>
-                {{ render(controller('App\\Controller\\Gestapp\\TransactionController::step4', {'id': transaction.id})) }}
+                {{ include('gestapp/transaction/include/_step4.html.twig') }}
             </div>
             <div class="row mt-2 {% if transaction.state == 'finished' %}activ{% else %}d-none{% endif %}" id="stepFive" name="step">
-                <div class="col-12">
-                    <h4>Récapitulatif du dossier finalisé</h4>
-                    <p>Le dossier de transaction sur ce bien est finalisé.</p>
-                    <table class="table table-sm">
-                        <tr class="align-middle">
-                            <td class="col-2 table-light">Vendeur.s</td>
-                            <td class="col-4">
-                                {% for propr in transaction.property.customer %}
-                                    <div class="card border-dark mb-1" style="width: 40%;">
-                                        <div class="card-body">
-                                            <h5 class="mt-0">{{ propr.firstname }} {{ propr.lastName }}</h5>
-                                            <h6 class="card-subtitle">{{ propr.home }} | {{ propr.gsm }}</h6>
-                                        </div>
-                                    </div>
-                                {% endfor %}
-                            </td>
-                            <td class="col-2 table-light">Acheteur.s</td>
-                            <td class="col-4">
-                                {% for buyer in transaction.customer %}
-                                <div class="card border-dark mb-1" style="width: 40%;">
-                                    <div class="card-body">
-                                        <h5 class="mt-0">{{ buyer.firstname }} {{ buyer.lastName }}</h5>
-                                        <h6 class="card-subtitle">{{ buyer.home }} | {{ buyer.gsm }}</h6>
-                                    </div>
-                                </div>
-                                {% endfor %}
-                            </td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="table-light">Date d'ouverture du dossier</td>
-                            <td>{{ transaction.createdAt|format_datetime('full', 'none', locale='fr') }}</td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="table-light">Date de signature du compromis</td>
-                            <td>{{ transaction.dateAtPromise|format_datetime('full', 'none', locale='fr') }}</td>
-                            <td class="table-light">Compromis de vente en pdf : </td>
-                            <td><a href="{{ asset('doc/transaction/promise/') ~ transaction.promisePdfFilename }}" download><i class="fa-duotone fa-circle-down"></i> Téléchargez le document</a></td>
-                        </tr>
-                        <tr class="align-middle">
-                            <td class="table-light">Date de signature de l'acte final</td>
-                            <td>{{ transaction.dateAtKeys|format_datetime('full', 'none', locale='fr') }}</td>
-                            <td class="table-light">L'acte en pdf : </td>
-                            <td><a href="{{ asset('doc/transaction/promise/') ~ transaction.promisePdfFilename }}" download><i class="fa-duotone fa-circle-down"></i> Téléchargez le document</a></td>
-                        </tr>
-                    </table>
-                </div>
-                <div class="col-12 mt-3">
-                    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-                </div>
+                {{ include('gestapp/transaction/include/_step5.html.twig') }}
             </div>
         </div>
     </div>

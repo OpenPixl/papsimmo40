@@ -1,0 +1,29 @@
+<div class="col-12">
+    <h4>Etape 1 : Désignation Acheteur.s pour l'offre de vente</h4>
+</div>
+<div class="col-3" id="choiceCustomer">
+    <div class="row mt-2">
+        <div class="col-sm-12">
+            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
+                Ajouter un acheteur sur ce bien.
+            </button>
+            <hr>
+            <div class="card text-dark bg-light">
+                <div class="card-header">
+                    <h5><b>Rechercher </b>un vendeur</h5>
+                </div>
+                <div class="card-body">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="col-9">
+    <div class="row mt-2 g-1" id="ListTransactCustomers">
+        {% include('gestapp/customer/_listecustomers.html.twig') %}
+    </div>
+</div>
+<div id="submitStep" class="col-12 mt-3">
+    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+    <a id="btnToStepTwo" href="{{ path('op_gestapp_transaction_step1', {'id': transaction.id}) }}" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider les clients</a>
+</div>

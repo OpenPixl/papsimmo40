@@ -42,6 +42,8 @@ class TransactionController extends AbstractController
         ]);
     }
 
+
+
     #[Route('/new/{idproperty}', name: 'op_gestapp_transaction_new', methods: ['GET', 'POST'])]
     public function new(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository): Response
     {
@@ -63,6 +65,8 @@ class TransactionController extends AbstractController
             'form' => $form,
         ]);
     }
+
+
 
     #[Route('/add/{idproperty}', name: 'op_gestapp_transaction_add', methods: ['GET'])]
     public function add(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository)
@@ -119,7 +123,7 @@ class TransactionController extends AbstractController
             return $this->redirectToRoute('op_gestapp_transaction_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/transaction/edit.html.twig', [
+        return $this->render('gestapp/transaction/edit.html.twig', [
             'transaction' => $transaction,
             'form' => $form,
         ]);
@@ -136,6 +140,9 @@ class TransactionController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'message' => 'Etape validée',
+                'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                    'transaction' => $transaction
+                ])
             ],200);
         }else{
             return $this->json([
@@ -162,7 +169,10 @@ class TransactionController extends AbstractController
 
             return $this->json([
                 'code' => 200,
-                'message' => 'Date de promesse de vente enregistrée.'
+                'message' => 'Date de promesse de vente enregistrée.',
+                'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                    'transaction' => $transaction
+                ])
             ], 200);
         }
 
@@ -184,7 +194,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
+            //dd($transaction);
             $promisepdf = $form->get('promisePdfFilename')->getData();
             //dd($pdf);
             if($promisepdf){
@@ -205,7 +215,14 @@ class TransactionController extends AbstractController
 
                 return $this->json([
                     'code' => 200,
-                    'message' => 'Promesse de vente réalisée.'
+                    'message' => 'Promesse de vente réalisée.',
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'step' => $this->renderView('gestapp/transaction/include/_step3.html.twig', [
+                        'transaction' => $transaction
+                    ])
+
                 ], 200);
             }
 
@@ -215,7 +232,7 @@ class TransactionController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/transaction/_formstep3.html.twig', [
+        return $this->render('gestapp/transaction/_formstep3.html.twig', [
             'transaction' => $transaction,
             'form' => $form,
         ]);
@@ -365,7 +382,7 @@ class TransactionController extends AbstractController
 
         return $this->json([
             'code'=>200,
-            'liste' => $this->renderView('gestapp/transaction/include/_list.html.twig', [
+            'liste' => $this->renderView('_liste.html.twig', [
                 'transactions' => $transactions
             ])
         ], 200);
