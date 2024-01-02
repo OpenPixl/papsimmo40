@@ -18,7 +18,7 @@
         <div class="row g-1">
             {% for photo in photos %}
                 <div class="col-6 pt-0 pb-1">
-                    <img class="img-fluid" src="{{ asset('images/galery/' ~ photo.path ~ '/' ~ photo.galeryFrontName)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
+                    <img class="img-fluid" src="{{ asset('properties/' ~ photo.path ~ '/' ~ photo.galeryFrontName)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
                 </div>
                 {% if loop.index is divisible by(2) %}
                     </div><div class="row g-1">
@@ -40,7 +40,7 @@
                 </div>
                 {% else %}
                 <div class="col-6 pt-0 pb-1">
-                    <img class="img-fluid" src="{{ asset('images/galery/' ~ p.galeryFrontName)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
+                    <img class="img-fluid" src="{{ asset('properties/'~ p.path ~ '/' ~ p.galeryFrontName)|imagine_filter('oneproperty_galery') }}" alt="" style="max-height: 266px;">
                 </div>
                 {% endif %}
                 {% endfor %}

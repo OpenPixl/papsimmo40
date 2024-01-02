@@ -1694,7 +1694,7 @@
             })
 
             // ------------------------------------
-            // Génération du Sortable - Dépalcement des photos et ordres d'affichages
+            // Génération du Sortable - Déplacement des photos et ordres d'affichages
             //-------------------------------------
             const sortablePhoto = document.getElementById("listephoto")
             new Sortable(sortablePhoto, {
@@ -1734,7 +1734,7 @@
                     card.className = "card text-white bg-primary mb-1"
                     let cardBody = card.childNodes[5]
                     cardBody.childNodes[1].textContent = 'Image de profil'
-                    //recupération des autres enfants
+                    // Récupération des autres enfants
                     for(i=1; i < cols.length; i++){
                         let otherChild = cols[i]
                         let card = otherChild.childNodes[1]

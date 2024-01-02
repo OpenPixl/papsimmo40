@@ -115,7 +115,7 @@
                     {# image principale#}
                     <div id="firstphoto" class="col-12 col-lg-5">
                         {% if firstphoto is not empty%}
-                            <img src="{{ asset('images/galery/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName)|imagine_filter('lastproperty_card') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
+                            <img src="{{ asset('properties/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName)|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
                         {% else %}
                             <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
                         {% endif %}

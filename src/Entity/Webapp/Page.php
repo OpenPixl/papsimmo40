@@ -69,6 +69,9 @@ class Page
     #[ORM\OneToMany(mappedBy: 'page', targetEntity: Section::class)]
     private $sections;
 
+    #[ORM\Column(nullable: true)]
+    private ?int $position = null;
+
     public function __construct()
     {
         $this->sections = new ArrayCollection();
@@ -318,6 +321,18 @@ class Page
                 $section->setPage(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPosition(): ?int
+    {
+        return $this->position;
+    }
+
+    public function setPosition(?int $position): static
+    {
+        $this->position = $position;
 
         return $this;
     }
