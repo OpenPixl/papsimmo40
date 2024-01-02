@@ -4,10 +4,16 @@ namespace App\Service;
 
 use App\Entity\Gestapp\Property;
 use App\Repository\Gestapp\PropertyRepository;
+use App\Repository\Gestapp\PublicationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PropertyService
 {
+    public function __construct(
+        public  EntityManagerInterface $em
+    )
+    {}
     // Destination commerciale du bien (Vente particulier, vente commerce, location particulier, vente commerce)
     public function getDestination(Property $property)
     {
@@ -224,10 +230,25 @@ class PropertyService
     }
 
     // Archivage des biens en expiration de mandat
-    public function expireAtOut(Property $property)
+    public function expireAtOut(Property $property, PublicationRepository $publicationRepository, EntityManagerInterface $em)
     {
+
+        $publish = $publicationRepository->findOneBy(['id'=> $property->getPublication()]);
+        $publish->setIsWebpublish(0);
+        $publish->setIsPublishMeilleur(0);
+        $publish->setIsPublishParven(0);
+        $publish->setIsPublishleboncoin(0);
+        $publish->setIsPublishgreenacres(0);
+        $publish->setIsPublishfigaro(0);
+        $publish->setIsPublishseloger(0);
+        $publish->setIsSocialNetwork(0);
+        $em->persist($publish);
+
         $property->setIsArchived(1);
         $property->setArchivedAt(new \DateTime('+90 days'));
+        $em->persist($property);
+
+        $em->flush();
     }
 
 }

@@ -69,7 +69,7 @@ class EmployedController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             // intégration d'une image
-            $avatarFile = $form->get('employed_avatarFile')->getData();
+            $avatarFile = $form->get('avatarFile')->getData();
             if ($avatarFile) {
                 $originalavatarFileName = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -85,14 +85,14 @@ class EmployedController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
+                $employed->setAvatarName($newavatarFileName);
+                $employed->setAvatarSize($avatarFile->getSize());
             }
 
-
+            $plainpassword = explode("@", $form->get('email')->getData());
             $numCollaborator = rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10);
-            $employed->setPassword($userPasswordHasher->hashPassword($employed,'papsimmo'));
+            $employed->setPassword($userPasswordHasher->hashPassword($employed,$plainpassword[0]));
             $employed->setNumCollaborator($numCollaborator);
-            $employed->setAvatarName($newavatarFileName);
-            $employed->setAvatarSize($avatarFile->getSize());
             $employedRepository->add($employed);
 
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);

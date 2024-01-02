@@ -94,7 +94,7 @@ class ReportController extends AbstractController
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key < 15; $key++) {
                     if (array_key_exists($key, $arraykey)) {
-                        ${'url' . $key + 1} = 'http://' . $app . '/images/galery/' . $photos[$key]['galeryFrontName'];
+                        ${'url' . $key + 1} = 'http://' . $app . '/properties/' . $photos[$key]['path'] . '/' .$photos[$key]['galeryFrontName'];
                         array_push($url, ${'url' . $key + 1});
                     } else {
                         ${'url' . $key + 1} = '';
@@ -298,7 +298,7 @@ class ReportController extends AbstractController
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key < 30; $key++) {
                     if (array_key_exists($key, $arraykey)) {
-                        ${'url' . $key + 1} = 'http://' . $app . '/images/galery/' . $photos[$key]['galeryFrontName'] . "?" . $photos[$key]['createdAt']->format('Ymd');
+                        ${'url' . $key + 1} = 'http://' . $app . '/properties/' . $photos[$key]['path'] . '/' .$photos[$key]['galeryFrontName'];
                         array_push($url, ${'url' . $key + 1});
                     } else {
                         ${'url' . $key + 1} = '';
@@ -797,7 +797,7 @@ class ReportController extends AbstractController
             } else {
                 foreach($photos as $photo)
                 {
-                    $urlphoto = 'http://' . $app . '/images/galery/' . $photo['galeryFrontName'];
+                    $urlphoto = 'http://' . $app . '/properties/' .$photo['path'].'/'. $photo['galeryFrontName'];
                     $titrephoto = 'Photo-' . $property->getRef() . '-' . + 1;
                     $pic = [
                         'urlphoto' => $urlphoto,

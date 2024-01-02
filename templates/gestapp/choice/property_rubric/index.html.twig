@@ -1,14 +1,14 @@
 <div class="d-flex justify-content-between">
     <h6 class="text-start">Liste des rubriques</h6>
-    <p class="text-end"><a id="addPropertyBanner" href=""><i class="fa-regular fa-circle-plus fa-lg"></i></a></p>
+    <p class="text-end"><a id="addPropertyBanner" href="" data-bs-toggle="modal" data-bs-target="#modalRubric"><i class="fa-regular fa-circle-plus fa-lg"></i></a></p>
 </div>
 <div id="listRubric">
-    <table class="table">
+    <table class="table table-sm table-hover">
         <thead>
-        <tr>
-            <th>Nom</th>
-            <th>actions</th>
-        </tr>
+            <tr>
+                <th>Nom</th>
+                <th>actions</th>
+            </tr>
         </thead>
         <tbody>
         {% for property_rubric in property_rubrics %}

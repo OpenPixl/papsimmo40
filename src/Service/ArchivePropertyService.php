@@ -46,26 +46,22 @@ class ArchivePropertyService{
         ComplementRepository $complementRepository
     )
     {
-        $now = new \DateTime('now');
-
-        if($property->getArchivedAt() >= $now){
-            // Suppression des entités l  ées à la propriété
-            $publication = $property->getPublication();
-            $complement = $property->getOptions();
-            // 1.Supression des images liées à la propriété
-            $photos = $photoRepository->findBy(['property' => $property]);
-            foreach($photos as $photo){
-                $photoRepository->remove($photo);
-            }
-            // 2.supression des zones de cadastres liées à la propriété
-            $cadasters = $cadasterRepository->findBy(['property' => $property]);
-            foreach($cadasters as $cadaster){
-                $cadasterRepository->remove($cadaster);
-            }
-            // 3. Finalisation des suppression
-            $this->propertyRepository->remove($property);
-            $publicationRepository->remove($publication);
-            $complementRepository->remove($complement);
+        // Suppression des entités liées à la propriété
+        $publication = $property->getPublication();
+        $complement = $property->getOptions();
+        // 1.Supression des images liées à la propriété
+        $photos = $photoRepository->findBy(['property' => $property]);
+        foreach($photos as $photo){
+            $photoRepository->remove($photo);
         }
-    }
+        // 2.supression des zones de cadastres liées à la propriété
+        $cadasters = $cadasterRepository->findBy(['property' => $property]);
+        foreach($cadasters as $cadaster){
+            $cadasterRepository->remove($cadaster);
+        }
+        // 3. Finalisation des suppression
+        $this->propertyRepository->remove($property);
+        $publicationRepository->remove($publication);
+        $complementRepository->remove($complement);
+        }
 }

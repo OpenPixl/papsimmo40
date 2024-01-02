@@ -4,78 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        window.onload = function(){
-            // ----------------------------
-            // Bloc Bannière
-            // ----------------------------
-
-            // I. Préparation de la modale
-            const modalPropertyBanner = document.getElementById('modalPropertyBanner')
-            const PropertyBanner = new bootstrap.Modal(modalPropertyBanner, { keyboard: true })
-            const addPropertyBanner = document.getElementById('addPropertyBanner')
-            addPropertyBanner.addEventListener('click', function(event){
-                event.preventDefault()
-                PropertyBanner.show()
-            })
-            // II. Envoi du formulaire ajout de la bannière
-            let property_banner = document.getElementById('FormPropertyBanner')
-            property_banner.addEventListener('submit', function (event) {
-                event.preventDefault()
-                let url_property_banner = '/gestapp/choice/property/banner/new'
-                let data_property_banner = new FormData(property_banner)
-                axios
-                    .post(url_property_banner, data_property_banner)
-                    .then(function(response)
-                    {
-                        const liste = document.getElementById('listBanner').innerHTML = response.data.listbanners
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
-            })
-            // III. Suppression de la bannière
-            const SupprBanner  = document.getElementById('SupprBanner')
-            SupprBanner.addEventListener('show.bs.modal', function (event) {
-                let a = event.relatedTarget
-                let recipient = a.getAttribute('data-bs-whatever')
-                let btnSubmit = SupprBanner.querySelector('.modal-footer #btnDelBanner')
-                btnSubmit.href = a.href
-            })
-
-            // Code de suppression lors du clic sur le bouton de la modal "Suppr"
-            function onClickDelBanner(event){
-                event.preventDefault()
-                const url = this.href
-                axios
-                    .post(url)
-                    .then(function(response)
-                    {
-                        // rafraichissement du tableau
-                        const liste = document.getElementById('listBanner').innerHTML = response.data.listbanner
-                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                            link.addEventListener('click', onClickDelBanner)
-                        })
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation : true, autohide: true, delay : 3000});
-                        toastElement.show();
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
-            }
-
-            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-            document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                link.addEventListener('click', onClickDelBanner)
-            })
-        }
-    </script>
+    <script src="{{ asset('js/Admin/Application/banner.js') }}" type="module"></script>
 {% endblock %}
 
 {% block content %}
@@ -104,39 +33,81 @@
 
 {% block modal %}
     {{ parent() }}
-    {# Modal d'ajout d'une bannière #}
-    <div class="modal fade" id="modalPropertyBanner" tabindex="-1" aria-labelledby="addPropertyBanner" aria-hidden="true">
+    {# Modal transaction #}
+    <div class="modal fade" id="modalTransaction" tabindex="-1" aria-labelledby="modalTransactionLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une Transaction :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Exemple de contenu</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Sauvegarder</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {# Modal bannière #}
+    <div class="modal fade" id="modalBanner" tabindex="-1" aria-labelledby="modalBannerLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une Bannière :</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::new')) }}
+                <div class="modal-body">
+                    <p>Exemple de contenu</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Sauvegarder</button>
+                </div>
+
             </div>
         </div>
     </div>
-    {# Modal de suppression d'une bannière #}
-    <div class="modal fade" id="SupprBanner" tabindex="-1" aria-labelledby="SupprBanner" aria-hidden="true">
+    {# Modal rubrique #}
+    <div class="modal fade" id="modalRubric" tabindex="-1" aria-labelledby="modalRubricLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title text-danger" id="exampleModalLabel">Suppression de la bannière</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une rubrique :</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="modal-text">
-                        Vous êtes sur le point de supprimer la bannière sélectionnée.
-                        <br>
-                        Etes-vous sur de vouloir continuer.
-                    </p>
-                    <input type="hidden" id="recipient-name">
+                    <p>Exemple de contenu</p>
                 </div>
                 <div class="modal-footer">
-                    <a id="btnDelBanner" href="#" type="button" class="btn btn-danger js-data-suppr" data-bs-dismiss="modal">Supprimer</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Sauvegarder</button>
                 </div>
+
             </div>
         </div>
     </div>
+    {# Modal sous rubrique #}
+    <div class="modal fade" id="modalRubricss" tabindex="-1" aria-labelledby="modalRubricssLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une sous rubrique :</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Exemple de contenu</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                    <button type="button" class="btn btn-primary">Sauvegarder</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

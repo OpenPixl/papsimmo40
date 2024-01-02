@@ -96,7 +96,7 @@ class PhotoController extends AbstractController
                 $originalphotoFileName = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
                 $safephotoFileName = $slugger->slug($originalphotoFileName);
-                $newphotoFileName = $safephotoFileName . '-' . uniqid() . '.' . $photoFile->guessExtension();
+                $newphotoFileName = $safephotoFileName . '.' . $photoFile->guessExtension();
                 $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
                 // Move the file to the directory where brochures are stored
                 try {

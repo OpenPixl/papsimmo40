@@ -25,7 +25,7 @@ use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Service\ArchivePropertyService;
 use App\Service\PropertyService;
-use JetBrains\PhpStorm\NoReturn;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -44,7 +44,9 @@ class PropertyController extends AbstractController
         CadasterRepository $cadasterRepository,
         PhotoRepository $photoRepository,
         ComplementRepository $complementRepository,
-        ArchivePropertyService $archiveProperty
+        ArchivePropertyService $archiveProperty,
+        PropertyService $propertyService,
+        EntityManagerInterface $em
     ): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
@@ -53,10 +55,19 @@ class PropertyController extends AbstractController
         if($hasAccess == true){
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
-            // tri des bien avec date de fin de mandat inférérieur à aujourd'hui
-            foreach ($data as $d){
 
+            $expireAtOut = [];
+            // tri des bien avec date de fin de mandat inférieur à aujourd'hui
+            foreach ($data as $d){
+                $dateEndMandat = $d['dateEndmandat'];
+                $idpro = $propertyRepository->find($d['id']);
+
+                if($dateEndMandat !== null){
+                    $propertyService->expireAtOut($idpro, $publicationRepository, $em);
+                    array_push($expireAtOut, $d['id']);
+                }
             }
+            //dd($expireAtOut);
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -64,7 +75,8 @@ class PropertyController extends AbstractController
             );
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $properties,
-                'user' => $user
+                'user' => $user,
+                'expireAtOut' => count($expireAtOut)
             ]);
         }else{
             // dans ce cas, nous listons les propriétés de l'utilisateurs courant
@@ -143,9 +155,16 @@ class PropertyController extends AbstractController
         $properties = $propertyRepository->listAllPropertiesArchived();
         foreach($properties as $p)
         {
+            $now = new \DateTime('now');
             $property = $propertyRepository->find($p['id']);
+            $dateArchivedAt = $property->getArchivedAt();
+            $arhivedAtExpired = [];
+            if($now >= $dateArchivedAt){
+                array_push($arhivedAtExpired, $property->getId());
+                $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
+            }
+            //dd(count($arhivedAtExpired));
             //$archiveProperty->onArchive($propertyRepository);
-            $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
         }
         $data = $propertyRepository->listAllPropertiesArchived();
         $properties = $paginator->paginate(
@@ -159,7 +178,8 @@ class PropertyController extends AbstractController
             'message' => "Les informations du bien ont été correctement ajoutées.",
             'listarchived' => $this->renderView('gestapp/property/_listarchived.html.twig',[
                 'properties' => $data
-            ])
+            ]),
+            'expiredArchived' => count($arhivedAtExpired)
         ], 200);
     }
 

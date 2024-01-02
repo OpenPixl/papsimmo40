@@ -742,14 +742,19 @@
             const rentCommerce = document.getElementById('rentCommerce')
 
             if(family.value == 4 && rubric.value == 8) {
+                let warranty = document.getElementById('warrantyDeposit')
                 sales.classList.add('d-none')
                 rent.classList.add('d-none')
-                document.getElementById('warrantyDeposit').remove()
+                if(warranty !== null){
+                    document.getElementById('warrantyDeposit').remove()
+                }
             }else if (family.value == 5) {
+                let warranty = document.getElementById('warrantyDeposit')
                 sales.classList.add('d-none')
                 rentCommerce.classList.add('d-none')
-                document.getElementById('warrantyDepositCommerce').remove()
-            }else{
+                if(warranty !== null){
+                    document.getElementById('warrantyDeposit').remove()
+                }            }else{
                 rent.classList.add('d-none')
                 rentCommerce.classList.add('d-none')
             }

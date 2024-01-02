@@ -131,7 +131,7 @@ class ftptransfertService
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<30; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = $app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
+                        ${'url'.$key+1} = $app.'/properties/'.$photos[$key]['path'].'/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
@@ -716,7 +716,7 @@ class ftptransfertService
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<30; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = $app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
+                        ${'url'.$key+1} = $app.'/properties/'.$photos[$key]['path'].'/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
@@ -1284,7 +1284,7 @@ class ftptransfertService
             }else {
                 foreach($photos as $photo)
                 {
-                    $urlphoto = $app . '/images/galery/' . $photo['galeryFrontName'];
+                    $urlphoto = $app . '/properties/'.$photo['path'].'/'. $photo['galeryFrontName'];
                     $titrephoto = 'Photo-' . $property->getRef() . '-' . + 1;
                     $pic = [
                         'urlphoto' => $urlphoto,

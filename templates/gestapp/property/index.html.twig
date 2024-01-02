@@ -366,11 +366,20 @@
 {% endblock %}
 
 {% block content %}
-<div id="listeIncreating"class="row mb-2">
+<div id="listeIncreating" class="row mb-2">
     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::inCreating')) }}
 </div>
 <div class="row">
     {% include ('gestapp/property/include/_navproperty.html.twig')%}
+    <div class="col-12">
+        {% if expireAtOut is defined and expireAtOut > 0 %}
+            {% if expireAtOut == 1 %}
+                <p class="alert alert-success">Prenez note que {{ expireAtOut }} bien dont le mandat a expiré, a été automatiquement archivé.</p>
+            {% else %}
+                <p class="alert alert-success">Prenez note que {{ expireAtOut }} biens dont le mandat a expiré, ont été automatiquement archivés.</p>
+            {% endif %}
+        {% endif %}
+    </div>
     <div id="list" class="col-sm-12">
         {% include('gestapp/property/_list.html.twig') %}
     </div>

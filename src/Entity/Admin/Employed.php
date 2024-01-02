@@ -8,6 +8,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Controller\Api\Admin\Employed\AddEmployed;
+use App\Controller\Api\Admin\Employed\AddPrescriber;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
@@ -59,6 +60,15 @@ use Symfony\Component\Validator\Constraints as Assert;
             openapiContext: [
                 'summary' => "Ajoute un collaborateur",
                 'description' => "Ajoute un collaborateur",
+            ],
+            normalizationContext: ['groups' => 'employed:write:post']
+        ),
+        new Post(
+            uriTemplate: '/prescriber',
+            controller: AddPrescriber::class,
+            openapiContext: [
+                'summary' => "Ajoute un prescripteur",
+                'description' => "Ajoute un prescripteur",
             ],
             normalizationContext: ['groups' => 'employed:write:post']
         ),
@@ -213,9 +223,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isSupprAvatar = false;
 
-    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Prescriber::class)]
-    private Collection $prescribers;
-
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -227,7 +234,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->contacts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->recos = new ArrayCollection();
-        $this->prescribers = new ArrayCollection();
     }
 
     /**
@@ -893,36 +899,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsSupprAvatar(bool $isSupprAvatar): static
     {
         $this->isSupprAvatar = $isSupprAvatar;
-
-        return $this;
-    }
-
-    /**
-     * @return Collection<int, Prescriber>
-     */
-    public function getPrescribers(): Collection
-    {
-        return $this->prescribers;
-    }
-
-    public function addPrescriber(Prescriber $prescriber): static
-    {
-        if (!$this->prescribers->contains($prescriber)) {
-            $this->prescribers->add($prescriber);
-            $prescriber->setRefEmployed($this);
-        }
-
-        return $this;
-    }
-
-    public function removePrescriber(Prescriber $prescriber): static
-    {
-        if ($this->prescribers->removeElement($prescriber)) {
-            // set the owning side to null (unless already changed)
-            if ($prescriber->getRefEmployed() === $this) {
-                $prescriber->setRefEmployed(null);
-            }
-        }
 
         return $this;
     }

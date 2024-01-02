@@ -206,7 +206,7 @@
                 axios
                     .get(url)
                     .then(function(response){
-                        document.getElementById('liste').innerHTML = response.data.liste
+                        document.getElementById('listDocument').innerHTML = response.data.liste
                     })
                     .catch(function (error){
                         console.log(error)
@@ -219,7 +219,7 @@
             })
 
             // Filtrage des documents
-            document.querySelectorAll('button.btnCat').forEach(function(link){
+            document.querySelectorAll('a.btnCat').forEach(function(link){
                 link.addEventListener('click', FilterDocument)
             })
 

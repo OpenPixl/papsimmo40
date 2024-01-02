@@ -24,7 +24,7 @@
                         {% elseif document.typeDoc == 'Excel' %}
                         <a href="{{ asset('doc/excel/') ~  document.name }}" class="stretched-link" style="text-decoration: none" download><i class="fa-duotone fa-eye"></i> {{ document.name }}</a>
                         {% elseif document.typeDoc == 'Mp4' %}
-                        <a href="{{ asset('doc/mp4/') ~  document.name  }}" class="stretched-link" style="text-decoration: none" download><i class="fa-duotone fa-eye"></i> {{ document.name }}</a>
+                        <a href="{{ asset('doc/mp4/') ~  document.name }}" class="stretched-link" style="text-decoration: none" download><i class="fa-duotone fa-eye"></i> {{ document.name }}</a>
                         {% endif %}
                     </div>
                 </div>
@@ -35,10 +35,10 @@
         {% endif %}
     </div>
     {% else %}
-    <div class="col-1">
+    <div class="col-3">
         <div class="card">
             <div class="card-body">
-                Il n'y a pas de document inscrit actuellement dans SoftPAP's
+                Il n'y a pas de documents disponibles actuellement. Notre équipe travail à enrichir cette dernière.
             </div>
         </div>
     </div>

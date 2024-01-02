@@ -30,11 +30,12 @@ class DocumentController extends AbstractController
     #[Route('/{idcat}', name: 'op_gestapp_document_categorie', methods: ['GET'])]
     public function categorie(DocumentRepository $documentRepository, $idcat): Response
     {
-
+        // filtrages des ressources par catégorie
         $documents = $documentRepository->findBy(['category' => $idcat]);
 
         return $this->json([
             'code' => 200,
+            'message' => 'Ok',
             'liste' => $this->renderView('gestapp/document/include/_liste.html.twig', [
                 'documents' => $documents
             ])

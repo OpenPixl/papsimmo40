@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table table-sm table-hover">
     <thead>
     <tr>
         <th colspan="2">Nom</th>
@@ -9,7 +9,7 @@
     {% for property_banner in property_banners %}
         <tr class="align-middle">
             <td>{{ property_banner.name }}</td>
-            <td><img src="{{ asset('images/svg/') ~ property_banner.bannerFilename}}" alt="{{ property_banner.slug }}" width="50px"></td>
+            <td><img src="{{ asset('images/svg/') ~ property_banner.bannerFilename}}" alt="{{ property_banner.slug }}" height="25px"></td>
             <td class="text-center"><a href="{{ path('app_gestapp_choice_property_banner_del', {'id': property_banner.id}) }}" id="btnSupprBanner" data-bs-toggle="modal" data-bs-target="#SupprBanner" data-bs-whatever="{{ property_banner.id }}"><i class="fa-duotone fa-square-minus fa-lg"></i></a></td>
         </tr>
     {% else %}
