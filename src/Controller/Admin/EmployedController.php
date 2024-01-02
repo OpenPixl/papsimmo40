@@ -301,16 +301,25 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/opadmin/employed/{id}/adminresetpassword', name: 'op_admin_employed_adminresetpassword', methods: ['GET', 'POST'])]
-    public function adminResetPassword(Request $request, Employed $employed, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function adminResetPassword(
+        Request $request,
+        Employed $employed,
+        EmployedRepository $employedRepository,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $em
+    ): Response
     {
         $form = $this->createForm(ResettingPasswordType::class, $employed);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
+            //dd($form);
             $password = $userPasswordHasher->hashPassword($employed, $form->get('password')->getData());
+
             $employed->setPassword($password);
-            $employedRepository->add($employed);
+            $em->persist($employed);
+            $em->flush();
 
             $request->getSession()->getFlashBag()->add('success', "le mot de passe a été renouvelé.");
 
