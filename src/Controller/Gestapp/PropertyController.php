@@ -256,7 +256,7 @@ class PropertyController extends AbstractController
     )
     {
         // Vérification si property été dupliqué
-        $refs = $propertyService->getRefs($property);
+        $refs = $propertyService->getRefs($property, $propertyRepository);
 
         // Clonage des options de la propriété
         $complement = $property->getOptions();
@@ -310,7 +310,7 @@ class PropertyController extends AbstractController
         $employed = $employedRepository->find($idemployed);
 
         // Vérification si property été dupliqué
-        $refs = $propertyService->getRefs($property);
+        $refs = $propertyService->getRefs($property, $propertyRepository);
 
         // Clonage des options de la propriété
         $complement = $property->getOptions();

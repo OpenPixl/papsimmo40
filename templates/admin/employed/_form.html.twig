@@ -1,6 +1,6 @@
 {{ form_start(form, {'attr': {'id' : 'FormEmployed'}}) }}
-{% if is_granted('ROLE_SUPER_ADMIN') %}
-<div class="row">
+
+<div class="row {% if is_granted('ROLE_SUPER_ADMIN') %}d-block{% else %}d-none{% endif %}">
     <div class="col-12">
         <div class="alert alert-secondary">
             <div class="form-check form-switch">
@@ -10,7 +10,7 @@
         </div>
     </div>
 </div>
-{% endif %}
+
 <div class="row g-1">
     <div class="col-8">
         <div class="card mb-1">
@@ -138,11 +138,17 @@
                         <td>{{ form_errors(form.referent) }}</td>
                     </tr>
                     {% if is_granted('ROLE_ADMIN') %}
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
-                        <td>{{ form_errors(form.dateEmployed) }}</td>
-                    </tr>
+                <tr class="align-middle">
+                    <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                    <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                    <td>{{ form_errors(form.dateEmployed) }}</td>
+                </tr>
+                    {% else %}
+                        <tr class="align-middle d-none">
+                            <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                            <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                            <td>{{ form_errors(form.dateEmployed) }}</td>
+                        </tr>
                     {% endif %}
                     <tr>
                         <td colspan="3"><h5>FICHE DE PRESENTATION</h5></td>

@@ -26,7 +26,7 @@ class RecoController extends AbstractController
                 'recos' => $recos,
             ]);
         }else{
-            $recos = $recoRepository->findBy($user->getId());
+            $recos = $recoRepository->findBy(['refEmployed' => $user->getId()]);
             return $this->render('gestapp/reco/index.html.twig', [
                 'recos' => $recos,
             ]);

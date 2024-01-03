@@ -1,7 +1,7 @@
 // any CSS you import will output into a single css file (app.scss in this case)
 import './styles/admin.scss';
 
-@import "~bootstrap/scss/bootstrap";
+import "~bootstrap/scss/bootstrap";
 
 // start the Stimulus application
 import './bootstrap';

@@ -11,7 +11,8 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class PropertyService
 {
     public function __construct(
-        public  EntityManagerInterface $em
+        public  EntityManagerInterface $em,
+        public PropertyRepository $propertyRepository
     )
     {}
     // Destination commerciale du bien (Vente particulier, vente commerce, location particulier, vente commerce)
@@ -156,24 +157,24 @@ class PropertyService
     }
 
     // Génération des références pour les diffuseurs
-    public function getRefs(Property $property)
+    public function getRefs(Property $property, PropertyRepository $propertyRepository)
     {
         // Vérification si property été dupliqué
-        $dup = $property->getDupMandat();
-        $ref = $property->getRef();
-        $mandat = $property->getRefMandat();
-        if($dup){
+        $properties = $propertyRepository->findBy(['RefMandat' => $property->getRefMandat()]);
+        if(count($properties) > 0)
+        {
+            $lastProperty = end($properties);
+            $dup = $lastProperty->getDupMandat();
             $dup++;
+            $ref = $lastProperty->getRef();;
             $initRef = substr($ref, 0,-1 );
             $newRef = $initRef.$dup;
-            $initMandat = substr($mandat, 0,-1 );
-            $newMandat = $initMandat.$dup;
         }else{
             $dup = 'A';
+            $ref = $property->getRef();
             $newRef = $ref.$dup;
-            $newMandat = $mandat.$dup;
         }
-        return array('ref'=>$newRef, 'dup'=> $dup, 'refMandat' => $newMandat);
+        return array('ref'=>$newRef, 'dup'=> $dup);
     }
 
     // Détermination des classes des diagnostique dpe et ges
