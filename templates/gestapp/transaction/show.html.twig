@@ -18,35 +18,54 @@
 
 {% block content %}
     <div class="row mb-2 align-items-center">
-        <div class="col-2">
-            <p class="text-center">
-                <img class="img-fluid" src="{{ asset('properties/' ~ photo.path) ~ '/' ~ photo.galeryFrontName }}" alt="">
-            </p>
+        <div class="col-3">
+            <div class="card">
+                {% if photo is defined %}
+                    <img class="card-img-top" src="{{ asset('properties/' ~ photo.path) ~ '/' ~ photo.galeryFrontName }}" alt="">
+                {% else %}
+                    <img class="card-img-top" src="{{ asset('images/jpeg/mod_maison.jpg') }}" alt="">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ transaction.property.name }}</h5>
+                    <p class="card-text">
+                        {% if transaction.refEmployed.id == app.user.id %}
+                            Porté par : <b>Moi même</b>
+                        {% else %}
+                            Porté par : <b>{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}</b>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
 
         </div>
-        <div class="col-10" id="transState">
-            {{ include('gestapp/transaction/include/_barandstep.html.twig') }}
+        <div class="col-9" id="transState">
+            <div class="row">
+                <div class="col-12">
+                    {{ include('gestapp/transaction/include/_barandstep.html.twig') }}
+                </div>
+                <div class="row">
+                    <div class="col-12" id="blocks">
+                        <div class="row mt-2 {% if transaction.state == 'open' %}activ{% else %}d-none{% endif %}" id="stepOne" name="step">
+                            {{ include('gestapp/transaction/include/_step1.html.twig') }}
+                        </div>
+                        <div class="row mt-2 {% if transaction.state == 'promise' %}activ{% else %}d-none{% endif %}" id="stepTwo" name="step">
+                            {{ include('gestapp/transaction/include/_step2.html.twig') }}
+                        </div>
+                        <div class="row mt-2 {% if transaction.state == 'deposit' %}activ{% else %}d-none{% endif %}" id="stepTree" name="step">
+                            {{ include('gestapp/transaction/include/_step3.html.twig') }}
+                        </div>
+                        <div class="row mt-2 {% if transaction.state == 'definitive_sale' %}activ{% else %}d-none{% endif %}" id="stepFour" name="step">
+                            {{ include('gestapp/transaction/include/_step4.html.twig') }}
+                        </div>
+                        <div class="row mt-2 {% if transaction.state == 'finished' %}activ{% else %}d-none{% endif %}" id="stepFive" name="step">
+                            {{ include('gestapp/transaction/include/_step5.html.twig') }}
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="row">
-        <div class="col-12" id="blocks">
-            <div class="row mt-2 {% if transaction.state == 'open' %}activ{% else %}d-none{% endif %}" id="stepOne" name="step">
-                {{ include('gestapp/transaction/include/_step1.html.twig') }}
-            </div>
-            <div class="row mt-2 {% if transaction.state == 'promise' %}activ{% else %}d-none{% endif %}" id="stepTwo" name="step">
-                {{ include('gestapp/transaction/include/_step2.html.twig') }}
-            </div>
-            <div class="row mt-2 {% if transaction.state == 'deposit' %}activ{% else %}d-none{% endif %}" id="stepTree" name="step">
-                {{ include('gestapp/transaction/include/_step3.html.twig') }}
-            </div>
-            <div class="row mt-2 {% if transaction.state == 'definitive_sale' %}activ{% else %}d-none{% endif %}" id="stepFour" name="step">
-                {{ include('gestapp/transaction/include/_step4.html.twig') }}
-            </div>
-            <div class="row mt-2 {% if transaction.state == 'finished' %}activ{% else %}d-none{% endif %}" id="stepFive" name="step">
-                {{ include('gestapp/transaction/include/_step5.html.twig') }}
-            </div>
-        </div>
-    </div>
+
 
 {% endblock %}
 

@@ -26,11 +26,45 @@
         </div>
     </div>
     {% endif %}
+    {% if transaction.isValidActepdf == 1 %}
+        <div class="row align-items-center">
+            <div class="col-3">
+                {{ form_label(form.dipPdfFilename) }}
+            </div>
+            <div class="col-4">
+                {{ form_widget(form.dipPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+            </div>
+        </div>
+        {% if transaction.dipPdfFilename is not empty%}
+            <div class="row align-items-center">
+                <div class="col-3">
+                    Document déposé :
+                </div>
+                <div class="col-4">
+                    {{ transaction.dipPdfFilename }}
+                </div>
+            </div>
+        {% endif %}
+    {% else %}
+        <div class="row align-items-center d-none">
+            <div class="col-3">
+                {{ form_label(form.dipPdfFilename) }}
+            </div>
+            <div class="col-4">
+                {{ form_widget(form.dipPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+            </div>
+        </div>
+    {% endif %}
 </div>
 <div id="submitStep" class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-    {% if transaction.isValidActepdf == 0 %}
-    <button type="submit" id="btnToStepFive" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider la signature de l'acte de vente</button>
+    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is not defined %}
+        <button type="submit" id="btnToStepFive" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger l'attestation d'acte pour contrôlee</button>
+    {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is defined %}
+        <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
+    {% endif %}
+    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is defined and transaction.isValidActepdf == 0 %}
     {% endif %}
     <a href="{{ path('op_gestapp_transaction_step4admin', {'id':transaction.id}) }}" id="btnWaitToStepFive" class="btn btn-sm btn-outline-primary {% if transaction.isValidActepdf == 0 %}d-none{% endif %} {% if is_granted('ROLE_ADMIN') %}{% else %}disabled{% endif %}"><i class="fa-duotone fa-hourglass-start"></i> En attente de validation</a>
 </div>

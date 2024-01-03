@@ -39,6 +39,7 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/index.html.twig', [
             'transactions' => $transactions,
+            'user' => $user
         ]);
     }
 
@@ -186,6 +187,90 @@ class TransactionController extends AbstractController
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
 
+        if($hasAccess == false){
+            $form = $this->createForm(Transactionstep3Type::class, $transaction, [
+                'attr' => ['id'=>'transactionstep3'],
+                'action' => $this->generateUrl('op_gestapp_transaction_step3', ['id' => $transaction->getId()]),
+                'method' => 'POST'
+            ]);
+        }else{
+            $form = $this->createForm(Transactionstep3Type::class, $transaction, [
+                'attr' => ['id'=>'transactionstep3'],
+                'action' => $this->generateUrl('op_gestapp_transaction_validAdminToStepFour', ['id' => $transaction->getId()]),
+                'method' => 'POST'
+            ]);
+        }
+
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($transaction);
+            $promisepdf = $form->get('promisePdfFilename')->getData();
+            //dd($pdf);
+            if($promisepdf){
+                $originalFilename = pathinfo($promisepdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$promisepdf->guessExtension();
+                try {
+                    $promisepdf->move(
+                        $this->getParameter('transaction_promise_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setPromisePdfFilename($newFilename);
+                $entityManager->persist($transaction);
+                $entityManager->flush();
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => 'Le document PDF est déposé sur la plateforme en attente de validation.',
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'step' => $this->renderView('gestapp/transaction/include/_step3.html.twig', [
+                        'transaction' => $transaction
+                    ])
+
+                ], 200);
+            }
+
+            return $this->json([
+                'code' => 300,
+                'message' => 'Il manque le document en pdf.'
+            ], 200);
+        }
+
+        return $this->render('gestapp/transaction/_formstep3.html.twig', [
+            'transaction' => $transaction,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/validAdminStep3', name: 'op_gestapp_transaction_validAdminStep3', methods: ['POST'])]
+    public function validAdminStep3(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $transaction->setState('definitive_sale');
+        $transaction->setIsValidPromisepdf(1);
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        return $this->json([
+            'code' => 300,
+            'message' => "Vous venez de valider le dossier de votre collaborateur. Un mail lui a été adressé afin de qu'il puisse continuer la vente",
+            'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                'transaction' => $transaction
+            ]),
+
+        ], 200);
+    }
+    #[Route('/{id}/validAdminToStepFour', name: 'op_gestapp_transaction_validAdminToStepFour', methods: ['POST'])]
+    public function validAdminToStepFour(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(Transactionstep3Type::class, $transaction, [
             'attr' => ['id'=>'transactionstep3'],
             'action' => $this->generateUrl('op_gestapp_transaction_step3', ['id' => $transaction->getId()]),
@@ -210,6 +295,8 @@ class TransactionController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $transaction->setPromisePdfFilename($newFilename);
+                $transaction->setState('definitive_sale');
+                $transaction->setIsValidPromisepdf(1);
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 
@@ -238,20 +325,6 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/step3admin', name: 'op_gestapp_transaction_step3admin', methods: ['GET', 'POST'])]
-    public function step3Admin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
-    {
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $transaction->setState('definitive_sale');
-        $transaction->setIsValidPromisepdf(1);
-        $entityManager->persist($transaction);
-        $entityManager->flush();
-
-        return $this->json([
-            'code' => 300,
-            'message' => "Le dossier est validé par l'administrateur."
-        ], 200);
-    }
 
     #[Route('/{id}/step4', name: 'op_gestapp_transaction_step4', methods: ['GET', 'POST'])]
     public function step4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
@@ -382,7 +455,7 @@ class TransactionController extends AbstractController
 
         return $this->json([
             'code'=>200,
-            'liste' => $this->renderView('_liste.html.twig', [
+            'liste' => $this->renderView('_ownliste.html.twig', [
                 'transactions' => $transactions
             ])
         ], 200);

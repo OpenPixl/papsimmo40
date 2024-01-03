@@ -65,7 +65,8 @@ class ftptransfertService
             //dd($annonce);
 
             // Récupération de la reference
-            $refs = $this->propertyService->getRefs($propriete);
+            $ref = $property['ref'];
+            $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
             $propertyDefinition = $property['rubric'];
@@ -196,7 +197,7 @@ class ftptransfertService
             // Création d'une ligne du tableau
             $data = array(
                 '"RC1860977"',                                                  // 1 - Identifiant Agence
-                '"' . $refs['ref'] . '"',                                       // 2 - Référence agence du bien
+                '"' . $ref . '"',                                       // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
@@ -306,7 +307,7 @@ class ftptransfertService
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refs['refMandat'] . '"',                                  // 112 - N° de mandat
+                '"' . $refMandat . '"',                                  // 112 - N° de mandat
                 '"' . $mandatAt . '"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
@@ -650,7 +651,8 @@ class ftptransfertService
             //dd($annonce);
 
             // Récupération de la reference
-            $refs = $this->propertyService->getRefs($propriete);
+            $ref = $property['ref'];
+            $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
             $propertyDefinition = $property['rubric'];
@@ -783,8 +785,8 @@ class ftptransfertService
 
             // Création d'une ligne du tableau
             $data = array(
-                '"107428"',                                                // 1 - Identifiant Agence
-                '"' . $refs['ref'] . '"',                                   // 2 - Référence agence du bien
+                '"107428"',                                                 // 1 - Identifiant Agence
+                '"' . $ref . '"',                                           // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                       // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                           // 5 - CP
@@ -894,8 +896,8 @@ class ftptransfertService
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refs['refMandat'] . '"',                                 // 112 - N° de mandat
-                '"' . $mandatAt . '"',                                          // 113 - Date mandat
+                '"' . $refMandat . '"',                                     // 112 - N° de mandat
+            '"' . $mandatAt . '"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
                 '""',                                                       // 116 - Raison sociale mandataire

@@ -153,17 +153,20 @@ class PropertyController extends AbstractController
     {
         // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
         $properties = $propertyRepository->listAllPropertiesArchived();
+        $countArchivedAtExpired = 0;
         foreach($properties as $p)
         {
             $now = new \DateTime('now');
             $property = $propertyRepository->find($p['id']);
             $dateArchivedAt = $property->getArchivedAt();
-            $arhivedAtExpired = [];
+            $archivedAtExpired = [];
             if($now >= $dateArchivedAt){
-                array_push($arhivedAtExpired, $property->getId());
+                array_push($archivedAtExpired, $property->getId());
                 $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
             }
-            //dd(count($arhivedAtExpired));
+            if(count($archivedAtExpired) > 0){
+                $countArchivedAtExpired = count($archivedAtExpired);
+            }
             //$archiveProperty->onArchive($propertyRepository);
         }
         $data = $propertyRepository->listAllPropertiesArchived();
@@ -179,7 +182,7 @@ class PropertyController extends AbstractController
             'listarchived' => $this->renderView('gestapp/property/_listarchived.html.twig',[
                 'properties' => $data
             ]),
-            'expiredArchived' => count($arhivedAtExpired)
+            'expiredArchived' => $countArchivedAtExpired
         ], 200);
     }
 

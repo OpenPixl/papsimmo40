@@ -11,14 +11,12 @@
     </tr>
     </thead>
     <tbody>
-        {% for transaction in transactions|filter(t => t.refEmployed.id is not same as user.id ) %}
-            <tr class="align-middle {% if transaction.isValidPromisepdf == 0 %}table-light{% endif %}">
+        {% for transaction in transactions|filter(t => t.refEmployed.id == user.id ) %}
+            <tr class="align-middle">
                 <td>
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': transaction.property.id})) }}
                 </td>
-                <td class="align-left">
-                    <b>{{ transaction.name }}</b>{% if transaction.isValidPromisepdf == 0 %}<br><span class="text-danger">La promesse de vente doit être controlée.</span>{% endif %}<br>
-                </td>
+                <td class="align-left">{{ transaction.name }}</td>
                 <td>
                     {% if transaction.refEmployed.avatarName is defined %}
                         <img class="rounded-circle" src="{{ asset('images/avatar/' ~ transaction.refEmployed.avatarName) }}" alt="{{ transaction.refEmployed.avatarName }}" style="height:50px;width:50px">
@@ -41,8 +39,10 @@
                         {% set progress = 100 %}
                     {% endif %}
                     <div class="progress">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
+                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
+                            {% if progress == 100 %}
+                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
+                            {% endif %}
                         </div>
                     </div>
                 </td>

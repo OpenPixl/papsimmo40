@@ -210,7 +210,7 @@ class DocumentController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'message' => "Document ajouté à la BDD.",
-                'list' => $this->renderView('gestapp/document/_liste.html.twig',[
+                'list' => $this->renderView('gestapp/document/_ownliste.html.twig',[
                     'documents' => $documents
                 ])
 
@@ -297,7 +297,7 @@ class DocumentController extends AbstractController
         return $this->json([
             'code' => '200',
             'message' => 'Le document a été correctement supprimé.',
-            'liste' => $this->renderView('gestapp/document/_liste.html.twig',[
+            'liste' => $this->renderView('gestapp/document/_ownliste.html.twig',[
                 'documents' => $documents
             ])
         ], 200);

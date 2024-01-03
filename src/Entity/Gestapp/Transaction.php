@@ -109,6 +109,13 @@ class Transaction
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?bool $isValidActepdf = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $dipPdfFilename = null;
+
+    #[ORM\Column]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
+    private ?bool $isValidDippdf = false;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -297,6 +304,30 @@ class Transaction
     public function setIsValidActepdf(bool $isValidActepdf): static
     {
         $this->isValidActepdf = $isValidActepdf;
+
+        return $this;
+    }
+
+    public function getDipPdfFilename(): ?string
+    {
+        return $this->dipPdfFilename;
+    }
+
+    public function setDipPdfFilename(?string $dipPdfFilename): static
+    {
+        $this->dipPdfFilename = $dipPdfFilename;
+
+        return $this;
+    }
+
+    public function isIsValidDippdf(): ?bool
+    {
+        return $this->isValidDippdf;
+    }
+
+    public function setIsValidDippdf(bool $isValidDippdf): static
+    {
+        $this->isValidDippdf = $isValidDippdf;
 
         return $this;
     }

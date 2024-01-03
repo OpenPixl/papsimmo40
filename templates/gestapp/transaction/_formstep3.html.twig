@@ -14,18 +14,24 @@
             Document déposé :
         </div>
         <div class="col-4">
-            {{ transaction.promisePdfFilename }}
+            {{ transaction.promisePdfFilename }} |
         </div>
     </div>
     {% endif %}
 </div>
 <div id="submitStep" class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-    {% if transaction.refEmployed.roles == 'ROLE_EMPLOYED' %}
+    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is not defined %}
         <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le document pour contrôle</button>
-    {% else %}
-        <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+    {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is defined %}
+        <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
     {% endif %}
-
+    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+        <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is defined and transaction.isValidPromisepdf == 0 %}
+        <a href="{{ path('op_gestapp_transaction_validAdminStep3', {'id': transaction.id}) }}" id="btnWaitToStepFour" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par la collaborateur</a>
+    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is not defined %}
+        <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+    {% endif %}
     </div>
 {{ form_end(form) }}

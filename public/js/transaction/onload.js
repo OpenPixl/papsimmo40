@@ -24,8 +24,9 @@ let validStep1 = document.getElementById('btnToStepTwo');
 let validStep2 = document.getElementById('btnToStepTree');
 let validStep3 = document.getElementById('btnToStepFour');
 let validAdminStep3 = document.getElementById('btnWaitToStepFour');
-let validStep4 = document.getElementById('btnToStepFive');
-let validAdminStep4 = document.getElementById('btnWaitToStepFive');
+let validAdminToStepFour = document.getElementById('btnAdminToStepFour');
+let validActeStep4 = document.getElementById('btnToStepFive');
+let validActeAdminStep4 = document.getElementById('btnWaitToStepFive');
 
 let step1 = document.getElementById('stepOne');
 let step2 = document.getElementById('stepTwo');
@@ -158,11 +159,98 @@ validStep2.addEventListener('click', function(event){
             console.log(error);
         });
 });
-// validation Dépôt de doc compromis
-validStep3.addEventListener('click', function(event){
+// validation Dépôt du compromis par Collaborateur
+if(validStep3 !== null){
+    validStep3.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep3.action;
+        let dataForm = new FormData(FormStep3);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    document.getElementById('transState').innerHTML = response.data.transState;
+                    document.getElementById('stepTree').innerHTML = response.data.step;
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+// validation du compromis déposé par un collaborateur par un admin de la plateforme
+if(validAdminStep3 !== null){
+    validAdminStep3.addEventListener('click', function(event){
+        event.preventDefault();
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function(response){
+
+                // initialisation du toaster
+                let toastHTMLElement = document.getElementById("toaster");
+                let message = response.data.message;
+                let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                toastBody.textContent = message;
+                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                toastElement.show();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+    });
+}
+// validation Dépôt du compromis direct pas Adminitrateur
+if(validAdminToStepFour !== null){
+    validAdminToStepFour.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep3.action;
+        let dataForm = new FormData(FormStep3);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    document.getElementById('transState').innerHTML = response.data.transState;
+                    step4.classList.remove('d-none');
+                    step3.classList.add('d-none');
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
+// Depot du fichier d'attestation d'acte de vent par un collaborateur
+validActeStep4.addEventListener('click', function(event){
     event.preventDefault();
-    let actionForm = FormStep3.action;
-    let dataForm = new FormData(FormStep3);
+    let actionForm = FormStep4.action;
+    let dataForm = new FormData(FormStep4);
     axios
         .post(actionForm, dataForm)
         .then(function(response){
@@ -185,42 +273,7 @@ validStep3.addEventListener('click', function(event){
         });
 });
 
-if(validAdminStep3 !== null){
-    validAdminStep3.addEventListener('click', function(event){
-        event.preventDefault();
-        let url = this.href;
-        axios
-            .post(url)
-            .then(function(response){
-                step4.classList.remove('d-none');
-                step3.classList.add('d-none');
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    });
-}
-
-// validation de l'acte de vente
-validStep4.addEventListener('click', function(event){
-    event.preventDefault();
-    let actionForm = FormStep4.action;
-    let dataForm = new FormData(FormStep4);
-    axios
-        .post(actionForm, dataForm)
-        .then(function(response){
-            let btnValidStep = document.getElementById('btnToStepFive');
-            let btnWaitStep = document.getElementById('btnWaitToStepFive');
-            // Mettre en place le bouton de validation du compromis de vente
-            btnWaitStep.classList.remove('d-none');
-            btnValidStep.classList.add('d-none');
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
-
-validAdminStep4.addEventListener('click', function(event){
+validActeAdminStep4.addEventListener('click', function(event){
     event.preventDefault();
     let url = this.href;
     axios
