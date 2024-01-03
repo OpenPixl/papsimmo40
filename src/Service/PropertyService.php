@@ -161,7 +161,8 @@ class PropertyService
     {
         // Vérification si property été dupliqué
         $properties = $propertyRepository->findBy(['RefMandat' => $property->getRefMandat()]);
-        if(count($properties) > 0)
+        //dd(count($properties));
+        if(count($properties) > 1)
         {
             $lastProperty = end($properties);
             $dup = $lastProperty->getDupMandat();

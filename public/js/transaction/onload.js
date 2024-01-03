@@ -179,25 +179,28 @@ validStep3.addEventListener('click', function(event){
                 let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
                 toastElement.show();
             }
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+});
 
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
-validAdminStep3.addEventListener('click', function(event){
-    event.preventDefault();
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            step4.classList.remove('d-none');
-            step3.classList.add('d-none');
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
+if(validAdminStep3 !== null){
+    validAdminStep3.addEventListener('click', function(event){
+        event.preventDefault();
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function(response){
+                step4.classList.remove('d-none');
+                step3.classList.add('d-none');
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
 // validation de l'acte de vente
 validStep4.addEventListener('click', function(event){
     event.preventDefault();
