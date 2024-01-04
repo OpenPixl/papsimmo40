@@ -339,13 +339,13 @@ class TransactionController extends AbstractController
         if($hasAccess == false) {
             $form = $this->createForm(Transactionstep4Type::class, $transaction, [
                 'attr' => ['id' => 'transactionstep4'],
-                'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_step4', ['id' => $transaction->getId()]),
                 'method' => 'POST'
             ]);
         }else{
             $form = $this->createForm(Transactionstep4Type::class, $transaction, [
                 'attr' => ['id' => 'transactionstep4'],
-                'action' => $this->generateUrl('op_gestapp_transaction_step4', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
                 'method' => 'POST'
             ]);
         }
@@ -470,7 +470,7 @@ class TransactionController extends AbstractController
             ], 200);
         }
 
-        return $this->render('gestapp/transaction/_formstep3.html.twig', [
+        return $this->render('gestapp/transaction/_formstep4.html.twig', [
             'transaction' => $transaction,
             'form' => $form,
         ]);
