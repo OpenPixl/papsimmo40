@@ -17,14 +17,36 @@
         </div>
     </div>
     {% if transaction.actePdfFilename is not empty%}
-    <div class="row align-items-center">
+        <div class="row align-items-center">
         <div class="col-3">
             Document déposé :
         </div>
-        <div class="col-4">
-            {{ transaction.actePdfFilename }}
+        <div class="col-6">
+            {{ transaction.actePdfFilename }} |
+            <button id="showActe" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalActe"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+            <!-- Modal -->
+            <div class="modal fade" id="modalActe" tabindex="-1" aria-labelledby="modalActe" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Attestation acte de vente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 0;">
+                            <div id="externaFile">
+                                <iframe src="{{ asset('doc/transaction/acte/' ~ transaction.actePdfFilename) }}" width="100%" height="500px"></iframe>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+        <hr>
     {% endif %}
     {% if transaction.isValidActepdf == 1 %}
         <div class="row align-items-center">
@@ -41,7 +63,7 @@
                     Document déposé :
                 </div>
                 <div class="col-4">
-                    {{ transaction.dipPdfFilename }}
+                    {{ transaction.dipPdfFilename }} |
                 </div>
             </div>
         {% endif %}
@@ -57,15 +79,25 @@
     {% endif %}
 </div>
 <div id="submitStep" class="col-12 mt-3">
-    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is not defined %}
-        <button type="submit" id="btnToStepFive" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger l'attestation d'acte pour contrôlee</button>
-    {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is defined %}
-        <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
+    {% if transaction.isValidActepdf == false %}
+        <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+        {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is null %}
+            <button type="submit" id="btnWaitToActe" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger l'attestation d'acte pour contrôle</button>
+        {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is not null %}
+            <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
+        {% endif %}
+        {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is null %}
+            <button type="submit" id="btnAdminToActePdf" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+        {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is not null and transaction.isValidActepdf == 0 %}
+            <a href="{{ path('op_gestapp_transaction_validAdminActeStep4', {'id': transaction.id}) }}" id="btnAdminToActePdf" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par votre collaborateur.</a>
+        {% endif %}
+    {% elseif transaction.isValidActepdf == true %}
+        <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+        {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.dipPdfFilename is null %}
+            <button type="submit" id="btnWaitToDip" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le dip pour contrôle</button>
+        {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.dipPdfFilename is not null %}
+            <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
+        {% endif %}
     {% endif %}
-    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is defined and transaction.isValidActepdf == 0 %}
-    {% endif %}
-    <a href="{{ path('op_gestapp_transaction_step4admin', {'id':transaction.id}) }}" id="btnWaitToStepFive" class="btn btn-sm btn-outline-primary {% if transaction.isValidActepdf == 0 %}d-none{% endif %} {% if is_granted('ROLE_ADMIN') %}{% else %}disabled{% endif %}"><i class="fa-duotone fa-hourglass-start"></i> En attente de validation</a>
 </div>
 {{ form_end(form) }}

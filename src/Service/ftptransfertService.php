@@ -890,22 +890,22 @@ class ftptransfertService
                 '""',                                                       // 103 - Photo panoramique
                 '""',                                                       // 104 - URL visite virtuelle
                 '"' . $property['gsm'] . '"',                                   // 105 - Téléphone à afficher
-                '"' . $property['firstName'] . ' ' . $property['lastName'] . '"',   // 106 - Contact à afficher
+                '"' . $property['firstName'].' '.$property['lastName'].'"',     // 106 - Contact à afficher
                 '"' . $property['email'] . '"',                                 // 107 - Email de contact
                 '"' . $property['zipcode'] . '"',                               // 108 - CP Réel du bien
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
-                '""',                                                       // 110 - Inter-cabinet
-                '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refMandat . '"',                                     // 112 - N° de mandat
-            '"' . $mandatAt . '"',                                          // 113 - Date mandat
-                '""',                                                       // 114 - Nom mandataire
-                '""',                                                       // 115 - Prénom mandataire
-                '""',                                                       // 116 - Raison sociale mandataire
-                '""',                                                       // 117 - Adresse mandataire
-                '""',                                                       // 118 - CP mandataire
-                '""',                                                       // 119 - Ville mandataire
-                '""',                                                       // 120 - Téléphone mandataire
-                '""',                                                       // 121 - Commentaires mandataire
+                '""',                                                           // 110 - Inter-cabinet
+                '""',                                                           // 111 - Inter-cabinet prive
+                '"' . $refMandat . '"',                                         // 112 - N° de mandat
+            '"' . $mandatAt . '"',                                              // 113 - Date mandat
+                '""',                                                           // 114 - Nom mandataire
+                '""',                                                           // 115 - Prénom mandataire
+                '""',                                                           // 116 - Raison sociale mandataire
+                '""',                                                           // 117 - Adresse mandataire
+                '""',                                                           // 118 - CP mandataire
+                '""',                                                           // 119 - Ville mandataire
+                '""',                                                           // 120 - Téléphone mandataire
+                '""',                                                           // 121 - Commentaires mandataire
                 '""',                                                       // 122 - Commentaires privés
                 '""',                                                       // 123 - Code négociateur
                 '""',                                                       // 124 - Code Langue 1

@@ -15,20 +15,40 @@
         </div>
         <div class="col-4">
             {{ transaction.promisePdfFilename }} |
+            <button id="showPromise" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+            <!-- Modal -->
+            <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Promesse de vente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 0;">
+                            <div id="externaFile">
+                                <iframe src="{{ asset('doc/transaction/promise/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     {% endif %}
 </div>
 <div id="submitStep" class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is not defined %}
+    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is null %}
         <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le document pour contrôle</button>
-    {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is defined %}
+    {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is not null %}
         <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
     {% endif %}
-    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+    {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is null %}
         <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
-    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is defined and transaction.isValidPromisepdf == 0 %}
+    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is not null and transaction.isValidPromisepdf == 0 %}
         <a href="{{ path('op_gestapp_transaction_validAdminStep3', {'id': transaction.id}) }}" id="btnWaitToStepFour" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par la collaborateur</a>
     {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is not defined %}
         <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>

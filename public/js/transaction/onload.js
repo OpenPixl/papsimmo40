@@ -25,26 +25,24 @@ let validStep2 = document.getElementById('btnToStepTree');
 let validStep3 = document.getElementById('btnToStepFour');
 let validAdminStep3 = document.getElementById('btnWaitToStepFour');
 let validAdminToStepFour = document.getElementById('btnAdminToStepFour');
-let validActeStep4 = document.getElementById('btnToStepFive');
-let validActeAdminStep4 = document.getElementById('btnWaitToStepFive');
+let validAdminActeStep4 = document.getElementById('btnWaitToActe');
+let validActebyAdminStep4 = document.getElementById('btnAdminToActePdf');
 
 let step1 = document.getElementById('stepOne');
 let step2 = document.getElementById('stepTwo');
 let step3 = document.getElementById('stepTree');
 let step4 = document.getElementById('stepFour');
-let step5 = document.getElementById('stepFive');
 
 let icoStepOne = document.getElementById('icoStepOne');
 let icoStepTwo = document.getElementById('icoStepTwo');
 let icoStepTree = document.getElementById('icoStepTree');
 let icoStepFour = document.getElementById('icoStepFour');
-let icoStepFive = document.getElementById('icoStepFive');
 
 const FormStep2 = document.getElementById('transactionstep2');
 const FormStep3 = document.getElementById('transactionstep3');
 const FormStep4 = document.getElementById('transactionstep4');
-const FormStep5 = document.getElementById('transactionstep5');
 const blocks = document.getElementById("blocks");
+
 // effet sur les icones de la barre de suivi
 icoStepOne.addEventListener('click', function(event){
     let blockchild = blocks.querySelector('.activ');
@@ -111,10 +109,6 @@ icoStepFive.addEventListener('click', function(event){
         console.log('⛔️ element does NOT have child with id');
     }
 });
-icoStepTwo.addEventListener('click', function(event){
-    step3.classList.add('d-none');
-    step2.classList.remove('d-none');
-});
 
 // validation étapes acheteurs
 validStep1.addEventListener('click', function(event){
@@ -124,10 +118,15 @@ validStep1.addEventListener('click', function(event){
         .post(url)
         .then(function(response){
             let code = response.data.code;
-            if(code == 200){
-                step2.classList.remove('d-none');
-                step1.classList.add('d-none');
-                document.getElementById('transState').innerHTML = response.data.transState;
+            if(code === 200){
+                window.location.reload();
+                // initialisation du toaster
+                let toastHTMLElement = document.getElementById("toaster");
+                let message = response.data.message;
+                let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                toastBody.textContent = message;
+                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                toastElement.show();
             }else {
                 // initialisation du toaster
                 let toastHTMLElement = document.getElementById("toaster");
@@ -151,9 +150,7 @@ validStep2.addEventListener('click', function(event){
     axios
         .post(actionForm, dataForm)
         .then(function(response){
-            step3.classList.remove('d-none');
-            step2.classList.add('d-none');
-            document.getElementById('transState').innerHTML = response.data.transState;
+            window.location.reload();
         })
         .catch(function (error) {
             console.log(error);
@@ -170,8 +167,7 @@ if(validStep3 !== null){
             .then(function(response){
                 let code = response.data.code;
                 if(code === 200){
-                    document.getElementById('transState').innerHTML = response.data.transState;
-                    document.getElementById('stepTree').innerHTML = response.data.step;
+                    window.location.reload();
                 }else{
                     // initialisation du toaster
                     let toastHTMLElement = document.getElementById("toaster");
@@ -195,7 +191,6 @@ if(validAdminStep3 !== null){
         axios
             .post(url)
             .then(function(response){
-
                 // initialisation du toaster
                 let toastHTMLElement = document.getElementById("toaster");
                 let message = response.data.message;
@@ -220,9 +215,7 @@ if(validAdminToStepFour !== null){
             .then(function(response){
                 let code = response.data.code;
                 if(code === 200){
-                    document.getElementById('transState').innerHTML = response.data.transState;
-                    step4.classList.remove('d-none');
-                    step3.classList.add('d-none');
+                    window.location.reload();
                     // initialisation du toaster
                     let toastHTMLElement = document.getElementById("toaster");
                     let message = response.data.message;
@@ -246,19 +239,42 @@ if(validAdminToStepFour !== null){
     });
 }
 
-// Depot du fichier d'attestation d'acte de vent par un collaborateur
-validActeStep4.addEventListener('click', function(event){
-    event.preventDefault();
-    let actionForm = FormStep4.action;
-    let dataForm = new FormData(FormStep4);
-    axios
-        .post(actionForm, dataForm)
-        .then(function(response){
-            let code = response.data.code;
-            if(code === 200){
-                document.getElementById('transState').innerHTML = response.data.transState;
-                document.getElementById('stepTree').innerHTML = response.data.step;
-            }else{
+// Depot du fichier d'attestation d'acte de vente par un collaborateur
+if(validAdminActeStep4 !== null){
+    validAdminActeStep4.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep4.action;
+        let dataForm = new FormData(FormStep4);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    window.location.reload();
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
+if(validActebyAdminStep4 !== null){
+    validActebyAdminStep4.addEventListener('click', function(event){
+        event.preventDefault();
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function(response){
+                window.location.reload();
                 // initialisation du toaster
                 let toastHTMLElement = document.getElementById("toaster");
                 let message = response.data.message;
@@ -266,26 +282,13 @@ validActeStep4.addEventListener('click', function(event){
                 toastBody.textContent = message;
                 let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
                 toastElement.show();
-            }
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
 
-validActeAdminStep4.addEventListener('click', function(event){
-    event.preventDefault();
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            step5.classList.remove('d-none');
-            step4.classList.add('d-none');
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
 
 const modalCustomer = document.getElementById('modalCustomer');
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');

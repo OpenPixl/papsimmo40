@@ -133,16 +133,21 @@ class TransactionController extends AbstractController
     #[Route('/step1/{id}', name: 'op_gestapp_transaction_step1', methods: ['POST'])]
     function step1(Transaction $transaction, EntityManagerInterface $entityManager, CustomerRepository $customerRepository,Request $request)
     {
-        $listCustomer = $customerRepository->findCustomerWithTransaction($transaction->getId());
-        if(count($listCustomer) > 0){
+        $customers = $transaction->getCustomer();
+
+        if(count($customers) > 0){
             $transaction->setState('promise');
             $entityManager->persist($transaction);
             $entityManager->flush();
             return $this->json([
                 'code' => 200,
                 'message' => 'Etape validée',
-                'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                'state' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                     'transaction' => $transaction
+                ]),
+                'blocks' => $this->renderView('gestapp/transaction/include/_blocks.html.twig', [
+                    'transaction' => $transaction,
+                    'customers' => $customers
                 ])
             ],200);
         }else{
@@ -177,7 +182,7 @@ class TransactionController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/transaction/_formstep2.html.twig', [
+        return $this->render('gestapp/transaction/_formstep2.html.twig', [
             'transaction' => $transaction,
             'form' => $form,
         ]);
@@ -329,11 +334,21 @@ class TransactionController extends AbstractController
     #[Route('/{id}/step4', name: 'op_gestapp_transaction_step4', methods: ['GET', 'POST'])]
     public function step4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        $form = $this->createForm(Transactionstep4Type::class, $transaction, [
-            'attr' => ['id'=>'transactionstep4'],
-            'action' => $this->generateUrl('op_gestapp_transaction_step4', ['id' => $transaction->getId()]),
-            'method' => 'POST'
-        ]);
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+
+        if($hasAccess == false) {
+            $form = $this->createForm(Transactionstep4Type::class, $transaction, [
+                'attr' => ['id' => 'transactionstep4'],
+                'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
+                'method' => 'POST'
+            ]);
+        }else{
+            $form = $this->createForm(Transactionstep4Type::class, $transaction, [
+                'attr' => ['id' => 'transactionstep4'],
+                'action' => $this->generateUrl('op_gestapp_transaction_step4', ['id' => $transaction->getId()]),
+                'method' => 'POST'
+            ]);
+        }
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -357,7 +372,14 @@ class TransactionController extends AbstractController
 
                 return $this->json([
                     'code' => 200,
-                    'message' => 'Promesse de vente réalisée.'
+                    'message' => "L'attestation d'acte de vente PDF est déposé sur la plateforme en attente de validation.",
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'step' => $this->renderView('gestapp/transaction/include/_step4.html.twig', [
+                        'transaction' => $transaction
+                    ])
+
                 ], 200);
 
             }
@@ -365,30 +387,93 @@ class TransactionController extends AbstractController
             $entityManager->flush();
 
             return $this->json([
-                'code' => 200,
-                'message' => 'Promesse de vente réalisée.'
+                'code' => 300,
+                'message' => 'Il manque le document en pdf.'
             ], 200);
         }
 
-        return $this->renderForm('gestapp/transaction/_formstep4.html.twig', [
+        return $this->render('gestapp/transaction/_formstep4.html.twig', [
             'transaction' => $transaction,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}/step4admin', name: 'op_gestapp_transaction_step4admin', methods: ['GET', 'POST'])]
-    public function step4Admin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    #[Route('/{id}/validAdminActeStep4', name: 'op_gestapp_transaction_validAdminActeStep4', methods: ['GET', 'POST'])]
+    public function validAdminActeStep4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $transaction->setState('finsihed');
         $transaction->setIsValidActepdf(1);
         $entityManager->persist($transaction);
         $entityManager->flush();
 
         return $this->json([
-            'code' => 300,
-            'message' => "Le dossier est validé par l'administrateur."
+            'code' => 200,
+            'message' => "Vous venez de valider le dossier de votre collaborateur. Un mail lui a été adressé afin de qu'il puisse continuer la vente",
+            'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'step' => $this->renderView('gestapp/transaction/include/_step4.html.twig', [
+                'transaction' => $transaction
+            ])
         ], 200);
+    }
+
+    #[Route('/{id}/validActeByAdmin', name: 'op_gestapp_transaction_validActeByAdmin', methods: ['POST'])]
+    public function validActeByAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $form = $this->createForm(Transactionstep3Type::class, $transaction, [
+            'attr' => ['id'=>'transactionstep4'],
+            'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($transaction);
+            $actepdf = $form->get('actePdfFilename')->getData();
+            //dd($pdf);
+            if($actepdf){
+                $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$actepdf->guessExtension();
+                try {
+                    $actepdf->move(
+                        $this->getParameter('transaction_promise_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setActePdfFilename($newFilename);
+                $transaction->setState('definitive_sale');
+                $transaction->setIsValidActepdf(1);
+                $entityManager->persist($transaction);
+                $entityManager->flush();
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => "Attestation d'acte de vente déposée.",
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'step' => $this->renderView('gestapp/transaction/include/_step3.html.twig', [
+                        'transaction' => $transaction
+                    ])
+
+                ], 200);
+            }
+
+            return $this->json([
+                'code' => 300,
+                'message' => "Il manque l'attestation d'acte de vente en pdf."
+            ], 200);
+        }
+
+        return $this->render('gestapp/transaction/_formstep3.html.twig', [
+            'transaction' => $transaction,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{id}/step5', name: 'op_gestapp_transaction_step5', methods: ['GET', 'POST'])]

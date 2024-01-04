@@ -45,21 +45,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12" id="blocks">
-                        <div class="row mt-2 {% if transaction.state == 'open' %}activ{% else %}d-none{% endif %}" id="stepOne" name="step">
-                            {{ include('gestapp/transaction/include/_step1.html.twig') }}
-                        </div>
-                        <div class="row mt-2 {% if transaction.state == 'promise' %}activ{% else %}d-none{% endif %}" id="stepTwo" name="step">
-                            {{ include('gestapp/transaction/include/_step2.html.twig') }}
-                        </div>
-                        <div class="row mt-2 {% if transaction.state == 'deposit' %}activ{% else %}d-none{% endif %}" id="stepTree" name="step">
-                            {{ include('gestapp/transaction/include/_step3.html.twig') }}
-                        </div>
-                        <div class="row mt-2 {% if transaction.state == 'definitive_sale' %}activ{% else %}d-none{% endif %}" id="stepFour" name="step">
-                            {{ include('gestapp/transaction/include/_step4.html.twig') }}
-                        </div>
-                        <div class="row mt-2 {% if transaction.state == 'finished' %}activ{% else %}d-none{% endif %}" id="stepFive" name="step">
-                            {{ include('gestapp/transaction/include/_step5.html.twig') }}
-                        </div>
+                        {{ include('gestapp/transaction/include/_blocks.html.twig') }}
                     </div>
                 </div>
             </div>
