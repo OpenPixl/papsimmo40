@@ -548,12 +548,15 @@ class PropertyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //$annonce = $form->get('annonce')->getData();
             //dd($annonce);
-            $data = str_replace(array( "\n", "\r", "</p><p>" ), array( '', '', ' ' ), html_entity_decode($property->getAnnonce()) );
 
-            $annonceSlug = substr(strip_tags($data, '<br>'), 0, 59);
-            //dd($data, $annonceSlug);
+            $array = array_slice(explode(' ', str_replace(array( "\n", "\r", "\u{A0}","</p><p>", "<br>" ), array( '', '',' ', ' ', '' ), strip_tags($property->getAnnonce()))), 0, 10);
+
+            //dd(implode(" ", $array));
+            $annonceSlug = implode(" ", $array);
+            //dd($annonceSlug);
             $property->setAnnonceSlug($annonceSlug);
             $propertyRepository->add($property);
+            //dd($property);
             return $this->json([
                 'code'=> 200,
                 'message' => "Les informations générales ont été correctement ajoutées au bien."
