@@ -798,16 +798,28 @@ class PropertyController extends AbstractController
         $complementRepository->remove($complement);
 
         if($hasAccess == true){
-            $data = $propertyRepository->listAllPropertiesArchived();
+            $data = $propertyRepository->listAllProperties();
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
                 10
             );
+            $data = $propertyRepository->listAllPropertiesArchived();
+            $propertiesArchived = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
         }else{
+            $data = $propertyRepository->listAllProperties();
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
             // dans ce cas, nous listons les propriétés de l'utilisateurs courant
             $data = $propertyRepository->listPropertiesByemployed($user->getId());
-            $properties = $paginator->paginate(
+            $propertiesArchived = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
                 10
@@ -817,8 +829,11 @@ class PropertyController extends AbstractController
         return $this->json([
             'code'=> 200,
             'message' => 'Les informations du bien : <br>' .$nameProperty. '<br> ont été correctement supprimé.',
-            'liste' => $this->renderView('gestapp/property/_listarchived.html.twig', [
+            'liste' => $this->renderView('gestapp/property/_list.html.twig', [
                 'properties' => $properties
+            ]),
+            'listeArchived' => $this->renderView('gestapp/property/_listarchived.html.twig', [
+                'properties' => $propertiesArchived
             ])
         ], 200);
     }

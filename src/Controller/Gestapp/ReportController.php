@@ -275,6 +275,13 @@ class ReportController extends AbstractController
                 $RefDPE = "";
             }
 
+            // Préparation de la date de disponibilité
+            if ($property['disponibilityAt'] instanceof \DateTime) {
+                $disponibilityAt = $property['disponibilityAt']->format('d/m/Y');
+            }else{
+                $disponibilityAt ="";
+            }
+
             // Calcul des honoraires en %
             // $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
@@ -390,7 +397,7 @@ class ReportController extends AbstractController
                 '"' . $property['room'] . '"',                                  // 19 - NB de chambres
                 '"' . $property['name'] . '"',                                  // 20 - Libellé
                 '"' . $annonce . '"',                                           // 21 - Descriptif
-                '"' . $property['disponibilityAt'] . '"',                       // 22 - Date de disponibilité
+                '"' . $disponibilityAt . '"',                       // 22 - Date de disponibilité
                 '""',                                                           // 23 - Charges
                 '"' . $property['level'] . '"',                                 // 24 - Etage
                 '""',                                                           // 25 - NB d’étages
@@ -783,6 +790,13 @@ class ReportController extends AbstractController
                 $RefDPE = $property->getEeaYear()->format('d/m/Y');
             } else {
                 $RefDPE = "";
+            }
+
+            // Préparation de la date de disponibilité
+            if ($property['disponibilityAt'] instanceof \DateTime) {
+                $disponibilityAt = $property['disponibilityAt']->format('d/m/Y');
+            }else{
+                $disponibilityAt ="";
             }
 
             // Calcul des honoraires en %

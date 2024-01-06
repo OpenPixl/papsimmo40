@@ -326,14 +326,11 @@
             // ouverture de la modale
             const modalSupprArchived = document.getElementById('modalSupprArchived')
             modalSupprArchived.addEventListener('show.bs.modal', function(event){
-                let url = document.getElementById("btnSupprArchived").href
-                console.log(url)
                 // Récupération du bouton cliqué et extraction de la variable transmise dans le data-bs-whatever
-                let button = event.relatedTarget
-                let recipient = button.getAttribute('data-bs-whatever')
+                let a = event.relatedTarget
+                let url = a.href
+                console.log(url)
                 // Attribution pour le client et la propriété des éléments insclus dans le data-bs-whatever
-                let modalTitle = modalSupprArchived.querySelector('.modal-title')
-                let modalText = modalSupprArchived.querySelector('.modal-text')
                 let modalSubmit = modalSupprArchived.querySelector('.modal-footer a')
                 modalSubmit.href = url
             })
@@ -343,7 +340,8 @@
                 axios
                     .post(url)
                     .then(function(response){
-                        document.getElementById('listArchived').innerHTML = response.data.liste
+                        document.getElementById('list').innerHTML = response.data.liste
+                        document.getElementById('listArchived').innerHTML = response.data.listeArchived
                         document.querySelector('a.supprArchivedProperty').addEventListener('click', supprArchivedProperty)
                         // Mise en place de l'évenement pour la suppression d'un bien en cours de création
                         document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
