@@ -19,6 +19,6 @@ class GetTokenEmployed extends AbstractController
             $token =  new JsonResponse(['token' => $JWTManager->create($data)]);
             return $token;
         }
-        return new JsonResponse(['ko' => 'pas de token']);
+        return new JsonResponse(['Error' => 'Pas de mandataire avec ce code'], 401);
     }
 }

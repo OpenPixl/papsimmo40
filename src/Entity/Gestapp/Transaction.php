@@ -116,6 +116,9 @@ class Transaction
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?bool $isValidDippdf = false;
 
+    #[ORM\Column]
+    private ?bool $isSupprPromisePdf = false;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -328,6 +331,18 @@ class Transaction
     public function setIsValidDippdf(bool $isValidDippdf): static
     {
         $this->isValidDippdf = $isValidDippdf;
+
+        return $this;
+    }
+
+    public function isIsSupprPromisePdf(): ?bool
+    {
+        return $this->isSupprPromisePdf;
+    }
+
+    public function setIsSupprPromisePdf(bool $isSupprPromisePdf): static
+    {
+        $this->isSupprPromisePdf = $isSupprPromisePdf;
 
         return $this;
     }

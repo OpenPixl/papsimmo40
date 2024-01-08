@@ -8,8 +8,8 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Controller\Api\Admin\Employed\AddEmployed;
-use App\Controller\Api\Admin\Employed\AddPrescriber;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
+use App\Controller\Api\Admin\Prescriber\AddPrescriber;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
@@ -29,7 +29,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: EmployedRepository::class)]
@@ -41,7 +40,7 @@ use Symfony\Component\Validator\Constraints as Assert;
         new Get(normalizationContext: ['groups' => 'employed:item']),
         new GetCollection(normalizationContext: ['groups' => 'employed:list']),
         new Get(
-            uriTemplate: '/employed/{numCollaborator}/getToken',
+            uriTemplate: '/authentication_token/{numCollaborator}/getToken',
             uriVariables: [
                 'numCollaborator' => 'numCollaborator'
             ],
@@ -65,12 +64,16 @@ use Symfony\Component\Validator\Constraints as Assert;
         ),
         new Post(
             uriTemplate: '/prescriber',
+            uriVariables: [
+                'numCollaborator' => 'numCollaborator'
+            ],
+            requirements: ['numCollaborator' => '\d+'],
             controller: AddPrescriber::class,
             openapiContext: [
-                'summary' => "Ajoute un prescripteur",
-                'description' => "Ajoute un prescripteur",
+                'summary' => "Ajouter un prescripteur",
+                'description' => "Ajouter un prescripteur",
             ],
-            normalizationContext: ['groups' => 'employed:write:post']
+            normalizationContext: ['groups' => 'prescriber:write:post']
         ),
         new Patch(
             uriTemplate: '/employed/{id}/update',
@@ -92,21 +95,22 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch','transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'prescriber:write:post', 'transaction:list'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Groups('prescriber:write:post')]
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'reco:item','transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'reco:item','transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]
@@ -158,7 +162,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $desk;
 
     #[ORM\Column(type: 'string', length: 14)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch', 'prescriber:write:post'])]
     private $gsm;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
@@ -222,6 +226,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $isSupprAvatar = false;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $iban = null;
 
     public function __construct()
     {
@@ -899,6 +906,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsSupprAvatar(bool $isSupprAvatar): static
     {
         $this->isSupprAvatar = $isSupprAvatar;
+
+        return $this;
+    }
+
+    public function getIban(): ?string
+    {
+        return $this->iban;
+    }
+
+    public function setIban(?string $iban): static
+    {
+        $this->iban = $iban;
 
         return $this;
     }

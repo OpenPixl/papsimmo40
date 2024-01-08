@@ -5,6 +5,7 @@ namespace App\Form\Gestapp;
 
 use App\Entity\Gestapp\Transaction;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -29,6 +30,10 @@ class Transactionstep3Type extends AbstractType
                         'mimeTypesMessage' => 'Please upload a valid PDF document',
                     ])
                 ],
+            ])
+            ->add('isSupprPromisePdf', CheckboxType::class,[
+                'label' => "Supprimer",
+                'required' => false
             ])
         ;
     }

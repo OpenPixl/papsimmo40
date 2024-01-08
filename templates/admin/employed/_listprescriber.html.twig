@@ -1,0 +1,48 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        <th>Nom & Prénom</th>
+        <th>Email</th>
+        <th>Roles</th>
+        <th>Secteur</th>
+        <th>Actif</th>
+        <th>Créer le</th>
+        <th>MàJ</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for prescriber in prescribers %}
+        <tr class="align-middle">
+            <td>{{ prescriber.id }}</td>
+            <td><a href="{{ path('op_admin_employed_edit', {'id': prescriber.id}) }}">{{ prescriber.firstName }} {{ prescriber.lastName }}</a></td>
+            <td>{{ prescriber.email }}</td>
+            <td>
+                {% for role in prescriber.roles %}
+                    <div class="badge bg-primary">{% if role == "ROLE_SUPER_ADMIN" %}Administrateur{% endif %}{% if role == "ROLE_USER" %}Membre{% endif %}</div>
+                {% endfor %}
+            </td>
+            <td>{{ prescriber.sector }}</td>
+            <td>
+                {% if prescriber.isVerified == 1 %}
+                    <a class="js-isverified" href="{{ path('op_admin_employed_isactiv', {'id': prescriber.id}) }}"><i class="far fa-check-circle text-success"></i></a>
+                {% else %}
+                    <a class="js-isverified" href="{{ path('op_admin_employed_isactiv', {'id': prescriber.id}) }}"><i class="far fa-times-circle text-danger"></i></a>
+                {% endif %}
+            </td>
+            <td>{{ prescriber.createdAt ? prescriber.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
+            <td>{{ prescriber.updatedAt ? prescriber.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
+            <td>
+                <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_employed_edit', {'id': prescriber.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier la fiche"><i class="fa-duotone fa-pen-to-square"></i></a>
+                <a class="btn btn-sm btn-outline-danger js-delete" href="{{ path('op_admin_employed_del', {'id': prescriber.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer le collaborateur"><i class="fa-duotone fa-file-xmark"></i></a>
+                <a class="btn btn-sm btn-outline-warning" href="{{ path('op_admin_employed_adminresetpassword', {'id': prescriber.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Changer le mot de passe"><i class="fa-duotone fa-key"></i></a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="12">no records found</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

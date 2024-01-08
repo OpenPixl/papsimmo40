@@ -1,6 +1,6 @@
 <?php
 // api/src/Controller/CreateBookPublication.php
-namespace App\Controller\Api\Admin\Employed;
+namespace App\Controller\Api\Admin\Prescriber;
 
 use App\Entity\Admin\Employed;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -17,6 +17,7 @@ class AddPrescriber extends AbstractController
         //dd($data);
         if($data){
             $data->setRoles(['ROLE_PRESCRIBER']);
+            $data->
             $data->setPassword($userPasswordHasher->hashPassword($data,$data->getPassword()));
             return $data;
         }

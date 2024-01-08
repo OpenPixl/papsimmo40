@@ -206,17 +206,36 @@ class TransactionController extends AbstractController
             ]);
         }
 
-
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($transaction);
+            // Suppression du PDF si booléen sur "true"
+            $isSupprPromisePdf = $form->get('isSupprPromisePdf')->getData();
+            if($isSupprPromisePdf && $isSupprPromisePdf == true){
+                // récupération du nom de l'image
+                $PromisePdfName = $transaction->getPromisePdfFilename();
+                $pathPromisePdf = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
+                // On vérifie si l'image existe
+                if(file_exists($pathPromisePdf)){
+                    unlink($pathPromisePdf);
+                }
+                $transaction->setPromisePdfFilename(null);
+                $transaction->setIsSupprPromisePdf(0);
+            }
+
             $promisepdf = $form->get('promisePdfFilename')->getData();
-            //dd($pdf);
+            $PromisePdfName = $transaction->getPromisePdfFilename();
             if($promisepdf){
+                if($PromisePdfName){
+                    $pathheader = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
+                    // On vérifie si l'image existe
+                    if(file_exists($pathheader)){
+                        unlink($pathheader);
+                    }
+                }
                 $originalFilename = pathinfo($promisepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$promisepdf->guessExtension();
+                $newFilename = $safeFilename.'.'.$promisepdf->guessExtension();
                 try {
                     $promisepdf->move(
                         $this->getParameter('transaction_promise_directory'),
@@ -240,12 +259,14 @@ class TransactionController extends AbstractController
                     ])
 
                 ], 200);
-            }
+            }else if($promisepdf){
+                if($PromisePdfName){
+                    dd('doc pdf présent');
+                }else{
+                    dd('pas de doc');
+                }
 
-            return $this->json([
-                'code' => 300,
-                'message' => 'Il manque le document en pdf.'
-            ], 200);
+            }
         }
 
         return $this->render('gestapp/transaction/_formstep3.html.twig', [
