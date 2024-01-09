@@ -42,7 +42,7 @@
             <div id="Content" class="row">
                 <div id="FirstImg" class="col-50">
                     {% if firstphoto is not empty %}
-                        <img class="img-adapt" src="{{ asset('properties/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName) }}" alt="{{ firstphoto.galeryFrontName }}">
+                        <img class="img-adapt" src="{{ asset('properties/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName)|imagine_filter('oneproperty_image') }}" alt="{{ firstphoto.galeryFrontName }}">
                     {% else %}
                         <img class="img-fluid" src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
                     {% endif %}
