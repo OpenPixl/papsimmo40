@@ -238,7 +238,7 @@ class ReportController extends AbstractController
             //dd($annonce);
 
             // Récupération de la reference
-            $refs = $propertyService->getRefs($propriete);
+            $refs = $propertyService->getRefs($propriete, $propertyRepository);
 
             // Sélection du type de bien
             $propertyDefinition = $property['propertyDefinition'];
