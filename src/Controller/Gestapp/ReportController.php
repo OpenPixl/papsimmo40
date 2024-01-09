@@ -238,7 +238,9 @@ class ReportController extends AbstractController
             //dd($annonce);
 
             // Récupération de la reference
-            $refs = $propertyService->getRefs($propriete, $propertyRepository);
+            // Récupération de la reference
+            $ref = $property['ref'];
+            $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
             $propertyDefinition = $property['propertyDefinition'];
@@ -377,7 +379,7 @@ class ReportController extends AbstractController
             // Création d'une ligne du tableau
             $data = array(
                 '"papsimmo"',                                                   // 1 - Identifiant Agence
-                '"' . $refs['ref'] . '"',                                       // 2 - Référence agence du bien
+                '"' . $ref . '"',                                       // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
@@ -487,7 +489,7 @@ class ReportController extends AbstractController
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refs['refMandat'] . '"',                             // 112 - N° de mandat
+                '"' . $refMandat . '"',                             // 112 - N° de mandat
                 '"' . $mandatAt . '"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
