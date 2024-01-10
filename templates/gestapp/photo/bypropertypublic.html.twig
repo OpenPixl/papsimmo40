@@ -1,1 +1,1 @@
-<img src="{{ asset('properties/' ~ photo.path ~ '/' ~ photo.galeryFrontName) }}" class="img-fluid rounded-start" alt="{{ photo.galeryFrontName }}" >
+<img src="{{ asset('properties/' ~ photo.path ~ '/' ~ photo.galeryFrontName)|imagine_filter('lastproperty_card') }}" class="img-fluid rounded-start" alt="{{ photo.galeryFrontName }}" >
