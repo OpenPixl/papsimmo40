@@ -220,7 +220,7 @@ class PropertyController extends AbstractController
         }
         else{
             return $this->render('gestapp/property/increating.html.twig', [
-                'properties' => $propertyRepository->findBy(array('isIncreating' => 1)),
+                'properties' => $propertyRepository->findBy(['refEmployed'=>$user->getId(), 'isIncreating' => 1]),
             ]);
         }
     }
