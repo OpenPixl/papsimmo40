@@ -25,8 +25,9 @@ let validStep2 = document.getElementById('btnToStepTree');
 let validStep3 = document.getElementById('btnToStepFour');
 let validAdminStep3 = document.getElementById('btnWaitToStepFour');
 let validAdminToStepFour = document.getElementById('btnAdminToStepFour');
-let validAdminActeStep4 = document.getElementById('btnWaitToActe');
-let validActebyAdminStep4 = document.getElementById('btnAdminToActePdf');
+let validActe = document.getElementById('btnWaitToActe');
+let validActebyAdmintotracfin = document.getElementById('btnAdminToActePdf');
+let validTracfin = document.getElementById('btnWaitToTracfin');
 
 let step1 = document.getElementById('stepOne');
 let step2 = document.getElementById('stepTwo');
@@ -156,6 +157,7 @@ validStep2.addEventListener('click', function(event){
             console.log(error);
         });
 });
+
 // validation Dépôt du compromis par Collaborateur
 if(validStep3 !== null){
     validStep3.addEventListener('click', function(event){
@@ -204,7 +206,7 @@ if(validAdminStep3 !== null){
             });
     });
 }
-// validation Dépôt du compromis direct pas Adminitrateur
+// validation Dépôt du compromis direct pas Administrateur
 if(validAdminToStepFour !== null){
     validAdminToStepFour.addEventListener('click', function(event){
         event.preventDefault();
@@ -240,8 +242,8 @@ if(validAdminToStepFour !== null){
 }
 
 // Depot du fichier d'attestation d'acte de vente par un collaborateur
-if(validAdminActeStep4 !== null){
-    validAdminActeStep4.addEventListener('click', function(event){
+if(validActe !== null){
+    validActe.addEventListener('click', function(event){
         event.preventDefault();
         let actionForm = FormStep4.action;
         let dataForm = new FormData(FormStep4);
@@ -267,8 +269,8 @@ if(validAdminActeStep4 !== null){
     });
 }
 
-if(validActebyAdminStep4 !== null){
-    validActebyAdminStep4.addEventListener('click', function(event){
+if(validActebyAdmintotracfin !== null){
+    validActebyAdmintotracfin.addEventListener('click', function(event){
         event.preventDefault();
         let url = this.href;
         axios
@@ -289,6 +291,75 @@ if(validActebyAdminStep4 !== null){
     });
 }
 
+// Depot du tracfin par le collaborateur
+if(validTracfin !== null){
+    validTracfin.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep4.action;
+        let dataForm = new FormData(FormStep4);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    window.location.reload();
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
+// validation Dépôt du compromis direct pas Administrateur
+if(validAdminToStepFour !== null){
+    validAdminToStepFour.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep3.action;
+        let dataForm = new FormData(FormStep3);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    window.location.reload();
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
 
 const modalCustomer = document.getElementById('modalCustomer');
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');

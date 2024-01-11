@@ -12,7 +12,7 @@
     </thead>
     <tbody>
         {% for transaction in transactions|filter(t => t.refEmployed.id is not same as user.id ) %}
-            <tr class="align-middle {% if transaction.isValidPromisepdf == 0 %}table-light{% endif %}">
+            <tr class="align-middle {% if transaction.isValidPromisepdf == 0 or transaction.isValidActepdf == 0 or transaction.isValidtracfinPdf == 0 %}table-light{% endif %}">
                 <td>
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': transaction.property.id})) }}
                 </td>

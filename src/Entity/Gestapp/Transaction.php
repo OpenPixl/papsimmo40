@@ -110,11 +110,11 @@ class Transaction
     private ?bool $isValidActepdf = false;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $dipPdfFilename = null;
+    private ?string $tracfinPdfFilename = null;
 
     #[ORM\Column]
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
-    private ?bool $isValidDippdf = false;
+    private ?bool $isValidtracfinPdf = false;
 
     #[ORM\Column]
     private ?bool $isSupprPromisePdf = false;
@@ -311,26 +311,26 @@ class Transaction
         return $this;
     }
 
-    public function getDipPdfFilename(): ?string
+    public function getTracfinPdfFilename(): ?string
     {
-        return $this->dipPdfFilename;
+        return $this->tracfinPdfFilename;
     }
 
-    public function setDipPdfFilename(?string $dipPdfFilename): static
+    public function setTracfinPdfFilename(?string $tracfinPdfFilename): static
     {
-        $this->dipPdfFilename = $dipPdfFilename;
+        $this->tracfinPdfFilename = $tracfinPdfFilename;
 
         return $this;
     }
 
-    public function isIsValidDippdf(): ?bool
+    public function isIsValidtracfinPdf(): ?bool
     {
-        return $this->isValidDippdf;
+        return $this->isValidtracfinPdf;
     }
 
-    public function setIsValidDippdf(bool $isValidDippdf): static
+    public function setIsValidtracfinPdf(bool $isValidtracfinPdf): static
     {
-        $this->isValidDippdf = $isValidDippdf;
+        $this->isValidtracfinPdf = $isValidtracfinPdf;
 
         return $this;
     }

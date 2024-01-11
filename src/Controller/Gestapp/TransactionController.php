@@ -404,6 +404,38 @@ class TransactionController extends AbstractController
                 ], 200);
 
             }
+
+            $tracfinpdf = $form->get('tracfinPdfFilename')->getData();
+            if($tracfinpdf){
+                $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$tracfinpdf->guessExtension();
+                try {
+                    $tracfinpdf->move(
+                        $this->getParameter('transaction_tracfin_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setTracfinPdfFilename($newFilename);
+                $entityManager->persist($transaction);
+                $entityManager->flush();
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => "L'attestation d'acte de vente PDF est déposé sur la plateforme en attente de validation.",
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'step' => $this->renderView('gestapp/transaction/include/_step4.html.twig', [
+                        'transaction' => $transaction
+                    ])
+
+                ], 200);
+
+            }
+
             $entityManager->persist($transaction);
             $entityManager->flush();
 
@@ -443,7 +475,7 @@ class TransactionController extends AbstractController
     public function validActeByAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $form = $this->createForm(Transactionstep3Type::class, $transaction, [
+        $form = $this->createForm(Transactionstep4Type::class, $transaction, [
             'attr' => ['id'=>'transactionstep4'],
             'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
             'method' => 'POST'
@@ -460,7 +492,7 @@ class TransactionController extends AbstractController
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$actepdf->guessExtension();
                 try {
                     $actepdf->move(
-                        $this->getParameter('transaction_promise_directory'),
+                        $this->getParameter('transaction_acte_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {

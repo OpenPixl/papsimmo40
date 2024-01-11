@@ -51,29 +51,49 @@
     {% if transaction.isValidActepdf == 1 %}
         <div class="row align-items-center">
             <div class="col-3">
-                {{ form_label(form.dipPdfFilename) }}
+                {{ form_label(form.tracfinPdfFilename) }}
             </div>
             <div class="col-4">
-                {{ form_widget(form.dipPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
             </div>
         </div>
-        {% if transaction.dipPdfFilename is not empty%}
+        {% if transaction.tracfinPdfFilename is not empty%}
             <div class="row align-items-center">
                 <div class="col-3">
                     Document déposé :
                 </div>
-                <div class="col-4">
-                    {{ transaction.dipPdfFilename }} |
+                <div class="col-6">
+                    {{ transaction.tracfinPdfFilename }} |
+                    <button id="showActe" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalActe"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+                    <!-- Modal -->
+                    <div class="modal fade" id="modalActe" tabindex="-1" aria-labelledby="modalActe" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered modal-xl">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Attestation acte de vente</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body" style="padding: 0;">
+                                    <div id="externaFile">
+                                        <iframe src="{{ asset('doc/transaction/acte/' ~ transaction.actePdfFilename) }}" width="100%" height="500px"></iframe>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         {% endif %}
     {% else %}
         <div class="row align-items-center d-none">
             <div class="col-3">
-                {{ form_label(form.dipPdfFilename) }}
+                {{ form_label(form.tracfinPdfFilename) }}
             </div>
             <div class="col-4">
-                {{ form_widget(form.dipPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
             </div>
         </div>
     {% endif %}
@@ -86,6 +106,7 @@
         {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is not null %}
             <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
         {% endif %}
+
         {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is null %}
             <button type="submit" id="btnAdminToActePdf" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
         {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is not null and transaction.isValidActepdf == 0 %}
@@ -93,11 +114,18 @@
         {% endif %}
     {% elseif transaction.isValidActepdf == true %}
         <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-        {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.dipPdfFilename is null %}
-            <button type="submit" id="btnWaitToDip" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le dip pour contrôle</button>
-        {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.dipPdfFilename is not null %}
+        {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.tracfinPdfFilename is null %}
+            <button type="submit" id="btnWaitToTracfin" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le tracfin pour contrôle</button>
+        {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.tracfinPdfFilename is not null %}
             <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
         {% endif %}
+
+        {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.tracfinPdfFilename is null %}
+            <button type="submit" id="btnAdminTotracfinPdf" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+        {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.tracfinPdfFilename is not null and transaction.isValidtracfinPdf == 0 %}
+            <a href="{{ path('op_gestapp_transaction_validAdminActeStep4', {'id': transaction.id}) }}" id="btnAdminToActePdf" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par votre collaborateur.</a>
+        {% endif %}
     {% endif %}
+</div>
 </div>
 {{ form_end(form) }}
