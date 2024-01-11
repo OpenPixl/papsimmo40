@@ -38,6 +38,18 @@ use Symfony\Component\Validator\Constraints as Assert;
     shortName: 'Collaborateur',
     operations: [
         new Get(normalizationContext: ['groups' => 'employed:item']),
+        new Get(
+            uriTemplate: '/collaborateur/{numCollaborator}',
+            uriVariables: [
+                'numCollaborator' => 'numCollaborator'
+            ],
+            requirements: ['numCollaborator' => '\d+'],
+            openapiContext: [
+                'summary' => "Récupérer les information  d'un collaborateur par son numéro",
+                'description' => "Récupérer les information  d'un collaborateur par son numéro",
+            ],
+            normalizationContext: ['groups' => 'employed:item'],
+        ),
         new GetCollection(normalizationContext: ['groups' => 'employed:list']),
         new Get(
             uriTemplate: '/authentication_token/{numCollaborator}/getToken',
