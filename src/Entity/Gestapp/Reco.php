@@ -154,6 +154,12 @@ class Reco
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $StatusPrescriber = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $typeProperty = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $typeReco = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -407,6 +413,30 @@ class Reco
     public function setStatusPrescriber(string $StatusPrescriber): static
     {
         $this->StatusPrescriber = $StatusPrescriber;
+
+        return $this;
+    }
+
+    public function getTypeProperty(): ?string
+    {
+        return $this->typeProperty;
+    }
+
+    public function setTypeProperty(?string $typeProperty): static
+    {
+        $this->typeProperty = $typeProperty;
+
+        return $this;
+    }
+
+    public function getTypeReco(): ?string
+    {
+        return $this->typeReco;
+    }
+
+    public function setTypeReco(?string $typeReco): static
+    {
+        $this->typeReco = $typeReco;
 
         return $this;
     }
