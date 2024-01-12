@@ -144,7 +144,7 @@
                     axios
                         .post(url, data)
                         .then(function(response){
-                            document.getElementById('Informations').innerHTML = response.data.step
+                            window.location.reload();
                             // initialisation du toaster
                             var toastHTMLElement = document.getElementById("toaster");
                             var message = response.data.message;

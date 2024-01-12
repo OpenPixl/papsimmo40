@@ -608,7 +608,7 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/addmandat/{id}', name: 'op_gestapp_property_addmandat', methods: ['GET', 'POST'])]
-    public function addMandat(Request $request, Property $property, PropertyRepository $propertyRepository)
+    public function addMandat(Request $request, Property $property, PropertyRepository $propertyRepository, EntityManagerInterface $em)
     {
         $form = $this->createForm(AddMandatType::class, $property, [
             'action' => $this->generateUrl('op_gestapp_property_addmandat',['id'=>$property->getId()]),
@@ -619,17 +619,13 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $propertyRepository->add($property);
-
-            $view = $this->render('gestapp/property/Step/firststep.html.twig', [
-                'property' => $property,
-                'form' => $form
-            ]);
+            $property->setIsNomandat(0);
+            $em->persist($property);
+            $em->flush();
 
             return $this->json([
                 'code' => 200,
-                'message' => "Le numéro de mandat a été correctement ajouté.",
-                'step' => $view->getContent()
+                'message' => "Le numéro de mandat a été correctement ajouté."
                 ], 200);
         }
 
