@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
+use App\Form\Gestapp\Property\AddMandatType;
 use App\Form\Gestapp\PropertyAvenantType;
 use App\Form\Gestapp\PropertyEndMandatType;
 use App\Form\Gestapp\PropertyImageType;
@@ -601,6 +602,38 @@ class PropertyController extends AbstractController
 
         }
         return $this->renderform('gestapp/property/Step/secondstep.html.twig',[
+            'form'=>$form,
+            'property'=>$property
+        ]);
+    }
+
+    #[Route('/addmandat/{id}', name: 'op_gestapp_property_addmandat', methods: ['GET', 'POST'])]
+    public function addMandat(Request $request, Property $property, PropertyRepository $propertyRepository)
+    {
+        $form = $this->createForm(AddMandatType::class, $property, [
+            'action' => $this->generateUrl('op_gestapp_property_addmandat',['id'=>$property->getId()]),
+            'method' => 'POST'
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $propertyRepository->add($property);
+
+            $view = $this->render('gestapp/property/Step/firststep.html.twig', [
+                'property' => $property,
+                'form' => $form
+            ]);
+
+            return $this->json([
+                'code' => 200,
+                'message' => "Le numéro de mandat a été correctement ajouté.",
+                'step' => $view->getContent()
+                ], 200);
+        }
+
+        return $this->render('gestapp/property/_formaddmandat.html.twig',[
             'form'=>$form,
             'property'=>$property
         ]);

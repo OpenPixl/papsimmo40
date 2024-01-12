@@ -40,9 +40,6 @@ class RecoType extends AbstractType
                     'Recommandation mise en vente' => ['data-data' => 'reco_published']
                 ],
             ])
-            ->add('createAt')
-            ->add('updateAt')
-            ->add('refEmployed')
         ;
     }
 

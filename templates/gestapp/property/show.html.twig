@@ -126,11 +126,37 @@
             // PARTIE Envoie et traitement du formulaire
             // ---------------------------------------
             // fonction édition du mandat
-            const btnAddMandat = document.getElementById('AddMandat')
-            if(btnAddMandat !== null ){
+            const AddMandat = document.getElementById('AddMandat')
+            const btnAddMandat = document.getElementById('btnAddMandat')
+            if(AddMandat !== null ){
                 const modalAddMandat = new bootstrap.Modal(document.getElementById('modalAddMandat'),{focus:true,keyboard: false})
+                AddMandat.addEventListener('click', function(event){
+                    event.preventDefault()
+                    modalAddMandat.show()
+                })
+            }
+            if(btnAddMandat !== null ){
                 btnAddMandat.addEventListener('click', function(event){
                     event.preventDefault()
+                    let form = document.getElementById('FormAddMandat')
+                    let url = form.action
+                    let data = new FormData(form)
+                    axios
+                        .post(url, data)
+                        .then(function(response){
+                            document.getElementById('Informations').innerHTML = response.data.step
+                            // initialisation du toaster
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                            toastElement.show();
+
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
                 })
             }
 
@@ -2105,14 +2131,20 @@
         </div>
     </div>
     {# Modal d'édition du mandat #}
-    <div class="modal fade" id="modalAddMandat" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
+    <div class="modal fade" id="modalAddMandat" tabindex="-1" aria-labelledby="modalAddMandat" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edition du mandat sur le bien :</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                {{ render(controller('App\\Controller\\Gestapp\\choice\\OtherOptionController::new2')) }}
+                <div class="modal-body">
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::addMandat', {'id' : property.id})) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button id="btnAddMandat" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter le numéro</button>
+                </div>
             </div>
         </div>
     </div>
