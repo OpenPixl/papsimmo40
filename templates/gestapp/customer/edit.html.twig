@@ -7,6 +7,13 @@
     <script>
         window.onload = function()
         {
+            function removeOptions(selectElement) {
+                var i, L = selectElement.options.length - 1;
+                for(i = L; i >= 0; i--) {
+                    selectElement.remove(i);
+                }
+            }
+
             // PARTIE Code postal et Ville - API
             // ---------------------------------------
             let commune = document.getElementById('customer_city')
