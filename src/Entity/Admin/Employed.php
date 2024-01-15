@@ -7,9 +7,10 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Link;
 use App\Controller\Api\Admin\Employed\AddEmployed;
+use App\Controller\Api\Admin\Employed\AddPrescriber;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
-use App\Controller\Api\Admin\Prescriber\AddPrescriber;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
@@ -37,7 +38,13 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[ApiResource(
     shortName: 'Collaborateur',
     operations: [
-        new Get(normalizationContext: ['groups' => 'employed:item']),
+        new Get(
+            uriTemplate: '/collaborateur/{id}',
+            openapiContext: [
+                'summary' => "Récupérer les information  d'un collaborateur.",
+                'description' => "Récupérer les information  d'un collaborateur.",
+            ],
+            normalizationContext: ['groups' => 'employed:item']),
         new Get(
             uriTemplate: '/collaborateur/{numCollaborator}',
             uriVariables: [
@@ -50,7 +57,13 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
             normalizationContext: ['groups' => 'employed:item'],
         ),
-        new GetCollection(normalizationContext: ['groups' => 'employed:list']),
+        new GetCollection(
+            openapiContext: [
+                'summary' => "Récupérer la liste des collaborateurs.",
+                'description' => "Récupérer la liste des collaborateurs.",
+            ],
+            normalizationContext: ['groups' => 'employed:list']
+        ),
         new Get(
             uriTemplate: '/authentication_token/{numCollaborator}/getToken',
             uriVariables: [
@@ -66,7 +79,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             name: 'getTokenByNumCollaborator'
         ),
         new Post(
-            uriTemplate: '/employed',
+            uriTemplate: '/collaborateur',
             controller: AddEmployed::class,
             openapiContext: [
                 'summary' => "Ajoute un collaborateur",
@@ -74,21 +87,17 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
             normalizationContext: ['groups' => 'employed:write:post']
         ),
-        new Post(
-            uriTemplate: '/prescriber',
-            uriVariables: [
-                'numCollaborator' => 'numCollaborator'
-            ],
-            requirements: ['numCollaborator' => '\d+'],
+        new POST(
+            uriTemplate: '/prescripteur',
             controller: AddPrescriber::class,
             openapiContext: [
-                'summary' => "Ajouter un prescripteur",
-                'description' => "Ajouter un prescripteur",
+                'summary' => "Ajoute un collaborateur",
+                'description' => "Ajoute un collaborateur",
             ],
-            normalizationContext: ['groups' => 'prescriber:write:post']
+            normalizationContext: ['groups' => 'employed:write:post']
         ),
         new Patch(
-            uriTemplate: '/employed/{id}/update',
+            uriTemplate: '/collaborateur/{id}/update',
             openapiContext: [
                 'summary' => "Mettre à jour les informations du collaborateur",
                 'description' => "Mettre à jour les informations du collaborateur",

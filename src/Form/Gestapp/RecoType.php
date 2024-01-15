@@ -31,13 +31,40 @@ class RecoType extends AbstractType
                     'Ouverture du dossier' => 'reco_open',
                     'Validation par le mandataire' => 'employed_valid',
                     "Validation par l'administration" => 'admin_valid',
-                    'Recommandation publiée' => 'reco_published'
+                    'Recommandation publiée' => 'reco_published',
+                    'Publication du bien' => 'published',
+                    "Dossier d'acquisition" => 'on_sale'
                 ],
                 'choice_attr' => [
                     'Ouverture du dossier' => ['data-data' => 'reco_open'],
                     'Validation par le mandataire' => ['data-data' => 'employed_valid'],
                     "Validation par l'administration" => ['data-data' => 'admin_valid'],
-                    'Recommandation mise en vente' => ['data-data' => 'reco_published']
+                    'Recommandation mise en vente' => ['data-data' => 'reco_published'],
+                    'Publication du bien' => ['data-data' => 'published'],
+                    "Dossier d'acquisition" => ['data-data' => 'on_sale']
+                ],
+            ])
+            ->add('typeProperty', ChoiceType::class,[
+                'label' => 'Type de recommandation',
+                'choices'  => [
+                    'Maison' => 'maison',
+                    'Appartement' => 'appartement',
+                    'Local commercial' => 'local_commercial',
+                ],
+                'choice_attr' => [
+                    'Vente' => ['data-data' => 'Vente'],
+                    'Location' => ['data-data' => 'Location'],
+                ],
+            ])
+            ->add('typeReco', ChoiceType::class,[
+                'label' => 'Type de recommandation',
+                'choices'  => [
+                    'Vente' => 'vente',
+                    'Location' => 'location',
+                ],
+                'choice_attr' => [
+                    'Vente' => ['data-data' => 'Vente'],
+                    'Location' => ['data-data' => 'Location'],
                 ],
             ])
         ;

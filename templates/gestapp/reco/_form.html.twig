@@ -1,66 +1,87 @@
 {{ form_start(form) }}
-    <div class="row g-1">
-        <div class="col-2">
-            <h4>Etat</h4>
-            <div class="row align-items-center h-100">
-                <div class="col-12">
+    <div class="row mt-2 mb-2">
+        <div class="col-12">
+            <div class="row ">
+                <div class="col-3">
+                    <h4>Avancée de la recommandation</h4>
+                </div>
+                <div class="col-2">
                     {{ form_widget(form.statutReco, {'attr': {'class': 'form-select form-select-sm'}}) }}
                 </div>
             </div>
         </div>
+    </div>
+    <div class="row">
         <div class="col-3 p-2">
             <h4>Prescripteur</h4>
-            <div class="row mb-1 g-1">
+            <div class="row align-items-center h-100">
                 <div class="col-12">
-                    <p>Nom et Prénom</p>
-                </div>
-                <div class="col-6">
-                    {{ form_widget(form.announceFirstName, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-                <div class="col-6">
-                    {{ form_widget(form.announceLastName, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                    <div class="row mb-1 g-1">
+                        <div class="col-12">
+                            <p><b>Nom et Prénom</b></p>
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.announceFirstName, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.announceLastName, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="row mb-1 g-1">
+                        <div class="col-12 mt-2">
+                            <p><b>Contacts</b></p>
+                        </div>
+                        <div class="col-12">
+                            {{ form_widget(form.announceEmail, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="row mb-1 g-1">
+                        <div class="col-12">
+                            {{ form_widget(form.announcePhone, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="row mb-1 g-1">
-                <div class="col-12">
-                    {{ form_widget(form.announceEmail, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-            </div>
-            <div class="row mb-1 g-1">
-                <div class="col-12">
-                    {{ form_widget(form.announcePhone, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-            </div>
+
         </div>
         <div class="col-3 p-2">
             <h4>Vendeur</h4>
-            <div class="row mb-1 g-1">
+            <div class="row align-items-center h-100">
                 <div class="col-12">
-                    <p>Nom et Prénom</p>
-                </div>
-                <div class="col-6">
-                    {{ form_widget(form.customerFirstName, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-                <div class="col-6">
-                    {{ form_widget(form.customerLastName, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-            </div>
-            <div class="row mb-1 g-1">
-                <div class="col-12">
-                    {{ form_widget(form.customerEmail, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-            </div>
-            <div class="row mb-1 g-1" >
-                <div class="col-12">
-                    {{ form_widget(form.customerPhone, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                    <div class="row mb-1 g-1">
+                        <div class="col-12">
+                            <p><b>Nom et Prénom</b></p>
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.customerFirstName, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.customerLastName, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="row mb-1 g-1">
+                        <div class="col-12 mt-2">
+                            <p><b>Contacts</b></p>
+                        </div>
+                        <div class="col-12">
+                            {{ form_widget(form.customerEmail, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                    <div class="row mb-1 g-1" >
+                        <div class="col-12">
+                            {{ form_widget(form.customerPhone, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-3 p-2">
             <h4>Proposition de bien</h4>
-            <div class="row mb-1 g-1">
+            <div class="row align-items-center h-100">
                 <div class="col-12">
-                    <p>Adresse</p>
+                    <div class="row mb-1 g-1">
+                <div class="col-12">
+                    <p><b>Adresse</b></p>
                 </div>
                 <div class="col-12">
                     {{ form_widget(form.propertyAddress, {'attr': {'class': 'form-control form-control-sm'}}) }}
@@ -72,10 +93,19 @@
                     {{ form_widget(form.propertyZipcode, {'attr': {'class': 'form-control form-control-sm'}}) }}
                 </div>
                 <div class="col-9">
-                    {{ form_widget(form.propertyCity, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                    {{ form_widget(form.propertyCity, {'attr': {'class': 'form-control form-control-sm w-75'}}) }}
                 </div>
-                <hr>
-
+                <div class="col-12 mt-2">
+                    <p><b>Typologie du bien</b></p>
+                </div>
+                <div class="col-6">
+                    {{ form_widget(form.typeReco, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                </div>
+                <div class="col-6">
+                    {{ form_widget(form.typeProperty, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                </div>
+            </div>
+                </div>
             </div>
         </div>
     </div>
