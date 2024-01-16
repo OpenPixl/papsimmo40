@@ -19,10 +19,10 @@ class Notification
     private ?Employed $refEmployed = null;
 
     #[ORM\Column]
-    private ?bool $isConnectedAt = null;
+    private ?bool $isConnectedAt = false;
 
     #[ORM\Column]
-    private ?bool $isApi = null;
+    private ?bool $isApi = false;
 
     #[ORM\Column(type: Types::ARRAY, nullable: true)]
     private ?array $log = null;

@@ -1,8 +1,8 @@
 <?php
 // api/src/Controller/CreateBookPublication.php
-namespace App\Controller\Api\Admin\Employed;
+namespace App\Controller\Api\Gestapp\Reco;
 
-use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\Reco;
 use App\Entity\Admin\Notification;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,23 +11,16 @@ use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 #[AsController]
-class AddPrescriber extends AbstractController
+class AddReco extends AbstractController
 {
-    public function __invoke(Employed $data, UserPasswordHasherInterface $passwordAuthenticatedUser, EntityManagerInterface $em)
+    public function __invoke(Reco $data,EntityManagerInterface $em)
     {
         //dd($data);
         if($data){
-            $plainpassword = $data->getPassword();
-            $numCollaborator = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
-            $referent = $data->getReferent();
-            $data->setRoles(['ROLE_PRESCRIBER']);
-            $data->setPassword($passwordAuthenticatedUser->hashPassword($data,$plainpassword));
-            $data->setNumCollaborator($numCollaborator);
-            $data->setReferent($referent);
-
+            $employed = $data->getRefEmployed();
             $log = array($data);
             $notification = new Notification();
-            $notification->setRefEmployed($data->getReferent());
+            $notification->setRefEmployed($employed);
             $notification->setIsApi(1);
             $notification->setLog($log);
             $em->persist($notification);

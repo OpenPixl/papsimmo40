@@ -91,6 +91,16 @@ class EmployedRepository extends ServiceEntityRepository implements PasswordUpgr
             ;
     }
 
+    public function listPrescriber(){
+        return $this->createQueryBuilder('e')
+            ->orderBy('e.roles', 'ASC')
+            ->Where('e.roles LIKE :role')
+            ->setParameter('role', '%"'.'ROLE_PRESCRIBER'.'"%')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Employed[] Returns an array of Employed objects
     //  */

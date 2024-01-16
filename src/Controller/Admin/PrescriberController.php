@@ -15,8 +15,7 @@ class PrescriberController extends AbstractController
     #[Route('/admin/prescriber/', name: 'op_admin_prescriber_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
-
-        $prescribers = $employedRepository->findBy(['roles' => ['ROLE_PRESCRIBER']]);
+        $prescribers = $employedRepository->listPrescriber();
 
         return $this->render('admin/employed/prescriber.html.twig', [
             'prescribers' => $prescribers,

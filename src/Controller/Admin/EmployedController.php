@@ -35,6 +35,13 @@ class EmployedController extends AbstractController
         ]);
     }
 
+    #[Route('/opadmin/employed/findPrescribers', name: 'op_admin_employeds_findPrescribers', methods: ['GET'])]
+    public function findPrescribers(Request $request, EmployedRepository $employedRepository)
+    {
+        return $this->render('webapp/page/employed/allemployed.html.twig', [
+            'employeds' => $employedRepository->publishEmployedOnApp(),
+        ]);
+    }
 
     #[Route('/opadmin/employed/', name: 'op_admin_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response

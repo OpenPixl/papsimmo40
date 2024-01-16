@@ -4,8 +4,8 @@
         <th>Id</th>
         <th>Nom & Prénom</th>
         <th>Email</th>
-        <th>Roles</th>
-        <th>Secteur</th>
+        <th>Téléphone</th>
+        <th></th>
         <th>Actif</th>
         <th>Créer le</th>
         <th>MàJ</th>
@@ -18,12 +18,8 @@
             <td>{{ prescriber.id }}</td>
             <td><a href="{{ path('op_admin_employed_edit', {'id': prescriber.id}) }}">{{ prescriber.firstName }} {{ prescriber.lastName }}</a></td>
             <td>{{ prescriber.email }}</td>
-            <td>
-                {% for role in prescriber.roles %}
-                    <div class="badge bg-primary">{% if role == "ROLE_SUPER_ADMIN" %}Administrateur{% endif %}{% if role == "ROLE_USER" %}Membre{% endif %}</div>
-                {% endfor %}
-            </td>
-            <td>{{ prescriber.sector }}</td>
+            <td>{{ prescriber.gsm }}</td>
+            <td></td>
             <td>
                 {% if prescriber.isVerified == 1 %}
                     <a class="js-isverified" href="{{ path('op_admin_employed_isactiv', {'id': prescriber.id}) }}"><i class="far fa-check-circle text-success"></i></a>

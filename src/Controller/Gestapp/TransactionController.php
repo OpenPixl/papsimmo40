@@ -17,6 +17,11 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mime\Email;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -188,7 +193,13 @@ class TransactionController extends AbstractController
         ]);
     }
     #[Route('/{id}/step3', name: 'op_gestapp_transaction_step3', methods: ['GET', 'POST'])]
-    public function step3(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function step3(
+        Request $request,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        MailerInterface $mailer
+    ): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
 
@@ -247,6 +258,28 @@ class TransactionController extends AbstractController
                 $transaction->setPromisePdfFilename($newFilename);
                 $entityManager->persist($transaction);
                 $entityManager->flush();
+
+                if($hasAccess == false) {
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                        ->to('xavier.burke@openpixl.fr')
+                        //->cc('cc@example.com')
+                        //->bcc('bcc@example.com')
+                        //->replyTo('fabien@example.com')
+                        //->priority(Email::PRIORITY_HIGH)
+                        ->subject('[PAPs Immo] : Un document de transaction attend votre approbation')
+                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                        ->context([
+                            'transaction' => $transaction,
+                        ]);
+                    try {
+                        $mailer->send($email);
+                    } catch (TransportExceptionInterface $e) {
+                        // some error prevented the email sending; display an
+                        // error message or try to resend the message
+                        dd($e);
+                    }
+                }
 
                 return $this->json([
                     'code' => 200,
@@ -353,7 +386,13 @@ class TransactionController extends AbstractController
 
 
     #[Route('/{id}/step4', name: 'op_gestapp_transaction_step4', methods: ['GET', 'POST'])]
-    public function step4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
+    public function step4(
+        Request $request,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        MailerInterface $mailer
+    ): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
 
@@ -390,6 +429,27 @@ class TransactionController extends AbstractController
                 $transaction->setActePdfFilename($newFilename);
                 $entityManager->persist($transaction);
                 $entityManager->flush();
+                if($hasAccess == false) {
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                        ->to('xavier.burke@openpixl.fr')
+                        //->cc('cc@example.com')
+                        //->bcc('bcc@example.com')
+                        //->replyTo('fabien@example.com')
+                        //->priority(Email::PRIORITY_HIGH)
+                        ->subject('[PAPs Immo] : Un document de transaction attend votre approbation')
+                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                        ->context([
+                            'transaction' => $transaction,
+                        ]);
+                    try {
+                        $mailer->send($email);
+                    } catch (TransportExceptionInterface $e) {
+                        // some error prevented the email sending; display an
+                        // error message or try to resend the message
+                        dd($e);
+                    }
+                }
 
                 return $this->json([
                     'code' => 200,

@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
+use App\Controller\Api\Gestapp\Reco\AddReco;
 use App\Entity\Admin\Employed;
 use App\Repository\Gestapp\RecoRepository;
 use Doctrine\DBAL\Types\Types;
@@ -48,6 +49,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new Post(
             uriTemplate: '/recommandation',
+            controller: AddReco::class,
             openapiContext: [
                 'summary' => "Créer une nouvelle recommandation pour le mandataire",
                 'description' => "Créer une nouvelle recommandation pour le mandataire",

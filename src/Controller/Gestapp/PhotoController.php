@@ -107,7 +107,7 @@ class PhotoController extends AbstractController
                         );
                     }else{
                         // Création du répertoire s'il n'existe pas.
-                        mkdir($pathdir."/", 0770, true);
+                        mkdir($pathdir."/", 0775, true);
                         // Déplacement de la photo
                         $photoFile->move(
                             $pathdir,
