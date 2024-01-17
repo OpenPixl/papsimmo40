@@ -162,6 +162,10 @@ class Reco
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $typeReco = null;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['reco:item'])]
+    private ?int $commission = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -439,6 +443,18 @@ class Reco
     public function setTypeReco(?string $typeReco): static
     {
         $this->typeReco = $typeReco;
+
+        return $this;
+    }
+
+    public function getCommission(): ?int
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(?int $commission): static
+    {
+        $this->commission = $commission;
 
         return $this;
     }

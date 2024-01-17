@@ -67,6 +67,7 @@ class RecoType extends AbstractType
                     'Location' => ['data-data' => 'Location'],
                 ],
             ])
+            ->add('commission')
         ;
     }
 
