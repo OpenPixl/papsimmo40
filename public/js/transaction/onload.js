@@ -111,7 +111,7 @@ icoStepFive.addEventListener('click', function(event){
     }
 });
 
-// validation étapes acheteurs
+// validation étape acheteurs
 validStep1.addEventListener('click', function(event){
     event.preventDefault();
     let url = this.href;
@@ -158,7 +158,7 @@ validStep2.addEventListener('click', function(event){
         });
 });
 
-// validation Dépôt du compromis par Collaborateur
+// Chargement du compromis par Collaborateur
 if(validStep3 !== null){
     validStep3.addEventListener('click', function(event){
         event.preventDefault();
@@ -185,7 +185,8 @@ if(validStep3 !== null){
             });
     });
 }
-// validation du compromis déposé par un collaborateur par un admin de la plateforme
+
+// Chargement du compromis par un collaborateur pour validation par un admin de la plateforme
 if(validAdminStep3 !== null){
     validAdminStep3.addEventListener('click', function(event){
         event.preventDefault();
@@ -206,6 +207,7 @@ if(validAdminStep3 !== null){
             });
     });
 }
+
 // validation Dépôt du compromis direct pas Administrateur
 if(validAdminToStepFour !== null){
     validAdminToStepFour.addEventListener('click', function(event){
@@ -241,7 +243,7 @@ if(validAdminToStepFour !== null){
     });
 }
 
-// Depot du fichier d'attestation d'acte de vente par un collaborateur
+// chargement du fichier d'attestation d'acte de vente par un collaborateur
 if(validActe !== null){
     validActe.addEventListener('click', function(event){
         event.preventDefault();

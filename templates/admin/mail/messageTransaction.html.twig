@@ -1,9 +1,10 @@
 <h1>[PAPs Immo] : Un document attends votre approbation</h1>
-<h3>{{ transaction.name }}</h3>
+<h3>Transaction n°: {{ transaction.name }}</h3>
 <hr>
+<h6>Bonjour,</h6>
 <p>
-    Un de vos collaborateurs à déposer un document dans le cadre d'une transaction immobilière.
+    Dans le cadre d'une transaction immobilière, l'un de vos collaborateurs à déposer un document : {{ transaction.promisePdfFilename }}.
     En cliquant sur le lien suivant vous pourrez-le controler.
-
-    <a href="{{ path("op_gestapp_transaction_show", {'id': transaction.id}) }}">Accéder aux transaction</a>
+    <br>
+    <a href="https://{{ path("op_gestapp_transaction_show", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
 </p>
