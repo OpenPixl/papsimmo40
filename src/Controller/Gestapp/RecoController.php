@@ -2,6 +2,7 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Reco;
 use App\Form\Gestapp\RecoType;
 use App\Repository\Gestapp\RecoRepository;
@@ -61,6 +62,7 @@ class RecoController extends AbstractController
         ]);
     }
 
+
     #[Route('/{id}/edit', name: 'op_gestapp_reco_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reco $reco, EntityManagerInterface $entityManager): Response
     {
@@ -77,6 +79,28 @@ class RecoController extends AbstractController
             'reco' => $reco,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/AddProperty', name: 'op_gestapp_reco_addproperty', methods: ['GET', 'POST'])]
+    public function AddProperty(Reco $reco, Property $property)
+    {
+        // Récupérer les information à transférer
+        $propertyAddress = $reco->getPropertyAddress();
+        $propertyComplement = $reco->getPropertyComplement();
+        $propertyCity = $reco->getPropertyCity();
+        $propertyZipcode = $reco->getPropertyZipcode();
+        $propertyLat = $reco->getPropertyLat();
+        $propertyLong = $reco->getPropertyLong();
+        $propertyTypeReco = $reco->getTypeReco();
+        $propertyTtypeProperty = $reco->getTypeProperty();
+
+        $property = new Property();
+        $property->setAdress($propertyAddress);
+        $property->setComplement($propertyComplement);
+        $property->setZipcode($propertyZipcode);
+        $property->setCity($propertyCity);
+        $property->setCoordLong($propertyLong);
+        $property->setCoordLat($propertyLat);
     }
 
     #[Route('/{id}/step1', name: 'op_gestapp_reco_step1', methods: ['POST'])]
