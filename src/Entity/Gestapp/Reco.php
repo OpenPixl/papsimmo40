@@ -18,6 +18,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RecoRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 #[ApiResource(
     shortName: 'Recommandation',
     operations: [
@@ -140,11 +141,11 @@ class Reco
     #[Groups(['reco:item', 'reco:write:post'])]
     private ?string $statutReco = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
 
     #[ORM\Column]
     private ?bool $isRead = false;
@@ -363,26 +364,29 @@ class Reco
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createAt;
+        return $this->createdAt;
     }
 
-    public function setCreateAt(\DateTimeImmutable $createAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
     {
-        $this->createAt = $createAt;
+        $this->createdAt = new \DateTime('now');
 
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdateAt(\DateTimeImmutable $updateAt): static
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): self
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = new \DateTime('now');
 
         return $this;
     }
