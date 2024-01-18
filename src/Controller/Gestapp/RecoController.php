@@ -92,7 +92,8 @@ class RecoController extends AbstractController
         $propertyLat = $reco->getPropertyLat();
         $propertyLong = $reco->getPropertyLong();
         $propertyTypeReco = $reco->getTypeReco();
-        $propertyTtypeProperty = $reco->getTypeProperty();
+        //$propertyFamily = $reco->getTypeFamily();
+        $propertyTypeProperty = $reco->getTypeProperty();
 
         $property = new Property();
         $property->setAdress($propertyAddress);
@@ -101,6 +102,8 @@ class RecoController extends AbstractController
         $property->setCity($propertyCity);
         $property->setCoordLong($propertyLong);
         $property->setCoordLat($propertyLat);
+
+        $reco->setRefProperty($property);
     }
 
     #[Route('/{id}/step1', name: 'op_gestapp_reco_step1', methods: ['POST'])]

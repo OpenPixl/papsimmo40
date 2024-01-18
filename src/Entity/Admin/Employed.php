@@ -46,7 +46,7 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
             normalizationContext: ['groups' => 'employed:item']),
         new Get(
-            uriTemplate: '/collaborateur/{numCollaborator}',
+            uriTemplate: '/mandataire/{numCollaborator}',
             uriVariables: [
                 'numCollaborator' => 'numCollaborator'
             ],
