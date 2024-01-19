@@ -48,6 +48,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'description' => "Obtenir uniquement les recommandations du mandataire.",
             ],
         ),
+        new GetCollection(
+            uriTemplate: '/prescripteur/{email}/recommandations',
+            uriVariables: [
+                'email' => new Link(fromProperty: 'Customer' , fromClass: Employed::class)
+            ],
+            requirements: ['id' => '\d+'],
+            openapiContext: [
+                'summary' => "Obtenir uniquement les recommandations du mandataire.",
+                'description' => "Obtenir uniquement les recommandations du mandataire.",
+            ],
+        ),
         new Post(
             uriTemplate: '/recommandation',
             controller: AddReco::class,
