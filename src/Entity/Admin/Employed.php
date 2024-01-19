@@ -112,7 +112,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['reco:write:post'])]
+    #[Groups(['employed:item','reco:write:post'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
