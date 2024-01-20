@@ -21,13 +21,13 @@ class AddReco extends AbstractController
         if($data){
             $employed = $data->getRefEmployed();
             $log = array($data);
+            $request = Request::createFromGlobals();
             $notification = new Notification();
             $notification->setRefEmployed($employed);
             $notification->setIsApi(1);
             $notification->setLog($log);
+            $notification->setClientHost($request->getClientIp());
 
-            $request = Request::createFromGlobals();
-            dd($request->getClientIp());
             $em->persist($notification);
             $em->flush();
 

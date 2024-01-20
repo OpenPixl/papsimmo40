@@ -30,6 +30,9 @@ class Notification
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
+    #[ORM\Column(length: 25)]
+    private ?string $clientHost = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -92,6 +95,18 @@ class Notification
     public function setCreatedAt(): self
     {
         $this->createdAt = new \DateTime('now');
+
+        return $this;
+    }
+
+    public function getClientHost(): ?string
+    {
+        return $this->clientHost;
+    }
+
+    public function setClientHost(string $clientHost): static
+    {
+        $this->clientHost = $clientHost;
 
         return $this;
     }
