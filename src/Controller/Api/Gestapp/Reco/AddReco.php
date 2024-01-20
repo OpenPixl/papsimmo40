@@ -9,11 +9,13 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Component\HttpFoundation\Request;
 
 #[AsController]
 class AddReco extends AbstractController
 {
-    public function __invoke(Reco $data,EntityManagerInterface $em)
+
+    public function __invoke(Reco $data, EntityManagerInterface $em)
     {
         //dd($data);
         if($data){
@@ -23,6 +25,9 @@ class AddReco extends AbstractController
             $notification->setRefEmployed($employed);
             $notification->setIsApi(1);
             $notification->setLog($log);
+
+            $request = Request::createFromGlobals();
+            dd($request->getClientIp());
             $em->persist($notification);
             $em->flush();
 
