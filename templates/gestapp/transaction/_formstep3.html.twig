@@ -13,7 +13,7 @@
             <div class="col-3">
                 Document déposé :
             </div>
-            <div class="col-4">
+            <div class="col-5">
                 {{ transaction.promisePdfFilename }} |
                 <button id="showPromise" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
                 <!-- Modal -->
@@ -46,7 +46,7 @@
             <div class="col-3">
                 Document déposé :
             </div>
-            <div class="col-4">
+            <div class="col-5">
                 {{ transaction.promisePdfFilename }} |
                 <button id="showPromise" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
                 <!-- Modal -->
@@ -79,7 +79,7 @@
 <div id="submitStep" class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
     {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is null %}
-        <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le document pour contrôle</button>
+        <button type="submit" id="btnStep3ValidPdfByAdmin" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le document pour contrôle</button>
     {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is not null %}
         <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
     {% endif %}

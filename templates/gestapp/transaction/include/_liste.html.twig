@@ -12,12 +12,17 @@
     </thead>
     <tbody>
         {% for transaction in transactions|filter(t => t.refEmployed.id is not same as user.id ) %}
-            <tr class="align-middle {% if transaction.isValidPromisepdf == 0 or transaction.isValidActepdf == 0 or transaction.isValidtracfinPdf == 0 %}table-light{% endif %}">
+            <tr class="align-middle
+                {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}table-light{% endif %}
+                {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}table-light{% endif %}
+            ">
                 <td>
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': transaction.property.id})) }}
                 </td>
                 <td class="align-left">
-                    <b>{{ transaction.name }}</b>{% if transaction.isValidPromisepdf == 0 %}<br><span class="text-danger">La promesse de vente doit être controlée.</span>{% endif %}<br>
+                    <b>{{ transaction.name }}</b>
+                    {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>La promesse de vente doit être controlée.</span>{% endif %}<br>
+                    {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>La promesse de vente doit être controlée.</span>{% endif %}
                 </td>
                 <td>
                     {% if transaction.refEmployed.avatarName is defined %}

@@ -22,7 +22,7 @@ const valueProperty = document.getElementById('valueProperty').value;
 
 let validStep1 = document.getElementById('btnToStepTwo');
 let validStep2 = document.getElementById('btnToStepTree');
-let validStep3 = document.getElementById('btnToStepFour');
+let ValidPdfByAdmin = document.getElementById('btnStep3ValidPdfByAdmin');
 let validAdminStep3 = document.getElementById('btnWaitToStepFour');
 let validAdminToStepFour = document.getElementById('btnAdminToStepFour');
 let validActe = document.getElementById('btnWaitToActe');
@@ -159,8 +159,8 @@ validStep2.addEventListener('click', function(event){
 });
 
 // Chargement du compromis par Collaborateur
-if(validStep3 !== null){
-    validStep3.addEventListener('click', function(event){
+if(ValidPdfByAdmin !== null){
+    ValidPdfByAdmin.addEventListener('click', function(event){
         event.preventDefault();
         let actionForm = FormStep3.action;
         let dataForm = new FormData(FormStep3);

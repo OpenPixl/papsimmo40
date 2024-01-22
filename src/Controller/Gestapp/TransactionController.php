@@ -267,7 +267,7 @@ class TransactionController extends AbstractController
                         //->bcc('bcc@example.com')
                         //->replyTo('fabien@example.com')
                         //->priority(Email::PRIORITY_HIGH)
-                        ->subject('[PAPs Immo] : Un document de transaction attend votre approbation')
+                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
                         ->htmlTemplate('admin/mail/messageTransaction.html.twig')
                         ->context([
                             'transaction' => $transaction,
@@ -385,8 +385,8 @@ class TransactionController extends AbstractController
     }
 
 
-    #[Route('/{id}/step4', name: 'op_gestapp_transaction_step4', methods: ['GET', 'POST'])]
-    public function step4(
+    #[Route('/{id}/step4Acte', name: 'op_gestapp_transaction_step4acte', methods: ['GET', 'POST'])]
+    public function step4acte(
         Request $request,
         Transaction $transaction,
         EntityManagerInterface $entityManager,
@@ -399,13 +399,13 @@ class TransactionController extends AbstractController
         if($hasAccess == false) {
             $form = $this->createForm(Transactionstep4Type::class, $transaction, [
                 'attr' => ['id' => 'transactionstep4'],
-                'action' => $this->generateUrl('op_gestapp_transaction_step4', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_step4acte', ['id' => $transaction->getId()]),
                 'method' => 'POST'
             ]);
         }else{
             $form = $this->createForm(Transactionstep4Type::class, $transaction, [
                 'attr' => ['id' => 'transactionstep4'],
-                'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_validacteByAdmin', ['id' => $transaction->getId()]),
                 'method' => 'POST'
             ]);
         }
@@ -531,13 +531,13 @@ class TransactionController extends AbstractController
         ], 200);
     }
 
-    #[Route('/{id}/validActeByAdmin', name: 'op_gestapp_transaction_validActeByAdmin', methods: ['POST'])]
-    public function validActeByAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    #[Route('/{id}/validacteByAdmin', name: 'op_gestapp_transaction_validacteByAdmin', methods: ['POST'])]
+    public function validacteByAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(Transactionstep4Type::class, $transaction, [
             'attr' => ['id'=>'transactionstep4'],
-            'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_validacteByAdmin', ['id' => $transaction->getId()]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -580,6 +580,132 @@ class TransactionController extends AbstractController
             return $this->json([
                 'code' => 300,
                 'message' => "Il manque l'attestation d'acte de vente en pdf."
+            ], 200);
+        }
+
+        return $this->render('gestapp/transaction/_formstep4.html.twig', [
+            'transaction' => $transaction,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/step4tracfin', name: 'op_gestapp_transaction_step4tracfin', methods: ['GET', 'POST'])]
+    public function step4tracfin(
+        Request $request,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        SluggerInterface $slugger,
+        MailerInterface $mailer
+    ): Response
+    {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+
+        if($hasAccess == false) {
+            $form = $this->createForm(Transactionstep4Type::class, $transaction, [
+                'attr' => ['id' => 'transactionstep4'],
+                'action' => $this->generateUrl('op_gestapp_transaction_step4', ['id' => $transaction->getId()]),
+                'method' => 'POST'
+            ]);
+        }else{
+            $form = $this->createForm(Transactionstep4Type::class, $transaction, [
+                'attr' => ['id' => 'transactionstep4'],
+                'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
+                'method' => 'POST'
+            ]);
+        }
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $actepdf = $form->get('actePdfFilename')->getData();
+            if($actepdf){
+                $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$actepdf->guessExtension();
+                try {
+                    $actepdf->move(
+                        $this->getParameter('transaction_acte_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setActePdfFilename($newFilename);
+                $entityManager->persist($transaction);
+                $entityManager->flush();
+                if($hasAccess == false) {
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                        ->to('xavier.burke@openpixl.fr')
+                        //->cc('cc@example.com')
+                        //->bcc('bcc@example.com')
+                        //->replyTo('fabien@example.com')
+                        //->priority(Email::PRIORITY_HIGH)
+                        ->subject('[PAPs Immo] : Un document de transaction attend votre approbation')
+                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                        ->context([
+                            'transaction' => $transaction,
+                        ]);
+                    try {
+                        $mailer->send($email);
+                    } catch (TransportExceptionInterface $e) {
+                        // some error prevented the email sending; display an
+                        // error message or try to resend the message
+                        dd($e);
+                    }
+                }
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => "L'attestation d'acte de vente PDF est déposé sur la plateforme en attente de validation.",
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'step' => $this->renderView('gestapp/transaction/include/_step4.html.twig', [
+                        'transaction' => $transaction
+                    ])
+
+                ], 200);
+
+            }
+
+            $tracfinpdf = $form->get('tracfinPdfFilename')->getData();
+            if($tracfinpdf){
+                $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$tracfinpdf->guessExtension();
+                try {
+                    $tracfinpdf->move(
+                        $this->getParameter('transaction_tracfin_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setTracfinPdfFilename($newFilename);
+                $entityManager->persist($transaction);
+                $entityManager->flush();
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => "L'attestation d'acte de vente PDF est déposé sur la plateforme en attente de validation.",
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'step' => $this->renderView('gestapp/transaction/include/_step4.html.twig', [
+                        'transaction' => $transaction
+                    ])
+
+                ], 200);
+
+            }
+
+            $entityManager->persist($transaction);
+            $entityManager->flush();
+
+            return $this->json([
+                'code' => 300,
+                'message' => 'Il manque le document en pdf.'
             ], 200);
         }
 
