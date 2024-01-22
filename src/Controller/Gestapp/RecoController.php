@@ -92,7 +92,7 @@ class RecoController extends AbstractController
         $propertyLat = $reco->getPropertyLat();
         $propertyLong = $reco->getPropertyLong();
         $propertyTypeReco = $reco->getTypeReco();
-        //$propertyFamily = $reco->getTypeFamily();
+        $propertyFamily = $reco->getTypeFamily();
         $propertyTypeProperty = $reco->getTypeProperty();
 
         $property = new Property();

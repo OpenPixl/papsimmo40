@@ -192,8 +192,10 @@ class TransactionController extends AbstractController
             'form' => $form,
         ]);
     }
-    #[Route('/{id}/step3', name: 'op_gestapp_transaction_step3', methods: ['GET', 'POST'])]
-    public function step3(
+
+    // Dépôt du fichier Pdf de la promesse de vente par le collaborateur et l'administrateur - Step 3.
+    #[Route('/{id}/LoadPromise', name: 'op_gestapp_transaction_step3_loadpromise', methods: ['GET', 'POST'])]
+    public function LoadPromise(
         Request $request,
         Transaction $transaction,
         EntityManagerInterface $entityManager,
@@ -202,17 +204,16 @@ class TransactionController extends AbstractController
     ): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
-
         if($hasAccess == false){
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
                 'attr' => ['id'=>'transactionstep3'],
-                'action' => $this->generateUrl('op_gestapp_transaction_step3', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_step3_loadpromise', ['id' => $transaction->getId()]),
                 'method' => 'POST'
             ]);
         }else{
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
                 'attr' => ['id'=>'transactionstep3'],
-                'action' => $this->generateUrl('op_gestapp_transaction_validAdminToStepFour', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_step3_validLoadPromise', ['id' => $transaction->getId()]),
                 'method' => 'POST'
             ]);
         }
@@ -308,27 +309,36 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/validAdminStep3', name: 'op_gestapp_transaction_validAdminStep3', methods: ['POST'])]
-    public function validAdminStep3(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    // Validation du fichier Pdf de la promesse par un administrateur - Step 3.
+    #[Route('/{id}/validPromisebyAdmin', name: 'op_gestapp_transaction_step3_validPromisebyAdmin', methods: ['GET', 'POST'])]
+    public function validPromisebyAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
     {
+        // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $user = $this->getUser();
+        $username = $user->getFirstName()." ".$user->getLastName();
         $transaction->setState('definitive_sale');
+        $transaction->setPromiseValidBy($username);
         $transaction->setIsValidPromisepdf(1);
         $entityManager->persist($transaction);
         $entityManager->flush();
 
         return $this->json([
-            'code' => 300,
-            'message' => "Vous venez de valider le dossier de votre collaborateur. Un mail lui a été adressé afin de qu'il puisse continuer la vente",
+            'code' => 200,
+            'message' => "Vous venez de valider la promesse de vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.",
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                 'transaction' => $transaction
             ]),
 
         ], 200);
     }
-    #[Route('/{id}/validAdminToStepFour', name: 'op_gestapp_transaction_validAdminToStepFour', methods: ['POST'])]
-    public function validAdminToStepFour(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+
+    // Validation du dépôt par un administrateur du fichier Pdf de la promesse de vente - Step 3.
+    #[Route('/{id}/validLoadPromise', name: 'op_gestapp_transaction_step3_validLoadPromise', methods: ['POST'])]
+    public function validLoadPromise(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
+        // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(Transactionstep3Type::class, $transaction, [
             'attr' => ['id'=>'transactionstep3'],
@@ -385,8 +395,8 @@ class TransactionController extends AbstractController
     }
 
 
-    #[Route('/{id}/step4Acte', name: 'op_gestapp_transaction_step4acte', methods: ['GET', 'POST'])]
-    public function step4acte(
+    #[Route('/{id}/loadActeOrTracfin', name: 'op_gestapp_transaction_step4_loadacteortracfin', methods: ['GET', 'POST'])]
+    public function loadActeOrTracfin(
         Request $request,
         Transaction $transaction,
         EntityManagerInterface $entityManager,
@@ -399,13 +409,13 @@ class TransactionController extends AbstractController
         if($hasAccess == false) {
             $form = $this->createForm(Transactionstep4Type::class, $transaction, [
                 'attr' => ['id' => 'transactionstep4'],
-                'action' => $this->generateUrl('op_gestapp_transaction_step4acte', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_step4_loadacteortracfin', ['id' => $transaction->getId()]),
                 'method' => 'POST'
             ]);
         }else{
             $form = $this->createForm(Transactionstep4Type::class, $transaction, [
                 'attr' => ['id' => 'transactionstep4'],
-                'action' => $this->generateUrl('op_gestapp_transaction_validacteByAdmin', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_step4_validloadacteortracfin', ['id' => $transaction->getId()]),
                 'method' => 'POST'
             ]);
         }
@@ -417,7 +427,7 @@ class TransactionController extends AbstractController
             if($actepdf){
                 $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$actepdf->guessExtension();
+                $newFilename = $safeFilename.'.'.$actepdf->guessExtension();
                 try {
                     $actepdf->move(
                         $this->getParameter('transaction_acte_directory'),
@@ -469,7 +479,7 @@ class TransactionController extends AbstractController
             if($tracfinpdf){
                 $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$tracfinpdf->guessExtension();
+                $newFilename = $safeFilename.'.'.$tracfinpdf->guessExtension();
                 try {
                     $tracfinpdf->move(
                         $this->getParameter('transaction_tracfin_directory'),
@@ -511,13 +521,29 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/validAdminActeStep4', name: 'op_gestapp_transaction_validAdminActeStep4', methods: ['GET', 'POST'])]
-    public function validAdminActeStep4(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    #[Route('/{id}/validActeOrTracfinbyAdmin', name: 'op_gestapp_transaction_step4_validacteortracfinbyadmin', methods: ['GET', 'POST'])]
+    public function validActeOrTracfinbyAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $transaction->setIsValidActepdf(1);
-        $entityManager->persist($transaction);
-        $entityManager->flush();
+        // Validation par l'admin de l'attestation de vente
+        if($transaction->isIsValidActepdf() == 0 && $transaction->isIsValidtracfinPdf() == 0)
+        {
+            $user = $this->getUser();
+            $username = $user->getFirstName()." ".$user->getLastName();
+            $transaction->setIsValidActepdf(1);
+            $transaction->setActeValidBy($username);
+            $entityManager->persist($transaction);
+            $entityManager->flush();
+        }elseif($transaction->isIsValidActepdf() == 1 && $transaction->isIsValidtracfinPdf() == 0)
+        {
+            $user = $this->getUser();
+            $username = $user->getFirstName()." ".$user->getLastName();
+            $transaction->setIsValidActepdf(1);
+            $transaction->setTracfinValidBy($username);
+            $transaction->setState("Finished");
+            $entityManager->persist($transaction);
+            $entityManager->flush();
+        }
 
         return $this->json([
             'code' => 200,
@@ -531,8 +557,8 @@ class TransactionController extends AbstractController
         ], 200);
     }
 
-    #[Route('/{id}/validacteByAdmin', name: 'op_gestapp_transaction_validacteByAdmin', methods: ['POST'])]
-    public function validacteByAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    #[Route('/{id}/validLoadActeorTracfin', name: 'op_gestapp_transaction_step4_validloadacteortracfin', methods: ['POST'])]
+    public function validLoadActeorTracfin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(Transactionstep4Type::class, $transaction, [
@@ -543,13 +569,12 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($transaction);
+
             $actepdf = $form->get('actePdfFilename')->getData();
-            //dd($pdf);
             if($actepdf){
                 $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$actepdf->guessExtension();
+                $newFilename = $safeFilename.'.'.$actepdf->guessExtension();
                 try {
                     $actepdf->move(
                         $this->getParameter('transaction_acte_directory'),
@@ -573,107 +598,14 @@ class TransactionController extends AbstractController
                     'step' => $this->renderView('gestapp/transaction/include/_step3.html.twig', [
                         'transaction' => $transaction
                     ])
-
                 ], 200);
-            }
-
-            return $this->json([
-                'code' => 300,
-                'message' => "Il manque l'attestation d'acte de vente en pdf."
-            ], 200);
-        }
-
-        return $this->render('gestapp/transaction/_formstep4.html.twig', [
-            'transaction' => $transaction,
-            'form' => $form,
-        ]);
-    }
-
-    #[Route('/{id}/step4tracfin', name: 'op_gestapp_transaction_step4tracfin', methods: ['GET', 'POST'])]
-    public function step4tracfin(
-        Request $request,
-        Transaction $transaction,
-        EntityManagerInterface $entityManager,
-        SluggerInterface $slugger,
-        MailerInterface $mailer
-    ): Response
-    {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
-
-        if($hasAccess == false) {
-            $form = $this->createForm(Transactionstep4Type::class, $transaction, [
-                'attr' => ['id' => 'transactionstep4'],
-                'action' => $this->generateUrl('op_gestapp_transaction_step4', ['id' => $transaction->getId()]),
-                'method' => 'POST'
-            ]);
-        }else{
-            $form = $this->createForm(Transactionstep4Type::class, $transaction, [
-                'attr' => ['id' => 'transactionstep4'],
-                'action' => $this->generateUrl('op_gestapp_transaction_validActeByAdmin', ['id' => $transaction->getId()]),
-                'method' => 'POST'
-            ]);
-        }
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            $actepdf = $form->get('actePdfFilename')->getData();
-            if($actepdf){
-                $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$actepdf->guessExtension();
-                try {
-                    $actepdf->move(
-                        $this->getParameter('transaction_acte_directory'),
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $transaction->setActePdfFilename($newFilename);
-                $entityManager->persist($transaction);
-                $entityManager->flush();
-                if($hasAccess == false) {
-                    $email = (new TemplatedEmail())
-                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('xavier.burke@openpixl.fr')
-                        //->cc('cc@example.com')
-                        //->bcc('bcc@example.com')
-                        //->replyTo('fabien@example.com')
-                        //->priority(Email::PRIORITY_HIGH)
-                        ->subject('[PAPs Immo] : Un document de transaction attend votre approbation')
-                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                        ->context([
-                            'transaction' => $transaction,
-                        ]);
-                    try {
-                        $mailer->send($email);
-                    } catch (TransportExceptionInterface $e) {
-                        // some error prevented the email sending; display an
-                        // error message or try to resend the message
-                        dd($e);
-                    }
-                }
-
-                return $this->json([
-                    'code' => 200,
-                    'message' => "L'attestation d'acte de vente PDF est déposé sur la plateforme en attente de validation.",
-                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
-                    ]),
-                    'step' => $this->renderView('gestapp/transaction/include/_step4.html.twig', [
-                        'transaction' => $transaction
-                    ])
-
-                ], 200);
-
             }
 
             $tracfinpdf = $form->get('tracfinPdfFilename')->getData();
             if($tracfinpdf){
                 $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$tracfinpdf->guessExtension();
+                $newFilename = $safeFilename.'.'.$tracfinpdf->guessExtension();
                 try {
                     $tracfinpdf->move(
                         $this->getParameter('transaction_tracfin_directory'),
@@ -683,6 +615,8 @@ class TransactionController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $transaction->setTracfinPdfFilename($newFilename);
+                $transaction->setState('finished');
+                $transaction->setIsValidtracfinPdf(1);
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 
@@ -700,12 +634,9 @@ class TransactionController extends AbstractController
 
             }
 
-            $entityManager->persist($transaction);
-            $entityManager->flush();
-
             return $this->json([
                 'code' => 300,
-                'message' => 'Il manque le document en pdf.'
+                'message' => "Il manque l'attestation d'acte de vente en pdf."
             ], 200);
         }
 

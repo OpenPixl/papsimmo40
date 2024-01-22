@@ -67,6 +67,21 @@ class RecoType extends AbstractType
                     'Location' => ['data-data' => 'Location'],
                 ],
             ])
+            ->add('typeFamily', ChoiceType::class,[
+                'label' => 'Type de recommandation',
+                'choices'  => [
+                    'Vente pour particulier' => '81',
+                    'Location pour particulier' => '51',
+                    'Vente pour professionnel' => '49',
+                    'Location pour professionnel' => '48',
+                ],
+                'choice_attr' => [
+                    'Vente pour particulier' => ['data-data' => '81'],
+                    'Location pour particulier' => ['data-data' => '51'],
+                    'Vente pour professionnel' => ['data-data' => '49'],
+                    'Location pour professionnel' => ['data-data' => '49']
+                ],
+            ])
             ->add('commission')
         ;
     }

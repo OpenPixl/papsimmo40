@@ -119,6 +119,15 @@ class Transaction
     #[ORM\Column]
     private ?bool $isSupprPromisePdf = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $promiseValidBy = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $acteValidBy = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $tracfinValidBy = null;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -343,6 +352,42 @@ class Transaction
     public function setIsSupprPromisePdf(bool $isSupprPromisePdf): static
     {
         $this->isSupprPromisePdf = $isSupprPromisePdf;
+
+        return $this;
+    }
+
+    public function getPromiseValidBy(): ?string
+    {
+        return $this->promiseValidBy;
+    }
+
+    public function setPromiseValidBy(?string $promiseValidBy): static
+    {
+        $this->promiseValidBy = $promiseValidBy;
+
+        return $this;
+    }
+
+    public function getActeValidBy(): ?string
+    {
+        return $this->acteValidBy;
+    }
+
+    public function setActeValidBy(?string $acteValidBy): static
+    {
+        $this->acteValidBy = $acteValidBy;
+
+        return $this;
+    }
+
+    public function getTracfinValidBy(): ?string
+    {
+        return $this->tracfinValidBy;
+    }
+
+    public function setTracfinValidBy(?string $tracfinValidBy): static
+    {
+        $this->tracfinValidBy = $tracfinValidBy;
 
         return $this;
     }

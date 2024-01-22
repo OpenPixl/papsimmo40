@@ -64,18 +64,18 @@
                 </div>
                 <div class="col-6">
                     {{ transaction.tracfinPdfFilename }} |
-                    <button id="showActe" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalActe"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+                    <button id="showActe" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modaltracfin"><i class="fa-duotone fa-eye"></i> Voir le document</button>
                     <!-- Modal -->
-                    <div class="modal fade" id="modalActe" tabindex="-1" aria-labelledby="modalActe" aria-hidden="true">
+                    <div class="modal fade" id="modaltracfin" tabindex="-1" aria-labelledby="modalActe" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered modal-xl">
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Attestation acte de vente</h5>
+                                    <h5 class="modal-title" id="exampleModalLabel">Tracfin</h5>
                                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                 </div>
                                 <div class="modal-body" style="padding: 0;">
                                     <div id="externaFile">
-                                        <iframe src="{{ asset('doc/transaction/acte/' ~ transaction.actePdfFilename) }}" width="100%" height="500px"></iframe>
+                                        <iframe src="{{ asset('doc/transaction/tracfin/' ~ transaction.tracfinPdfFilename) }}" width="100%" height="500px"></iframe>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -102,30 +102,36 @@
     {% if transaction.isValidActepdf == false %}
         <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
         {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is null %}
-            <button type="submit" id="btnWaitToActe" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger l'attestation d'acte pour contrôle</button>
+            {# Chargement du fichier Pdf pour l'attestation "Acte de vente" #}
+            <button type="submit" id="btnStep4LoadActeOrTracfin" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger l'attestation d'acte pour contrôle</button>
         {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.actePdfFilename is not null %}
+            {# Bouton inactif d'attente pour le collaborateur #}
             <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
         {% endif %}
 
         {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is null %}
-            <button type="submit" id="btnAdminToActePdf" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+            {# Validation de l'attestation par administrateur #}
+            <button type="submit" id="btnValidActebyAdmin" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider l'attestation'</button>
         {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is not null and transaction.isValidActepdf == 0 %}
-            <a href="{{ path('op_gestapp_transaction_validAdminActeStep4', {'id': transaction.id}) }}" id="btnAdminToActePdf" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par votre collaborateur.</a>
+            <a href="{{ path('op_gestapp_transaction_step4_validacteortracfinbyadmin', {'id': transaction.id}) }}" id="btnValidActeorTracfinbyAdmin" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par votre collaborateur.</a>
         {% endif %}
+
     {% elseif transaction.isValidActepdf == true %}
         <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
         {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.tracfinPdfFilename is null %}
-            <button type="submit" id="btnWaitToTracfin" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le tracfin pour contrôle</button>
+            {# Chargement du fichier Pdf pour l'attestation "Acte de vente" #}
+            <button type="submit" id="btnStep4LoadActeOrTracfin" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger le tracfin pour contrôle</button>
         {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.tracfinPdfFilename is not null %}
-            <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation par l'administration</button>
+            {# Chargement du fichier Pdf pour l'attestation "Acte de vente" #}
+            <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> Tracfin en attente de Validation par l'administration</button>
         {% endif %}
 
         {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.tracfinPdfFilename is null %}
-            <button type="submit" id="btnAdminTotracfinPdf" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+            <button type="submit" id="btnAdminTotracfinPdf" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le tracfin</button>
         {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.tracfinPdfFilename is not null and transaction.isValidtracfinPdf == 0 %}
-            <a href="{{ path('op_gestapp_transaction_validAdminActeStep4', {'id': transaction.id}) }}" id="btnAdminToActePdf" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par votre collaborateur.</a>
+            <a href="{{ path('op_gestapp_transaction_step4_validacteortracfinbyadmin', {'id': transaction.id}) }}" id="btnValidActeorTracfinbyAdmin" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le tracfin fournis par votre collaborateur.</a>
         {% endif %}
     {% endif %}
 </div>
-</div>
+
 {{ form_end(form) }}

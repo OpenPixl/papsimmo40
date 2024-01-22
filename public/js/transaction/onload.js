@@ -22,12 +22,14 @@ const valueProperty = document.getElementById('valueProperty').value;
 
 let validStep1 = document.getElementById('btnToStepTwo');
 let validStep2 = document.getElementById('btnToStepTree');
-let ValidPdfByAdmin = document.getElementById('btnStep3ValidPdfByAdmin');
-let validAdminStep3 = document.getElementById('btnWaitToStepFour');
+// Step 3
+let loadPromise = document.getElementById('btnStep3LoadPromise');
+let validPromisebyAdmin = document.getElementById('btnValidPromisebyAdmin');
 let validAdminToStepFour = document.getElementById('btnAdminToStepFour');
-let validActe = document.getElementById('btnWaitToActe');
-let validActebyAdmintotracfin = document.getElementById('btnAdminToActePdf');
-let validTracfin = document.getElementById('btnWaitToTracfin');
+// Step 4 - Acte de vente
+let loadActeOrTracfin = document.getElementById('btnStep4LoadActeOrTracfin');
+let validActeorTracfinbyAdmin = document.getElementById('btnValidActeorTracfinbyAdmin');
+let validAdminToFinish = document.getElementById('btnWaitToTracfin');
 
 let step1 = document.getElementById('stepOne');
 let step2 = document.getElementById('stepTwo');
@@ -97,19 +99,6 @@ icoStepFour.addEventListener('click', function(event){
         console.log('⛔️ element does NOT have child with id');
     }
 });
-icoStepFive.addEventListener('click', function(event){
-    let blockchild = blocks.querySelector('.activ');
-    if (blockchild !== null) {
-        // 👇️ this runs
-        console.log('✅ element has child with id of child-3');
-        blockchild.classList.add('d-none');
-        blockchild.classList.remove('activ');
-        step5.classList.add('activ');
-        step5.classList.remove('d-none');
-    } else {
-        console.log('⛔️ element does NOT have child with id');
-    }
-});
 
 // validation étape acheteurs
 validStep1.addEventListener('click', function(event){
@@ -159,8 +148,8 @@ validStep2.addEventListener('click', function(event){
 });
 
 // Chargement du compromis par Collaborateur
-if(ValidPdfByAdmin !== null){
-    ValidPdfByAdmin.addEventListener('click', function(event){
+if(loadPromise !== null){
+    loadPromise.addEventListener('click', function(event){
         event.preventDefault();
         let actionForm = FormStep3.action;
         let dataForm = new FormData(FormStep3);
@@ -185,29 +174,21 @@ if(ValidPdfByAdmin !== null){
             });
     });
 }
-
 // Chargement du compromis par un collaborateur pour validation par un admin de la plateforme
-if(validAdminStep3 !== null){
-    validAdminStep3.addEventListener('click', function(event){
+if(validPromisebyAdmin !== null){
+    validPromisebyAdmin.addEventListener('click', function(event){
         event.preventDefault();
         let url = this.href;
         axios
             .post(url)
             .then(function(response){
-                // initialisation du toaster
-                let toastHTMLElement = document.getElementById("toaster");
-                let message = response.data.message;
-                let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
-                toastBody.textContent = message;
-                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
-                toastElement.show();
+                window.location.reload();
             })
             .catch(function(error){
                 console.log(error);
             });
     });
 }
-
 // validation Dépôt du compromis direct pas Administrateur
 if(validAdminToStepFour !== null){
     validAdminToStepFour.addEventListener('click', function(event){
@@ -244,8 +225,8 @@ if(validAdminToStepFour !== null){
 }
 
 // chargement du fichier d'attestation d'acte de vente par un collaborateur
-if(validActe !== null){
-    validActe.addEventListener('click', function(event){
+if(loadActeOrTracfin !== null){
+    loadActeOrTracfin.addEventListener('click', function(event){
         event.preventDefault();
         let actionForm = FormStep4.action;
         let dataForm = new FormData(FormStep4);
@@ -271,21 +252,14 @@ if(validActe !== null){
     });
 }
 
-if(validActebyAdmintotracfin !== null){
-    validActebyAdmintotracfin.addEventListener('click', function(event){
+if(validActeorTracfinbyAdmin !== null){
+    validActeorTracfinbyAdmin.addEventListener('click', function(event){
         event.preventDefault();
         let url = this.href;
         axios
             .post(url)
             .then(function(response){
                 window.location.reload();
-                // initialisation du toaster
-                let toastHTMLElement = document.getElementById("toaster");
-                let message = response.data.message;
-                let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
-                toastBody.textContent = message;
-                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
-                toastElement.show();
             })
             .catch(function (error) {
                 console.log(error);
@@ -293,47 +267,12 @@ if(validActebyAdmintotracfin !== null){
     });
 }
 
-// Depot du tracfin par le collaborateur
-if(validTracfin !== null){
-    validTracfin.addEventListener('click', function(event){
+// Validation du dépot de l'attestatrion ou du tracfin directe par l'administrateur
+if(validAdminToFinish !== null){
+    validAdminToFinish.addEventListener('click', function(event){
         event.preventDefault();
         let actionForm = FormStep4.action;
         let dataForm = new FormData(FormStep4);
-        axios
-            .post(actionForm, dataForm)
-            .then(function(response){
-                let code = response.data.code;
-                if(code === 200){
-                    window.location.reload();
-                    // initialisation du toaster
-                    let toastHTMLElement = document.getElementById("toaster");
-                    let message = response.data.message;
-                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
-                    toastBody.textContent = message;
-                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
-                    toastElement.show();
-                }else{
-                    // initialisation du toaster
-                    let toastHTMLElement = document.getElementById("toaster");
-                    let message = response.data.message;
-                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
-                    toastBody.textContent = message;
-                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
-                    toastElement.show();
-                }
-            })
-            .catch(function (error) {
-                console.log(error);
-            });
-    });
-}
-
-// validation Dépôt du compromis direct pas Administrateur
-if(validAdminToStepFour !== null){
-    validAdminToStepFour.addEventListener('click', function(event){
-        event.preventDefault();
-        let actionForm = FormStep3.action;
-        let dataForm = new FormData(FormStep3);
         axios
             .post(actionForm, dataForm)
             .then(function(response){

@@ -12,6 +12,7 @@ use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Controller\Api\Gestapp\Reco\AddReco;
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\choice\PropertyFamily;
 use App\Repository\Gestapp\RecoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -169,14 +170,20 @@ class Reco
     private ?string $StatusPrescriber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post'])]
     private ?string $typeProperty = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post'])]
     private ?string $typeReco = null;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['reco:item'])]
     private ?int $commission = null;
+
+    #[ORM\ManyToOne]
+    #[Groups(['reco:item', 'reco:write:post'])]
+    private ?PropertyFamily $typeFamily = null;
 
     public function getId(): ?int
     {
@@ -470,6 +477,17 @@ class Reco
     public function setCommission(?int $commission): static
     {
         $this->commission = $commission;
+        return $this;
+    }
+
+    public function getTypeFamily(): ?PropertyFamily
+    {
+        return $this->typeFamily;
+    }
+
+    public function setTypeFamily(?PropertyFamily $typeFamily): static
+    {
+        $this->typeFamily = $typeFamily;
 
         return $this;
     }
