@@ -24,12 +24,12 @@ let validStep1 = document.getElementById('btnToStepTwo');
 let validStep2 = document.getElementById('btnToStepTree');
 // Step 3
 let loadPromise = document.getElementById('btnStep3LoadPromise');
-let validPromisebyAdmin = document.getElementById('btnValidPromisebyAdmin');
+let validPromisebyAdmin = document.getElementById('validPromisebyAdmin');
 let validAdminToStepFour = document.getElementById('btnAdminToStepFour');
 // Step 4 - Acte de vente
 let loadActeOrTracfin = document.getElementById('btnStep4LoadActeOrTracfin');
 let validActeorTracfinbyAdmin = document.getElementById('btnValidActeorTracfinbyAdmin');
-let validAdminToFinish = document.getElementById('btnWaitToTracfin');
+let validAdminToFinish = document.getElementById('btnValidAdminToFinish');
 
 let step1 = document.getElementById('stepOne');
 let step2 = document.getElementById('stepTwo');
@@ -361,8 +361,6 @@ if(zipcode2 !== null) {
         commune2.value = value[2].toUpperCase();
     });
 }
-
-
 
 function submitCustomer(event){
     event.preventDefault;

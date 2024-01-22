@@ -111,7 +111,7 @@
 
         {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is null %}
             {# Validation de l'attestation par administrateur #}
-            <button type="submit" id="btnValidActebyAdmin" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider l'attestation'</button>
+            <button type="submit" id="btnValidAdminToFinish" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider l'attestation'</button>
         {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.actePdfFilename is not null and transaction.isValidActepdf == 0 %}
             <a href="{{ path('op_gestapp_transaction_step4_validacteortracfinbyadmin', {'id': transaction.id}) }}" id="btnValidActeorTracfinbyAdmin" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par votre collaborateur.</a>
         {% endif %}
@@ -127,7 +127,7 @@
         {% endif %}
 
         {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.tracfinPdfFilename is null %}
-            <button type="submit" id="btnAdminTotracfinPdf" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le tracfin</button>
+            <button type="submit" id="btnValidAdminToFinish" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le tracfin</button>
         {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.tracfinPdfFilename is not null and transaction.isValidtracfinPdf == 0 %}
             <a href="{{ path('op_gestapp_transaction_step4_validacteortracfinbyadmin', {'id': transaction.id}) }}" id="btnValidActeorTracfinbyAdmin" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le tracfin fournis par votre collaborateur.</a>
         {% endif %}
