@@ -6,22 +6,24 @@
             <td class="col-2 table-light">Vendeur.s</td>
             <td class="col-4">
                 {% for propr in transaction.property.customer %}
-                    <div class="card border-dark mb-1" style="width: 40%;">
-                        <div class="card-body">
-                            <h5 class="mt-0">{{ propr.firstname }} {{ propr.lastName }}</h5>
-                            <h6 class="card-subtitle">{{ propr.home }} | {{ propr.gsm }}</h6>
-                        </div>
+
+                    <div class="alert alert-light">
+                        <p class="mb-0">{{ loop.index }} | {{ propr.firstname }} {{ propr.lastName }} |
+                            {% if propr.gsm is defined %}{{ propr.gsm }}{% endif %}
+                            {% if propr.home is defined %}{{ propr.home }}{% endif %}
+                        </p>
                     </div>
+
                 {% endfor %}
             </td>
             <td class="col-2 table-light">Acheteur.s</td>
             <td class="col-4">
                 {% for buyer in transaction.customer %}
-                    <div class="card border-dark mb-1" style="width: 40%;">
-                        <div class="card-body">
-                            <h5 class="mt-0">{{ buyer.firstname }} {{ buyer.lastName }}</h5>
-                            <h6 class="card-subtitle">{{ buyer.home }} | {{ buyer.gsm }}</h6>
-                        </div>
+                    <div class="alert alert-light">
+                        <p class="mb-0">{{ loop.index }} | {{ buyer.firstname }} {{ buyer.lastName }} |
+                            {% if buyer.gsm is defined %}{{ buyer.gsm }}{% endif %}
+                            {% if buyer.home is defined %}{{ buyer.home }}{% endif %}
+                        </p>
                     </div>
                 {% endfor %}
             </td>
