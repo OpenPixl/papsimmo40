@@ -1,0 +1,10 @@
+<h1>[PAPs Immo] : Document Vérifié</h1>
+<h3>Transaction n°: {{ transaction.name }}</h3>
+<hr>
+<h4>Bonjour,</h4>
+<p>
+    Le document présenté a été vérifié par un administrateur.
+    <br>
+    Vous pouvez continuer votre démarche de vente en cliquant sur le lien suivant.
+    <a href="https://{{ path("op_gestapp_transaction_show", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
+</p>

@@ -312,7 +312,7 @@ class TransactionController extends AbstractController
 
     // Validation du fichier Pdf de la promesse par un administrateur - Step 3.
     #[Route('/{id}/validPromisebyAdmin', name: 'op_gestapp_transaction_step3_validPromisebyAdmin', methods: ['GET', 'POST'])]
-    public function validPromisebyAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    public function validPromisebyAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -323,6 +323,26 @@ class TransactionController extends AbstractController
         $transaction->setIsValidPromisepdf(1);
         $entityManager->persist($transaction);
         $entityManager->flush();
+
+        $email = (new TemplatedEmail())
+            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+            ->to('xavier.burke@openpixl.fr')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("[PAPs Immo] : Document vérifié")
+            ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
+            ->context([
+                'transaction' => $transaction,
+            ]);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            dd($e);
+        }
 
         return $this->json([
             'code' => 200,
@@ -351,8 +371,16 @@ class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //dd($transaction);
             $promisepdf = $form->get('promisePdfFilename')->getData();
-            //dd($pdf);
             if($promisepdf){
+                // Supression du PDF si Présent
+                $PromisePdfName = $transaction->getPromisePdfFilename();
+                if($PromisePdfName){
+                    $pathheader = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
+                    // On vérifie si l'image existe
+                    if(file_exists($pathheader)){
+                        unlink($pathheader);
+                    }
+                }
                 $originalFilename = pathinfo($promisepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
                 $newFilename = $safeFilename.'-'.uniqid().'.'.$promisepdf->guessExtension();
@@ -429,6 +457,15 @@ class TransactionController extends AbstractController
             //dd($tracfinpdf);
             if($actepdf || $tracfinpdf){
                 if($actepdf){
+                    // Supression du PDF si Présent
+                    $actePdfName = $transaction->getActePdfFilename();
+                    if($actePdfName){
+                        $pathheader = $this->getParameter('transaction_acte_directory').'/'.$actePdfName;
+                        // On vérifie si l'image existe
+                        if(file_exists($pathheader)){
+                            unlink($pathheader);
+                        }
+                    }
                     $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'.'.$actepdf->guessExtension();
@@ -469,6 +506,15 @@ class TransactionController extends AbstractController
                 }
 
                 if($tracfinpdf){
+                    // Supression du PDF si Présent
+                    $tracfinPdfName = $transaction->getActePdfFilename();
+                    if($tracfinPdfName){
+                        $pathheader = $this->getParameter('transaction_tracfin_directory').'/'.$tracfinPdfName;
+                        // On vérifie si l'image existe
+                        if(file_exists($pathheader)){
+                            unlink($pathheader);
+                        }
+                    }
                     $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'.'.$tracfinpdf->guessExtension();
@@ -515,7 +561,7 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/{id}/validActeOrTracfinbyAdmin', name: 'op_gestapp_transaction_step4_validacteortracfinbyadmin', methods: ['GET', 'POST'])]
-    public function validActeOrTracfinbyAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager)
+    public function validActeOrTracfinbyAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         // Validation par l'admin de l'attestation de vente
@@ -527,6 +573,7 @@ class TransactionController extends AbstractController
             $transaction->setActeValidBy($username);
             $entityManager->persist($transaction);
             $entityManager->flush();
+
         }elseif($transaction->isIsValidActepdf() == 1 && $transaction->isIsValidtracfinPdf() == 0)
         {
             $user = $this->getUser();
@@ -536,6 +583,26 @@ class TransactionController extends AbstractController
             $transaction->setState("finished");
             $entityManager->persist($transaction);
             $entityManager->flush();
+        }
+
+        $email = (new TemplatedEmail())
+            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+            ->to('xavier.burke@openpixl.fr')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("[PAPs Immo] : Document vérifié")
+            ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
+            ->context([
+                'transaction' => $transaction,
+            ]);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            dd($e);
         }
 
         return $this->json([
@@ -568,6 +635,15 @@ class TransactionController extends AbstractController
 
             if($actepdf || $tracfinpdf){
                 if($actepdf){
+                    // Supression du PDF si Présent
+                    $actePdfName = $transaction->getActePdfFilename();
+                    if($actePdfName){
+                        $pathheader = $this->getParameter('transaction_acte_directory').'/'.$actePdfName;
+                        // On vérifie si l'image existe
+                        if(file_exists($pathheader)){
+                            unlink($pathheader);
+                        }
+                    }
                     $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'.'.$actepdf->guessExtension();
@@ -587,6 +663,15 @@ class TransactionController extends AbstractController
                 }
 
                 if($tracfinpdf){
+                    // Supression du PDF si Présent
+                    $tracfinPdfName = $transaction->getActePdfFilename();
+                    if($tracfinPdfName){
+                        $pathheader = $this->getParameter('transaction_tracfin_directory').'/'.$tracfinPdfName;
+                        // On vérifie si l'image existe
+                        if(file_exists($pathheader)){
+                            unlink($pathheader);
+                        }
+                    }
                     $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
                     $safeFilename = $slugger->slug($originalFilename);
                     $newFilename = $safeFilename.'.'.$tracfinpdf->guessExtension();
