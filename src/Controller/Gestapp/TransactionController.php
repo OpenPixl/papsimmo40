@@ -221,6 +221,7 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
             // Suppression du PDF si booléen sur "true"
             $isSupprPromisePdf = $form->get('isSupprPromisePdf')->getData();
             if($isSupprPromisePdf && $isSupprPromisePdf == true){
@@ -680,12 +681,33 @@ class TransactionController extends AbstractController
 
         $property->setIsTransaction(0);
         $em->persist($property);
+
+        // Suprression des documents dans leur répertoire
+        // récupération du nom de l'image
+        $PromisePdfName = $transaction->getPromisePdfFilename();
+        $pathPromisePdf = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
+        $ActePdfName = $transaction->getActePdfFilename();
+        $pathActePdf = $this->getParameter('transaction_acte_directory').'/'.$PromisePdfName;
+        $TracfinPdfName = $transaction->getTracfinPdfFilename();
+        $pathTracfinPdf = $this->getParameter('transaction_tracfin_directory').'/'.$PromisePdfName;
+        // On vérifie si les fichiers existe
+        if(file_exists($PromisePdfName)){
+            unlink($pathPromisePdf);
+        }
+        if(file_exists($ActePdfName)){
+            unlink($pathActePdf);
+        }
+        if(file_exists($TracfinPdfName)){
+            unlink($pathTracfinPdf);
+        }
+
         //dd($property);
         $em->remove($transaction);
         $em->flush();
 
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
+        //dd($user);
 
         if($hasAccess == true){
             $transactions = $transactionRepository->findAll();
@@ -695,7 +717,7 @@ class TransactionController extends AbstractController
 
         return $this->json([
             'code'=>200,
-            'liste' => $this->renderView('_ownliste.html.twig', [
+            'liste' => $this->renderView('gestapp/transaction/include/_liste.html.twig', [
                 'transactions' => $transactions
             ])
         ], 200);
