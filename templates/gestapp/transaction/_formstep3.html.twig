@@ -78,13 +78,17 @@
 </div>
 <div id="submitStep" class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+
     {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is null %}
         {# Chargement du pdf sur le site avant validation - OK #}
         <button type="submit" id="btnStep3LoadPromise" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger la promesse de vente pour contrôle.</button>
     {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is not null %}
         {# Bouton inactif d'attente pour le collaborateur #}
         <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation de la promesse de vente.</button>
+    {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is not null and transaction.isValidPromisepdf == 1 %}
+        <button type="submit" id="btnStep3LoadPromise" class="btn btn-sm btn-outline-primary">Modifier le document déposé.</button>
     {% endif %}
+
     {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is null %}
         {# Chargement du pdf sur le site #}
         <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
@@ -93,9 +97,10 @@
         <a href="{{ path('op_gestapp_transaction_step3_validPromisebyAdmin', {'id': transaction.id}) }}" id="validPromisebyAdmin" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par la collaborateur</a>
     {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is not null and transaction.isValidPromisepdf == 1 %}
         {# Chargement du pdf sur le site dans le cas d'une modification #}
-        <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Modifier le document</button>
+        <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Modifier le document pour le colllaborateur.</button>
     {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is not defined %}
         <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
     {% endif %}
-    </div>
+
+</div>
 {{ form_end(form) }}
