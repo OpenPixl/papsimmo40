@@ -1,0 +1,96 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Transaction{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/transaction/index.js') }}"></script>
+{% endblock %}
+
+{% block contentTitle %}
+    <div class="row d-flex justify-content-between" >
+        <div class="col-sm-12">
+            <h1>TRANSACTION - Ref : {{ transaction.name }}</h1>
+            <input id="valueProperty" type="hidden" value="{{ transaction.id }}">
+        </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+    <div class="row mb-2 align-items-center">
+        <div class="col-3">
+            <div class="card">
+                {% if photo is defined %}
+                    <img class="card-img-top" src="{{ asset('properties/' ~ photo.path) ~ '/' ~ photo.galeryFrontName }}" alt="">
+                {% else %}
+                    <img class="card-img-top" src="{{ asset('images/jpeg/mod_maison.jpg') }}" alt="">
+                {% endif %}
+                <div class="card-body">
+                    <h5 class="card-title">{{ transaction.property.name }}</h5>
+                    <p class="card-text">
+                        {% if transaction.refEmployed.id == app.user.id %}
+                            Porté par : <b>Moi même</b>
+                        {% else %}
+                            Porté par : <b>{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}</b>
+                        {% endif %}
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="col-9" id="transState">
+            <div class="row">
+                <div class="col-12">
+                    {{ include('gestapp/transaction/include/_barandstep.html.twig') }}
+                </div>
+                <div class="row">
+                    <div class="col-12" id="blocks">
+                        {{ include('gestapp/transaction/include/_blocks2.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+{% endblock %}
+
+
+{% block modal %}
+    {{ parent() }}
+    <!-- Ajout d'un vendeur sur un bien -->
+    <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un acheteur à cette transaction</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modalBodyForm">
+                        {{ render(controller('App\\Controller\\Gestapp\\TransactionController::addCustomer', {'id' : transaction.id})) }}
+                    </div>
+                    <input id="idProperty" type="hidden" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btnSubmitCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# annonce toaster #}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-50 end-0 p-3">
+            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">SoftPAPS</strong>
+                    <small>A l'instant</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

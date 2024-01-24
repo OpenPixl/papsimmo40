@@ -2,13 +2,16 @@
 
 namespace App\Controller\Gestapp;
 
-use App\Entity\Gestapp\Property;
+use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Transaction;
+use App\Form\Gestapp\Customer2Type;
 use App\Form\Gestapp\TransactionType;
 use App\Form\Gestapp\Transactionstep2Type;
 use App\Form\Gestapp\Transactionstep3Type;
 use App\Form\Gestapp\Transactionstep4Type;
 use App\Form\Gestapp\Transactionstep5Type;
+use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\choice\CustomerChoiceRepository;
 use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
@@ -116,6 +119,21 @@ class TransactionController extends AbstractController
             'photo' => $photo
         ]);
     }
+    #[Route('/2/{id}', name: 'op_gestapp_transaction_show2', methods: ['GET'])]
+    public function show2(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
+    {
+
+        $property = $transaction->getProperty();
+        $customers = $transaction->getCustomer();
+        $photo = $photoRepository->firstphoto($property->getId());
+
+        return $this->render('gestapp/transaction/show2.html.twig', [
+            'transaction' => $transaction,
+            'property' => $property,
+            'customers' => $customers,
+            'photo' => $photo
+        ]);
+    }
 
     #[Route('/{id}/edit', name: 'op_gestapp_transaction_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Transaction $transaction, EntityManagerInterface $entityManager): Response
@@ -134,6 +152,10 @@ class TransactionController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    // ---------------------------------------------------------------------------
+    // Block 1
+    // ---------------------------------------------------------------------------
 
     #[Route('/step1/{id}', name: 'op_gestapp_transaction_step1', methods: ['POST'])]
     function step1(Transaction $transaction, EntityManagerInterface $entityManager, CustomerRepository $customerRepository,Request $request)
@@ -422,7 +444,6 @@ class TransactionController extends AbstractController
             'form' => $form,
         ]);
     }
-
 
     #[Route('/{id}/loadActeOrTracfin', name: 'op_gestapp_transaction_step4_loadacteortracfin', methods: ['GET', 'POST'])]
     public function loadActeOrTracfin(
@@ -745,6 +766,68 @@ class TransactionController extends AbstractController
             'transaction' => $transaction,
             'form' => $form,
         ]);
+    }
+
+    // ---------------------------------------------------------------------------
+    // Block 2
+    // ---------------------------------------------------------------------------
+
+    #[Route('/{id}/AddCustomer', name: 'op_gestapp_transaction_addcustomer', methods: ['GET', 'POST'])]
+    public function addCustomer(
+        Transaction $transaction,
+        CustomerRepository $customerRepository,
+        EmployedRepository $employedRepository,
+        CustomerChoiceRepository $customerChoiceRepository,
+        Request $request,
+        EntityManagerInterface $em
+        )
+    {
+        $user = $this->getUser();
+        $property = $transaction->getProperty();
+        $customerChoice = $customerChoiceRepository->find(2);
+
+        $customer = new Customer();
+        $form = $this->createForm(Customer2Type::class, $customer, [
+            'action'=> $this->generateUrl('op_gestapp_transaction_addcustomer', [
+                'id' => $transaction->getId()
+            ]),
+            'method'=>'POST'
+        ]);
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $date = new \DateTime();
+            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
+            // Ajout de l'acquéreur
+            $customer->setRefCustomer($refCustomer);
+            $customer->setRefEmployed($user);
+            $customer->setCustomerChoice($customerChoice);
+            $customer->addTransaction($transaction);
+            $em->persist($customer);
+            $em->flush();
+
+            // liste tous les clients attachés à leur propriété
+            $customers = $customerRepository->listbytransaction($transaction);
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le futur acquéreur a été correctement ajouté.",
+                'liste' => $this->renderView('gestapp/transaction/include/_buyers.html.twig', [
+                    'buyers' => $customers,
+                ])
+            ], 200);
+        }
+
+        return $this->render('gestapp/customer/add.html.twig', [
+            'customer' => $customer,
+            'form' => $form,
+        ]);
+
+    }
+
+    #[Route('/{id}/DatePromise', name: 'op_gestapp_transaction_datepromise', methods: ['GET', 'POST'])]
+    public function datePromise()
+    {
+
     }
 
     #[Route('/{id}', name: 'op_gestapp_transaction_delete', methods: ['POST'])]

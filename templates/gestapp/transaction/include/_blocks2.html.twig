@@ -1,0 +1,106 @@
+{% set progress = 0 %}
+    {% if transaction.state == 'open' %}
+        {% set progress = 20 %}
+    {% elseif transaction.state == 'promise' %}
+        {% set progress = 40 %}
+    {% elseif transaction.state == 'deposit' %}
+        {% set progress = 60 %}
+    {% elseif transaction.state == 'definitive_sale' %}
+        {% set progress = 80 %}
+    {% elseif transaction.state == 'finished' %}
+        {% set progress = 100 %}
+    {% endif %}
+
+<div class="col-12">
+    <p>Le dossier de transaction sur ce bien est finalisé.</p>
+    <table class="table table-sm">
+        <tr class="align-middle">
+            <td class="col-2 table-light"><b>Ouverture</b></td>
+            <td>{{ transaction.createdAt|format_datetime('full', 'none', locale='fr') }}</td>
+        </tr>
+        <tr class="align-middle">
+            <td class="col-2 table-light"><b>Vendeur.s</b></td>
+            <td class="col-4">
+                {% for propr in transaction.property.customer %}
+                    <div class="alert alert-light mb-1">
+                        <p class="mb-0">{{ loop.index }} | {{ propr.firstname }} {{ propr.lastName }} |
+                            {% if propr.gsm is defined %}{{ propr.gsm }}{% endif %}
+                            {% if propr.home is defined %}{{ propr.home }}{% endif %}
+                        </p>
+                    </div>
+                {% else %}
+                -
+                {% endfor %}
+            </td>
+            <td class="col-2 table-light"><b>Acheteur.s</b> <a><i class="fa-light fa-circle-plus fa-xl"></i></a></td>
+            <td class="col-4" id="buyers">
+                <button type="button" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
+                    Ajouter un acheteur sur ce bien.
+                </button>
+                {% set buyers = transaction.customer|length %}
+                {% for buyer in transaction.customer %}
+                    <div class="alert alert-light mb-1">
+                        <p class="mb-0">{{ loop.index }} | {{ buyer.firstname }} {{ buyer.lastName }} |
+                            {% if buyer.gsm is defined %}{{ buyer.gsm }}{% endif %}
+                            {% if buyer.home is defined %}{{ buyer.home }}{% endif %}
+                        </p>
+                    </div>
+                {% else %}
+                {% endfor %}
+            </td>
+        </tr>
+        {% if buyers < 1 %}
+        <tr class="align-middle">
+            <td class="table-light">Date de signature du compromis</td>
+            <td> - </td>
+        </tr>
+        {% else %}
+        <tr class="align-middle">
+            <td class="table-light">Date de signature du compromis</td>
+            <td> bof </td>
+        </tr>
+        {% endif %}
+
+        <tr class="align-middle">
+            <td class="table-light">Date de signature de l'acte final</td>
+            <td> - </td>
+        </tr>
+        <tr class="align-middle">
+            <td class="table-light" colspan="4"><b>Documents de transaction</b></td>
+        </tr>
+        {% if transaction.promisePdfFilename is defined %}
+        <tr class="align-middle">
+            <td class="table-light">Compromis de vente :</td>
+            <td> - </td>
+        </tr>
+        {% else %}
+        {% endif %}
+        {% if transaction.actePdfFilename is defined %}
+        <tr class="align-middle">
+            <td class="table-light">Attestation "Acte de vente":</td>
+            <td> - </td>
+        </tr>
+        {% else %}
+        {% endif %}
+        {% if transaction.actePdfFilename is defined %}
+        <tr class="align-middle">
+            <td class="table-light">Tracfin :</td>
+            <td> - </td>
+        </tr>
+        {% else %}
+        {% endif %}
+        <tr class="align-middle">
+            <td class="table-light" colspan="4"><b>Finalisation du dossier</b></td>
+        </tr>
+        {% if transaction.actePdfFilename is defined %}
+            <tr class="align-middle">
+                <td class="table-light">Dépôt facture :</td>
+                <td> - </td>
+            </tr>
+        {% else %}
+        {% endif %}
+    </table>
+</div>
+<div class="col-12 mt-3">
+    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+</div>
