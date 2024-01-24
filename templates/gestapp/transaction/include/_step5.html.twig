@@ -36,7 +36,29 @@
             <td class="table-light">Date de signature du compromis</td>
             <td>{{ transaction.dateAtPromise|format_datetime('full', 'none', locale='fr') }}</td>
             <td class="table-light">Compromis de vente en pdf : </td>
-            <td><a href="{{ asset('doc/transaction/promise/') ~ transaction.promisePdfFilename }}" download><i class="fa-duotone fa-circle-down"></i> Téléchargez le document</a></td>
+            <td>
+                <button id="showPromise" type="button" class="btn btn-sm btn-primary" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le Pdf</button>
+                <!-- Modal -->
+                <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Promesse de vente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="padding: 0;">
+                                <div id="externaFile">
+                                    <iframe src="{{ asset('doc/transaction/promise/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <a href="{{ asset('doc/transaction/promise/') ~ transaction.promisePdfFilename }}" download><i class="fa-duotone fa-circle-down"></i> Téléchargez le document</a>
+            </td>
         </tr>
         <tr class="align-middle">
             <td class="table-light">Date de signature de l'acte final</td>
