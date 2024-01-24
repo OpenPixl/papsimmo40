@@ -1,0 +1,12 @@
+<button type="button" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
+    Ajouter un acheteur sur ce bien.
+</button>
+{% for buyer in transaction.customer %}
+    <div class="alert alert-light mb-1">
+        <p class="mb-0">{{ loop.index }} | {{ buyer.firstname }} {{ buyer.lastName }} |
+            {% if buyer.gsm is defined %}{{ buyer.gsm }}{% endif %}
+            {% if buyer.home is defined %}{{ buyer.home }}{% endif %}
+        </p>
+    </div>
+{% else %}
+{% endfor %}

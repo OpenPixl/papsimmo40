@@ -30,7 +30,7 @@ class CustomerController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true){
-            // on liste topus les clients quelques soit les utilisateurs
+            // on liste tous les clients quelques soit les utilisateurs
             $data = $customerRepository->findAllCustomer();
 
             $customers = $paginator->paginate(
@@ -211,12 +211,8 @@ class CustomerController extends AbstractController
             }
 
         }else{
-            //dd('cool');
             $transac = $transactionRepository->find($option);
-            //dd($transac);
-            $idproperty = $transac->getProperty();
             $customerChoice = $customerChoiceRepository->find(2);
-            //dd($idproperty,$customerChoice);
             if ($form->isSubmitted() && $form->isValid()) {
                 // Contruction de la référence pour chaque propriété
                 $date = new \DateTime();
