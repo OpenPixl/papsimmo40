@@ -11,12 +11,12 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
 
-class Transactionstep3Type extends AbstractType
+class TransactionTracfinpdfType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('promisePdfFilename', FileType::class,[
+            ->add('tracfinPdfFilename', FileType::class,[
                 'label' => "Déposer le dossier PDF du compromis, le fichier ne doit pas dépasser 10Mo de taille",
                 'mapped' => false,
                 'required' => false,
@@ -31,7 +31,6 @@ class Transactionstep3Type extends AbstractType
                     ])
                 ],
             ])
-            ->add('isSupprPromisePdf')
         ;
     }
 

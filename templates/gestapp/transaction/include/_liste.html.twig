@@ -59,7 +59,7 @@
                             Action
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ path('op_gestapp_transaction_show', {'id': transaction.id}) }}">Voir</a></li>
+                            <li><a class="dropdown-item" href="{{ path('op_gestapp_transaction_show2', {'id': transaction.id}) }}">Voir</a></li>
                             <li><a id="btnModalTransaction" class="dropdown-item" href="{{ path('op_gestapp_transaction_del', {'id': transaction.id}) }}" data-bs-toggle="modal" data-bs-target="#modalTransaction" data-bs-whatever="{{ transaction.id }}">Supprimer</a></li>
                         </ul>
                     </div>
