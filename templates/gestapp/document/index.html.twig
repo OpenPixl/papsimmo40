@@ -211,7 +211,7 @@
                 axios
                     .get(url)
                     .then(function(response){
-                        document.getElementById('listDocument').innerHTML = response.data.liste
+                        document.getElementById('sortDoc').innerHTML = response.data.liste
                     })
                     .catch(function (error){
                         console.log(error)
@@ -253,8 +253,11 @@
         </div>
     </div>
     <div id="listDocument" class="col-sm-12">
-        <div class="alert alert-light mt-3">
-            <p class="mb-0">Veuillez cliquer d'abord sur l'une des catégories pour afficher les documents liés.</p>
+        <h4><i class="fa-duotone fa-file-signature"></i> Documents</h4>
+        <div class="row mt-3 g-1" id="sortDoc">
+            <div class="alert alert-light mt-3">
+                <p class="mb-0">Veuillez cliquer d'abord sur l'une des catégories pour afficher les documents liés.</p>
+            </div>
         </div>
     </div>
 </div>
