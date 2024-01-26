@@ -31,7 +31,9 @@ class Transactionstep3Type extends AbstractType
                     ])
                 ],
             ])
-            ->add('isSupprPromisePdf')
+            ->add('isSupprPromisePdf', CheckboxType::class, [
+                'label' => 'Supprimer'
+            ])
         ;
     }
 

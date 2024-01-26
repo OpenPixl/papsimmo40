@@ -160,7 +160,8 @@ function submitPromisePdfbyColl(){
     ;
 }
 
-function submitPromisePdfControl(){
+function submitPromisePdfControl(event){
+    event.preventDefault();
     let url = this.href;
     axios
         .post(url)
