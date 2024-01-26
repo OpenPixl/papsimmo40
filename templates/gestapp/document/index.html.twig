@@ -7,7 +7,7 @@
     <script>
         window.onload = function(){
             // Préparation des variables
-            const SupprDocument = new bootstrap.Modal(document.getElementById('SupprDocument'), {keyboard: true});
+            const modalSupprDocument = document.getElementById('SupprDocument');
             const submitSupprDocument = document.getElementById('submitSupprDocument');
 
             // Chargement de Filetype selon le select
@@ -140,12 +140,12 @@
             // PARTIE Suppression du document
             // ---------------------------------------
             // Code d'ouverture de la modale de suppression d'une ligne en mode création d'un bien
-            function ModalSupprDocument(event){
-                event.preventDefault()
-                SupprDocument.show()
-                let a = event.currentTarget
-                document.getElementById('submitSupprDocument').href = a.href
-            }
+            modalSupprDocument.addEventListener('show.bs.modal', event => {
+                let a = event.relatedTarget;
+                let url = a.href;
+                let modalFooterA = modalSupprDocument.querySelector(".modal-footer #submitSupprDocument");
+                modalFooterA.href = url;
+            })
 
             submitSupprDocument.addEventListener('click', function(event){
                 event.preventDefault()
@@ -297,7 +297,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                        <a href="#" id="submitSupprDocument" class="btn btn-sm btn-outline-warning" data-bs-dismiss="modal">Supprimer définitivement</a>
+                        <a href="#" id="submitSupprDocument" class="btn btn-sm btn-outline-warning submitSupprDocument" data-bs-dismiss="modal">Supprimer définitivement</a>
                     </div>
                 </div>
             </div>

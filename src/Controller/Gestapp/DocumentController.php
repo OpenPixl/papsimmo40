@@ -297,7 +297,7 @@ class DocumentController extends AbstractController
         return $this->json([
             'code' => '200',
             'message' => 'Le document a été correctement supprimé.',
-            'liste' => $this->renderView('gestapp/document/_ownliste.html.twig',[
+            'liste' => $this->renderView('gestapp/document/include/_liste.html.twig',[
                 'documents' => $documents
             ])
         ], 200);

@@ -31,7 +31,7 @@
             </div>
         </div>
         {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <p class="text-center mt-1"><a id="btnSupprDocument" class="text-danger btnModalSupprDocument" href="{{ path('op_gestapp_document_del', {'id':document.id}) }}"><i class="fa-duotone fa-trash text-danger"></i> Suppression du document</a></p>
+        <p class="text-center mt-1"><a id="btnSupprDocument" class="text-danger" href="{{ path('op_gestapp_document_del', {'id':document.id}) }}" data-bs-toggle="modal" data-bs-target="#SupprDocument" data-bs-whatever="{{ document.id }}"><i class="fa-duotone fa-trash text-danger"></i> Suppression du document</a></p>
         {% endif %}
     </div>
     {% else %}
