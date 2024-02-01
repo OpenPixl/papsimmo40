@@ -83,8 +83,21 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
     let crud = recipient.split('-')[0];
     let contentTitle = recipient.split('-')[1];
     let id = recipient.split('-')[2];
-    let form = modalCustomer.querySelector('.modalBodyForm');
-    let modalSubmit = modalCustomer.querySelector('.modal-footer a');
+    if(crud === "ADD"){
+        let form = modalCustomer.querySelector('.modalBodyForm');
+        let modalSubmit = modalCustomer.querySelector('.modal-footer a');
+    }else if(crud === "EDIT"){
+        let url = button.href;
+        let modalHeaderH5 = modalCustomer.querySelector('.modal-title');
+        let modalBody = modalCustomer.querySelector('.modal-body');
+        modalHeaderH5.textContent = contentTitle;
+        axios
+            .get(url)
+            .then(function(response){
+                modalBody.innerHTML = response.data.formView;
+            });
+    }
+
 });
 
 function submitCustomer(event){

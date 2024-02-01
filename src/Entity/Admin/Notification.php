@@ -30,7 +30,7 @@ class Notification
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
 
-    #[ORM\Column(length: 25)]
+    #[ORM\Column(length: 25, nullable: true)]
     private ?string $clientHost = null;
 
     public function getId(): ?int

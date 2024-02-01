@@ -419,10 +419,13 @@ class CustomerController extends AbstractController
         CustomerChoiceRepository $customerChoiceRepository,
     )
     {
+        $transac = $transactionRepository->find($option);
+        $idproperty = $transac->getProperty()->getId();
         $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_editcustomerjson', [
                 'id'=> $customer->getId(),
-                'idproperty' => $idproperty
+                'type' => $type,
+                'option' => $option
             ]),
             'method'=>'POST'
         ]);
@@ -452,7 +455,7 @@ class CustomerController extends AbstractController
                 ])
             ], 200);
         }else{
-            $transac = $transactionRepository->find($option);
+
             if ($form->isSubmitted() && $form->isValid()) {
                 $customerRepository->add($customer);
                 $customers = $customerRepository->listbyproperty($idproperty);
