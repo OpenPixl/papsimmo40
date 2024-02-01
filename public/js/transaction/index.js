@@ -95,6 +95,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
+
             });
     }
 
