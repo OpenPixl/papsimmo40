@@ -432,13 +432,13 @@ class CustomerController extends AbstractController
             $property = $propertyRepository->find($option);
             if ($form->isSubmitted() && $form->isValid()) {
                 $customerRepository->add($customer);
-                $customers = $customerRepository->listbyproperty($idproperty);
                 return $this->json([
                     'code'=> 200,
                     'type' => 1,
                     'message' => "Le vendeur a été correctement modifié.",
                     'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
                         'transaction' => $transac,
+                        'type' => $type
                     ])
                 ], 200);
             }
@@ -457,13 +457,13 @@ class CustomerController extends AbstractController
         }else{
             if ($form->isSubmitted() && $form->isValid()) {
                 $customerRepository->add($customer);
-                $customers = $customerRepository->listbyproperty($idproperty);
                 return $this->json([
                     'code'=> 200,
                     'type' => 2,
                     'message' => "Le vendeur a été correctement modifié.",
                     'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
                         'transaction' => $transac,
+                        'type' => $type
                     ])
                 ], 200);
             }

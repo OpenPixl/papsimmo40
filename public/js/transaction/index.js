@@ -133,6 +133,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             });
     }else if(crud === "EDIT"){
         let url = button.href;
+        console.log(url);
         let modalHeaderH5 = modalCustomer.querySelector('.modal-title');
         let modalBody = modalCustomer.querySelector('.modal-body');
         modalHeaderH5.textContent = contentTitle;
