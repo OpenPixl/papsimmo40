@@ -39,7 +39,9 @@
             </td>
             <td class="col-2 table-light"><b>Acheteur.s</b></td>
             <td class="col-4" id="buyers">
-
+                <a href="{{ path('op_gestapp_customer_addcustomerjson', {'type':2, 'option': transaction.id}) }}" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
+                    Ajouter un acheteur.
+                </a>
                 {{ include('gestapp/transaction/include/block/_buyers.html.twig') }}
             </td>
         </tr>

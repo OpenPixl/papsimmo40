@@ -11,6 +11,7 @@ use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use ApiPlatform\Metadata\Put;
 use App\Controller\Api\Gestapp\Reco\AddReco;
+use App\Controller\Api\Gestapp\Reco\AddRecoByIdCollaborator;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\PropertyFamily;
 use App\Repository\Gestapp\RecoRepository;
@@ -44,6 +45,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'id' => new Link(fromProperty: 'Customer' , fromClass: Employed::class)
             ],
             requirements: ['id' => '\d+'],
+            controller: addRecoByIdCollaborator::class,
             openapiContext: [
                 'summary' => "Obtenir uniquement les recommandations du mandataire.",
                 'description' => "Obtenir uniquement les recommandations du mandataire.",

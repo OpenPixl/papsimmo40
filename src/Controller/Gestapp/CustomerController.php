@@ -165,7 +165,6 @@ class CustomerController extends AbstractController
         $option
     )
     {
-        //dd($option);
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
 
@@ -231,9 +230,8 @@ class CustomerController extends AbstractController
                 return $this->json([
                     'code'=> 200,
                     'message' => "L'acheteur a été correctement ajouté.",
-                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                        'customers' => $customers,
-                        'option' => $option
+                    'liste' => $this->renderView('gestapp/transaction/include/block/_buyers.html.twig', [
+                        'transaction' => $transac,
                     ])
                 ], 200);
             }
@@ -378,7 +376,7 @@ class CustomerController extends AbstractController
 
         //dd($form->isSubmitted());
 
-        return $this->renderForm('gestapp/customer/edit.html.twig', [
+        return $this->render('gestapp/customer/edit.html.twig', [
             'customer' => $customer,
             'form' => $form,
         ]);
@@ -387,7 +385,6 @@ class CustomerController extends AbstractController
     #[Route('/getformcustomer/{id}', name: 'op_gestapp_customer_getform', methods: ['GET'])]
     public function getFormCustomer(Customer $customer,Request $request)
     {
-
         $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_getform', ['id'=> $customer->getId()]),
             'method'=>'POST',
@@ -395,7 +392,7 @@ class CustomerController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        $view = $this->renderForm('gestapp/customer/_form2.html.twig', [
+        $view = $this->render('gestapp/customer/_form2.html.twig', [
             'customer' => $customer,
             'form' => $form
         ]);
@@ -446,37 +443,40 @@ class CustomerController extends AbstractController
                 ], 200);
             }
             $customers = $customerRepository->listbyproperty($idproperty);
-            return $this->json([
-                'code'=> 200,
-                'message' => "Le vendeur a doit être correctement renseigné.",
-                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                    'customers' => $customers,
-                    'idproperty' => $idproperty
-                ])
-            ], 200);
-        }else{
+            // Affichage du formulaire de modification du client
+            $view = $this->render('gestapp/customer/_form2.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
 
+            return $this->json([
+                'code' => 200,
+                'message' => 'Modifier les informations du Client',
+                'formview' => $view->getContent()
+            ],200);
+        }else{
             if ($form->isSubmitted() && $form->isValid()) {
                 $customerRepository->add($customer);
                 $customers = $customerRepository->listbyproperty($idproperty);
                 return $this->json([
                     'code'=> 200,
                     'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                        'customers' => $customers,
-                        'option' => $option
+                    'liste' => $this->renderView('gestapp/transaction/include/block/_buyers.html.twig', [
+                        'transaction' => $transac,
                     ])
                 ], 200);
             }
-            $customers = $customerRepository->listbytransaction($transac);
+            // Affichage du formulaire de modification du client
+            $view = $this->render('gestapp/customer/_form2.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
+
             return $this->json([
-                'code'=> 200,
-                'message' => "Le vendeur a doit être correctement renseigné.",
-                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                    'customers' => $customers,
-                    'option' => $option
-                ])
-            ], 200);
+                'code' => 200,
+                'message' => 'Modifier les informations du Client',
+                'formView' => $view->getContent()
+            ],200);
         }
     }
 

@@ -74,7 +74,9 @@ if(zipcode2 !== null) {
     });
 }
 
-
+// ------------------------------------------------------------------------------------------
+// Actions sur le modal de gestion des clients
+// ------------------------------------------------------------------------------------------
 modalCustomer.addEventListener('show.bs.modal', function (event){
     // Button that triggered the modal
     let button = event.relatedTarget;
@@ -84,8 +86,51 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
     let contentTitle = recipient.split('-')[1];
     let id = recipient.split('-')[2];
     if(crud === "ADD"){
-        let form = modalCustomer.querySelector('.modalBodyForm');
-        let modalSubmit = modalCustomer.querySelector('.modal-footer a');
+        let modalHeaderH5 = modalCustomer.querySelector('.modal-title');
+        let modalBody = modalCustomer.querySelector('.modal-body');
+        modalHeaderH5.textContent = contentTitle;
+        let url = button.href;
+        axios
+            .get(url)
+            .then(function(response){
+                modalBody.innerHTML = response.data.formView;
+                let commune2 = document.getElementById('customer2_city');
+                let zipcode2 = document.getElementById('customer2_zipcode');
+                let SelectCity2 = document.getElementById('selectcity2');
+                zipcode2.addEventListener('input', function (event) {
+                    if (zipcode2.value.length === 5) {
+                        let coord = this.value;
+                        axios
+                            .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
+                            .then(function (response) {
+                                let features = response.data;
+                                removeOptions(SelectCity2);
+                                features.forEach((element) => {
+                                    let name = element['codePostal'] + " - " + element['nomCommune'];
+                                    let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
+                                    SelectCity2.options.add(OptSelectCity);
+                                });
+                                if (SelectCity2.options.length === 1) {
+                                    let value = SelectCity2.value.split(' ');
+                                    zipcode2.value = value[0];
+                                    commune2.value = value[2].toUpperCase();
+                                } else {
+                                    let value = SelectCity2.value.split(' ');
+                                    zipcode2.value = value[0];
+                                    commune2.value = value[2].toUpperCase();
+                                }
+                            });
+                    }
+                });
+                SelectCity2.addEventListener('change', function (event){
+                    let value = this.value.split(' ');
+                    zipcode2.value = value[0];
+                    commune2.value = value[2].toUpperCase();
+                });
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     }else if(crud === "EDIT"){
         let url = button.href;
         let modalHeaderH5 = modalCustomer.querySelector('.modal-title');
@@ -95,10 +140,41 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
-
+                let commune2 = document.getElementById('customer2_city');
+                let zipcode2 = document.getElementById('customer2_zipcode');
+                let SelectCity2 = document.getElementById('selectcity2');
+                zipcode2.addEventListener('input', function (event) {
+                    if (zipcode2.value.length === 5) {
+                        let coord = this.value;
+                        axios
+                            .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
+                            .then(function (response) {
+                                let features = response.data;
+                                removeOptions(SelectCity2);
+                                features.forEach((element) => {
+                                    let name = element['codePostal'] + " - " + element['nomCommune'];
+                                    let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
+                                    SelectCity2.options.add(OptSelectCity);
+                                });
+                                if (SelectCity2.options.length === 1) {
+                                    let value = SelectCity2.value.split(' ');
+                                    zipcode2.value = value[0];
+                                    commune2.value = value[2].toUpperCase();
+                                } else {
+                                    let value = SelectCity2.value.split(' ');
+                                    zipcode2.value = value[0];
+                                    commune2.value = value[2].toUpperCase();
+                                }
+                            });
+                    }
+                });
+                SelectCity2.addEventListener('change', function (event){
+                    let value = this.value.split(' ');
+                    zipcode2.value = value[0];
+                    commune2.value = value[2].toUpperCase();
+                });
             });
     }
-
 });
 
 function submitCustomer(event){
@@ -109,6 +185,7 @@ function submitCustomer(event){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('blockBuyers').innerHTML = response.data.liste;
             document.getElementById('transactionstep2_dateAtPromise').classList.remove('d-none');
             document.getElementById('btnAddDatePromise').classList.remove('d-none');
             document.getElementById('rowEmptyPromiseDate').remove();

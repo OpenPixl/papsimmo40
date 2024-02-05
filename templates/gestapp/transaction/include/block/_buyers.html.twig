@@ -1,21 +1,24 @@
-<button type="button" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
-    Ajouter un acheteur.
-</button>
-{% for buyer in transaction.customer %}
-    <div class="alert alert-light mb-1">
-        <div class="d-flex justify-content-between">
-            <div>
-                <p class="mb-0">{{ loop.index }} | {{ buyer.firstname }} {{ buyer.lastName }} |
-                    {% if buyer.gsm is defined %}{{ buyer.gsm }}{% endif %}
-                    {% if buyer.home is defined %}{{ buyer.home }}{% endif %}
-                </p>
-            </div>
-            <div>
-                <p class="mb-0">
-                    <a href="{{ path('op_gestapp_customer_editcustomerjson', {'id': buyer.id, 'type': 2, 'option': transaction.id}) }}" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="EDIT-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i> Modifier</a> | <a href="#"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
-                </p>
+
+<div id="blockBuyers">
+    {% for buyer in transaction.customer %}
+        <div class="alert alert-light mb-1">
+            <div class="d-flex justify-content-between">
+                <div>
+                    <p class="mb-0">{{ loop.index }} | {{ buyer.firstname }} {{ buyer.lastName }} |
+                        {% if buyer.gsm is defined %}{{ buyer.gsm }}{% endif %}
+                        {% if buyer.home is defined %}{{ buyer.home }}{% endif %}
+                    </p>
+                </div>
+                <div>
+                    <p class="mb-0">
+                        <a href="{{ path('op_gestapp_customer_editcustomerjson', {'id': buyer.id, 'type': 2, 'option': transaction.id}) }}" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="EDIT-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i> Modifier</a> | <a href="#"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
+                    </p>
+                </div>
             </div>
         </div>
-    </div>
-{% else %}
-{% endfor %}
+    {% else %}
+        <div class="alert alert-light mb-1">
+            <p>Aucun acheteur n'est lié à cette vente.</p>
+        </div>
+    {% endfor %}
+</div>

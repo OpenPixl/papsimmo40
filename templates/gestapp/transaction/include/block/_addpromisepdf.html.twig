@@ -23,7 +23,12 @@
         </div>
     </td>
     <td>
-        {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
+        <div class="form-check d-none">
+            {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-check-input'}}) }}
+            <label class="form-check-label" for="flexCheckDefault">
+                Supprimer
+            </label>
+        </div>
     </td>
 {% elseif transaction.promisePdfFilename is not null and transaction.dateAtPromise is not null %}
     {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
@@ -60,7 +65,12 @@
             </div>
         </td>
         <td>
-            {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-control form-control-sm'}}) }}
+            <div class="form-check d-none">
+                {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-check-input'}}) }}
+                <label class="form-check-label" for="flexCheckDefault">
+                    Supprimer
+                </label>
+            </div>
         </td>
     {% endif %}
     {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidPromisepdf == 0 %}
