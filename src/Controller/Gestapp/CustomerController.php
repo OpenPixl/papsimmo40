@@ -435,10 +435,10 @@ class CustomerController extends AbstractController
                 $customers = $customerRepository->listbyproperty($idproperty);
                 return $this->json([
                     'code'=> 200,
+                    'type' => 1,
                     'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                        'customers' => $customers,
-                        'option' => $option
+                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
+                        'transaction' => $transac,
                     ])
                 ], 200);
             }
@@ -452,7 +452,7 @@ class CustomerController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'message' => 'Modifier les informations du Client',
-                'formview' => $view->getContent()
+                'formView' => $view->getContent()
             ],200);
         }else{
             if ($form->isSubmitted() && $form->isValid()) {
@@ -460,8 +460,9 @@ class CustomerController extends AbstractController
                 $customers = $customerRepository->listbyproperty($idproperty);
                 return $this->json([
                     'code'=> 200,
+                    'type' => 2,
                     'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/transaction/include/block/_buyers.html.twig', [
+                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
                         'transaction' => $transac,
                     ])
                 ], 200);

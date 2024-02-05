@@ -42,7 +42,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             uriVariables: [
                 'refEmployed' => new Link(toProperty: 'refEmployed' , fromClass: Employed::class)
             ],
-            //controller: addRecoByIdCollaborator::class,
+            controller: addRecoByIdCollaborator::class,
             openapiContext: [
                 'summary' => "Obtenir uniquement les recommandations du mandataire.",
                 'description' => "Obtenir uniquement les recommandations du mandataire.",

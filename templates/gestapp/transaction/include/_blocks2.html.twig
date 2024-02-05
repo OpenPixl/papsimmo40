@@ -26,23 +26,14 @@
         <tr class="align-middle">
             <td class="col-2 table-light"><b>Vendeur.s</b></td>
             <td class="col-4">
-                {% for propr in transaction.property.customer %}
-                    <div class="alert alert-light mb-1">
-                        <p class="mb-0">{{ loop.index }} | {{ propr.firstname }} {{ propr.lastName }} |
-                            {% if propr.gsm is defined %}{{ propr.gsm }}{% endif %}
-                            {% if propr.home is defined %}{{ propr.home }}{% endif %}
-                        </p>
-                    </div>
-                {% else %}
-                -
-                {% endfor %}
+                {% include 'gestapp/transaction/include/block/_customers.html.twig' with {'type' : 1 } %}
             </td>
             <td class="col-2 table-light"><b>Acheteur.s</b></td>
             <td class="col-4" id="buyers">
                 <a href="{{ path('op_gestapp_customer_addcustomerjson', {'type':2, 'option': transaction.id}) }}" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
                     Ajouter un acheteur.
                 </a>
-                {{ include('gestapp/transaction/include/block/_buyers.html.twig') }}
+                {% include 'gestapp/transaction/include/block/_customers.html.twig' with {'type' : 2 } %}
             </td>
         </tr>
 

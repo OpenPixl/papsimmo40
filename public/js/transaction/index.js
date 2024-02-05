@@ -185,7 +185,11 @@ function submitCustomer(event){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('blockBuyers').innerHTML = response.data.liste;
+            if(response.data.type === 1){
+                document.getElementById('blockSailers').innerHTML = response.data.liste;
+            }else if(response.data.type === 2){
+                document.getElementById('blockBuyers').innerHTML = response.data.liste;
+            }
             document.getElementById('transactionstep2_dateAtPromise').classList.remove('d-none');
             document.getElementById('btnAddDatePromise').classList.remove('d-none');
             document.getElementById('rowEmptyPromiseDate').remove();
