@@ -183,10 +183,6 @@ class Reco
     #[Groups(['reco:item'])]
     private ?int $commission = null;
 
-    #[ORM\ManyToOne]
-    #[Groups(['reco:item', 'reco:write:post'])]
-    private ?PropertyFamily $typeFamily = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -479,18 +475,6 @@ class Reco
     public function setCommission(?int $commission): static
     {
         $this->commission = $commission;
-        return $this;
-    }
-
-    public function getTypeFamily(): ?PropertyFamily
-    {
-        return $this->typeFamily;
-    }
-
-    public function setTypeFamily(?PropertyFamily $typeFamily): static
-    {
-        $this->typeFamily = $typeFamily;
-
         return $this;
     }
 }
