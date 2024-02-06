@@ -403,12 +403,11 @@ class CustomerController extends AbstractController
         ], 200);
     }
 
-    #[Route('/editcustomerjson/{id}/{type}/{option}', name: 'op_gestapp_customer_editcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/editcustomerjson/{id}/{idproperty}', name: 'op_gestapp_customer_editcustomerjson',  methods: ['GET', 'POST'])]
     public function editCustomerJson(
         Request $request,
         Customer $customer,
-        $type,
-        $option,
+        $idproperty,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
@@ -416,69 +415,39 @@ class CustomerController extends AbstractController
         CustomerChoiceRepository $customerChoiceRepository,
     )
     {
-        $transac = $transactionRepository->find($option);
-        $idproperty = $transac->getProperty()->getId();
         $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_editcustomerjson', [
                 'id'=> $customer->getId(),
-                'type' => $type,
-                'option' => $option
+                'idproperty' => $idproperty
             ]),
             'method'=>'POST'
         ]);
         $form->handleRequest($request);
 
-        if($type == 1) {
-            $property = $propertyRepository->find($option);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $customerRepository->add($customer);
-                return $this->json([
-                    'code'=> 200,
-                    'type' => 1,
-                    'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
-                        'transaction' => $transac,
-                        'type' => $type
-                    ])
-                ], 200);
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $customerRepository->add($customer);
             $customers = $customerRepository->listbyproperty($idproperty);
-            // Affichage du formulaire de modification du client
-            $view = $this->render('gestapp/customer/_form2.html.twig', [
-                'customer' => $customer,
-                'form' => $form
-            ]);
-
             return $this->json([
-                'code' => 200,
-                'message' => 'Modifier les informations du Client',
-                'formView' => $view->getContent()
-            ],200);
-        }else{
-            if ($form->isSubmitted() && $form->isValid()) {
-                $customerRepository->add($customer);
-                return $this->json([
-                    'code'=> 200,
-                    'type' => 2,
-                    'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
-                        'transaction' => $transac,
-                        'type' => $type
-                    ])
-                ], 200);
-            }
-            // Affichage du formulaire de modification du client
-            $view = $this->render('gestapp/customer/_form2.html.twig', [
-                'customer' => $customer,
-                'form' => $form
-            ]);
-
-            return $this->json([
-                'code' => 200,
-                'message' => 'Modifier les informations du Client',
-                'formView' => $view->getContent()
-            ],200);
+                'code'=> 200,
+                'message' => "Le vendeur a été correctement modifié.",
+                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                    'customers' => $customers,
+                    'idproperty' => $idproperty
+                ])
+            ], 200);
         }
+        $customers = $customerRepository->listbyproperty($idproperty);
+        // Affichage du formulaire de modification du client
+        $view = $this->render('gestapp/customer/_form2.html.twig', [
+            'customer' => $customer,
+            'form' => $form
+        ]);
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Modifier les informations du Client',
+            'formView' => $view->getContent()
+        ],200);
     }
 
     #[Route('/{id}', name: 'op_gestapp_customer_delete', methods: ['POST'])]
