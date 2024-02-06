@@ -1043,62 +1043,33 @@ class TransactionController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if($type == 1)
-        {
-            $property = $propertyRepository->find($option);
-            $customerChoice = $customerChoiceRepository->find(1);
-            if ($form->isSubmitted() && $form->isValid()) {
-                // Contruction de la référence pour chaque propriété
-                $date = new \DateTime();
-                $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-                $customer->setRefCustomer($refCustomer);
-                $customer->setRefEmployed($employed);
-                $customer->setCustomerChoice($customerChoice);
-                $customer->addProperty($property);
+        $customerChoice = $customerChoiceRepository->find(2);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Contruction de la référence pour chaque propriété
+            $date = new \DateTime();
+            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
+            $customer->setRefCustomer($refCustomer);
+            $customer->setRefEmployed($employed);
+            $customer->setCustomerChoice($customerChoice);
+            $customer->addTransaction($transac);
 
-                // Ajout en BDD du nouveau client
-                $customerRepository->add($customer);
+            // Ajout en BDD du nouveau client
+            $customerRepository->add($customer);
 
-                // liste tous les clients attachés à leur propriété
-                $customers = $customerRepository->listbyproperty($property);
+            // liste tous les clients attachés à leur propriété
+            $customers = $customerRepository->listbytransaction($transac);
 
-                return $this->json([
-                    'code'=> 200,
-                    'message' => "Le vendeur a été correctement ajouté.",
-                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
-                        'transaction' => $transac,
-                        'type' => $type
-                    ])
-                ], 200);
-            }
-
-        }else{
-            $customerChoice = $customerChoiceRepository->find(2);
-            if ($form->isSubmitted() && $form->isValid()) {
-                // Contruction de la référence pour chaque propriété
-                $date = new \DateTime();
-                $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-                $customer->setRefCustomer($refCustomer);
-                $customer->setRefEmployed($employed);
-                $customer->setCustomerChoice($customerChoice);
-                $customer->addTransaction($transac);
-
-                // Ajout en BDD du nouveau client
-                $customerRepository->add($customer);
-
-                // liste tous les clients attachés à leur propriété
-                $customers = $customerRepository->listbytransaction($transac);
-
-                return $this->json([
-                    'code'=> 200,
-                    'message' => "L'acheteur a été correctement ajouté.",
-                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
-                        'transaction' => $transac,
-                        'type' => $type
-                    ])
-                ], 200);
-            }
+            return $this->json([
+                'code'=> 200,
+                'message' => "L'acheteur a été correctement ajouté.",
+                'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
+                    'transaction' => $transac,
+                    'type' => 2
+                ]),
+                'type' => 2
+            ], 200);
         }
+
 
         //dd('erreur soumission');
 
@@ -1192,15 +1163,20 @@ class TransactionController extends AbstractController
         }
     }
 
-    #[Route('/dellcustomerjson/{id}/{idCustomer}', name: 'op_gestapp_transaction_dellcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/delcustomerjson/{id}/{idCustomer}', name: 'op_gestapp_transaction_delcustomerjson',  methods: ['GET', 'POST'])]
 
-    public function dellCustomer(Transaction $transaction, $idCustomer, CustomerRepository $customerRepository, EntityManagerInterface $em)
+    public function delCustomer(Transaction $transaction, $idCustomer, CustomerRepository $customerRepository, EntityManagerInterface $em)
     {
-        $transaction->removeCustomer($idCustomer);
+        $customer = $customerRepository->find($idCustomer);
+        $transaction->removeCustomer($customer);
+        $em->flush();
 
         return $this->json([
             'code' => 200,
-            'message' => "L'acheteur a été correctement retiré de cette vente."
+            'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
+                'transaction' => $transaction,
+                'type' => 2
+            ])
         ], 200);
     }
 

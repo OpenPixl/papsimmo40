@@ -4,29 +4,27 @@
 {% elseif type == 2 %}
     {% set customers = transaction.customer %}
 {% endif %}
-
-<div id="{% if type == 1 %}blockSailers{% elseif type == 2 %}blockBuyers{% endif %}">
-    {% for customer in customers %}
-        <div class="alert alert-light mb-1">
-            <div class="d-flex justify-content-between">
-                <div>
-                    <p class="mb-0">{{ loop.index }} | {{ customer.firstname }} {{ customer.lastName }} |
-                        {% if customer.gsm is defined %}{{ customer.gsm }}{% endif %}
-                        {% if customer.home is defined %}{{ customer.home }}{% endif %}
-                    </p>
-                </div>
-                <div>
-                    <p class="mb-0">
-                        <a href="{{ path('op_gestapp_transaction_editcustomerjson', {'id': customer.id, 'type': type, 'option': transaction.id}) }}" class="text-info" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="EDIT-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
-                        {% if type == 1 %}{% elseif type == 2 %} | {% endif %}
-                        <a href="{{ path('op_gestapp_transaction_dellcustomerjson', {'id': transaction.id, 'idCustomer': customer.id}) }}" class="text-danger {% if type == 1 %}d-none{% elseif type == 2 %}{% endif %}" data-bs-toggle="modal" data-bs-target="#modalDellCustomer"><i class="fa-duotone fa-trash-can"></i></a>
-                    </p>
-                </div>
+{% for customer in customers %}
+    <div class="alert alert-light mb-1">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="mb-0">{{ loop.index }} | {{ customer.firstname }} {{ customer.lastName }} |
+                    {% if customer.gsm is defined %}{{ customer.gsm }}{% endif %}
+                    {% if customer.home is defined %}{{ customer.home }}{% endif %}
+                </p>
+            </div>
+            <div>
+                <p class="mb-0">
+                    <a href="{{ path('op_gestapp_transaction_editcustomerjson', {'id': customer.id, 'type': type, 'option': transaction.id}) }}" class="text-info" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="EDIT-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
+                    {% if type == 1 %}{% elseif type == 2 %} | {% endif %}
+                    <a href="{{ path('op_gestapp_transaction_delcustomerjson', {'id': transaction.id, 'idCustomer': customer.id}) }}" class="text-danger {% if type == 1 %}d-none{% elseif type == 2 %}{% endif %}" data-bs-toggle="modal" data-bs-target="#modalDelCustomer"><i class="fa-duotone fa-trash-can"></i></a>
+                </p>
             </div>
         </div>
-    {% else %}
-        <div class="alert alert-light mb-1">
-            <p>Aucun {% if type == 1 %}vendeur{% elseif type == 2 %}acheteur{% endif %} n'est lié à cette vente.</p>
-        </div>
-    {% endfor %}
-</div>
+    </div>
+{% else %}
+    <div class="alert alert-light mb-1">
+        <p>Aucun {% if type == 1 %}vendeur{% elseif type == 2 %}acheteur{% endif %} n'est lié à cette vente.</p>
+    </div>
+{% endfor %}
+

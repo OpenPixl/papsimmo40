@@ -19,6 +19,8 @@ const modalCustomer = document.getElementById('modalCustomer');
 const modalDelCustomer = document.getElementById('modalDelCustomer');
 
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
+let btnDelCustommer = document.getElementById('btnDellCustomer');
+
 let btnAddDatePromise = document.getElementById('btnAddDatePromise');
 let btnAddPromisePdf = document.getElementById('btnAddPromisePdf');
 let btnAddPromisePdfbyColl = document.getElementById('btnAddPromisePdfbyColl');
@@ -192,6 +194,8 @@ modalDelCustomer.addEventListener('show.bs.modal', function (event) {
     aSubmit.href = url;
 });
 
+btnDelCustommer.addEventListener('click', dellCustomer);
+
 function submitCustomer(event){
     event.preventDefault;
     let form = document.getElementById('FormEditCustomer');
@@ -200,19 +204,40 @@ function submitCustomer(event){
     axios
         .post(action, data)
         .then(function(response){
+            console.log(response.data);
             if(response.data.type === 1){
+                console.log('vendeur');
                 document.getElementById('blockSailers').innerHTML = response.data.liste;
+                document.getElementById('transactionstep2_dateAtPromise').classList.remove('d-none');
+                document.getElementById('btnAddDatePromise').classList.remove('d-none');
+                document.getElementById('rowEmptyPromiseDate').remove();
             }else if(response.data.type === 2){
+                console.log('acheteur');
                 document.getElementById('blockBuyers').innerHTML = response.data.liste;
+                document.getElementById('transactionstep2_dateAtPromise').classList.remove('d-none');
+                document.getElementById('btnAddDatePromise').classList.remove('d-none');
+                document.getElementById('rowEmptyPromiseDate').remove();
             }
-            document.getElementById('transactionstep2_dateAtPromise').classList.remove('d-none');
-            document.getElementById('btnAddDatePromise').classList.remove('d-none');
-            document.getElementById('rowEmptyPromiseDate').remove();
+
         })
         .catch(function (error) {
             console.log(error);
         })
     ;
+}
+
+function dellCustomer(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .get(url)
+        .then(function(response){
+            document.getElementById('blockBuyers').innerHTML = response.data.liste;
+            btnDelCustommer.addEventListener('click', dellCustomer);
+        })
+        .catch(function(error){
+            console.log(error);
+        });
 }
 
 function submitDatePromise(event){
