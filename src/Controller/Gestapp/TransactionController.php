@@ -1030,11 +1030,11 @@ class TransactionController extends AbstractController
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
-
+        $transac = $transactionRepository->find($option);
         $customer = new Customer();
 
         $form = $this->createForm(Customer2Type::class, $customer, [
-            'action'=> $this->generateUrl('op_gestapp_customer_addcustomerjson', [
+            'action'=> $this->generateUrl('op_gestapp_transaction_addcustomerjson', [
                 'id'=> $customer->getId(),
                 'type' => $type,
                 'option' => $option
@@ -1065,15 +1065,14 @@ class TransactionController extends AbstractController
                 return $this->json([
                     'code'=> 200,
                     'message' => "Le vendeur a été correctement ajouté.",
-                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                        'customers' => $customers,
-                        'option' => $option
+                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
+                        'transaction' => $transac,
+                        'type' => $type
                     ])
                 ], 200);
             }
 
         }else{
-            $transac = $transactionRepository->find($option);
             $customerChoice = $customerChoiceRepository->find(2);
             if ($form->isSubmitted() && $form->isValid()) {
                 // Contruction de la référence pour chaque propriété
@@ -1093,8 +1092,9 @@ class TransactionController extends AbstractController
                 return $this->json([
                     'code'=> 200,
                     'message' => "L'acheteur a été correctement ajouté.",
-                    'liste' => $this->renderView('gestapp/transaction/include/block/_buyers.html.twig', [
+                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
                         'transaction' => $transac,
+                        'type' => $type
                     ])
                 ], 200);
             }
@@ -1190,6 +1190,18 @@ class TransactionController extends AbstractController
                 'formView' => $view->getContent()
             ],200);
         }
+    }
+
+    #[Route('/dellcustomerjson/{id}/{idCustomer}', name: 'op_gestapp_transaction_dellcustomerjson',  methods: ['GET', 'POST'])]
+
+    public function dellCustomer(Transaction $transaction, $idCustomer, CustomerRepository $customerRepository, EntityManagerInterface $em)
+    {
+        $transaction->removeCustomer($idCustomer);
+
+        return $this->json([
+            'code' => 200,
+            'message' => "L'acheteur a été correctement retiré de cette vente."
+        ], 200);
     }
 
 }

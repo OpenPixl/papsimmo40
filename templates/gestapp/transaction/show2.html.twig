@@ -58,7 +58,7 @@
 {% block modal %}
     {{ parent() }}
     <!-- Ajout d'un vendeur sur un bien -->
-    <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="modalCustomer" aria-hidden="true">
         <div class="modal-dialog modal-lg modal-dialog-centered ">
             <div class="modal-content">
                 <div class="modal-header">
@@ -73,6 +73,28 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     <a id="btnSubmitCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ajout d'un vendeur sur un bien -->
+    <div class="modal fade" id="modalDelCustomer" tabindex="-1" aria-labelledby="modalDelCustomer" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Attention : Suppression d'un acheteur</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="mb-0">
+                        Vous êtes sur le point de suppprimer un acheteur sur cette vente. <br>
+                        Etes vous sûr de vouloir continuer ?
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnDellCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Oui</a>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Non</button>
                 </div>
             </div>
         </div>

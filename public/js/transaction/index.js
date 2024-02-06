@@ -16,6 +16,8 @@ flatpickr(".flatpickrtime", {
 });
 
 const modalCustomer = document.getElementById('modalCustomer');
+const modalDelCustomer = document.getElementById('modalDelCustomer');
+
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
 let btnAddDatePromise = document.getElementById('btnAddDatePromise');
 let btnAddPromisePdf = document.getElementById('btnAddPromisePdf');
@@ -176,6 +178,18 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 });
             });
     }
+});
+
+// ------------------------------------------------------------------------------------------
+// Actions sur le modal de suppression des clients
+// ------------------------------------------------------------------------------------------
+modalDelCustomer.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    let a = event.relatedTarget;
+    let url = a.href;
+    // extraction de la variable
+    let aSubmit = modalDelCustomer.querySelector('#btnDellCustomer');
+    aSubmit.href = url;
 });
 
 function submitCustomer(event){
