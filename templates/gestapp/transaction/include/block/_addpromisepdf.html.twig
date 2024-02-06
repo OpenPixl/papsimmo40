@@ -1,5 +1,6 @@
 {{ form_start(form) }}
 {% if transaction.promisePdfFilename is null and transaction.dateAtPromise is null %}
+    {# Il n'y a pas de promesse de vente et pas de date de signature enregistrée en BDD #}
     <td>
         <span id="rowEmptyPromisePdf">-</span>
         <div class="input-group w-100">
@@ -11,13 +12,16 @@
         {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
     </td>
 {% elseif transaction.promisePdfFilename is null and transaction.dateAtPromise is not null %}
+    {# Il n'y a pas de promesse de vente mais une date de signature est enregistrée en BDD #}
     <td>
         <div class="input-group w-100">
             {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
             {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                {# Dans ce cas, on valide le document par un référent #}
                 <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdf"><i class="fa-light fa-check"></i></button>
             {% endif %}
             {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                {# Dans ce cas, on valide le document par un référent #}
                 <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdfbyColl"><i class="fa-light fa-check"></i></button>
             {% endif %}
         </div>
@@ -31,6 +35,7 @@
         </div>
     </td>
 {% elseif transaction.promisePdfFilename is not null and transaction.dateAtPromise is not null %}
+    {# Dans ce cas, le fichier est présent et une date de promesse est présente en BDD #}
     {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
         <td>
         {% if transaction.refEmployed is not same as app.user.id and transaction.isValidPromisepdf == 0 %}
@@ -38,7 +43,7 @@
         {% else %}
             <div class="input-group w-100">
                 {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
-                <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdf"><i class="fa-light fa-check"></i></button>
+                <button class="btn btn-sm btn-secondary" type="button" id="btnEditPromisePdf"><i class="fa-light fa-check"></i></button>
             </div>
         {% endif %}
         </td>
@@ -114,5 +119,5 @@
             {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':''}}) }} {{ form_label(form.isSupprPromisePdf) }}
         </td>
     {% endif %}
-    {% endif %}
+{% endif %}
 {{ form_end(form) }}

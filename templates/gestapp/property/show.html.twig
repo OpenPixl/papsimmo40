@@ -523,7 +523,7 @@
                 // mise à jour du lien de soumission du formulaire.
                 var modalContent = modalAddCustomer.querySelector('.modal-footer')
                 var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
-                modalSubmit.href = '/gestapp/customer/addcustomerjson/1/' + recipient
+                modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
             })
             // Evènement sur le bouton btnAddCustomers
             const btnAddCustomer = document.getElementById('btnAddCustomer')
@@ -1947,7 +1947,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer', {'type' : 1, 'option' : property.id})) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer', {'idproperty' : property.id})) }}
                     <input id="idProperty" type="hidden" value="">
                 </div>
                 <div class="modal-footer">

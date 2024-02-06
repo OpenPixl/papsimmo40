@@ -219,33 +219,29 @@ class CustomerController extends AbstractController
 
     #[Route('/addcustomer/{type}/{option}', name: 'op_gestapp_customer_addcustomer',  methods: ['GET', 'POST'])]
     public function addCustomer(
-        $type,
-        $option,
         Request $request,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
         TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
+        $idproperty
     )
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
+        $property = $propertyRepository->find($idproperty);
+        $customerChoice = $customerChoiceRepository->find(1);
 
         $customer = new Customer();
-
         $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_addcustomerjson', [
-                'id'=> $customer->getId(),
-                'type' => $type,
-                'option' => $option
+                'idproperty' => $idproperty
             ]),
-            'method'=>'POST'
+            'method' => 'POST'
         ]);
         $form->handleRequest($request);
 
-        $property = $propertyRepository->find($option);
-        $customerChoice = $customerChoiceRepository->find(1);
         if ($form->isSubmitted() && $form->isValid()) {
             // Contruction de la référence pour chaque propriété
             $date = new \DateTime();
@@ -266,7 +262,7 @@ class CustomerController extends AbstractController
                 'message' => "Le vendeur a été correctement ajouté.",
                 'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
                     'customers' => $customers,
-                    'option' => $option
+                    'idproperty' => $idproperty
                 ])
             ], 200);
         }

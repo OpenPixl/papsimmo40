@@ -368,6 +368,7 @@ class TransactionController extends AbstractController
         ]);
     }
 
+    // Validation de la promesse de vente par un Administrateur
     #[Route('/{id}/validPromisePdf', name: 'op_gestapp_transaction_validpromisepdf', methods: ['GET', 'POST'])]
     public function validPromisePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
