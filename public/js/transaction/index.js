@@ -274,7 +274,7 @@ function submitPromisePdf(){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('rowPromisePdf').innerHTML = response.data.
+            document.getElementById('rowPromisePdf').innerHTML = response.data.row;
             document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
             document.getElementById('btnAddDateActe').classList.remove('d-none');
             document.getElementById('rowEmptyDateActe').remove();
@@ -364,6 +364,7 @@ function submitActePdf(event){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('rowActePdf').innerHTML = response.data.row;
             document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').classList.remove('d-none');
             document.getElementById('btnAddTracfinPdf').classList.remove('d-none');
             document.getElementById('rowEmptyTracfinPdf').remove();

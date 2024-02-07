@@ -329,18 +329,15 @@ class TransactionController extends AbstractController
                     }
                 }
 
-                $view = $this->render('gestapp/transaction/include/block/_addpromisepdf.html.twig', [
-                    'transaction' => $transaction,
-                    'form' => $form
-                ]);
-
                 return $this->json([
                     'code' => 200,
                     'message' => 'Le document PDF est déposé sur la plateforme en attente de validation.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-                    'row' => $view->getContent()
+                    'row' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
                 ], 200);
             }else if($promisepdf){
                 if($PromisePdfName){
@@ -348,7 +345,6 @@ class TransactionController extends AbstractController
                 }else{
                     dd('pas de doc');
                 }
-
             }
         }
 
@@ -452,7 +448,9 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-
+                    'row' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
                 ], 200);
             }
 
@@ -595,6 +593,9 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
+                    'row' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
 
                 ], 200);
             }else if($actepdf){
@@ -706,7 +707,9 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-
+                    'row' => $this->renderView('gestapp/transaction/include/block/_rowactedate.html.twig', [
+                        'transaction' => $transaction
+                    ]),
                 ], 200);
             }
 
