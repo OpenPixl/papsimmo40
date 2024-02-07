@@ -25,10 +25,14 @@ let btnAddDatePromise = document.getElementById('btnAddDatePromise');
 let btnAddPromisePdf = document.getElementById('btnAddPromisePdf');
 let btnAddPromisePdfbyColl = document.getElementById('btnAddPromisePdfbyColl');
 let btnAddPromisePdfControl = document.getElementById('btnAddPromisePdfControl');
+let btnEditPromisePdf = document.getElementById('btnEditPromisePdf');
+
 let btnAddDateActe = document.getElementById('btnAddDateActe');
 let btnAddActePdf = document.getElementById('btnAddActePdf');
 let btnAddActePdfbyColl = document.getElementById('btnAddActePdfbyColl');
 let btnAddActePdfControl = document.getElementById('btnAddActePdfControl');
+let btnEditActePdf = document.getElementById('btnEditActePdf');
+
 let btnAddTracfinPdf = document.getElementById('btnAddTracfinPdf');
 let btnAddTracfinPdfbyColl = document.getElementById('btnAddTracfinPdfbyColl');
 let btnAddTracfinPdfControl = document.getElementById('btnAddTracfinPdfControl');
@@ -46,36 +50,38 @@ let commune2 = document.getElementById('customer2_city');
 let zipcode2 = document.getElementById('customer2_zipcode');
 let SelectCity2 = document.getElementById('selectcity2');
 if(zipcode2 !== null) {
-    zipcode2.addEventListener('input', function (event) {
-        if (zipcode2.value.length === 5) {
-            let coord = this.value;
-            axios
-                .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
-                .then(function (response) {
-                    let features = response.data;
-                    removeOptions(SelectCity2);
-                    features.forEach((element) => {
-                        let name = element['codePostal'] + " - " + element['nomCommune'];
-                        let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
-                        SelectCity2.options.add(OptSelectCity);
-                    });
-                    if (SelectCity2.options.length === 1) {
-                        let value = SelectCity2.value.split(' ');
-                        zipcode2.value = value[0];
-                        commune2.value = value[2].toUpperCase();
-                    } else {
-                        let value = SelectCity2.value.split(' ');
-                        zipcode2.value = value[0];
-                        commune2.value = value[2].toUpperCase();
-                    }
-                });
-        }
-    });
+    zipcode2.addEventListener('input', zipcodeGen);
     SelectCity2.addEventListener('change', function (event){
         let value = this.value.split(' ');
         zipcode2.value = value[0];
         commune2.value = value[2].toUpperCase();
     });
+}
+
+function zipcodeGen(event){
+    if (zipcode2.value.length === 5) {
+        let coord = this.value;
+        axios
+            .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
+            .then(function (response) {
+                let features = response.data;
+                removeOptions(SelectCity2);
+                features.forEach((element) => {
+                    let name = element['codePostal'] + " - " + element['nomCommune'];
+                    let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
+                    SelectCity2.options.add(OptSelectCity);
+                });
+                if (SelectCity2.options.length === 1) {
+                    let value = SelectCity2.value.split(' ');
+                    zipcode2.value = value[0];
+                    commune2.value = value[2].toUpperCase();
+                } else {
+                    let value = SelectCity2.value.split(' ');
+                    zipcode2.value = value[0];
+                    commune2.value = value[2].toUpperCase();
+                }
+            });
+    }
 }
 
 // ------------------------------------------------------------------------------------------
@@ -240,6 +246,9 @@ function dellCustomer(event){
         });
 }
 
+// ------------------------------------------------------------------------------------------
+// Actions sur le dépôt de la promesse de vente
+// ------------------------------------------------------------------------------------------
 function submitDatePromise(event){
     event.preventDefault();
     let form = document.getElementById('addDatePromiseForm');
@@ -265,9 +274,25 @@ function submitPromisePdf(){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('rowPromisePdf').innerHTML = response.data.
             document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
             document.getElementById('btnAddDateActe').classList.remove('d-none');
             document.getElementById('rowEmptyDateActe').remove();
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    ;
+}
+
+function editPromisePdf(){
+    let form = document.getElementById('transactionstep3');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            window.location.reload();
         })
         .catch(function (error) {
             console.log(error);
@@ -311,6 +336,9 @@ function submitPromisePdfControl(event){
     ;
 }
 
+// ------------------------------------------------------------------------------------------
+// Actions sur le dépôt de l'attestation de l'acte de vente
+// ------------------------------------------------------------------------------------------
 function submitDateActe(event){
     event.preventDefault();
     let form = document.getElementById('addDateActeForm');
@@ -339,6 +367,20 @@ function submitActePdf(event){
             document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').classList.remove('d-none');
             document.getElementById('btnAddTracfinPdf').classList.remove('d-none');
             document.getElementById('rowEmptyTracfinPdf').remove();
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function editActePdf(event){
+    let form = document.getElementById('transactionactepdf');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            window.location.reload();
         })
         .catch(function (error) {
             console.log(error);
@@ -380,6 +422,9 @@ function submitActePdfControl(){
     ;
 }
 
+// ------------------------------------------------------------------------------------------
+// Actions sur le dépôt du TracFin
+// ------------------------------------------------------------------------------------------
 function submitTracfinPdf(event){
     let form = document.getElementById('transactiontracfinpdf');
     let action = form.action;
@@ -392,6 +437,7 @@ function submitTracfinPdf(event){
             console.log(error);
         });
 }
+
 function submitTracfinPdfbyColl(){
     let form = document.getElementById('transactionstep3');
     let action = form.action;
@@ -433,11 +479,13 @@ if(btnAddDatePromise !== null){btnAddDatePromise.addEventListener('click', submi
 if(btnAddPromisePdf !== null){btnAddPromisePdf.addEventListener('click', submitPromisePdf);}
 if(btnAddPromisePdfbyColl !== null){btnAddPromisePdfbyColl.addEventListener('click', submitPromisePdfbyColl);}
 if(btnAddPromisePdfControl !== null){btnAddPromisePdfControl.addEventListener('click', submitPromisePdfControl);}
+if(btnEditPromisePdf !== null){btnEditPromisePdf.addEventListener('click', editPromisePdf);}
 // Acte
 if(btnAddDateActe !== null){btnAddDateActe.addEventListener('click', submitDateActe);}
 if(btnAddActePdf !== null){btnAddActePdf.addEventListener('click', submitActePdf);}
 if(btnAddActePdfbyColl !== null){btnAddActePdfbyColl.addEventListener('click', submitActePdfbyColl);}
 if(btnAddActePdfControl !== null){btnAddActePdfControl.addEventListener('click', submitActePdfControl);}
+if(btnEditActePdf !== null){btnEditActePdf.addEventListener('click', editActePdf);}
 // Tracfin
 if(btnAddTracfinPdf !== null){btnAddTracfinPdf.addEventListener('click', submitTracfinPdf);}
 if(btnAddTracfinPdfbyColl !== null){btnAddTracfinPdfbyColl.addEventListener('click', submitTracfinPdfbyColl);}

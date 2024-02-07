@@ -1,5 +1,6 @@
 {{ form_start(form) }}
 {% if transaction.actePdfFilename is null and transaction.dateAtSale is null%}
+    {# Il n'y a pas de attestation acte de vente déposée et pas de date de signature enregistrée en BDD #}
     <td>
         <span id="rowEmptyActePdf">-</span>
         <div class="input-group w-100">
@@ -8,6 +9,7 @@
         </div>
     </td>
 {% elseif transaction.actePdfFilename is null and transaction.dateAtSale is not null %}
+    {# Il n'y a pas d'attestation d'acte de vente mais une date de signature est enregistrée en BDD #}
     <td>
         <div class="input-group w-100">
             {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
@@ -15,11 +17,17 @@
         </div>
     </td>
 {% elseif transaction.actePdfFilename is not null and transaction.dateAtSale is not null %}
+    {# Dans ce cas, le fichier est présent et une date de dignature de l'acte de vente est présente en BDD #}
+    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
     <td>
+        {% if transaction.refEmployed is not same as app.user.id and transaction.isValidPromisepdf == 0 %}
+            Document à contrôler {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}<a href="{{ path('op_gestapp_transaction_validactepdf', {'id': transaction.id}) }}" class="btn btn-sm btn-success" id="btnAddPromisePdfControl"><i class="fa-light fa-check"></i></a><a href="" class="btn btn-sm btn-danger" id="btnAddPromisePdfError"><i class="fa-sharp fa-regular fa-xmark"></i></a>
+        {% else %}
         <div class="input-group w-100">
             {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
-            <button class="btn btn-sm btn-secondary" type="button" id="btnAddActePdf"><i class="fa-light fa-check"></i></button>
+            <button class="btn btn-sm btn-info" type="button" id="btnEditActePdf"><i class="fa-light fa-arrows-rotate"></i></button>
         </div>
+        {% endif %}
     </td>
     <td colspan="2">
         <button id="showPromise" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalActe"><i class="fa-duotone fa-eye"></i> Voir le document</button>
@@ -43,5 +51,49 @@
             </div>
         </div>
     </td>
+    {% endif %}
+    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidPromisepdf == 0 %}
+        {# Dans le cas où le fichier a été déposé par le collaborateur mais non validé par le référent #}
+        <td>
+            <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Le document doit être vérifié par votre référent.</p>
+        </td>
+        <td>
+            {{ form_widget(form.isSupprActePdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
+        </td>
+    {% endif %}
+    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidPromisepdf == 1 %}
+        {# Le ficheir déposé a été vérifié, il peut être modifier si besoin. #}
+        <td>
+            <div class="input-group w-100">
+                {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
+                <button class="btn btn-sm btn-info" type="button" id="btnEditPromisePdf"><i class="fa-light fa-arrows-rotate"></i></button>
+            </div>
+        </td>
+        <td>
+            <button id="showPromise" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+            <!-- Modal -->
+            <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
+                <div class="modal-dialog modal-dialog-centered modal-xl">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="exampleModalLabel">Promesse de vente</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body" style="padding: 0;">
+                            <div id="externaFile">
+                                <iframe src="{{ asset('doc/transaction/promise/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </td>
+        <td>
+            {{ form_widget(form.isSupprActePdf, {'attr': {'class':''}}) }} {{ form_label(form.isSupprActePdf) }}
+        </td>
+    {% endif %}
 {% endif %}
 {{ form_end(form) }}

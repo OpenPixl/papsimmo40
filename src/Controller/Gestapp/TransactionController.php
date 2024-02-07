@@ -107,21 +107,6 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'op_gestapp_transaction_show', methods: ['GET'])]
-    public function show(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
-    {
-
-        $property = $transaction->getProperty();
-        $customers = $transaction->getCustomer();
-        $photo = $photoRepository->firstphoto($property->getId());
-
-        return $this->render('gestapp/transaction/show.html.twig', [
-            'transaction' => $transaction,
-            'property' => $property,
-            'customers' => $customers,
-            'photo' => $photo
-        ]);
-    }
     #[Route('/2/{id}', name: 'op_gestapp_transaction_show2', methods: ['GET'])]
     public function show2(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
     {
@@ -344,13 +329,18 @@ class TransactionController extends AbstractController
                     }
                 }
 
+                $view = $this->render('gestapp/transaction/include/block/_addpromisepdf.html.twig', [
+                    'transaction' => $transaction,
+                    'form' => $form
+                ]);
+
                 return $this->json([
                     'code' => 200,
                     'message' => 'Le document PDF est déposé sur la plateforme en attente de validation.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-
+                    'row' => $view->getContent()
                 ], 200);
             }else if($promisepdf){
                 if($PromisePdfName){

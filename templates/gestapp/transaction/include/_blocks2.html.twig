@@ -52,10 +52,12 @@
         <tr class="align-middle">
             <td class="table-light" colspan="4"><b>Documents de transaction</b></td>
         </tr>
-        {{ include('gestapp/transaction/include/block/_rowpromisepdf.html.twig') }}
-
-        {{ include('gestapp/transaction/include/block/_rowactepdf.html.twig') }}
-
+        <tr class="align-middle" id="rowPromisePdf">
+            {{ include('gestapp/transaction/include/block/_rowpromisepdf.html.twig') }}
+        </tr>
+        <tr class="align-middle" id="rowActePdf">
+            {{ include('gestapp/transaction/include/block/_rowactepdf.html.twig') }}
+        </tr>
         {{ include('gestapp/transaction/include/block/_rowtracfinpdf.html.twig') }}
 
         <tr class="align-middle">

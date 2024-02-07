@@ -128,6 +128,12 @@ class Transaction
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $tracfinValidBy = null;
 
+    #[ORM\Column]
+    private ?bool $isSupprActePdf = false;
+
+    #[ORM\Column]
+    private ?bool $isSupprTracfinPdf = false;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -388,6 +394,30 @@ class Transaction
     public function setTracfinValidBy(?string $tracfinValidBy): static
     {
         $this->tracfinValidBy = $tracfinValidBy;
+
+        return $this;
+    }
+
+    public function isIsSupprActePdf(): ?bool
+    {
+        return $this->isSupprActePdf;
+    }
+
+    public function setIsSupprActePdf(bool $isSupprActePdf): static
+    {
+        $this->isSupprActePdf = $isSupprActePdf;
+
+        return $this;
+    }
+
+    public function isIsSupprTracfinPdf(): ?bool
+    {
+        return $this->isSupprTracfinPdf;
+    }
+
+    public function setIsSupprTracfinPdf(bool $isSupprTracfinPdf): static
+    {
+        $this->isSupprTracfinPdf = $isSupprTracfinPdf;
 
         return $this;
     }

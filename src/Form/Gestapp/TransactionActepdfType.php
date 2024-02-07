@@ -31,6 +31,9 @@ class TransactionActepdfType extends AbstractType
                     ])
                 ],
             ])
+            ->add('isSupprActePdf', CheckboxType::class, [
+                'label' => 'Supprimer'
+            ])
         ;
     }
 
