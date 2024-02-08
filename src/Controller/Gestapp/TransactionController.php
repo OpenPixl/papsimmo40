@@ -395,7 +395,9 @@ class TransactionController extends AbstractController
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                 'transaction' => $transaction
             ]),
-
+            'row' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                'transaction' => $transaction
+            ]),
         ], 200);
     }
 

@@ -261,6 +261,9 @@ function submitDatePromise(event){
             document.getElementById('transactionstep3_promisePdfFilename').classList.remove('d-none');
             document.getElementById('btnAddPromisePdf').classList.remove('d-none');
             document.getElementById('rowEmptyPromisePdf').remove();
+            btnAddPromisePdf.addEventListener('click', submitPromisePdf);
+            toasterMessage(response.data.message);
+
         })
         .catch(function (error) {
             console.log(error);
@@ -329,6 +332,7 @@ function submitPromisePdfControl(event){
     axios
         .post(url)
         .then(function(response){
+            document.getElementById('rowPromisePdf').innerHTML = response.data.row;
             document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
             document.getElementById('btnAddDateActe').classList.remove('d-none');
             document.getElementById('rowEmptyDateActe').remove();
@@ -396,7 +400,7 @@ function editActePdf(event){
 }
 
 function submitActePdfbyColl(){
-    let form = document.getElementById('transactionstep3');
+    let form = document.getElementById('transactionactepdf');
     let action = form.action;
     let data = new FormData(form);
     axios

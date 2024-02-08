@@ -60,7 +60,7 @@
                         </div>
                         <div class="modal-body" style="padding: 0;">
                             <div id="externaFile">
-                                <iframe src="{{ asset('doc/transaction/Acte/' ~ transaction.actePdfFilename) }}" width="100%" height="500px"></iframe>
+                                <iframe src="{{ asset('doc/transaction/acte/' ~ transaction.actePdfFilename) }}" width="100%" height="500px"></iframe>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -70,26 +70,19 @@
                 </div>
             </div>
         </td>
+        {% if transaction.refEmployed is not same as app.user.id and transaction.isValidActepdf == 0 %}
+            <td>
+                <a href="{{ path('op_gestapp_transaction_validactepdf', {'id': transaction.id}) }}" class="btn btn-sm btn-success" id="btnAddActePdfControl"><i class="fa-light fa-check"></i> Je valide</a><a href="" class="btn btn-sm btn-danger" id="btnAddActePdfError"><i class="fa-sharp fa-regular fa-xmark"></i> Erreur de document</a>
+            </td>
+        {% endif %}
         <td>
-            <div class="form-check d-none">
+            <div class="form-check d-none ">
                 {{ form_widget(form.isSupprActePdf, {'attr': {'class':'form-check-input'}}) }}
                 <label class="form-check-label" for="flexCheckDefault21">
                     Supprimer
                 </label>
             </div>
         </td>
-        {% if transaction.refEmployed is not same as app.user.id and transaction.isValidActepdf == 0 %}
-            <td>
-                <a href="{{ path('op_gestapp_transaction_validactepdf', {'id': transaction.id}) }}" class="btn btn-sm btn-success" id="btnAddActePdfControl"><i class="fa-light fa-check"></i> Je valide</a><a href="" class="btn btn-sm btn-danger" id="btnAddActePdfError"><i class="fa-sharp fa-regular fa-xmark"></i> Erreur de document</a>
-                {# <div class="form-check d-none">
-                    {{ form_widget(form.isSupprActePdf, {'attr': {'class':'form-check-input'}}) }}
-                    <label class="form-check-label" for="flexCheckDefault21">
-                        Supprimer
-                    </label>
-                </div>
-                #}
-            </td>
-        {% endif %}
     {% endif %}
     {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidActepdf == 0 %}
         {# Dans le cas où le fichier a été déposé par le collaborateur mais non validé par le référent #}
@@ -115,7 +108,7 @@
                 <div class="modal-dialog modal-dialog-centered modal-xl">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Attestation de l'acte de vente</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Attestion de l'acte de vente</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" style="padding: 0;">
