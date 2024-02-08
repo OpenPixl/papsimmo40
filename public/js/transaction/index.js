@@ -36,6 +36,7 @@ let btnEditActePdf = document.getElementById('btnEditActePdf');
 let btnAddTracfinPdf = document.getElementById('btnAddTracfinPdf');
 let btnAddTracfinPdfbyColl = document.getElementById('btnAddTracfinPdfbyColl');
 let btnAddTracfinPdfControl = document.getElementById('btnAddTracfinPdfControl');
+let btnEditTracfinPdf = document.getElementById('btnEditTracfinPdf');
 
 function removeOptions(selectElement) {
     var i, L = selectElement.options.length - 1;
@@ -433,7 +434,7 @@ function submitTracfinPdf(event){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('').innerHTML = response.data.row
+            document.getElementById('').innerHTML = response.data.row;
         })
         .catch(function (error) {
             console.log(error);
@@ -506,3 +507,4 @@ if(btnEditActePdf !== null){btnEditActePdf.addEventListener('click', editActePdf
 if(btnAddTracfinPdf !== null){btnAddTracfinPdf.addEventListener('click', submitTracfinPdf);}
 if(btnAddTracfinPdfbyColl !== null){btnAddTracfinPdfbyColl.addEventListener('click', submitTracfinPdfbyColl);}
 if(btnAddTracfinPdfControl !== null){btnAddTracfinPdfControl.addEventListener('click', submitTracfinPdfControl);}
+if(btnEditTracfinPdf !== null){btnEditTracfinPdf.addEventListener('click', editTracfinPdf);}
