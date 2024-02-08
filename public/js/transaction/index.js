@@ -279,6 +279,7 @@ function submitPromisePdf(){
             document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
             document.getElementById('btnAddDateActe').classList.remove('d-none');
             document.getElementById('rowEmptyDateActe').remove();
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -294,6 +295,7 @@ function editPromisePdf(){
         .post(action, data)
         .then(function(response){
             window.location.reload();
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -313,7 +315,7 @@ function submitPromisePdfbyColl(){
                 "    <td class=\"table-light\">Compromis de vente :</td>" +
                 "    <td><p class=\"alert alert-warning mb-0 p-1\"><i class=\"fa-duotone fa-hourglass-start\"></i>  Le document doit être vérifier par votre administrateur.</p></td>" +
                 "</tr>";
-
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -330,6 +332,7 @@ function submitPromisePdfControl(event){
             document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
             document.getElementById('btnAddDateActe').classList.remove('d-none');
             document.getElementById('rowEmptyDateActe').remove();
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -351,6 +354,7 @@ function submitDateActe(event){
             document.getElementById('transaction_actepdf_actePdfFilename').classList.remove('d-none');
             document.getElementById('btnAddActePdf').classList.remove('d-none');
             document.getElementById('rowEmptyActePdf').remove();
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -369,6 +373,7 @@ function submitActePdf(event){
             document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').classList.remove('d-none');
             document.getElementById('btnAddTracfinPdf').classList.remove('d-none');
             document.getElementById('rowEmptyTracfinPdf').remove();
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -383,6 +388,7 @@ function editActePdf(event){
         .post(action, data)
         .then(function(response){
             window.location.reload();
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -401,7 +407,7 @@ function submitActePdfbyColl(){
                 "    <td class=\"table-light\">Acte :</td>" +
                 "    <td><p class=\"alert alert-warning mb-0 p-1\"><i class=\"fa-duotone fa-hourglass-start\"></i>  Le document doit être vérifier par votre administrateur.</p></td>" +
                 "</tr>";
-
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -414,9 +420,11 @@ function submitActePdfControl(){
     axios
         .post(url)
         .then(function(response){
+            document.getElementById('rowActePdf').innerHTML = response.data.row;
             document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
             document.getElementById('btnAddDateActe').classList.remove('d-none');
             document.getElementById('rowEmptyDateActe').remove();
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -435,6 +443,7 @@ function submitTracfinPdf(event){
         .post(action, data)
         .then(function(response){
             document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -449,6 +458,7 @@ function editTracfinPdf(event){
         .post(action, data)
         .then(function(response){
             window.location.reload();
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -467,7 +477,7 @@ function submitTracfinPdfbyColl(){
                 "    <td class=\"table-light\">tracfin :</td>" +
                 "    <td><p class=\"alert alert-warning mb-0 p-1\"><i class=\"fa-duotone fa-hourglass-start\"></i>  Le document doit être vérifier par votre administrateur.</p></td>" +
                 "</tr>";
-
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
@@ -480,12 +490,33 @@ function submitTracfinPdfControl(){
     axios
         .post(url)
         .then(function(response){
+            toasterMessage(response.data.message);
         })
         .catch(function (error) {
             console.log(error);
         })
     ;
 }
+
+// ------------------------------------------------------------------------------------------
+// Fonctions générique sur la page
+// ------------------------------------------------------------------------------------------
+function toasterMessage(message)
+{
+    // préparation du toaster
+    let option = {
+        animation: true,
+        autohide: true,
+        delay: 3000,
+    };
+    // initialisation du toaster
+    let toastHTMLElement = document.getElementById("toaster");
+    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+    toastBody.textContent = message;
+    let toastElement = new bootstrap.Toast(toastHTMLElement, option);
+    toastElement.show();
+}
+
 
 btnSubmitCustomer.addEventListener('click', submitCustomer);
 // Promise
