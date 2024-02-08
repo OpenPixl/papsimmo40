@@ -95,11 +95,11 @@
         <td>
             <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Le document doit être vérifié par votre référent.</p>
         </td>
-        {#
+
         <td>
             {{ form_widget(form.isSupprActePdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
         </td>
-        #}
+
     {% endif %}
     {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidActepdf == 1 %}
         {# Le ficheir déposé a été vérifié, il peut être modifier si besoin. #}
@@ -131,9 +131,11 @@
                 </div>
             </div>
         </td>
+        {#
         <td>
             {{ form_widget(form.isSupprActePdf, {'attr': {'class':''}}) }} {{ form_label(form.isSupprActePdf) }}
         </td>
+        #}
     {% endif %}
 {% endif %}
 {{ form_end(form) }}
