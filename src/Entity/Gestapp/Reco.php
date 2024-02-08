@@ -48,17 +48,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'description' => "Obtenir uniquement les recommandations du mandataire.",
             ],
         ),
-        new GetCollection(
-            uriTemplate: '/prescripteur/{email}/recommandations',
-            uriVariables: [
-                'email' => new Link(fromProperty: 'Customer' , fromClass: Employed::class)
-            ],
-            requirements: ['id' => '\d+'],
-            openapiContext: [
-                'summary' => "Obtenir uniquement les recommandations du mandataire.",
-                'description' => "Obtenir uniquement les recommandations du mandataire.",
-            ],
-        ),
+
         new Post(
             uriTemplate: '/recommandation',
             controller: AddReco::class,
@@ -94,63 +84,63 @@ class Reco
     private ?Employed $refEmployed = null;
 
     #[ORM\Column(length: 80)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceFirstName = null;
 
     #[ORM\Column(length: 80, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceLastName = null;
 
     #[ORM\Column(length: 14)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announcePhone = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceEmail = null;
 
     #[ORM\Column(length: 80)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerFirstName = null;
 
     #[ORM\Column(length: 80, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerLastName = null;
 
     #[ORM\Column(length: 14)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerPhone = null;
 
     #[ORM\Column(length: 100)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerEmail = null;
 
     #[ORM\Column(length: 255)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyAddress = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyComplement = null;
 
     #[ORM\Column(length: 5, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyZipcode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyCity = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 5, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyLong = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 5, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyLat = null;
 
     #[ORM\Column(length: 25)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $statutReco = null;
 
     #[ORM\Column(type: 'datetime')]
@@ -170,15 +160,15 @@ class Reco
     private ?string $StatusPrescriber = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $typeProperty = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    #[Groups(['reco:item', 'reco:write:post'])]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $typeReco = null;
 
     #[ORM\Column(nullable: true)]
-    #[Groups(['reco:item'])]
+    #[Groups(['reco:item', 'employed:reco'])]
     private ?int $commission = null;
 
     public function getId(): ?int

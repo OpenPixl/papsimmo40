@@ -57,6 +57,18 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
             normalizationContext: ['groups' => 'employed:item'],
         ),
+        new Get(
+            uriTemplate: '/prescripteur/{email}/recommandations/',
+            uriVariables: [
+                'email' => 'email'
+            ],
+            //requirements: ['numCollaborator' => '\d+'],
+            openapiContext: [
+                'summary' => "Récupérer les information d'un collaborateur par son email",
+                'description' => "Récupérer les information d'un collaborateur par son email",
+            ],
+            normalizationContext: ['groups' => 'employed:reco'],
+        ),
         new GetCollection(
             openapiContext: [
                 'summary' => "Récupérer la liste des collaborateurs.",
@@ -112,11 +124,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
-    #[Groups(['employed:item','reco:list','reco:item', 'reco:write:post'])]
+    #[Groups(['employed:item','reco:list','reco:item', 'reco:write:post', 'employed:reco'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'prescriber:write:post', 'transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'employed:reco', 'prescriber:write:post', 'transaction:list'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -127,11 +139,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]
@@ -240,6 +252,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $transactions;
 
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Reco::class)]
+    #[Groups(['employed:reco'])]
     private Collection $recos;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
