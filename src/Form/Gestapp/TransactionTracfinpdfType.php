@@ -31,6 +31,9 @@ class TransactionTracfinpdfType extends AbstractType
                     ])
                 ],
             ])
+            ->add('isSupprTracfinPdf', CheckboxType::class, [
+                'label' => 'Supprimer'
+            ])
         ;
     }
 

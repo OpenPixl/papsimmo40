@@ -433,6 +433,21 @@ function submitTracfinPdf(event){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('').innerHTML = response.data.row
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function editTracfinPdf(event){
+    let form = document.getElementById('transactiontracfinpdf');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            window.location.reload();
         })
         .catch(function (error) {
             console.log(error);
