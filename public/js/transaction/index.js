@@ -434,7 +434,7 @@ function submitTracfinPdf(event){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('').innerHTML = response.data.row;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
         })
         .catch(function (error) {
             console.log(error);
@@ -480,9 +480,6 @@ function submitTracfinPdfControl(){
     axios
         .post(url)
         .then(function(response){
-            document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
-            document.getElementById('btnAddDateActe').classList.remove('d-none');
-            document.getElementById('rowEmptyDateActe').remove();
         })
         .catch(function (error) {
             console.log(error);
