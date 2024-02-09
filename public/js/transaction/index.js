@@ -438,11 +438,12 @@ function submitActePdfbyColl(){
     ;
 }
 
-function submitActePdfControl(){
+function submitActePdfControl(event){
     let url = this.href;
     axios
         .post(url)
         .then(function(response){
+            event.preventDefault();
             document.getElementById('rowActePdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
@@ -505,11 +506,12 @@ function submitTracfinPdfbyColl(){
     ;
 }
 
-function submitTracfinPdfControl(){
+function submitTracfinPdfControl(event){
     let url = this.href;
     axios
         .post(url)
         .then(function(response){
+            event.preventDefault();
             document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
