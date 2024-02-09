@@ -32,6 +32,7 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use function Symfony\Component\Clock\now;
 
 #[Route('/gestapp/transaction')]
 class TransactionController extends AbstractController
@@ -363,6 +364,7 @@ class TransactionController extends AbstractController
         $user = $this->getUser();
         $username = $user->getFirstName()." ".$user->getLastName();
         $transaction->setState('definitive_sale');
+        $transaction->setDateAtPromise(new \Datetime('now'));
         $transaction->setPromiseValidBy($username);
         $transaction->setIsValidPromisepdf(1);
         $entityManager->persist($transaction);
@@ -532,18 +534,18 @@ class TransactionController extends AbstractController
             $isSupprActePdf = $form->get('isSupprActePdf')->getData();
             if($isSupprActePdf && $isSupprActePdf == true){
                 // récupération du nom de l'image
-                $PromisePdfName = $transaction->getPromisePdfFilename();
-                $pathPromisePdf = $this->getParameter('transaction_acte_directory').'/'.$PromisePdfName;
+                $ActePdfName = $transaction->getActePdfFilename();
+                $pathActePdf = $this->getParameter('transaction_acte_directory').'/'.$ActePdfName;
                 // On vérifie si l'image existe
-                if(file_exists($pathPromisePdf)){
-                    unlink($pathPromisePdf);
+                if(file_exists($pathActePdf)){
+                    unlink($pathActePdf);
                 }
                 $transaction->setactePdfFilename(null);
-                $transaction->setIsSupprPromisePdf(0);
+                $transaction->setIsSupprActePdf(0);
             }
 
             $actepdf = $form->get('actePdfFilename')->getData();
-            $actePdfName = $transaction->getPromisePdfFilename();
+            $actePdfName = $transaction->getActePdfFilename();
             if($actepdf){
                 if($actePdfName){
                     $pathheader = $this->getParameter('transaction_acte_directory').'/'.$actePdfName;
@@ -563,7 +565,7 @@ class TransactionController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-                $transaction->setPromisePdfFilename($newFilename);
+                $transaction->setActePdfFilename($newFilename);
                 $em->persist($transaction);
                 $em->flush();
 
@@ -624,6 +626,7 @@ class TransactionController extends AbstractController
         $user = $this->getUser();
         $username = $user->getFirstName()." ".$user->getLastName();
         $transaction->setState('definitive_sale');
+        $transaction->setDateAtSale(new \Datetime('now'));
         $transaction->setActeValidBy($username);
         $transaction->setIsValidActepdf(1);
         $entityManager->persist($transaction);
@@ -654,6 +657,9 @@ class TransactionController extends AbstractController
             'message' => "Vous venez de valider la promesse de vente de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.",
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'row' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
                 'transaction' => $transaction
             ]),
 
@@ -769,21 +775,21 @@ class TransactionController extends AbstractController
                 $transaction->setTracfinPdfFilename(null);
             }
 
-            $actepdf = $form->get('actePdfFilename')->getData();
-            $actePdfName = $transaction->getPromisePdfFilename();
-            if($actepdf){
-                if($actePdfName){
-                    $pathheader = $this->getParameter('transaction_tracfin_directory').'/'.$actePdfName;
+            $tracfinpdf = $form->get('tracfinPdfFilename')->getData();
+            $tracfinPdfName = $transaction->getPromisePdfFilename();
+            if($tracfinpdf){
+                if($tracfinPdfName){
+                    $pathheader = $this->getParameter('transaction_tracfin_directory').'/'.$tracfinPdfName;
                     // On vérifie si l'image existe
                     if(file_exists($pathheader)){
                         unlink($pathheader);
                     }
                 }
-                $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'.'.$actepdf->guessExtension();
+                $newFilename = $safeFilename.'.'.$tracfinpdf->guessExtension();
                 try {
-                    $actepdf->move(
+                    $tracfinpdf->move(
                         $this->getParameter('transaction_tracfin_directory'),
                         $newFilename
                     );
@@ -822,10 +828,13 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-
+                    'row' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
                 ], 200);
-            }else if($actepdf){
-                if($actePdfName){
+
+            }else if($tracfinpdf){
+                if($tracfinPdfName){
                     dd('doc pdf présent');
                 }else{
                     dd('pas de doc');
@@ -880,7 +889,9 @@ class TransactionController extends AbstractController
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                 'transaction' => $transaction
             ]),
-
+            'row' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                'transaction' => $transaction
+            ]),
         ], 200);
     }
 
@@ -949,6 +960,39 @@ class TransactionController extends AbstractController
             'transaction' => $transaction,
             'form' => $form,
         ]);
+    }
+
+    #[Route('/{id}/errordocument', name: 'op_gestapp_transaction_errordocument', methods: ['POST'])]
+    public function errorPdf(Transaction $transaction, MailerInterface $mailer,)
+    {
+        // action ne pouvant être réalisée uniquement par un admin
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        $email = (new TemplatedEmail())
+            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+            ->to('xavier.burke@openpixl.fr')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("[PAPs Immo] : Document vérifié")
+            ->htmlTemplate('admin/mail/messageErrorDocument.html.twig')
+            ->context([
+                'transaction' => $transaction,
+            ]);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            dd($e);
+        }
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Un email a été envoyé à votre collaborateur pour lui signifier une erreur dans le document transmis.',
+        ], 200);
+
     }
 
     #[Route('/{id}', name: 'op_gestapp_transaction_delete', methods: ['POST'])]
@@ -1162,7 +1206,6 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/delcustomerjson/{id}/{idCustomer}', name: 'op_gestapp_transaction_delcustomerjson',  methods: ['GET', 'POST'])]
-
     public function delCustomer(Transaction $transaction, $idCustomer, CustomerRepository $customerRepository, EntityManagerInterface $em)
     {
         $customer = $customerRepository->find($idCustomer);

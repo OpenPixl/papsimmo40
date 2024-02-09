@@ -76,8 +76,10 @@ class CustomerRepository extends ServiceEntityRepository
 
     public function findAllCustomerByEmployed($user){
         return $this->createQueryBuilder('c')
+            ->join('c.customerChoice', 't' )
             ->join('c.refEmployed', 'e')
             ->select('
+                t.name as customerChoice,
                 e.id as refEmployed,
                 e.firstName as firstNameEmpl,
                 e.lastName as lastNameEmpl,
