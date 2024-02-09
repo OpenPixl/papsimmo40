@@ -262,6 +262,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private ?bool $isSupprAvatar = false;
 
     #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch', 'employed:reco'])]
     private ?string $iban = null;
 
     public function __construct()

@@ -171,6 +171,18 @@ class Reco
     #[Groups(['reco:item', 'employed:reco'])]
     private ?int $commission = null;
 
+    #[ORM\Column(nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?int $kmArroundCity = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?int $budget = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?string $delayReco = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -463,6 +475,42 @@ class Reco
     public function setCommission(?int $commission): static
     {
         $this->commission = $commission;
+        return $this;
+    }
+
+    public function getKmArroundCity(): ?int
+    {
+        return $this->kmArroundCity;
+    }
+
+    public function setKmArroundCity(?int $kmArroundCity): static
+    {
+        $this->kmArroundCity = $kmArroundCity;
+
+        return $this;
+    }
+
+    public function getBudget(): ?int
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?int $budget): static
+    {
+        $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getDelayReco(): ?string
+    {
+        return $this->delayReco;
+    }
+
+    public function setDelayReco(?string $delayReco): static
+    {
+        $this->delayReco = $delayReco;
+
         return $this;
     }
 }
