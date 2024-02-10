@@ -439,11 +439,11 @@ function submitActePdfbyColl(){
 }
 
 function submitActePdfControl(event){
+    event.preventDefault();
     let url = this.href;
     axios
         .post(url)
         .then(function(response){
-            event.preventDefault();
             document.getElementById('rowActePdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
@@ -507,6 +507,7 @@ function submitTracfinPdfbyColl(){
 }
 
 function submitTracfinPdfControl(event){
+    event.preventDefault();
     let url = this.href;
     axios
         .post(url)

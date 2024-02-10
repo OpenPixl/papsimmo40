@@ -559,7 +559,7 @@ class TransactionController extends AbstractController
                 $newFilename = $safeFilename.'.'.$actepdf->guessExtension();
                 try {
                     $actepdf->move(
-                        $this->getParameter('transaction_promise_directory'),
+                        $this->getParameter('transaction_acte_directory'),
                         $newFilename
                     );
                 } catch (FileException $e) {
