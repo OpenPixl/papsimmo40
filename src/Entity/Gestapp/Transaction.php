@@ -134,6 +134,16 @@ class Transaction
     #[ORM\Column]
     private ?bool $isSupprTracfinPdf = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $invoicePdfFilename = null;
+
+    #[ORM\Column]
+    #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
+    private ?bool $isValidinvoicePdf = false;
+
+    #[ORM\Column]
+    private ?bool $isSupprInvoicePdf = false;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -418,6 +428,42 @@ class Transaction
     public function setIsSupprTracfinPdf(bool $isSupprTracfinPdf): static
     {
         $this->isSupprTracfinPdf = $isSupprTracfinPdf;
+
+        return $this;
+    }
+
+    public function getInvoicePdfFilename(): ?string
+    {
+        return $this->invoicePdfFilename;
+    }
+
+    public function setInvoicePdfFilename(?string $invoicePdfFilename): static
+    {
+        $this->invoicePdfFilename = $invoicePdfFilename;
+
+        return $this;
+    }
+
+    public function isIsValidinvoicepdf(): ?bool
+    {
+        return $this->isValidinvoicepdf;
+    }
+
+    public function setIsValidinvoicepdf(bool $isValidinvoicepdf): static
+    {
+        $this->isValidinvoicepdf = $isValidinvoicepdf;
+
+        return $this;
+    }
+
+    public function isIsSupprInvoicePdf(): ?bool
+    {
+        return $this->isSupprInvoicePdf;
+    }
+
+    public function setIsSupprInvoicePdf(bool $isSupprInvoicePdf): static
+    {
+        $this->isSupprInvoicePdf = $isSupprInvoicePdf;
 
         return $this;
     }

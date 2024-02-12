@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Transaction;
 use App\Form\Gestapp\Customer2Type;
 use App\Form\Gestapp\TransactionActedateType;
 use App\Form\Gestapp\TransactionActepdfType;
+use App\Form\Gestapp\TransactionInvoicepdfType;
 use App\Form\Gestapp\TransactionTracfinpdfType;
 use App\Form\Gestapp\TransactionType;
 use App\Form\Gestapp\Transactionstep2Type;
@@ -960,6 +961,145 @@ class TransactionController extends AbstractController
             'transaction' => $transaction,
             'form' => $form,
         ]);
+    }
+
+    // Dépôt ou modification de l'attestation de vente en Pdf par le collaborateur
+    #[Route('/{id}/addinvoicePdf', name: 'op_gestapp_transaction_addinvoicepdf', methods: ['GET', 'POST'])]
+    public function addInvoicePdf(
+        Transaction $transaction,
+        Request $request,
+        EntityManagerInterface $em,
+        MailerInterface $mailer,
+        SluggerInterface $slugger
+    ) : response
+    {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        if($hasAccess == false){
+            $form = $this->createForm(TransactionInvoicepdfType::class, $transaction, [
+                'attr' => ['id'=>'transactioninvoicepdf'],
+                'action' => $this->generateUrl('op_gestapp_transaction_addinvoicepdf', ['id' => $transaction->getId()]),
+                'method' => 'POST'
+            ]);
+        }else{
+            $form = $this->createForm(TransactionInvoicepdfType::class, $transaction, [
+                'attr' => ['id'=>'transactioninvoicepdf'],
+                'action' => $this->generateUrl('op_gestapp_transaction_addinvoicepdf_admin', ['id' => $transaction->getId()]),
+                'method' => 'POST'
+            ]);
+        }
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            // Suppression du PDF si booléen sur "true"
+            $isSupprInvoicePdf = $form->get('isSupprInvoicePdf')->getData();
+            if($isSupprInvoicePdf && $isSupprInvoicePdf == true){
+                // récupération du nom de l'image
+                $invoicePdfName = $transaction->getInvoicePdfFilename();
+                $pathInvoicePdf = $this->getParameter('transaction_tracfin_directory').'/'.$invoicePdfName;
+                // On vérifie si l'image existe
+                if(file_exists($pathInvoicePdf)){
+                    unlink($pathInvoicePdf);
+                }
+                $transaction->setInvoicePdfFilename(null);
+            }
+
+            $invoicepdf = $form->get('invoicePdfFilename')->getData();
+            $invoicePdfName = $transaction->getinvoicePdfFilename();
+            if($invoicepdf){
+                if($invoicePdfName){
+                    $pathheader = $this->getParameter('transaction_invoice_directory').'/'.$invoicePdfName;
+                    // On vérifie si l'image existe
+                    if(file_exists($pathheader)){
+                        unlink($pathheader);
+                    }
+                }
+                $originalFilename = pathinfo($invoicepdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'.'.$invoicepdf->guessExtension();
+                try {
+                    $invoicepdf->move(
+                        $this->getParameter('transaction_invoice_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setTracfinPdfFilename($newFilename);
+                $em->persist($transaction);
+                $em->flush();
+
+                if($hasAccess == false) {
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                        ->to('xavier.burke@openpixl.fr')
+                        //->cc('cc@example.com')
+                        //->bcc('bcc@example.com')
+                        //->replyTo('fabien@example.com')
+                        //->priority(Email::PRIORITY_HIGH)
+                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                        ->context([
+                            'transaction' => $transaction,
+                        ]);
+                    try {
+                        $mailer->send($email);
+                    } catch (TransportExceptionInterface $e) {
+                        // some error prevented the email sending; display an
+                        // error message or try to resend the message
+                        dd($e);
+                    }
+                }
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => 'Votre facture est déposé sur le site.',
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'row' => $this->renderView('gestapp/transaction/include/block/_rowinvoicepdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                ], 200);
+
+            }else if($invoicepdf){
+                if($invoicePdfName){
+                    dd('doc pdf présent');
+                }else{
+                    dd('pas de doc');
+                }
+
+            }
+        }
+
+        return $this->render('gestapp/transaction/include/block/_addtracfinpdf.html.twig', [
+            'transaction' => $transaction,
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/{id}/validInvoicePdf', name: 'op_gestapp_transaction_validInvoicepdf_control', methods: ['GET', 'POST'])]
+    public function validInvoicePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
+    {
+        // action ne pouvant être réalisée uniquement par un admin
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $user = $this->getUser();
+        $transaction->setIsValidInvoicePdf(1);
+        $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => "Vous venez de valider la promesse de vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.",
+            'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'row' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                'transaction' => $transaction
+            ]),
+        ], 200);
     }
 
     #[Route('/{id}/errordocument', name: 'op_gestapp_transaction_errordocument', methods: ['POST'])]
