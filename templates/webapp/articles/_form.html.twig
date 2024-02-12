@@ -128,9 +128,11 @@
                         </div>
                     </div>
                 </div>
+                {% if app.request.attributes.get("_route") == 'op_webapp_articles_edit' %}
                 <div class="row" id="pdfrendered">
                     {{ render(controller('App\\Controller\\Admin\\PdfRenderedController::articletopdf', {'name': article.slug})) }}
                 </div>
+                {% endif %}
             </div>
         </div>
         <div class="card text-dark bg-light mt-1">
