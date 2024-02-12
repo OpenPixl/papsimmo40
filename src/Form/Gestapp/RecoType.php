@@ -33,7 +33,9 @@ class RecoType extends AbstractType
                     "Validation par l'administration" => 'admin_valid',
                     'Recommandation publiée' => 'reco_published',
                     'Publication du bien' => 'published',
-                    "Dossier d'acquisition" => 'on_sale'
+                    "Dossier d'acquisition" => 'on_sale',
+                    'Recommandation refusée' => 'reco_aborted',
+                    'recommandation finalisée' => 'reco_finished'
                 ],
                 'choice_attr' => [
                     'Ouverture du dossier' => ['data-data' => 'reco_open'],

@@ -265,6 +265,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['employed:list', 'employed:item','employed:write:patch', 'employed:reco'])]
     private ?string $iban = null;
 
+    #[ORM\Column]
+    private ?bool $isGdpr = false;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -953,6 +956,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIban(?string $iban): static
     {
         $this->iban = $iban;
+
+        return $this;
+    }
+
+    public function isIsGdpr(): ?bool
+    {
+        return $this->isGdpr;
+    }
+
+    public function setIsGdpr(bool $isGdpr): static
+    {
+        $this->isGdpr = $isGdpr;
 
         return $this;
     }
