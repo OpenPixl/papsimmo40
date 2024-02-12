@@ -475,6 +475,9 @@ function submitTracfinPdf(event){
         .post(action, data)
         .then(function(response){
             document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
+            document.getElementById('transaction_invoicepdf').classList.remove('d-none');
+            document.getElementById('btnAddInvoicePdf').classList.remove('d-none');
+            document.getElementById('rowEmptyInvoicePdf').remove();
             allAddEvent();
             toasterMessage(response.data.message);
         })
