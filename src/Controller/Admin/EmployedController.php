@@ -46,6 +46,16 @@ class EmployedController extends AbstractController
     #[Route('/opadmin/employed/', name: 'op_admin_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
+        $admins = $employedRepository->listPrescriber('["ROLE_SUPER_ADMIN"]');
+        $employeds = $employedRepository->listPrescriber('["ROLE_EMPLOYED"]');
+        $listeEmployeds = [];
+        foreach ($admins as $a){
+            array_push($listeEmployeds, $a);
+        }
+        foreach ($employeds as $e){
+            array_push($listeEmployeds, $e);
+        }
+        //dd($listeEmployeds);
         return $this->render('admin/employed/index.html.twig', [
             'employeds' => $employedRepository->findAll(),
         ]);

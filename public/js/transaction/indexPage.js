@@ -4,9 +4,10 @@ const modalTransaction = document.getElementById('modalTransaction');
 const btnModalSubmit = document.getElementById('btnModalSubmit');
 
 modalTransaction.addEventListener('show.bs.modal', function (event) {
-    let url = btnModalTransaction.href;
-    let modalSubmit = modalTransaction.querySelector('.modal-footer a');
-    modalSubmit.href = url;
+    let a = event.relatedTarget;
+    let url = a.href;
+    let submit = modalTransaction.querySelector('#btnModalSubmit');
+    submit.href = url;
 });
 
 function delTransaction(event){
@@ -15,11 +16,17 @@ function delTransaction(event){
     axios
         .post(url)
         .then(function(response){
-            document.getElementById('liste').innerHTML = response.data.liste;
-            document.getElementById('ownliste').innerHTML = response.data.liste;
+            if(response.data.accessAdmin === true)
+            {
+                document.getElementById('ownliste').innerHTML = response.data.liste;
+            }else{
+                document.getElementById('liste').innerHTML = response.data.liste;
+            }
+            btnModalSubmit.addEventListener('click', delTransaction);
         })
         .catch(function(error){
             console.log(error);
         });
 }
+
 btnModalSubmit.addEventListener('click', delTransaction);

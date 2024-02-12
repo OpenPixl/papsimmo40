@@ -1035,14 +1035,10 @@ class TransactionController extends AbstractController
         if(file_exists($TracfinPdfName)){
             unlink($pathTracfinPdf);
         }
-
-        //dd($property);
         $em->remove($transaction);
         $em->flush();
 
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
-        $user = $this->getUser();
-        //dd($user);
 
         if($hasAccess == true){
             $transactions = $transactionRepository->findAll();
@@ -1052,6 +1048,7 @@ class TransactionController extends AbstractController
 
         return $this->json([
             'code'=>200,
+            'accessAdmin' => $hasAccess,
             'liste' => $this->renderView('gestapp/transaction/include/_liste.html.twig', [
                 'transactions' => $transactions
             ])
