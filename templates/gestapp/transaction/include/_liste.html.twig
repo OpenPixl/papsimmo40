@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-        {% for transaction in transactions|filter(t => t.refEmployed.id is not same as user.id ) %}
+        {% for transaction in transactions|filter(t => t.refEmployed.id is not same as app.user.id ) %}
             <tr class="align-middle
                 {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}table-light{% endif %}
                 {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}table-light{% endif %}

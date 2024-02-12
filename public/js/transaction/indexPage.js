@@ -18,9 +18,9 @@ function delTransaction(event){
         .then(function(response){
             if(response.data.accessAdmin === true)
             {
-                document.getElementById('ownliste').innerHTML = response.data.liste;
-            }else{
                 document.getElementById('liste').innerHTML = response.data.liste;
+            }else{
+                document.getElementById('ownliste').innerHTML = response.data.liste;
             }
             btnModalSubmit.addEventListener('click', delTransaction);
         })

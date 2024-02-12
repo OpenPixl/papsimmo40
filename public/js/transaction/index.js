@@ -404,7 +404,7 @@ function submitActePdf(event){
         .post(action, data)
         .then(function(response){
             document.getElementById('rowActePdf').innerHTML = response.data.row;
-            document.getElementById('transaction_tracfinpdf').classList.remove('d-none');
+            document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').classList.remove('d-none');
             document.getElementById('btnAddTracfinPdf').classList.remove('d-none');
             document.getElementById('rowEmptyTracfinPdf').remove();
             allAddEvent();
@@ -475,7 +475,7 @@ function submitTracfinPdf(event){
         .post(action, data)
         .then(function(response){
             document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
-            document.getElementById('transaction_invoicepdf').classList.remove('d-none');
+            document.getElementById('transaction_invoicepdf_invoicePdfFilename').classList.remove('d-none');
             document.getElementById('btnAddInvoicePdf').classList.remove('d-none');
             document.getElementById('rowEmptyInvoicePdf').remove();
             allAddEvent();
