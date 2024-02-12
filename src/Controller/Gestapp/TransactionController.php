@@ -1026,31 +1026,31 @@ class TransactionController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-                $transaction->setTracfinPdfFilename($newFilename);
+                $transaction->setInvoicePdfFilename($newFilename);
                 $em->persist($transaction);
                 $em->flush();
 
-                if($hasAccess == false) {
-                    $email = (new TemplatedEmail())
-                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('xavier.burke@openpixl.fr')
-                        //->cc('cc@example.com')
-                        //->bcc('bcc@example.com')
-                        //->replyTo('fabien@example.com')
-                        //->priority(Email::PRIORITY_HIGH)
-                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
-                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                        ->context([
-                            'transaction' => $transaction,
-                        ]);
-                    try {
-                        $mailer->send($email);
-                    } catch (TransportExceptionInterface $e) {
-                        // some error prevented the email sending; display an
-                        // error message or try to resend the message
-                        dd($e);
-                    }
-                }
+                //if($hasAccess == false) {
+                //    $email = (new TemplatedEmail())
+                //        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                //        ->to('xavier.burke@openpixl.fr')
+                //        //->cc('cc@example.com')
+                //        //->bcc('bcc@example.com')
+                //        //->replyTo('fabien@example.com')
+                //        //->priority(Email::PRIORITY_HIGH)
+                //        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                //        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                //        ->context([
+                //            'transaction' => $transaction,
+                //        ]);
+                //    try {
+                //        $mailer->send($email);
+                //    } catch (TransportExceptionInterface $e) {
+                //        // some error prevented the email sending; display an
+                //        // error message or try to resend the message
+                //        dd($e);
+                //    }
+                //}
 
                 return $this->json([
                     'code' => 200,
@@ -1073,13 +1073,13 @@ class TransactionController extends AbstractController
             }
         }
 
-        return $this->render('gestapp/transaction/include/block/_addtracfinpdf.html.twig', [
+        return $this->render('gestapp/transaction/include/block/_addinvoicepdf.html.twig', [
             'transaction' => $transaction,
             'form' => $form,
         ]);
     }
 
-    #[Route('/{id}/validInvoicePdf', name: 'op_gestapp_transaction_validInvoicepdf_control', methods: ['GET', 'POST'])]
+    #[Route('/{id}/validInvoicePdf', name: 'op_gestapp_transaction_validinvoicepdf_control', methods: ['GET', 'POST'])]
     public function validInvoicePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
         // action ne pouvant être réalisée uniquement par un admin
@@ -1096,10 +1096,76 @@ class TransactionController extends AbstractController
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                 'transaction' => $transaction
             ]),
-            'row' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+            'row' => $this->renderView('gestapp/transaction/include/block/_rowinvoicepdf.html.twig', [
                 'transaction' => $transaction
             ]),
         ], 200);
+    }
+
+    // Dépôt ou modification du compromis de vente en Pdf par un administrateur
+    #[Route('/{id}/addInvoicePdfAdmin', name: 'op_gestapp_transaction_addinvoicepdf_admin', methods: ['POST'])]
+    public function addInvoicePdfAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    {
+        // action ne pouvant être réalisée uniquement par un admin
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+        $form = $this->createForm(TransactionInvoicepdfType::class, $transaction, [
+            'attr' => ['id'=>'transactioninvoicepdf'],
+            'action' => $this->generateUrl('op_gestapp_transaction_addinvoicepdf_admin', ['id' => $transaction->getId()]),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            //dd($transaction);
+            $invoicepdf = $form->get('invoicePdfFilename')->getData();
+            if($invoicepdf){
+                // Supression du PDF si Présent
+                $invoicePdfName = $transaction->getTracfinPdfFilename();
+                if($invoicePdfName){
+                    $pathheader = $this->getParameter('transaction_invoice_directory').'/'.$invoicePdfName;
+                    // On vérifie si l'image existe
+                    if(file_exists($pathheader)){
+                        unlink($pathheader);
+                    }
+                }
+                $originalFilename = pathinfo($invoicepdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'-'.uniqid().'.'.$invoicepdf->guessExtension();
+                try {
+                    $invoicepdf->move(
+                        $this->getParameter('transaction_invoice_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $transaction->setInvoicePdfFilename($newFilename);
+                $transaction->setIsValidinvoicePdf(1);
+                $entityManager->persist($transaction);
+                $entityManager->flush();
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => 'La Facture a étét correctement déposée.',
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'row' => $this->renderView('gestapp/transaction/include/block/_rowinvoicepdf.html.twig', [
+                        'transaction' => $transaction
+                    ])
+                ], 200);
+            }
+
+            return $this->json([
+                'code' => 300,
+                'message' => 'Il manque le document en pdf.'
+            ], 200);
+        }
+
+        return $this->render('gestapp/transaction/include/block/_addinvoicepdf.html.twig', [
+            'transaction' => $transaction,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{id}/errordocument', name: 'op_gestapp_transaction_errordocument', methods: ['POST'])]

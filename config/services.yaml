@@ -14,6 +14,7 @@ parameters:
     transaction_promise_directory: '%kernel.project_dir%/public/doc/transaction/promise'
     transaction_acte_directory: '%kernel.project_dir%/public/doc/transaction/acte'
     transaction_tracfin_directory: '%kernel.project_dir%/public/doc/transaction/tracfin'
+    transaction_invoice_directory: '%kernel.project_dir%/public/doc/transaction/invoice'
     property_photo_directory: '%kernel.project_dir%/public/properties/'
 
 services:

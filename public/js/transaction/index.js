@@ -38,6 +38,11 @@ let btnAddTracfinPdfbyColl = document.getElementById('btnAddTracfinPdfbyColl');
 let btnAddTracfinPdfControl = document.getElementById('btnAddTracfinPdfControl');
 let btnEditTracfinPdf = document.getElementById('btnEditTracfinPdf');
 
+let btnAddInvoicePdf = document.getElementById('btnAddInvoicePdf');
+let btnAddInvoicePdfbyColl = document.getElementById('btnAddInvoicePdfbyColl');
+let btnAddInvoicePdfControl = document.getElementById('btnAddInvoicePdfControl');
+let btnEditInvoicePdf = document.getElementById('btnEditInvoicePdf');
+
 let btnDocumentPdfError = document.getElementById('btnDocumentPdfError');
 
 // Customer
@@ -59,6 +64,11 @@ if(btnAddTracfinPdf !== null){btnAddTracfinPdf.addEventListener('click', submitT
 if(btnAddTracfinPdfbyColl !== null){btnAddTracfinPdfbyColl.addEventListener('click', submitTracfinPdfbyColl);}
 if(btnAddTracfinPdfControl !== null){btnAddTracfinPdfControl.addEventListener('click', submitTracfinPdfControl);}
 if(btnEditTracfinPdf !== null){btnEditTracfinPdf.addEventListener('click', editTracfinPdf);}
+// Facture
+if(btnAddInvoicePdf !== null){btnAddInvoicePdf.addEventListener('click', submitInvoicePdf);}
+if(btnAddInvoicePdfbyColl !== null){btnAddInvoicePdfbyColl.addEventListener('click', submitInvoicePdfbyColl);}
+if(btnAddInvoicePdfControl !== null){btnAddInvoicePdfControl.addEventListener('click', submitInvoicePdfControl);}
+if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
 if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
 
@@ -496,7 +506,7 @@ function submitTracfinPdfbyColl(){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('rowtracfinPdf').innerHTML = response.data.row;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -514,6 +524,76 @@ function submitTracfinPdfControl(event){
         .then(function(response){
             event.preventDefault();
             document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
+            allAddEvent();
+            toasterMessage(response.data.message);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    ;
+}
+
+// ------------------------------------------------------------------------------------------
+// Actions sur le dépôt du TracFin
+// ------------------------------------------------------------------------------------------
+
+function submitInvoicePdf(event){
+    let form = document.getElementById('transactioninvoicepdf');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('rowInvoicePdf').innerHTML = response.data.row;
+            allAddEvent();
+            toasterMessage(response.data.message);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function editInvoicePdf(event){
+    let form = document.getElementById('transactioninvoicepdf');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            window.location.reload();
+            allAddEvent();
+            toasterMessage(response.data.message);
+        })
+        .catch(function (error) {
+            console.log(error);
+        });
+}
+
+function submitInvoicePdfbyColl(){
+    let form = document.getElementById('transactioninvoicepdf');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('rowInvoicePdf').innerHTML = response.data.row;
+            allAddEvent();
+            toasterMessage(response.data.message);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    ;
+}
+
+function submitInvoicePdfControl(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            event.preventDefault();
+            document.getElementById('rowInvoicePdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -575,6 +655,11 @@ function allAddEvent(){
     if(btnAddTracfinPdfbyColl !== null){btnAddTracfinPdfbyColl.addEventListener('click', submitTracfinPdfbyColl);}
     if(btnAddTracfinPdfControl !== null){btnAddTracfinPdfControl.addEventListener('click', submitTracfinPdfControl);}
     if(btnEditTracfinPdf !== null){btnEditTracfinPdf.addEventListener('click', editTracfinPdf);}
+// Facture
+    if(btnAddInvoicePdf !== null){btnAddInvoicePdf.addEventListener('click', submitInvoicePdf);}
+    if(btnAddInvoicePdfbyColl !== null){btnAddInvoicePdfbyColl.addEventListener('click', submitInvoicePdfbyColl);}
+    if(btnAddInvoicePdfControl !== null){btnAddInvoicePdfControl.addEventListener('click', submitInvoicePdfControl);}
+    if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
     if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
 }

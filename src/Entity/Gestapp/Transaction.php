@@ -139,7 +139,7 @@ class Transaction
 
     #[ORM\Column]
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
-    private ?bool $isValidinvoicePdf = false;
+    private ?bool $isValidInvoicePdf = false;
 
     #[ORM\Column]
     private ?bool $isSupprInvoicePdf = false;
@@ -444,14 +444,14 @@ class Transaction
         return $this;
     }
 
-    public function isIsValidinvoicepdf(): ?bool
+    public function isIsValidInvoicePdf(): ?bool
     {
-        return $this->isValidinvoicepdf;
+        return $this->isValidInvoicePdf;
     }
 
-    public function setIsValidinvoicepdf(bool $isValidinvoicepdf): static
+    public function setIsValidInvoicepdf(bool $isValidInvoicePdf): static
     {
-        $this->isValidinvoicepdf = $isValidinvoicepdf;
+        $this->isValidInvoicePdf = $isValidInvoicePdf;
 
         return $this;
     }

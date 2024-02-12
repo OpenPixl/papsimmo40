@@ -66,13 +66,9 @@
         <tr class="align-middle">
             <td class="table-light" colspan="4"><b>Finalisation du dossier</b></td>
         </tr>
-        {% if transaction.actePdfFilename is defined %}
-            <tr class="align-middle">
-                <td class="table-light">Dépôt facture :</td>
-                <td> - </td>
-            </tr>
-        {% else %}
-        {% endif %}
+        <tr class="align-middle" id="rowInvoicePdf">
+            {{ include('gestapp/transaction/include/block/_rowinvoicepdf.html.twig') }}
+        </tr>
     </table>
 </div>
 <div class="col-12 mt-3">
