@@ -1,0 +1,25 @@
+{{ form_start(form) }}
+{% if transaction.dateAtSale is null and transaction.isValidPromisepdf == 0 %}
+    <td>
+        <span id="rowEmptyDateActe">-</span>
+        <div class="input-group w-50">
+            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input d-none'}}) }}
+            <button class="btn btn-sm btn-secondary d-none" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+        </div>
+    </td>
+{% elseif transaction.dateAtSale is null and transaction.isValidPromisepdf == 1 %}
+    <td>
+        <div class="input-group w-50">
+            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+        </div>
+    </td>
+{% elseif transaction.dateAtSale is not null and transaction.isValidPromisepdf == 1 %}
+    <td>
+        <div class="input-group w-50">
+            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+        </div>
+    </td>
+{% endif %}
+{{ form_end(form) }}

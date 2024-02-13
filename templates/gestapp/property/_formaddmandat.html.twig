@@ -1,0 +1,10 @@
+{{ form_start(form, {'attr' : {'id':'FormAddMandat'}}) }}
+<div class="row h-100">
+    <div class="col-4">
+        {{ form_label(form.refMandat) }}
+    </div>
+    <div class="col-8">
+        {{ form_widget(form.refMandat, {'attr': {'class' : 'form-control form-control-sm'}}) }}
+    </div>
+</div>
+{{ form_end(form) }}

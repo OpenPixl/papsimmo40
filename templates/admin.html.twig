@@ -41,8 +41,6 @@
                         language: 'fr_FR',
                         language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
                     });
-
-
                     document.getElementById('btnContactSupport').addEventListener('click', function(event){
                         event.preventDefault()
                     })
@@ -91,7 +89,7 @@
                     <div class="toast-container position-absolute top-50 end-0 p-3">
                         <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
                             <div class="toast-header">
-                                <strong class="me-auto">Bootstrap</strong>
+                                <strong class="me-auto">Notification</strong>
                                 <small>à l'instant</small>
                                 <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
                             </div>
@@ -121,9 +119,9 @@
                 </div>
             {% endblock %}
             </section>
+            {% include "include/composants/_toasts.html.twig" %}
         </main>
         <footer>
-
             {% block footer %}
                 <div class="row align-items-center">
                     <div class="col-12">

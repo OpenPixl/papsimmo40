@@ -51,7 +51,7 @@ class PageRepository extends ServiceEntityRepository
     public function listMenu()
     {
         return $this->createQueryBuilder('p')
-            ->select('p.id, p.name, p.slug, p.state, p.isMenu, pa.id AS parent')
+            ->select('p.id, p.name, p.slug, p.state, p.isMenu, pa.id AS parent, p.position as position')
             ->leftJoin('p.parent', 'pa')
             ->andWhere('p.state = :state')
             ->andWhere('p.isMenu = :isMenu')

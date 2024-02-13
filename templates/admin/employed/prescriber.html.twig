@@ -1,0 +1,91 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Prescriber index{% endblock %}
+
+{% block javascripts %}
+{{ parent() }}
+<script>
+    window.onload = function(){
+        // Activé/désactivé le collaborateur
+        function IsActivEmployed(event){
+            event.preventDefault()
+            let url = this.href
+            axios
+                .post(url)
+                .then(function(response){
+                    document.getElementById('liste').innerHTML = response.data.liste
+                    // initialisation du toaster
+                    var toastHTMLElement = document.getElementById("toaster");
+                    var message = response.data.message;
+                    var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                    toastBody.innerHTML = message;
+                    var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true,autohide: true,delay: 3000,});
+                    toastElement.show();
+                    // Mise en place de l'évenement pour la suppression d'un bien
+                    document.querySelectorAll('a.js-isverified').forEach(function(link){
+                        link.addEventListener('click', IsActivEmployed)
+                    })
+                    // Mise en place de l'évenement pour la suppression d'un bien
+                    document.querySelectorAll('a.js-delete').forEach(function(link){
+                        link.addEventListener('click', IsActivEmployed)
+                    })
+                })
+        }
+        function DelEmployed(event){
+            event.preventDefault()
+            let url = this.href
+            axios
+                .post(url)
+                .then(function(response){
+                    document.getElementById('liste').innerHTML = response.data.liste
+                    // initialisation du toaster
+                    var toastHTMLElement = document.getElementById("toaster");
+                    var message = response.data.message;
+                    var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                    toastBody.innerHTML = message;
+                    var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true,autohide: true,delay: 3000,});
+                    toastElement.show();
+                    // Mise en place de l'évenement pour la suppression d'un bien
+                    document.querySelectorAll('a.js-isverified').forEach(function(link){
+                        link.addEventListener('click', IsActivEmployed)
+                    })
+                    // Mise en place de l'évenement pour la suppression d'un bien
+                    document.querySelectorAll('a.js-delete').forEach(function(link){
+                        link.addEventListener('click', IsActivEmployed)
+                    })
+                })
+        }
+
+        // Mise en place de l'évenement pour la suppression d'un bien
+        document.querySelectorAll('a.js-isverified').forEach(function(link){
+            link.addEventListener('click', IsActivEmployed)
+        })
+        // Mise en place de l'évenement pour la suppression d'un bien
+        document.querySelectorAll('a.js-delete').forEach(function(link){
+            link.addEventListener('click', DelEmployed)
+        })
+
+        var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+        var tooltipList = tooltipTriggerList.map(function (tooltipTriggerEl) {
+            return new bootstrap.Tooltip(tooltipTriggerEl)
+        })
+
+    }
+</script>
+{% endblock %}
+
+{% block content %}
+    <h1>Membres de PAPS IMMO</h1>
+
+    <div id="liste">
+        {% include('admin/employed/_listprescriber.html.twig') %}
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <a class="btn btn-sm btn-outline-dark" href="{{ path('op_gestapp_reco_index') }}"><i class="fa-duotone fa-angles-left" aria-hidden="true"></i> Retour au recommandations</a>
+        </div>
+    </div>
+    {# <a class="btn btn-sm btn-outline-primary" href="{{ path('op_admin_precrsiber_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un(e) nouvel(le) collaborateur / collaboratrice</a> #}
+
+{% endblock %}

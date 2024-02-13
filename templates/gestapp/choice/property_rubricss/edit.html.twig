@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit propertyRubricss{% endblock %}
+
+{% block body %}
+    <h1>Edit propertyRubricss</h1>
+
+    {{ include('gestapp/choice/property_rubricss/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_gestapp_choice_property_rubricss_index') }}">back to list</a>
+
+    {{ include('gestapp/choice/property_rubricss/_delete_form.html.twig') }}
+{% endblock %}

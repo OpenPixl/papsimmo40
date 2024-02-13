@@ -314,6 +314,7 @@ class PropertyRepository extends ServiceEntityRepository
                 pu.isPublishseloger as isPublishseloger,
                 pu.isPublishMeilleur as isPublishMeilleur,
                 pu.isPublishleboncoin as isPublishleboncoin,
+                pu.isPublishfigaro as isPublishfigaro,
                 p.dupMandat as dupMandat,
                 p.id as id,
                 p.ref as ref,

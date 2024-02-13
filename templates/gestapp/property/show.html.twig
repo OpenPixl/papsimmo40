@@ -126,11 +126,37 @@
             // PARTIE Envoie et traitement du formulaire
             // ---------------------------------------
             // fonction édition du mandat
-            const btnAddMandat = document.getElementById('AddMandat')
-            if(btnAddMandat !== null ){
+            const AddMandat = document.getElementById('AddMandat')
+            const btnAddMandat = document.getElementById('btnAddMandat')
+            if(AddMandat !== null ){
                 const modalAddMandat = new bootstrap.Modal(document.getElementById('modalAddMandat'),{focus:true,keyboard: false})
+                AddMandat.addEventListener('click', function(event){
+                    event.preventDefault()
+                    modalAddMandat.show()
+                })
+            }
+            if(btnAddMandat !== null ){
                 btnAddMandat.addEventListener('click', function(event){
                     event.preventDefault()
+                    let form = document.getElementById('FormAddMandat')
+                    let url = form.action
+                    let data = new FormData(form)
+                    axios
+                        .post(url, data)
+                        .then(function(response){
+                            window.location.reload();
+                            // initialisation du toaster
+                            var toastHTMLElement = document.getElementById("toaster");
+                            var message = response.data.message;
+                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                            toastBody.textContent = message;
+                            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+                            toastElement.show();
+
+                        })
+                        .catch(function (error) {
+                            console.log(error)
+                        })
                 })
             }
 
@@ -374,10 +400,10 @@
 
             // PARTIE Code postal et Ville - API
             // ---------------------------------------
-            const commune = document.getElementById('property_step1_city')
-            const zipcode = document.getElementById('property_step1_zipcode')
-            const SelectCity = document.getElementById('selectcity')
-            const addresseInput = document.getElementById('property_step1_adress')
+            let commune = document.getElementById('property_step1_city')
+            let zipcode = document.getElementById('property_step1_zipcode')
+            let SelectCity = document.getElementById('selectcity')
+            let addresseInput = document.getElementById('property_step1_adress')
             zipcode.addEventListener('input', function(event){
                 if(zipcode.value.length === 5)
                 {
@@ -411,6 +437,49 @@
                 commune.value = value[2].toUpperCase()
             })
 
+            // PARTIE Codepostal sur création & modification du client
+            // PARTIE Code postal et Ville - API
+            // ---------------------------------------
+            let commune2 = document.getElementById('customer2_city')
+            let zipcode2 = document.getElementById('customer2_zipcode')
+            let SelectCity2 = document.getElementById('selectcity2')
+            let addresseInput2 = document.getElementById('pcustomer2_adress')
+            if(zipcode2 !== null){
+                zipcode2.addEventListener('input', function(event){
+                    if(zipcode2.value.length === 5)
+                    {
+                        let coord = this.value
+                        axios
+                            .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
+                            .then(function(response){
+                                let features = response.data
+                                removeOptions(SelectCity);
+                                features.forEach((element) => {
+                                    let name = element['codePostal']+" - "+element['nomCommune']
+                                    let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
+                                    SelectCity2.options.add(OptSelectCity);
+                                })
+                                if (SelectCity2.options.length === 1){
+                                    let value = SelectCity2.value.split(' ')
+                                    zipcode2.value = value[0]
+                                    commune2.value = value[2].toUpperCase()
+                                }else{
+                                    let value = SelectCity2.value.split(' ')
+                                    zipcode2.value = value[0]
+                                    commune2.value = value[2].toUpperCase()
+                                }
+                            })
+                    }
+                })
+                SelectCity2.addEventListener('change', function (event){
+                    let value = this.value.split(' ')
+                    console.log(value)
+                    zipcode2.value = value[0]
+                    commune2.value = value[2].toUpperCase()
+                })
+            }
+
+
             // Partie map
             let carte = L.map('carte').setView([43.8909, -0.5009], 15);
             L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
@@ -421,7 +490,6 @@
 
         // ---------------------------------------
         // STEP 2 : Enregistrement du ou des acheteurs
-        //
         // ---------------------------------------
 
             // Action sur le clic du bouton nextstep
@@ -455,7 +523,7 @@
                 // mise à jour du lien de soumission du formulaire.
                 var modalContent = modalAddCustomer.querySelector('.modal-footer')
                 var modalSubmit = modalAddCustomer.querySelector('.modal-footer a')
-                modalSubmit.href = '/gestapp/customer/addcustomerjson/1/' + recipient
+                modalSubmit.href = '/gestapp/customer/addcustomerjson/' + recipient
             })
             // Evènement sur le bouton btnAddCustomers
             const btnAddCustomer = document.getElementById('btnAddCustomer')
@@ -501,7 +569,7 @@
                 // Récupération du bouton cliqué et extraction de la variable transmise dans le data-bs-whatever
                 let button = event.relatedTarget
                 let recipient = button.getAttribute('data-bs-whatever')
-                // Attribution pour le cleint et la propriété des éléments insclus dans le data-bs-whatever
+                // Attribution pour le client et la propriété des éléments inclus dans le data-bs-whatever
                 let split = recipient.split('-')
                 let idclient = split[0]
                 let idproperty = split[1]
@@ -699,14 +767,19 @@
             const rentCommerce = document.getElementById('rentCommerce')
 
             if(family.value == 4 && rubric.value == 8) {
+                let warranty = document.getElementById('warrantyDeposit')
                 sales.classList.add('d-none')
                 rent.classList.add('d-none')
-                document.getElementById('warrantyDeposit').remove()
+                if(warranty !== null){
+                    document.getElementById('warrantyDeposit').remove()
+                }
             }else if (family.value == 5) {
+                let warranty = document.getElementById('warrantyDeposit')
                 sales.classList.add('d-none')
                 rentCommerce.classList.add('d-none')
-                document.getElementById('warrantyDepositCommerce').remove()
-            }else{
+                if(warranty !== null){
+                    document.getElementById('warrantyDeposit').remove()
+                }            }else{
                 rent.classList.add('d-none')
                 rentCommerce.classList.add('d-none')
             }
@@ -1646,7 +1719,7 @@
             })
 
             // ------------------------------------
-            // Génération du Sortable - Dépalcement des photos et ordres d'affichages
+            // Génération du Sortable - Déplacement des photos et ordres d'affichages
             //-------------------------------------
             const sortablePhoto = document.getElementById("listephoto")
             new Sortable(sortablePhoto, {
@@ -1686,7 +1759,7 @@
                     card.className = "card text-white bg-primary mb-1"
                     let cardBody = card.childNodes[5]
                     cardBody.childNodes[1].textContent = 'Image de profil'
-                    //recupération des autres enfants
+                    // Récupération des autres enfants
                     for(i=1; i < cols.length; i++){
                         let otherChild = cols[i]
                         let card = otherChild.childNodes[1]
@@ -1730,7 +1803,7 @@
                     Gallery.className += " active"
                 })
             }
-            // Enregistrement des informations si propriété dja validée une fois
+            // Enregistrement des informations si propriété déja validée une fois
             if(nextStepPublication2 !== null){
                 nextStepPublication2.addEventListener('click', function (event){
                     event.preventDefault()
@@ -1874,7 +1947,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::addCustomer', {'idproperty' : property.id})) }}
                     <input id="idProperty" type="hidden" value="">
                 </div>
                 <div class="modal-footer">
@@ -1892,7 +1965,7 @@
                     <h5 class="modal-title" id="exampleModalLabel">Edition d'un client à cette fiche</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                <div id="ModalBodyEditCustomer"class="modal-body">
+                <div id="ModalBodyEditCustomer" class="modal-body">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
@@ -2057,14 +2130,20 @@
         </div>
     </div>
     {# Modal d'édition du mandat #}
-    <div class="modal fade" id="modalAddMandat" tabindex="-1" aria-labelledby="addHouseOther" aria-hidden="true">
+    <div class="modal fade" id="modalAddMandat" tabindex="-1" aria-labelledby="modalAddMandat" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edition du mandat sur le bien :</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-                {{ render(controller('App\\Controller\\Gestapp\\choice\\OtherOptionController::new2')) }}
+                <div class="modal-body">
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::addMandat', {'id' : property.id})) }}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button id="btnAddMandat" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter le numéro</button>
+                </div>
             </div>
         </div>
     </div>

@@ -7,7 +7,9 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
+use ApiPlatform\Metadata\Link;
 use App\Controller\Api\Admin\Employed\AddEmployed;
+use App\Controller\Api\Admin\Employed\AddPrescriber;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
@@ -28,49 +30,91 @@ use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Serializer\Annotation\Ignore;
 use Symfony\Component\Validator\Constraints as Assert;
-use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: EmployedRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
 #[UniqueEntity(fields: ['email'], message: 'un compte avec la même adresse mail existe déjà')]
 #[ApiResource(
-    shortName: 'Collaborateurs',
+    shortName: 'Collaborateur',
     operations: [
-        new Get(normalizationContext: ['groups' => 'employed:item']),
-        new GetCollection(normalizationContext: ['groups' => 'employed:list']),
         new Get(
-            name: 'getTokenByNumCollaborator',
-            uriTemplate: '/employed/{numCollaborator}/getToken',
-            requirements: ['numCollaborator' => '\d+'],
-            controller: GetTokenEmployed::class,
-            normalizationContext: ['groups' => 'employed:item'],
+            uriTemplate: '/collaborateur/{id}',
+            openapiContext: [
+                'summary' => "Récupérer les information  d'un collaborateur.",
+                'description' => "Récupérer les information  d'un collaborateur.",
+            ],
+            normalizationContext: ['groups' => 'employed:item']),
+        new Get(
+            uriTemplate: '/mandataire/{numCollaborator}',
             uriVariables: [
                 'numCollaborator' => 'numCollaborator'
             ],
+            requirements: ['numCollaborator' => '\d+'],
+            openapiContext: [
+                'summary' => "Récupérer les information  d'un collaborateur par son numéro",
+                'description' => "Récupérer les information  d'un collaborateur par son numéro",
+            ],
+            normalizationContext: ['groups' => 'employed:item'],
+        ),
+        new Get(
+            uriTemplate: '/prescripteur/{email}/recommandations/',
+            uriVariables: [
+                'email' => 'email'
+            ],
+            //requirements: ['numCollaborator' => '\d+'],
+            openapiContext: [
+                'summary' => "Récupérer les information d'un collaborateur par son email",
+                'description' => "Récupérer les information d'un collaborateur par son email",
+            ],
+            normalizationContext: ['groups' => 'employed:reco'],
+        ),
+        new GetCollection(
+            openapiContext: [
+                'summary' => "Récupérer la liste des collaborateurs.",
+                'description' => "Récupérer la liste des collaborateurs.",
+            ],
+            normalizationContext: ['groups' => 'employed:list']
+        ),
+        new Get(
+            uriTemplate: '/authentication_token/{numCollaborator}/getToken',
+            uriVariables: [
+                'numCollaborator' => 'numCollaborator'
+            ],
+            requirements: ['numCollaborator' => '\d+'],
+            controller: GetTokenEmployed::class,
             openapiContext: [
                 'summary' => "Récupérer un token par l'identifiant du mandataire",
                 'description' => "Récupérer un token par l'identifiant du mandataire",
-            ]
+            ],
+            normalizationContext: ['groups' => 'employed:item'],
+            name: 'getTokenByNumCollaborator'
         ),
         new Post(
-            uriTemplate: '/employed',
+            uriTemplate: '/collaborateur',
             controller: AddEmployed::class,
-            normalizationContext: ['groups' => 'employed:write:post'],
             openapiContext: [
                 'summary' => "Ajoute un collaborateur",
                 'description' => "Ajoute un collaborateur",
-            ]
+            ],
+            normalizationContext: ['groups' => 'employed:write:post']
+        ),
+        new POST(
+            uriTemplate: '/prescripteur',
+            controller: AddPrescriber::class,
+            openapiContext: [
+                'summary' => "Ajoute un collaborateur",
+                'description' => "Ajoute un collaborateur",
+            ],
+            normalizationContext: ['groups' => 'employed:write:post']
         ),
         new Patch(
-            uriTemplate: '/employed/{id}/update',
-            normalizationContext: ['groups' => ['employed:write:patch']],
+            uriTemplate: '/collaborateur/{id}/update',
             openapiContext: [
                 'summary' => "Mettre à jour les informations du collaborateur",
                 'description' => "Mettre à jour les informations du collaborateur",
-            ]
+            ],
+            normalizationContext: ['groups' => ['employed:write:patch']]
         )
     ],
     paginationEnabled: false,
@@ -80,24 +124,26 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column(type: 'integer')]
+    #[Groups(['employed:item','reco:list','reco:item', 'reco:write:post', 'employed:reco'])]
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'employed:reco', 'prescriber:write:post', 'transaction:list'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
+    #[Groups('prescriber:write:post')]
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]
@@ -132,10 +178,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'author', targetEntity: Page::class)]
     private $pages;
 
-    #[Vich\UploadableField(mapping: 'avatar_image', fileNameProperty:"avatarName", size:"avatarSize")]
-    #[Ignore]
-    private $avatarFile;
-
     #[ORM\Column(type: 'string', nullable: true)]
     #[Groups(['employed:list', 'employed:item'])]
     private $avatarName = null;
@@ -153,7 +195,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $desk;
 
     #[ORM\Column(type: 'string', length: 14)]
-    #[Groups(['employed:list', 'employed:item','employed:write:patch'])]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch', 'prescriber:write:post'])]
     private $gsm;
 
     #[ORM\Column(type: 'string', length: 14, nullable: true)]
@@ -210,6 +252,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $transactions;
 
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Reco::class)]
+    #[Groups(['employed:reco'])]
     private Collection $recos;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -217,6 +260,13 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column]
     private ?bool $isSupprAvatar = false;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    #[Groups(['employed:list', 'employed:item','employed:write:patch', 'employed:reco'])]
+    private ?string $iban = null;
+
+    #[ORM\Column]
+    private ?bool $isGdpr = false;
 
     public function __construct()
     {
@@ -894,6 +944,30 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsSupprAvatar(bool $isSupprAvatar): static
     {
         $this->isSupprAvatar = $isSupprAvatar;
+
+        return $this;
+    }
+
+    public function getIban(): ?string
+    {
+        return $this->iban;
+    }
+
+    public function setIban(?string $iban): static
+    {
+        $this->iban = $iban;
+
+        return $this;
+    }
+
+    public function isIsGdpr(): ?bool
+    {
+        return $this->isGdpr;
+    }
+
+    public function setIsGdpr(bool $isGdpr): static
+    {
+        $this->isGdpr = $isGdpr;
 
         return $this;
     }

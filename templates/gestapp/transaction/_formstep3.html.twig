@@ -9,21 +9,98 @@
         </div>
     </div>
     {% if transaction.promisePdfFilename is not empty%}
-    <div class="row">
-        <div class="col-3">
-            Document déposé :
+        <div class="row">
+            <div class="col-3">
+                Document déposé :
+            </div>
+            <div class="col-5">
+                {{ transaction.promisePdfFilename }} |
+                <button id="showPromise" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+                <!-- Modal -->
+                <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Promesse de vente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="padding: 0;">
+                                <div id="externaFile">
+                                    <iframe src="{{ asset('doc/transaction/promise/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4 pt-1">
+                {{ form_label(form.isSupprPromisePdf) }}
+                {{ form_widget(form.isSupprPromisePdf) }}
+            </div>
         </div>
-        <div class="col-4">
-            {{ transaction.promisePdfFilename }}
+    {% else %}
+        <div class="row d-none">
+            <div class="col-3">
+                Document déposé :
+            </div>
+            <div class="col-5">
+                {{ transaction.promisePdfFilename }} |
+                <button id="showPromise" type="button" class="btn btn-sm btn-light" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+                <!-- Modal -->
+                <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Promesse de vente</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body" style="padding: 0;">
+                                <div id="externaFile">
+                                    <iframe src="{{ asset('doc/transaction/promise/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-4">
+                {{ form_label(form.isSupprPromisePdf) }}
+                {{ form_widget(form.isSupprPromisePdf) }}
+            </div>
         </div>
-    </div>
     {% endif %}
 </div>
-<div class="col-12 mt-3">
+<div id="submitStep" class="col-12 mt-3">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
-    {% if transaction.isValidPromisepdf == 0 %}
-    <button type="submit" id="btnToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document fournis</button>
+
+    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is null %}
+        {# Chargement du pdf sur le site avant validation - OK #}
+        <button type="submit" id="btnStep3LoadPromise" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Charger la promesse de vente pour contrôle.</button>
+    {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is not null %}
+        {# Bouton inactif d'attente pour le collaborateur #}
+        <button type="button" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-hourglass-start"></i> En attente de Validation de la promesse de vente.</button>
+    {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.promisePdfFilename is not null and transaction.isValidPromisepdf == 1 %}
+        <button type="submit" id="btnStep3LoadPromise" class="btn btn-sm btn-outline-primary">Modifier le document déposé.</button>
     {% endif %}
-    <a href="{{ path('op_gestapp_transaction_step3admin', {'id':transaction.id}) }}" id="btnWaitToStepFour" class="btn btn-sm btn-outline-primary {% if transaction.isValidPromisepdf == 0 %}d-none{% endif %} {% if is_granted('ROLE_ADMIN') %}{% else %}disabled{% endif %}"><i class="fa-duotone fa-hourglass-start"></i> En attente de validation</a>
+
+    {% if 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is null %}
+        {# Chargement du pdf sur le site #}
+        <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is not null and transaction.isValidPromisepdf == 0 %}
+        {# Validation d'un document de promesse de vente fournis par un collaborateur #}
+        <a href="{{ path('op_gestapp_transaction_step3_validPromisebyAdmin', {'id': transaction.id}) }}" id="validPromisebyAdmin" class="btn btn-sm btn-outline-warning"><i class="fa-duotone fa-check"></i> Valider le document fournis par la collaborateur</a>
+    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is not null and transaction.isValidPromisepdf == 1 %}
+        {# Chargement du pdf sur le site dans le cas d'une modification #}
+        <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Modifier le document pour le colllaborateur.</button>
+    {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.promisePdfFilename is not defined %}
+        <button type="submit" id="btnAdminToStepFour" class="btn btn-sm btn-outline-primary"><i class="fa-duotone fa-check"></i> Valider le document</button>
+    {% endif %}
+
 </div>
 {{ form_end(form) }}

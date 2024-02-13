@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -39,7 +40,7 @@ class Customer2Type extends AbstractType
                 'required' => false,
                 'empty_data' =>''
             ])
-            ->add('city', TextType::class, [
+            ->add('city', HiddenType::class, [
                 'label' => 'Commune',
                 'required' => false,
                 'empty_data' =>''

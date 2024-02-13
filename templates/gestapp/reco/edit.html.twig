@@ -1,9 +1,15 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
 {% block title %}Edit Reco{% endblock %}
 
-{% block body %}
-    <h1>Edit Reco</h1>
+{% block contentTitle %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Proposition de recommandation</h1>
+        </div>
+    </div>
+{% endblock %}
+{% block content %}
 
     {{ include('gestapp/reco/_form.html.twig', {'button_label': 'Update'}) }}
 

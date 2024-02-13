@@ -1,0 +1,75 @@
+{% set progress = 0 %}
+    {% if transaction.state == 'open' %}
+        {% set progress = 20 %}
+    {% elseif transaction.state == 'promise' %}
+        {% set progress = 40 %}
+    {% elseif transaction.state == 'deposit' %}
+        {% set progress = 60 %}
+    {% elseif transaction.state == 'definitive_sale' %}
+        {% set progress = 80 %}
+    {% elseif transaction.state == 'finished' %}
+        {% set progress = 100 %}
+    {% endif %}
+<div class="row mt-3 mb-3 justify-content-center">
+    <div class="col-12">
+        <ul class="nav nav-justified">
+            <li class="nav-item">
+                <a id="icoStepOne" class="nav-link {% if progress >= 20 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
+                    {% if progress >= 20 %}
+                        <img src="{{ asset('images/png/g9.png') }}" alt="" width="100px">
+                    {% else %}
+                        <img src="{{ asset('images/png/g8.png') }}" alt="" width="100px">
+                    {% endif %}
+                    <br>Ouverture de la transaction
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="icoStepTwo" class="nav-link {% if progress >= 40 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
+                    {% if progress >= 40 %}
+                        <img src="{{ asset('images/png/g11.png') }}" alt="" width="100px">
+                    {% else %}
+                        <img src="{{ asset('images/png/g10.png') }}" alt="" width="100px">
+                    {% endif %}
+                    <br>Signature promesse de vente
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="icoStepTree" class="nav-link {% if progress >= 60 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
+                    {% if progress >= 60 %}
+                        <img src="{{ asset('images/png/g13-5.png') }}" alt="" width="100px">
+                    {% else %}
+                        <img src="{{ asset('images/png/g15.png') }}" alt="" width="100px">
+                    {% endif %}
+                    <br>Dépôt de promesse de vente
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="icoStepFour" class="nav-link {% if progress >= 80  %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
+                    {% if progress >= 80 %}
+                        <img src="{{ asset('images/png/g11.png') }}" alt="" width="100px">
+                    {% else %}
+                        <img src="{{ asset('images/png/g10.png') }}" alt="" width="100px">
+                    {% endif %}
+                    <br>Dépôt attestation "Acte de vente"
+                </a>
+            </li>
+            <li class="nav-item">
+                <a id="icoStepFive" class="nav-link {% if progress >= 100  %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
+                    {% if progress >= 100 %}
+                        <img src="{{ asset('images/png/g13-5.png') }}" alt="" width="100px">
+                    {% else %}
+                        <img src="{{ asset('images/png/g15.png') }}" alt="" width="100px">
+                    {% endif %}
+                    <br>Dossier finalisé
+                </a>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="row align-items-center">
+    <div class="col-12">
+        <div class="progress">
+            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
+        </div>
+    </div>
+</div>

@@ -19,7 +19,7 @@ class SectionbypageType extends AbstractType
                     'aucun' => 'none',
                     'ARTICLES' => [
                         'Un article' => 'One_article',
-                        'Une categorie' => 'Category',
+                        'Une categorie' => 'CategoryProduct',
                     ],
                     'Collaborateur' =>[
                         "un collaborateur" => "One_Employed",

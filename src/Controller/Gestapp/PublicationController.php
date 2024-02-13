@@ -13,7 +13,7 @@ use App\Service\PropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/gestapp/publication')]
 class PublicationController extends AbstractController
@@ -97,7 +97,7 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/publication/showbyproperty.html.twig', [
+        return $this->render('gestapp/publication/showbyproperty.html.twig', [
             'publication' => $publication,
             'property' => $propertyRepository->findOneBy(['publication'=>$publication->getId()]),
             'form' => $form,

@@ -115,7 +115,7 @@
                     {# image principale#}
                     <div id="firstphoto" class="col-12 col-lg-5">
                         {% if firstphoto is not empty%}
-                            <img src="{{ vich_uploader_asset(firstphoto, 'galeryFrontFile')|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
+                            <img src="{{ asset('properties/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName)|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
                         {% else %}
                             <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
                         {% endif %}
@@ -140,7 +140,7 @@
                             <div class="card-body">
                                 <p class="text-center">
                                     {% if employed.avatarName is not empty%}
-                                        <img class="rounded-circle" src="{{ vich_uploader_asset(employed, 'avatarFile', 'App\\Entity\\Admin\\Employed')|imagine_filter('vignette_employed') }}" alt="{{ property.avatarName }}" >
+                                        <img class="rounded-circle" src="{{ asset('/images/avatar/' ~ property.avatarName)|imagine_filter('vignette_employed') }}" alt="{{ property.avatarName }}" >
                                     {% else %}
                                         <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/mod_maison.jpg')|imagine_filter('vignette_employed')}}" alt="none-visuel">
                                     {% endif %}

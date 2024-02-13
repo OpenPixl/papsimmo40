@@ -1,0 +1,74 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th>Id</th>
+        {# insertion d'un bloc collaborateur #}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <th>Collaborateur</th>
+        {% endif %}
+        <th>Statut</th>
+        <th>Prescripteur</th>
+        <th>Client potentiel</th>
+        <th>Propriété</th>
+        <th>Créer le</th>
+        <th>Mise à jour</th>
+        <th>actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for reco in recos %}
+        <tr class="align-middle" {% if reco.isRead == 0 %}class="table-secondary"{% endif %}>
+            <td><input type="checkbox"></td>
+            {# insertion d'un bloc collaborateur #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <td>
+                    {{ reco.refEmployed.firstName }} {{ reco.refEmployed.lastName }}
+                </td>
+            {% endif %}
+            <td>
+                {% if reco.statutReco == "reco_open" %}
+                    <a id="openReco" href="" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalStatusRecos" data-bs-whatever="validReco-{{ reco.id }}-{{ reco.announceFirstName }}-{{ reco.announceLastName }}"><i class="fa-duotone fa-circle-check"></i> Validation de la recommandation</a>
+                {% elseif reco.statutReco == "employed_valid"%}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <a id="openReco" href="" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalStatusRecos" data-bs-whatever="validbyAdmin-{{ reco.id }}-{{ reco.announceFirstName }}-{{ reco.announceLastName }}"><i class="fa-duotone fa-circle-check"></i> Validation par l'administrateur</a>
+                    {% else %}
+                        <a id="openReco" href="" class="btn btn-sm btn-outline-dark disabled" data-bs-toggle="modal" data-bs-target="#modalStatusRecos" data-bs-whatever="isValidAdmin-{{ reco.id }}-{{ reco.announceFirstName }}-{{ reco.announceLastName }}"><i class="fa-duotone fa-circle-pause"></i> en attente de validation par l'administration</a>
+                    {% endif %}
+                {% elseif reco.statutReco == "admin_valid"%}
+                    <a id="openReco" href="" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalStatusRecos" data-bs-whatever="validAdmin-{{ reco.id }}-{{ reco.announceFirstName }}-{{ reco.announceLastName }}"><i class="fa-duotone fa-circle-pause"></i> Recommandation à publier sur la plateforme</a>
+                {% elseif reco.statutReco == "reco_published"%}
+                {% endif %}
+            </td>
+            <td>
+                {{ reco.announceFirstName }} {{ reco.announceLastName }}<br>
+                {% if reco.announcePhone and reco.announceEmail %}
+                    {{ reco.announcePhone }} / {{ reco.announceEmail }}
+                {% elseif reco.announcePhone or reco.announceEmail %}
+                    {% if reco.announcePhone is defined %}{{ reco.announcePhone }}{% endif %}
+                    {% if reco.announceEmail is defined %}{{ reco.announceEmail }}{% endif %}
+                {% endif %}
+            </td>
+            <td>
+                {{ reco.customerFirstName }} {{ reco.customerLastName }}<br>
+                {% if reco.customerPhone and reco.customerEmail %}
+                    {{ reco.customerPhone }} / {{ reco.customerEmail }}
+                {% elseif reco.customerPhone or reco.customerEmail %}
+                    {% if reco.customerPhone is defined %}{{ reco.customerPhone }}{% endif %}
+                    {% if reco.customerEmail is defined %}{{ reco.customerEmail }}{% endif %}
+                {% endif %}
+            </td>
+            <td>{{ reco.propertyAddress }}<br>{{ reco.propertyComplement }}<br>{{ reco.propertyZipcode }} {{ reco.propertyCity }}</td>
+            <td>{{ reco.createdAt ? reco.createdAt|date('Y-m-d') : '' }}</td>
+            <td>{{ reco.updatedAt ? reco.updatedAt|date('Y-m-d') : '' }}</td>
+            <td>
+                <a href="{{ path('op_gestapp_reco_show', {'id': reco.id}) }}">voir</a>
+                <a href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}">Modifier</a>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="19">Pas d'enregistrement.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

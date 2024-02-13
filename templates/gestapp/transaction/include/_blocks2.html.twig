@@ -1,0 +1,76 @@
+{% set progress = 0 %}
+{% if transaction.state == 'open' %}
+    {% set progress = 20 %}
+{% elseif transaction.state == 'promise' %}
+    {% set progress = 40 %}
+{% elseif transaction.state == 'deposit' %}
+    {% set progress = 60 %}
+{% elseif transaction.state == 'definitive_sale' %}
+    {% set progress = 80 %}
+{% elseif transaction.state == 'finished' %}
+    {% set progress = 100 %}
+{% endif %}
+
+<div class="col-12 mt-2">
+    {% if transaction.state == 'finished' %}
+        <h4>Le dossier de vente est finalisé.</h4>
+    {% else %}
+        <h4>Le dossier de vente est en cours de construction.</h4>
+    {% endif %}
+
+    <table class="table table-sm">
+        <tr class="align-middle">
+            <td class="col-2 table-light"><b>Ouverture</b></td>
+            <td>{{ transaction.createdAt|format_datetime('full', 'none', locale='fr') }}</td>
+        </tr>
+        <tr class="align-middle">
+            <td class="col-2 table-light"><b>Vendeur.s</b></td>
+            <td class="col-4">
+                <div id="blockSailers">
+                    {% include 'gestapp/transaction/include/block/_customers.html.twig' with {'type' : 1 } %}
+                </div>
+            </td>
+            <td class="col-2 table-light"><b>Acheteur.s</b></td>
+            <td class="col-4" id="buyers">
+                <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'type':2, 'option': transaction.id}) }}" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
+                    Ajouter un acheteur.
+                </a>
+                <div id="blockBuyers">
+                    {% include 'gestapp/transaction/include/block/_customers.html.twig' with {'type' : 2 } %}
+                </div>
+            </td>
+        </tr>
+
+        <tr class="align-middle" id="rowPromiseDate">
+            <td class="table-light">Date de signature du compromis</td>
+            {{ render(controller('App\\Controller\\Gestapp\\TransactionController::addDatePromise', {'id' : transaction.id})) }}
+        </tr>
+
+        {{ include('gestapp/transaction/include/block/_rowactedate.html.twig') }}
+
+
+        <tr class="align-middle">
+            <td class="table-light" colspan="4"><b>Documents de transaction</b></td>
+        </tr>
+        <tr class="align-middle" id="rowPromisePdf">
+            {{ include('gestapp/transaction/include/block/_rowpromisepdf.html.twig') }}
+        </tr>
+        <tr class="align-middle" id="rowActePdf">
+            {{ include('gestapp/transaction/include/block/_rowactepdf.html.twig') }}
+        </tr>
+
+        <tr class="align-middle" id="rowTracfinPdf">
+            {{ include('gestapp/transaction/include/block/_rowtracfinpdf.html.twig') }}
+        </tr>
+
+        <tr class="align-middle">
+            <td class="table-light" colspan="4"><b>Finalisation du dossier</b></td>
+        </tr>
+        <tr class="align-middle" id="rowInvoicePdf">
+            {{ include('gestapp/transaction/include/block/_rowinvoicepdf.html.twig') }}
+        </tr>
+    </table>
+</div>
+<div class="col-12 mt-3">
+    <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> Retour à la liste</a>
+</div>

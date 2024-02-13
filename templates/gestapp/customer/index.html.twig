@@ -73,17 +73,13 @@
 
 {% block content %}
     <div class="row">
-        <div class="navigation d-flex justify-content-between">
-            <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
-            {{ knp_pagination_render(customers, 'include/admin/pagination.html.twig') }}
-        </div>
-
         <div id="list" class="col-sm-12">
+            <div class="navigation d-flex justify-content-between">
+                <div class="mb-1">
+                    <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
+                </div>
+            </div>
             {% include('gestapp/customer/_list.html.twig') %}
-            <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
-        </div>
-        <div class="navigation d-flex justify-content-between">
-            {{ knp_pagination_render(customers, 'include/admin/pagination.html.twig') }}
         </div>
     </div>
 {% endblock %}

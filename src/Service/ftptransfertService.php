@@ -65,7 +65,8 @@ class ftptransfertService
             //dd($annonce);
 
             // Récupération de la reference
-            $refs = $this->propertyService->getRefs($propriete);
+            $ref = $property['ref'];
+            $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
             $propertyDefinition = $property['rubric'];
@@ -108,6 +109,13 @@ class ftptransfertService
                 $RefDPE ="";
             }
 
+            // Préparation de la date de disponibilité
+            if ($property['disponibilityAt'] instanceof \DateTime) {
+                $disponibilityAt = $property['disponibilityAt']->format('d/m/Y');
+            }else{
+                $disponibilityAt ="";
+            }
+
             // Calcul des honoraires en %
             //$honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
@@ -131,7 +139,7 @@ class ftptransfertService
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<30; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = $app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
+                        ${'url'.$key+1} = $app.'/properties/'.$photos[$key]['path'].'/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
@@ -196,7 +204,7 @@ class ftptransfertService
             // Création d'une ligne du tableau
             $data = array(
                 '"RC1860977"',                                                  // 1 - Identifiant Agence
-                '"' . $refs['ref'] . '"',                                       // 2 - Référence agence du bien
+                '"' . $ref . '"',                                       // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
@@ -216,7 +224,7 @@ class ftptransfertService
                 '"' . $property['room'] . '"',                                  // 19 - NB de chambres
                 '"' . $property['name'] . '"',                                  // 20 - Libellé
                 '"' . $annonce . '"',                                           // 21 - Descriptif
-                '"' . $property['disponibilityAt'] . '"',                       // 22 - Date de disponibilité
+                '"' . $disponibilityAt . '"',                                    // 22 - Date de disponibilité
                 '""',                                                           // 23 - Charges
                 '"' . $property['level'] . '"',                                 // 24 - Etage
                 '""',                                                           // 25 - NB d’étages
@@ -306,7 +314,7 @@ class ftptransfertService
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refs['refMandat'] . '"',                                  // 112 - N° de mandat
+                '"' . $refMandat . '"',                                  // 112 - N° de mandat
                 '"' . $mandatAt . '"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
@@ -566,54 +574,6 @@ class ftptransfertService
                 dd('Erreur');
             }
         }
-
-
-        // IV. Dépôt sur le serveur de FTP
-        $ftpserver = $this->urlftpseloger;
-        $ftpport = $this->portftpseloger;
-        $ftpusername = $this->loginftpseloger;
-        $ftppassword = $this->passwordftpseloger;
-
-        // Connexion au serveur FTP
-        $connId = ftp_ssl_connect($ftpserver, $ftpport);
-        if (!$connId) {
-            // Gestion des erreurs de connexion
-            exit('Impossible de se connecter au serveur FTP.');
-        }
-        // Authentification FTP
-        $login = ftp_login($connId, $ftpusername, $ftppassword);
-        if (!$login) {
-            // Gestion des erreurs d'authentification
-            exit('Erreur lors de l\'authentification FTP.');
-        }
-
-        // Activer le mode passif
-        ftp_pasv($connId, true);
-
-        // Chemin du fichier local à transférer
-        $fullHttp = $request->getUri();
-        $parsedUrl = parse_url($fullHttp);
-        if (!$port){
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/RC-1860977.zip';
-        }else{
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$port.'/doc/report/RC-1860977.zip';
-        }
-        // Chemin de destination sur le serveur FTP
-        $cheminDestination = 'RC-1860977.zip';
-
-        // Ouvrir le fichier local en lecture
-        $fp = fopen($fichierLocal, 'r');
-        // Transfert du fichier
-        if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
-            echo 'Le fichier a été transféré avec succès.';
-        } else {
-            // Gestion des erreurs de transfert
-            echo 'Téléversement sur "SE loger" - Erreur lors du transfert du fichier sur le serveur FTP.';
-        }
-
-        // Fermeture du flux et de la connexion FTP
-        fclose($fp);
-        ftp_close($connId);
     }
 
     public function figaroFTP(
@@ -648,7 +608,8 @@ class ftptransfertService
             //dd($annonce);
 
             // Récupération de la reference
-            $refs = $this->propertyService->getRefs($propriete);
+            $ref = $property['ref'];
+            $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
             $propertyDefinition = $property['rubric'];
@@ -691,6 +652,13 @@ class ftptransfertService
                 $RefDPE ="";
             }
 
+            // Préparation de la date de disponibilité
+            if ($property['disponibilityAt'] instanceof \DateTime) {
+                $disponibilityAt = $property['disponibilityAt']->format('d/m/Y');
+            }else{
+                $disponibilityAt ="";
+            }
+
             // Calcul des honoraires en %
             // $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
@@ -714,7 +682,7 @@ class ftptransfertService
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key<30; $key++){
                     if(array_key_exists($key,$arraykey)){
-                        ${'url'.$key+1} = $app.'/images/galery/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
+                        ${'url'.$key+1} = $app.'/properties/'.$photos[$key]['path'].'/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
                         array_push($url, ${'url'.$key+1});
                     }else{
                         ${'url'.$key+1} = '';
@@ -781,8 +749,8 @@ class ftptransfertService
 
             // Création d'une ligne du tableau
             $data = array(
-                '"1074280"',                                                // 1 - Identifiant Agence
-                '"' . $refs['ref'] . '"',                                   // 2 - Référence agence du bien
+                '"107428"',                                                 // 1 - Identifiant Agence
+                '"' . $ref . '"',                                           // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                    // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                       // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                           // 5 - CP
@@ -802,7 +770,7 @@ class ftptransfertService
                 '"' . $property['room'] . '"',                                  // 19 - NB de chambres
                 '"' . $property['name'] . '"',                                  // 20 - Libellé
                 '"' . $annonce . '"',                                           // 21 - Descriptif
-                '"' . $property['disponibilityAt'] . '"',                       // 22 - Date de disponibilité
+                '"' . $disponibilityAt . '"',                                   // 22 - Date de disponibilité
                 '""',                                                       // 23 - Charges
                 '"' . $property['level'] . '"',                                 // 24 - Etage
                 '""',                                                       // 25 - NB d’étages
@@ -886,22 +854,22 @@ class ftptransfertService
                 '""',                                                       // 103 - Photo panoramique
                 '""',                                                       // 104 - URL visite virtuelle
                 '"' . $property['gsm'] . '"',                                   // 105 - Téléphone à afficher
-                '"' . $property['firstName'] . ' ' . $property['lastName'] . '"',   // 106 - Contact à afficher
+                '"' . $property['firstName'].' '.$property['lastName'].'"',     // 106 - Contact à afficher
                 '"' . $property['email'] . '"',                                 // 107 - Email de contact
                 '"' . $property['zipcode'] . '"',                               // 108 - CP Réel du bien
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
-                '""',                                                       // 110 - Inter-cabinet
-                '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refs['refMandat'] . '"',                                 // 112 - N° de mandat
-                '"' . $mandatAt . '"',                                          // 113 - Date mandat
-                '""',                                                       // 114 - Nom mandataire
-                '""',                                                       // 115 - Prénom mandataire
-                '""',                                                       // 116 - Raison sociale mandataire
-                '""',                                                       // 117 - Adresse mandataire
-                '""',                                                       // 118 - CP mandataire
-                '""',                                                       // 119 - Ville mandataire
-                '""',                                                       // 120 - Téléphone mandataire
-                '""',                                                       // 121 - Commentaires mandataire
+                '""',                                                           // 110 - Inter-cabinet
+                '""',                                                           // 111 - Inter-cabinet prive
+                '"' . $refMandat . '"',                                         // 112 - N° de mandat
+            '"' . $mandatAt . '"',                                              // 113 - Date mandat
+                '""',                                                           // 114 - Nom mandataire
+                '""',                                                           // 115 - Prénom mandataire
+                '""',                                                           // 116 - Raison sociale mandataire
+                '""',                                                           // 117 - Adresse mandataire
+                '""',                                                           // 118 - CP mandataire
+                '""',                                                           // 119 - Ville mandataire
+                '""',                                                           // 120 - Téléphone mandataire
+                '""',                                                           // 121 - Commentaires mandataire
                 '""',                                                       // 122 - Commentaires privés
                 '""',                                                       // 123 - Code négociateur
                 '""',                                                       // 124 - Code Langue 1
@@ -1152,45 +1120,6 @@ class ftptransfertService
                 dd('Erreur');
             }
         }
-
-        // IV. Dépôt sur le serveur de FTP
-        $ftpserver = $this->urlftpfigaro;
-        $ftpport = $this->portftpfigaro;
-        $ftpusername = $this->loginftpfigaro;
-        $ftppassword = $this->passwordftpfigaro;
-        // Connexion au serveur FTP
-        $connId = ftp_connect($ftpserver, $ftpport);
-        if (!$connId) {
-            // Gestion des erreurs de connexion
-            exit('Impossible de se connecter au serveur FTP.');
-        }
-        // Authentification FTP
-        $login = ftp_login($connId, $ftpusername, $ftppassword);
-        if (!$login) {
-            // Gestion des erreurs d'authentification
-            exit('Erreur lors de l\'authentification FTP.');
-        }
-
-        $fullHttp = $request->getUri();
-        $parsedUrl = parse_url($fullHttp);
-        if (!$port){
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].'/doc/report/107428.zip';
-        }else{
-            $fichierLocal = $parsedUrl['scheme'].'://'.$parsedUrl['host'].':'.$port.'/doc/report/107428.zip';
-        }
-        // Chemin de destination sur le serveur FTP
-        $cheminDestination = '107428.zip';
-
-        // Transfert du fichier
-        if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
-            echo 'Le fichier a été transféré avec succès.';
-        } else {
-            // Gestion des erreurs de transfert
-            echo 'Téléversement sur "Figaro Immo" - Erreur lors du transfert du fichier sur le serveur FTP.';
-        }
-
-        // Fermeture de la connexion FTP
-        ftp_close($connId);
     }
 
     public function greenacresFTP(
@@ -1282,7 +1211,7 @@ class ftptransfertService
             }else {
                 foreach($photos as $photo)
                 {
-                    $urlphoto = $app . '/images/galery/' . $photo['galeryFrontName'];
+                    $urlphoto = $app . '/properties/'.$photo['path'].'/'. $photo['galeryFrontName'];
                     $titrephoto = 'Photo-' . $property->getRef() . '-' . + 1;
                     $pic = [
                         'urlphoto' => $urlphoto,
@@ -1425,71 +1354,5 @@ class ftptransfertService
             file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
         }
         file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
-
-        // IV. Dépôt sur le serveur de FTP GREEN ACRES
-        // -------------------------------------------
-
-        // Chemin du fichier local à transférer
-        if (!$port){
-            $fichierLocal = $scheme.'://'.$host.'/doc/report/AnnoncesGreen/892318a.xml';
-        }else{
-            $fichierLocal = $scheme.'://'.$host.':'.$port.'/doc/report/AnnoncesGreen/892318a.xml';
-        }
-        // Chemin de destination sur le serveur FTP
-        $cheminDestination = '892318a.xml';
-
-        $ftpserver = $this->urlftpga;
-        $ftpport = $this->portftpga;
-        $ftpusername = $this->loginftpga;
-        $ftppassword = $this->passwordftpga;
-        // Connexion au serveur FTP
-        $connId = ftp_connect($ftpserver, $ftpport);
-        if (!$connId) {
-            // Gestion des erreurs de connexion
-            exit('Impossible de se connecter au serveur FTP.');
-        }
-        // Authentification FTP
-        $login = ftp_login($connId, $ftpusername, $ftppassword);
-        if (!$login) {
-            // Gestion des erreurs d'authentification
-            exit('Erreur lors de l\'authentification FTP.');
-        }
-        // Transfert du fichier
-        if (ftp_put($connId, $cheminDestination, $fichierLocal, FTP_BINARY)) {
-            echo 'Le fichier a été transféré avec succès.';
-        } else {
-            // Gestion des erreurs de transfert
-            echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
-        }
-        // Fermeture de la connexion FTP
-        ftp_close($connId);
-
-        // IV. Dépôt sur le serveur de FTP VIZZIT
-        // -------------------------------------------
-        $ftpserver2 = $this->urlftpvi;
-        $ftpport2 = $this->portftpvi;
-        $ftpusername2 = $this->loginftpvi;
-        $ftppassword2 = $this->passwordftpvi;
-        // Connexion au serveur FTP
-        $connId2 = ftp_connect($ftpserver2, $ftpport2);
-        if (!$connId2) {
-            // Gestion des erreurs de connexion
-            exit('Impossible de se connecter au serveur FTP.');
-        }
-        // Authentification FTP
-        $login2 = ftp_login($connId2, $ftpusername2, $ftppassword2);
-        if (!$login2) {
-            // Gestion des erreurs d'authentification
-            exit('Erreur lors de l\'authentification FTP.');
-        }
-        // Transfert du fichier
-        if (ftp_put($connId2, $cheminDestination, $fichierLocal, FTP_BINARY)) {
-            echo 'Le fichier a été transféré avec succès.';
-        } else {
-            // Gestion des erreurs de transfert
-            echo 'Erreur lors du transfert du fichier sur le serveur FTP.';
-        }
-        // Fermeture de la connexion FTP
-        ftp_close($connId2);
     }
 }

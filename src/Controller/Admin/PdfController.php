@@ -20,7 +20,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Twig\Environment;
 
 class PdfController extends AbstractController
@@ -39,7 +39,7 @@ class PdfController extends AbstractController
     {
         $html = 1; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
-        //dd($oneproperty);
+        //dd($property);
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
         $firstphoto = $photoRepository->firstphoto($property->getId());

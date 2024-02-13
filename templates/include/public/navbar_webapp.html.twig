@@ -4,7 +4,7 @@
 {% for menu in menus %}
     {% if menu.parent is null %}
         {# Assemblage du tableau en twig #}
-        {% set parents = parents|merge([{id: menu.id, name : menu.name, slug: menu.slug}]) %}
+        {% set parents = parents|merge([{id: menu.id, name : menu.name, slug: menu.slug, position:menu.position}]) %}
     {% endif%}
 {% endfor%}
 {% for menu in menus %}
@@ -32,7 +32,7 @@
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{{ path('op_webapp_public_homepage')}}"> Accueil</a>
                 </li>
-                {% for parent in parents %}
+                {% for parent in parents|sort((a, b) => a.position <=> b.position) %}
                     {# Création de la variable pour le dropdown de niveau 1#}
                     {% set dropdown = '' %}
                     {% for child in childs|filter(child => child.parent == parent.id) %}

@@ -2,8 +2,10 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Gestapp\choice\CatDocument;
 use App\Entity\Gestapp\Document;
 use App\Form\Gestapp\DocumentType;
+use App\Repository\Gestapp\choice\CatDocumentRepository;
 use App\Repository\Gestapp\DocumentRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -11,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/gestapp/document')]
@@ -24,6 +26,22 @@ class DocumentController extends AbstractController
             'documents' => $documentRepository->findAll(),
         ]);
     }
+
+    #[Route('/{idcat}', name: 'op_gestapp_document_categorie', methods: ['GET'])]
+    public function categorie(DocumentRepository $documentRepository, $idcat): Response
+    {
+        // filtrages des ressources par catégorie
+        $documents = $documentRepository->findBy(['category' => $idcat]);
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Ok',
+            'liste' => $this->renderView('gestapp/document/include/_liste.html.twig', [
+                'documents' => $documents
+            ])
+        ], 200);
+    }
+
     #[Route('/updateposition', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
     public function updatePosition(EntityManagerInterface $entityManager, Request $request)
     {
@@ -45,7 +63,7 @@ class DocumentController extends AbstractController
         return $this->json([
             'code' => '200',
             'message' => 'Déplacement effectué',
-            'listDocument' => $this->renderView('gestapp/document/_list.html.twig',[
+            'listDocument' => $this->renderView('gestapp/document/include/_liste.html.twig',[
                 'documents' => $documents
             ]),
         ], 200);
@@ -192,7 +210,7 @@ class DocumentController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'message' => "Document ajouté à la BDD.",
-                'list' => $this->renderView('gestapp/document/_list.html.twig',[
+                'list' => $this->renderView('gestapp/document/_ownliste.html.twig',[
                     'documents' => $documents
                 ])
 
@@ -279,7 +297,7 @@ class DocumentController extends AbstractController
         return $this->json([
             'code' => '200',
             'message' => 'Le document a été correctement supprimé.',
-            'liste' => $this->renderView('gestapp/document/_list.html.twig',[
+            'liste' => $this->renderView('gestapp/document/include/_liste.html.twig',[
                 'documents' => $documents
             ])
         ], 200);

@@ -2,6 +2,11 @@
 
 {% block title %}Reco index{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/reco/index.js') }}"></script>
+{% endblock %}
+
 {% block contentTitle %}
     <div class="row d-flex justify-content-between" >
         <div class="col-sm-12">
@@ -14,45 +19,35 @@
     <div class="row">
         <div class="col-12">
             <button class="btn btn-outline-primary btn-sm">Ajouter une recommandation</button>
+            <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_index') }}">Liste des prescripteurs</a>
         </div>
     </div>
+    <div class="row">
+        <div class="col-12" id="liste">
+            {{ include('gestapp/reco/include/_liste.html.twig') }}
+        </div>
+    </div>
+{% endblock %}
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Annonceur</th>
-                <th>Client</th>
-                <th>Propriété</th>
-                <th>Statut</th>
-                <th>Créer le</th>
-                <th>Mise à jour</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for reco in recos %}
-            <tr>
-                <td><input type="checkbox"></td>
-                <td>{{ reco.announceFirstName }} {{ reco.announceLastName }}<br>{{ reco.announcePhone }} / {{ reco.announceEmail }}</td>
-
-                <td>{{ reco.customerFirstName }} {{ reco.customerLastName }}<br>{{ reco.customerPhone }} /{{ reco.customerEmail }}</td>
-                <td>{{ reco.propertyAddress }}<br>{{ reco.propertyComplement }}<br>{{ reco.propertyZipcode }} {{ reco.propertyCity }}</td>
-                <td>{{ reco.statutReco }}</td>
-                <td>{{ reco.createAt ? reco.createAt|date('Y-m-d') : '' }}</td>
-                <td>{{ reco.updateAt ? reco.updateAt|date('Y-m-d') : '' }}</td>
-                <td>
-                    <a href="{{ path('op_gestapp_reco_show', {'id': reco.id}) }}">voir</a>
-                    <a href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}">Modifier</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="19">Pas d'enregistrement.</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('op_gestapp_reco_new') }}">Ajouter</a>
+{% block modal %}
+    {{ parent() }}
+    {# Modal de suppression #}
+    <div class="modal fade" id="modalStatusRecos" tabindex="-1" aria-labelledby="modalStatus" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Evolution de la recommandation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">En attente d'un message</p>
+                    <input type="hidden" id="recipient-name">
+                </div>
+                <div class="modal-footer">
+                    <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Suivant</a>
+                    <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

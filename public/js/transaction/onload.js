@@ -22,28 +22,31 @@ const valueProperty = document.getElementById('valueProperty').value;
 
 let validStep1 = document.getElementById('btnToStepTwo');
 let validStep2 = document.getElementById('btnToStepTree');
-let validStep3 = document.getElementById('btnToStepFour');
-let validAdminStep3 = document.getElementById('btnWaitToStepFour');
-let validStep4 = document.getElementById('btnToStepFive');
-let validAdminStep4 = document.getElementById('btnWaitToStepFive');
+// Step 3
+let loadPromise = document.getElementById('btnStep3LoadPromise');
+let validPromisebyAdmin = document.getElementById('validPromisebyAdmin');
+let validAdminToStepFour = document.getElementById('btnAdminToStepFour');
+// Step 4 - Acte de vente
+let loadActeOrTracfin = document.getElementById('btnStep4LoadActeOrTracfin');
+let validActeorTracfinbyAdmin = document.getElementById('btnValidActeorTracfinbyAdmin');
+let validAdminToFinish = document.getElementById('btnValidAdminToFinish');
 
 let step1 = document.getElementById('stepOne');
 let step2 = document.getElementById('stepTwo');
 let step3 = document.getElementById('stepTree');
 let step4 = document.getElementById('stepFour');
-let step5 = document.getElementById('stepFive');
 
 let icoStepOne = document.getElementById('icoStepOne');
 let icoStepTwo = document.getElementById('icoStepTwo');
 let icoStepTree = document.getElementById('icoStepTree');
 let icoStepFour = document.getElementById('icoStepFour');
-let icoStepFive = document.getElementById('icoStepFive');
 
 const FormStep2 = document.getElementById('transactionstep2');
 const FormStep3 = document.getElementById('transactionstep3');
 const FormStep4 = document.getElementById('transactionstep4');
-const FormStep5 = document.getElementById('transactionstep5');
 const blocks = document.getElementById("blocks");
+
+// effet sur les icones de la barre de suivi
 icoStepOne.addEventListener('click', function(event){
     let blockchild = blocks.querySelector('.activ');
     if (blockchild !== null) {
@@ -96,25 +99,8 @@ icoStepFour.addEventListener('click', function(event){
         console.log('⛔️ element does NOT have child with id');
     }
 });
-icoStepFive.addEventListener('click', function(event){
-    let blockchild = blocks.querySelector('.activ');
-    if (blockchild !== null) {
-        // 👇️ this runs
-        console.log('✅ element has child with id of child-3');
-        blockchild.classList.add('d-none');
-        blockchild.classList.remove('activ');
-        step5.classList.add('activ');
-        step5.classList.remove('d-none');
-    } else {
-        console.log('⛔️ element does NOT have child with id');
-    }
-});
-icoStepTwo.addEventListener('click', function(event){
-    step3.classList.add('d-none');
-    step2.classList.remove('d-none');
-});
 
-// validation étapes acheteurs
+// validation étape acheteurs
 validStep1.addEventListener('click', function(event){
     event.preventDefault();
     let url = this.href;
@@ -122,10 +108,15 @@ validStep1.addEventListener('click', function(event){
         .post(url)
         .then(function(response){
             let code = response.data.code;
-            if(code == 200){
-                step2.classList.remove('d-none');
-                step1.classList.add('d-none');
-                document.querySelector('.progress-bar').setAttribute('aria-valuenow', '40');
+            if(code === 200){
+                window.location.reload();
+                // initialisation du toaster
+                let toastHTMLElement = document.getElementById("toaster");
+                let message = response.data.message;
+                let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                toastBody.textContent = message;
+                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                toastElement.show();
             }else {
                 // initialisation du toaster
                 let toastHTMLElement = document.getElementById("toaster");
@@ -149,88 +140,167 @@ validStep2.addEventListener('click', function(event){
     axios
         .post(actionForm, dataForm)
         .then(function(response){
-            step3.classList.remove('d-none');
-            step2.classList.add('d-none');
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
-// validation Dépôt de doc compromis
-validStep3.addEventListener('click', function(event){
-    event.preventDefault();
-    let actionForm = FormStep3.action;
-    let dataForm = new FormData(FormStep3);
-    axios
-        .post(actionForm, dataForm)
-        .then(function(response){
-            let code = response.data.code;
-            if(code == 200){
-                let btnValidStep = document.getElementById('btnToStepFour');
-                let btnWaitStep = document.getElementById('btnWaitToStepFour');
-                // Mettre en place le bouton de validation du compromis de vente
-                btnWaitStep.classList.remove('d-none');
-                btnValidStep.classList.add('d-none');
-            }else{
-                // initialisation du toaster
-                let toastHTMLElement = document.getElementById("toaster");
-                let message = response.data.message;
-                let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
-                toastBody.textContent = message;
-                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
-                toastElement.show();
-            }
-
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
-validAdminStep3.addEventListener('click', function(event){
-    event.preventDefault();
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            step4.classList.remove('d-none');
-            step3.classList.add('d-none');
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
-// validation de l'acte de vente
-validStep4.addEventListener('click', function(event){
-    event.preventDefault();
-    let actionForm = FormStep4.action;
-    let dataForm = new FormData(FormStep4);
-    axios
-        .post(actionForm, dataForm)
-        .then(function(response){
-            let btnValidStep = document.getElementById('btnToStepFive');
-            let btnWaitStep = document.getElementById('btnWaitToStepFive');
-            // Mettre en place le bouton de validation du compromis de vente
-            btnWaitStep.classList.remove('d-none');
-            btnValidStep.classList.add('d-none');
+            window.location.reload();
         })
         .catch(function (error) {
             console.log(error);
         });
 });
 
-validAdminStep4.addEventListener('click', function(event){
-    event.preventDefault();
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            step5.classList.remove('d-none');
-            step4.classList.add('d-none');
-        })
-        .catch(function (error) {
-            console.log(error);
-        });
-});
+// Chargement du compromis par Collaborateur
+if(loadPromise !== null){
+    loadPromise.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep3.action;
+        let dataForm = new FormData(FormStep3);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    window.location.reload();
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+// Chargement du compromis par un collaborateur pour validation par un admin de la plateforme
+if(validPromisebyAdmin !== null){
+    validPromisebyAdmin.addEventListener('click', function(event){
+        event.preventDefault();
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function(response){
+                window.location.reload();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+    });
+}
+// validation Dépôt du compromis direct pas Administrateur
+if(validAdminToStepFour !== null){
+    validAdminToStepFour.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep3.action;
+        let dataForm = new FormData(FormStep3);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    window.location.reload();
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
+// chargement du fichier d'attestation d'acte de vente par un collaborateur
+if(loadActeOrTracfin !== null){
+    loadActeOrTracfin.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep4.action;
+        let dataForm = new FormData(FormStep4);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    window.location.reload();
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
+if(validActeorTracfinbyAdmin !== null){
+    validActeorTracfinbyAdmin.addEventListener('click', function(event){
+        event.preventDefault();
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function(response){
+                window.location.reload();
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
+
+// Validation du dépot de l'attestatrion ou du tracfin directe par l'administrateur
+if(validAdminToFinish !== null){
+    validAdminToFinish.addEventListener('click', function(event){
+        event.preventDefault();
+        let actionForm = FormStep4.action;
+        let dataForm = new FormData(FormStep4);
+        axios
+            .post(actionForm, dataForm)
+            .then(function(response){
+                let code = response.data.code;
+                if(code === 200){
+                    window.location.reload();
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }else{
+                    // initialisation du toaster
+                    let toastHTMLElement = document.getElementById("toaster");
+                    let message = response.data.message;
+                    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+                    toastBody.textContent = message;
+                    let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000 });
+                    toastElement.show();
+                }
+            })
+            .catch(function (error) {
+                console.log(error);
+            });
+    });
+}
 
 const modalCustomer = document.getElementById('modalCustomer');
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
@@ -244,15 +314,53 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
     let id = recipient.split('-')[2];
     let form = modalCustomer.querySelector('.modalBodyForm');
     let modalSubmit = modalCustomer.querySelector('.modal-footer a');
-    if(crud === 'ADD'){
-        axios
-            .get('/gestapp/customer/addcustomerjson/2/' + id)
-            .then(function(response){
-                form.innerHTML = response.data.formView;
-            });
-        modalSubmit.href = '/gestapp/customer/addcustomerjson/2/' + id;
-    }
 });
+
+function removeOptions(selectElement) {
+    var i, L = selectElement.options.length - 1;
+    for(i = L; i >= 0; i--) {
+        selectElement.remove(i);
+    }
+}
+
+// PARTIE Codepostal sur création & modification du client
+// ---------------------------------------
+let commune2 = document.getElementById('customer2_city');
+let zipcode2 = document.getElementById('customer2_zipcode');
+let SelectCity2 = document.getElementById('selectcity2');
+let addresseInput2 = document.getElementById('customer2_adress');
+if(zipcode2 !== null) {
+    zipcode2.addEventListener('input', function (event) {
+        if (zipcode2.value.length === 5) {
+            let coord = this.value;
+            axios
+                .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
+                .then(function (response) {
+                    let features = response.data;
+                    removeOptions(SelectCity2);
+                    features.forEach((element) => {
+                        let name = element['codePostal'] + " - " + element['nomCommune'];
+                        let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
+                        SelectCity2.options.add(OptSelectCity);
+                    });
+                    if (SelectCity2.options.length === 1) {
+                        let value = SelectCity2.value.split(' ');
+                        zipcode2.value = value[0];
+                        commune2.value = value[2].toUpperCase();
+                    } else {
+                        let value = SelectCity2.value.split(' ');
+                        zipcode2.value = value[0];
+                        commune2.value = value[2].toUpperCase();
+                    }
+                });
+        }
+    });
+    SelectCity2.addEventListener('change', function (event){
+        let value = this.value.split(' ');
+        zipcode2.value = value[0];
+        commune2.value = value[2].toUpperCase();
+    });
+}
 
 function submitCustomer(event){
     event.preventDefault;

@@ -19,7 +19,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 
 #[Route('/gestapp/customer')]
 class CustomerController extends AbstractController
@@ -30,7 +30,7 @@ class CustomerController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true){
-            // on liste topus les clients quelques soit les utilisateurs
+            // on liste tous les clients quelques soit les utilisateurs
             $data = $customerRepository->findAllCustomer();
 
             $customers = $paginator->paginate(
@@ -153,7 +153,7 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/addcustomerjson/{type}/{option}', name: 'op_gestapp_customer_addcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/addcustomerjson/{idproperty}', name: 'op_gestapp_customer_addcustomerjson',  methods: ['GET', 'POST'])]
     public function addCustomerJson(
         Request $request,
         CustomerRepository $customerRepository,
@@ -161,86 +161,46 @@ class CustomerController extends AbstractController
         PropertyRepository $propertyRepository,
         TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
-        $type,
-        $option
+        $idproperty
     )
     {
-        //dd($option);
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
+        $property = $propertyRepository->find($idproperty);
+        $customerChoice = $customerChoiceRepository->find(1);
 
         $customer = new Customer();
-
         $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_addcustomerjson', [
-                'id'=> $customer->getId(),
-                'type' => $type,
-                'option' => $option
+                'idproperty' => $idproperty
             ]),
             'method'=>'POST'
         ]);
         $form->handleRequest($request);
 
-        if($type == 1)
-        {
-            $property = $propertyRepository->find($option);
-            $customerChoice = $customerChoiceRepository->find(1);
-            if ($form->isSubmitted() && $form->isValid()) {
-                // Contruction de la référence pour chaque propriété
-                $date = new \DateTime();
-                $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-                $customer->setRefCustomer($refCustomer);
-                $customer->setRefEmployed($employed);
-                $customer->setCustomerChoice($customerChoice);
-                $customer->addProperty($property);
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Contruction de la référence pour chaque propriété
+            $date = new \DateTime();
+            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
+            $customer->setRefCustomer($refCustomer);
+            $customer->setRefEmployed($employed);
+            $customer->setCustomerChoice($customerChoice);
+            $customer->addProperty($property);
 
-                // Ajout en BDD du nouveau client
-                $customerRepository->add($customer);
+            // Ajout en BDD du nouveau client
+            $customerRepository->add($customer);
 
-                // liste tous les clients attachés à leur propriété
-                $customers = $customerRepository->listbyproperty($property);
+            // liste tous les clients attachés à leur propriété
+            $customers = $customerRepository->listbyproperty($property);
 
-                return $this->json([
-                    'code'=> 200,
-                    'message' => "Le vendeur a été correctement ajouté.",
-                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                        'customers' => $customers,
-                        'option' => $option
-                    ])
-                ], 200);
-            }
-
-        }else{
-            //dd('cool');
-            $transac = $transactionRepository->find($option);
-            //dd($transac);
-            $idproperty = $transac->getProperty();
-            $customerChoice = $customerChoiceRepository->find(2);
-            //dd($idproperty,$customerChoice);
-            if ($form->isSubmitted() && $form->isValid()) {
-                // Contruction de la référence pour chaque propriété
-                $date = new \DateTime();
-                $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-                $customer->setRefCustomer($refCustomer);
-                $customer->setRefEmployed($employed);
-                $customer->setCustomerChoice($customerChoice);
-                $customer->addTransaction($transac);
-
-                // Ajout en BDD du nouveau client
-                $customerRepository->add($customer);
-
-                // liste tous les clients attachés à leur propriété
-                $customers = $customerRepository->listbytransaction($transac);
-
-                return $this->json([
-                    'code'=> 200,
-                    'message' => "L'acheteur a été correctement ajouté.",
-                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                        'customers' => $customers,
-                        'option' => $option
-                    ])
-                ], 200);
-            }
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le vendeur a été correctement ajouté.",
+                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                    'customers' => $customers,
+                    'idproperty' => $idproperty
+                ])
+            ], 200);
         }
 
         //dd('erreur soumission');
@@ -257,21 +217,55 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/addcustomer', name: 'op_gestapp_customer_addcustomer',  methods: ['GET', 'POST'])]
+    #[Route('/addcustomer/{type}/{option}', name: 'op_gestapp_customer_addcustomer',  methods: ['GET', 'POST'])]
     public function addCustomer(
         Request $request,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
+        TransactionRepository $transactionRepository,
+        CustomerChoiceRepository $customerChoiceRepository,
+        $idproperty
     )
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
+        $property = $propertyRepository->find($idproperty);
+        $customerChoice = $customerChoiceRepository->find(1);
 
         $customer = new Customer();
-
-        $form = $this->createForm(Customer2Type::class, $customer);
+        $form = $this->createForm(Customer2Type::class, $customer, [
+            'action'=> $this->generateUrl('op_gestapp_customer_addcustomerjson', [
+                'idproperty' => $idproperty
+            ]),
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Contruction de la référence pour chaque propriété
+            $date = new \DateTime();
+            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
+            $customer->setRefCustomer($refCustomer);
+            $customer->setRefEmployed($employed);
+            $customer->setCustomerChoice($customerChoice);
+            $customer->addProperty($property);
+
+            // Ajout en BDD du nouveau client
+            $customerRepository->add($customer);
+
+            // liste tous les clients attachés à leur propriété
+            $customers = $customerRepository->listbyproperty($property);
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le vendeur a été correctement ajouté.",
+                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                    'customers' => $customers,
+                    'idproperty' => $idproperty
+                ])
+            ], 200);
+        }
 
         if ($form->isSubmitted() && $form->isValid()) {
             $customerRepository->add($customer);
@@ -281,7 +275,7 @@ class CustomerController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/customer/add.html.twig', [
+        return $this->render('gestapp/customer/add.html.twig', [
             'customer' => $customer,
             'form' => $form,
         ]);
@@ -309,7 +303,7 @@ class CustomerController extends AbstractController
 
         //dd($form->isSubmitted());
 
-        return $this->renderForm('gestapp/customer/edit.html.twig', [
+        return $this->render('gestapp/customer/edit.html.twig', [
             'customer' => $customer,
             'form' => $form,
         ]);
@@ -318,7 +312,6 @@ class CustomerController extends AbstractController
     #[Route('/getformcustomer/{id}', name: 'op_gestapp_customer_getform', methods: ['GET'])]
     public function getFormCustomer(Customer $customer,Request $request)
     {
-
         $form = $this->createForm(Customer2Type::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_getform', ['id'=> $customer->getId()]),
             'method'=>'POST',
@@ -326,7 +319,7 @@ class CustomerController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        $view = $this->renderForm('gestapp/customer/_form2.html.twig', [
+        $view = $this->render('gestapp/customer/_form2.html.twig', [
             'customer' => $customer,
             'form' => $form
         ]);
@@ -337,12 +330,11 @@ class CustomerController extends AbstractController
         ], 200);
     }
 
-    #[Route('/editcustomerjson/{id}/{type}/{option}', name: 'op_gestapp_customer_editcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/editcustomerjson/{id}/{idproperty}', name: 'op_gestapp_customer_editcustomerjson',  methods: ['GET', 'POST'])]
     public function editCustomerJson(
         Request $request,
         Customer $customer,
-        $type,
-        $option,
+        $idproperty,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
@@ -359,53 +351,30 @@ class CustomerController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if($type == 1) {
-            $property = $propertyRepository->find($option);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $customerRepository->add($customer);
-                $customers = $customerRepository->listbyproperty($idproperty);
-                return $this->json([
-                    'code'=> 200,
-                    'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                        'customers' => $customers,
-                        'option' => $option
-                    ])
-                ], 200);
-            }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $customerRepository->add($customer);
             $customers = $customerRepository->listbyproperty($idproperty);
             return $this->json([
                 'code'=> 200,
-                'message' => "Le vendeur a doit être correctement renseigné.",
+                'message' => "Le vendeur a été correctement modifié.",
                 'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
                     'customers' => $customers,
                     'idproperty' => $idproperty
                 ])
             ], 200);
-        }else{
-            $transac = $transactionRepository->find($option);
-            if ($form->isSubmitted() && $form->isValid()) {
-                $customerRepository->add($customer);
-                $customers = $customerRepository->listbyproperty($idproperty);
-                return $this->json([
-                    'code'=> 200,
-                    'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                        'customers' => $customers,
-                        'option' => $option
-                    ])
-                ], 200);
-            }
-            $customers = $customerRepository->listbytransaction($transac);
-            return $this->json([
-                'code'=> 200,
-                'message' => "Le vendeur a doit être correctement renseigné.",
-                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                    'customers' => $customers,
-                    'option' => $option
-                ])
-            ], 200);
         }
+        $customers = $customerRepository->listbyproperty($idproperty);
+        // Affichage du formulaire de modification du client
+        $view = $this->render('gestapp/customer/_form2.html.twig', [
+            'customer' => $customer,
+            'form' => $form
+        ]);
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Modifier les informations du Client',
+            'formView' => $view->getContent()
+        ],200);
     }
 
     #[Route('/{id}', name: 'op_gestapp_customer_delete', methods: ['POST'])]

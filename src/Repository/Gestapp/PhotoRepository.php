@@ -71,7 +71,7 @@ class PhotoRepository extends ServiceEntityRepository
 
     public function findNameBy($id){
         return $this->createQueryBuilder('p')
-            ->select('p.galeryFrontName, p.createdAt')
+            ->select('p.galeryFrontName, p.path, p.createdAt')
             ->andWhere('p.property = :property')
             ->orderBy('p.position', 'ASC')
             ->setParameter('property', $id)

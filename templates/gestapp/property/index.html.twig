@@ -262,9 +262,29 @@
                 for (let checkbox of checkboxes) {
                     if(checkbox.checked){
                         arrayCheckbox.push(parseInt(checkbox.value))
-                        arrayCheckbox = [... new Set(arrayCheckbox)]
                     }
-                    console.log(arrayCheckbox)
+                }
+                for(let array of arrayCheckbox)
+                {
+                    axios
+                        .post('/gestapp/property/archived/' + array)
+                        .then(function(response){
+                            document.getElementById('listArchived').innerHTML = response.data.liste
+                            // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+                            document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
+                                link.addEventListener('click', DelPropertyIncreating)
+                            })
+                            // Mise en place de l'évenement pour l'archivage d'un bien
+                            document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
+                                link.addEventListener('click', ArchivageProperty)
+                            })
+                            document.querySelectorAll('a.Modaltransferate').forEach(function(link){
+                                link.addEventListener('click', modalTransferate)
+                            })
+                        })
+                        .catch(function(error){
+                            console.log(error)
+                        })
                 }
             }
 
@@ -306,14 +326,11 @@
             // ouverture de la modale
             const modalSupprArchived = document.getElementById('modalSupprArchived')
             modalSupprArchived.addEventListener('show.bs.modal', function(event){
-                let url = document.getElementById("btnSupprArchived").href
-                console.log(url)
                 // Récupération du bouton cliqué et extraction de la variable transmise dans le data-bs-whatever
-                let button = event.relatedTarget
-                let recipient = button.getAttribute('data-bs-whatever')
+                let a = event.relatedTarget
+                let url = a.href
+                console.log(url)
                 // Attribution pour le client et la propriété des éléments insclus dans le data-bs-whatever
-                let modalTitle = modalSupprArchived.querySelector('.modal-title')
-                let modalText = modalSupprArchived.querySelector('.modal-text')
                 let modalSubmit = modalSupprArchived.querySelector('.modal-footer a')
                 modalSubmit.href = url
             })
@@ -323,7 +340,8 @@
                 axios
                     .post(url)
                     .then(function(response){
-                        document.getElementById('listArchived').innerHTML = response.data.liste
+                        document.getElementById('list').innerHTML = response.data.liste
+                        document.getElementById('listArchived').innerHTML = response.data.listeArchived
                         document.querySelector('a.supprArchivedProperty').addEventListener('click', supprArchivedProperty)
                         // Mise en place de l'évenement pour la suppression d'un bien en cours de création
                         document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
@@ -366,11 +384,20 @@
 {% endblock %}
 
 {% block content %}
-<div id="listeIncreating"class="row mb-2">
+<div id="listeIncreating" class="row mb-2">
     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::inCreating')) }}
 </div>
 <div class="row">
     {% include ('gestapp/property/include/_navproperty.html.twig')%}
+    <div class="col-12">
+        {% if expireAtOut is defined and expireAtOut > 0 %}
+            {% if expireAtOut == 1 %}
+                <p class="alert alert-success">Prenez note que {{ expireAtOut }} bien dont le mandat a expiré, a été automatiquement archivé.</p>
+            {% else %}
+                <p class="alert alert-success">Prenez note que {{ expireAtOut }} biens dont le mandat a expiré, ont été automatiquement archivés.</p>
+            {% endif %}
+        {% endif %}
+    </div>
     <div id="list" class="col-sm-12">
         {% include('gestapp/property/_list.html.twig') %}
     </div>
@@ -431,7 +458,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                    <p class="modal-text">Vous êtes sur le point de supprimer le bien sélectionné.</p>
                     <input type="hidden" id="recipient-name">
                 </div>
                 <div class="modal-footer">

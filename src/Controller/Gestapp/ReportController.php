@@ -11,7 +11,7 @@ use App\Service\PropertyService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use ZipArchive;
 
 class ReportController extends AbstractController
@@ -73,7 +73,12 @@ class ReportController extends AbstractController
             }
             // Clé de détermination PARUVENDU - SSRUBRIQUE
             if ($property['rubricCode']) {
-                $ssrubrique = $property['rubricssCode'];
+                $array = ['STU', 'VI'];
+                if(in_array($property['rubricCode'], $array)){
+                    $ssrubrique = "000";
+                }else{
+                    $ssrubrique = $property['rubricssCode'];
+                }
             } else {
                 $ssrubrique = "000";
             }
@@ -90,7 +95,7 @@ class ReportController extends AbstractController
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key < 15; $key++) {
                     if (array_key_exists($key, $arraykey)) {
-                        ${'url' . $key + 1} = 'http://' . $app . '/images/galery/' . $photos[$key]['galeryFrontName'];
+                        ${'url' . $key + 1} = 'http://' . $app . '/properties/' . $photos[$key]['path'] . '/' .$photos[$key]['galeryFrontName'];
                         array_push($url, ${'url' . $key + 1});
                     } else {
                         ${'url' . $key + 1} = '';
@@ -234,7 +239,9 @@ class ReportController extends AbstractController
             //dd($annonce);
 
             // Récupération de la reference
-            $refs = $propertyService->getRefs($propriete);
+            // Récupération de la reference
+            $ref = $property['ref'];
+            $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
             $propertyDefinition = $property['propertyDefinition'];
@@ -271,6 +278,13 @@ class ReportController extends AbstractController
                 $RefDPE = "";
             }
 
+            // Préparation de la date de disponibilité
+            if ($property['disponibilityAt'] instanceof \DateTime) {
+                $disponibilityAt = $property['disponibilityAt']->format('d/m/Y');
+            }else{
+                $disponibilityAt ="";
+            }
+
             // Calcul des honoraires en %
             // $honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
             //dd($property['price'], $property['priceFai'], $honoraires);
@@ -294,7 +308,7 @@ class ReportController extends AbstractController
                 $arraykey = array_keys($photos);
                 for ($key = 0; $key < 30; $key++) {
                     if (array_key_exists($key, $arraykey)) {
-                        ${'url' . $key + 1} = 'http://' . $app . '/images/galery/' . $photos[$key]['galeryFrontName'] . "?" . $photos[$key]['createdAt']->format('Ymd');
+                        ${'url' . $key + 1} = 'http://' . $app . '/properties/' . $photos[$key]['path'] . '/' .$photos[$key]['galeryFrontName'];
                         array_push($url, ${'url' . $key + 1});
                     } else {
                         ${'url' . $key + 1} = '';
@@ -366,7 +380,7 @@ class ReportController extends AbstractController
             // Création d'une ligne du tableau
             $data = array(
                 '"papsimmo"',                                                   // 1 - Identifiant Agence
-                '"' . $refs['ref'] . '"',                                       // 2 - Référence agence du bien
+                '"' . $ref . '"',                                       // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
@@ -386,7 +400,7 @@ class ReportController extends AbstractController
                 '"' . $property['room'] . '"',                                  // 19 - NB de chambres
                 '"' . $property['name'] . '"',                                  // 20 - Libellé
                 '"' . $annonce . '"',                                           // 21 - Descriptif
-                '"' . $property['disponibilityAt'] . '"',                       // 22 - Date de disponibilité
+                '"' . $disponibilityAt . '"',                       // 22 - Date de disponibilité
                 '""',                                                           // 23 - Charges
                 '"' . $property['level'] . '"',                                 // 24 - Etage
                 '""',                                                           // 25 - NB d’étages
@@ -476,7 +490,7 @@ class ReportController extends AbstractController
                 '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
                 '""',                                                       // 110 - Inter-cabinet
                 '""',                                                       // 111 - Inter-cabinet prive
-                '"' . $refs['refMandat'] . '"',                             // 112 - N° de mandat
+                '"' . $refMandat . '"',                             // 112 - N° de mandat
                 '"' . $mandatAt . '"',                                          // 113 - Date mandat
                 '""',                                                       // 114 - Nom mandataire
                 '""',                                                       // 115 - Prénom mandataire
@@ -781,6 +795,13 @@ class ReportController extends AbstractController
                 $RefDPE = "";
             }
 
+            // Préparation de la date de disponibilité
+            if ($property['disponibilityAt'] instanceof \DateTime) {
+                $disponibilityAt = $property['disponibilityAt']->format('d/m/Y');
+            }else{
+                $disponibilityAt ="";
+            }
+
             // Calcul des honoraires en %
             $honoraires = round(100 - (($property->getPrice() * 100) / $property->getPriceFai()), 2);
 
@@ -793,7 +814,7 @@ class ReportController extends AbstractController
             } else {
                 foreach($photos as $photo)
                 {
-                    $urlphoto = 'http://' . $app . '/images/galery/' . $photo['galeryFrontName'];
+                    $urlphoto = 'http://' . $app . '/properties/' .$photo['path'].'/'. $photo['galeryFrontName'];
                     $titrephoto = 'Photo-' . $property->getRef() . '-' . + 1;
                     $pic = [
                         'urlphoto' => $urlphoto,

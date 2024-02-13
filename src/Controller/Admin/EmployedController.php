@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EmployedController extends AbstractController
@@ -35,10 +35,27 @@ class EmployedController extends AbstractController
         ]);
     }
 
+    #[Route('/opadmin/employed/findPrescribers', name: 'op_admin_employeds_findPrescribers', methods: ['GET'])]
+    public function findPrescribers(Request $request, EmployedRepository $employedRepository)
+    {
+        return $this->render('webapp/page/employed/allemployed.html.twig', [
+            'employeds' => $employedRepository->publishEmployedOnApp(),
+        ]);
+    }
 
     #[Route('/opadmin/employed/', name: 'op_admin_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
+        $admins = $employedRepository->listPrescriber('["ROLE_SUPER_ADMIN"]');
+        $employeds = $employedRepository->listPrescriber('["ROLE_EMPLOYED"]');
+        $listeEmployeds = [];
+        foreach ($admins as $a){
+            array_push($listeEmployeds, $a);
+        }
+        foreach ($employeds as $e){
+            array_push($listeEmployeds, $e);
+        }
+        //dd($listeEmployeds);
         return $this->render('admin/employed/index.html.twig', [
             'employeds' => $employedRepository->findAll(),
         ]);
@@ -69,7 +86,7 @@ class EmployedController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             // intégration d'une image
-            $avatarFile = $form->get('employed_avatarFile')->getData();
+            $avatarFile = $form->get('avatarFile')->getData();
             if ($avatarFile) {
                 $originalavatarFileName = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -85,14 +102,15 @@ class EmployedController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
+                $employed->setAvatarName($newavatarFileName);
+                $employed->setAvatarSize($avatarFile->getSize());
             }
 
-
+            $plainpassword = explode("@", $form->get('email')->getData());
             $numCollaborator = rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10);
-            $employed->setPassword($userPasswordHasher->hashPassword($employed,'papsimmo'));
+            $employed->setPassword($userPasswordHasher->hashPassword($employed,$plainpassword[0]));
             $employed->setNumCollaborator($numCollaborator);
-            $employed->setAvatarName($newavatarFileName);
-            $employed->setAvatarSize($avatarFile->getSize());
+            $employed->setRoles(["ROLE_EMPLOYED"]);
             $employedRepository->add($employed);
 
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
@@ -301,16 +319,25 @@ class EmployedController extends AbstractController
     }
 
     #[Route('/opadmin/employed/{id}/adminresetpassword', name: 'op_admin_employed_adminresetpassword', methods: ['GET', 'POST'])]
-    public function adminResetPassword(Request $request, Employed $employed, EmployedRepository $employedRepository, UserPasswordHasherInterface $userPasswordHasher): Response
+    public function adminResetPassword(
+        Request $request,
+        Employed $employed,
+        EmployedRepository $employedRepository,
+        UserPasswordHasherInterface $userPasswordHasher,
+        EntityManagerInterface $em
+    ): Response
     {
         $form = $this->createForm(ResettingPasswordType::class, $employed);
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
+            //dd($form);
             $password = $userPasswordHasher->hashPassword($employed, $form->get('password')->getData());
+
             $employed->setPassword($password);
-            $employedRepository->add($employed);
+            $em->persist($employed);
+            $em->flush();
 
             $request->getSession()->getFlashBag()->add('success', "le mot de passe a été renouvelé.");
 

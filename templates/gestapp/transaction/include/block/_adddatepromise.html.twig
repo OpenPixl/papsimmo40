@@ -1,0 +1,19 @@
+{% set buyers = transaction.customer|length %}
+{{ form_start(form) }}
+{% if buyers < 1 %}
+    <td>
+        <span id="rowEmptyPromiseDate">-</span>
+        <div class="input-group w-50">
+            {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input d-none'}}) }}
+            <button class="btn btn-sm btn-secondary d-none" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
+        </div>
+    </td>
+{% else %}
+    <td>
+        <div class="input-group w-50">
+            {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
+        </div>
+    </td>
+{% endif %}
+{{ form_end(form) }}

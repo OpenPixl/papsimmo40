@@ -3,74 +3,185 @@
 namespace App\Entity\Gestapp;
 
 use ApiPlatform\Metadata\ApiResource;
+use ApiPlatform\Metadata\Delete;
+use ApiPlatform\Metadata\Get;
+use ApiPlatform\Metadata\GetCollection;
+use ApiPlatform\Metadata\Link;
+use ApiPlatform\Metadata\Patch;
+use ApiPlatform\Metadata\Post;
+use App\Controller\Api\Gestapp\Reco\AddReco;
+use App\Controller\Api\Gestapp\Reco\AddRecoByIdCollaborator;
 use App\Entity\Admin\Employed;
 use App\Repository\Gestapp\RecoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: RecoRepository::class)]
-#[ApiResource]
+#[ORM\HasLifecycleCallbacks]
+#[ApiResource(
+    shortName: 'Recommandation',
+    operations: [
+        new Get(
+            uriTemplate: '/recommandation/{id}',
+            requirements: ['id' => '\d+'],
+            openapiContext: [
+                'summary' => "Obtenir une recommandation.",
+                'description' => "Obtenir une recommandation.",
+            ],
+            normalizationContext: ['groups' => 'reco:item']
+        ),
+        new GetCollection(
+            openapiContext: [
+                'summary' => "Obtenir toutes les recomandations de l'API.",
+                'description' => "Obtenir toutes les recomandations de l'API.",
+            ],
+        ),
+        new GetCollection(
+            uriTemplate: '/collaborateur/{refEmployed}/recommandations',
+            uriVariables: [
+                'refEmployed' => new Link(toProperty: 'refEmployed' , fromClass: Employed::class)
+            ],
+            controller: addRecoByIdCollaborator::class,
+            openapiContext: [
+                'summary' => "Obtenir uniquement les recommandations du mandataire.",
+                'description' => "Obtenir uniquement les recommandations du mandataire.",
+            ],
+        ),
+
+        new Post(
+            uriTemplate: '/recommandation',
+            controller: AddReco::class,
+            openapiContext: [
+                'summary' => "Créer une nouvelle recommandation pour le mandataire",
+                'description' => "Créer une nouvelle recommandation pour le mandataire",
+            ],
+            normalizationContext: ['groups' => ['reco:write:post']]
+        ),
+        new Patch(
+            uriTemplate: '/recommandation/{id}/update',
+            openapiContext: [
+                'summary' => "Modification d'une recommandation.",
+                'description' => "Modification d'une recommandation.",
+            ],
+            normalizationContext: ['groups' => ['reco:write:post']]
+        ),
+        new Delete()
+    ],
+    paginationEnabled: false
+)]
 class Reco
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reco:item', 'reco:write:post'])]
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'recos')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Groups(['reco:item', 'reco:write:post'])]
     private ?Employed $refEmployed = null;
 
     #[ORM\Column(length: 80)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceFirstName = null;
 
     #[ORM\Column(length: 80, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceLastName = null;
 
     #[ORM\Column(length: 14)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announcePhone = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceEmail = null;
 
     #[ORM\Column(length: 80)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerFirstName = null;
 
     #[ORM\Column(length: 80, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerLastName = null;
 
     #[ORM\Column(length: 14)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerPhone = null;
 
     #[ORM\Column(length: 100)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerEmail = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyAddress = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyComplement = null;
 
     #[ORM\Column(length: 5, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyZipcode = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyCity = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 5, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyLong = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 5, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyLat = null;
 
     #[ORM\Column(length: 25)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $statutReco = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createAt = null;
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt;
+
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updateAt = null;
+    private ?bool $isRead = false;
+
+    #[ORM\ManyToOne(inversedBy: 'recos')]
+    #[Groups(['reco:item', 'reco:write:post'])]
+    private ?Property $refProperty = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $StatusPrescriber = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?string $typeProperty = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?string $typeReco = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['reco:item', 'employed:reco'])]
+    private ?int $commission = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?int $kmArroundCity = null;
+
+    #[ORM\Column(nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?int $budget = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?string $delayReco = null;
 
     public function getId(): ?int
     {
@@ -269,26 +380,136 @@ class Reco
         return $this;
     }
 
-    public function getCreateAt(): ?\DateTimeImmutable
+    public function getCreatedAt(): ?\DateTimeInterface
     {
-        return $this->createAt;
+        return $this->createdAt;
     }
 
-    public function setCreateAt(\DateTimeImmutable $createAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
     {
-        $this->createAt = $createAt;
+        $this->createdAt = new \DateTime('now');
 
         return $this;
     }
 
-    public function getUpdateAt(): ?\DateTimeImmutable
+    public function getUpdatedAt(): ?\DateTimeInterface
     {
-        return $this->updateAt;
+        return $this->updatedAt;
     }
 
-    public function setUpdateAt(\DateTimeImmutable $updateAt): static
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): self
     {
-        $this->updateAt = $updateAt;
+        $this->updatedAt = new \DateTime('now');
+
+        return $this;
+    }
+
+    public function isIsRead(): ?bool
+    {
+        return $this->isRead;
+    }
+
+    public function setIsRead(bool $isRead): static
+    {
+        $this->isRead = $isRead;
+
+        return $this;
+    }
+
+    public function getRefProperty(): ?Property
+    {
+        return $this->refProperty;
+    }
+
+    public function setRefProperty(?Property $refProperty): static
+    {
+        $this->refProperty = $refProperty;
+
+        return $this;
+    }
+
+    public function getStatusPrescriber(): ?string
+    {
+        return $this->StatusPrescriber;
+    }
+
+    public function setStatusPrescriber(string $StatusPrescriber): static
+    {
+        $this->StatusPrescriber = $StatusPrescriber;
+
+        return $this;
+    }
+
+    public function getTypeProperty(): ?string
+    {
+        return $this->typeProperty;
+    }
+
+    public function setTypeProperty(?string $typeProperty): static
+    {
+        $this->typeProperty = $typeProperty;
+
+        return $this;
+    }
+
+    public function getTypeReco(): ?string
+    {
+        return $this->typeReco;
+    }
+
+    public function setTypeReco(?string $typeReco): static
+    {
+        $this->typeReco = $typeReco;
+
+        return $this;
+    }
+
+    public function getCommission(): ?int
+    {
+        return $this->commission;
+    }
+
+    public function setCommission(?int $commission): static
+    {
+        $this->commission = $commission;
+        return $this;
+    }
+
+    public function getKmArroundCity(): ?int
+    {
+        return $this->kmArroundCity;
+    }
+
+    public function setKmArroundCity(?int $kmArroundCity): static
+    {
+        $this->kmArroundCity = $kmArroundCity;
+
+        return $this;
+    }
+
+    public function getBudget(): ?int
+    {
+        return $this->budget;
+    }
+
+    public function setBudget(?int $budget): static
+    {
+        $this->budget = $budget;
+
+        return $this;
+    }
+
+    public function getDelayReco(): ?string
+    {
+        return $this->delayReco;
+    }
+
+    public function setDelayReco(?string $delayReco): static
+    {
+        $this->delayReco = $delayReco;
 
         return $this;
     }

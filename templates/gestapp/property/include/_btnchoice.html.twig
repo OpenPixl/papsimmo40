@@ -22,7 +22,9 @@
         #}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <li><hr class="dropdown-divider"></li>
-            <li><a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-taped"></i> Archiver le bien</a></li>
+            <li><a type="button" class="dropdown-item ModalDelProperty" data-bs-toggle="modal" data-bs-target="#Suppr2-{{ property.id }}" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-taped"></i> Archiver le bien </a></li>
+            <li><a type="button" id="btnSupprArchived" class="dropdown-item" href="{{ path('op_gestapp_property_del', {'id': property.id}) }}" data-bs-toggle="modal" data-bs-target="#modalSupprArchived" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
+            </li>
         {% endif %}
     </ul>
 </div>

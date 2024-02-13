@@ -51,6 +51,17 @@
                     })
             }
 
+            // trie des menus
+            const sortableMenu = document.getElementById("SortMenu")
+            new Sortable(sortableMenu, {
+                animation:150,
+                onSort: function(event){
+                    let cols = sortableMenu.children
+                    for(i = 0; i < cols.length; i++){
+
+                    }
+                }
+            })
             // Déclaration des Events sur liens de la liste
             // ------------------------------------------------------
             // Ajout d'un event sur Bouton de suppression dans la fenêtre modale

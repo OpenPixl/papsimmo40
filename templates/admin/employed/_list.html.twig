@@ -20,7 +20,7 @@
             <td>{{ employed.email }}</td>
             <td>
                 {% for role in employed.roles %}
-                    <div class="badge bg-primary">{% if role == "ROLE_SUPER_ADMIN" %}Administrateur{% endif %}{% if role == "ROLE_USER" %}Membre{% endif %}</div>
+                    <div class="badge bg-primary">{% if role == "ROLE_SUPER_ADMIN" %}Administrateur{% endif %}{% if role == "ROLE_EMPLOYED" %}Membre{% endif %}{% if role == "ROLE_PRESCRIBER" %}Prescripteur{% endif %}</div>
                 {% endfor %}
             </td>
             <td>{{ employed.sector }}</td>
@@ -34,9 +34,9 @@
             <td>{{ employed.createdAt ? employed.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ employed.updatedAt ? employed.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
-                <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}"><i class="fa-duotone fa-pen-to-square"></i></a>
-                <a class="btn btn-sm btn-outline-danger js-delete" href="{{ path('op_admin_employed_del', {'id': employed.id}) }}"><i class="fa-duotone fa-file-xmark"></i></a>
-                <a class="btn btn-sm btn-outline-warning" href="{{ path('op_admin_employed_adminresetpassword', {'id': employed.id}) }}"><i class="fa-duotone fa-key"></i></a>
+                <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier la fiche"><i class="fa-duotone fa-pen-to-square"></i></a>
+                <a class="btn btn-sm btn-outline-danger js-delete" href="{{ path('op_admin_employed_del', {'id': employed.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer le collaborateur"><i class="fa-duotone fa-file-xmark"></i></a>
+                <a class="btn btn-sm btn-outline-warning" href="{{ path('op_admin_employed_adminresetpassword', {'id': employed.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Changer le mot de passe"><i class="fa-duotone fa-key"></i></a>
             </td>
         </tr>
     {% else %}

@@ -30,9 +30,24 @@ class Transactionstep4Type extends AbstractType
                 'by_reference' => true,
             ])
             ->add('actePdfFilename', FileType::class,[
+                'label' => "Déposer l'attestation PDf de l'acte, le fichier ne doit pas dépasser 10Mo de taille",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10238k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
+            ])
+            ->add('tracfinPdfFilename', FileType::class,[
                 'label' => "Déposer le dossier PDF de l'acte, le fichier ne doit pas dépasser 10Mo de taille",
                 'mapped' => false,
-                //'required' => false,
+                'required' => false,
                 'constraints' => [
                     new File([
                         'maxSize' => '10238k',

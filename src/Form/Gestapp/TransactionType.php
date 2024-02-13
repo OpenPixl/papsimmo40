@@ -31,7 +31,7 @@ class TransactionType extends AbstractType
                     'Ouverture du dossier' => ['data-data' => 'open'],
                     'promesse de vente' => ['data-data' => 'promise'],
                     'Dépôt de dossier' => ['data-data' => 'deposit'],
-                    'acte de vente définitif' => ['data-data' => 'definitive sale'],
+                    'acte de vente définitif' => ['data-data' => 'definitive_sale'],
                     'Dossier finalisé' => ['data-data' => 'finished']
                 ],
             ])

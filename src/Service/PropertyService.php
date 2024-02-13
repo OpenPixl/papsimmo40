@@ -4,10 +4,17 @@ namespace App\Service;
 
 use App\Entity\Gestapp\Property;
 use App\Repository\Gestapp\PropertyRepository;
+use App\Repository\Gestapp\PublicationRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class PropertyService
 {
+    public function __construct(
+        public  EntityManagerInterface $em,
+        public PropertyRepository $propertyRepository
+    )
+    {}
     // Destination commerciale du bien (Vente particulier, vente commerce, location particulier, vente commerce)
     public function getDestination(Property $property)
     {
@@ -150,24 +157,25 @@ class PropertyService
     }
 
     // Génération des références pour les diffuseurs
-    public function getRefs(Property $property)
+    public function getRefs(Property $property, PropertyRepository $propertyRepository)
     {
         // Vérification si property été dupliqué
-        $dup = $property->getDupMandat();
-        $ref = $property->getRef();
-        $mandat = $property->getRefMandat();
-        if($dup){
+        $properties = $propertyRepository->findBy(['RefMandat' => $property->getRefMandat()]);
+        //dd(count($properties));
+        if(count($properties) > 1)
+        {
+            $lastProperty = end($properties);
+            $dup = $lastProperty->getDupMandat();
             $dup++;
+            $ref = $lastProperty->getRef();;
             $initRef = substr($ref, 0,-1 );
             $newRef = $initRef.$dup;
-            $initMandat = substr($mandat, 0,-1 );
-            $newMandat = $initMandat.$dup;
         }else{
             $dup = 'A';
+            $ref = $property->getRef();
             $newRef = $ref.$dup;
-            $newMandat = $mandat.$dup;
         }
-        return array('ref'=>$newRef, 'dup'=> $dup, 'refMandat' => $newMandat);
+        return array('ref'=>$newRef, 'dup'=> $dup);
     }
 
     // Détermination des classes des diagnostique dpe et ges
@@ -222,4 +230,27 @@ class PropertyService
         }
         return $bilanGes;
     }
+
+    // Archivage des biens en expiration de mandat
+    public function expireAtOut(Property $property, PublicationRepository $publicationRepository, EntityManagerInterface $em)
+    {
+
+        $publish = $publicationRepository->findOneBy(['id'=> $property->getPublication()]);
+        $publish->setIsWebpublish(0);
+        $publish->setIsPublishMeilleur(0);
+        $publish->setIsPublishParven(0);
+        $publish->setIsPublishleboncoin(0);
+        $publish->setIsPublishgreenacres(0);
+        $publish->setIsPublishfigaro(0);
+        $publish->setIsPublishseloger(0);
+        $publish->setIsSocialNetwork(0);
+        $em->persist($publish);
+
+        $property->setIsArchived(1);
+        $property->setArchivedAt(new \DateTime('+90 days'));
+        $em->persist($property);
+
+        $em->flush();
+    }
+
 }

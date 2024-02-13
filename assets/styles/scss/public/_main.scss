@@ -870,8 +870,11 @@ form{
     .color{
       color: $secondary-color;
     }
+    #technicalCard {
+      margin-top: 2rem;
+    }
     #generalCard {
-      margin-top: 4rem;
+      margin-top: 2rem;
       .small{
         color: $primary-color;
       }

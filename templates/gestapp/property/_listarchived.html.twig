@@ -4,6 +4,13 @@
 </div>
 <div class="row">
     <div class="col-12">
+        {% if expiredArchived is defined and expiredArchived > 0 %}
+            {% if expiredArchived == 1 %}
+                <p class="alert alert-success">Prenez note que {{ expiredArchived }} bien dont la date des 90 jours est dépassée, a été automatiquement supprimé.</p>
+            {% else %}
+                <p class="alert alert-success">Prenez note que {{ expiredArchived }} biens dont la date des 90 jours a expiré, ont été automatiquement supprimés.</p>
+            {% endif %}
+        {% endif %}
         <table class="table">
             <thead>
             <tr>

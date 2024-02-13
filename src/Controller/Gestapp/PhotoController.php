@@ -6,12 +6,12 @@ use App\Entity\Gestapp\Photo;
 use App\Form\Gestapp\PhotoType;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
-use http\Header;
-use http\Url;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/gestapp/photo')]
 class PhotoController extends AbstractController
@@ -62,12 +62,15 @@ class PhotoController extends AbstractController
     }
 
     #[Route('/new/{idproperty}', name: 'op_gestapp_photo_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PhotoRepository $photoRepository, $idproperty, PropertyRepository $propertyRepository): Response
+    public function new(Request $request, PhotoRepository $photoRepository, $idproperty, PropertyRepository $propertyRepository, SluggerInterface $slugger): Response
     {
         $property = $propertyRepository->find($idproperty);
         // on récupére si elle existe la dernière photo du bien actuel et son positionnement
         $lastphoto = $photoRepository->Lastphoto($idproperty);
 
+        // récupération de la référence
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
         $photo = new Photo();
         if($lastphoto){
             $position = $lastphoto->getPosition() + 1;
@@ -85,6 +88,38 @@ class PhotoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // upload de photo
+            $photoFile = $form->get('galeryFrontFile')->getData();
+            if ($photoFile) {
+                $originalphotoFileName = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safephotoFileName = $slugger->slug($originalphotoFileName);
+                $newphotoFileName = $safephotoFileName . '.' . $photoFile->guessExtension();
+                $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
+                // Move the file to the directory where brochures are stored
+                try {
+                    if (is_dir($pathdir)){
+                        $photoFile->move(
+                            $pathdir,
+                            $newphotoFileName
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $photoFile->move(
+                            $pathdir,
+                            $newphotoFileName
+                        );
+                    }
+
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $photo->setPath($newref);
+                $photo->setGaleryFrontName($newphotoFileName);
+            }
+
             $photoRepository->add($photo);
             $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
             return $this->json([
@@ -112,13 +147,43 @@ class PhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_gestapp_photo_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Photo $photo, PhotoRepository $photoRepository): Response
+    #[Route('/{id}/edit', name: 'op_gestapp_photo_edit', methods: ['GET', 'POST'])]
+    public function edit(Request $request, Photo $photo, PhotoRepository $photoRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(PhotoType::class, $photo);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $photoFile = $form->get('galeryFrontFile')->getData();
+            if ($photoFile) {
+                //suppression de l'image si elle est présente.
+                $galeryFrontName = $photo->getGaleryFrontName();
+                if($galeryFrontName){
+                    $pathname = $this->getParameter('property_photo_directory').'/'.$galeryFrontName;
+                    if(file_exists($pathname)){
+                        unlink($pathname);
+                    }
+                }
+                // Ajout de la nouvelle photo
+                $originalphotoFileName = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safephotoFileName = $slugger->slug($originalphotoFileName);
+                $newphotoFileName = $safephotoFileName . '-' . uniqid() . '.' . $photoFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $photoFile->move(
+                        $this->getParameter('property_photo_directory'),
+                        $newphotoFileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $photo->setGaleryFrontName($newphotoFileName);
+            }
+
             $photoRepository->add($photo);
             return $this->json([
                 'code'=> 200,
@@ -132,19 +197,28 @@ class PhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_gestapp_photo_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'op_gestapp_photo_delete', methods: ['POST'])]
     public function delete(Request $request, Photo $photo, PhotoRepository $photoRepository): Response
     {
         if ($this->isCsrfTokenValid('delete'.$photo->getId(), $request->request->get('_token'))) {
             $photoRepository->remove($photo);
         }
 
-        return $this->redirectToRoute('app_gestapp_photo_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('op_gestapp_photo_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/del/{id}/{idproperty}', name: 'app_gestapp_photo_del', methods: ['POST'])]
+    #[Route('/del/{id}/{idproperty}', name: 'op_gestapp_photo_del', methods: ['POST'])]
     public function del(Request $request, Photo $photo, PhotoRepository $photoRepository, PropertyRepository $propertyRepository, $idproperty): Response
     {
+        //suppression de l'image si elle est présente.
+        $galeryFrontName = $photo->getGaleryFrontName();
+        $ref = $photo->getPath();
+        if($galeryFrontName){
+            $pathname = $this->getParameter('property_photo_directory').'/'.$ref.'/'.$galeryFrontName;
+            if(file_exists($pathname)){
+                unlink($pathname);
+            }
+        }
         $photoRepository->remove($photo);
         $property = $propertyRepository->find($idproperty);
         $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
@@ -159,7 +233,7 @@ class PhotoController extends AbstractController
 
     }
 
-    #[Route('/publicgallerybyproperty/{idproperty}', name: 'app_gestapp_photo_publicgallerybyproperty', methods: ['POST'])]
+    #[Route('/publicgallerybyproperty/{idproperty}', name: 'op_gestapp_photo_publicgallerybyproperty', methods: ['POST'])]
     public function PublicGalleryByProperty($idproperty, PhotoRepository $photoRepository)
     {
         $photos = $photoRepository->findBy(['property'=>$idproperty], ['position' => 'ASC']);
@@ -169,7 +243,7 @@ class PhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/updatepositionphoto/{idcol}/{key}', name: 'app_gestapp_photo_updatepositionphoto', methods: ['POST'])]
+    #[Route('/updatepositionphoto/{idcol}/{key}', name: 'op_gestapp_photo_updatepositionphoto', methods: ['POST'])]
     public function updatepositionphoto($idcol, PhotoRepository $photoRepository, $key)
     {
         // récupérer la photo correspondant à l'id
@@ -184,4 +258,6 @@ class PhotoController extends AbstractController
             'message' => "La photo a bien été déplacée."
             ], 200);
     }
+
+
 }

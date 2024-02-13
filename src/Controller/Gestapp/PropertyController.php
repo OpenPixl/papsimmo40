@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
+use App\Form\Gestapp\Property\AddMandatType;
 use App\Form\Gestapp\PropertyAvenantType;
 use App\Form\Gestapp\PropertyEndMandatType;
 use App\Form\Gestapp\PropertyImageType;
@@ -25,11 +26,11 @@ use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Service\ArchivePropertyService;
 use App\Service\PropertyService;
-use JetBrains\PhpStorm\NoReturn;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Routing\Attribute\Route;
 use Knp\Component\Pager\PaginatorInterface;
 
 #[Route('/gestapp/property')]
@@ -44,7 +45,9 @@ class PropertyController extends AbstractController
         CadasterRepository $cadasterRepository,
         PhotoRepository $photoRepository,
         ComplementRepository $complementRepository,
-        ArchivePropertyService $archiveProperty
+        ArchivePropertyService $archiveProperty,
+        PropertyService $propertyService,
+        EntityManagerInterface $em
     ): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
@@ -53,6 +56,19 @@ class PropertyController extends AbstractController
         if($hasAccess == true){
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
+
+            $expireAtOut = [];
+            // tri des bien avec date de fin de mandat inférieur à aujourd'hui
+            foreach ($data as $d){
+                $dateEndMandat = $d['dateEndmandat'];
+                $idpro = $propertyRepository->find($d['id']);
+
+                if($dateEndMandat !== null){
+                    $propertyService->expireAtOut($idpro, $publicationRepository, $em);
+                    array_push($expireAtOut, $d['id']);
+                }
+            }
+            //dd($expireAtOut);
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -60,11 +76,13 @@ class PropertyController extends AbstractController
             );
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $properties,
-                'user' => $user
+                'user' => $user,
+                'expireAtOut' => count($expireAtOut)
             ]);
         }else{
             // dans ce cas, nous listons les propriétés de l'utilisateurs courant
             $data = $propertyRepository->listPropertiesByemployed($user);
+            // tri des bien avec date de fin de mandat inférérieur à aujourd'hui
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
@@ -136,11 +154,21 @@ class PropertyController extends AbstractController
     {
         // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
         $properties = $propertyRepository->listAllPropertiesArchived();
+        $countArchivedAtExpired = 0;
         foreach($properties as $p)
         {
+            $now = new \DateTime('now');
             $property = $propertyRepository->find($p['id']);
+            $dateArchivedAt = $property->getArchivedAt();
+            $archivedAtExpired = [];
+            if($now >= $dateArchivedAt){
+                array_push($archivedAtExpired, $property->getId());
+                $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
+            }
+            if(count($archivedAtExpired) > 0){
+                $countArchivedAtExpired = count($archivedAtExpired);
+            }
             //$archiveProperty->onArchive($propertyRepository);
-            $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
         }
         $data = $propertyRepository->listAllPropertiesArchived();
         $properties = $paginator->paginate(
@@ -154,7 +182,8 @@ class PropertyController extends AbstractController
             'message' => "Les informations du bien ont été correctement ajoutées.",
             'listarchived' => $this->renderView('gestapp/property/_listarchived.html.twig',[
                 'properties' => $data
-            ])
+            ]),
+            'expiredArchived' => $countArchivedAtExpired
         ], 200);
     }
 
@@ -192,7 +221,7 @@ class PropertyController extends AbstractController
         }
         else{
             return $this->render('gestapp/property/increating.html.twig', [
-                'properties' => $propertyRepository->findBy(array('isIncreating' => 1)),
+                'properties' => $propertyRepository->findBy(['refEmployed'=>$user->getId(), 'isIncreating' => 1]),
             ]);
         }
     }
@@ -231,7 +260,7 @@ class PropertyController extends AbstractController
     )
     {
         // Vérification si property été dupliqué
-        $refs = $propertyService->getRefs($property);
+        $refs = $propertyService->getRefs($property, $propertyRepository);
 
         // Clonage des options de la propriété
         $complement = $property->getOptions();
@@ -277,6 +306,7 @@ class PropertyController extends AbstractController
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
         PropertyService $propertyService,
+        PhotoRepository $photoRepository,
         Request $request
     )
     {
@@ -284,7 +314,7 @@ class PropertyController extends AbstractController
         $employed = $employedRepository->find($idemployed);
 
         // Vérification si property été dupliqué
-        $refs = $propertyService->getRefs($property);
+        $refs = $propertyService->getRefs($property, $propertyRepository);
 
         // Clonage des options de la propriété
         $complement = $property->getOptions();
@@ -519,12 +549,15 @@ class PropertyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             //$annonce = $form->get('annonce')->getData();
             //dd($annonce);
-            $data = str_replace(array( "\n", "\r", "</p><p>" ), array( '', '', ' ' ), html_entity_decode($property->getAnnonce()) );
 
-            $annonceSlug = substr(strip_tags($data, '<br>'), 0, 59);
-            //dd($data, $annonceSlug);
+            $array = array_slice(explode(' ', str_replace(array( "\n", "\r", "\u{A0}","</p><p>", "<br>" ), array( '', '',' ', ' ', '' ), strip_tags($property->getAnnonce()))), 0, 10);
+
+            //dd(implode(" ", $array));
+            $annonceSlug = implode(" ", $array);
+            //dd($annonceSlug);
             $property->setAnnonceSlug($annonceSlug);
             $propertyRepository->add($property);
+            //dd($property);
             return $this->json([
                 'code'=> 200,
                 'message' => "Les informations générales ont été correctement ajoutées au bien."
@@ -569,6 +602,34 @@ class PropertyController extends AbstractController
 
         }
         return $this->renderform('gestapp/property/Step/secondstep.html.twig',[
+            'form'=>$form,
+            'property'=>$property
+        ]);
+    }
+
+    #[Route('/addmandat/{id}', name: 'op_gestapp_property_addmandat', methods: ['GET', 'POST'])]
+    public function addMandat(Request $request, Property $property, PropertyRepository $propertyRepository, EntityManagerInterface $em)
+    {
+        $form = $this->createForm(AddMandatType::class, $property, [
+            'action' => $this->generateUrl('op_gestapp_property_addmandat',['id'=>$property->getId()]),
+            'method' => 'POST'
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $property->setIsNomandat(0);
+            $em->persist($property);
+            $em->flush();
+
+            return $this->json([
+                'code' => 200,
+                'message' => "Le numéro de mandat a été correctement ajouté."
+                ], 200);
+        }
+
+        return $this->render('gestapp/property/_formaddmandat.html.twig',[
             'form'=>$form,
             'property'=>$property
         ]);
@@ -766,16 +827,28 @@ class PropertyController extends AbstractController
         $complementRepository->remove($complement);
 
         if($hasAccess == true){
-            $data = $propertyRepository->listAllPropertiesArchived();
+            $data = $propertyRepository->listAllProperties();
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
                 10
             );
+            $data = $propertyRepository->listAllPropertiesArchived();
+            $propertiesArchived = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
         }else{
+            $data = $propertyRepository->listAllProperties();
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
             // dans ce cas, nous listons les propriétés de l'utilisateurs courant
             $data = $propertyRepository->listPropertiesByemployed($user->getId());
-            $properties = $paginator->paginate(
+            $propertiesArchived = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
                 10
@@ -785,8 +858,11 @@ class PropertyController extends AbstractController
         return $this->json([
             'code'=> 200,
             'message' => 'Les informations du bien : <br>' .$nameProperty. '<br> ont été correctement supprimé.',
-            'liste' => $this->renderView('gestapp/property/_listarchived.html.twig', [
+            'liste' => $this->renderView('gestapp/property/_list.html.twig', [
                 'properties' => $properties
+            ]),
+            'listeArchived' => $this->renderView('gestapp/property/_listarchived.html.twig', [
+                'properties' => $propertiesArchived
             ])
         ], 200);
     }
