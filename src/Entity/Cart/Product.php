@@ -3,6 +3,7 @@
 namespace App\Entity\Cart;
 
 use App\Repository\Cart\ProductRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -37,6 +38,14 @@ class Product
 
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $visualExt = null;
+
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function initializeSlug() {
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify($this->name);
+    }
 
     public function getId(): ?int
     {

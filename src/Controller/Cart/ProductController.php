@@ -29,7 +29,7 @@ class ProductController extends AbstractController
         $form = $this->createForm(ProductType::class, $product, [
             'action' => $this->generateUrl('op_cart_product_new'),
             'method' => 'POST',
-            'attr' => ['class' => 'formProduct']
+            'attr' => ['id' => 'formProduct']
         ]);
         $form->handleRequest($request);
 
@@ -40,8 +40,11 @@ class ProductController extends AbstractController
             $products = $productRepository->findAll();
 
             return $this->json([
-                "code" => 200,
-                "Message" => "Le support a été correctement ajouté"
+                'code' => 200,
+                'Message' => "Le support a été correctement ajouté",
+                'liste' => $this->renderView('cart/product/include/_liste.html.twig',[
+                    'products' => $products
+                ])
             ], 200);
 
             //return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
@@ -75,11 +78,11 @@ class ProductController extends AbstractController
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, ProductRepository $productRepository): Response
     {
         $form = $this->createForm(ProductType::class, $product, [
-            'action' => $this->generateUrl('op_cart_product_new', [
+            'action' => $this->generateUrl('op_cart_product_edit', [
                 'id' => $product->getId()
             ]),
             'method' => 'POST',
-            'attr' => ['class' => 'formProduct']
+            'attr' => ['id' => 'formProduct']
         ]);
         $form->handleRequest($request);
 
@@ -90,7 +93,10 @@ class ProductController extends AbstractController
 
             return $this->json([
                 "code" => 200,
-                "Message" => "Le support a été correctement ajouté"
+                "Message" => "Le support a été correctement ajouté",
+                'liste' => $this->renderView('cart/product/include/_liste.html.twig',[
+                    'products' => $products
+                ])
             ], 200);
 
             //return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);

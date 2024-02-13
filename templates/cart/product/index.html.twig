@@ -27,61 +27,9 @@
         </div>
     </div>
     
-    <div class="row">
-        {% for product in products %}
-            <div class="col-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ product.name }}</h4>
-                        <h6 class="card-subtitle">{{ product.category.name }}</h6>
-                    </div>
-                    <div class="card-header"></div>
-                </div>
-            </div>
-        {% else %}
-            <div class="col-2">
-                <div class="card">
-                    <div class="card-header"></div>
-                    <div class="card-body">
-                        <p>Pas de supports disponible actuellement.</p>
-                    </div>
-                    <div class="card-header"></div>
-                </div>
-            </div>
-        {% endfor %}
+    <div class="row mt-2" id="listeSupport">
+        {{ include('cart/product/include/_liste.html.twig') }}
     </div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Descriptif</th>
-                <th>Price</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td></td>
-                <td>{{ product.slug }}</td>
-                <td>{{ product.descriptif }}</td>
-                <td>{{ product.price }}</td>
-                <td>
-                    <a href="{{ path('op_cart_product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('op_cart_product_edit', {'id': product.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
 
     <a href="{{ path('op_cart_product_new') }}">Create new</a>
 {% endblock %}
@@ -109,7 +57,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <a id="btnSubmitSupport" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                    <button id="btnSubmitSupport" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
                 </div>
             </div>
         </div>

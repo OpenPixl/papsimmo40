@@ -4,13 +4,21 @@
         <h6>Description du Support :</h6>
         <div class="row mb-1 mt-1 g-1">
             <div class="col-2">
+                {{ form_label(form.Category, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-6">
+                {{ form_widget(form.Category, {'attr': {'class': 'form-select form-select-sm'}}) }}
+            </div>
+        </div>
+        <div class="row mb-1 mt-1 g-1">
+            <div class="col-2">
                 {{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
             <div class="col-10">
                 {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </div>
         </div>
-        <div class="row mb-1 mt-1 g-1">
+        <div class="row mb-1 mt-1 g-0">
             <div class="col-2">
                 {{ form_label(form.descriptif, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
@@ -26,18 +34,10 @@
                 {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </div>
         </div>
-        <div class="row mb-1 mt-1 g-1">
-            <div class="col-2">
-                {{ form_label(form.Category, '', {'label_attr': {'class':'form-label'}}) }}
-            </div>
-            <div class="col-6">
-                {{ form_widget(form.Category, {'attr': {'class': 'form-select form-select-sm'}}) }}
-            </div>
-        </div>
     </div>
     <div class="col-4">
         <h6>Photo :</h6>
+        {{ form_widget(form.visualFilename, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
     </div>
 </div>
-    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

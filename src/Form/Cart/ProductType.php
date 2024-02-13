@@ -17,12 +17,11 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name')
-            ->add('slug')
             ->add('descriptif')
             ->add('price')
             ->add('Category', EntityType::class, [
                 'class' => CategoryProduct::class,
-'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('visualFilename', FileType::class,[
                 'label' => "La photo ne doit pas dépasser 10Mo de taille",

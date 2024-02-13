@@ -16,8 +16,27 @@ flatpickr(".flatpickrtime", {
 });
 
 let modalSupport = document.getElementById('modalSupport');
+let btnSubmitSupport = document.getElementById('btnSubmitSupport');
 
 modalSupport.addEventListener('show.bs.modal', openModalSupport);
+if(btnSubmitSupport !== null){
+    btnSubmitSupport.addEventListener('click', submitSupport);
+}
+function submitSupport(){
+    let form = document.getElementById('formProduct');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('listeSupport').innerHTML = response.data.liste;
+            allAddEvent();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
+}
 
 function openModalSupport(event){
     // Button that triggered the modal
@@ -43,10 +62,28 @@ function openModalSupport(event){
                 console.log(error);
             })
         ;
+    }else if(crud === 'EDIT'){
+        let url = a.href;
+        let modalHeaderH5 = modalSupport.querySelector('.modal-title');
+        let modalBody = modalSupport.querySelector('.modal-body');
+        modalHeaderH5.textContent = contentTitle;
+        axios
+            .get(url)
+            .then(function (response){
+                modalBody.innerHTML = response.data.formView;
+                allAddEvent();
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
     }
 }
 
 // Fonction de rechargement des events
 function allAddEvent(){
     modalSupport.addEventListener('show.bs.modal', openModalSupport);
+    if(btnSubmitSupport !== null){
+        btnSubmitSupport.addEventListener('click', submitSupport);
+    }
 }
