@@ -23,23 +23,44 @@ class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'op_cart_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ProductRepository $productRepository): Response
     {
         $product = new Product();
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductType::class, $product, [
+            'action' => $this->generateUrl('op_cart_product_new'),
+            'method' => 'POST',
+            'attr' => ['class' => 'formProduct']
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($product);
             $entityManager->flush();
 
-            return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
+            $products = $productRepository->findAll();
+
+            return $this->json([
+                "code" => 200,
+                "Message" => "Le support a été correctement ajouté"
+            ], 200);
+
+            //return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('cart/product/new.html.twig', [
+        $view = $this->render('cart/product/_form.html.twig', [
             'product' => $product,
-            'form' => $form,
+            'form' => $form
         ]);
+
+        return $this->json([
+            "code" => 200,
+            "formView" => $view->getContent()
+        ], 200);
+
+        //return $this->render('cart/product/new.html.twig', [
+        //    'product' => $product,
+        //    'form' => $form,
+        //]);
     }
 
     #[Route('/{id}', name: 'op_cart_product_show', methods: ['GET'])]
@@ -51,21 +72,44 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'op_cart_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, ProductRepository $productRepository): Response
     {
-        $form = $this->createForm(ProductType::class, $product);
+        $form = $this->createForm(ProductType::class, $product, [
+            'action' => $this->generateUrl('op_cart_product_new', [
+                'id' => $product->getId()
+            ]),
+            'method' => 'POST',
+            'attr' => ['class' => 'formProduct']
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
+            $products = $productRepository->findAll();
+
+            return $this->json([
+                "code" => 200,
+                "Message" => "Le support a été correctement ajouté"
+            ], 200);
+
+            //return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('cart/product/edit.html.twig', [
+        $view = $this->render('cart/product/_form.html.twig', [
             'product' => $product,
-            'form' => $form,
+            'form' => $form
         ]);
+
+        return $this->json([
+            "code" => 200,
+            "formView" => $view->getContent()
+        ], 200);
+
+        //return $this->render('cart/product/edit.html.twig', [
+        //    'product' => $product,
+        //    'form' => $form,
+        //]);
     }
 
     #[Route('/{id}', name: 'op_cart_product_delete', methods: ['POST'])]
