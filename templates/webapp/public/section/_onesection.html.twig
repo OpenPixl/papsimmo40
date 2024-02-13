@@ -40,7 +40,7 @@
                 {% elseif section.content == 'One_article' %}
                     {{ render(controller('App\\Controller\\Webapp\\ArticlesController::OneArticle', {'id': section.oneArticle})) }}
                 {# Affiche une catégorie d'articles #}
-                {% elseif section.content == 'Category'%}
+                {% elseif section.content == 'CategoryProduct'%}
                     {{ render(controller('App\\Controller\\Webapp\\ArticlesController::articlesByCat', {'cat': section.oneCategory})) }}
                 {# Affiche un collaborateur et ses biens #}
                 {% elseif section.content == 'One_Employed'%}
