@@ -14,16 +14,16 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
-            <h1>Support Commerciaux - <small>Liste des produits disponible à la commande</small></h1>
+            <h1>Support Commerciaux - <small>Liste des commandes</small></h1>
         </div>
     </div>
-
+    {#
     <div class="navigation d-flex justify-content-between">
         <div class="mb-1">
             <a id="addNewSupport" href="{{ path('op_cart_product_new') }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="ADD-Ajouter un nouveau support à la liste-0">Ajouter un nouveau support</a>
             |
             <button class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</button>
-            <a href="{{ path('op_cart_purchases_index') }}" class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</a>
+            <button class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</button>
         </div>
     </div>
     
@@ -32,36 +32,12 @@
     </div>
 
     <a href="{{ path('op_cart_product_new') }}">Create new</a>
+    #}
 {% endblock %}
 
 
 {% block modal %}
     {{ parent() }}
-    <!-- Ajout d'un vendeur sur un bien -->
-    <div class="modal fade" id="modalSupport" tabindex="-1" aria-labelledby="modalSupport" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un support</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="modalBodyForm">
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                    <input id="idProperty" type="hidden" value="">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <button id="btnSubmitSupport" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     {# annonce toaster #}
     <div aria-live="polite" aria-atomic="true" class="position-relative">

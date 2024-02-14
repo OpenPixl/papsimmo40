@@ -1,13 +1,12 @@
 <?php
 
-namespace App\Controller\Gestapp\Purchase;
+namespace App\Controller\Cart;
 
-use App\Entity\Cart\CartService;
-use App\Entity\Gestapp\ProductCustomize;
-use App\Entity\Gestapp\Purchase;
-use App\Entity\Gestapp\PurchaseItem;
+use App\Entity\Cart\Purchase;
+use App\Entity\Cart\PurchaseItem;
 use App\Form\Gestapp\CartConfirmationType;
-use App\Repository\Gestapp\PurchaseRepository;
+use App\Repository\Cart\PurchaseRepository;
+use App\Service\CartService;
 use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
@@ -31,10 +30,8 @@ class PurchaseConfirmationController extends AbstractController
         $this->requestStack = $requestStack;
     }
 
-    /**
-     * @Route("/webapp/purchase/confirm", name="op_webapp_purchase_confirm")
-     * @IsGranted("ROLE_USER", message="Vous devez être inscrit sur la plateforme pour confirmer votre commande")
-     */
+    #[Route('/cart/purchase/confirm', name: 'op_cart_purchase_confirm', methods: ['GET', 'POST'])]
+    #[IsGranted("ROLE_USER", message:"Vous devez être inscrit sur la plateforme pour confirmer votre commande")]
     public function confirm(Request $request, EntityManagerInterface $em, PurchaseRepository $purchaseRepository)
     {
         $form = $this->createForm(CartConfirmationType::class);
@@ -79,9 +76,6 @@ class PurchaseConfirmationController extends AbstractController
         foreach($this->cartService->getDetailedCartItem() as $cartItem){
             //récupération des personnalisation du produit
             $product = $cartItem->product;
-            $listCustom = $em->getRepository(ProductCustomize::class)->findOneBy(array('product'=> $product), array('id'=>'DESC'));
-            $format = $listCustom->getFormat();
-            $priceformat = $listCustom->getFormat()->getPriceformat();
 
             $purchaseItem = new PurchaseItem;
             $purchaseItem
@@ -89,13 +83,9 @@ class PurchaseConfirmationController extends AbstractController
                 ->setProduct($cartItem->product)
                 ->setProductName($cartItem->product->getName())
                 ->setProductQty($cartItem->qty)
-                ->setProductPrice($priceformat)
-                ->setTotalItem($cartItem->qty*$priceformat)
-                ->setFormat($format)
-                ->setCustomerName($listCustom->getName())
+                ->setTotalItem($cartItem->qty)
             ;
             $this->em->persist($purchaseItem);
-            $em->remove($listCustom);
 
             $total = $total + $purchaseItem->getTotalItem();
         }
@@ -111,14 +101,11 @@ class PurchaseConfirmationController extends AbstractController
         $session = $this->get('session');
         $session->migrate();
 
-        return $this->redirectToRoute('op_webapp_purchases_index');
+        return $this->redirectToRoute('op_cart_product_index');
     }
 
-    /**
-     * Supprime la commande sélectionnée en amont et rafraichi la page de l'utilisateur courant
-     * @param Purchase $purchase
-     * @Route("/gestapp/purchase/delete/{id}", name="op_gestapp_purchase_delete")
-     */
+
+    #[Route('/cart/purchase/delete/{id}', name:'op_cart_purchase_delete', methods: ['POST'])]
     public function deletePurchase(Purchase $purchase)
     {
         $this->em->remove($purchase);

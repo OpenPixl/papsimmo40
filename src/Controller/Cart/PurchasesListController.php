@@ -30,25 +30,23 @@ class PurchasesListController extends abstractController
         $this->pdf = $pdf;
     }
 
-    /**
-     * @Route("/webapp/purchases/", name="op_webapp_purchases_index")
-     * @IsGranted("ROLE_USER", message="Vous devez être connecté pour accéder à vos commandes")
-     */
+
+    #[Route('/cart/purchases/', name:'op_cart_purchases_index', methods: ['GET'])]
+    #[IsGranted('ROLE_USER', message: "Vous devez être connecté pour accéder à vos commandes")]
     public function index()
     {
 
         $member = $this->getUser();
+        dd($member);
 
-        return $this->render('gestapp/purchase/index.html.twig',[
+        return $this->render('cart/purchase/index.html.twig',[
             'purchases'=> $member->getPurchases(),
             'hide' => 0,
         ]);
     }
 
-    /**
-     * @Route("/opadmin/purchases/", name="op_admin_purchases_index")
-     * @IsGranted("ROLE_USER", message="Vous devez être connecté pour accéder à l'administration")
-     */
+    #[Route('/cart/purchases/admin', name:'op_cart_purchases_admin', methods: ['GET'])]
+    #[IsGranted('ROLE_USER', message: "Vous devez être connecté pour accéder à vos commandes")]
     public function listAdmin(PurchaseRepository $purchaseRepository, Request $request, PaginatorInterface $paginator)
     {
         $member = $this->getUser();
@@ -66,10 +64,7 @@ class PurchasesListController extends abstractController
         ]);
     }
 
-    /**
-     * Fonction pour faire évoluer l'etat de paiement de la commande par le client
-     * @Route("/opadmin/purchases/updateStatusPaid/{id}/{status}", name="op_admin_purchases_updateStatePaid")
-     */
+    #[Route('/cart/purchases/updateStatusPaid/{id}/{status}', name:'op_cart_purchases_updateStatePaid', methods: ['POST'])]
     public function updateStatePaidPurchase(Purchase $purchase, $status, MailerInterface $mailer, EntityManagerInterface $em)
     {
         // récupération des variables
@@ -119,10 +114,7 @@ class PurchasesListController extends abstractController
 
     }
 
-    /**
-     * Fonction de progression sur la commande, suivi des produits à réaliser à la main, et de l'envoi de la commande par la poste.
-     * @Route("/opadmin/purchases/updateStatusPurchase/{id}/{status}", name="op_admin_purchases_updateStatePurchase")
-     */
+    #[Route('/cart/purchases/updateStatusPurchase/{id}/{status}', name:'op_cart_purchases_updateStatePurchase', methods: ['POST'])]
     public function updateStatusPurchase(Purchase $purchase, $status, MailerInterface $mailer)
     {
         // récupération des variables
@@ -175,6 +167,7 @@ class PurchasesListController extends abstractController
      * Affiche les nouvelles commandes sur le dashboard 
      * @Route("/op_admin/gestapp/purchases/byuserNew/{hide}", name="op_gestapp_purchases_byusernewpurchases", methods={"GET"})
      */
+    #[Route('/cart/purchases/byuserNew/{hide}', name:'op_cart_purchases_byusernewpurchases', methods: ['GET'])]
     public function byUserReceiptNewPurchases($hide, PurchaseRepository $purchaseRepository): Response
     {
         $user = $this->getUser();
@@ -185,9 +178,7 @@ class PurchasesListController extends abstractController
         ]);
     }
 
-    /**
-     * @Route("/op_admin/gestapp/purchases/byuserSend/{hide}", name="op_gestapp_purchases_byusersend", methods={"GET"})
-     */
+    #[Route('/cart/purchases/byuserSend/{hide}', name:'op_cart_purchases_byusersend', methods: ['GET'])]
     public function byUserSend($hide,PurchaseRepository $purchaseRepository): Response
     {
         $user = $this->getUser();
@@ -199,10 +190,7 @@ class PurchasesListController extends abstractController
         ]);
     }
 
-    /**
-     * Voir la commande du client dans l'administration
-     * @Route("/op_gestapp/purchases/onePuchaseadmin/{commande}", name="op_gestapp_purchases_onepurchaseadmin", methods={"GET"})
-     */
+    #[Route('/cart/purchases/onePuchaseadmin/{commande}', name:'op_cart_purchases_onepurchaseadmin', methods: ['GET'])]
     public function onePurchaseAdmin($commande, PurchaseRepository $purchaseRepository, PurchaseItemRepository $purchaseItemRepository) : Response
     {
         $purchase = $purchaseRepository->onePurchase($commande);
@@ -218,10 +206,7 @@ class PurchasesListController extends abstractController
         ]);
     }
 
-    /**
-     * Voir la commande du client dans l'administration
-     * @Route("/op_gestapp/purchases/onePuchasepublic/{commande}", name="op_gestapp_purchases_onepurchasepublic", methods={"GET"})
-     */
+    #[Route('/cart/purchases/onePuchasepublic/{commande}', name:'op_cart_purchases_onepurchasepublic', methods: ['GET'])]
     public function onePurchasePublic($commande, PurchaseRepository $purchaseRepository, PurchaseItemRepository $purchaseItemRepository) : Response
     {
         $purchase = $purchaseRepository->onePurchase($commande);
@@ -237,14 +222,9 @@ class PurchasesListController extends abstractController
         ]);
     }
 
-    /**
-     * Voir la commande du client en Pdf
-     * @Route("/op_gestapp/purchases/onePuchase/{commande}", name="op_gestapp_purchases_onepurchase", methods={"GET"})
-     */
+    #[Route('/cart/purchases/onePurchase/{commande}', name:'op_cart_purchases_onepurchase', methods: ['GET'])]
     public function onePurchase($commande, PurchaseRepository $purchaseRepository, PurchaseItemRepository $purchaseItemRepository,Pdf $knpSnappyPdf) : Response
     {
-
-
         $purchase = $purchaseRepository->onePurchase($commande);
         $purchase2 = $purchaseRepository->findOneBy(array('numPurchase' => $commande));
         $num = $purchase2->getId();
@@ -263,10 +243,7 @@ class PurchasesListController extends abstractController
 
     }
 
-    /**
-     * supprime la commande
-     * @Route("/op_gestapp/purchases/delete/{commande}", name="op_gestapp_purchases_delete", methods={"POST"})
-     */
+    #[Route('/cart/purchases/delete/{commande}', name:'op_cart_purchases_delete', methods: ['POST'])]
     public function delPurchase(Purchase $purchase, PurchaseRepository $purchaseRepository, PurchaseItemRepository $purchaseItemRepository, EntityManagerInterface $em) : Response
     {
         $member = $this->getUser();
