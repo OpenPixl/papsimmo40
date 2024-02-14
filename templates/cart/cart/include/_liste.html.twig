@@ -1,0 +1,41 @@
+<div class="col-12">
+    <table class="table align-middle">
+        <thead>
+        <tr>
+            <th class="col-3">Le produit</th>
+            <th class="col-4"></th>
+            <th class="col-2">Prix unitaire</th>
+            <th class="col-1">Quantité</th>
+            <th class="col-1">total</th>
+            <th class="col-1"></th>
+        </tr>
+        </thead>
+        <tbody id="bodyCart">
+        {% set sstotal = 0 %}
+        {% for c in carts %}
+            <tr id="rowCart" class="align-middle">
+                <td>
+                    {# intégration de l'image au sein du panier #}
+                    {% if c.refProduct is null %}
+                        <img class="rounded" src="#" alt="fond_product">
+                    {% else %}
+                        <img class="rounded" src="#" alt="{{ c.productName }}">&nbsp;&nbsp;
+                    {% endif %}
+
+                    {# lien vers la fiche produit #}
+                    <a class="text-start" href="{{ path('op_cart_product_show', {'id': c.productid}) }}">{{ c.productName }}</a> - réf : {{ c.productRef }}
+                </td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        {% else %}
+            <tr id="rowCart" class="align-middle">
+                <td colspan="6">Pas de support commerciaux ajouter à la commande.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

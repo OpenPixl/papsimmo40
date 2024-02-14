@@ -30,9 +30,6 @@ class Purchase
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $zipcode = null;
 
-    #[ORM\ManyToOne]
-    private ?Employed $refEmployed = null;
-
     #[ORM\Column(type: Types::DECIMAL, precision: 6, scale: 2, nullable: true)]
     private ?string $total = null;
 
@@ -41,6 +38,9 @@ class Purchase
 
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $purchaseAt = null;
+
+    #[ORM\ManyToOne(inversedBy: 'purchases')]
+    private ?Employed $refEmployed = null;
 
     public function getId(): ?int
     {
@@ -107,18 +107,6 @@ class Purchase
         return $this;
     }
 
-    public function getRefEmployed(): ?Employed
-    {
-        return $this->refEmployed;
-    }
-
-    public function setRefEmployed(?Employed $refEmployed): static
-    {
-        $this->refEmployed = $refEmployed;
-
-        return $this;
-    }
-
     public function getTotal(): ?string
     {
         return $this->total;
@@ -151,6 +139,18 @@ class Purchase
     public function setPurchaseAt(?\DateTimeImmutable $purchaseAt): static
     {
         $this->purchaseAt = $purchaseAt;
+
+        return $this;
+    }
+
+    public function getRefEmployed(): ?Employed
+    {
+        return $this->refEmployed;
+    }
+
+    public function setRefEmployed(?Employed $refEmployed): static
+    {
+        $this->refEmployed = $refEmployed;
 
         return $this;
     }

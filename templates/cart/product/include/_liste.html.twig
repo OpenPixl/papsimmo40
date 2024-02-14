@@ -8,7 +8,7 @@
             <div class="card-footer">
                 <div class="d-flex justify-content-between">
                     <div><a href="{{ path('op_cart_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="EDIT-Modifier le support">Modifier</a></div>
-                    <div><button class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-plus"></i> Commander</button></div>
+                    <div><a href="{{ path('op_cart_cart_add', {'id': product.id}) }}" class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-plus"></i> Commander</a></div>
                 </div>
             </div>
         </div>

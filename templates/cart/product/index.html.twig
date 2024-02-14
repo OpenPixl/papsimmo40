@@ -22,7 +22,7 @@
         <div class="mb-1">
             <a id="addNewSupport" href="{{ path('op_cart_product_new') }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="ADD-Ajouter un nouveau support à la liste-0">Ajouter un nouveau support</a>
             |
-            <button class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</button>
+            <a href="{{ path('op_cart_cart_show') }}" class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</a>
             <a href="{{ path('op_cart_purchases_index') }}" class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</a>
         </div>
     </div>

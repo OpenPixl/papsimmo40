@@ -104,7 +104,6 @@ class PurchaseConfirmationController extends AbstractController
         return $this->redirectToRoute('op_cart_product_index');
     }
 
-
     #[Route('/cart/purchase/delete/{id}', name:'op_cart_purchase_delete', methods: ['POST'])]
     public function deletePurchase(Purchase $purchase)
     {

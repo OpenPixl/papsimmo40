@@ -1,0 +1,30 @@
+<div class="col-12">
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th class="col-1"><input type="checkbox" name="checkAllBoxes"></th>
+            <th>Date de commande</th>
+            <th></th>
+            <th></th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for purchase in purchases %}
+            <tr>
+                <th></th>
+                <th>{{ purchase.purchaseAt|date('Y-m-d H:i:s') }}</th>
+                <th>{{ purchase.total }}</th>
+                <th>{{ purchase.status }}</th>
+            </tr>
+        {% else %}
+            <tr>
+                <td></td>
+                <td colspan="3">Pas de commandes</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+

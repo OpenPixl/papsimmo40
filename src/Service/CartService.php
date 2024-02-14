@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Repository\Cart\ProductRepository;
+use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 
 class CartService
@@ -10,24 +11,31 @@ class CartService
     protected $session;
     protected $productRepository;
 
-    public function __construct(SessionInterface $session, ProductRepository $productRepository)
+    private RequestStack $requestStack;
+
+    private function getSession(): SessionInterface
     {
-        $this->session = $session;
+        return $this->requestStack->getSession();
+    }
+
+    public function __construct(RequestStack $requestStack, ProductRepository $productRepository)
+    {
+        $this->requestStack = $requestStack;
         $this->productRepository = $productRepository;
     }
 
     public function getCart() : array
     {
-        return $this->session->get('cart', []);
+        return $this->getSession()->get('cart', []);
     }
 
     protected function setCart(array $cart)
     {
-        return $this->session->set('cart', $cart);
+        return $this->getSession()->set('cart', $cart);
     }
 
     protected function saveCart(array $cart){
-        $this->session->set('cart', $cart);
+        $this->getSession()->set('cart', $cart);
     }
 
     public function emptyCart(){
@@ -73,7 +81,7 @@ class CartService
                 return;
             }
             $cart[$item]['Qty']--;
-        $this->session->set('cart', $cart);
+            $this->getSession()->set('cart', $cart);
         }
 
         $this->setCart($cart);
@@ -114,7 +122,6 @@ class CartService
         foreach($this->getCart() as $item)
         {
             $id = $item['ProductId'];
-            $uuid = $item['CustomizeUuid'];
             $qty = $item['Qty'];
             $item = $item['Item'];
 

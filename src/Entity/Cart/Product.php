@@ -4,6 +4,8 @@ namespace App\Entity\Cart;
 
 use App\Repository\Cart\ProductRepository;
 use Cocur\Slugify\Slugify;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
@@ -38,6 +40,17 @@ class Product
 
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $visualExt = null;
+
+    #[ORM\OneToMany(mappedBy: 'RefProduct', targetEntity: Cart::class)]
+    private Collection $carts;
+
+    #[ORM\Column(length: 255)]
+    private ?string $ref = null;
+
+    public function __construct()
+    {
+        $this->carts = new ArrayCollection();
+    }
 
 
     #[ORM\PrePersist]
@@ -144,6 +157,48 @@ class Product
     public function setVisualExt(?string $visualExt): static
     {
         $this->visualExt = $visualExt;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): static
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
+            $cart->setRefProduct($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): static
+    {
+        if ($this->carts->removeElement($cart)) {
+            // set the owning side to null (unless already changed)
+            if ($cart->getRefProduct() === $this) {
+                $cart->setRefProduct(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getRef(): ?string
+    {
+        return $this->ref;
+    }
+
+    public function setRef(string $ref): static
+    {
+        $this->ref = $ref;
 
         return $this;
     }

@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Form\Gestapp;
+namespace App\Form\Cart;
 
-use App\Entity\Gestapp\Purchase;
+use App\Entity\cart\Purchase;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;

@@ -37,7 +37,7 @@ class PurchasesListController extends abstractController
     {
 
         $member = $this->getUser();
-        dd($member);
+        //dd($member);
 
         return $this->render('cart/purchase/index.html.twig',[
             'purchases'=> $member->getPurchases(),
