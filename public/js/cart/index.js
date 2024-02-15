@@ -17,11 +17,14 @@ flatpickr(".flatpickrtime", {
 
 let modalSupport = document.getElementById('modalSupport');
 let btnSubmitSupport = document.getElementById('btnSubmitSupport');
-let btnConfPurchase = document.getElementById('')
+let btnConfPurchase = document.getElementById('btnConfPurchase');
 
 modalSupport.addEventListener('show.bs.modal', openModalSupport);
 if(btnSubmitSupport !== null){
     btnSubmitSupport.addEventListener('click', submitSupport);
+}
+if(btnConfPurchase !== null){
+    btnConfPurchase.addEventListener('click', submitSupport);
 }
 function submitSupport(){
     let form = document.getElementById('formProduct');
@@ -82,11 +85,6 @@ function openModalSupport(event){
 }
 function validCart(event){
     event.preventDefault();
-    let formPurchase = document.getElementById("cart_confirmation");
-    let urlPurchase = formPurchase.action;
-    let dataPurchase = new FormData(formPurchase);
-    formPurchase.submit();
-
 }
 
 if(btnConfPurchase != null){

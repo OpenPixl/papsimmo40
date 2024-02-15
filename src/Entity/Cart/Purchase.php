@@ -42,6 +42,9 @@ class Purchase
     #[ORM\ManyToOne(inversedBy: 'purchases')]
     private ?Employed $refEmployed = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $numPurchase = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -151,6 +154,18 @@ class Purchase
     public function setRefEmployed(?Employed $refEmployed): static
     {
         $this->refEmployed = $refEmployed;
+
+        return $this;
+    }
+
+    public function getNumPurchase(): ?string
+    {
+        return $this->numPurchase;
+    }
+
+    public function setNumPurchase(string $numPurchase): static
+    {
+        $this->numPurchase = $numPurchase;
 
         return $this;
     }

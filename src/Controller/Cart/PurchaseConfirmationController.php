@@ -37,40 +37,36 @@ class PurchaseConfirmationController extends AbstractController
         $user = $this->getUser();
         $lastPurchase = $purchaseRepository->findLastRef();
         if(!$lastPurchase){
-            $lastPurchase = 1;
+            $numPurchase = 'Comm-' . 1;
+            dd($lastPurchase);
+        }else{
+            $lastPurchase = explode('-', $lastPurchase->getNumPurchase());
+            $numPurchase = $lastPurchase[1]++;
         }
-        $NumPurchase = explode('-', $lastPurchase->getNumPurchase());
-        $lastRef = $NumPurchase[1]++;
-        
+
         $cartItems = $this->cartService->getDetailedCartItem();
         if(count($cartItems) === 0){
             $this->addFlash('warning', 'le panier est vide, impossible de commander');
             return $this->redirectToRoute('op_cart_product_index');
         }
 
-        /** @var Purchase */
         //dd($this->cartService->getTotal());
         // contruction du numero de commande
         $date = new \DateTime();
-        $numDate = $date->format('Y').'|'.$date->format('m');
-        $ref = $numDate."-".$lastRef;
 
         $purchase = new Purchase;
         $purchase
             ->setRefEmployed($user)
-            ->setNumPurchase($ref)
+            ->setNumPurchase($numPurchase)
             ->setStatus("PENDING")
-            ->setStatuspaid("PENDING")
-            ->setPurchasedAt(new DateTime())
+            ->setPurchaseAt($date)
             ->setTotal($this->cartService->getTotal());
 
         $this->em->persist($purchase);
-        $total = 0;
 
+        $total = 0;
         foreach($this->cartService->getDetailedCartItem() as $cartItem){
             //récupération des personnalisation du produit
-            $product = $cartItem->product;
-
             $purchaseItem = new PurchaseItem;
             $purchaseItem
                 ->setPurchase($purchase)
@@ -92,7 +88,7 @@ class PurchaseConfirmationController extends AbstractController
         $this->em->flush();
 
         // Renouvellement de la session
-        $session = $this->get('session');
+        $session = $this->requestStack->getSession();
         $session->migrate();
 
         return $this->redirectToRoute('op_cart_product_index');

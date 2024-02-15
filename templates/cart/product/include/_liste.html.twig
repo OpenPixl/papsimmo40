@@ -1,6 +1,11 @@
 {% for product in products %}
     <div class="col-2">
         <div class="card">
+            {% if product.visualFilename is not null %}
+            <img src="{{ asset('') }}" class="card-img-top" alt="{{ product.ref }}">
+            {% else %}
+                <img src="{{ asset('images/jpeg/support_visuel.jpeg') }}" class="card-img-top" alt="{{ product.ref }}">
+            {% endif %}
             <div class="card-body">
                 <h4 class="card-title">{{ product.name }}</h4>
                 <h6 class="card-subtitle">{{ product.category.name }}</h6>
