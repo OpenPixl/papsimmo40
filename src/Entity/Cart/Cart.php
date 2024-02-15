@@ -16,10 +16,10 @@ class Cart
     private ?int $id = null;
 
     #[ORM\ManyToOne(inversedBy: 'carts')]
-    private ?Product $RefProduct = null;
+    private ?Product $refProduct = null;
 
     #[ORM\ManyToOne(inversedBy: 'carts')]
-    private ?Employed $RefEmployed = null;
+    private ?Employed $refEmployed = null;
 
     #[ORM\ManyToOne(inversedBy: 'carts')]
     private ?CategoryProduct $productCat = null;
@@ -39,9 +39,6 @@ class Cart
     #[ORM\Column(type: Types::GUID, nullable: true)]
     private ?string $uuid = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $productRef = null;
-
     public function getId(): ?int
     {
         return $this->id;
@@ -49,24 +46,24 @@ class Cart
 
     public function getRefProduct(): ?Product
     {
-        return $this->RefProduct;
+        return $this->refProduct;
     }
 
-    public function setRefProduct(?Product $RefProduct): static
+    public function setRefProduct(?Product $refProduct): static
     {
-        $this->RefProduct = $RefProduct;
+        $this->refProduct = $refProduct;
 
         return $this;
     }
 
     public function getRefEmployed(): ?Employed
     {
-        return $this->RefEmployed;
+        return $this->refEmployed;
     }
 
-    public function setRefEmployed(?Employed $RefEmployed): static
+    public function setRefEmployed(?Employed $refEmployed): static
     {
-        $this->RefEmployed = $RefEmployed;
+        $this->refEmployed = $refEmployed;
 
         return $this;
     }
@@ -139,18 +136,6 @@ class Cart
     public function setUuid(?string $uuid): static
     {
         $this->uuid = $uuid;
-
-        return $this;
-    }
-
-    public function getProductRef(): ?string
-    {
-        return $this->productRef;
-    }
-
-    public function setProductRef(string $productRef): static
-    {
-        $this->productRef = $productRef;
 
         return $this;
     }

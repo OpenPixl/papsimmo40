@@ -67,7 +67,7 @@ class CartService
         $this->setCart($cart);                                          // on insére en session le panier modifié
     }
 
-    public function decrement(int $item, $id, $uuid){
+    public function decrement(int $item, $id){
 
         // On chercher dans la session si le panier existe.
         // On creer si le panier n'existe pas.
@@ -77,7 +77,7 @@ class CartService
             return;                                                     // si c'est le cas ajoute la quantité,
         } else {
             if($cart[$item]['Qty'] === 1) {                                      // sinon, on ajoute 1 à l'Id dans le panier.
-                $this->remove($item, $id, $uuid);
+                $this->remove($item, $id);
                 return;
             }
             $cart[$item]['Qty']--;
@@ -87,7 +87,7 @@ class CartService
         $this->setCart($cart);
     }
 
-    public function remove(int $item, int $id, $uuid)
+    public function remove(int $item, int $id)
     {
         $cart = $this->getCart();
         unset($cart[$item]);

@@ -3,7 +3,6 @@
 namespace App\Controller\Cart;
 
 use App\Entity\Cart\Cart;
-
 use App\Form\Cart\CartConfirmationType;
 use App\Repository\Cart\CartRepository;
 use App\Repository\Cart\ProductRepository;
@@ -29,8 +28,6 @@ class CartController extends AbstractController
     #[Route('/cart/{id}', name: 'op_cart_cart_add', methods: ['GET', 'POST'], requirements: ['id'=>'\d+'])]
     public function cart($id, Request $request, EntityManagerInterface $em): Response
     {
-        $parametres = $request->query->all();
-
         // Récupération de l'objet produit
         $product = $this->productRepository->find($id);
         // teste si le produit existe dans la liste de produit.
@@ -81,7 +78,6 @@ class CartController extends AbstractController
                 if($request->query->has('item')){
 
                     // Récupération de la personnalisation
-                    $uuid = $this->get('session')->getId();
                     $parametres = $request->query->all();
                     $this->cartService->increment(intval($parametres['item']), $product);
                 }else{
@@ -102,9 +98,7 @@ class CartController extends AbstractController
                 'id' => $id
             ]);
         }else{
-            return $this->redirectToRoute('op_cart_product_show', [
-                'id' => $id
-            ]);
+            return $this->redirectToRoute('op_cart_product_index');
         }
     }
 
@@ -149,23 +143,24 @@ class CartController extends AbstractController
             //dd($session, $customization, $this->cartService->getCart());
 
             $cart = new Cart();
-            $cart->setProductRef($product);
+            $cart->setUuid($session);
+            $cart->setRefEmployed($user);
+            $cart->setRefProduct($product);
             $cart->setProductId($product->getId());
             $cart->setProductName($product->getName());
             $cart->setproductCat($product->getCategory());
             $cart->setProductQty($d->qty);
-            $cart->setProductRef($product->getRef());
             $cart->setItem($d->item);
             $em->persist($cart);
             $em->flush();
         }
         $carts = $cartRepository->findBy(['uuid'=> $session]);
+        //dd($carts);
         $cartspanel = $carts;
         foreach($carts as $cart){
             $em->remove($cart);
             $em->flush();
         }
-
         //dd($cartspanel);
 
         return $this->render('cart/cart/index.html.twig', [
@@ -180,7 +175,7 @@ class CartController extends AbstractController
      * Liste les produits inclus dans le panier
      * @Route("/webapp/cart/showjson", name="op_webapp_cart_showcartjson")
      */
-    public function showCartJson(Request $request, EntityManagerInterface $em, ProductCustomizeRepository $productCustomizeRepository, CartRepository $cartRepository)
+    public function showCartJson(Request $request, EntityManagerInterface $em, CartRepository $cartRepository)
     {
         $form = $this->createForm(CartConfirmationType::class);
         $user = $this->getUser();
@@ -257,26 +252,18 @@ class CartController extends AbstractController
         $detailedCart = $this->cartService->getDetailedCartItem();
         $product = $this->productRepository->find($id);
         $session = $request->getSession()->get('name_uuid');
-        $productCustomize = $em->getRepository(ProductCustomize::class)->findOneBy(array('product' => $product->getId()), array('id'=>'DESC'));
 
         // Retourne une réponse en json
         return $this->json([
             'code'          => 200,
             'message'       => "Le produit a été correctement ajouté.",
-            'count'         => $this->renderView('gestapp/product/include/_count.html.twig', [
-                'items' => $detailedCart,
-                'product' => $product,
-                'session' => $session,
-                'customizes' => $productCustomize
-            ]),
-            'lipanier' => $this->renderView('include/_panier.html.twig', ['cartService'=> $cartService])
         ], 200);
     }
 
     /**
-     * @Route("/gestapp/cart/decrement/{id}/{uuid}", name="op_webapp_cart_decrement", requirements={"id":"\d+"})
+     * @Route("/cart/cart/decrement/{id}", name="op_cart_cart_decrement", requirements={"id":"\d+"})
      */
-    public function decrementeCart($id, $uuid,  Request $request): Response
+    public function decrementeCart($id,  Request $request): Response
     {
         $product = $this->productRepository->find($id);
 
@@ -289,7 +276,7 @@ class CartController extends AbstractController
 
         if($request->query->has('item')){
             $parametres = $request->query->all();
-            $this->cartService->decrement(intval($parametres['item']), $id, $uuid);
+            $this->cartService->decrement(intval($parametres['item']), $id);
         }else{
             $item = 0;
             foreach ($cart as $c){
@@ -298,7 +285,7 @@ class CartController extends AbstractController
                     $item = $c['Item'];
                 }
             }
-            $this->cartService->decrement($item, $id, $uuid);
+            $this->cartService->decrement($item, $id);
         }
 
         $this->addFlash('success', "Le produit a bien été diminué dans le panier.");
@@ -312,9 +299,7 @@ class CartController extends AbstractController
             ]);
         }
 
-        return $this->redirectToRoute('op_gestapp_product_show', [
-            'id' => $id
-        ]);
+        return $this->redirectToRoute('op_cart_product_index');
     }
 
     /**

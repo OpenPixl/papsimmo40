@@ -1,9 +1,9 @@
 <div class="col-12">
-    <table class="table align-middle">
+    <table class="table table-sm align-middle">
         <thead>
         <tr>
-            <th class="col-3">Le produit</th>
-            <th class="col-4"></th>
+            <th class="col-1"><input type="checkbox"></th>
+            <th colspan="2" class="col-2">Le produit</th>
             <th class="col-2">Prix unitaire</th>
             <th class="col-1">Quantité</th>
             <th class="col-1">total</th>
@@ -11,9 +11,13 @@
         </tr>
         </thead>
         <tbody id="bodyCart">
-        {% set sstotal = 0 %}
+        {% set total = 0 %}
+        {% set qty = 0 %}
         {% for c in carts %}
+            {% set total = total + c.refProduct.price * c.productQty %}
+            {% set qty = qty + c.productQty %}
             <tr id="rowCart" class="align-middle">
+                <td><input type="checkbox" value="{{ c.item }}"></td>
                 <td>
                     {# intégration de l'image au sein du panier #}
                     {% if c.refProduct is null %}
@@ -21,14 +25,13 @@
                     {% else %}
                         <img class="rounded" src="#" alt="{{ c.productName }}">&nbsp;&nbsp;
                     {% endif %}
-
-                    {# lien vers la fiche produit #}
-                    <a class="text-start" href="{{ path('op_cart_product_show', {'id': c.productid}) }}">{{ c.productName }}</a> - réf : {{ c.productRef }}
                 </td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
+                <td>
+                    <a class="text-start" href="{{ path('op_cart_product_show', {'id': c.productid}) }}">{{ c.productName }}</a> - réf : {{ c.refProduct.ref }}
+                </td>
+                <td>{{ c.refProduct.price }}€</td>
+                <td>{{ c.productQty }}</td>
+                <td>{{ c.refProduct.price * c.productQty}}€</td>
                 <td></td>
             </tr>
         {% else %}
@@ -36,6 +39,16 @@
                 <td colspan="6">Pas de support commerciaux ajouter à la commande.</td>
             </tr>
         {% endfor %}
+
         </tbody>
+        {% if total > 0 %}
+        <tfoot>
+            <tr>
+                <td colspan="4" class="text-end">TOTAL</td>
+                <td>{{ qty }}</td>
+                <td colspan="2" class="text-start">{{ total }}€</td>
+            </tr>
+        </tfoot>
+        {% endif %}
     </table>
 </div>

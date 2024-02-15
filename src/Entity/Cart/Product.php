@@ -41,11 +41,12 @@ class Product
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $visualExt = null;
 
-    #[ORM\OneToMany(mappedBy: 'RefProduct', targetEntity: Cart::class)]
-    private Collection $carts;
-
     #[ORM\Column(length: 255)]
     private ?string $ref = null;
+
+    #[ORM\OneToMany(mappedBy: 'refProduct', targetEntity: Cart::class)]
+    private Collection $carts;
+
 
     public function __construct()
     {
@@ -161,6 +162,19 @@ class Product
         return $this;
     }
 
+
+    public function getRef(): ?string
+    {
+        return $this->ref;
+    }
+
+    public function setRef(string $ref): static
+    {
+        $this->ref = $ref;
+
+        return $this;
+    }
+
     /**
      * @return Collection<int, Cart>
      */
@@ -173,7 +187,7 @@ class Product
     {
         if (!$this->carts->contains($cart)) {
             $this->carts->add($cart);
-            $cart->setRefProduct($this);
+            $cart->setProductRef($this);
         }
 
         return $this;
@@ -183,22 +197,10 @@ class Product
     {
         if ($this->carts->removeElement($cart)) {
             // set the owning side to null (unless already changed)
-            if ($cart->getRefProduct() === $this) {
-                $cart->setRefProduct(null);
+            if ($cart->getProductRef() === $this) {
+                $cart->setProductRef(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getRef(): ?string
-    {
-        return $this->ref;
-    }
-
-    public function setRef(string $ref): static
-    {
-        $this->ref = $ref;
 
         return $this;
     }

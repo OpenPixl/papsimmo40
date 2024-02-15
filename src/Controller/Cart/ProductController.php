@@ -5,18 +5,39 @@ namespace App\Controller\Cart;
 use App\Entity\Cart\Product;
 use App\Form\Cart\ProductType;
 use App\Repository\Cart\ProductRepository;
+use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 #[Route('/cart/product')]
 class ProductController extends AbstractController
 {
-    #[Route('/', name: 'op_cart_product_index', methods: ['GET'])]
-    public function index(ProductRepository $productRepository): Response
+    protected $cartService;
+
+    public function __construct(CartService $cartService)
     {
+        $this->cartService = $cartService;
+    }
+
+    #[Route('/', name: 'op_cart_product_index', methods: ['GET'])]
+    public function index(ProductRepository $productRepository, RequestStack $requestStack): Response
+    {
+        $carts = $requestStack->getSession()->get('cart');
+        //dd($carts);
+        if($carts)
+        {
+            $detailedCart = $this->cartService->getDetailedCartItem();
+            return $this->render('cart/product/index.html.twig', [
+                'products' => $productRepository->findAll(),
+                'items' => $detailedCart
+            ]);
+            dd($detailedCart);
+        }
+
         return $this->render('cart/product/index.html.twig', [
             'products' => $productRepository->findAll(),
         ]);
@@ -69,6 +90,7 @@ class ProductController extends AbstractController
     #[Route('/{id}', name: 'op_cart_product_show', methods: ['GET'])]
     public function show(Product $product): Response
     {
+
         return $this->render('cart/product/show.html.twig', [
             'product' => $product,
         ]);
