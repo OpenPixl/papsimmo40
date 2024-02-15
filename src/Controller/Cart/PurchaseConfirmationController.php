@@ -34,36 +34,30 @@ class PurchaseConfirmationController extends AbstractController
     #[IsGranted("ROLE_USER", message:"Vous devez être inscrit sur la plateforme pour confirmer votre commande")]
     public function confirm(Request $request, EntityManagerInterface $em, PurchaseRepository $purchaseRepository)
     {
-        $form = $this->createForm(CartConfirmationType::class);
-        $form->handleRequest($request);
-
-        if(!$form->isSubmitted()) {
-            $this->addFlash('warning', 'vous devez compléter le formulaire');
-            return $this->redirectToRoute('op_webapp_cart_showcart');
-        }
-
         $user = $this->getUser();
         $lastPurchase = $purchaseRepository->findLastRef();
-        //dd($lastPurchase);
+        if(!$lastPurchase){
+            $lastPurchase = 1;
+        }
         $NumPurchase = explode('-', $lastPurchase->getNumPurchase());
         $lastRef = $NumPurchase[1]++;
         
         $cartItems = $this->cartService->getDetailedCartItem();
         if(count($cartItems) === 0){
             $this->addFlash('warning', 'le panier est vide, impossible de commander');
-            return $this->redirectToRoute('op_webapp_cart_showcart');
+            return $this->redirectToRoute('op_cart_product_index');
         }
 
         /** @var Purchase */
-        $purchase = $form->getData();
         //dd($this->cartService->getTotal());
         // contruction du numero de commande
         $date = new \DateTime();
         $numDate = $date->format('Y').'|'.$date->format('m');
         $ref = $numDate."-".$lastRef;
 
+        $purchase = new Purchase;
         $purchase
-            ->setCustomer($user)
+            ->setRefEmployed($user)
             ->setNumPurchase($ref)
             ->setStatus("PENDING")
             ->setStatuspaid("PENDING")
