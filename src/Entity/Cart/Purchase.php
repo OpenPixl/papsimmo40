@@ -4,10 +4,13 @@ namespace App\Entity\Cart;
 
 use App\Entity\Admin\Employed;
 use App\Repository\Cart\PurchaseRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PurchaseRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Purchase
 {
     #[ORM\Id]
@@ -36,14 +39,22 @@ class Purchase
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $status = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?\DateTimeImmutable $purchaseAt = null;
+    #[ORM\Column(type: 'datetime')]
+    private $purchaseAt = null;
 
     #[ORM\ManyToOne(inversedBy: 'purchases')]
     private ?Employed $refEmployed = null;
 
     #[ORM\Column(length: 255)]
     private ?string $numPurchase = null;
+
+    #[ORM\OneToMany(mappedBy: 'purchase', targetEntity: PurchaseItem::class)]
+    private Collection $purchaseItems;
+
+    public function __construct()
+    {
+        $this->purchaseItems = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -134,14 +145,15 @@ class Purchase
         return $this;
     }
 
-    public function getPurchaseAt(): ?\DateTimeImmutable
+    public function getPurchaseAt(): ?\DateTimeInterface
     {
         return $this->purchaseAt;
     }
-
-    public function setPurchaseAt(?\DateTimeImmutable $purchaseAt): static
+    
+    #[ORM\PrePersist]
+    public function setPurchaseAt(): static
     {
-        $this->purchaseAt = $purchaseAt;
+        $this->purchaseAt = new \DateTime('now');
 
         return $this;
     }
@@ -166,6 +178,36 @@ class Purchase
     public function setNumPurchase(string $numPurchase): static
     {
         $this->numPurchase = $numPurchase;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PurchaseItem>
+     */
+    public function getPurchaseItems(): Collection
+    {
+        return $this->purchaseItems;
+    }
+
+    public function addPurchaseItem(PurchaseItem $purchaseItem): static
+    {
+        if (!$this->purchaseItems->contains($purchaseItem)) {
+            $this->purchaseItems->add($purchaseItem);
+            $purchaseItem->setPurchase($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchaseItem(PurchaseItem $purchaseItem): static
+    {
+        if ($this->purchaseItems->removeElement($purchaseItem)) {
+            // set the owning side to null (unless already changed)
+            if ($purchaseItem->getPurchase() === $this) {
+                $purchaseItem->setPurchase(null);
+            }
+        }
 
         return $this;
     }

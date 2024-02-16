@@ -17,15 +17,12 @@
             <h1>Support Commerciaux - <small>Liste des commandes</small></h1>
         </div>
     </div>
-    {#
+
     <div class="navigation d-flex justify-content-between">
         <div class="mb-1">
-            <a id="addNewSupport" href="{{ path('op_cart_product_new') }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="ADD-Ajouter un nouveau support à la liste-0">Ajouter un nouveau support</a>
-            |
-            <button class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</button>
-            <button class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</button>
+            <a id="btnreturn" href="{{ path('op_cart_product_index') }}" class="btn btn-sm btn-outline-dark" >retour</a>
         </div>
-    </div>#}
+    </div>
     
     <div class="row mt-2" id="listeSupport">
         {{ include('cart/purchase/include/_liste.html.twig') }}

@@ -38,7 +38,7 @@ class PurchaseConfirmationController extends AbstractController
         $lastPurchase = $purchaseRepository->findLastRef();
         if(!$lastPurchase){
             $numPurchase = 'Comm-' . 1;
-            dd($lastPurchase);
+            //dd($lastPurchase);
         }else{
             $lastPurchase = explode('-', $lastPurchase->getNumPurchase());
             $numPurchase = $lastPurchase[1]++;
@@ -52,14 +52,12 @@ class PurchaseConfirmationController extends AbstractController
 
         //dd($this->cartService->getTotal());
         // contruction du numero de commande
-        $date = new \DateTime();
 
         $purchase = new Purchase;
         $purchase
             ->setRefEmployed($user)
             ->setNumPurchase($numPurchase)
             ->setStatus("PENDING")
-            ->setPurchaseAt($date)
             ->setTotal($this->cartService->getTotal());
 
         $this->em->persist($purchase);
@@ -91,7 +89,12 @@ class PurchaseConfirmationController extends AbstractController
         $session = $this->requestStack->getSession();
         $session->migrate();
 
-        return $this->redirectToRoute('op_cart_product_index');
+        return $this->json([
+            'code' => 200,
+            'message' => "La commande a été envoyé à l'administrateur.Vous pouvez quittez cette page."
+        ]);
+
+        //return $this->redirectToRoute('op_cart_product_index');
     }
 
     #[Route('/cart/purchase/delete/{id}', name:'op_cart_purchase_delete', methods: ['POST'])]

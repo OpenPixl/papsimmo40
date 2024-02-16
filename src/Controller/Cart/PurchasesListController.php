@@ -58,7 +58,7 @@ class PurchasesListController extends abstractController
             300
         );
 
-        return $this->render('gestapp/purchase/list.html.twig',[
+        return $this->render('cart/purchase/index.html.twig',[
             'purchases'=> $purchases,
             'hide' => 0,
         ]);

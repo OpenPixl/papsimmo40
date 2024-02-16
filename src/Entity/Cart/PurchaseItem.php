@@ -29,8 +29,8 @@ class PurchaseItem
     #[ORM\Column(nullable: true)]
     private ?float $totalItem = null;
 
-    #[ORM\ManyToOne]
-    private ?purchase $purchase = null;
+    #[ORM\ManyToOne(inversedBy: 'purchaseItems')]
+    private ?Purchase $purchase = null;
 
     public function getId(): ?int
     {
@@ -97,12 +97,12 @@ class PurchaseItem
         return $this;
     }
 
-    public function getPurchase(): ?purchase
+    public function getPurchase(): ?Purchase
     {
         return $this->purchase;
     }
 
-    public function setPurchase(?purchase $purchase): static
+    public function setPurchase(?Purchase $purchase): static
     {
         $this->purchase = $purchase;
 

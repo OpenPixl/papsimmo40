@@ -4,7 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="module" src="{{ asset('js/cart/index.js') }}"></script>
+    <script type="module" src="{{ asset('js/cart/product/index.js') }}"></script>
 {% endblock %}
 
 {% block contentTitle %}
@@ -21,17 +21,16 @@
     <div class="navigation d-flex justify-content-between">
         <div class="mb-1">
             <a id="addNewSupport" href="{{ path('op_cart_product_new') }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="ADD-Ajouter un nouveau support à la liste-0">Ajouter un nouveau support</a>
+            <a id="addNewSupport" href="{{ path('op_cart_purchases_admin') }}" class="btn btn-sm btn-outline-primary" >Liste des commandes</a>
             |
             <a href="{{ path('op_cart_cart_show') }}" class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</a>
             <a href="{{ path('op_cart_purchases_index') }}" class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</a>
         </div>
     </div>
     
-    <div class="row mt-2" id="listeSupport">
+    <div class="row mt-2 g-1" id="listeSupport">
         {{ include('cart/product/include/_liste.html.twig') }}
     </div>
-
-    <a href="{{ path('op_cart_product_new') }}">Create new</a>
 {% endblock %}
 
 

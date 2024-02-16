@@ -23,9 +23,6 @@ modalSupport.addEventListener('show.bs.modal', openModalSupport);
 if(btnSubmitSupport !== null){
     btnSubmitSupport.addEventListener('click', submitSupport);
 }
-if(btnConfPurchase !== null){
-    btnConfPurchase.addEventListener('click', submitSupport);
-}
 function submitSupport(){
     let form = document.getElementById('formProduct');
     let action = form.action;
@@ -83,13 +80,7 @@ function openModalSupport(event){
         ;
     }
 }
-function validCart(event){
-    event.preventDefault();
-}
 
-if(btnConfPurchase != null){
-    btnConfPurchase.onclick = validCart;
-}
 
 // Fonction de rechargement des events
 function allAddEvent(){

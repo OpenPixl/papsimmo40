@@ -8,10 +8,12 @@ use App\Repository\Cart\ProductRepository;
 use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/cart/product')]
 class ProductController extends AbstractController
@@ -44,7 +46,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/new', name: 'op_cart_product_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager, ProductRepository $productRepository): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, ProductRepository $productRepository, SluggerInterface $slugger): Response
     {
         $product = new Product();
         $form = $this->createForm(ProductType::class, $product, [
@@ -55,6 +57,35 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Ajout du visuel
+            $VisuelFile = $form->get('visuelFileName')->getData();
+            if ($VisuelFile) {
+                $originalvisuelFileName = pathinfo($VisuelFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safevisuelFileName = $slugger->slug($originalvisuelFileName);
+                $newvisuelFileName = $safevisuelFileName . '.' . $VisuelFile->guessExtension();
+                $pathdir = $this->getParameter('property_product_directory');
+                try {
+                    if (is_dir($pathdir)) {
+                        $VisuelFile->move(
+                            $pathdir,
+                            $newvisuelFileName
+                        );
+                    } else {
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir . "/", 0775, true);
+                        // Déplacement de la photo
+                        $VisuelFile->move(
+                            $pathdir,
+                            $newvisuelFileName
+                        );
+                    }
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $product->setVisualFilename($newvisuelFileName);
+            }
+
             $entityManager->persist($product);
             $entityManager->flush();
 
