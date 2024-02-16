@@ -1,10 +1,10 @@
 <section class="property-edit">
     <div class="row mt-2">
         <div class="col-sm-3">
-            <button type="button" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#addCustomer" data-bs-whatever="{{ property.id }}">
+            <a type="button" href="{{ path('op_gestapp_customer_addcustomerjson', {'idproperty': property.id}) }}" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-data="ADD-Ajouter une nouvelle fiche client">
                 Ajouter un vendeur<br>
                 sur ce bien.
-            </button>
+            </a>
             <hr>
             <div class="card text-dark bg-light">
                 <div class="card-body">

@@ -14,7 +14,7 @@
                 {{ customer.zipcode }} {{ customer.city }}
             </p>
             {% if customer.customerChoice == 'Vendeur' %}
-            <button id="btnEditCustomer" class="btn btn-sm btn-default editCustomer" data-bs-toggle="modal" data-bs-target="#editCustomer" data-bs-whatever="{{ customer.id }}-{{ idproperty }}"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</button>
+            <a id="btnEditCustomer" href="{{ path('op_gestapp_customer_editcustomerjson', {'id':customer.id, 'idproperty': idproperty}) }}" class="btn btn-sm btn-default" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-data="EDIT-Modification de la fiche client"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
             <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="btn btn-sm btn-default supprcustomer"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
             {% endif %}
         </div>
