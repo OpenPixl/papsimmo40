@@ -1,0 +1,54 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Product index{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/cart/index.js') }}"></script>
+{% endblock %}
+
+{% block contentTitle %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Support Commerciaux - <small>Liste des commandes</small></h1>
+        </div>
+    </div>
+
+    <div class="navigation d-flex justify-content-between">
+        <div class="mb-1">
+            <a id="btnreturn" href="{{ path('op_cart_product_index') }}" class="btn btn-sm btn-outline-dark" >retour</a>
+        </div>
+    </div>
+    
+    <div class="row mt-2" id="listeSupport">
+        {{ include('cart/purchase/include/_liste.html.twig') }}
+    </div>
+    {#
+    <a href="{{ path('op_cart_product_new') }}">Create new</a>
+    #}
+{% endblock %}
+
+
+{% block modal %}
+    {{ parent() }}
+
+    {# annonce toaster #}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute bottom-0 end-0 p-3">
+            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">SoftPAPS</strong>
+                    <small>A l'instant</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

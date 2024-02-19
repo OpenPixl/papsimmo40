@@ -1,0 +1,39 @@
+<div class="col-12">
+    <table class="table">
+        <thead>
+        <tr>
+
+            <th class="col-1"><input type="checkbox" name="checkAllBoxes"></th>
+            <th class="col-1">Date de commande</th>
+            <th>Détails</th>
+            <th>Etat</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for purchase in purchases %}
+            <tr>
+                <td></td>
+                <td>{{ purchase.purchaseAt|date('Y-m-d') }}</td>
+                <td>
+                    {% for pi in purchase.purchaseItems %}
+                        <li>{{ pi.productName }} | {{ pi.totalItem }}</li>
+                    {% endfor %}
+                </td>
+                <td>
+                    {% if purchase.status == 'PENDING' %}
+                        En attente
+                    {% elseif purchase.status == 'other' %}
+                    {% endif %}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td></td>
+                <td colspan="3">Pas de commandes</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+

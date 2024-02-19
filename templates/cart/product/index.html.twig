@@ -1,0 +1,80 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Product index{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/cart/product/index.js') }}"></script>
+{% endblock %}
+
+{% block contentTitle %}
+
+{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Support Commerciaux - <small>Liste des produits disponible à la commande</small></h1>
+        </div>
+    </div>
+
+    <div class="navigation d-flex justify-content-between">
+        <div class="mb-1">
+            <a id="addNewSupport" href="{{ path('op_cart_product_new') }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="ADD-Ajouter un nouveau support à la liste-0">Ajouter un nouveau support</a>
+            <a id="addNewSupport" href="{{ path('op_cart_purchases_admin') }}" class="btn btn-sm btn-outline-primary" >Liste des commandes</a>
+            |
+            <a href="{{ path('op_cart_cart_show') }}" class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</a>
+            <a href="{{ path('op_cart_purchases_index') }}" class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</a>
+        </div>
+    </div>
+    
+    <div class="row mt-2 g-1" id="listeSupport">
+        {{ include('cart/product/include/_liste.html.twig') }}
+    </div>
+{% endblock %}
+
+
+{% block modal %}
+    {{ parent() }}
+    <!-- Ajout d'un vendeur sur un bien -->
+    <div class="modal fade" id="modalSupport" tabindex="-1" aria-labelledby="modalSupport" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered ">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un support</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modalBodyForm">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="idProperty" type="hidden" value="">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    <button id="btnSubmitSupport" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# annonce toaster #}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute bottom-0 end-0 p-3">
+            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">SoftPAPS</strong>
+                    <small>A l'instant</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

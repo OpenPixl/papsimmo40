@@ -25,6 +25,7 @@
         <h6>RESSOURCES</h6>
         <ul>
             <li><a href="{{ path('op_gestapp_document_index') }}"><i class="fa-duotone fa-folder-open"></i> Documents</a></li>
+            <li><a href="{{ path('op_cart_product_index') }}" class="{% if app.request.attributes.get("_route") == 'op_cart_product_index' %}active{% endif %}"><i class="fa-duotone fa-folder-open"></i> Supports Commerciaux</a></li>
         </ul>
     </div>
     {% if is_granted('ROLE_SUPER_ADMIN') %}

@@ -33,6 +33,8 @@ class DocumentController extends AbstractController
         // filtrages des ressources par catégorie
         $documents = $documentRepository->findBy(['category' => $idcat]);
 
+        //dd($documents);
+
         return $this->json([
             'code' => 200,
             'message' => 'Ok',
@@ -101,103 +103,69 @@ class DocumentController extends AbstractController
         $form->handleRequest($request);
         //dd($lastdocument);
         if ($form->isSubmitted() && $form->isValid()) {
-            // Si Pdf -> code d'injection d'un fichier PDF
             /** @var UploadedFile $logoFile */
-            $pdfFileName = $form->get('pdfFilename')->getData();
-            if ($pdfFileName) {
-                $originalpdfFileName = pathinfo($pdfFileName->getClientOriginalName(), PATHINFO_FILENAME);
+            $fileFileName = $form->get('fileFilename')->getData();
+            $category = $form->get('category')->getData();
+            if($fileFileName){
+                $ext = $fileFileName->guessExtension();
+
+                $originalFileName = pathinfo($fileFileName->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
-                $safepdfFileName = $slugger->slug($originalpdfFileName);
-                $newpdfFileName = $safepdfFileName . '.' . $pdfFileName->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $pdfFileName->move(
-                        $this->getParameter('pdf_directory'),
-                        $newpdfFileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                $safeFileName = $slugger->slug($originalFileName);
+                $newFileName = $safeFileName . '.' . $ext;
+                if($ext == 'pdf') {
+                    try {
+                        $fileFileName->move(
+                            $this->getParameter('document_pdf_directory'),
+                            $newFileName
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $document->setTypeDoc('Pdf');
+                    $document->setName($newFileName);
+                    $document->setPdf($newFileName);
                 }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $document->setName($newpdfFileName);
-                $document->setPdf($newpdfFileName);
+                elseif($ext == 'docx' || $ext == 'doc' || $ext == 'odt'){
+                    try {
+                        $fileFileName->move(
+                            $this->getParameter('document_word_directory'),
+                            $newFileName
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $document->setTypeDoc('Word');
+                    $document->setName($newFileName);
+                    $document->setDoc($newFileName);
+                }elseif($ext == 'xls' || $ext == 'xlsx' || $ext == 'ods'){
+                    try {
+                        $fileFileName->move(
+                            $this->getParameter('document_excel_directory'),
+                            $newFileName
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $document->setTypeDoc('Excel');
+                    $document->setName($newFileName);
+                    $document->setSheet($newFileName);
+                }elseif($ext == 'mp4'){
+                    //dd($ext);
+                    try {
+                        $fileFileName->move(
+                            $this->getParameter('document_mp4_directory'),
+                            $newFileName
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $document->setTypeDoc('Mp4');
+                    $document->setName($newFileName);
+                    $document->setMp4($newFileName);
+                }
             }
 
-            // si Word
-            /** @var UploadedFile $logoFile */
-            $wordFileName = $form->get('wordFilename')->getData();
-            if ($wordFileName) {
-                $originalwordFileName = pathinfo($wordFileName->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safewordFileName = $slugger->slug($originalwordFileName);
-                $newwordFileName = $safewordFileName .'.' . $wordFileName->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $wordFileName->move(
-                        $this->getParameter('word_directory'),
-                        $newwordFileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $document->setName($newwordFileName);
-                $document->setDoc($newwordFileName);
-            }
-
-            // si Excel
-            /** @var UploadedFile $logoFile */
-            $excelFileName = $form->get('excelFilename')->getData();
-            if ($excelFileName) {
-                $originalexcelFileName = pathinfo($excelFileName->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safeexcelFileName = $slugger->slug($originalexcelFileName);
-                $newexcelFileName = $safeexcelFileName . '.' . $excelFileName->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $excelFileName->move(
-                        $this->getParameter('excel_directory'),
-                        $newexcelFileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $document->setName($newexcelFileName);
-                $document->setSheet($newexcelFileName);
-            }
-
-            // Si Mp4
-            /** @var UploadedFile $logoFile */
-            $mp4FileName = $form->get('mp4Filename')->getData();
-            if ($mp4FileName) {
-                $originalmp4FileName = pathinfo($mp4FileName->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safemp4FileName = $slugger->slug($originalmp4FileName);
-                $newmp4FileName = $safemp4FileName . '.' . $mp4FileName->guessExtension();
-
-                // Move the file to the directory where brochures are stored
-                try {
-                    $mp4FileName->move(
-                        $this->getParameter('mp4_directory'),
-                        $newmp4FileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                // updates the 'brochureFilename' property to store the PDF file name
-                // instead of its contents
-                $document->setName($newmp4FileName);
-                $document->setMp4($newmp4FileName);
-            }
             if($lastdocument == null){
                 $document->setPosition(1);
             }else{
@@ -205,19 +173,19 @@ class DocumentController extends AbstractController
             }
             $documentRepository->add($document, true);
 
-            $documents = $documentRepository->findAll();
+            $documents = $documentRepository->findBy(['category' => $category]);
 
             return $this->json([
                 'code' => 200,
                 'message' => "Document ajouté à la BDD.",
-                'list' => $this->renderView('gestapp/document/_ownliste.html.twig',[
+                'liste' => $this->renderView('gestapp/document/include/_liste.html.twig',[
                     'documents' => $documents
                 ])
 
             ], 200);
         }
-
-        return $this->renderForm('gestapp/document/new2.html.twig', [
+        //dd($form->isValid());
+        return $this->render('gestapp/document/new2.html.twig', [
             'document' => $document,
             'form' => $form,
         ]);
@@ -265,23 +233,24 @@ class DocumentController extends AbstractController
         //dd($document);
         $name = $document->getName();
         $typeDoc = $document->getTypeDoc();
+        $category = $document->getCategory();
         if($name)
         {
             if($typeDoc =='Pdf')
             {
-                $directory = 'pdf_directory';
+                $directory = 'document_pdf_directory';
             }
             elseif($typeDoc =='Word')
             {
-                $directory = 'word_directory';
+                $directory = 'document_word_directory';
             }
             elseif($typeDoc == 'Excel')
             {
-                $directory = 'excel_directory';
+                $directory = 'document_excel_directory';
             }
             elseif($typeDoc == 'Mp4')
             {
-                $directory = 'mp4_directory';
+                $directory = 'document_mp4_directory';
             }
             //dd($directory);
             $pathheader = $this->getParameter($directory).'/'.$name;
@@ -292,7 +261,7 @@ class DocumentController extends AbstractController
             }
         }
         $documentRepository->remove($document, true);
-        $documents = $documentRepository->findAll();
+        $documents = $documentRepository->findBy(['category' => $category]);
 
         return $this->json([
             'code' => '200',
