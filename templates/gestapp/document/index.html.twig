@@ -8,134 +8,95 @@
         window.onload = function(){
             // Préparation des variables
             const modalSupprDocument = document.getElementById('SupprDocument');
+            const modalMp4  =document.getElementById('modalMp4');
             const submitSupprDocument = document.getElementById('submitSupprDocument');
+            const addCategory  = new bootstrap.Modal(document.getElementById('addCategory'), {keyboard: true})
 
-            // Chargement de Filetype selon le select
-            // -------------------------------------
-            // I. On sélectionne le select
-            const typeDoc = document.getElementById('document_typeDoc')
-            // II. Mise en place de l'event
-            if(typeDoc !== null){
-                typeDoc.addEventListener('change', function(event){
-                    if(typeDoc.value == 'Pdf'){
-                        document.getElementById('pdf').removeAttribute('style')
-                        document.getElementById('word').style.display = "none"
-                        document.getElementById('excel').style.display = "none"
-                        document.getElementById('mp4').style.display = "none"
-                    }else if(typeDoc.value == 'Word'){
-                        document.getElementById('pdf').style.display = "none"
-                        document.getElementById('word').removeAttribute('style')
-                        document.getElementById('excel').style.display = "none"
-                        document.getElementById('mp4').style.display = "none"
-                    }else if(typeDoc.value == 'Excel'){
-                        document.getElementById('pdf').style.display = "none"
-                        document.getElementById('word').style.display = "none"
-                        document.getElementById('excel').removeAttribute('style')
-                        document.getElementById('mp4').style.display = "none"
-                    }else if(typeDoc.value == 'Mp4'){
-                        document.getElementById('pdf').style.display = "none"
-                        document.getElementById('word').style.display = "none"
-                        document.getElementById('excel').style.display = "none"
-                        document.getElementById('mp4').removeAttribute('style')
-                    }
-                })
 
-                // PARTIE Ajout de la category
-                // ---------------------------------------
-                // I. Mise en place du Select2
-                const TsPropertyBanner = new TomSelect("#document_category",{
-                    plugins: ['remove_button'],
-                    create: true,
-                    onItemAdd:function(){
-                        this.setTextboxValue('');
-                        this.refreshOptions();
+            // PARTIE Ajout de la category
+            // ---------------------------------------
+            // I. Mise en place du Select2
+            const TsPropertyBanner = new TomSelect("#document_category",{
+                plugins: ['remove_button'],
+                create: true,
+                onItemAdd:function(){
+                    this.setTextboxValue('');
+                    this.refreshOptions();
+                },
+                render:{
+                    option:function(data,escape){
+                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
                     },
-                    render:{
-                        option:function(data,escape){
-                            return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                        },
-                        item:function(data,escape){
-                            return '<div>' + escape(data.data) + '</div>';
-                        }
+                    item:function(data,escape){
+                        return '<div>' + escape(data.data) + '</div>';
                     }
-                });
-                // II. Préparation de la modale
-                const addCategory  = new bootstrap.Modal(document.getElementById('addCategory'), {keyboard: true})
-                document.getElementById('btnAddCatDocument').addEventListener('click', function(event){
-                    event.preventDefault()
-                    addCategory.show()
-                })
-                document.getElementById('submitAddCatDocument').addEventListener('click', function(event){
-                    event.preventDefault()
-                    let formAddCatDocument = document.getElementById('formAddCatDocument')
-                    let urlAddCatDocument = formAddCatDocument.action
-                    let dataAddCatDocument = new FormData(formAddCatDocument)
-                    axios
-                        .post(urlAddCatDocument, dataAddCatDocument)
-                        .then(function(response){
-                            // Message d'alerte en cas de réussite
-                            let toastHTMLElement = document.getElementById("toaster");
-                            let message = response.data.message;
-                            let toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                            toastBody.innerHTML = message;
-                            let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
-                            toastElement.show();
-                            // Ajout dans le TomSelect de la nouvelle option.
-                            const selectbanner = document.getElementById('document_category');
-                            const optionbanner = document.createElement("option")
-                            optionbanner.setAttribute("value", response.data.value)
-                            optionbanner.setAttribute("data-data", response.data.data)
-                            optionbanner.text = response.data.banner;
-                            selectbanner.add(optionbanner)
-                            TsPropertyBanner.addOption({data: response.data.data, value:response.data.value})
-                            TsPropertyBanner.addItem(response.data.cat)
-                            addCategory.hide()
-                        })
-                        .catch(function(error){
-                            console.log(error)
-                        })
-                    axios
-                        .post('/gestapp/choice/cat/document/json/1')
-                        .then(function(response){
-                            document.getElementById('listCat').innerHTML = response.data.liste
-                        })
-                        .catch(function(error){
-                            console.log(error)
-                        })
-                })
+                }
+            });
+            // II. Préparation de la modale
+            document.getElementById('btnAddCatDocument').addEventListener('click', function(event){
+                event.preventDefault()
+                addCategory.show()
+            })
+            document.getElementById('submitAddCatDocument').addEventListener('click', function(event){
+                event.preventDefault()
+                let formAddCatDocument = document.getElementById('formAddCatDocument')
+                let urlAddCatDocument = formAddCatDocument.action
+                let dataAddCatDocument = new FormData(formAddCatDocument)
+                axios
+                    .post(urlAddCatDocument, dataAddCatDocument)
+                    .then(function(response){
+                        // Message d'alerte en cas de réussite
+                        let toastHTMLElement = document.getElementById("toaster");
+                        let message = response.data.message;
+                        let toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.innerHTML = message;
+                        let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
+                        toastElement.show();
+                        // Ajout dans le TomSelect de la nouvelle option.
+                        const selectbanner = document.getElementById('document_category');
+                        const optionbanner = document.createElement("option")
+                        optionbanner.setAttribute("value", response.data.value)
+                        optionbanner.setAttribute("data-data", response.data.data)
+                        optionbanner.text = response.data.banner;
+                        selectbanner.add(optionbanner)
+                        TsPropertyBanner.addOption({data: response.data.data, value:response.data.value})
+                        TsPropertyBanner.addItem(response.data.cat)
+                        addCategory.hide()
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })
+                axios
+                    .post('/gestapp/choice/cat/document/json/1')
+                    .then(function(response){
+                        document.getElementById('listCat').innerHTML = response.data.liste
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })
+            })
 
-                // PARTIE Ajout du document
-                // ---------------------------------------
-                document.getElementById('submitDocument').addEventListener('click', function(event){
-                    event.preventDefault()
-                    let formAddDocument = document.getElementById('FormAddDocument')
-                    let urlAddDocument = formAddDocument.action
-                    let dataAddDocument = new FormData(formAddDocument)
-                    axios
-                        .post(urlAddDocument, dataAddDocument)
-                        .then(function(response){
-                            document.getElementById('listDocument').innerHTML = response.data.list
-                            // Mise en place de l'évenement pour la suppression d'un bien en cours de création
-                            document.querySelectorAll('a.btnModalSupprDocument').forEach(function(link){
-                                link.addEventListener('click', ModalSupprDocument)
-                            })
-                            // Message d'alerte en cas de réussite
-                            var toastHTMLElement = document.getElementById("toaster");
-                            var message = response.data.message;
-                            var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                            toastBody.innerHTML = message;
-                            var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
-                            toastElement.show();
-                            formAddDocument.reset()
-                        })
-                        .catch(function(error){
-                            console.log(error.response.data);
-                            console.log(error.response.status);
-                            console.log(error.response.headers);
-                        })
-                })
-
-            }
+            // PARTIE Ajout du document
+            // ---------------------------------------
+            document.getElementById('submitDocument').addEventListener('click', function(event){
+                event.preventDefault()
+                let formAddDocument = document.getElementById('FormAddDocument')
+                let urlAddDocument = formAddDocument.action
+                let dataAddDocument = new FormData(formAddDocument)
+                axios
+                    .post(urlAddDocument, dataAddDocument)
+                    .then(function(response){
+                        document.getElementById('sortDoc').innerHTML = response.data.liste;
+                        allReloadEvent
+                        toasterMessage
+                        formAddDocument.reset()
+                    })
+                    .catch(function(error){
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    })
+            })
 
             // PARTIE Suppression du document
             // ---------------------------------------
@@ -146,26 +107,26 @@
                 let modalFooterA = modalSupprDocument.querySelector(".modal-footer #submitSupprDocument");
                 modalFooterA.href = url;
             })
-
             submitSupprDocument.addEventListener('click', function(event){
                 event.preventDefault()
                 let urlSupprDocument = this.href
                 axios
                     .post(urlSupprDocument)
                     .then(function(response){
-                        document.getElementById('listDocument').innerHTML = response.data.liste
-                        // Mise en place de l'évenement pour la suppression d'un bien en cours de création
-                        document.querySelectorAll('a.btnModalSupprDocument').forEach(function(link){
-                            link.addEventListener('click', ModalSupprDocument)
-                        })
-                        // Message d'alerte en cas de réussite
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
-                        toastElement.show();
+                        document.getElementById('sortDoc').innerHTML = response.data.liste
+                        allReloadEvent
+                        toasterMessage
                     })
+            })
+
+            // PARTIE Lecture de la vidéo
+            // ------------------------------------
+            modalMp4.addEventListener('show.bs.modal', event => {
+                let a = event.relatedTarget;
+                let urlVideo = a.getAttribute('data-bs-whatever')
+                modalMp4.querySelector('.modal-body').innerHTML = '<video controls width="100%">' +
+                    '<source src="'+ urlVideo +'" type="video/mp4">' +
+                    '</video>'
             })
 
             // ------------------------------------
@@ -212,10 +173,32 @@
                     .get(url)
                     .then(function(response){
                         document.getElementById('sortDoc').innerHTML = response.data.liste
+                        allReloadEvent
                     })
                     .catch(function (error){
                         console.log(error)
                     })
+            }
+
+            function toasterMessage(message){
+                // Message d'alerte en cas de réussite
+                var toastHTMLElement = document.getElementById("toaster");
+                var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                toastBody.textContent = message;
+                var toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true, autohide: true, delay: 3000});
+                toastElement.show();
+            }
+
+            function allReloadEvent(){
+                // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+                document.querySelectorAll('a.btnModalSupprDocument').forEach(function(link){
+                    link.addEventListener('click', ModalSupprDocument)
+                })
+
+                // Filtrage des documents
+                document.querySelectorAll('a.btnCat').forEach(function(link){
+                    link.addEventListener('click', FilterDocument)
+                })
             }
 
             // Mise en place de l'évenement pour la suppression d'un bien en cours de création
@@ -265,6 +248,23 @@
 
 {% block modal %}
     <section id="modals">
+        {# modal Vidéo #}
+        <div class="modal fade" id="modalMp4" tabindex="-1" aria-labelledby="modalMp4" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered modal-xl">
+                <div class="modal-content">
+                    <div class="modal-body p-0">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         {# Ajout d'une catégorie #}
         <div class="modal fade" id="addCategory" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
