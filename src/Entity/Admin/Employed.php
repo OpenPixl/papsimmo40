@@ -11,6 +11,8 @@ use ApiPlatform\Metadata\Link;
 use App\Controller\Api\Admin\Employed\AddEmployed;
 use App\Controller\Api\Admin\Employed\AddPrescriber;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
+use App\Entity\Cart\Cart;
+use App\Entity\Cart\Purchase;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
@@ -268,6 +270,12 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isGdpr = false;
 
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Purchase::class)]
+    private Collection $purchases;
+
+    #[ORM\OneToMany(mappedBy: 'RefEmployed', targetEntity: Cart::class)]
+    private Collection $carts;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -279,6 +287,8 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->contacts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->recos = new ArrayCollection();
+        $this->purchases = new ArrayCollection();
+        $this->carts = new ArrayCollection();
     }
 
     /**
@@ -968,6 +978,66 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsGdpr(bool $isGdpr): static
     {
         $this->isGdpr = $isGdpr;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Purchase>
+     */
+    public function getPurchases(): Collection
+    {
+        return $this->purchases;
+    }
+
+    public function addPurchase(Purchase $purchase): static
+    {
+        if (!$this->purchases->contains($purchase)) {
+            $this->purchases->add($purchase);
+            $purchase->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removePurchase(Purchase $purchase): static
+    {
+        if ($this->purchases->removeElement($purchase)) {
+            // set the owning side to null (unless already changed)
+            if ($purchase->getRefEmployed() === $this) {
+                $purchase->setRefEmployed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Cart>
+     */
+    public function getCarts(): Collection
+    {
+        return $this->carts;
+    }
+
+    public function addCart(Cart $cart): static
+    {
+        if (!$this->carts->contains($cart)) {
+            $this->carts->add($cart);
+            $cart->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCart(Cart $cart): static
+    {
+        if ($this->carts->removeElement($cart)) {
+            // set the owning side to null (unless already changed)
+            if ($cart->getRefEmployed() === $this) {
+                $cart->setRefEmployed(null);
+            }
+        }
 
         return $this;
     }

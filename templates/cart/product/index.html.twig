@@ -4,7 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="module" src="{{ asset('js/cart/index.js') }}"></script>
+    <script type="module" src="{{ asset('js/cart/product/index.js') }}"></script>
 {% endblock %}
 
 {% block contentTitle %}
@@ -20,70 +20,17 @@
 
     <div class="navigation d-flex justify-content-between">
         <div class="mb-1">
-            <button id="addNewSupport" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport">Ajouter un nouveau support</button>
+            <a id="addNewSupport" href="{{ path('op_cart_product_new') }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="ADD-Ajouter un nouveau support à la liste-0">Ajouter un nouveau support</a>
+            <a id="addNewSupport" href="{{ path('op_cart_purchases_admin') }}" class="btn btn-sm btn-outline-primary" >Liste des commandes</a>
             |
-            <button class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</button>
-            <button class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</button>
+            <a href="{{ path('op_cart_cart_show') }}" class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</a>
+            <a href="{{ path('op_cart_purchases_index') }}" class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</a>
         </div>
     </div>
     
-    <div class="row">
-        {% for product in products %}
-            <div class="col-3">
-                <div class="card">
-                    <div class="card-body">
-                        <h4 class="card-title">{{ product.name }}</h4>
-                        <h6 class="card-subtitle">{{ product.category.name }}</h6>
-                    </div>
-                    <div class="card-header"></div>
-                </div>
-            </div>
-        {% else %}
-            <div class="col-2">
-                <div class="card">
-                    <div class="card-header"></div>
-                    <div class="card-body">
-                        <p>Pas de supports disponible actuellement.</p>
-                    </div>
-                    <div class="card-header"></div>
-                </div>
-            </div>
-        {% endfor %}
+    <div class="row mt-2 g-1" id="listeSupport">
+        {{ include('cart/product/include/_liste.html.twig') }}
     </div>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Slug</th>
-                <th>Descriptif</th>
-                <th>Price</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for product in products %}
-            <tr>
-                <td>{{ product.id }}</td>
-                <td></td>
-                <td>{{ product.slug }}</td>
-                <td>{{ product.descriptif }}</td>
-                <td>{{ product.price }}</td>
-                <td>
-                    <a href="{{ path('op_cart_product_show', {'id': product.id}) }}">show</a>
-                    <a href="{{ path('op_cart_product_edit', {'id': product.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('op_cart_product_new') }}">Create new</a>
 {% endblock %}
 
 
@@ -109,29 +56,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <a id="btnSubmitSupport" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Ajout d'un vendeur sur un bien -->
-    <div class="modal fade" id="modalDelCustomer" tabindex="-1" aria-labelledby="modalDelCustomer" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Attention : Suppression d'un acheteur</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="mb-0">
-                        Vous êtes sur le point de supprimer un acheteur sur cette vente. <br>
-                        Etes vous sûr de vouloir continuer ?
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    <a id="btnDellCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Oui</a>
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Non</button>
+                    <button id="btnSubmitSupport" type="submit" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</button>
                 </div>
             </div>
         </div>
