@@ -191,7 +191,7 @@ class PhotoController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/photo/edit.html.twig', [
+        return $this->render('gestapp/photo/edit.html.twig', [
             'photo' => $photo,
             'form' => $form,
         ]);

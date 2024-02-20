@@ -58,7 +58,7 @@ class ProductController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // Ajout du visuel
-            $VisuelFile = $form->get('visuelFileName')->getData();
+            $VisuelFile = $form->get('visualFile')->getData();
             if ($VisuelFile) {
                 $originalvisuelFileName = pathinfo($VisuelFile->getClientOriginalName(), PATHINFO_FILENAME);
                 // this is needed to safely include the file name as part of the URL
@@ -128,7 +128,7 @@ class ProductController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'op_cart_product_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, ProductRepository $productRepository): Response
+    public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, ProductRepository $productRepository, SluggerInterface $slugger): Response
     {
         $form = $this->createForm(ProductType::class, $product, [
             'action' => $this->generateUrl('op_cart_product_edit', [
@@ -140,6 +140,45 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Bloc sur le visuel en cas de changement du visuel
+            $VisuelFile = $form->get('visualFile')->getData();
+            //dd($VisuelFile);
+            if ($VisuelFile) {
+                // Suppression de la photo si cette dernière est présente en BDD
+                $visuelFileName = $product->getVisualFilename();
+                if($visuelFileName){
+                    $pathname = $this->getParameter('property_product_directory').'/'.$visuelFileName;
+                    if(file_exists($pathname)){
+                        unlink($pathname);
+                    }
+                }
+                // Ajout de la nouvelle image
+                $originalvisuelFileName = pathinfo($VisuelFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safevisuelFileName = $slugger->slug($originalvisuelFileName);
+                $newvisuelFileName = $safevisuelFileName . '.' . $VisuelFile->guessExtension();
+                $pathdir = $this->getParameter('property_product_directory');
+                try {
+                    if (is_dir($pathdir)) {
+                        $VisuelFile->move(
+                            $pathdir,
+                            $newvisuelFileName
+                        );
+                    } else {
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir . "/", 0775, true);
+                        // Déplacement de la photo
+                        $VisuelFile->move(
+                            $pathdir,
+                            $newvisuelFileName
+                        );
+                    }
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $product->setVisualFilename($newvisuelFileName);
+            }
+
             $entityManager->flush();
 
             $products = $productRepository->findAll();

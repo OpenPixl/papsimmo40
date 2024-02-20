@@ -3,7 +3,15 @@
     <div class="col-8">
         <h6>Description du Support :</h6>
         <div class="row mb-1 mt-1 g-1">
+            <div class="col-4">
+                {{ form_label(form.ref, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
             <div class="col-2">
+                {{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+        </div>
+        <div class="row mb-1 mt-1 g-1">
+            <div class="col-4">
                 {{ form_label(form.Category, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
             <div class="col-6">
@@ -11,33 +19,38 @@
             </div>
         </div>
         <div class="row mb-1 mt-1 g-1">
-            <div class="col-2">
+            <div class="col-4">
                 {{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
-            <div class="col-10">
+            <div class="col-6">
                 {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </div>
         </div>
         <div class="row mb-1 mt-1 g-0">
-            <div class="col-2">
+            <div class="col-12">
                 {{ form_label(form.descriptif, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
-            <div class="col-10">
+            <div class="col-12">
                 {{ form_widget(form.descriptif, {'attr': {'class': 'form-control form-control-sm', 'rows' : 5}}) }}
             </div>
         </div>
         <div class="row mb-1 mt-1 g-1">
-            <div class="col-2">
+            <div class="col-4">
                 {{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
-            <div class="col-10">
-                {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            <div class="col-3">
+                <div class="d-flex justify-content-start align-items-center">
+                    {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm w-75'}}) }}
+                </div>
             </div>
         </div>
     </div>
     <div class="col-4">
         <h6>Photo :</h6>
-        {{ form_widget(form.visualFilename, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+        {{ form_widget(form.visualFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+        {% if product.visualFilename is not null %}
+            <img src="{{ asset('images/product/' ~ product.visualFilename)|imagine_filter('product_card') }}" alt="{{ product.visualFilename }}">
+        {% endif %}
     </div>
 </div>
 {{ form_end(form) }}

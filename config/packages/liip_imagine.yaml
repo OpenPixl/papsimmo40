@@ -125,3 +125,9 @@ liip_imagine:
                 thumbnail:
                     size: [ 120, 120 ]
                     mode: outbond
+        product_card:
+            quality: 75
+            filters:
+                thumbnail:
+                    size: [ 225, 225 ]
+                    mode: outbond

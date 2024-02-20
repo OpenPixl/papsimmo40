@@ -36,7 +36,7 @@ class ProductType extends AbstractType
                 'class' => CategoryProduct::class,
                 'choice_label' => 'name',
             ])
-            ->add('visualFilename', FileType::class,[
+            ->add('visualFile', FileType::class,[
                 'label' => "La photo ne doit pas dépasser 10Mo de taille",
                 'mapped' => false,
                 'required' => false,

@@ -16,7 +16,7 @@ parameters:
     transaction_tracfin_directory: '%kernel.project_dir%/public/doc/transaction/tracfin'
     transaction_invoice_directory: '%kernel.project_dir%/public/doc/transaction/invoice'
     property_photo_directory: '%kernel.project_dir%/public/properties/'
-    property_product_directory: '%kernel.project_dir%/public/product/'
+    property_product_directory: '%kernel.project_dir%/public/images/product/'
 
 services:
     # default configuration for services in *this* file
