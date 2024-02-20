@@ -23,14 +23,21 @@ modalSupport.addEventListener('show.bs.modal', openModalSupport);
 if(btnSubmitSupport !== null){
     btnSubmitSupport.addEventListener('click', submitSupport);
 }
+
 function submitSupport(){
-    let form = document.getElementById('formProduct');
+    let form = document.querySelector('.modal-body form');
     let action = form.action;
     let data = new FormData(form);
     axios
         .post(action, data)
         .then(function(response){
             document.getElementById('listeSupport').innerHTML = response.data.liste;
+            modalSupport.querySelector('.modal-body').innerHTML =
+                "<div class=\"d-flex justify-content-center\">\n" +
+                "<div class=\"spinner-border text-primary\" role=\"status\">\n" +
+                "<span class=\"visually-hidden\">Loading...</span>\n" +
+                "</div>\n" +
+                "</div>";
             allAddEvent();
         })
         .catch(function(error){
@@ -57,6 +64,7 @@ function openModalSupport(event){
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.formView;
+                event.preventDefault();
                 allAddEvent();
             })
             .catch(function(error){
@@ -64,6 +72,22 @@ function openModalSupport(event){
             })
         ;
     }else if(crud === 'EDIT'){
+        let url = a.href;
+        let modalHeaderH5 = modalSupport.querySelector('.modal-title');
+        let modalBody = modalSupport.querySelector('.modal-body');
+        modalHeaderH5.textContent = contentTitle;
+        axios
+            .get(url)
+            .then(function (response){
+                modalBody.innerHTML = response.data.formView;
+                event.preventDefault();
+                allAddEvent();
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
+    }else if(crud === 'ADD_CAT'){
         let url = a.href;
         let modalHeaderH5 = modalSupport.querySelector('.modal-title');
         let modalBody = modalSupport.querySelector('.modal-body');
