@@ -698,7 +698,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
-            ->andWhere('p.family = 8')
+            ->andWhere('p.family in (6,8)')
             ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult()
