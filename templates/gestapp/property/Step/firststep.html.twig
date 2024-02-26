@@ -107,6 +107,18 @@
                             <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
                         </select>
                     </td>
+                    <td colspan="6">
+                        {% if property.coordLong is not null and property.coordLat is not null%}
+                            <div class="d-flex flex-row-reverse">
+                                <input id="coordLong" type="text" value="{{ property.coordLong }}">
+                                <input id="coordLat" type="text" value="{{ property.coordLat }}">
+                            </div>
+                        {% else %}
+                            <div class="d-flex flex-row-reverse">
+                                <a id="findGeoCoord" href="{{ path('op_gestapp_geocode_addpropertycoords', {'idproperty' : property.id}) }}" class="btn btn-sm btn-outline-info">Ajouter les coordonnées GPS</a>
+                            </div>
+                        {% endif %}
+                    </td>
                 </tr>
                 <tr class="align-middle">
                     <td class="table-light" colspan="2">{{ form_label(form.annonce, '', {'label_attr': {'class':'form-label'}}) }}</td>
@@ -173,7 +185,11 @@
             </div>
             <div class="row">
                 <div class="col-12">
-                    <div id="carte"></div>
+                    {% if property.coordLong is null and property.coordLat is null %}
+                        <div id="carte"></div>
+                    {% else %}
+                        <div id="carte"></div>
+                    {% endif %}
                 </div>
             </div>
         </div>
