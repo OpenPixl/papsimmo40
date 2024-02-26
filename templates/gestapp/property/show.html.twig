@@ -488,6 +488,35 @@
                 maxZoom: 16
             }).addTo(carte);
 
+            // partie obtenir les coordonnées GPS
+            let findGeoCoord = document.getElementById('findGeoCoord')
+            findGeoCoord.addEventListener('click', getCoords)
+
+            function getCoords(event){
+                event.preventDefault()
+                let url = this.href;
+                let adress = document.getElementById('property_step1_adress').value.replaceAll(' ','+')
+                let zipcode = document.getElementById('property_step1_zipcode').value
+                let commune = document.getElementById('property_step1_city').value
+                let queryString = adress + zipcode +'+'+ commune
+                let arrayCoord = []
+                axios
+                    .get('https://api-adresse.data.gouv.fr/search/?q='+queryString+'=housenumber&limit=1')
+                    .then(function(response){
+                        arrayCoordX = response.data.features[0].geometry['coordinates'][0]
+                        arrayCoordY = response.data.features[0].geometry['coordinates'][1]
+                        arrayCoord.push(arrayCoordY)
+                        arrayCoord.push(arrayCoordX)
+                        axios
+                            .post(url, {'arrayCoord': arrayCoord})
+                            .then(function(response){
+
+                            })
+                    })
+
+
+            }
+
         // ---------------------------------------
         // STEP 2 : Enregistrement du ou des acheteurs
         // ---------------------------------------

@@ -810,6 +810,59 @@ class PropertyRepository extends ServiceEntityRepository
             ;
     }
 
+    // ----------------------------------------------
+    // Requête : Liste tous les biens PRO disponible à la vente - Partie accueil
+    // ----------------------------------------------
+    public function AllCommercesSale()
+    {
+        return $this->createQueryBuilder('p')
+            ->leftjoin('p.refEmployed', 'e')
+            ->join('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftJoin('c.banner', 'b')
+            ->leftjoin('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
+            ->leftJoin('p.publication', 'pu')
+            ->leftJoin('p.family', 'fa')
+            ->leftJoin('p.rubric', 'ru')
+            ->leftJoin('p.rubricss', 'rus')
+            ->addSelect('
+                p.annonceSlug as annonceSlug,
+                fa.name as family,
+                rus.name as rubricss,
+                ru.id as idrubric,
+                ru.name as rubric,
+                p.dupMandat as dupMandat,
+                p.isArchived as isArchived,
+                pu.isWebpublish as isWebpublish,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.annonce as annonce,
+                p.priceFai as priceFai,
+                p.rent as rent,
+                p.surfaceHome as surfaceHome,
+                p.surfaceLand as surfaceLand,
+                d.name as denomination,
+                p.piece as piece,
+                p.room as room,
+                p.city as city,
+                pd.name as propertyDefinition,
+                b.name as banner,
+                b.bannerFilename AS bannerFilename,
+                pd.id AS idpropertyDefinition
+            ')
+            ->where('p.isIncreating = 0')
+            ->andWhere('p.isArchived = 0')
+            ->andWhere('pu.isWebpublish = 1')
+            ->andWhere('p.family = 6')
+            ->andWhere('p.rubric = 37')
+            ->orderBy('p.id', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     /**
      * Rechercher un bien depuis le searchProperty dans le header du site
      * @return void

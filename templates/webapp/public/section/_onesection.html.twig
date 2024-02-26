@@ -55,8 +55,12 @@
                 {# Affiche tous les biens à la location #}
                 {% elseif section.content == 'All_properties_rent'%}
                     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllPropertiesRent')) }}
+                {# Affiche tous les biens PRO à la location #}
                 {% elseif section.content == 'All_commerces_rent' %}
                     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllRentCommerce')) }}
+                {# Affiche tous les biens PRO à la location #}
+                {% elseif section.content == 'All_commerces_sales' %}
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllSaleCommerce')) }}
                 {# Affiche tous les biens par secteurs #}
                 {% elseif section.content == 'Sector_ofProperties'%}
                 {# Affiche les 5 derniers biens #}

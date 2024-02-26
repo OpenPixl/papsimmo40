@@ -114,11 +114,35 @@ class PropertyController extends AbstractController
             24
         );
 
-        return $this->renderForm('webapp/page/property/allproperties.html.twig', [
+        return $this->render('webapp/page/property/allproperties.html.twig', [
             'properties' => $properties,
             'page' => $request->query->getInt('page', 1),
         ]);
+    }
 
+    /**
+     * Affiche tous les biens immobiliers en location dans la section adaptée".
+     */
+    #[Route('/allSaleCommerce', name: 'op_gestapp_properties_allsalecommerce', methods: ['GET'])]
+    public function AllSaleCommerce(
+        PropertyRepository $propertyRepository,
+        PaginatorInterface $paginator,
+        Request $request
+    ): Response
+    {
+        // Récupération de la page si elle existe
+        $page = $request;
+        $data = $propertyRepository->AllCommercesSale();
+        $properties = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            24
+        );
+
+        return $this->render('webapp/page/property/allproperties.html.twig', [
+            'properties' => $properties,
+            'page' => $request->query->getInt('page', 1),
+        ]);
     }
 
     #[Route('/propertyDiffusion', name: 'op_gestapp_property_diffusion', methods: ['GET']) ]

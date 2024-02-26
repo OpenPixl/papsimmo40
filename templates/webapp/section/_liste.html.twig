@@ -22,6 +22,10 @@
                 {% elseif section.content == "One_Employed" %} Un employé
                 {% elseif section.content == "One_staff" %} Une équipe
                 {% elseif section.content == "All_Employed" %} Les employés
+                {% elseif section.content == "All_properties_sales" %} Les offres en vente
+                {% elseif section.content == "All_properties_rent" %} Les offres en location
+                {% elseif section.content == "All_commerces_rent" %} Les offres PRO en location
+                {% elseif section.content == "All_properties_sale" %} Les offres PRO en vente
                 {% endif %}
 
             </td>
@@ -41,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-                <a href="" class="btn btn-sm btn-outline-danger delarticle" type="button" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ section.id }}"><i class="fa-duotone fa-file-xmark"></i></a>
+                <a href="{{ path('op_webapp_section_del', {'id': section.id}) }}" class="btn btn-sm btn-outline-danger delarticle" type="button" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ section.id }}"><i class="fa-duotone fa-file-xmark"></i></a>
             </td>
         </tr>
     {% else %}

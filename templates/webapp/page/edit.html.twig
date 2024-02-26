@@ -14,9 +14,10 @@
             var Suppr = document.getElementById('Suppr')
             Suppr.addEventListener('show.bs.modal', function (event) {
                 // Button that triggered the modal
-                var a = event.relatedTarget
+                let a = event.relatedTarget
+                let url = a.href
                 // Extract info from data-bs-* attributes
-                var recipient = a.getAttribute('data-bs-whatever')
+                let recipient = a.getAttribute('data-bs-whatever')
                 // If necessary, you could initiate an AJAX request here
                 // and then do the updating in a callback.
                 //
@@ -24,51 +25,51 @@
                 var modalTitle = Suppr.querySelector('.modal-title')
                 var modalText = Suppr.querySelector('.modal-text')
                 var modalBodyInput = Suppr.querySelector('.modal-body input')
-
-                modalTitle.textContent = "Suppression d'un article"
+                Suppr.querySelector('.modal-footer a.supprsection').href = url
+                modalTitle.textContent = "Suppression d'une section"
                 modalBodyInput.value = recipient
-                modalText.innerHTML = "Vous êtes sur le point de supprimer l'article sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
+                modalText.innerHTML = "Vous êtes sur le point de supprimer la section sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
+            })
+
+            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+            document.querySelectorAll('a.supprsection').forEach(function(link){
+                link.addEventListener('click', onClickDelEvent)
             })
 
             // Code de suppression lors du clic sur le bouton de la modal "Suppr"
             function onClickDelEvent(event){
                 event.preventDefault()
-                const id = document.getElementById('recipient-name').value
+                let url = this.href;
                 axios
-                    .post('/webapp/section/del/'+ id)
+                    .post(url)
                     .then(function(response)
                     {
                         // rafraichissement du tableau
-                        const liste = document.getElementById('liste').innerHTML = response.data.liste;
-
-                        // rechargement des events
-                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                            link.addEventListener('click', onClickDelEvent)
-                        })
-
-                        // préparation du toaster
-                        var option = {
-                            animation : true,
-                            autohide: true,
-                            delay : 3000,
-                        };
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                        toastElement.show();
+                        document.getElementById('liste').innerHTML = response.data.liste;
+                        allReloadEvent();
+                        toastMessage();
                     })
                     .catch(function(error){
                         console.log(error);
                     })
             }
 
-            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-            document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                link.addEventListener('click', onClickDelEvent)
-            })
+            function toastMessage(){
+                // initialisation du toaster
+                let toastHTMLElement = document.getElementById("toaster");
+                let message = response.data.message;
+                let toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                toastBody.textContent = message;
+                let toastElement = new bootstrap.Toast(toastHTMLElement, {animation : true, autohide: true, delay : 3000,});
+                toastElement.show();
+            }
+
+            function allReloadEvent(){
+                // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
+                document.querySelectorAll('a.supprsection').forEach(function(link){
+                    link.addEventListener('click', onClickDelEvent)
+                })
+            }
         }
     </script>
 {% endblock %}
@@ -112,7 +113,7 @@
                         <input type="hidden" id="recipient-name">
                     </div>
                     <div class="modal-footer">
-                        <a href="#" type="button" class="btn btn-danger js-data-suppr" data-bs-dismiss="modal">Supprimer</a>
+                        <a href="#" type="button" class="btn btn-danger supprsection" data-bs-dismiss="modal">Supprimer</a>
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </div>
