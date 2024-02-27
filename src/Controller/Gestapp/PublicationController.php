@@ -58,6 +58,9 @@ class PublicationController extends AbstractController
         Publication $publication,
         PublicationRepository $publicationRepository,
         PropertyRepository $propertyRepository,
+        ftptransfertService $ftptransfertService,
+        PhotoRepository $photoRepository,
+        complementRepository $complementRepository
     ): Response
     {
         $form = $this->createForm(PublicationType::class, $publication,[
@@ -72,6 +75,25 @@ class PublicationController extends AbstractController
             $property = $propertyRepository->findOneBy(['publication'=>$publication->getId()]);
             $property->setIsIncreating(0);
             $propertyRepository->add($property);
+            // Service de dépot sur serveur le serveur FTP "SeLoger"
+            $ftptransfertService->selogerFTP(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository,
+            );
+            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            $ftptransfertService->figaroFTP(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository,
+            );
+            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            $ftptransfertService->greenacresFTP(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository
+            );
+
 
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }

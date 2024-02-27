@@ -15,6 +15,7 @@ class PropertyService
         public PropertyRepository $propertyRepository
     )
     {}
+
     // Destination commerciale du bien (Vente particulier, vente commerce, location particulier, vente commerce)
     public function getDestination(Property $property)
     {
@@ -23,7 +24,7 @@ class PropertyService
         //$rubricss = $property->getRubricss()->getId();
         //dd($famille);
         if($famille == 8 || $famille == 6){
-            //dd('vente immobilier');
+            //dd($famille);
             $destination = 'vente';
             $typeBien = $property->getRubric()->getName();
             $price = $property->getPrice();
