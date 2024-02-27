@@ -14,21 +14,10 @@
             <div class="card-footer">
                 <div class="d-flex justify-content-between">
                     <div>
-                        <a href="{{ path('op_cart_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="EDIT-Modifier le support">Modifier</a></div>
+                        <a href="{{ path('op_cart_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="EDIT-Modifier le support">Modifier</a>
+                    </div>
                     <div>
-                        {% if app.session.get('cart') is not empty %}
-                            {% for i in items|filter(i => i.product.id == product.id) %}
-                            <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                                <a type="button" class="js-increment btn btn-outline-warning" href="{{ path('op_cart_cart_add', {'id': product.id}) }}"><i class="fa-solid fa-plus"></i></a>
-                                <button type="button" class="btn btn-outline-warning">&nbsp{{ i.qty }}&nbsp</button>
-                                <a type="button" class="js-decrement btn btn-outline-warning" href="{{ path('op_cart_cart_decrement', {'id': product.id}) }}"><i class="fa-solid fa-minus"></i></a>
-                            </div>
-                            {% else %}
-                                <a href="{{ path('op_cart_cart_add', {'id': product.id}) }}" class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-plus"></i> Commander</a>
-                            {% endfor %}
-                        {% else %}
-                            <a href="{{ path('op_cart_cart_add', {'id': product.id}) }}" class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-plus"></i> Commander</a>
-                        {% endif %}
+                        <a href="{{ path('op_cart_product_show', {'id': product.id}) }}" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="SHOW-Détails du support commercial-{{ product.id }}">Voir les détails</a>
                     </div>
                 </div>
             </div>

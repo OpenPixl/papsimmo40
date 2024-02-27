@@ -37,7 +37,6 @@ class ProductController extends AbstractController
                 'products' => $productRepository->findAll(),
                 'items' => $detailedCart
             ]);
-            dd($detailedCart);
         }
 
         return $this->render('cart/product/index.html.twig', [
@@ -121,10 +120,15 @@ class ProductController extends AbstractController
     #[Route('/{id}', name: 'op_cart_product_show', methods: ['GET'])]
     public function show(Product $product): Response
     {
-
-        return $this->render('cart/product/show.html.twig', [
-            'product' => $product,
-        ]);
+        return $this->json([
+            "code" => 200,
+            'showItem' => $this->renderView('cart/product/show.html.twig',[
+                'product' => $product
+            ])
+        ], 200);
+        //return $this->render('cart/product/show.html.twig', [
+        //    'product' => $product,
+        //]);
     }
 
     #[Route('/{id}/edit', name: 'op_cart_product_edit', methods: ['GET', 'POST'])]
@@ -210,7 +214,7 @@ class ProductController extends AbstractController
         //]);
     }
 
-    #[Route('/{id}', name: 'op_cart_product_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'op_cart_product_del', methods: ['POST'])]
     public function delete(Request $request, Product $product, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$product->getId(), $request->request->get('_token'))) {
@@ -219,5 +223,22 @@ class ProductController extends AbstractController
         }
 
         return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/delete/{id}', name: 'op_cart_product_delete', methods: ['POST'])]
+    public function del(Request $request, Product $product, ProductRepository $productRepository, EntityManagerInterface $em)
+    {
+        $em->remove($product);
+        $em->flush();
+
+        $products = $productRepository->findAll();
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Le supprot a été corretement retiré de la base de données.',
+            'liste' => $this->renderView('cart/product/index.html.twig',[
+                'products' => $products
+            ])
+        ], 200);
     }
 }

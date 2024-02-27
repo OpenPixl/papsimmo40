@@ -18,10 +18,14 @@ flatpickr(".flatpickrtime", {
 let modalSupport = document.getElementById('modalSupport');
 let btnSubmitSupport = document.getElementById('btnSubmitSupport');
 let btnConfPurchase = document.getElementById('btnConfPurchase');
+let btnSupprProduct = document.getElementById('btnSupprProduct');
 
 modalSupport.addEventListener('show.bs.modal', openModalSupport);
 if(btnSubmitSupport !== null){
     btnSubmitSupport.addEventListener('click', submitSupport);
+}
+if(btnSupprProduct !== null){
+    btnSupprProduct.addEventListener('click', supprProduct);
 }
 
 function submitSupport(){
@@ -102,9 +106,41 @@ function openModalSupport(event){
                 console.log(error);
             })
         ;
+    }else if(crud === 'SHOW'){
+        let url = a.href;
+        let modalHeaderH5 = modalSupport.querySelector('.modal-title');
+        let modalBody = modalSupport.querySelector('.modal-body');
+        modalHeaderH5.textContent = contentTitle;
+        axios
+            .get(url)
+            .then(function (response){
+                modalBody.innerHTML = response.data.showItem;
+                allAddEvent();
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
     }
 }
 
+function supprProduct(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            document.getElementById('listeSupport').innerHTML = response.data.liste;
+            modalSupport.querySelector('.modal-body').innerHTML =
+                "<div class=\"d-flex justify-content-center\">\n" +
+                "<div class=\"spinner-border text-primary\" role=\"status\">\n" +
+                "<span class=\"visually-hidden\">Loading...</span>\n" +
+                "</div>\n" +
+                "</div>";
+            allAddEvent();
+        })
+        .catch();
+}
 
 // Fonction de rechargement des events
 function allAddEvent(){
