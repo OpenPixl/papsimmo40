@@ -9,6 +9,7 @@
             <div class="card-body">
                 <h4 class="card-title">{{ product.name }}</h4>
                 <h6 class="card-subtitle">{{ product.category.name }}</h6>
+                <a href="{{ path('op_cart_product_show', {'id': product.id}) }}" class="stretched-link" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="SHOW-Détails du support commercial-{{ product.id }}">Détails</a>
             </div>
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <div class="card-footer">

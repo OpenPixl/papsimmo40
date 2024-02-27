@@ -108,6 +108,7 @@ function openModalSupport(event){
         let modalHeaderH5 = modalSupport.querySelector('.modal-title');
         let modalBody = modalSupport.querySelector('.modal-body');
         modalHeaderH5.textContent = contentTitle;
+        modalSupport.querySelector('.modal-footer button.submit').id = "AddCart";
         axios
             .get(url)
             .then(function (response){
