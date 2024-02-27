@@ -966,7 +966,7 @@ class PropertyRepository extends ServiceEntityRepository
 
     // ----------------------------------------------
     // Partie Admin
-    // Requête : Recherche les biens pour la génération CSV
+    // Requête : Recherche les biens pour la génération CSV - PARUVENDU
     // ----------------------------------------------
     public function reportpropertycsv()
     {
@@ -1050,7 +1050,7 @@ class PropertyRepository extends ServiceEntityRepository
 
     // ----------------------------------------------
     // Partie Admin
-    // Requête : Recherche les biens pour la génération CSV
+    // Requête : Recherche les biens pour la génération CSV - MEILLEUR AGENT // LE BON COIN
     // ----------------------------------------------
     public function reportpropertycsv2()
     {
@@ -1134,7 +1134,7 @@ class PropertyRepository extends ServiceEntityRepository
 
     // ----------------------------------------------
     // Partie Admin
-    // Requête : Recherche les biens pour la génération CSV
+    // Requête : Recherche les biens pour la génération CSV - SE LOGER
     // ----------------------------------------------
     public function reportpropertycsv3()
     {
@@ -1300,7 +1300,7 @@ class PropertyRepository extends ServiceEntityRepository
 
     // ----------------------------------------------
     // Partie Admin
-    // Requête : Recherche les biens pour le dépot FTP Green Acre
+    // Requête : Recherche les biens pour le dépot FTP Green Acre - VIZZIT
     // ----------------------------------------------
     public function reportpropertyGreenacresFTP()
     {

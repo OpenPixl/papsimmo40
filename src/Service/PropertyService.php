@@ -22,7 +22,7 @@ class PropertyService
         $rubric = $property->getRubric()->getId();
         //$rubricss = $property->getRubricss()->getId();
         //dd($famille);
-        if($famille == 8 ){
+        if($famille == 8 || $famille == 6){
             //dd('vente immobilier');
             $destination = 'vente';
             $typeBien = $property->getRubric()->getName();

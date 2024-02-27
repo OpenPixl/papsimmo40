@@ -1,10 +1,10 @@
 <div class="row">
-    <div class="col-8">
+    <div class="col-7">
         <h6>{{ product.name }}</h6>
         <p>{{ product.descriptif }}</p>
         <p><b>Prix : </b>{{ product.price }}€</p>
     </div>
-    <div class="col-4">
+    <div class="col-5">
         {% if product.visualFilename is not null %}
             <img class="img-fluid" src="{{ asset('images/product/'~ product.visualFilename)|imagine_filter('product_card') }}" alt="{{ product.visualFilename }}" aria-description="{{ product.descriptif }}">
         {% else %}
@@ -15,7 +15,7 @@
 {% if is_granted('ROLE_SUPER_ADMIN') %}
 <div class="row">
     <div class="col-12">
-        <a id="btnSupprProduct" class="btn btn-sm btn-danger" href="{{ path('op_cart_product_delete', {'id': product.id}) }}"><i class="fa-duotone fa-trash-xmark"></i> Supprimer le support de communication</a>
+        <a id="btnSupprProduct" class="btn btn-sm btn-danger" href="{{ path('op_cart_product_delete', {'id': product.id}) }}" data-bs-dismiss="modal"><i class="fa-duotone fa-trash-xmark"></i> Supprimer le support de communication</a>
     </div>
 </div>
 {% endif %}

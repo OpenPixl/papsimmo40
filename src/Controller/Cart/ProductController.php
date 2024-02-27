@@ -236,7 +236,7 @@ class ProductController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => 'Le supprot a été corretement retiré de la base de données.',
-            'liste' => $this->renderView('cart/product/index.html.twig',[
+            'liste' => $this->renderView('cart/product/include/_liste.html.twig',[
                 'products' => $products
             ])
         ], 200);

@@ -24,9 +24,6 @@ modalSupport.addEventListener('show.bs.modal', openModalSupport);
 if(btnSubmitSupport !== null){
     btnSubmitSupport.addEventListener('click', submitSupport);
 }
-if(btnSupprProduct !== null){
-    btnSupprProduct.addEventListener('click', supprProduct);
-}
 
 function submitSupport(){
     let form = document.querySelector('.modal-body form');
@@ -115,6 +112,7 @@ function openModalSupport(event){
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.showItem;
+                document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
                 allAddEvent();
             })
             .catch(function(error){
