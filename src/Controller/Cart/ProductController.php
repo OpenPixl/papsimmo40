@@ -131,6 +131,22 @@ class ProductController extends AbstractController
         //]);
     }
 
+    #[Route('/modalfooter/{id}', name: 'op_cart_product_showmodalfooter', methods: ['GET'])]
+    public function showmodalfooter(Product $product, EntityManagerInterface $em, Request $request): Response
+    {
+        $detailedCart = $this->cartService->getDetailedCartItem();
+
+        return $this->json([
+            "code" => 200,
+            'footer' => $this->renderView('cart/product/include/_modalfooter.html.twig',[
+                'product' => $product,
+                'items' => $detailedCart,
+            ]),
+        ], 200);
+    }
+
+
+
     #[Route('/{id}/edit', name: 'op_cart_product_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Product $product, EntityManagerInterface $entityManager, ProductRepository $productRepository, SluggerInterface $slugger): Response
     {

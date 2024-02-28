@@ -84,7 +84,6 @@ class CartController extends AbstractController
                     // Récupération de la personnalisation
                     $this->cartService->increment($item, $product);
                 }
-
             }
 
         }

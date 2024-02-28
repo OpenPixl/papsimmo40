@@ -25,28 +25,6 @@ if(btnSubmitSupport !== null){
     btnSubmitSupport.addEventListener('click', submitSupport);
 }
 
-function submitSupport(){
-    let form = document.querySelector('.modal-body form');
-    let action = form.action;
-    let data = new FormData(form);
-    axios
-        .post(action, data)
-        .then(function(response){
-            document.getElementById('listeSupport').innerHTML = response.data.liste;
-            modalSupport.querySelector('.modal-body').innerHTML =
-                "<div class=\"d-flex justify-content-center\">\n" +
-                "<div class=\"spinner-border text-primary\" role=\"status\">\n" +
-                "<span class=\"visually-hidden\">Loading...</span>\n" +
-                "</div>\n" +
-                "</div>";
-            allAddEvent();
-        })
-        .catch(function(error){
-            console.log(error);
-        })
-    ;
-}
-
 function openModalSupport(event){
     // Button that triggered the modal
     let a = event.relatedTarget;
@@ -108,19 +86,52 @@ function openModalSupport(event){
         let modalHeaderH5 = modalSupport.querySelector('.modal-title');
         let modalBody = modalSupport.querySelector('.modal-body');
         modalHeaderH5.textContent = contentTitle;
-        modalSupport.querySelector('.modal-footer button.submit').id = "AddCart";
+        modalSupport.querySelector('.modal-footer button.submit').removeEventListener("click", submitSupport);
         axios
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.showItem;
-                document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
                 allAddEvent();
             })
             .catch(function(error){
                 console.log(error);
             })
         ;
+        axios
+            .get('/cart/product/modalfooter/'+ id )
+            .then(function(response){
+                modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
+                document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+            })
+        ;
     }
+}
+modalSupport.addEventListener('hide.bs.modal', event => {
+    modalSupport.querySelector('.modal-footer').innerHTML =
+        "<button type=\"button\" class=\"btn btn-sm btn-secondary\" data-bs-dismiss=\"modal\">Annuler</button>\n" +
+        "<button id=\"btnSubmitSupport\" type=\"submit\" class=\"btn btn-sm btn-primary submit\" data-bs-dismiss=\"modal\">Ajouter</button>";
+});
+
+function submitSupport(){
+    let form = document.querySelector('.modal-body form');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('listeSupport').innerHTML = response.data.liste;
+            modalSupport.querySelector('.modal-body').innerHTML =
+                "<div class=\"d-flex justify-content-center\">\n" +
+                "<div class=\"spinner-border text-primary\" role=\"status\">\n" +
+                "<span class=\"visually-hidden\">Loading...</span>\n" +
+                "</div>\n" +
+                "</div>";
+            allAddEvent();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
 }
 
 function supprProduct(event){
@@ -139,6 +150,10 @@ function supprProduct(event){
             allAddEvent();
         })
         .catch();
+}
+
+function addCart(event){
+    event.preventDefault();
 }
 
 // Fonction de rechargement des events
