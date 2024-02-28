@@ -8,10 +8,9 @@
         window.onload = function(){
             // Préparation des variables
             const modalSupprDocument = document.getElementById('SupprDocument');
-            const modalMp4  =document.getElementById('modalMp4');
+            const modalMp4 = document.getElementById('modalMp4');
             const submitSupprDocument = document.getElementById('submitSupprDocument');
             const addCategory  = new bootstrap.Modal(document.getElementById('addCategory'), {keyboard: true})
-
 
             // PARTIE Ajout de la category
             // ---------------------------------------
@@ -224,11 +223,9 @@
 
 {% block content %}
 <div class="row">
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-    <div class="col-sm-12">
+    <div class="col-sm-12" {% if is_granted('ROLE_SUPER_ADMIN') %}{% else %}style="d-none"{% endif %}>
         {{ render(controller('App\\Controller\\Gestapp\\DocumentController::new2'))}}
     </div>
-    {% endif %}
     <div id="docCategory" class="col-sm-12">
         <h4><i class="fa-duotone fa-ballot-check"></i> Choix d'une catégorie</h4>
         <div id="listCat">

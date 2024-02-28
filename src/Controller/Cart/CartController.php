@@ -28,6 +28,8 @@ class CartController extends AbstractController
     #[Route('/cart/{id}', name: 'op_cart_cart_add', methods: ['GET', 'POST'], requirements: ['id'=>'\d+'])]
     public function cart($id, Request $request, EntityManagerInterface $em): Response
     {
+        $json = intval($request->query->get('json'));
+
         // Récupération de l'objet produit
         $product = $this->productRepository->find($id);
         // teste si le produit existe dans la liste de produit.
@@ -91,8 +93,8 @@ class CartController extends AbstractController
 
         if($request->query->get('returnToCart')){
             return $this->redirectToRoute('op_webapp_cart_showcartjson');
-        }elseif($request->query->get('showproduct')){
-            return $this->redirectToRoute('op_cart_product_show',[
+        }elseif($json === 1){
+            return $this->redirectToRoute('op_cart_product_showmodalfooter',[
                 'id' => $product->getId(),
             ]);
         }else{

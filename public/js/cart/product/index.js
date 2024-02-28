@@ -161,12 +161,10 @@ function incrementCart(event){
         .get(url)
         .then(function(response){
             modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
-            document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
-            document.querySelector('.modal-footer a.js-increment').addEventListener('click', incrementCart);
-            document.querySelector('.modal-footer a.js-decrement').addEventListener('click', decrementCart);
+            console.log(response.data.footer);
         })
         .catch(function(error){
-            console.lof(error);
+            console.log(error);
         })
     ;
 }
@@ -177,12 +175,12 @@ function decrementCart(event){
         .get(url)
         .then(function(response){
             modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
-            document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+            //document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
             document.querySelector('.modal-footer a.js-increment').addEventListener('click', incrementCart);
             document.querySelector('.modal-footer a.js-decrement').addEventListener('click', decrementCart);
         })
         .catch(function(error){
-            console.lof(error);
+            console.log(error);
         })
     ;
 }
