@@ -102,6 +102,8 @@ function openModalSupport(event){
             .then(function(response){
                 modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
                 document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+                document.querySelector('.modal-footer a.js-increment').addEventListener('click', incrementCart);
+                document.querySelector('.modal-footer a.js-decrement').addEventListener('click', decrementCart);
             })
         ;
     }
@@ -150,6 +152,39 @@ function supprProduct(event){
             allAddEvent();
         })
         .catch();
+}
+
+function incrementCart(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .get(url)
+        .then(function(response){
+            modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
+            document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+            document.querySelector('.modal-footer a.js-increment').addEventListener('click', incrementCart);
+            document.querySelector('.modal-footer a.js-decrement').addEventListener('click', decrementCart);
+        })
+        .catch(function(error){
+            console.lof(error);
+        })
+    ;
+}
+function decrementCart(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .get(url)
+        .then(function(response){
+            modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
+            document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+            document.querySelector('.modal-footer a.js-increment').addEventListener('click', incrementCart);
+            document.querySelector('.modal-footer a.js-decrement').addEventListener('click', decrementCart);
+        })
+        .catch(function(error){
+            console.lof(error);
+        })
+    ;
 }
 
 function addCart(event){

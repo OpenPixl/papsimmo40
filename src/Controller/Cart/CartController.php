@@ -76,7 +76,6 @@ class CartController extends AbstractController
                 $this->cartService->add($item, $product);
             }else{
                 if($request->query->has('item')){
-
                     // Récupération de la personnalisation
                     $parametres = $request->query->all();
                     $this->cartService->increment(intval($parametres['item']), $product);
@@ -93,8 +92,8 @@ class CartController extends AbstractController
         if($request->query->get('returnToCart')){
             return $this->redirectToRoute('op_webapp_cart_showcartjson');
         }elseif($request->query->get('showproduct')){
-            return $this->redirectToRoute('op_gestapp_cart_showcartcount',[
-                'id' => $id
+            return $this->redirectToRoute('op_cart_product_show',[
+                'id' => $product->getId(),
             ]);
         }else{
             return $this->redirectToRoute('op_cart_product_index');
