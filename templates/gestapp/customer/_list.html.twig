@@ -7,9 +7,7 @@
 <table class="table">
     <thead>
     <tr>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
         <th>Collaborateur</th>
-        {% endif %}
         <th>Référence</th>
         <th>Nom & Prénom</th>
         <th>Adresse</th>
@@ -22,7 +20,6 @@
     <tbody>
     {% for customer in customers%}
         <tr class="align-middle">
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
             <td>
                 {% if customer.avatarName is not null %}
                     <img class="rounded-circle" src="{{ asset('images/avatar/' ~ customer.avatarName) }}" alt="" style="height:50px;width:50px" alt="{{ customer.avatarName }}">
@@ -31,7 +28,6 @@
                 {% endif %}
                 {{ customer.firstNameEmpl }} {{ customer.lastNameEmpl }}
             </td>
-            {% endif %}
             <td>{{ customer.RefCustomer }}</td>
             <td><strong>{{ customer.lastName }} {{ customer.firstName }}</strong></td>
             <td>{% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}</td>
