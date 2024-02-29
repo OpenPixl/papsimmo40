@@ -8,15 +8,15 @@
             {% if app.session.get('cart') is not empty %}
                 {% for i in items|filter(i => i.product.id == product.id) %}
                     <div class="btn-group btn-group-sm" role="group" aria-label="Basic example">
-                        <a  class="js-increment btn btn-outline-warning" href="{{ path('op_cart_cart_add', {'id': product.id})~ '?json=1' }}"><i class="fa-solid fa-plus"></i></a>
+                        <a  class="js-increment btn btn-outline-warning" href="{{ path('op_cart_cart_add', {'id': product.id})~'?json=1' }}"><i class="fa-solid fa-plus"></i></a>
                         <button type="button" class="btn btn-outline-warning">&nbsp{{ i.qty }}&nbsp</button>
-                        <a class="js-decrement btn btn-outline-warning" href="{{ path('op_cart_cart_decrement', {'id': product.id})~ '?json=1' }}"><i class="fa-solid fa-minus"></i></a>
+                        <a class="js-decrement btn btn-outline-warning" href="{{ path('op_cart_cart_decrement', {'id': product.id})~'?json=1' }}"><i class="fa-solid fa-minus"></i></a>
                     </div>
                 {% else %}
-                    <a href="{{ path('op_cart_cart_add', {'id': product.id}) ~ '?showproduct="true"' }}" class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-plus"></i> Ajouter au panier</a>
+                    <a id="btnAddCart" href="{{ path('op_cart_cart_add', {'id': product.id})~'?json=1' }}" class="btn btn-sm btn-outline-warning js-increment"><i class="fa-solid fa-plus"></i> Ajouter au panier</a>
                 {% endfor %}
             {% else %}
-                <a href="{{ path('op_cart_cart_add', {'id': product.id}) }}" class="btn btn-sm btn-outline-warning"><i class="fa-solid fa-plus"></i> Ajouter au panier</a>
+                <a id="btnAddCart" href="{{ path('op_cart_cart_add', {'id': product.id})~'?json=1' }}" class="btn btn-sm btn-outline-warning js-increment"><i class="fa-solid fa-plus"></i> Ajouter au panier</a>
             {% endif %}
             <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
         </div>
