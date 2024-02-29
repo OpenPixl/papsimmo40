@@ -20,6 +20,7 @@ let btnSubmitSupport = document.getElementById('btnSubmitSupport');
 let btnConfPurchase = document.getElementById('btnConfPurchase');
 let btnSupprProduct = document.getElementById('btnSupprProduct');
 
+
 modalSupport.addEventListener('show.bs.modal', openModalSupport);
 if(btnSubmitSupport !== null){
     btnSubmitSupport.addEventListener('click', submitSupport);
@@ -102,8 +103,12 @@ function openModalSupport(event){
             .then(function(response){
                 modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
                 document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
-                document.querySelector('.modal-footer a.js-increment').addEventListener('click', incrementCart);
-                document.querySelector('.modal-footer a.js-decrement').addEventListener('click', decrementCart);
+                let btnIncrement = document.querySelector('.modal-footer a.js-increment');
+                let btnDecrement = document.querySelector('.modal-footer a.js-decrement');
+                btnIncrement.addEventListener('click', incrementCart);
+                if(btnDecrement !== null){
+                    btnDecrement.addEventListener('click', decrementCart);
+                }
             })
         ;
     }
