@@ -44,6 +44,7 @@ function openModalSupport(event){
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.formView;
+                btnSubmitSupport.addEventListener('click', submitSupport);
                 event.preventDefault();
                 allAddEvent();
             })
@@ -60,6 +61,7 @@ function openModalSupport(event){
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.formView;
+                btnSubmitSupport.addEventListener('click', submitSupport);
                 event.preventDefault();
                 allAddEvent();
             })
@@ -199,7 +201,4 @@ function addCart(event){
 // Fonction de rechargement des events
 function allAddEvent(){
     modalSupport.addEventListener('show.bs.modal', openModalSupport);
-    if(btnSubmitSupport !== null){
-        btnSubmitSupport.addEventListener('click', submitSupport);
-    }
 }
