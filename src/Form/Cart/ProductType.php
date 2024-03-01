@@ -26,7 +26,10 @@ class ProductType extends AbstractType
                 'label' => 'Nom du support'
             ])
             ->add('descriptif', TextareaType::class, [
-                'label' => 'Description'
+                'label' => 'Description',
+                'required' => false,
+                'empty_data' =>'',
+                'attr' => ['class' => 'tinymce'],
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix'

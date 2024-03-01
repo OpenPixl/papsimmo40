@@ -550,7 +550,7 @@ class PropertyController extends AbstractController
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/property/edit.html.twig', [
+        return $this->render('gestapp/property/edit.html.twig', [
             'property' => $property,
             'idProperty' => $property->getId(),
             'complement' => $complement->getId(),
@@ -587,7 +587,7 @@ class PropertyController extends AbstractController
                 'message' => "Les informations générales ont été correctement ajoutées au bien."
             ], 200);
         }
-        return $this->renderform('gestapp/property/Step/firststep.html.twig',[
+        return $this->render('gestapp/property/Step/firststep.html.twig',[
             'form'=>$form,
             'property'=>$property,
         ]);

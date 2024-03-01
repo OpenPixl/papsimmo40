@@ -1,12 +1,12 @@
-<div class="row">
-    <div class="col-7">
+<div class="row align-items-center">
+    <div class="col-6">
         <h6>{{ product.name }}</h6>
         <p>{{ product.descriptif }}</p>
         <p><b>Prix : </b>{{ product.price }}€</p>
     </div>
-    <div class="col-5">
+    <div class="col-6">
         {% if product.visualFilename is not null %}
-            <img class="img-fluid" src="{{ asset('images/product/'~ product.visualFilename)|imagine_filter('product_card') }}" alt="{{ product.visualFilename }}" aria-description="{{ product.descriptif }}">
+            <img class="img-fluid" src="{{ asset('images/product/'~ product.visualFilename) }}" alt="{{ product.visualFilename }}" aria-description="{{ product.descriptif }}">
         {% else %}
             <img src="{{ asset('images/jpeg/support_visuel.jpeg') }}" class="img-fluid" alt="{{ product.visualFilename }}" aria-description="{{ product.descriptif }}"">
         {% endif %}

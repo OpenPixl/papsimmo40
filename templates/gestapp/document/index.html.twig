@@ -223,7 +223,7 @@
 
 {% block content %}
 <div class="row">
-    <div class="col-sm-12" {% if is_granted('ROLE_SUPER_ADMIN') %}{% else %}style="d-none"{% endif %}>
+    <div class="col-sm-12 {% if is_granted('ROLE_EMPLOYED') %}d-none{% endif %}">
         {{ render(controller('App\\Controller\\Gestapp\\DocumentController::new2'))}}
     </div>
     <div id="docCategory" class="col-sm-12">

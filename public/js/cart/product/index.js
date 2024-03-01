@@ -15,6 +15,16 @@ flatpickr(".flatpickrtime", {
     time_24hr: true
 });
 
+// Mise en place de l'éditeur TinyMCE sur la partie Admin
+tinymce.init({
+    selector: '.tinymce',
+    plugins: 'image table lists',
+    toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image table',
+    images_file_types: 'jpg,svg,webp',
+    language: 'fr_FR',
+    language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
+});
+
 let modalSupport = document.getElementById('modalSupport');
 let btnSubmitSupport = document.getElementById('btnSubmitSupport');
 let btnConfPurchase = document.getElementById('btnConfPurchase');
@@ -39,13 +49,24 @@ function openModalSupport(event){
         let url = a.href;
         let modalHeaderH5 = modalSupport.querySelector('.modal-title');
         let modalBody = modalSupport.querySelector('.modal-body');
+        let modalDialog = modalSupport.querySelector('.modal-dialog');
         modalHeaderH5.textContent = contentTitle;
+        modalDialog.classList.remove("modal-lg");
+        modalDialog.classList.add("modal-xl");
         axios
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.formView;
-                btnSubmitSupport.addEventListener('click', submitSupport);
                 event.preventDefault();
+                // Mise en place de l'éditeur TinyMCE sur la partie Admin
+                tinymce.init({
+                    selector: '.tinymce',
+                    plugins: 'image table lists',
+                    toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image table',
+                    images_file_types: 'jpg,svg,webp',
+                    language: 'fr_FR',
+                    language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
+                });
                 allAddEvent();
             })
             .catch(function(error){
@@ -56,13 +77,25 @@ function openModalSupport(event){
         let url = a.href;
         let modalHeaderH5 = modalSupport.querySelector('.modal-title');
         let modalBody = modalSupport.querySelector('.modal-body');
+        let modalDialog = modalSupport.querySelector('.modal-dialog');
+        modalSupport.querySelector('.modal-footer button.submit').textContent = "Modifier";
         modalHeaderH5.textContent = contentTitle;
+        modalDialog.classList.remove("modal-lg");
+        modalDialog.classList.add("modal-xl");
         axios
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.formView;
-                btnSubmitSupport.addEventListener('click', submitSupport);
+                modalSupport.querySelector('.modal-footer button.submit').addEventListener("click", submitSupport);
                 event.preventDefault();
+                tinymce.init({
+                    selector: '.tinymce',
+                    plugins: 'image table lists',
+                    toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image table',
+                    images_file_types: 'jpg,svg,webp',
+                    language: 'fr_FR',
+                    language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
+                });
                 allAddEvent();
             })
             .catch(function(error){
@@ -104,7 +137,10 @@ function openModalSupport(event){
             .get('/cart/product/modalfooter/'+ id )
             .then(function(response){
                 modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
-                document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+                if(btnSupprProduct !== null){
+                    document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+
+                }
                 let btnIncrement = document.querySelector('.modal-footer a.js-increment');
                 let btnDecrement = document.querySelector('.modal-footer a.js-decrement');
                 btnIncrement.addEventListener('click', incrementCart);
@@ -116,6 +152,9 @@ function openModalSupport(event){
     }
 }
 modalSupport.addEventListener('hide.bs.modal', event => {
+    let modalDialog = modalSupport.querySelector('.modal-dialog');
+    modalDialog.classList.remove("modal-xl");
+    modalDialog.classList.add("modal-lg");
     modalSupport.querySelector('.modal-footer').innerHTML =
         "<button type=\"button\" class=\"btn btn-sm btn-secondary\" data-bs-dismiss=\"modal\">Annuler</button>\n" +
         "<button id=\"btnSubmitSupport\" type=\"submit\" class=\"btn btn-sm btn-primary submit\" data-bs-dismiss=\"modal\">Ajouter</button>";
@@ -168,9 +207,16 @@ function incrementCart(event){
         .get(url)
         .then(function(response){
             modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
-            document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
-            document.querySelector('.modal-footer a.js-increment').addEventListener('click', incrementCart);
-            document.querySelector('.modal-footer a.js-decrement').addEventListener('click', decrementCart);
+            if(btnSupprProduct !== null){
+                document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+
+            }
+            let btnIncrement = document.querySelector('.modal-footer a.js-increment');
+            let btnDecrement = document.querySelector('.modal-footer a.js-decrement');
+            btnIncrement.addEventListener('click', incrementCart);
+            if(btnDecrement !== null){
+                btnDecrement.addEventListener('click', decrementCart);
+            }
         })
         .catch(function(error){
             console.log(error);
@@ -184,9 +230,16 @@ function decrementCart(event){
         .get(url)
         .then(function(response){
             modalSupport.querySelector('.modal-footer').innerHTML = response.data.footer;
-            document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
-            document.querySelector('.modal-footer a.js-increment').addEventListener('click', incrementCart);
-            document.querySelector('.modal-footer a.js-decrement').addEventListener('click', decrementCart);
+            if(btnSupprProduct !== null){
+                document.getElementById('btnSupprProduct').addEventListener('click', supprProduct);
+
+            }
+            let btnIncrement = document.querySelector('.modal-footer a.js-increment');
+            let btnDecrement = document.querySelector('.modal-footer a.js-decrement');
+            btnIncrement.addEventListener('click', incrementCart);
+            if(btnDecrement !== null){
+                btnDecrement.addEventListener('click', decrementCart);
+            }
         })
         .catch(function(error){
             console.log(error);
@@ -201,4 +254,7 @@ function addCart(event){
 // Fonction de rechargement des events
 function allAddEvent(){
     modalSupport.addEventListener('show.bs.modal', openModalSupport);
+    if(btnSubmitSupport !== null){
+        btnSubmitSupport.addEventListener('click', submitSupport);
+    }
 }

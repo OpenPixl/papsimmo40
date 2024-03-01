@@ -12,8 +12,12 @@ use Symfony\Component\Routing\Attribute\Route;
 class DashboardController extends AbstractController
 {
     #[Route('/opadmin/dashboard', name: 'op_admin_dashboard_index')]
-    public function index(): Response
+    public function index(Request $request): Response
     {
+        //$session = $request->getSession();
+        //$test = $session->getMetadataBag()->getLifetime();
+        //dd($session->getMetadataBag()->getCreated(), $session->getMetadataBag()->getLastUsed(), $session->getMetadataBag()->getLifetime());
+
         return $this->render('admin/dashboard/index.html.twig');
     }
 

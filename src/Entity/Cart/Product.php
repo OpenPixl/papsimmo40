@@ -23,7 +23,7 @@ class Product
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $slug = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    #[ORM\Column(type: 'text', nullable: true)]
     private ?string $descriptif = null;
 
     #[ORM\Column(nullable: true)]
@@ -95,7 +95,7 @@ class Product
         return $this->descriptif;
     }
 
-    public function setDescriptif(?string $descriptif): static
+    public function setDescriptif(?string $descriptif): self
     {
         $this->descriptif = $descriptif;
 

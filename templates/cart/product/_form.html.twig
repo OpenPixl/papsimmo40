@@ -31,7 +31,7 @@
                 {{ form_label(form.descriptif, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
             <div class="col-12">
-                {{ form_widget(form.descriptif, {'attr': {'class': 'form-control form-control-sm', 'rows' : 5}}) }}
+                {{ form_widget(form.descriptif, {'attr': {'rows' : 5}}) }}
             </div>
         </div>
         <div class="row mb-1 mt-1 g-1">
@@ -49,7 +49,7 @@
         <h6>Photo :</h6>
         {{ form_widget(form.visualFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
         {% if product.visualFilename is not null %}
-            <img src="{{ asset('images/product/' ~ product.visualFilename)|imagine_filter('product_card') }}" alt="{{ product.visualFilename }}">
+            <img class="img-fluid" src="{{ asset('images/product/' ~ product.visualFilename) }}" alt="{{ product.visualFilename }}">
         {% endif %}
     </div>
 </div>
