@@ -162,6 +162,12 @@ class Customer
     #[ORM\ManyToMany(targetEntity: Transaction::class, mappedBy: 'customer')]
     private Collection $transactions;
 
+    #[ORM\Column(length: 255)]
+    private ?string $typeClient = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $NameStructure = null;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -507,6 +513,30 @@ class Customer
         if ($this->transactions->removeElement($transaction)) {
             $transaction->removeCustomer($this);
         }
+
+        return $this;
+    }
+
+    public function getTypeClient(): ?string
+    {
+        return $this->typeClient;
+    }
+
+    public function setTypeClient(string $typeClient): static
+    {
+        $this->typeClient = $typeClient;
+
+        return $this;
+    }
+
+    public function getNameStructure(): ?string
+    {
+        return $this->NameStructure;
+    }
+
+    public function setNameStructure(string $NameStructure): static
+    {
+        $this->NameStructure = $NameStructure;
 
         return $this;
     }

@@ -571,8 +571,8 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $annonce = $form->get('annonce')->getData();
-            dd($annonce);
+            //$annonce = $form->get('annonce')->getData();
+            //dd($annonce);
 
             $array = array_slice(explode(' ', str_replace(array( "\n", "\r", "\u{A0}","</p><p>", "<br>" ), array( '', '',' ', ' ', '' ), strip_tags($property->getAnnonce()))), 0, 10);
 

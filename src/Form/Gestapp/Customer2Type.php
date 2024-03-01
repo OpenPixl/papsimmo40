@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Choice\CustomerChoice;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -18,7 +19,20 @@ class Customer2Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-
+            ->add('typeClient', ChoiceType::class,[
+                'label' => 'Type de client',
+                'choices'  => [
+                    'Particulier' => "Particulier",
+                    'Société' => 'Société',
+                ],
+                'choice_attr' => [
+                    'Particulier' => ['data-data' => 'Particulier'],
+                    'Société' => ['data-data' => 'Société'],
+                ],
+            ])
+            ->add('nameStructure', TextType::class, [
+                'label' => 'Nom de la structure',
+            ])
             ->add('firstName', TextType::class, [
                 'label' => 'Prénom & Nom'
             ])
