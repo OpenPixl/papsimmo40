@@ -1,7 +1,7 @@
 <div class="row align-items-center">
     <div class="col-6">
         <h6>{{ product.name }}</h6>
-        <p>{{ product.descriptif }}</p>
+        <p>{{ product.descriptif|raw }}</p>
         <p><b>Prix : </b>{{ product.price }}€</p>
     </div>
     <div class="col-6">
