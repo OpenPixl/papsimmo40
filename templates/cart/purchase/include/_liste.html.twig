@@ -16,9 +16,10 @@
                 <td>{{ purchase.purchaseAt|date('Y-m-d') }}</td>
                 <td>
                     {% for pi in purchase.purchaseItems %}
-                        <li>{{ pi.productName }} | {{ pi.totalItem }}</li>
+                        <li>{{ pi.productName }} - ref : {{ pi.productRef}} | {{ pi.totalItem }}</li>
                     {% endfor %}
                 </td>
+                <td>{{ purchase.total }}€</td>
                 <td>
                     {% if purchase.status == 'PENDING' %}
                         En attente

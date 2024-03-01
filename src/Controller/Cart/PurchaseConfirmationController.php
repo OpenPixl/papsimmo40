@@ -68,8 +68,9 @@ class PurchaseConfirmationController extends AbstractController
             $purchaseItem = new PurchaseItem;
             $purchaseItem
                 ->setPurchase($purchase)
-                ->setProduct($cartItem->product)
+                ->setProductRef($cartItem->product->getRef())
                 ->setProductName($cartItem->product->getName())
+                ->setProductPrice($cartItem->product->getPrice())
                 ->setProductQty($cartItem->qty)
                 ->setTotalItem($cartItem->qty)
             ;

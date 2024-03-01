@@ -14,8 +14,8 @@ class PurchaseItem
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\ManyToOne]
-    private ?Product $product = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $productRef = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $productName = null;
@@ -37,18 +37,6 @@ class PurchaseItem
         return $this->id;
     }
 
-    public function getProduct(): ?Product
-    {
-        return $this->product;
-    }
-
-    public function setProduct(?Product $product): static
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
     public function getProductName(): ?string
     {
         return $this->productName;
@@ -57,6 +45,18 @@ class PurchaseItem
     public function setProductName(?string $productName): static
     {
         $this->productName = $productName;
+
+        return $this;
+    }
+
+    public function getProductRef(): ?string
+    {
+        return $this->productRef;
+    }
+
+    public function setProductRef(?string $productRef): static
+    {
+        $this->productRef = $productRef;
 
         return $this;
     }
