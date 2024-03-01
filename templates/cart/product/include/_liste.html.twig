@@ -2,7 +2,7 @@
     <div class="col-2">
         <div class="card">
             {% if product.visualFilename is not null %}
-            <img src="{{ asset('images/product/' ~ product.visualFilename)|imagine_filter('product_card') }}" class="card-img-top" alt="{{ product.ref }}">
+                <a href="{{ path('op_cart_product_show', {'id': product.id}) }}" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="SHOW-Détails du support commercial-{{ product.id }}"><img src="{{ asset('images/product/' ~ product.visualFilename)|imagine_filter('product_card') }}" class="card-img-top" alt="{{ product.ref }}"></a>
             {% else %}
                 <img src="{{ asset('images/jpeg/support_visuel.jpeg') }}" class="card-img-top" alt="{{ product.ref }}">
             {% endif %}
