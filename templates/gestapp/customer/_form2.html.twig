@@ -24,6 +24,14 @@
                     <tr class="align-middle">
                         <td class="table-light" colspan="12"><h6 style="text-transform: uppercase;">Informations du client</h6></td>
                     </tr>
+                    <tr>
+                        <td class="table-light" colspan="3">{{ form_label(form.typeClient, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td colspan="3">{{ form_widget(form.typeClient, {'attr': {'class': 'form-select form-select-sm', 'placeholder':'Prénom ...'}}) }}</td>
+                    </tr>
+                    <tr>
+                        <td class="table-light" colspan="3">{{ form_label(form.nameStructure, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td colspan="3">{{ form_widget(form.nameStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}</td>
+                    </tr>
                     <tr class="align-middle">
                         {# Ligne du Nom et prénom du client #}
                         <td class="table-light" colspan="3">{{ form_label(form.firstName, '', {'label_attr': {'class':'form-label'}}) }}</td>

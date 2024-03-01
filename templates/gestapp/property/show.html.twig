@@ -2,9 +2,10 @@
 
 {% block title %}SoftPAPs - Gestion d'un bien{% endblock %}
 
-
 {% block javascripts %}
     {{ parent() }}
+    <script type="module" src="{{ asset('js/property/show/step1.js') }}"></script>
+    <script type="module" src="{{ asset('js/property/show/step2.js') }}"></script>
     <script>
         window.onload = function() {
         // ---------------------------------------
@@ -2021,7 +2022,7 @@
 
 {% endblock %}
 
-{% block footer %}
+{% block modal %}
     {{ parent() }}
     <!-- Ajout d'un vendeur sur un bien -->
     <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="modalCustomer" aria-hidden="true">
