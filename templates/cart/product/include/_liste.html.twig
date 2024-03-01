@@ -15,11 +15,11 @@
                 <div class="d-flex justify-content-between">
                     <div>
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <a href="{{ path('op_cart_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-outline-info" >Modifier</a>
+                            <a href="{{ path('op_cart_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-outline-info">Modifier</a>
                         {% endif %}
                     </div>
                     <div>
-                        <a href="{{ path('op_cart_product_show', {'id': product.id}) }}" class="btn btn-sm btn-outline-warning">Voir les détails</a>
+                        <a href="{{ path('op_cart_product_show', {'id': product.id}) }}" class="btn btn-sm btn-outline-warning" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="SHOW-Ajouter une nouvelle catégorie-{{ product.id }}">Voir les détails</a>
                     </div>
                 </div>
             </div>
