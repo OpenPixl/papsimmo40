@@ -29,7 +29,6 @@ class ProductType extends AbstractType
                 'label' => 'Description',
                 'required' => false,
                 'empty_data' =>'',
-                'attr' => ['class' => 'tinymce'],
             ])
             ->add('price', MoneyType::class, [
                 'label' => 'Prix'

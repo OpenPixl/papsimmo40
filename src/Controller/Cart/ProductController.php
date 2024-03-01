@@ -90,31 +90,31 @@ class ProductController extends AbstractController
 
             $products = $productRepository->findAll();
 
-            return $this->json([
-                'code' => 200,
-                'Message' => "Le support a été correctement ajouté",
-                'liste' => $this->renderView('cart/product/include/_liste.html.twig',[
-                    'products' => $products
-                ])
-            ], 200);
+            //return $this->json([
+            //    'code' => 200,
+            //    'Message' => "Le support a été correctement ajouté",
+            //    'liste' => $this->renderView('cart/product/include/_liste.html.twig',[
+            //        'products' => $products
+            //    ])
+            //], 200);
 
-            //return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        $view = $this->render('cart/product/_form.html.twig', [
-            'product' => $product,
-            'form' => $form
-        ]);
-
-        return $this->json([
-            "code" => 200,
-            "formView" => $view->getContent()
-        ], 200);
-
-        //return $this->render('cart/product/new.html.twig', [
+        //$view = $this->render('cart/product/_form.html.twig', [
         //    'product' => $product,
-        //    'form' => $form,
+        //    'form' => $form
         //]);
+
+        //return $this->json([
+        //    "code" => 200,
+        //    "formView" => $view->getContent()
+        //], 200);
+
+        return $this->render('cart/product/new.html.twig', [
+            'product' => $product,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{id}', name: 'op_cart_product_show', methods: ['GET'])]
@@ -160,6 +160,7 @@ class ProductController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form->get('descriptif')->getData());
             // Bloc sur le visuel en cas de changement du visuel
             $VisuelFile = $form->get('visualFile')->getData();
             //dd($VisuelFile);
@@ -203,31 +204,31 @@ class ProductController extends AbstractController
 
             $products = $productRepository->findAll();
 
-            return $this->json([
-                "code" => 200,
-                "Message" => "Le support a été correctement ajouté",
-                'liste' => $this->renderView('cart/product/include/_liste.html.twig',[
-                    'products' => $products
-                ])
-            ], 200);
+            //return $this->json([
+            //    "code" => 200,
+            //    "Message" => "Le support a été correctement ajouté",
+            //    'liste' => $this->renderView('cart/product/include/_liste.html.twig',[
+            //        'products' => $products
+            //    ])
+            //], 200);
 
-            //return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        $view = $this->render('cart/product/_form.html.twig', [
-            'product' => $product,
-            'form' => $form
-        ]);
-
-        return $this->json([
-            "code" => 200,
-            "formView" => $view->getContent()
-        ], 200);
-
-        //return $this->render('cart/product/edit.html.twig', [
+        //$view = $this->render('cart/product/_form.html.twig', [
         //    'product' => $product,
-        //    'form' => $form,
+        //    'form' => $form
         //]);
+
+        //return $this->json([
+        //    "code" => 200,
+        //    "formView" => $view->getContent()
+        //], 200);
+
+        return $this->render('cart/product/edit.html.twig', [
+            'product' => $product,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/{id}', name: 'op_cart_product_del', methods: ['POST'])]

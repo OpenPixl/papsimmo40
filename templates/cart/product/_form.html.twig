@@ -31,7 +31,7 @@
                 {{ form_label(form.descriptif, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
             <div class="col-12">
-                {{ form_widget(form.descriptif, {'attr': {'rows' : 5}}) }}
+                {{ form_widget(form.descriptif, {'attr': {'class': 'tinymce','rows' : 5}}) }}
             </div>
         </div>
         <div class="row mb-1 mt-1 g-1">
@@ -53,4 +53,4 @@
         {% endif %}
     </div>
 </div>
-{{ form_end(form) }}
+<button type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default("Editer / Modifier") }}</button>{{ form_end(form) }}

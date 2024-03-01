@@ -15,7 +15,6 @@ flatpickr(".flatpickrtime", {
     time_24hr: true
 });
 
-// Mise en place de l'éditeur TinyMCE sur la partie Admin
 tinymce.init({
     selector: '.tinymce',
     plugins: 'image table lists',
@@ -37,6 +36,7 @@ if(btnSubmitSupport !== null){
 }
 
 function openModalSupport(event){
+
     // Button that triggered the modal
     let a = event.relatedTarget;
     // extraction de.s variable.s
@@ -57,8 +57,6 @@ function openModalSupport(event){
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.formView;
-                event.preventDefault();
-                // Mise en place de l'éditeur TinyMCE sur la partie Admin
                 tinymce.init({
                     selector: '.tinymce',
                     plugins: 'image table lists',
@@ -67,6 +65,7 @@ function openModalSupport(event){
                     language: 'fr_FR',
                     language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
                 });
+                event.preventDefault();
                 allAddEvent();
             })
             .catch(function(error){
@@ -74,6 +73,14 @@ function openModalSupport(event){
             })
         ;
     }else if(crud === 'EDIT'){
+        tinymce.init({
+            selector: '.tinymce',
+            plugins: 'image table lists',
+            toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image table',
+            images_file_types: 'jpg,svg,webp',
+            language: 'fr_FR',
+            language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
+        });
         let url = a.href;
         let modalHeaderH5 = modalSupport.querySelector('.modal-title');
         let modalBody = modalSupport.querySelector('.modal-body');
@@ -86,8 +93,6 @@ function openModalSupport(event){
             .get(url)
             .then(function (response){
                 modalBody.innerHTML = response.data.formView;
-                modalSupport.querySelector('.modal-footer button.submit').addEventListener("click", submitSupport);
-                event.preventDefault();
                 tinymce.init({
                     selector: '.tinymce',
                     plugins: 'image table lists',
@@ -96,6 +101,8 @@ function openModalSupport(event){
                     language: 'fr_FR',
                     language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
                 });
+                modalSupport.querySelector('.modal-footer button.submit').addEventListener("click", submitSupport);
+                event.preventDefault();
                 allAddEvent();
             })
             .catch(function(error){
@@ -155,18 +162,24 @@ modalSupport.addEventListener('hide.bs.modal', event => {
     let modalDialog = modalSupport.querySelector('.modal-dialog');
     modalDialog.classList.remove("modal-xl");
     modalDialog.classList.add("modal-lg");
+    modalSupport.querySelector('.modal-body').innerHTML =
+        "<div class=\"d-flex justify-content-center\">" +
+        "<div class=\"spinner-border text-primary\" role=\"status\">"+
+        "<span class=\"visually-hidden\">Loading...</span>"+
+        "</div>"+
+        "</div>";
     modalSupport.querySelector('.modal-footer').innerHTML =
         "<button type=\"button\" class=\"btn btn-sm btn-secondary\" data-bs-dismiss=\"modal\">Annuler</button>\n" +
         "<button id=\"btnSubmitSupport\" type=\"submit\" class=\"btn btn-sm btn-primary submit\" data-bs-dismiss=\"modal\">Ajouter</button>";
 });
 
-function submitSupport(){
+function submitSupport() {
     let form = document.querySelector('.modal-body form');
     let action = form.action;
     let data = new FormData(form);
     axios
         .post(action, data)
-        .then(function(response){
+        .then(function (response) {
             document.getElementById('listeSupport').innerHTML = response.data.liste;
             modalSupport.querySelector('.modal-body').innerHTML =
                 "<div class=\"d-flex justify-content-center\">\n" +

@@ -1,9 +1,26 @@
-{% extends 'base.html.twig' %}
+{% extends 'admin.html.twig' %}
 
-{% block title %}New Product{% endblock %}
+{% block title %}Edit Product{% endblock %}
 
-{% block body %}
-    <h1>Create new Product</h1>
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Support Commerciaux - <small>Liste des produits disponible à la commande</small></h1>
+        </div>
+    </div>
+
+    <div class="navigation d-flex justify-content-between">
+        <div class="mb-1">
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <a id="addNewSupport" href="{{ path('op_cart_product_new') }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="ADD-Ajouter un nouveau support à la liste-0">Ajouter un nouveau support</a>
+                <a id="addNewCat" href="{{ path('op_cart_category_product_new') }}" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#modalSupport" data-bs-crud="ADD_CAT-Ajouter une nouvelle catégorie-0">Ajouter une catégorie</a>
+                <a id="listCommandes" href="{{ path('op_cart_purchases_admin') }}" class="btn btn-sm btn-outline-primary" >Liste des commandes</a>
+                |
+            {% endif %}
+            <a href="{{ path('op_cart_cart_show') }}" class="btn btn-sm btn-outline-dark" id="btnListSupport">voir son panier de commande</a>
+            <a href="{{ path('op_cart_purchases_index') }}" class="btn btn-sm btn-outline-dark" id="btnListCommande">voir son historique des commandes</a>
+        </div>
+    </div>
 
     {{ include('cart/product/_form.html.twig') }}
 
