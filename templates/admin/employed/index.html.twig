@@ -75,11 +75,17 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Membres de PAPS IMMO</h1>
-
-    <div id="liste">
-        {% include('admin/employed/_list.html.twig') %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Membres de PAPS IMMO</h1>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-12" id="liste">
+            {% include('admin/employed/_list.html.twig') %}
+            <a class="btn btn-sm btn-outline-primary" href="{{ path('op_admin_employed_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un(e) nouvel(le) collaborateur / collaboratrice</a>
+        </div>
     </div>
 
-    <a class="btn btn-sm btn-outline-primary" href="{{ path('op_admin_employed_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un(e) nouvel(le) collaborateur / collaboratrice</a>
+
 {% endblock %}
