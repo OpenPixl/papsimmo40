@@ -22,8 +22,11 @@ class DocumentController extends AbstractController
     #[Route('/', name: 'op_gestapp_document_index', methods: ['GET'])]
     public function index(DocumentRepository $documentRepository): Response
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+
         return $this->render('gestapp/document/index.html.twig', [
             'documents' => $documentRepository->findAll(),
+            'hasAccess' => $hasAccess
         ]);
     }
 
