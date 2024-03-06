@@ -1,3 +1,18 @@
-{{ form_start(form) }}
+<div class="card text-dark bg-light">
+    <div class="card-body">
+        <p>
+            <b>Attention :</b>
+        </p>
+        <p class="alert alert-info mb-2">
+            Ne sont accepté que les photos au format JPEG, JPG et dont la taille n'excède pas 10Mo.
+        </p>
+        {{ form_start(form, {'attr': {'id': 'addPhoto'}}) }}
 
-{{ form_end(form) }}
+        {{ form_widget(form.images, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+        <div class="mt-1">
+            <button type="submit" id="btnAddPhoto" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
+        </div>
+        {{ form_end(form) }}
+    </div>
+</div>
+

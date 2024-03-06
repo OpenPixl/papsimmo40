@@ -3,6 +3,7 @@
 namespace App\Controller\Gestapp;
 
 use App\Entity\Gestapp\Complement;
+use App\Entity\Gestapp\Photo;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
 use App\Form\Gestapp\Property\AddMandatType;
@@ -28,10 +29,12 @@ use App\Service\ArchivePropertyService;
 use App\Service\PropertyService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Knp\Component\Pager\PaginatorInterface;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/gestapp/property')]
 class PropertyController extends AbstractController
@@ -476,6 +479,84 @@ class PropertyController extends AbstractController
 
         return $this->redirectToRoute('op_gestapp_property_show', [
             'id' => $property->getId()
+        ]);
+    }
+
+    #[Route('/property/images/{id}', name: 'op_gestapp_property_images', methods: ['POST','GET'])]
+    public function Images(Property $property, Request $request, PhotoRepository $photoRepository, PropertyRepository $propertyRepository, SluggerInterface $slugger)
+    {
+        $form = $this->createForm(PropertyImageType::class, $property, [
+            'action' => $this->generateUrl('op_gestapp_property_images', ['id'=>$property->getId()]),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $photoFiles = $form->get('images')->getData();
+            if ($photoFiles) {
+                foreach($photoFiles as $photoFile){
+                    $lastphoto = $photoRepository->Lastphoto($property->getId());
+                    $ref = explode("/", $property->getRef());
+                    $newref = $ref[0].'-'.$ref[1];
+
+                    $photo = new Photo();
+                    if($lastphoto){
+                        $position = $lastphoto->getPosition() + 1;
+                        $photo->setPosition($position);
+                    }else{
+                        $photo->setPosition(1);
+                    }
+
+
+                    $originalphotoFileName = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safephotoFileName = $slugger->slug($originalphotoFileName);
+                    $newphotoFileName = $safephotoFileName . '.' . $photoFile->guessExtension();
+                    $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        if (is_dir($pathdir)){
+                            $photoFile->move(
+                                $pathdir,
+                                $newphotoFileName
+                            );
+                        }else{
+                            // Création du répertoire s'il n'existe pas.
+                            mkdir($pathdir."/", 0775, true);
+                            // Déplacement de la photo
+                            $photoFile->move(
+                                $pathdir,
+                                $newphotoFileName
+                            );
+                        }
+
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $photo->setProperty($property);
+                    $photo->setPath($newref);
+                    $photo->setGaleryFrontName($newphotoFileName);
+                    $photoRepository->add($photo);
+                }
+                
+                $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
+                return $this->json([
+                    'code'=> 200,
+                    'message' => "La photo du bien a été ajoutée",
+                    'listephoto' => $this->renderView('gestapp/photo/_listephoto.html.twig', [
+                        'photos' => $photos,
+                        'property' => $property
+                    ])
+                ], 200);
+
+            }
+            $propertyRepository->add($property);
+            return $this->redirectToRoute('op_gestapp_property_firstedit', ['id'=>$property->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('gestapp/property/editimage.html.twig', [
+            'form' => $form,
         ]);
     }
 
