@@ -19,11 +19,9 @@ class AddPrescriber extends AbstractController
         //dd($data);
         if($data){
             $plainpassword = $data->getPassword();
-            $numCollaborator = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
             $referent = $data->getReferent();
             $data->setRoles(['ROLE_PRESCRIBER']);
             $data->setPassword($passwordAuthenticatedUser->hashPassword($data,$plainpassword));
-            $data->setNumCollaborator($numCollaborator);
             $data->setReferent($referent);
 
             $log = array($data);

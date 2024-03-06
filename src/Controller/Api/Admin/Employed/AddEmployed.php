@@ -26,6 +26,7 @@ class AddEmployed extends AbstractController
             $data->setRoles(['ROLE_EMPLOYED']);
             $data->setPassword($passwordAuthenticatedUser->hashPassword($data,$plainpassword));
             $data->setNumCollaborator($numCollaborator);
+            $data->setGenre('collaborateur');
 
             $log = array($data);
             $notification = new Notification();

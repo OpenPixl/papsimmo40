@@ -2,6 +2,8 @@
 
 namespace App\Entity\Admin;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
@@ -121,6 +123,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     paginationEnabled: false,
 )]
+#[ApiFilter(SearchFilter::class, properties: ['genre' => 'exact'])]
 class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -134,6 +137,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     #[ORM\Column(type: 'json')]
+    #[Groups(('employed:list'))]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
@@ -236,7 +240,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $isWebpublish = false;
 
-    #[ORM\Column(length: 6)]
+    #[ORM\Column(length: 6, nullable: true)]
     #[Groups(['employed:list', 'employed:item'])]
     #[Assert\Length(
         min: 6,
@@ -275,6 +279,10 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'RefEmployed', targetEntity: Cart::class)]
     private Collection $carts;
+
+    #[ORM\Column(length: 20, nullable: true)]
+    #[Groups(['employed:list'])]
+    private ?string $genre = null;
 
     public function __construct()
     {
@@ -1038,6 +1046,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $cart->setRefEmployed(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getGenre(): ?string
+    {
+        return $this->genre;
+    }
+
+    public function setGenre(?string $genre): static
+    {
+        $this->genre = $genre;
 
         return $this;
     }
