@@ -132,7 +132,7 @@ class PhotoController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/photo/new.html.twig', [
+        return $this->render('gestapp/photo/new.html.twig', [
             'photo' => $photo,
             'form' => $form,
             'idproperty' => $idproperty

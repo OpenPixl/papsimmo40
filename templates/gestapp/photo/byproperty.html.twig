@@ -4,7 +4,7 @@
 <section>
     <div class="row">
         <div class="col-3">
-            {{ render(controller('App\\Controller\\Gestapp\\PhotoController::new', {'idproperty': property.id})) }}
+            {{ render(controller('App\\Controller\\Gestapp\\PropertyController::Images', {'id': property.id})) }}
         </div>
         <div class="col-9">
             <div class="row g-1" id="listephoto">
