@@ -23,6 +23,7 @@ class AddPrescriber extends AbstractController
             $data->setRoles(['ROLE_PRESCRIBER']);
             $data->setPassword($passwordAuthenticatedUser->hashPassword($data,$plainpassword));
             $data->setReferent($referent);
+            $data->setGenre('prescripteur');
 
             $log = array($data);
             $notification = new Notification();

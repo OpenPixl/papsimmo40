@@ -1,4 +1,4 @@
-{# installation de la logique twig d'affiachage des menus #}
+{# installation de la logique twig d'affichage des menus #}
 {% set parents = [] %}
 {% set childs = [] %}
 {% for menu in menus %}
@@ -30,7 +30,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0 bg-light">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_public_homepage')}}"> Accueilqdzqz</a>
+                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_public_homepage')}}"> Accueil</a>
                 </li>
                 {% for parent in parents|sort((a, b) => a.position <=> b.position) %}
                     {# Création de la variable pour le dropdown de niveau 1#}
