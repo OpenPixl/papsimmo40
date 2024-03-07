@@ -87,7 +87,7 @@ class DocumentController extends AbstractController
             return $this->redirectToRoute('op_gestapp_document_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/document/new.html.twig', [
+        return $this->render('gestapp/document/new.html.twig', [
             'document' => $document,
             'form' => $form,
         ]);
@@ -214,7 +214,7 @@ class DocumentController extends AbstractController
             return $this->redirectToRoute('op_gestapp_document_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/document/edit.html.twig', [
+        return $this->render('gestapp/document/edit.html.twig', [
             'document' => $document,
             'form' => $form,
         ]);
