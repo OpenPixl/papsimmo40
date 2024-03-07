@@ -31,21 +31,6 @@ class DocumentType extends AbstractType
                     return ['data-data' => $product->getName() ];
                 }
             ])
-            ->add('typeDoc', ChoiceType::class, [
-                'label' => 'Format de fichier',
-                'choices'  => [
-                    'Pdf' => "Pdf",
-                    'Traitement de texte' => 'Word',
-                    'tableur' => 'Excel',
-                    'Vidéo' => 'Mp4',
-                ],
-                'choice_attr' => [
-                    'Pdf' => ['data-data' => 'Pdf'],
-                    'Traitement de texte' =>['data-data' => 'Word'],
-                    'tableur' => ['data-data' => 'Excel'],
-                    'Vidéo' => ['data-data' => 'Mp4']
-                ],
-            ])
             ->add('fileFilename', FileType::class, [
                 'label' => 'Fichier',
 

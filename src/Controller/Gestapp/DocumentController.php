@@ -104,8 +104,9 @@ class DocumentController extends AbstractController
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
-        //dd($lastdocument);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             /** @var UploadedFile $logoFile */
             $fileFileName = $form->get('fileFilename')->getData();
             $category = $form->get('category')->getData();
