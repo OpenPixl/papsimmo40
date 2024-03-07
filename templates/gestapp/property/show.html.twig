@@ -654,8 +654,8 @@
             btnAddCustomer.onclick = function (event) {
                 event.preventDefault()
                 // récupération des élements nécéssaire à la création du client depuis le bouton
-                let urlEditCustomer = this.href
                 let FormEditCustomer = document.getElementById('FormEditCustomer')
+                let urlEditCustomer = FormEditCustomer.action
                 let dataEditCustomer = new FormData(FormEditCustomer)
                 // envoie des données
                 axios

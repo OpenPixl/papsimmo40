@@ -162,7 +162,10 @@ class CustomerController extends AbstractController
         ]);
         $form->handleRequest($request);
 
+        //dd($form->isSubmitted(), $form->isValid());
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             // Contruction de la référence pour chaque propriété
             $date = new \DateTime();
             $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );

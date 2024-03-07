@@ -165,7 +165,7 @@ class Customer
     #[ORM\Column(length: 255)]
     private ?string $typeClient = null;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $NameStructure = null;
 
     /**
