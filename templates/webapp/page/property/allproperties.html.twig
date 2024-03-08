@@ -23,7 +23,7 @@
                         <div class="city">
                             {{ property.city }}
                         </div>
-                        <div class="annonce">
+                        <div class="annonce d-none d-lg-block">
                             {{ property.annonceSlug|u.truncate(60, ' ...') }}
                         </div>
                         {% if property.priceFai >= 1 %}
