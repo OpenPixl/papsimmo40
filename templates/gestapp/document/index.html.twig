@@ -222,25 +222,27 @@
 {% endblock %}
 
 {% block content %}
-<div class="row">
-    <div class="col-sm-12 {% if hasAccess == 1 %}{% else %}d-none{% endif %}">
-        {{ render(controller('App\\Controller\\Gestapp\\DocumentController::new2'))}}
-    </div>
-    <div id="docCategory" class="col-sm-12">
-        <h4><i class="fa-duotone fa-ballot-check"></i> Choix d'une catégorie</h4>
-        <div id="listCat">
-            {{ render(controller('App\\Controller\\Gestapp\\choice\\CatDocumentController::listcat', {'json':0}))}}
-        </div>
-    </div>
-    <div id="listDocument" class="col-sm-12">
-        <h4><i class="fa-duotone fa-file-signature"></i> Documents</h4>
-        <div class="row mt-3 g-1" id="sortDoc">
-            <div class="alert alert-light mt-3">
-                <p class="mb-0">Veuillez cliquer d'abord sur l'une des catégories pour afficher les documents liés.</p>
+    <section class="mb-5">
+        <div class="row">
+            <div class="col-sm-12 {% if hasAccess == 1 %}{% else %}d-none{% endif %}">
+                {{ render(controller('App\\Controller\\Gestapp\\DocumentController::new2'))}}
+            </div>
+            <div id="docCategory" class="col-sm-12">
+                <h4><i class="fa-duotone fa-ballot-check"></i> Choix d'une catégorie</h4>
+                <div id="listCat">
+                    {{ render(controller('App\\Controller\\Gestapp\\choice\\CatDocumentController::listcat', {'json':0}))}}
+                </div>
+            </div>
+            <div id="listDocument" class="col-sm-12">
+                <h4><i class="fa-duotone fa-file-signature"></i> Documents</h4>
+                <div class="row mt-3 g-1" id="sortDoc">
+                    <div class="alert alert-light mt-3">
+                        <p class="mb-0">Veuillez cliquer d'abord sur l'une des catégories pour afficher les documents liés.</p>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
 {% endblock %}
 
 {% block modal %}
