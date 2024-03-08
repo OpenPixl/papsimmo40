@@ -13,6 +13,7 @@ use ApiPlatform\Metadata\Link;
 use App\Controller\Api\Admin\Employed\AddEmployed;
 use App\Controller\Api\Admin\Employed\AddPrescriber;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
+use App\Controller\Api\Admin\Employed\GetCollaborateur;
 use App\Entity\Cart\Cart;
 use App\Entity\Cart\Purchase;
 use App\Entity\Gestapp\Customer;
@@ -137,7 +138,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $email;
 
     #[ORM\Column(type: 'json')]
-    #[Groups(('employed:list'))]
+    #[Groups(['employed:list'])]
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
@@ -279,10 +280,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\OneToMany(mappedBy: 'RefEmployed', targetEntity: Cart::class)]
     private Collection $carts;
-
-    #[ORM\Column(length: 20, nullable: true)]
-    #[Groups(['employed:list'])]
-    private ?string $genre = null;
 
     public function __construct()
     {
@@ -1046,18 +1043,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $cart->setRefEmployed(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getGenre(): ?string
-    {
-        return $this->genre;
-    }
-
-    public function setGenre(?string $genre): static
-    {
-        $this->genre = $genre;
 
         return $this;
     }
