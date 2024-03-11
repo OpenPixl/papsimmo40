@@ -277,9 +277,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Purchase::class)]
     private Collection $purchases;
 
-    #[ORM\OneToMany(mappedBy: 'RefEmployed', targetEntity: Cart::class)]
-    private Collection $carts;
-
     #[ORM\Column(length: 20, nullable: true)]
     #[Groups(['employed:list'])]
     private ?string $genre = null;
@@ -296,7 +293,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->transactions = new ArrayCollection();
         $this->recos = new ArrayCollection();
         $this->purchases = new ArrayCollection();
-        $this->carts = new ArrayCollection();
     }
 
     /**

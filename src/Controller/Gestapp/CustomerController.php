@@ -84,6 +84,19 @@ class CustomerController extends AbstractController
         ]);
     }
 
+    #[Route('/searchcustomer/', name: 'op_gestapp_customer_search', methods: ['POST'])]
+    public function searchCustomer(Request $request, CustomerRepository $customerRepository)
+    {
+        $data = json_decode($request->getContent(), true);
+        $customers = $customerRepository->SearchCustomers($data['word']);
+
+        return $this->json([
+            'liste' => $this->renderView('gestapp/customer/search/_listeTr.html.twig', [
+                'customers' => $customers,
+            ])
+        ], 200);
+    }
+
     #[Route('/byproperty/addsearchcustomer/{id}/{idproperty}', name: 'op_gestapp_customer_addsearchcustomer', methods: ['POST'])]
     public function addSearchCustomer(Customer $customer, CustomerRepository $customerRepository, $idproperty, PropertyRepository $propertyRepository)
     {

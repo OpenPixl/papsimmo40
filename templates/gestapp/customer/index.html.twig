@@ -4,6 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="module" src="{{ asset('js/gestapp/customer/search.js') }}"></script>
     <script>
         window.onload = function(){
             // Code d'ouverture de la modale de suppression d'une ligne
@@ -79,9 +80,9 @@
                     <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
                 </div>
             </div>
-            {% include('gestapp/customer/_list.html.twig') %}
         </div>
     </div>
+    {% include('gestapp/customer/_list.html.twig') %}
 {% endblock %}
 
 {% block footer %}

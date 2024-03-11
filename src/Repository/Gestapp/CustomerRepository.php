@@ -135,8 +135,28 @@ class CustomerRepository extends ServiceEntityRepository
      */
     public function SearchCustomers($keys)
     {
-
         $query = $this->createQueryBuilder('c');
+        $query->join('c.customerChoice', 't' );
+        $query->join('c.refEmployed', 'e');
+        $query->select('
+                t.name as customerChoice,
+                e.id as refEmployed,
+                e.firstName as firstNameEmpl,
+                e.lastName as lastNameEmpl,
+                e.avatarName as avatarName,
+                c.isArchived AS isArchived,
+                c.updatedAt AS updatedAt,
+                c.createdAt AS CreatedAt,
+                c.city AS city,
+                c.zipcode AS zipcode,
+                c.complement AS complement,
+                c.adress AS adress,
+                c.RefCustomer AS RefCustomer,
+                c.firstName AS firstName,
+                c.lastName AS lastName,
+                c.id
+                '
+        );
         $query->where('c.isArchived = 0');
         if($keys != null){
             $query

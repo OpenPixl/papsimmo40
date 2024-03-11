@@ -1,0 +1,28 @@
+{% for customer in customers%}
+    <tr class="align-middle">
+        <td>
+            {% if customer.avatarName is not null %}
+                <img class="rounded-circle" src="{{ asset('images/avatar/' ~ customer.avatarName) }}" alt="" style="height:50px;width:50px" alt="{{ customer.avatarName }}">
+            {% else %}
+                <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+            {% endif %}
+            {{ customer.firstNameEmpl }} {{ customer.lastNameEmpl }}
+        </td>
+        <td>{{ customer.RefCustomer }}</td>
+        <td><strong>{{ customer.lastName }} {{ customer.firstName }}</strong></td>
+        <td>{% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}</td>
+
+        <td>{{ customer.customerChoice }}</td>
+        <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d') : '' }}</td>
+        <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d') : '' }}</td>
+        <td>
+            <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}" class="btn btn-sm btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voir"><i class="fa-duotone fa-eye"></i></a>
+            <a class="btn btn-sm btn-outline-danger delcustomer" type="button" data-bs-toggle="modal" data-bs-target="#SupprCustomer" data-bs-whatever="{{ customer.id }}" ><i class="fa-duotone fa-file-circle-xmark" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Supprimer"></i></a>
+
+        </td>
+    </tr>
+{% else %}
+    <tr>
+        <td colspan="13">Vous n'avez pas de client actuellement enregistré sur la plateforme.</td>
+    </tr>
+{% endfor %}

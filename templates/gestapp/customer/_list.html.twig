@@ -1,5 +1,10 @@
 <div class="row justify-content-end mb-1">
-    <div class="col-2 d-flex justify-content-end" id="blockPagination">
+    <div class="col-2">
+        <form id="searchCustomerform" action="{{ path('op_gestapp_customer_search') }}">
+            <input id="searchCustomerInput" type="text" class="form-control form-control-sm" name="word" placeholder="&#x1F50D; Rechercher le client">
+        </form>
+    </div>
+    <div class="col-10 d-flex justify-content-end" id="blockPagination">
         {{ knp_pagination_render(customers, 'include/admin/pagination.html.twig') }}
     </div>
 </div>
@@ -17,7 +22,7 @@
         <th>Actions</th>
     </tr>
     </thead>
-    <tbody>
+    <tbody id="liste">
     {% for customer in customers%}
         <tr class="align-middle">
             <td>
