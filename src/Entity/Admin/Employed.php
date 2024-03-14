@@ -119,6 +119,14 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'description' => "Mettre à jour les informations du collaborateur",
             ],
             normalizationContext: ['groups' => ['employed:write:patch']]
+        ),
+        new Patch(
+            uriTemplate: '/prescripteur/{id}/update',
+            openapiContext: [
+                'summary' => "Mettre à jour les informations du prescripteur.",
+                'description' => "Mettre à jour les informations du prescripteur.",
+            ],
+            normalizationContext: ['groups' => ['employed:write:patch']]
         )
     ],
     paginationEnabled: false,

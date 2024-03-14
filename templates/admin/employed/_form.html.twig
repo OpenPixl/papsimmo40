@@ -3,14 +3,18 @@
 <div class="row {% if is_granted('ROLE_SUPER_ADMIN') %}d-block{% else %}d-none{% endif %}">
     <div class="col-12">
         <div class="alert alert-secondary">
-            <div class="form-check form-switch">
-                {{ form_label(form.isVerified, 'Ce collaborateur.trice est activé.e', {'label_attr': {'class':'form-check-label'}}) }}
-                {{ form_widget(form.isVerified, {'attr': {'class': 'form-check-input'}}) }}
+            <div class="d-flex justify-content-between">
+                <div class="form-check form-switch">
+                    {{ form_label(form.isVerified, 'Ce collaborateur.trice est activé.e', {'label_attr': {'class':'form-check-label'}}) }}
+                    {{ form_widget(form.isVerified, {'attr': {'class': 'form-check-input'}}) }}
+                </div>
+                <div class="">
+                    Code de connexion à l'application : <b>{{ employed.numCollaborator }}</b>
+                </div>
             </div>
         </div>
     </div>
 </div>
-
 <div class="row g-1">
     <div class="col-8">
         <div class="card mb-1">

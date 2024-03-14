@@ -23,8 +23,8 @@ class CustomerType extends AbstractType
             ->add('typeClient', ChoiceType::class,[
                 'label' => 'Type de client',
                 'choices'  => [
-                    'Particulier' => "Particulier",
-                    'Société' => 'Société',
+                    'Particulier' => "particulier",
+                    'Professionnel' => 'professionnel',
                 ],
                 'choice_attr' => [
                     'Particulier' => ['data-data' => 'Particulier'],

@@ -26,7 +26,7 @@
         <td class="table-light" colspan="3">{{ form_label(form.typeClient, '', {'label_attr': {'class':'form-label'}}) }}</td>
         <td colspan="3">{{ form_widget(form.typeClient, {'attr': {'class': 'form-select form-select-sm', 'placeholder':'Prénom ...'}}) }}</td>
     </tr>
-    <tr>
+    <tr id="rowStructure" class="d-none">
         <td class="table-light" colspan="3">{{ form_label(form.nameStructure, '', {'label_attr': {'class':'form-label'}}) }}</td>
         <td colspan="3">{{ form_widget(form.nameStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}</td>
     </tr>
