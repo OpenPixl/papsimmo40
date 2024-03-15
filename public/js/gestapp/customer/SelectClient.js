@@ -1,6 +1,6 @@
 const typeClient = document.getElementById('customer_typeClient');
 
-if(typeClient.value == "professionnel"){
+if(typeClient.value === "professionnel"){
     document.getElementById("rowStructure").classList.remove('d-none');
 }
 
