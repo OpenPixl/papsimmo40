@@ -32,10 +32,7 @@ class ReportController extends AbstractController
     {
         $properties = $propertyRepository->reportpropertycsv();
 
-        dd($properties);
-
         $app = $this->container->get('router')->getContext()->getHost();
-        //dd($properties);
 
         $rows = array();
         foreach ($properties as $property) {
