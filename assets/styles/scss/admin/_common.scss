@@ -68,6 +68,16 @@ a {
 }
 
 .card{
+  .card-header{
+    .card-title{
+      margin-bottom: 0;
+    }
+  }
+  .card-body{
+    .form-label{
+      margin-bottom:0;
+    }
+  }
   .card-text{
       font-size: 0.8rem;
   }

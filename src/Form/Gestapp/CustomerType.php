@@ -37,7 +37,7 @@ class CustomerType extends AbstractType
                 'label' => 'Nom de la structure'
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom'
+                'label' => 'Nom & Prénom'
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom'
@@ -94,7 +94,7 @@ class CustomerType extends AbstractType
                 'required' => false
             ])
             ->add('facebook', TextType::class, [
-                'label' => 'Page Facebook',
+                'label' => 'Réseaux sociaux',
                 'required' => false,
                 'empty_data' =>''
             ])
