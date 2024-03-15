@@ -168,6 +168,24 @@ class Customer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $NameStructure = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cifilename = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $cifileext = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $cifilesize = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $kbisfilename = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $kbisfileext = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $kbisfilesize = null;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -537,6 +555,78 @@ class Customer
     public function setNameStructure(string $NameStructure): static
     {
         $this->NameStructure = $NameStructure;
+
+        return $this;
+    }
+
+    public function getCifilename(): ?string
+    {
+        return $this->cifilename;
+    }
+
+    public function setCifilename(?string $cifilename): static
+    {
+        $this->cifilename = $cifilename;
+
+        return $this;
+    }
+
+    public function getCifileext(): ?string
+    {
+        return $this->cifileext;
+    }
+
+    public function setCifileext(string $cifileext): static
+    {
+        $this->cifileext = $cifileext;
+
+        return $this;
+    }
+
+    public function getCifilesize(): ?int
+    {
+        return $this->cifilesize;
+    }
+
+    public function setCifilesize(?int $cifilesize): static
+    {
+        $this->cifilesize = $cifilesize;
+
+        return $this;
+    }
+
+    public function getKbisfilename(): ?string
+    {
+        return $this->kbisfilename;
+    }
+
+    public function setKbisfilename(?string $kbisfilename): static
+    {
+        $this->kbisfilename = $kbisfilename;
+
+        return $this;
+    }
+
+    public function getKbisfileext(): ?string
+    {
+        return $this->kbisfileext;
+    }
+
+    public function setKbisfileext(?string $kbisfileext): static
+    {
+        $this->kbisfileext = $kbisfileext;
+
+        return $this;
+    }
+
+    public function getKbisfilesize(): ?string
+    {
+        return $this->kbisfilesize;
+    }
+
+    public function setKbisfilesize(?string $kbisfilesize): static
+    {
+        $this->kbisfilesize = $kbisfilesize;
 
         return $this;
     }

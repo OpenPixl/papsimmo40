@@ -1,7 +1,7 @@
 
 {{ form_start(form, {'attr': {'id': 'FormEditCustomer'}}) }}
 
-<table class="table table-sm table-borderless">
+<table class="table table-sm">
     <thead>
         <tr>
             <td class="col-1"></td>
@@ -29,6 +29,10 @@
     <tr id="rowStructure" class="d-none">
         <td class="table-light" colspan="3">{{ form_label(form.nameStructure, '', {'label_attr': {'class':'form-label'}}) }}</td>
         <td colspan="3">{{ form_widget(form.nameStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}</td>
+        <td colspan="1">Extrait Kbis :</td>
+        <td colspan="2">
+                {{ form_widget(form.kbisfilename, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </td>
     </tr>
     <tr></tr>
     <tr class="align-middle">
