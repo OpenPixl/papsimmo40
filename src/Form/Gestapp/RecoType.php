@@ -35,7 +35,8 @@ class RecoType extends AbstractType
                     'Publication du bien' => 'published',
                     "Dossier d'acquisition" => 'on_sale',
                     'Recommandation refusée' => 'reco_aborted',
-                    'recommandation finalisée' => 'reco_finished'
+                    'Recommandation finalisée' => 'reco_finished',
+                    'Commission versée' => 'paid_commission'
                 ],
                 'choice_attr' => [
                     'Ouverture du dossier' => ['data-data' => 'reco_open'],
@@ -43,7 +44,10 @@ class RecoType extends AbstractType
                     "Validation par l'administration" => ['data-data' => 'admin_valid'],
                     'Recommandation mise en vente' => ['data-data' => 'reco_published'],
                     'Publication du bien' => ['data-data' => 'published'],
-                    "Dossier d'acquisition" => ['data-data' => 'on_sale']
+                    "Dossier d'acquisition" => ['data-data' => 'on_sale'],
+                    'Recommandation refusée' => ['data-data' => 'reco_aborted'],
+                    'Recommandation finalisée' => ['data-data' => 'reco_finished'],
+                    'Commission versée' => ['data-data' => 'paid_commission']
                 ],
             ])
             ->add('typeProperty', ChoiceType::class,[
