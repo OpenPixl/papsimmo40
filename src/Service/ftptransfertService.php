@@ -1129,7 +1129,7 @@ class ftptransfertService
     )
     {
         $request = $this->requestStack->getCurrentRequest();
-        // PARTIE I : Génération du fichier XML
+        // PARTIE I
         $properties = $propertyRepository->reportpropertyGreenacresFTP();            // On récupère les biens à publier sur SeLoger
 
         // Création de l'url pour les photos
@@ -1143,7 +1143,8 @@ class ftptransfertService
             $app = $scheme.'://'.$host.':'.$port;
         }
 
-        $adverts = [];                                                    // Construction du tableau
+        $adverts = []; // Construction du tableau
+        $adverts2 = [];
         foreach ($properties as $property) {
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
@@ -1340,8 +1341,44 @@ class ftptransfertService
             ];
             array_push($adverts, $xml);
 
+            $data = array(
+                '"' . $property->getRef() . '"',
+                '892318a',
+                '"' . $property->getName() . '"',
+                '"' . $property->getPriceFai() . '"',
+                '"' . $property->getHonoraires() . '"',
+                //'"' . count($photos) . '"',
+                //'"' . substr($property->getZipcode(),0,2) . '"',
+                '"' . $property->getCity() . '"',
+                '"' . $property->getZipcode() . '"',
+                'fr',
+                '"' . $publication->isIsPublishgreenacres() . '"',
+                '"' . $annonce . '"',
+                '"' . $rubric->getEn() . '"',
+                '"' . $property->getSurfaceLand() . '"',
+                '"' . $property->getSurfaceHome() . '"',
+                '"' . $property->getPiece() . '"',
+                '"' . $property->getRoom() . '"',
+                '"' . $bilanDpe . '"',
+                '"' . $property->getDiagDpe() . '"',
+                '"' . $bilanGes . '"',
+                '"' . $property->getDiagGes() . '"',
+                '"' . $options->getBathroom() . '"',
+                '"' . $options->getWashroom() . '"',
+                '"' . $options->getWc() . '"',
+                '"' . $options->getTerrace() . '"',
+                '"' . $options->getBalcony() . '"',
+                '"' . $options->getLevel() . '"',
+                '"' . $options->getIsFurnished() . '"',
+                '"' . $options->getPropertyEnergy() . '"',
+                '"' . $pics . '"',
+                '"' . $charge . '"'
+            );
+            $adverts2[] = implode(';', $data);
         }
-
+        dd($adverts2);
+        $content = implode("\n", $adverts2);
+        //dd($content);
         $xmlContent = $this->twig->render('gestapp/report/greenacrees.html.twig', [
             'adverts' => $adverts
         ]);

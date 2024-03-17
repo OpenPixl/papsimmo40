@@ -738,8 +738,7 @@ class ReportController extends AbstractController
     ): Response
     {
         // PARTIE I : Génération du fichier CSV
-
-        $properties = $propertyRepository->reportpropertyGreenacresFTP();            // On récupère les biens à publier sur SeLoger
+        $properties = $propertyRepository->reportpropertyGreenacresFTP();   // On récupère les biens à publier sur SeLoger
         $app = $this->container->get('router')->getContext()->getHost();    // On récupère l'url de l'appl pour les url des photos
 
         $adverts = [];                                                    // Construction du tableau
@@ -794,14 +793,14 @@ class ReportController extends AbstractController
             }
 
             // Préparation de la date de disponibilité
-            if ($property['disponibilityAt'] instanceof \DateTime) {
-                $disponibilityAt = $property['disponibilityAt']->format('d/m/Y');
+            if ($property->getOptions()->getDisponibilityAt() instanceof \DateTime) {
+                $disponibilityAt = $property->getOptions()->getDisponibilityAt()->format('d/m/Y');
             }else{
                 $disponibilityAt ="";
             }
 
             // Calcul des honoraires en %
-            $honoraires = round(100 - (($property->getPrice() * 100) / $property->getPriceFai()), 2);
+            //$honoraires = round(100 - (($property->getPrice() * 100) / $property->getPriceFai()), 2);
 
             // Récupération des images liées au bien
             $photos = $photoRepository->findNameBy(['property' => $property->getId()]);
@@ -942,7 +941,7 @@ class ReportController extends AbstractController
             array_push($adverts, $xml);
 
         }
-        //dd($adverts);
+        dd($adverts);
         $xmlContent = $this->renderView('gestapp/report/greenacrees.html.twig', [
             'adverts' => $adverts
         ]);
