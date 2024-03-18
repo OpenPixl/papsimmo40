@@ -34,7 +34,9 @@ class CustomerType extends AbstractType
                 ],
             ])
             ->add('nameStructure', TextType::class, [
-                'label' => 'Nom de la structure'
+                'label' => 'Nom de la structure',
+                'empty_data' => '',
+                'required' => false,
             ])
             ->add('firstName', TextType::class, [
                 'label' => 'Nom & Prénom'

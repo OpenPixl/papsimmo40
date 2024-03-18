@@ -27,7 +27,7 @@
                         {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
                     </div>
                 </div>
-                <div id="rowStructure" class="row align-items-center g-1 mb-1 d-none">
+                <div id="rowStructure" class="row align-items-center g-1 mb-1 d-none animate__animated">
                     <div class="col-2">
                         {{ form_label(form.nameStructure, '', {'label_attr': {'class':'form-label'}}) }}
                     </div>
@@ -56,15 +56,15 @@
                         {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse ...'}}) }}
                     </div>
                     <div class="w-100"></div>
-                    <div class="offset-2 col-6">
+                    <div class="offset-2 col-6 mt-0">
                         {{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'complément ...'}}) }}
                     </div>
                     <div class="w-100"></div>
-                    <div class="offset-2 col-2">
+                    <div class="offset-2 col-2 mt-0">
                         {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ville/Commune ...'}}) }}
 
                     </div>
-                    <div class="col-4">
+                    <div class="col-4 mt-0">
                         {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
                         <select id="selectcity" class="form-select form-select-sm">
                             <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
@@ -137,7 +137,7 @@
             </div>
             <div class="card-body">
                 <p>Pour la validité du dossier, veuillez fournir les pièces demandées au format <b>JPEG</b> ou <b>PDF</b>.</p>
-                <div id="kbis" class="row mt-1 mb-1 g-1 d-none">
+                <div id="kbis" class="row mt-1 mb-1 g-1 d-none animate__animated">
                     <div class="col-12">
                         Extrait Kbis à fournir
                     </div>

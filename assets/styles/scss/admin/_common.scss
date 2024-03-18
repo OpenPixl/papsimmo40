@@ -29,14 +29,6 @@ a {
   border-radius: 3px !important;
 }
 
-.card-img-overlay {
-  position: absolute;
-  right: 0 !important;
-  bottom: 0 !important;
-  padding: 0.5rem !important;
-  border-radius: 0;
-}
-
 .pagination {
   margin-top: 0;
   margin-bottom: 0 !important;
@@ -64,25 +56,6 @@ a {
        margin-bottom: 0;
       }
     }
-  }
-}
-
-.card{
-  .card-header{
-    .card-title{
-      margin-bottom: 0;
-    }
-  }
-  .card-body{
-    .form-label{
-      margin-bottom:0;
-    }
-  }
-  .card-text{
-      font-size: 0.8rem;
-  }
-  a{
-    font-size: 0.8rem;
   }
 }
 

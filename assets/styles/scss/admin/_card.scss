@@ -1,0 +1,28 @@
+.card{
+  .card-img-overlay {
+    position: absolute;
+    right: 0 !important;
+    bottom: 0 !important;
+    padding: 0.5rem !important;
+    border-radius: 0;
+  }
+  .card-header{
+    .card-title{
+      margin-bottom: 0;
+    }
+  }
+  .card-text{
+    font-size: 0.8rem;
+  }
+  a{
+    font-size: 0.8rem;
+  }
+  .card-body{
+    .form-label{
+      margin-bottom:0;
+    }
+    hr{
+      color:#b0aaaa;
+    }
+  }
+}
