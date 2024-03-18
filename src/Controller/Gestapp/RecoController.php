@@ -38,7 +38,10 @@ class RecoController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $reco = new Reco();
-        $form = $this->createForm(RecoType::class, $reco);
+        $form = $this->createForm(RecoType::class, $reco, [
+            'action' => $this->generateUrl('op_gestapp_reco_new') ,
+            'method' => 'POST'
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -48,10 +51,23 @@ class RecoController extends AbstractController
             return $this->redirectToRoute('op_gestapp_reco_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/reco/new.html.twig', [
+        // view
+        $view = $this->render('gestapp/reco/_form.html.twig', [
             'reco' => $reco,
-            'form' => $form,
+            'form' => $form
         ]);
+
+        // return
+        return $this->json([
+            "code" => 200,
+            'formView' => $view->getContent()
+        ], 200);
+
+        //return $this->render('gestapp/reco/new.html.twig', [
+        //    'reco' => $reco,
+        //    'form' => $form,
+        //]);
+
     }
 
     #[Route('/{id}', name: 'op_gestapp_reco_show', methods: ['GET'])]

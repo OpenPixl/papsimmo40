@@ -30,7 +30,7 @@ class RecoType extends AbstractType
                 'choices'  => [
                     'Ouverture du dossier' => 'reco_open',
                     'Validation par le mandataire' => 'employed_valid',
-                    "Validation par l'administration" => 'admin_valid',
+                    //"Validation par l'administration" => 'admin_valid',
                     'Recommandation publiée' => 'reco_published',
                     'Publication du bien' => 'published',
                     "Dossier d'acquisition" => 'on_sale',
@@ -71,21 +71,6 @@ class RecoType extends AbstractType
                 'choice_attr' => [
                     'Vente' => ['data-data' => 'Vente'],
                     'Location' => ['data-data' => 'Location'],
-                ],
-            ])
-            ->add('typeFamily', ChoiceType::class,[
-                'label' => 'Type de recommandation',
-                'choices'  => [
-                    'Vente pour particulier' => '81',
-                    'Location pour particulier' => '51',
-                    'Vente pour professionnel' => '49',
-                    'Location pour professionnel' => '48',
-                ],
-                'choice_attr' => [
-                    'Vente pour particulier' => ['data-data' => '81'],
-                    'Location pour particulier' => ['data-data' => '51'],
-                    'Vente pour professionnel' => ['data-data' => '49'],
-                    'Location pour professionnel' => ['data-data' => '49']
                 ],
             ])
             ->add('commission')

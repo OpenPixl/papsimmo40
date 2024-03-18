@@ -18,7 +18,7 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
-            <button class="btn btn-outline-primary btn-sm">Ajouter une recommandation</button>
+            <a id="btnAddReco" class="btn btn-outline-primary btn-sm" href="{{ path('op_gestapp_reco_new') }}">Ajouter une recommandation</a>
             <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_index') }}">Liste des prescripteurs</a>
         </div>
     </div>
@@ -32,16 +32,19 @@
 {% block modal %}
     {{ parent() }}
     {# Modal de suppression #}
-    <div class="modal fade" id="modalStatusRecos" tabindex="-1" aria-labelledby="modalStatus" aria-hidden="true">
+    <div class="modal fade" id="modalReco" tabindex="-1" aria-labelledby="modalStatus" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Evolution de la recommandation</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Modal Recommandation</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <p class="modal-text">En attente d'un message</p>
-                    <input type="hidden" id="recipient-name">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Suivant</a>
