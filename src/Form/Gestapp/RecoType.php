@@ -2,7 +2,10 @@
 
 namespace App\Form\Gestapp;
 
+use App\Entity\Gestapp\choice\StatutReco;
 use App\Entity\Gestapp\Reco;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -25,31 +28,7 @@ class RecoType extends AbstractType
             ->add('propertyComplement')
             ->add('propertyZipcode')
             ->add('propertyCity')
-            ->add('statutReco', ChoiceType::class,[
-                'label' => 'Etat de la recommandation',
-                'choices'  => [
-                    'Ouverture du dossier' => 'Ouverture du dossier',
-                    'Validation par le mandataire' => 'Validation par le mandataire',
-                    //"Validation par l'administration" => 'admin_valid',
-                    //'Recommandation publiée' => 'Recommandation publiee',
-                    'Publication du bien' => 'Publication du bien',
-                    "Dossier d'acquisition" => 'Dossier acquisition',
-                    'Recommandation refusée' => 'Recommandation refusee',
-                    'Recommandation finalisée' => 'Recommandation finalisee',
-                    'Commission versée' => 'Commission versee'
-                ],
-                'choice_attr' => [
-                    'Ouverture du dossier' => ['data-data' => 'Ouverture du dossier'],
-                    'Validation par le mandataire' => ['data-data' => 'employed_valid'],
-                    //"Validation par l'administration" => ['data-data' => 'admin_valid'],
-                    //'Recommandation mise en vente' => ['data-data' => 'reco_published'],
-                    'Publication du bien' => ['data-data' => 'published'],
-                    "Dossier d'acquisition" => ['data-data' => 'on_sale'],
-                    'Recommandation refusée' => ['data-data' => 'reco_aborted'],
-                    'Recommandation finalisée' => ['data-data' => 'reco_finished'],
-                    'Commission versée' => ['data-data' => 'paid_commission']
-                ],
-            ])
+
             ->add('typeProperty', ChoiceType::class,[
                 'label' => 'Type de recommandation',
                 'choices'  => [
@@ -63,6 +42,18 @@ class RecoType extends AbstractType
                     'Local commercial' => ['data-data' => 'local_commercial'],
                 ],
             ])
+            ->add('statutReco', EntityType::class, [
+                 'label'=> 'Catégorie',
+                 'class' => StatutReco::class,
+                 'query_builder' => function (EntityRepository $er) {
+                     return $er->createQueryBuilder('d')
+                         ->orderBy('d.id', 'ASC');
+                 },
+                 'choice_label' => 'fr',
+                 'choice_attr' => function (StatutReco $product, $key, $index) {
+                     return ['data-data' => $product->getName() ];
+                 }
+             ])
             ->add('typeReco', ChoiceType::class,[
                 'label' => 'Type de recommandation',
                 'choices'  => [

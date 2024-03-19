@@ -14,6 +14,7 @@ use ApiPlatform\Metadata\Post;
 use App\Controller\Api\Gestapp\Reco\AddReco;
 use App\Controller\Api\Gestapp\Reco\AddRecoByIdCollaborator;
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\choice\StatutReco;
 use App\Repository\Gestapp\RecoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -44,7 +45,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             uriVariables: [
                 'refEmployed' => new Link(toProperty: 'refEmployed' , fromClass: Employed::class)
             ],
-            controller: addRecoByIdCollaborator::class,
+            //controller: addRecoByIdCollaborator::class,
             openapiContext: [
                 'summary' => "Obtenir uniquement les recommandations du mandataire.",
                 'description' => "Obtenir uniquement les recommandations du mandataire.",
@@ -142,9 +143,8 @@ class Reco
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $propertyLat = null;
 
-    #[ORM\Column(length: 25)]
-    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
-    private ?string $statutReco = null;
+    #[ORM\ManyToOne]
+    private ?StatutReco $statutReco = null;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -392,12 +392,12 @@ class Reco
         return $this;
     }
 
-    public function getStatutReco(): ?string
+    public function getStatutReco(): ?StatutReco
     {
         return $this->statutReco;
     }
 
-    public function setStatutReco(string $statutReco): static
+    public function setStatutReco(?StatutReco $statutReco): static
     {
         $this->statutReco = $statutReco;
 

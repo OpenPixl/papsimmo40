@@ -43,7 +43,7 @@ class RecoController extends AbstractController
             'action' => $this->generateUrl('op_gestapp_reco_new') ,
             'method' => 'POST',
             'attr' => [
-                'id' => 'formAddReco'
+                'id' => 'formReco'
             ]
 
         ]);
@@ -91,19 +91,53 @@ class RecoController extends AbstractController
     #[Route('/{id}/edit', name: 'op_gestapp_reco_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reco $reco, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(RecoType::class, $reco);
+        $form = $this->createForm(RecoType::class, $reco, [
+            'action' => $this->generateUrl('op_gestapp_reco_edit', ['id' => $reco->getId()]),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formReco'
+            ]
+        ]);
         $form->handleRequest($request);
 
+
         if ($form->isSubmitted() && $form->isValid()) {
+            $statutReco = $form->get('statutReco')->getData();
+            $step = $statutReco->getStep();
+            if($statutReco == 1){
+                $reco = $reco->getOpenRecoAt();
+                if()
+                $reco->setOpenRecoAt(new \DateTime('now'));
+            }elseif($statutReco == 2){
+                $reco->setEmployedValidAt(new \DateTime('now'));
+            }elseif($statutReco == 3){
+                $reco->setRecoPublishedAt(new \DateTime('now'));
+            }elseif($statutReco == 4){
+                $reco->setOnSaleAt(new \DateTime('now'));
+            }elseif($statutReco == 5){
+                $reco->setRecoAbortedAt(new \DateTime('now'));
+            }elseif($statutReco == 6){
+                $reco->setRecoFinishedAt(new \DateTime('now'));
+            }elseif($statutReco == 7){
+                $reco->setPaidCommissionAt(new \DateTime('now'));
+            }
             $entityManager->flush();
 
             return $this->redirectToRoute('op_gestapp_reco_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/reco/edit.html.twig', [
+        // view
+        $view = $this->render('gestapp/reco/_form.html.twig', [
             'reco' => $reco,
-            'form' => $form,
+            'form' => $form
         ]);
+
+        // return
+        return $this->json([
+            "code" => 200,
+            'formView' => $view->getContent()
+        ], 200);
+
     }
 
     #[Route('/{id}/AddProperty', name: 'op_gestapp_reco_addproperty', methods: ['GET', 'POST'])]

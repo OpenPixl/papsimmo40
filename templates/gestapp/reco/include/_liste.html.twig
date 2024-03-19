@@ -30,9 +30,8 @@
                     {{ reco.refEmployed.firstName }} {{ reco.refEmployed.lastName }}
                 {% endif %}
             </td>
-
             <td>
-                {{ reco.statutReco }}<br>{{ reco.openRecoAt|date('d/m/y') }}
+                {{ reco.statutReco.fr }}
             </td>
             <td>
                 <i class="fa-duotone fa-circle-user"></i> {{ reco.announceFirstName }} {{ reco.announceLastName }}<br>
@@ -52,12 +51,11 @@
                     {% if reco.customerEmail is defined %}<i class="fa-duotone fa-circle-envelope"></i> {{ reco.customerEmail }}{% endif %}
                 {% endif %}
             </td>
-            <td>{{ reco.propertyAddress }}<br>{{ reco.propertyComplement }}<br>{{ reco.propertyZipcode }} {{ reco.propertyCity }}</td>
+            <td>{{ reco.propertyAddress }}<br>{% if reco.propertyComplement is not null or reco.propertyComplement is not empty %}{{ reco.propertyComplement }}<br>{% endif %}{{ reco.propertyZipcode }} {{ reco.propertyCity }}</td>
             <td>{{ reco.createdAt ? reco.createdAt|date('Y-m-d') : '' }}</td>
             <td>{{ reco.updatedAt ? reco.updatedAt|date('Y-m-d') : '' }}</td>
             <td>
-                <a href="{{ path('op_gestapp_reco_show', {'id': reco.id}) }}">voir</a>
-                <a href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}">Modifier</a>
+                <a id="btnEditReco" href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}" class="btn btn-sm btn-outline-primary btnEditReco" data-bs-whatever="EDIT-Edition d'une recommandation">Modifier</a>
             </td>
         </tr>
     {% else %}

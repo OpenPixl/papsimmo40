@@ -10,12 +10,15 @@
                         <div class="card-body pt-1 pb-1">
                             <div class="row align-items-center mt-1 mb-1">
                                 <div class="col-4">{{ form_widget(form.statutReco, {'attr': {'class': 'form-select form-select-sm'}}) }}</div>
+                                <div class="col-8">
+                                    {% if reco.openRecoAt is not null %}<p>Date d'ouverture du dossier : {{ reco.openRecoAt }}</p>{% endif %}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-3">
-                    <div id="cardComm" class="card border-warning {% if reco.statutReco == 'Recommandation finalisee' or reco.statutReco == 'Commission versee' %}{% else %}d-none{% endif %}">
+                    <div id="cardComm" class="card border-warning {% if reco.statutReco.name == 'reco_finished' or reco.statutReco == 'paid_commission' %}{% else %}d-none{% endif %}">
                         <div class="card-header">
                             <h5 class="card-title">Commission</h5>
                         </div>
