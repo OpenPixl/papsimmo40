@@ -40,7 +40,11 @@ class RecoController extends AbstractController
         $reco = new Reco();
         $form = $this->createForm(RecoType::class, $reco, [
             'action' => $this->generateUrl('op_gestapp_reco_new') ,
-            'method' => 'POST'
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formAddReco'
+            ]
+
         ]);
         $form->handleRequest($request);
 

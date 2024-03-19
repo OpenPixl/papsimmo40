@@ -33,8 +33,8 @@ use Symfony\Component\Serializer\Annotation\Groups;
         ),
         new GetCollection(
             openapiContext: [
-                'summary' => "Obtenir toutes les recomandations de l'API.",
-                'description' => "Obtenir toutes les recomandations de l'API.",
+                'summary' => "Obtenir toutes les recommandations de l'API.",
+                'description' => "Obtenir toutes les recommandations de l'API.",
             ],
         ),
         new GetCollection(
@@ -182,6 +182,27 @@ class Reco
     #[ORM\Column(length: 255, nullable: true)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $delayReco = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $OpenRecoAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $employedValidAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $recoPublishedAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $onSaleAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $recoAbortedAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    private ?\DateTimeInterface $recoFinishedAt = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $paidCommissionAt = null;
 
     public function getId(): ?int
     {
@@ -510,6 +531,90 @@ class Reco
     public function setDelayReco(?string $delayReco): static
     {
         $this->delayReco = $delayReco;
+
+        return $this;
+    }
+
+    public function getOpenRecoAt(): ?\DateTimeInterface
+    {
+        return $this->OpenRecoAt;
+    }
+
+    public function setOpenRecoAt(?\DateTimeInterface $OpenRecoAt): static
+    {
+        $this->OpenRecoAt = $OpenRecoAt;
+
+        return $this;
+    }
+
+    public function getEmployedValidAt(): ?\DateTimeInterface
+    {
+        return $this->employedValidAt;
+    }
+
+    public function setEmployedValidAt(?\DateTimeInterface $employedValidAt): static
+    {
+        $this->employedValidAt = $employedValidAt;
+
+        return $this;
+    }
+
+    public function getRecoPublishedAt(): ?\DateTimeInterface
+    {
+        return $this->recoPublishedAt;
+    }
+
+    public function setRecoPublishedAt(\DateTimeInterface $recoPublishedAt): static
+    {
+        $this->recoPublishedAt = $recoPublishedAt;
+
+        return $this;
+    }
+
+    public function getOnSaleAt(): ?\DateTimeInterface
+    {
+        return $this->onSaleAt;
+    }
+
+    public function setOnSaleAt(?\DateTimeInterface $onSaleAt): static
+    {
+        $this->onSaleAt = $onSaleAt;
+
+        return $this;
+    }
+
+    public function getRecoAbortedAt(): ?\DateTimeInterface
+    {
+        return $this->recoAbortedAt;
+    }
+
+    public function setRecoAbortedAt(?\DateTimeInterface $recoAbortedAt): static
+    {
+        $this->recoAbortedAt = $recoAbortedAt;
+
+        return $this;
+    }
+
+    public function getRecoFinishedAt(): ?\DateTimeInterface
+    {
+        return $this->recoFinishedAt;
+    }
+
+    public function setRecoFinishedAt(\DateTimeInterface $recoFinishedAt): static
+    {
+        $this->recoFinishedAt = $recoFinishedAt;
+
+        return $this;
+    }
+
+    public function getPaidCommissionAt(): ?\DateTimeInterface
+    {
+        return $this->paidCommissionAt;
+    }
+
+    public function setPaidCommissionAt(?\DateTimeInterface $paidCommissionAt): static
+    {
+        $this->paidCommissionAt = $paidCommissionAt;
 
         return $this;
     }

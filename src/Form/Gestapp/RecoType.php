@@ -28,21 +28,21 @@ class RecoType extends AbstractType
             ->add('statutReco', ChoiceType::class,[
                 'label' => 'Etat de la recommandation',
                 'choices'  => [
-                    'Ouverture du dossier' => 'reco_open',
-                    'Validation par le mandataire' => 'employed_valid',
+                    'Ouverture du dossier' => 'Ouverture du dossier',
+                    'Validation par le mandataire' => 'Validation par le mandataire',
                     //"Validation par l'administration" => 'admin_valid',
-                    'Recommandation publiée' => 'reco_published',
-                    'Publication du bien' => 'published',
-                    "Dossier d'acquisition" => 'on_sale',
-                    'Recommandation refusée' => 'reco_aborted',
-                    'Recommandation finalisée' => 'reco_finished',
-                    'Commission versée' => 'paid_commission'
+                    //'Recommandation publiée' => 'Recommandation publiee',
+                    'Publication du bien' => 'Publication du bien',
+                    "Dossier d'acquisition" => 'Dossier acquisition',
+                    'Recommandation refusée' => 'Recommandation refusee',
+                    'Recommandation finalisée' => 'Recommandation finalisee',
+                    'Commission versée' => 'Commission versee'
                 ],
                 'choice_attr' => [
-                    'Ouverture du dossier' => ['data-data' => 'reco_open'],
+                    'Ouverture du dossier' => ['data-data' => 'Ouverture du dossier'],
                     'Validation par le mandataire' => ['data-data' => 'employed_valid'],
-                    "Validation par l'administration" => ['data-data' => 'admin_valid'],
-                    'Recommandation mise en vente' => ['data-data' => 'reco_published'],
+                    //"Validation par l'administration" => ['data-data' => 'admin_valid'],
+                    //'Recommandation mise en vente' => ['data-data' => 'reco_published'],
                     'Publication du bien' => ['data-data' => 'published'],
                     "Dossier d'acquisition" => ['data-data' => 'on_sale'],
                     'Recommandation refusée' => ['data-data' => 'reco_aborted'],
@@ -58,8 +58,9 @@ class RecoType extends AbstractType
                     'Local commercial' => 'local_commercial',
                 ],
                 'choice_attr' => [
-                    'Vente' => ['data-data' => 'Vente'],
-                    'Location' => ['data-data' => 'Location'],
+                    'Maison' => ['data-data' => 'maison'],
+                    'Appartement' => ['data-data' => 'appartement'],
+                    'Local commercial' => ['data-data' => 'local_commercial'],
                 ],
             ])
             ->add('typeReco', ChoiceType::class,[
@@ -67,10 +68,12 @@ class RecoType extends AbstractType
                 'choices'  => [
                     'Vente' => 'vente',
                     'Location' => 'location',
+                    'Acquisition' => 'Acquisition',
                 ],
                 'choice_attr' => [
                     'Vente' => ['data-data' => 'Vente'],
                     'Location' => ['data-data' => 'Location'],
+                    'Acquisition' => ['data-data' => 'Acquisition']
                 ],
             ])
             ->add('commission')

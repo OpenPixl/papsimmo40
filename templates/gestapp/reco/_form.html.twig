@@ -15,19 +15,24 @@
                     </div>
                 </div>
                 <div class="col-3">
-                    <div class="card">
+                    <div id="cardComm" class="card border-warning {% if reco.statutReco == 'Recommandation finalisee' or reco.statutReco == 'Commission versee' %}{% else %}d-none{% endif %}">
                         <div class="card-header">
                             <h5 class="card-title">Commission</h5>
                         </div>
                         <div class="card-body pt-1 pb-1">
                             <div class="row align-items-center mt-1 mb-1">
-                                {{ form_widget(form.commission, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                <div class="col-4">
+                                    Montant
+                                </div>
+                                <div class="col-8">
+                                    {{ form_widget(form.commission, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-            <div class="row g-1">
+            <div class="row g-1 mb-2">
                 <div class="col-6">
                     <div class="card border-dark">
                         <div class="card-header">
@@ -71,67 +76,49 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-3 p-2">
-            <h4>Prescripteur</h4>
-            <div class="row align-items-center h-100">
+            <div class="row">
                 <div class="col-12">
-
-                    <div class="row mb-1 g-1">
-                        <div class="col-12 mt-2">
-                            <p><b>Contacts</b></p>
+                    <div class="card border-dark">
+                        <div class="card-header">
+                            <h5 class="card-title">Proposition / Recherche de bien</h5>
                         </div>
-
+                        <div class="card-body">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <p class="mb-1"><b>Type de recommandation</b></p>
+                                    <div class="row g-1">
+                                        <div class="col-12">
+                                            {{ form_widget(form.typeReco, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                                        </div>
+                                        <div class="col-12">
+                                            {{ form_widget(form.typeProperty, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-8">
+                                    <p class="mb-1"><b>Adresse</b></p>
+                                    <div class="row g-1">
+                                        <div class="col-12">
+                                            {{ form_widget(form.propertyAddress, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                        <div class="col-12">
+                                            {{ form_widget(form.propertyComplement, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                        <div class="col-4">
+                                            {{ form_widget(form.propertyZipcode, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                        <div class="col-8 ">
+                                            {{ form_widget(form.propertyCity, {'attr': {'class': 'form-control form-control-sm w-75'}}) }}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-
         </div>
-        <div class="col-6 p-2">
-            <h4>Proposition de bien</h4>
-            <div class="row align-items-center h-100">
-                <div class="col-12">
-                    <div class="row mb-1 g-1">
-                        <div class="col-6">
-                            <p><b>Adresse</b></p>
-                        </div>
-                        <div class="col-6">
-                            <p><b>Commission</b></p>
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.propertyAddress, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
-                        <div class="col-2">
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.propertyComplement, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
-                        <div class="col-6"></div>
-                        <div class="col-2">
-                            {{ form_widget(form.propertyZipcode, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                        </div>
-                        <div class="col-4">
-                            {{ form_widget(form.propertyCity, {'attr': {'class': 'form-control form-control-sm w-75'}}) }}
-                        </div>
-                        <div class="col-6"></div>
-                        <div class="col-6 mt-2">
-                            <p><b>Typologie du bien</b></p>
-                        </div>
-                        <div class="col-6"></div>
-                        <div class="col-3">
-                            {{ form_widget(form.typeReco, {'attr': {'class': 'form-select form-select-sm'}}) }}
-                        </div>
-                        <div class="col-3">
-                            {{ form_widget(form.typeProperty, {'attr': {'class': 'form-select form-select-sm'}}) }}
-                        </div>
-                     </div>
-                </div>
-            </div>
-        </div>
-
     </div>
+
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
