@@ -2,6 +2,8 @@
 
 namespace App\Entity\Gestapp;
 
+use ApiPlatform\Doctrine\Orm\Filter\SearchFilter;
+use ApiPlatform\Metadata\ApiFilter;
 use ApiPlatform\Metadata\ApiResource;
 use ApiPlatform\Metadata\Delete;
 use ApiPlatform\Metadata\Get;
@@ -70,6 +72,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
     ],
     paginationEnabled: false
 )]
+#[ApiFilter(SearchFilter::class, properties: ['statutReco' => 'exact'])]
 class Reco
 {
     #[ORM\Id]
@@ -189,7 +192,7 @@ class Reco
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $employedValidAt = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $recoPublishedAt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
@@ -198,7 +201,7 @@ class Reco
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $recoAbortedAt = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $recoFinishedAt = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]

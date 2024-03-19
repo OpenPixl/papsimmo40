@@ -37,6 +37,7 @@ class RecoController extends AbstractController
     #[Route('/new', name: 'op_gestapp_reco_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $user = $this->getUser();
         $reco = new Reco();
         $form = $this->createForm(RecoType::class, $reco, [
             'action' => $this->generateUrl('op_gestapp_reco_new') ,
@@ -49,6 +50,10 @@ class RecoController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $reco->setRefEmployed($user);
+            $reco->setOpenRecoAt(new \DateTime('now'));
+
             $entityManager->persist($reco);
             $entityManager->flush();
 
