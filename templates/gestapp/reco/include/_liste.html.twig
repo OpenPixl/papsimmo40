@@ -1,4 +1,4 @@
-<table class="table">
+<table class="table animate__animated animate__fadeIn">
     <thead>
     <tr>
         <th>Id</th>
@@ -31,7 +31,7 @@
                 {% endif %}
             </td>
             <td>
-                {{ reco.statutReco.fr }}
+                {% if reco.statutReco is not null %}{{ reco.statutReco.fr }}{% endif %}
             </td>
             <td>
                 <i class="fa-duotone fa-circle-user"></i> {{ reco.announceFirstName }} {{ reco.announceLastName }}<br>

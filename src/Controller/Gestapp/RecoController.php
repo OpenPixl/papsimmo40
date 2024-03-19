@@ -37,7 +37,9 @@ class RecoController extends AbstractController
     #[Route('/new', name: 'op_gestapp_reco_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
+
         $reco = new Reco();
         $form = $this->createForm(RecoType::class, $reco, [
             'action' => $this->generateUrl('op_gestapp_reco_new') ,
@@ -89,8 +91,11 @@ class RecoController extends AbstractController
 
 
     #[Route('/{id}/edit', name: 'op_gestapp_reco_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Reco $reco, EntityManagerInterface $entityManager): Response
+    public function edit(Request $request, Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager): Response
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
         $form = $this->createForm(RecoType::class, $reco, [
             'action' => $this->generateUrl('op_gestapp_reco_edit', ['id' => $reco->getId()]),
             'method' => 'POST',
@@ -100,30 +105,56 @@ class RecoController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-
         if ($form->isSubmitted() && $form->isValid()) {
             $statutReco = $form->get('statutReco')->getData();
             $step = $statutReco->getStep();
-            if($statutReco == 1){
-                $reco = $reco->getOpenRecoAt();
-                if()
-                $reco->setOpenRecoAt(new \DateTime('now'));
-            }elseif($statutReco == 2){
-                $reco->setEmployedValidAt(new \DateTime('now'));
-            }elseif($statutReco == 3){
-                $reco->setRecoPublishedAt(new \DateTime('now'));
-            }elseif($statutReco == 4){
-                $reco->setOnSaleAt(new \DateTime('now'));
-            }elseif($statutReco == 5){
-                $reco->setRecoAbortedAt(new \DateTime('now'));
-            }elseif($statutReco == 6){
-                $reco->setRecoFinishedAt(new \DateTime('now'));
-            }elseif($statutReco == 7){
-                $reco->setPaidCommissionAt(new \DateTime('now'));
+            if($step == 1){
+                $OpenRecoAt = $reco->getOpenRecoAt();
+                if(!$OpenRecoAt){
+                    $reco->setOpenRecoAt(new \DateTime('now'));
+                }
+            }elseif($step == 2){
+                $EmployedValidAt = $reco->getEmployedValidAt();
+                if(!$EmployedValidAt){
+                    $reco->setEmployedValidAt(new \DateTime('now'));
+                }
+            }elseif($step == 3){
+                $RecoPublishedAt = $reco->getRecoPublishedAt();
+                if(!$RecoPublishedAt){
+                    $reco->setRecoPublishedAt(new \DateTime('now'));
+                }
+            }elseif($step == 4){
+                $OnSaleAt = $reco->getOnSaleAt();
+                if(!$OnSaleAt){
+                    $reco->setOnSaleAt(new \DateTime('now'));
+                }
+            }elseif($step == 5){
+                $RecoAbortedAt = $reco->getRecoAbortedAt();
+                if(!$RecoAbortedAt){
+                    $reco->setRecoAbortedAt(new \DateTime('now'));
+                }
+            }elseif($step == 6){
+                $RecoFinishedAt = $reco->getRecoFinishedAt();
+                if(!$RecoFinishedAt){
+                    $reco->setRecoFinishedAt(new \DateTime('now'));
+                }
+            }elseif($step == 7){
+                $PaidCommissionAt = $reco->getPaidCommissionAt();
+                if(!$PaidCommissionAt){
+                    $reco->setPaidCommissionAt(new \DateTime('now'));
+                }
             }
             $entityManager->flush();
 
-            return $this->redirectToRoute('op_gestapp_reco_index', [], Response::HTTP_SEE_OTHER);
+            $recos = $recoRepository->findAll();
+
+            return $this->json([
+                "code" => 200,
+                "message" => "Les modifications à la recommandations ont étés correctement apportées.",
+                'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig',[
+                    'recos' => $recos
+                ])
+            ],200);
         }
 
         // view
