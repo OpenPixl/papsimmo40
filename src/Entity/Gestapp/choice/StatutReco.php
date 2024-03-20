@@ -2,17 +2,20 @@
 
 namespace App\Entity\Gestapp\choice;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\Gestapp\choice\StatutRecoRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: StatutRecoRepository::class)]
+#[ApiResource()]
 class StatutReco
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?int $id = null;
 
     #[ORM\Column(length: 50, nullable: true)]
