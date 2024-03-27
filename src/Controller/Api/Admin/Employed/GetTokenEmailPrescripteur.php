@@ -9,7 +9,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpKernel\Attribute\AsController;
 
 #[AsController]
-class GetTokenEmployed extends AbstractController
+class GetTokenEmailPrescripteur extends AbstractController
 {
     public function __invoke(Employed $data, JWTTokenManagerInterface $JWTManager)
     {

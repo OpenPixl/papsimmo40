@@ -9,10 +9,11 @@ use ApiPlatform\Metadata\Get;
 use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
-use ApiPlatform\Metadata\Link;
 use App\Controller\Api\Admin\Employed\AddEmployed;
 use App\Controller\Api\Admin\Employed\AddPrescriber;
+use App\Controller\Api\Admin\Employed\GetTokenEmailPrescripteur;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
+use App\Controller\Api\Admin\Employed\updatePrescriberpassword;
 use App\Entity\Cart\Cart;
 use App\Entity\Cart\Purchase;
 use App\Entity\Gestapp\Customer;
@@ -94,6 +95,20 @@ use Symfony\Component\Validator\Constraints as Assert;
             normalizationContext: ['groups' => 'employed:item'],
             name: 'getTokenByNumCollaborator'
         ),
+        new Get(
+            uriTemplate: '/authentication_token/prescripteur/{email}',
+            uriVariables: [
+                'email' => 'email'
+            ],
+            //requirements: ['email' => '\d+'],
+            controller: GetTokenEmailPrescripteur::class,
+            openapiContext: [
+                'summary' => "Récupérer un token par l'email du prescripteur",
+                'description' => "Récupérer un token par l'email du prescripteur",
+            ],
+            normalizationContext: ['groups' => 'employed:item'],
+            name: 'getTokenByEmailPrescripteur'
+        ),
         new Post(
             uriTemplate: '/collaborateur',
             controller: AddEmployed::class,
@@ -127,7 +142,31 @@ use Symfony\Component\Validator\Constraints as Assert;
                 'description' => "Mettre à jour les informations du prescripteur.",
             ],
             normalizationContext: ['groups' => ['employed:write:patch']]
+        ),
+        new Patch(
+            uriTemplate: '/prescripteur/{email}/update',
+            uriVariables: [
+                'email' => 'email'
+            ],
+            openapiContext: [
+                'summary' => "Mettre à jour les informations du prescripteur.",
+                'description' => "Mettre à jour les informations du prescripteur.",
+            ],
+            normalizationContext: ['groups' => ['employed:write:patch']]
+        ),
+        new Patch(
+            uriTemplate: '/prescripteur/{email}/updatepassword',
+            uriVariables: [
+                'email' => 'email'
+            ],
+            controller: updatePrescriberpassword::class,
+            openapiContext: [
+                'summary' => "Mettre à jour les informations du prescripteur.",
+                'description' => "Mettre à jour les informations du prescripteur.",
+            ],
+            normalizationContext: ['groups' => ['prescripteur:write:patch']]
         )
+
     ],
     paginationEnabled: false,
 )]
@@ -141,7 +180,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $id;
 
     #[ORM\Column(type: 'string', length: 180, unique: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'employed:reco', 'prescriber:write:post', 'transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'employed:reco', 'prescriber:write:post', 'transaction:list', 'reco:list'])]
     private $email;
 
     #[ORM\Column(type: 'json')]
@@ -149,7 +188,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $roles = [];
 
     #[ORM\Column(type: 'string')]
-    #[Groups('prescriber:write:post')]
+    #[Groups(['prescriber:write:post', 'prescriber:write:patch'])]
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
@@ -288,6 +327,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 20, nullable: true)]
     #[Groups(['employed:list'])]
     private ?string $genre = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $ciFileName = null;
+
+    #[ORM\Column(length: 10, nullable: true)]
+    private ?string $ciFileext = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $ciFilesize = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSupprCi = false;
 
     public function __construct()
     {
@@ -1062,6 +1113,54 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setGenre(?string $genre): static
     {
         $this->genre = $genre;
+
+        return $this;
+    }
+
+    public function getCiFileName(): ?string
+    {
+        return $this->ciFileName;
+    }
+
+    public function setCiFileName(?string $ciFileName): static
+    {
+        $this->ciFileName = $ciFileName;
+
+        return $this;
+    }
+
+    public function getCiFileext(): ?string
+    {
+        return $this->ciFileext;
+    }
+
+    public function setCiFileext(?string $ciFileext): static
+    {
+        $this->ciFileext = $ciFileext;
+
+        return $this;
+    }
+
+    public function getCiFilesize(): ?int
+    {
+        return $this->ciFilesize;
+    }
+
+    public function setCiFilesize(?int $ciFilesize): static
+    {
+        $this->ciFilesize = $ciFilesize;
+
+        return $this;
+    }
+
+    public function isIsSupprCi(): ?bool
+    {
+        return $this->isSupprCi;
+    }
+
+    public function setIsSupprCi(?bool $isSupprCi): static
+    {
+        $this->isSupprCi = $isSupprCi;
 
         return $this;
     }

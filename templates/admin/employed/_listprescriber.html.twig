@@ -30,6 +30,7 @@
             <td>{{ prescriber.createdAt ? prescriber.createdAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>{{ prescriber.updatedAt ? prescriber.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
             <td>
+                <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_edit_ci', {'id' : prescriber.id}) }}">Déposer la pièce d'identité</a>
                 <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_employed_edit', {'id': prescriber.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Modifier la fiche"><i class="fa-duotone fa-pen-to-square"></i></a>
                 <a class="btn btn-sm btn-outline-danger js-delete" href="{{ path('op_admin_employed_del', {'id': prescriber.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Supprimer le collaborateur"><i class="fa-duotone fa-file-xmark"></i></a>
                 <a class="btn btn-sm btn-outline-warning" href="{{ path('op_admin_employed_adminresetpassword', {'id': prescriber.id}) }}" data-bs-toggle="tooltip" data-bs-placement="top" title="Changer le mot de passe"><i class="fa-duotone fa-key"></i></a>

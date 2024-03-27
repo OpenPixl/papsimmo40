@@ -8,9 +8,11 @@ use App\Form\Gestapp\RecoType;
 use App\Repository\Gestapp\RecoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Validator\Constraints\File;
 
 #[Route('/gestapp/reco')]
 class RecoController extends AbstractController
@@ -169,6 +171,32 @@ class RecoController extends AbstractController
             'formView' => $view->getContent()
         ], 200);
 
+    }
+
+    #[Route('/{id}/edit/comm', name: 'op_gestapp_reco_edit_comm', methods: ['GET', 'POST'])]
+    public function editComm(Request $request, Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createFormBuilder($reco)
+            ->add('commission')
+            ->getForm();
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid())
+        {
+
+        }
+
+        // view
+        $view = $this->render('gestapp/reco/include/_formComm.html.twig', [
+            'reco' => $reco,
+            'form' => $form
+        ]);
+
+        // return
+        return $this->json([
+            "code" => 200,
+            'formView' => $view->getContent()
+        ], 200);
     }
 
     #[Route('/{id}/AddProperty', name: 'op_gestapp_reco_addproperty', methods: ['GET', 'POST'])]

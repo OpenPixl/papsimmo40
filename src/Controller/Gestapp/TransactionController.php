@@ -1217,6 +1217,7 @@ class TransactionController extends AbstractController
     #[Route('/del/{id}', name: 'op_gestapp_transaction_del', methods: ['POST'])]
     public function del(Transaction $transaction, TransactionRepository $transactionRepository, PropertyRepository $propertyRepository, EntityManagerInterface $em): Response
     {
+        $user = $this->getUser();
         $propertyId = $transaction->getProperty();
         $property = $propertyRepository->find($propertyId->getId());
 

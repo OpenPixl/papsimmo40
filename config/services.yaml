@@ -17,6 +17,7 @@ parameters:
     transaction_invoice_directory: '%kernel.project_dir%/public/doc/transaction/invoice'
     property_photo_directory: '%kernel.project_dir%/public/properties/'
     property_product_directory: '%kernel.project_dir%/public/images/product/'
+    prescriber_ci_directory: '%kernel.project_dir%/public/doc/prescriber/ci/'
 
 services:
     # default configuration for services in *this* file
