@@ -158,6 +158,7 @@ class Reco
     private ?string $propertyLat = null;
 
     #[ORM\ManyToOne]
+    #[Groups(['employed:reco'])]
     private ?StatutReco $statutReco = null;
 
     #[ORM\Column(type: 'datetime')]
