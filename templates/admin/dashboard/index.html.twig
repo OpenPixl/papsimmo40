@@ -8,21 +8,29 @@
 
 {% block javascripts %}
     {{ parent() }}
-
+    <script type="module" src="{{ asset('js/Admin/dashboard/statutsession.js') }}"></script>
 {% endblock %}
 
 {% block content %}
-    <div class="container-fluid">
+    <section class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <h1>Tableau de bord</h1>
                 <p>{{ app.user.firstName|capitalize }}, bienvenue sur votre espace de travail.</p>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="col-8">
+                {# {{ dump(chart) }} #}
+                {{ render_chart(chart) }}
+            </div>
+        </div>
+    </section>
+
 {% endblock %}
 
 {% block modal %}
+    {{ parent() }}
     <section id="modals">
         <div class="modal fade" id="NewSupport" tabindex="-1" aria-labelledby="NewSupport" aria-hidden="true">
             <div class="modal-dialog">
@@ -42,5 +50,6 @@
                 </div>
             </div>
         </div>
+
     </section>
 {% endblock %}

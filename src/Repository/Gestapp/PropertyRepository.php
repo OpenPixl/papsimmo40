@@ -47,6 +47,36 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     // ----------------------------------------------
+    // Requête : statistiques pour Graph Dashboard
+    // ----------------------------------------------
+    public function StatsGraph()
+    {
+        $em = $this->getEntityManager();
+
+        $query = $em
+            ->createQuery('
+                SELECT p.createdAt as createdAt, DAY(p.createdAt) as m_createdAt
+                FROM App\Entity\Gestapp\Property p
+                JOIN p.publication pu
+                WHERE pu.isWebpublish = :isWebpublish
+                ')
+            ->setParameter('isWebpublish', 1)
+            ;
+        return $query->getResult();
+
+        //return $this->createQueryBuilder('p')
+        //    ->leftjoin('p.refEmployed', 'e')
+        //    ->leftjoin('p.publication', 'pu')
+        //     ->select('COUNT(p.createdAt) as c_property,p.isArchived, pu.isWebpublish, e.id as employed')
+        //    ->GroupBy('e.id')
+        //    ->andWhere('p.isArchived = 0')
+        //    ->andWhere('pu.isWebpublish = 1')
+        //    ->getQuery()
+        //    ->getResult()
+        //    ;
+    }
+
+    // ----------------------------------------------
     // Requête : liste les derniers biens entrés - partie accueil
     // ----------------------------------------------
     public function fivelastproperties()

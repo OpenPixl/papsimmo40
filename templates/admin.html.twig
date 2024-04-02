@@ -27,22 +27,7 @@
             <script src="https://kit.fontawesome.com/3904e9974b.js" crossorigin="anonymous"></script>
             <script src="{{ asset('js/sortableJS/Sortable.min.js') }}"></script>
             <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-            <script>
-                window.onload = function(){
-                    // Mise en place de l'éditeur TinyMCE sur la partie Admin
-                    tinymce.init({
-                        selector: '.tinymce',
-                        plugins: 'image table lists',
-                        toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image table',
-                        images_file_types: 'jpg,svg,webp',
-                        language: 'fr_FR',
-                        language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
-                    });
-                    document.getElementById('btnContactSupport').addEventListener('click', function(event){
-                        event.preventDefault()
-                    })
-                }
-            </script>
+
         {% endblock %}
     </head>
     <body>
@@ -57,7 +42,7 @@
                 {% include('include/admin/side.html.twig') %}
             {% endblock %}
 
-            <div id="content" class="float-end">
+            <section id="content" class="float-end">
                 <div class="container-fluid">
                     <section id="content_breadcumb" class="mt-3">
                         {% block breadcrumb %}
@@ -78,45 +63,48 @@
                         {% endblock %}
                     </section>
                 </div>
-            </div>
-            <section id="modals">
-            {% block modal %}
-                {# annonce toaster #}
-                <div aria-live="polite" aria-atomic="true" class="position-relative">
-                    <div class="toast-container position-absolute top-50 end-0 p-3">
-                        <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                            <div class="toast-header">
-                                <strong class="me-auto">Notification</strong>
-                                <small>à l'instant</small>
-                                <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                            </div>
-                            <div class="toast-body">
-                                Hello, world! This is a toast message.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="modal fade" id="NewSupport" tabindex="-1" aria-labelledby="NewSupport" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
-                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                            </div>
-                            <div class="modal-body">
-                                <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
-                                <input type="hidden" id="recipient-name">
-                            </div>
-                            <div class="modal-footer">
-                                <a href="#" type="button" class="btn btn-warning jsModalDelProperty" data-bs-dismiss="modal">Supprimer</a>
-                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            {% endblock %}
             </section>
-            {% include "include/composants/_toasts.html.twig" %}
+            <section id="modals">
+                {% block modal %}
+                    {# annonce toaster #}
+                    <div aria-live="polite" aria-atomic="true" class="position-relative">
+                        <div class="toast-container position-absolute top-50 end-0 p-3">
+                            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                <div class="toast-header">
+                                    <strong class="me-auto">Notification</strong>
+                                    <small>à l'instant</small>
+                                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                </div>
+                                <div class="toast-body">
+                                    Hello, world! This is a toast message.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {# Modal #}
+                    <div class="modal fade" id="alertSession" tabindex="-1" aria-labelledby="alertSession" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal Recommandation</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                                    <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% endblock %}
+            </section>
         </main>
         <footer class="fixed-bottom">
             {% block footer %}

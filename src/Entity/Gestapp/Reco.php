@@ -36,17 +36,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
             normalizationContext: ['groups' => 'reco:item']
         ),
         new GetCollection(
-            uriTemplate: '/prescripteur/{email}/recommandations',
+            uriTemplate: '/prescripteur/{email}/listrecommandations',
             //requirements: ['id' => '\d+'],
             uriVariables: [
-                'email' => new Link(fromClass: Employed::class, fromProperty: 'email')
+                'email' => new Link(fromProperty: 'Email', fromClass: Employed::class)
             ],
             //controller: getRecoPrescriberEmail::class,
             openapiContext: [
                 'summary' => "Obtenir les recommandations par l'email du prescripteur.",
                 'description' => "Obtenir les recommandations par l'email du prescripteur.",
             ],
-            //normalizationContext: ['groups' => 'reco:list']
+            normalizationContext: ['groups' => 'reco:list']
         ),
         new GetCollection(
             openapiContext: [

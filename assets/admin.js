@@ -19,6 +19,8 @@ tinymce.init({
     encoding: "html"
 });
 
+
+
 const ContactSupport = document.getElementById('btnContactSupport');
 ContactSupport.addEventListener('click', function(event){
 

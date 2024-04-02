@@ -1,5 +1,10 @@
 {% extends 'base.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/webapp/page/paginate.js') }}"></script>
+{% endblock %}
+
 {% block title %}
     {% if app.request.get('_route') == 'op_webapp_public_homepage'%}
     Accueil - {{ application.nameSite }}

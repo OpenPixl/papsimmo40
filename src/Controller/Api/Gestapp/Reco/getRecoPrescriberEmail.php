@@ -19,7 +19,7 @@ class getRecoPrescriberEmail extends AbstractController
     {
         //dd($data);
         if($data){
-            $email = $data->getEmail();
+            $email = $data->getRefEmployed()->getEmail();
 
             $log = array($data);
             $request = Request::createFromGlobals();
