@@ -12,9 +12,15 @@
                             </div>
                         {% endif %}
                         <div class="name">
-                            {{ property.rubric }}  |
-                            {{ property.rubricss }} |
-                            {% if property.idpropertyDefinition == 5 or property.idpropertyDefinition == 15 or property.idpropertyDefinition == 16 or property.idpropertyDefinition == 19 or property.idpropertyDefinition == 20 or property.idpropertyDefinition == 23 %}
+                            {% if property.rubric is defined %}
+                                {{ property.rubric }}
+                            {% endif %}
+                            {% if property.rubricss is defined %}
+                                |
+                                {{ property.rubricss }}
+                            {% endif %}
+                            |
+                            {% if property.idrubric in [22,27,29,37,46,50,51,52,56,58] %}
                                 {{ property.surfaceLand }} m2
                             {% else %}
                                 {{ property.surfaceHome}} m2

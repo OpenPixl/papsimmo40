@@ -20,18 +20,33 @@ class DashboardController extends AbstractController
     {
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
 
-        //$property = $propertyRepository->StatsGraph();
+        $year = date("Y");
 
-        //dd($property);
+        $properties = $propertyRepository->StatsGraph($year);
+
+        $months = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $month = isset($properties[$i-1]['month']);
+
+            if($month == true){
+                array_push($months, ['month' => $i, 'c_properties' => $properties[$i-1]['c_properties']] );
+            }else{
+                array_push($months, ['month' => $i, 'c_properties' => 0] );
+            }
+        }
+
+        $months_label = array_column($months, 'month');
+        $months_cproperties = array_column($months, 'c_properties');
+        //dd($months_cproperties);
 
         $chart->setData([
-            'labels' => ['Janv.', 'Fev.', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Sept.', 'Oct.', 'Nov.', 'Déc.'],
+            'labels' => $months_label,
             'datasets' => [
                 [
-                    'label' => 'Nombre de biens enregistrés',
+                    'label' => 'Nombre de biens enregistrés sur l\'année '. $year,
                     'backgroundColor' => 'rgb(42, 86, 95)',
                     'borderColor' => 'rgb(rgb(42, 86, 95)',
-                    'data' => [0, 9, 5, 2, 13, 7, 15],
+                    'data' => $months_cproperties,
                 ],
             ],
         ]);
@@ -40,7 +55,7 @@ class DashboardController extends AbstractController
             'scales' => [
                 'y' => [
                     'suggestedMin' => 0,
-                    'suggestedMax' => 20,
+                    'suggestedMax' => 15,
                 ],
             ],
         ]);
@@ -72,9 +87,19 @@ class DashboardController extends AbstractController
     {
         $timeless = $sessionService->Timeless();
 
+        if($timeless >= 600 ){
+            $stTimeless = 3;
+        }elseif ($timeless <= 599 && $timeless >= 300){
+            $stTimeless = 2;
+        }elseif ($timeless <= 299 && $timeless >= 50){
+            $stTimeless = 1;
+        }elseif($timeless <= 49){
+            $stTimeless = 0;
+        }
+
         return $this->json([
             'Code' => 200,
-            'timeless' => $timeless
+            'sttimeless' => $stTimeless
         ], 200);
     }
 
