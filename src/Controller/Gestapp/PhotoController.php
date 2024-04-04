@@ -64,8 +64,6 @@ class PhotoController extends AbstractController
     #[Route('/new/{idproperty}', name: 'op_gestapp_photo_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PhotoRepository $photoRepository, $idproperty, PropertyRepository $propertyRepository, SluggerInterface $slugger): Response
     {
-
-
         $property = $propertyRepository->find($idproperty);
         // on récupére si elle existe la dernière photo du bien actuel et son positionnement
         $lastphoto = $photoRepository->Lastphoto($idproperty);
@@ -73,6 +71,7 @@ class PhotoController extends AbstractController
         // récupération de la référence
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
+        dd($newref);
         $photo = new Photo();
         if($lastphoto){
             $position = $lastphoto->getPosition() + 1;

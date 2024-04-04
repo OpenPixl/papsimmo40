@@ -14,7 +14,7 @@
     <tr>
         <th>Collaborateur</th>
         <th>Référence</th>
-        <th>Nom & Prénom</th>
+        <th>Nom & Prénom / Société</th>
         <th>Adresse</th>
         <th>Type</th>
         <th>Fiche crée</th>
@@ -34,7 +34,13 @@
                 {{ customer.firstNameEmpl }} {{ customer.lastNameEmpl }}
             </td>
             <td>{{ customer.RefCustomer }}</td>
-            <td><strong>{{ customer.lastName }} {{ customer.firstName }}</strong></td>
+            <td>
+                {% if customer.typeClient == "societe" %}
+                 <strong>{{ customer.typeclient }}</strong>
+                {% else %}
+                    <strong>{{ customer.lastName }} {{ customer.firstName }}</strong>
+                {% endif %}
+            </td>
             <td>{% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}</td>
 
             <td>{{ customer.customerChoice }}</td>

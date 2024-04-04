@@ -258,7 +258,7 @@ class Transaction
         return $this->promisePdfFilename;
     }
 
-    public function setPromisePdfFilename(string $promisePdfFilename): self
+    public function setPromisePdfFilename(string $promisePdfFilename = null): self
     {
         $this->promisePdfFilename = $promisePdfFilename;
 

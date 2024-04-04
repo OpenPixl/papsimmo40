@@ -8,7 +8,10 @@ modalTransaction.addEventListener('show.bs.modal', function (event) {
     let url = a.href;
     let submit = modalTransaction.querySelector('#btnModalSubmit');
     submit.href = url;
+    modalTransaction.querySelector('#btnModalSubmit').addEventListener('click', delTransaction);
 });
+
+
 
 function delTransaction(event){
     event.preventDefault();
@@ -29,4 +32,4 @@ function delTransaction(event){
         });
 }
 
-btnModalSubmit.addEventListener('click', delTransaction);
+

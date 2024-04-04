@@ -248,7 +248,8 @@ class TransactionController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        PropertyRepository $propertyRepository
         ) : response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
@@ -270,12 +271,17 @@ class TransactionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+            $property = $propertyRepository->find($transaction->getProperty()->getId());
+            $ref = explode("/", $property->getRef());
+            $newref = $ref[0].'-'.$ref[1];
+
             // Suppression du PDF si booléen sur "true"
             $isSupprPromisePdf = $form->get('isSupprPromisePdf')->getData();
             if($isSupprPromisePdf && $isSupprPromisePdf == true){
                 // récupération du nom de l'image
                 $PromisePdfName = $transaction->getPromisePdfFilename();
-                $pathPromisePdf = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
+                $pathPromisePdf = $this->getParameter('property_doc_directory')."/".$newref."/documents/".$PromisePdfName;
                 // On vérifie si l'image existe
                 if(file_exists($pathPromisePdf)){
                     unlink($pathPromisePdf);
@@ -287,21 +293,32 @@ class TransactionController extends AbstractController
             $promisepdf = $form->get('promisePdfFilename')->getData();
             $PromisePdfName = $transaction->getPromisePdfFilename();
             if($promisepdf){
+                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathfile = $pathdir.$PromisePdfName;
                 if($PromisePdfName){
-                    $pathheader = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
                     // On vérifie si l'image existe
-                    if(file_exists($pathheader)){
-                        unlink($pathheader);
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
                     }
                 }
                 $originalFilename = pathinfo($promisepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'.'.$promisepdf->guessExtension();
+                $newFilename = 'cv-'.$safeFilename.'.'.$promisepdf->guessExtension();
                 try {
-                    $promisepdf->move(
-                        $this->getParameter('transaction_promise_directory'),
-                        $newFilename
-                    );
+                    if (is_dir($pathdir)){
+                        $promisepdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $promisepdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
@@ -309,27 +326,27 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                //if($hasAccess == false) {
-                //    $email = (new TemplatedEmail())
-                //        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                //        ->to('xavier.burke@openpixl.fr')
-                //        //->cc('cc@example.com')
-                //        //->bcc('bcc@example.com')
-                //        //->replyTo('fabien@example.com')
-                //        //->priority(Email::PRIORITY_HIGH)
-                //        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
-                //        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                //        ->context([
-                //            'transaction' => $transaction,
-                //        ]);
-                //    try {
-                //        $mailer->send($email);
-                //     } catch (TransportExceptionInterface $e) {
-                //         // some error prevented the email sending; display an
-                //         // error message or try to resend the message
-                //        dd($e);
-                //    }
-                //}
+                if($hasAccess == false) {
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                        ->to('xavier.burke@openpixl.fr')
+                        //->cc('cc@example.com')
+                        //->bcc('bcc@example.com')
+                        //->replyTo('fabien@example.com')
+                        //->priority(Email::PRIORITY_HIGH)
+                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                        ->context([
+                            'transaction' => $transaction,
+                        ]);
+                    try {
+                        $mailer->send($email);
+                     } catch (TransportExceptionInterface $e) {
+                         // some error prevented the email sending; display an
+                         // error message or try to resend the message
+                        dd($e);
+                    }
+                }
 
                 return $this->json([
                     'code' => 200,
@@ -371,25 +388,25 @@ class TransactionController extends AbstractController
         $entityManager->persist($transaction);
         $entityManager->flush();
 
-        //$email = (new TemplatedEmail())
-        //    ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-        //    ->to('xavier.burke@openpixl.fr')
-        //    //->cc('cc@example.com')
-        //    //->bcc('bcc@example.com')
-        //    //->replyTo('fabien@example.com')
-        //    //->priority(Email::PRIORITY_HIGH)
-        //    ->subject("[PAPs Immo] : Document vérifié")
-        //    ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
-        //    ->context([
-        //        'transaction' => $transaction,
-        //    ]);
-        //try {
-        //    $mailer->send($email);
-        //} catch (TransportExceptionInterface $e) {
-        //    // some error prevented the email sending; display an
-        //    // error message or try to resend the message
-        //    dd($e);
-        //}
+        $email = (new TemplatedEmail())
+            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+            ->to('xavier.burke@openpixl.fr')
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("[PAPs Immo] : Document vérifié")
+            ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
+            ->context([
+                'transaction' => $transaction,
+            ]);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            dd($e);
+        }
 
         return $this->json([
             'code' => 200,
@@ -406,8 +423,18 @@ class TransactionController extends AbstractController
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
     #[Route('/{id}/addPromisePdfAdmin', name: 'op_gestapp_transaction_addpromisepdf_admin', methods: ['POST'])]
-    public function addPromisePdfAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    public function addPromisePdfAdmin(
+        Request $request,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        PropertyRepository $propertyRepository,
+        SluggerInterface $slugger)
     {
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(Transactionstep3Type::class, $transaction, [
@@ -418,26 +445,37 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($transaction);
             $promisepdf = $form->get('promisePdfFilename')->getData();
             if($promisepdf){
-                // Supression du PDF si Présent
+
+                // Suppression du PDF si Présent
                 $PromisePdfName = $transaction->getPromisePdfFilename();
+                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathfile = $pathdir.$PromisePdfName;
                 if($PromisePdfName){
-                    $pathheader = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
                     // On vérifie si l'image existe
-                    if(file_exists($pathheader)){
-                        unlink($pathheader);
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
                     }
                 }
                 $originalFilename = pathinfo($promisepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$promisepdf->guessExtension();
+                $newFilename = 'cv-'.$safeFilename.'.'.$promisepdf->guessExtension();
                 try {
-                    $promisepdf->move(
-                        $this->getParameter('transaction_promise_directory'),
-                        $newFilename
-                    );
+                    if (is_dir($pathdir)){
+                        $promisepdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $promisepdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
@@ -509,6 +547,7 @@ class TransactionController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
+        PropertyRepository $propertyRepository,
         SluggerInterface $slugger
     ) : response
     {
@@ -531,12 +570,18 @@ class TransactionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+            $property = $propertyRepository->find($transaction->getProperty()->getId());
+            // récupération de la référence
+            $ref = explode("/", $property->getRef());
+            $newref = $ref[0].'-'.$ref[1];
+
             // Suppression du PDF si booléen sur "true"
             $isSupprActePdf = $form->get('isSupprActePdf')->getData();
             if($isSupprActePdf && $isSupprActePdf == true){
                 // récupération du nom de l'image
                 $ActePdfName = $transaction->getActePdfFilename();
-                $pathActePdf = $this->getParameter('transaction_acte_directory').'/'.$ActePdfName;
+                $pathActePdf = $this->getParameter('property_doc_directory')."/".$newref."/documents/".$ActePdfName;
                 // On vérifie si l'image existe
                 if(file_exists($pathActePdf)){
                     unlink($pathActePdf);
@@ -548,21 +593,32 @@ class TransactionController extends AbstractController
             $actepdf = $form->get('actePdfFilename')->getData();
             $actePdfName = $transaction->getActePdfFilename();
             if($actepdf){
+                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathfile = $pathdir.$actePdfName;
                 if($actePdfName){
-                    $pathheader = $this->getParameter('transaction_acte_directory').'/'.$actePdfName;
                     // On vérifie si l'image existe
-                    if(file_exists($pathheader)){
-                        unlink($pathheader);
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
                     }
                 }
                 $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'.'.$actepdf->guessExtension();
+                $newFilename = 'av-'.$safeFilename.'.'.$actepdf->guessExtension();
                 try {
-                    $actepdf->move(
-                        $this->getParameter('transaction_acte_directory'),
-                        $newFilename
-                    );
+                    if (is_dir($pathdir)){
+                        $actepdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $actepdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
@@ -669,7 +725,12 @@ class TransactionController extends AbstractController
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
     #[Route('/{id}/addActePdfAdmin', name: 'op_gestapp_transaction_addactepdf_admin', methods: ['POST'])]
-    public function addActePdfAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    public function addActePdfAdmin(
+        Request $request,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        PropertyRepository $propertyRepository,
+        SluggerInterface $slugger)
     {
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -681,26 +742,41 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($transaction);
+            // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+            $property = $propertyRepository->find($transaction->getProperty()->getId());
+            $ref = explode("/", $property->getRef());
+            $newref = $ref[0].'-'.$ref[1];
+
             $actepdf = $form->get('actePdfFilename')->getData();
             if($actepdf){
                 // Supression du PDF si Présent
-                $actePdfName = $transaction->getPromisePdfFilename();
+                $actePdfName = $transaction->getActePdfFilename();
+                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathfile = $pathdir.$actePdfName;
                 if($actePdfName){
-                    $pathheader = $this->getParameter('transaction_acte_directory').'/'.$actePdfName;
                     // On vérifie si l'image existe
-                    if(file_exists($pathheader)){
-                        unlink($pathheader);
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
                     }
                 }
                 $originalFilename = pathinfo($actepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$actepdf->guessExtension();
+                $newFilename = 'av-'.$safeFilename.'.'.$actepdf->guessExtension();
                 try {
-                    $actepdf->move(
-                        $this->getParameter('transaction_acte_directory'),
-                        $newFilename
-                    );
+                    if (is_dir($pathdir)){
+                        $actepdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $actepdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
@@ -741,6 +817,7 @@ class TransactionController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
+        PropertyRepository $propertyRepository,
         SluggerInterface $slugger
     ) : response
     {
@@ -762,34 +839,56 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+            $property = $propertyRepository->find($transaction->getProperty()->getId());
+            $ref = explode("/", $property->getRef());
+            $newref = $ref[0].'-'.$ref[1];
 
             // Suppression du PDF si booléen sur "true"
             $isSupprTracfinPdf = $form->get('isSupprTracfinPdf')->getData();
             if($isSupprTracfinPdf && $isSupprTracfinPdf == true){
                 // récupération du nom de l'image
-                $tracfinPdfName = $transaction->getPromisePdfFilename();
-                $pathTracfinPdf = $this->getParameter('transaction_tracfin_directory').'/'.$tracfinPdfName;
+                $tracfinPdfName = $transaction->getTracfinPdfFilename();
+                $pathTracfinPdf = $this->getParameter('property_doc_directory').'/documents/'.$tracfinPdfName;
                 // On vérifie si l'image existe
                 if(file_exists($pathTracfinPdf)){
                     unlink($pathTracfinPdf);
                 }
                 $transaction->setTracfinPdfFilename(null);
+                $transaction->setIsSupprTracfinPdf(0);
             }
 
             $tracfinpdf = $form->get('tracfinPdfFilename')->getData();
-            $tracfinPdfName = $transaction->getPromisePdfFilename();
+            $tracfinPdfName = $transaction->getTracfinPdfFilename();
             if($tracfinpdf){
+                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathfile = $pathdir.$tracfinPdfName;
+                // Suppression du document si déjà présent en BDD.
                 if($tracfinPdfName){
-                    $pathheader = $this->getParameter('transaction_tracfin_directory').'/'.$tracfinPdfName;
                     // On vérifie si l'image existe
-                    if(file_exists($pathheader)){
-                        unlink($pathheader);
+                    if(file_exists($pathTracfinPdf)){
+                        unlink($pathTracfinPdf);
                     }
                 }
+                // Normalisation du nom de fichier
                 $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'.'.$tracfinpdf->guessExtension();
+                $newFilename = 'tf-'.$safeFilename.'.'.$tracfinpdf->guessExtension();
                 try {
+                    if (is_dir($pathdir)){
+                        $tracfinpdf->move(
+                            $this->getParameter('transaction_tracfin_directory'),
+                            $newFilename
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $tracfinpdf->move(
+                            $this->getParameter('transaction_tracfin_directory'),
+                            $newFilename
+                        );
+                    }
                     $tracfinpdf->move(
                         $this->getParameter('transaction_tracfin_directory'),
                         $newFilename
@@ -801,27 +900,27 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                //if($hasAccess == false) {
-                //    $email = (new TemplatedEmail())
-                //        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                //        ->to('xavier.burke@openpixl.fr')
-                //        //->cc('cc@example.com')
-                //        //->bcc('bcc@example.com')
-                //         //->replyTo('fabien@example.com')
-                //         //->priority(Email::PRIORITY_HIGH)
-                //        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
-                //        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                //        ->context([
-                //            'transaction' => $transaction,
-                //        ]);
-                //    try {
-                //        $mailer->send($email);
-                //    } catch (TransportExceptionInterface $e) {
-                //        // some error prevented the email sending; display an
-                //        // error message or try to resend the message
-                //        dd($e);
-                //    }
-                //}
+                if($hasAccess == false) {
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                        ->to('xavier.burke@openpixl.fr')
+                        //->cc('cc@example.com')
+                        //->bcc('bcc@example.com')
+                         //->replyTo('fabien@example.com')
+                         //->priority(Email::PRIORITY_HIGH)
+                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                        ->context([
+                            'transaction' => $transaction,
+                        ]);
+                    try {
+                        $mailer->send($email);
+                    } catch (TransportExceptionInterface $e) {
+                        // some error prevented the email sending; display an
+                        // error message or try to resend the message
+                        dd($e);
+                    }
+                }
 
                 return $this->json([
                     'code' => 200,
@@ -898,8 +997,18 @@ class TransactionController extends AbstractController
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
     #[Route('/{id}/addTracfinPdfAdmin', name: 'op_gestapp_transaction_addtracfinpdf_admin', methods: ['POST'])]
-    public function addTracfinPdfAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    public function addTracfinPdfAdmin(
+        Request $request,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        PropertyRepository $propertyRepository,
+        SluggerInterface $slugger)
     {
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(TransactionTracfinpdfType::class, $transaction, [
@@ -910,26 +1019,37 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($transaction);
             $tracfinpdf = $form->get('tracfinPdfFilename')->getData();
             if($tracfinpdf){
+
                 // Supression du PDF si Présent
                 $tracfinPdfName = $transaction->getTracfinPdfFilename();
+                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathfile = $pathdir.$tracfinPdfName;
                 if($tracfinPdfName){
-                    $pathheader = $this->getParameter('transaction_tracfin_directory').'/'.$tracfinPdfName;
                     // On vérifie si l'image existe
-                    if(file_exists($pathheader)){
-                        unlink($pathheader);
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
                     }
                 }
                 $originalFilename = pathinfo($tracfinpdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$tracfinpdf->guessExtension();
+                $newFilename = 'tf-'.$safeFilename.'.'.$tracfinpdf->guessExtension();
                 try {
-                    $tracfinpdf->move(
-                        $this->getParameter('transaction_tracfin_directory'),
-                        $newFilename
-                    );
+                    if (is_dir($pathdir)){
+                        $tracfinpdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $tracfinpdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
@@ -1069,7 +1189,6 @@ class TransactionController extends AbstractController
                 }else{
                     dd('pas de doc');
                 }
-
             }
         }
 
@@ -1168,11 +1287,42 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/errordocument', name: 'op_gestapp_transaction_errordocument', methods: ['POST'])]
-    public function errorPdf(Transaction $transaction, MailerInterface $mailer,)
+    #[Route('/{id}/errordocument/{name}', name: 'op_gestapp_transaction_errordocument', methods: ['GET','POST'])]
+    public function errorPdf(
+        Transaction $transaction,
+        PropertyRepository $propertyRepository,
+        MailerInterface $mailer,
+        EntityManagerInterface $em,
+        $name)
     {
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+
+        $typeDoc = explode('-', $name)[0];
+        $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+        $pathfile = $pathdir.$name;
+
+        if(file_exists($pathfile)){
+            unlink($pathfile);
+        }
+
+        if($typeDoc = 'cv') {
+            $data = null;
+            $transaction->setPromisePdfFilename();
+            $transaction->setIsSupprPromisePdf(0);
+        }elseif($typeDoc = 'av'){
+            $transaction->setActePdfFilename('');
+            $transaction->setIsSupprActePdf(0);
+        }elseif($typeDoc = 'tf') {
+            $transaction->setTracfinPdfFilename('');
+            $transaction->setIsSupprTracfinPdf(0);
+        }
+        $em->flush();
 
         $email = (new TemplatedEmail())
             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
@@ -1208,7 +1358,6 @@ class TransactionController extends AbstractController
             $entityManager->remove($transaction);
             $entityManager->flush();
         }
-
         return $this->redirectToRoute('op_gestapp_transaction_index', [], Response::HTTP_SEE_OTHER);
     }
 

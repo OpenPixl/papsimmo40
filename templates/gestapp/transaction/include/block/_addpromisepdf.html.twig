@@ -49,6 +49,8 @@
         {% endif %}
         </td>
         <td>
+            {% set refyear = transaction.property.ref|split('/',2)|first %}
+            {% set refnumber = transaction.property.ref|split('/',2)|last %}
             <button id="showPromise" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
             <!-- Modal -->
             <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
@@ -59,8 +61,9 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" style="padding: 0;">
+
                             <div id="externaFile">
-                                <iframe src="{{ asset('doc/transaction/promise/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
+                                <iframe src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -73,7 +76,7 @@
         {% if transaction.refEmployed is not same as app.user.id and transaction.isValidPromisepdf == 0 %}
         <td>
             <a href="{{ path('op_gestapp_transaction_validpromisepdf', {'id': transaction.id}) }}" class="btn btn-sm btn-success" id="btnAddPromisePdfControl"><i class="fa-light fa-check"></i> Je valide</a>
-            <a href="{{ path('op_gestapp_transaction_errordocument', {'id': transaction.id}) }}" class="btn btn-sm btn-danger" id="btnDocumentPdfError"><i class="fa-sharp fa-regular fa-xmark"></i> Erreur de document</a>
+            <a href="{{ path('op_gestapp_transaction_errordocument', {'id': transaction.id, 'name': transaction.promisePdfFilename}) }}" class="btn btn-sm btn-danger" id="btnDocumentPdfError"><i class="fa-sharp fa-regular fa-xmark"></i> Erreur de document</a>
         </td>
         {% endif %}
         <td>
@@ -104,6 +107,8 @@
             </div>
         </td>
         <td>
+            {% set refyear = transaction.property.ref|split('/',2)|first %}
+            {% set refnumber = transaction.property.ref|split('/',2)|last %}
             <button id="showPromise" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
             <!-- Modal -->
             <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
@@ -115,7 +120,7 @@
                         </div>
                         <div class="modal-body" style="padding: 0;">
                             <div id="externaFile">
-                                <iframe src="{{ asset('doc/transaction/promise/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
+                                <iframe src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
                             </div>
                         </div>
                         <div class="modal-footer">

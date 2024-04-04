@@ -627,8 +627,9 @@ function toasterMessage(message)
 
 function errorDocument(){
     let url = this.href;
+
     axios
-        .post(url)
+        .post(url, data)
         .then(function(response){
             allAddEvent();
             toasterMessage(response.data.message);

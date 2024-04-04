@@ -65,6 +65,7 @@ class CustomerRepository extends ServiceEntityRepository
                 c.firstName AS firstName,
                 c.lastName AS lastName,
                 c.id,
+                c.typeClient as typeClient,
                 ch.name as customerChoice
                                 '
             )
