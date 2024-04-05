@@ -1,10 +1,12 @@
-<h1>[PAPs Immo] : Un document attends votre approbation</h1>
+<h1>[PAPs Immo] : Le document présenté contient une erreur.</h1>
 <h3>Transaction n°: {{ transaction.name }}</h3>
 <hr>
 <h4>Bonjour,</h4>
 <p>
-    Dans le cadre d'une transaction immobilière, l'un de vos collaborateurs à déposer un document : {{ transaction.promisePdfFilename }}.
-    En cliquant sur le lien suivant vous pourrez-le controler.
+    Dans le cadre de la transaction immobilière concernant le bien :<br>
+    - {{ transaction.property.name }}<br>
+    - {{ transaction.property.zipcode }} {{ transaction.property.city }}<br>
+    Ce document présente une erreur. En cliquant sur le lien suivant, vous pourrez recharger ce dernier dans le champs prévue à cet effet.
     <br>
-    <a href="https://{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
+    <a href="http://{{ url }}{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
 </p>
