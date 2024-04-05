@@ -1,12 +1,20 @@
-<h1>[PAPs Immo] : Le document présenté contient une erreur.</h1>
-<h3>Transaction n°: {{ transaction.name }}</h3>
+<h1>[PAPs Immo] : Une correction doit être apportée à la transaction immobilière.</h1>
+<h3>Référence: {{ transaction.name }}</h3>
 <hr>
 <h4>Bonjour,</h4>
 <p>
     Dans le cadre de la transaction immobilière concernant le bien :<br>
     - {{ transaction.property.name }}<br>
     - {{ transaction.property.zipcode }} {{ transaction.property.city }}<br>
-    Ce document présente une erreur. En cliquant sur le lien suivant, vous pourrez recharger ce dernier dans le champs prévue à cet effet.
+    {% if typedoc == 'cv' %}
+        Vous avez présenté un document de type : <b>Compromis de vente.</b>
+    {% elseif typedoc == 'av' %}
+        Vous avez présenté un document de type : <b>Attestation d'acte de vente.</b>
+    {% elseif typedoc == 'tf' %}
+        Vous avez présenté un document de type : <b>TRACFIN.</b>
+    {% endif %}
+    Ce document présente une erreur. N'hésitez pas à contacter votre référent pour la résoudre. <br>
+    En cliquant sur le lien suivant, vous pourrez recharger ce dernier dans le champ prévu à cet effet.
     <br>
     <a href="http://{{ url }}{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
 </p>

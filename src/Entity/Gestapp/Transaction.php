@@ -144,6 +144,9 @@ class Transaction
     #[ORM\Column]
     private ?bool $isSupprInvoicePdf = false;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isClosedfolder = false;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -293,7 +296,7 @@ class Transaction
         return $this->actePdfFilename;
     }
 
-    public function setActePdfFilename(string $actePdfFilename): self
+    public function setActePdfFilename(string $actePdfFilename = null): self
     {
         $this->actePdfFilename = $actePdfFilename;
 
@@ -341,7 +344,7 @@ class Transaction
         return $this->tracfinPdfFilename;
     }
 
-    public function setTracfinPdfFilename(?string $tracfinPdfFilename): static
+    public function setTracfinPdfFilename(?string $tracfinPdfFilename = null): static
     {
         $this->tracfinPdfFilename = $tracfinPdfFilename;
 
@@ -437,7 +440,7 @@ class Transaction
         return $this->invoicePdfFilename;
     }
 
-    public function setInvoicePdfFilename(?string $invoicePdfFilename): static
+    public function setInvoicePdfFilename(?string $invoicePdfFilename = null): static
     {
         $this->invoicePdfFilename = $invoicePdfFilename;
 
@@ -464,6 +467,18 @@ class Transaction
     public function setIsSupprInvoicePdf(bool $isSupprInvoicePdf): static
     {
         $this->isSupprInvoicePdf = $isSupprInvoicePdf;
+
+        return $this;
+    }
+
+    public function isIsClosedfolder(): ?bool
+    {
+        return $this->isClosedfolder;
+    }
+
+    public function setIsClosedfolder(?bool $isClosedfolder): static
+    {
+        $this->isClosedfolder = $isClosedfolder;
 
         return $this;
     }

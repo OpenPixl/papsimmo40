@@ -45,11 +45,11 @@ class TransactionController extends AbstractController
         $user = $this->getUser();
 
         if($hasAccess == true){
-            $transactions = $transactionRepository->findAll();
+            $transactions = $transactionRepository->findBy(['isClosedfolder' => 0]);
         }else{
-            $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId()]);
+            $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId(), 'isClosedfolder' => 0]);
         }
-
+        
         return $this->render('gestapp/transaction/index.html.twig', [
             'transactions' => $transactions,
             'user' => $user
@@ -1309,22 +1309,26 @@ class TransactionController extends AbstractController
         $newref = $ref[0].'-'.$ref[1];
 
         $typeDoc = explode('-', $name)[0];
-        $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+        //dd($typeDoc);
+        $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
         $pathfile = $pathdir.$name;
+
+        //dd($pathfile);
 
         if(file_exists($pathfile)){
             unlink($pathfile);
         }
-
-        if($typeDoc = 'cv') {
-            $data = null;
-            $transaction->setPromisePdfFilename();
+        //dd(file_exists($pathfile));
+        //dd($typeDoc);
+        if($typeDoc == 'cv') {
+            $transaction->setPromisePdfFilename(null);
             $transaction->setIsSupprPromisePdf(0);
-        }elseif($typeDoc = 'av'){
-            $transaction->setActePdfFilename('');
+        }elseif($typeDoc == 'av'){
+            //dd('true');
+            $transaction->setActePdfFilename(null);
             $transaction->setIsSupprActePdf(0);
-        }elseif($typeDoc = 'tf') {
-            $transaction->setTracfinPdfFilename('');
+        }elseif($typeDoc == 'tf') {
+            $transaction->setTracfinPdfFilename(null);
             $transaction->setIsSupprTracfinPdf(0);
         }
         $em->flush();
@@ -1340,7 +1344,8 @@ class TransactionController extends AbstractController
             ->htmlTemplate('admin/mail/messageErrorDocument.html.twig')
             ->context([
                 'transaction' => $transaction,
-                'url' => $request->server->get('HTTP_HOST')
+                'url' => $request->server->get('HTTP_HOST'),
+                'typedoc' => $typeDoc
             ]);
         try {
             $mailer->send($email);
@@ -1355,6 +1360,29 @@ class TransactionController extends AbstractController
             'message' => 'Un email a été envoyé à votre collaborateur pour lui signifier une erreur dans le document transmis.',
         ], 200);
 
+    }
+
+    #[Route('/{id}/closedfolder', name: 'op_gestapp_transaction_closedfolder', methods: ['GET'])]
+    public function closedFolder(Transaction $transaction, TransactionRepository $transactionRepository, EntityManagerInterface $em)
+    {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        $transaction->setIsClosedfolder(1);
+        $em->flush();
+
+        if($hasAccess == true){
+            $transactions = $transactionRepository->findBy(['isClosedfolder' => 0]);
+        }else{
+            $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId(), 'isClosedfolder' => 0]);
+        }
+
+        return $this->json([
+            'message' => 'Le dossier de vente à été fermé.',
+            'liste' => $this->renderView('gestapp/transaction/include/_liste.html.twig', [
+                'transactions' => $transactions
+            ])
+        ]);
     }
 
     #[Route('/{id}', name: 'op_gestapp_transaction_delete', methods: ['POST'])]

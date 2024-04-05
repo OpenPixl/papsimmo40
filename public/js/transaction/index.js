@@ -625,11 +625,11 @@ function toasterMessage(message)
     toastElement.show();
 }
 
-function errorDocument(){
+function errorDocument(event){
+    event.preventDefault();
     let url = this.href;
-
     axios
-        .post(url, data)
+        .post(url)
         .then(function(response){
             allAddEvent();
             toasterMessage(response.data.message);
