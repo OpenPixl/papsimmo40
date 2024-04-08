@@ -1,120 +1,101 @@
+
 {{ form_start(form, {'attr': {'id': 'FormEditCustomer'}}) }}
-<div class="row">
+
+<div class="row g-1">
     <div class="col-12">
-        <div class="row">
-            <div class="col-sm-12">
-                <table class="table table-sm table-borderless">
-                    <thead>
-                    <tr>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                        <td class="col-1"></td>
-                    </tr>
-                    </thead>
-                    <tbody>
-                    <tr class="align-middle">
-                        <td class="table-light" colspan="12"><h6 style="text-transform: uppercase;">Informations du client</h6></td>
-                    </tr>
-                    <tr>
-                        <td class="table-light" colspan="3">{{ form_label(form.typeClient, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td colspan="3">{{ form_widget(form.typeClient, {'attr': {'class': 'form-select form-select-sm', 'placeholder':'Prénom ...'}}) }}</td>
-                    </tr>
-                    <tr>
-                        <td class="table-light" colspan="3">{{ form_label(form.nameStructure, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td colspan="3">{{ form_widget(form.nameStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}</td>
-                    </tr>
-                    <tr class="align-middle">
-                        {# Ligne du Nom et prénom du client #}
-                        <td class="table-light" colspan="3">{{ form_label(form.firstName, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td  colspan="3">{{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom'}}) }}</td>
-                        <td  colspan="3">{{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        {# Ligne de la date de naissance #}
-                        <td class="table-light" colspan="3">{{ form_label(form.ddn, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td colspan="2">{{ form_widget(form.ddn, {'attr': {'class': 'form-control form-control-sm flatpickr', 'placeholder':'_ _ / _ _ / _ _ _ _'}}) }}</td>
-                        <td colspan="4">{{ form_widget(form.ddnIn, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Lieu ...'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        {# Ligne du adresse #}
-                        <td class="table-light" colspan="3">{{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td colspan="6">{{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Rue, voie, ...'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        {# Ligne du adresse 2 #}
-                        <td class="table-light" colspan="3">{{ form_label(form.complement, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td colspan="6">{{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'...'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        {# Ligne du adresse #}
-                        <td class="table-light" colspan="3">{{ form_label(form.zipcode, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td colspan="2">{{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'CP ...'}}) }}</td>
-                        <td colspan="4">
-                            {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune ...'}}) }}
-                            <select id="selectcity2" class="form-select form-select-sm">
-                                <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
-                            </select>
-                        </td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td colspan="12"><h6 style="text-transform: uppercase;">Coordonnées :</h6></td>
-                    </tr>
-                    <tr class="align-middle">
-                        {# Numéro Domicile #}
-                        <td class="table-light" colspan="3">{{ form_label(form.home, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td colspan="3">
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-plus"></i></span>
-                                {{ form_widget(form.home, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Domicile ...'}}) }}
-                            </div>
-                        </td>
-                        <td colspan="3">
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
-                                {{ form_widget(form.gsm, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Portable ...'}}) }}
-                            </div>
-                        </td>
-                        <td colspan="3">
-                            <div class="input-group">
-                                <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-office"></i></span>
-                                {{ form_widget(form.desk, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Bureau ...'}}) }}
-                            </div>
-                        </td>
-                    </tr>
-                    <tr class="align-middle">
-                        {# Ligne du mail #}
-                        <td class="table-light" colspan="3">{{ form_label(form.otherEmail, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td colspan="6">{{ form_widget(form.otherEmail, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email ...'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    </tbody>
-                </table>
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.typeClient, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(form.typeClient, {'attr': {'class': 'form-select form-select-sm', 'placeholder':'Prénom ...'}}) }}
+            </div>
+        </div>
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.firstName, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+            </div>
+        </div>
+        <div id="rowStructure" class="row align-items-center g-1 mb-1 d-none animate__animated">
+            <div class="col-3">
+                {{ form_label(form.nameStructure, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(form.nameStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+            </div>
+        </div>
+        <hr class="mt-2 mb-2">
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.ddn, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-2">
+                {{ form_widget(form.ddn, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Date ...'}}) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(form.ddnIn, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Lieu ...'}}) }}
+            </div>
+        </div>
+        <hr class="mt-2 mb-2">
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-6">
+                {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse ...'}}) }}
+            </div>
+            <div class="w-100"></div>
+            <div class="offset-3 col-6 mt-0">
+                {{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'complément ...'}}) }}
+            </div>
+            <div class="w-100"></div>
+            <div class="offset-3 col-2 mt-0">
+                {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ville/Commune ...'}}) }}
+
+            </div>
+            <div class="col-4 mt-0">
+                {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
+                <select id="selectcity" class="form-select form-select-sm">
+                    <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
+                </select>
+            </div>
+        </div>
+        <hr class="mt-2 mb-2">
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                Contacts
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-plus"></i></span>
+                    {{ form_widget(form.home, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Domicile ...'}}) }}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
+                    {{ form_widget(form.gsm, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Portable ...'}}) }}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-office"></i></span>
+                    {{ form_widget(form.desk, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Bureau ...'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.otherEmail, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-6">
+                {{ form_widget(form.otherEmail, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse ...'}}) }}
             </div>
         </div>
     </div>

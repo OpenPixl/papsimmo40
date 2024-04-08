@@ -1,5 +1,22 @@
 const alertSession = new bootstrap.Modal(document.getElementById('alertSession'));
+let main = document.querySelector('#main');
+let timer = 0;
+
 setInterval(statutSession, 30000);
+setInterval(augmenter, 1000);
+
+document.body.addEventListener('click', function( event ){
+    if( main.contains( event.target ) ){
+        timer = 0;
+    } else {
+        console.log(timer);
+    }
+});
+
+function augmenter() {
+    timer++;
+    console.log(timer);
+}
 
 function statutSession()
 {

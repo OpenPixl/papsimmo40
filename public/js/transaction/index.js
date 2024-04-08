@@ -141,7 +141,9 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 modalBody.innerHTML = response.data.formView;
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity2');
+                let SelectCity2 = document.getElementById('selectcity');
+                let typeClient = document.getElementById('customer2_typeClient');
+
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -171,6 +173,18 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                     let value = this.value.split(' ');
                     zipcode2.value = value[0];
                     commune2.value = value[2].toUpperCase();
+                });
+                if(typeClient.value === "professionnel"){
+                    document.getElementById("rowStructure").classList.remove('d-none');
+                }
+                typeClient.addEventListener('change', function(event){
+                    if(document.getElementById("rowStructure").classList.contains('d-none')){
+                        document.getElementById("rowStructure").classList.remove('d-none');
+                        //document.getElementById("rowStructure").classList.add('d-block');
+                    }else{
+                        //document.getElementById("rowStructure").classList.remove('d-block');
+                        document.getElementById("rowStructure").classList.add('d-none');
+                    }
                 });
             })
             .catch(function(error){
