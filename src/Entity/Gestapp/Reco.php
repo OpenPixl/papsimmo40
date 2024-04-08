@@ -35,19 +35,19 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
             normalizationContext: ['groups' => 'reco:item']
         ),
-        new GetCollection(
-            uriTemplate: '/prescripteur/{email}/listrecommandations',
-            //requirements: ['id' => '\d+'],
-            uriVariables: [
-                'email' => new Link(fromProperty: 'Email', fromClass: Employed::class)
-            ],
-            //controller: getRecoPrescriberEmail::class,
-            openapiContext: [
-                'summary' => "Obtenir les recommandations par l'email du prescripteur.",
-                'description' => "Obtenir les recommandations par l'email du prescripteur.",
-            ],
-            normalizationContext: ['groups' => 'reco:list']
-        ),
+        //new GetCollection(
+        //    uriTemplate: '/prescripteur/{email}/listrecommandations',
+        //    //requirements: ['id' => '\d+'],
+        //    uriVariables: [
+        //        'email' => new Link(fromProperty: 'Email', fromClass: Employed::class)
+        //    ],
+        //    //controller: getRecoPrescriberEmail::class,
+        //    openapiContext: [
+        //        'summary' => "Obtenir les recommandations par l'email du prescripteur.",
+        //        'description' => "Obtenir les recommandations par l'email du prescripteur.",
+        //    ],
+        //    normalizationContext: ['groups' => 'reco:list']
+        //),
         new GetCollection(
             openapiContext: [
                 'summary' => "Obtenir toutes les recommandations de l'API.",
@@ -55,7 +55,7 @@ use Symfony\Component\Serializer\Annotation\Groups;
             ],
         ),
         new GetCollection(
-            uriTemplate: '/collaborateur/{refEmployed}/recommandations',
+            uriTemplate: '/recommandations/collaborateur/{refEmployed}',
             uriVariables: [
                 'refEmployed' => new Link(toProperty: 'refEmployed' , fromClass: Employed::class)
             ],
@@ -65,7 +65,17 @@ use Symfony\Component\Serializer\Annotation\Groups;
                 'description' => "Obtenir uniquement les recommandations du mandataire.",
             ],
         ),
-
+        new GetCollection(
+            uriTemplate: '/recommandations/prescripteur/{refEmployed}',
+            uriVariables: [
+                'refEmployed' => new Link(toProperty: 'refEmployed' , fromClass: Employed::class)
+            ],
+            //controller: addRecoByIdCollaborator::class,
+            openapiContext: [
+                'summary' => "Obtenir uniquement les recommandations du prescripteur.",
+                'description' => "Obtenir uniquement les recommandations du prescripteur.",
+            ],
+        ),
         new Post(
             uriTemplate: '/recommandation',
             controller: AddReco::class,
