@@ -47,13 +47,10 @@
                     <furnished>{% if advert.isFurnished == true %}1{% else %}0{% endif %}</furnished>
                     <heating>{{ advert.heating }}</heating>
                     <pics>
-                        {% for pic in advert.pics %}
-                            <pic order="{{ loop.index }}">
-                                {{ pic.urlphoto }}
-                            </pic>
-                        {% endfor %}
-                    </pics>
-
+                    {% for pic in advert.pics %}
+    <pic order="{{ loop.index }}">{{ pic.urlphoto }}</pic>
+                    {% endfor %}
+</pics>
                     <publications>
                         <greenacres>1</greenacres>
                     </publications>

@@ -72,7 +72,7 @@ class ftptransfertService
             $propertyDefinition = $property['rubric'];
             if($propertyDefinition == 'Propriété / Château') {
                 $bien = 'Château';
-            }elseif($propertyDefinition == 'Vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
+            }elseif($propertyDefinition == 'vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
                 $bien = 'Immeuble';
             }elseif($propertyDefinition == 'A définir'){
                 $bien = 'Inconnu';
@@ -206,7 +206,7 @@ class ftptransfertService
                 '"RC1860977"',                                                  // 1 - Identifiant Agence
                 '"' . $ref . '"',                                       // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
-                '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
+                '"' . $bien . '"',                                             // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
                 '"' . $property['city'] . '"',                                  // 6 - Ville
                 '"France"',                                                     // 7 - Pays
@@ -540,6 +540,7 @@ class ftptransfertService
             $rows[] = implode('!#', $data);
         }
         $content = implode("\n", $rows);
+        //dd($content);
 
         // PARTIE II : Génération du fichier CSV
         $file = 'doc/report/Annonces/Annonces.csv';                                  // Chemin du fichier
@@ -1341,42 +1342,8 @@ class ftptransfertService
             ];
             array_push($adverts, $xml);
 
-            $data = array(
-                '"' . $property->getRef() . '"',
-                '892318a',
-                '"' . $property->getName() . '"',
-                '"' . $property->getPriceFai() . '"',
-                '"' . $property->getHonoraires() . '"',
-                //'"' . count($photos) . '"',
-                //'"' . substr($property->getZipcode(),0,2) . '"',
-                '"' . $property->getCity() . '"',
-                '"' . $property->getZipcode() . '"',
-                'fr',
-                '"' . $publication->isIsPublishgreenacres() . '"',
-                '"' . $annonce . '"',
-                '"' . $rubric->getEn() . '"',
-                '"' . $property->getSurfaceLand() . '"',
-                '"' . $property->getSurfaceHome() . '"',
-                '"' . $property->getPiece() . '"',
-                '"' . $property->getRoom() . '"',
-                '"' . $bilanDpe . '"',
-                '"' . $property->getDiagDpe() . '"',
-                '"' . $bilanGes . '"',
-                '"' . $property->getDiagGes() . '"',
-                '"' . $options->getBathroom() . '"',
-                '"' . $options->getWashroom() . '"',
-                '"' . $options->getWc() . '"',
-                '"' . $options->getTerrace() . '"',
-                '"' . $options->getBalcony() . '"',
-                '"' . $options->getLevel() . '"',
-                '"' . $options->getIsFurnished() . '"',
-                '"' . $options->getPropertyEnergy() . '"',
-                '"' . $pics . '"',
-                '"' . $charge . '"'
-            );
-            $adverts2[] = implode(';', $data);
+
         }
-        dd($adverts2);
         $content = implode("\n", $adverts2);
         //dd($content);
         $xmlContent = $this->twig->render('gestapp/report/greenacrees.html.twig', [

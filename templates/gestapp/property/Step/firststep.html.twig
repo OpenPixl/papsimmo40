@@ -33,10 +33,10 @@
                                     <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
                                     {% endif %}
                                 {% endif %}
-                                <td class="col-md-1">{{ form_label(form.mandatAt, 'Date du mandat') }}</td>
-                                <td class="col-md-1">{{ form_widget(form.mandatAt, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
-                                <td class="col-md-1">{{ form_label(form.ref, '') }}</td>
-                                <td class="col-md-1">{{ form_widget(form.ref, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
+                                <td class="col-md-1">Mandat créer le :</td>
+                                <td class="col-md-1">{{ property.mandatAt|format_datetime('medium','none', locale='fr') }}</td>
+                                <td class="col-md-1">Ref : {{ property.ref }}</td>
+                                <td class="col-md-1"></td>
                                 <td class="col-md-1"></td>
                                 <td class="col-md-1">
                                     <div class="form-check">
