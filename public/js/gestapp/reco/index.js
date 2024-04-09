@@ -5,7 +5,7 @@ const btnAddReco = document.getElementById('btnAddReco');
 
 const btnStatusReco = document.getElementById('openReco');
 const btnSubmitReco = document.getElementById('btnModalSubmit');
-const btnCommission = document.getElementById('btnCommission');
+
 
 
 // Ajout d'une recommandation
@@ -16,7 +16,7 @@ btnSubmitReco.addEventListener('click', submitReco);
 document.querySelectorAll('a.btnEditReco').forEach(function(link){
     link.addEventListener('click', showReco);
 });
-btnCommission.addEventListener('click', showComm);
+
 modalRecoBs.addEventListener('hidden.bs.modal', function(){
     if(modalRecoBs.querySelector('.modal-dialog').classList.contains('modal-xl')){
         modalRecoBs.querySelector('.modal-dialog').classList.remove('modal-xl');
@@ -31,9 +31,14 @@ function showReco(event){
     modalReco.show();
     document.getElementById('modalReco').querySelector('.modal-dialog').classList.add('modal-xl');
     document.getElementById('modalReco').querySelector('.modal-title').textContent = contentTitle;
-
-    if(crud === 'EDIT'){
-        document.getElementById('btnModalSubmit').textContent = "Modifier la recommandation";
+    if(crud === 'ADD'){
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').textContent = "Ajouter la recommandation";
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', submitReco);
+    }else if(crud === 'EDIT'){
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').textContent= "Modifier la recommandation";
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', submitReco);
     }
     axios
         .post(url)
@@ -62,6 +67,7 @@ function showReco(event){
         });
     document.getElementById('modalReco').querySelector('.modal-body').innerHTML = "";
 }
+
 function showComm(event){
     event.preventDefault();
     let opt = this.getAttribute('data-bs-whatever');

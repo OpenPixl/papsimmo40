@@ -83,10 +83,10 @@ function removeOptions(selectElement) {
 // ---------------------------------------
 let commune2 = document.getElementById('customer2_city');
 let zipcode2 = document.getElementById('customer2_zipcode');
-let SelectCity2 = document.getElementById('selectcity2');
+let SelectCity = document.getElementById('selectcity');
 if(zipcode2 !== null) {
     zipcode2.addEventListener('input', zipcodeGen);
-    SelectCity2.addEventListener('change', function (event){
+    SelectCity.addEventListener('change', function (event){
         let value = this.value.split(' ');
         zipcode2.value = value[0];
         commune2.value = value[2].toUpperCase();
@@ -141,9 +141,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 modalBody.innerHTML = response.data.formView;
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity');
-                let typeClient = document.getElementById('customer2_typeClient');
-
+                let SelectCity = document.getElementById('selectcity');
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -151,40 +149,28 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                             .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
                             .then(function (response) {
                                 let features = response.data;
-                                removeOptions(SelectCity2);
+                                removeOptions(SelectCity);
                                 features.forEach((element) => {
                                     let name = element['codePostal'] + " - " + element['nomCommune'];
                                     let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
-                                    SelectCity2.options.add(OptSelectCity);
+                                    SelectCity.options.add(OptSelectCity);
                                 });
-                                if (SelectCity2.options.length === 1) {
-                                    let value = SelectCity2.value.split(' ');
+                                if (SelectCity.options.length === 1) {
+                                    let value = SelectCity.value.split(' ');
                                     zipcode2.value = value[0];
                                     commune2.value = value[2].toUpperCase();
                                 } else {
-                                    let value = SelectCity2.value.split(' ');
+                                    let value = SelectCity.value.split(' ');
                                     zipcode2.value = value[0];
                                     commune2.value = value[2].toUpperCase();
                                 }
                             });
                     }
                 });
-                SelectCity2.addEventListener('change', function (event){
+                SelectCity.addEventListener('change', function (event){
                     let value = this.value.split(' ');
                     zipcode2.value = value[0];
                     commune2.value = value[2].toUpperCase();
-                });
-                if(typeClient.value === "professionnel"){
-                    document.getElementById("rowStructure").classList.remove('d-none');
-                }
-                typeClient.addEventListener('change', function(event){
-                    if(document.getElementById("rowStructure").classList.contains('d-none')){
-                        document.getElementById("rowStructure").classList.remove('d-none');
-                        //document.getElementById("rowStructure").classList.add('d-block');
-                    }else{
-                        //document.getElementById("rowStructure").classList.remove('d-block');
-                        document.getElementById("rowStructure").classList.add('d-none');
-                    }
                 });
             })
             .catch(function(error){
@@ -192,7 +178,6 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             });
     }else if(crud === "EDIT"){
         let url = button.href;
-        console.log(url);
         let modalHeaderH5 = modalCustomer.querySelector('.modal-title');
         let modalBody = modalCustomer.querySelector('.modal-body');
         modalHeaderH5.textContent = contentTitle;
@@ -202,7 +187,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 modalBody.innerHTML = response.data.formView;
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity2');
+                let SelectCity = document.getElementById('selectcity');
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -210,25 +195,25 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                             .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
                             .then(function (response) {
                                 let features = response.data;
-                                removeOptions(SelectCity2);
+                                removeOptions(SelectCity);
                                 features.forEach((element) => {
                                     let name = element['codePostal'] + " - " + element['nomCommune'];
                                     let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
-                                    SelectCity2.options.add(OptSelectCity);
+                                    SelectCity.options.add(OptSelectCity);
                                 });
-                                if (SelectCity2.options.length === 1) {
-                                    let value = SelectCity2.value.split(' ');
+                                if (SelectCity.options.length === 1) {
+                                    let value = SelectCity.value.split(' ');
                                     zipcode2.value = value[0];
                                     commune2.value = value[2].toUpperCase();
                                 } else {
-                                    let value = SelectCity2.value.split(' ');
+                                    let value = SelectCity.value.split(' ');
                                     zipcode2.value = value[0];
                                     commune2.value = value[2].toUpperCase();
                                 }
                             });
                     }
                 });
-                SelectCity2.addEventListener('change', function (event){
+                SelectCity.addEventListener('change', function (event){
                     let value = this.value.split(' ');
                     zipcode2.value = value[0];
                     commune2.value = value[2].toUpperCase();
@@ -639,8 +624,7 @@ function toasterMessage(message)
     toastElement.show();
 }
 
-function errorDocument(event){
-    event.preventDefault();
+function errorDocument(){
     let url = this.href;
     axios
         .post(url)

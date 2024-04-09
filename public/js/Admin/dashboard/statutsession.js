@@ -13,9 +13,15 @@ document.body.addEventListener('click', function( event ){
     }
 });
 
+if(timer > 300){
+    alertSession.show();
+    document.getElementById('alertSession').querySelector('.modal-body').innerHTML = "<p>Vous êtes inactif depuis un peu plus de 5 min. <br>Dans quelques instants, vous allez être redirigé vers la page de connexion. Tout travail entamé sera perdu sans action de votre part.</p>";
+}else if(timer === 600){
+    window.location.replace('/security/login');
+}
+
 function augmenter() {
     timer++;
-    console.log(timer);
 }
 
 function statutSession()
