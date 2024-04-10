@@ -139,9 +139,21 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
+                let typeclient = document.getElementById('customer2_typeClient');
+                if(typeclient === 'professionnel'){
+                    document.getElementById('rowStructure').classList.remove('d-none');
+                }
+                typeclient.addEventListener('change', function(){
+                    let value = this.value;
+                    if(value ==="professionnel"){
+                        document.getElementById('rowStructure').classList.remove('d-none');
+                    }else{
+                        document.getElementById('rowStructure').classList.add('d-none');
+                    }
+                });
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity2');
+                let SelectCity2 = document.getElementById('selectcity');
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -178,7 +190,6 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             });
     }else if(crud === "EDIT"){
         let url = button.href;
-        console.log(url);
         let modalHeaderH5 = modalCustomer.querySelector('.modal-title');
         let modalBody = modalCustomer.querySelector('.modal-body');
         modalHeaderH5.textContent = contentTitle;
@@ -186,9 +197,21 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
+                let typeclient = document.getElementById('customer2_typeClient');
+                if(typeclient === 'professionnel'){
+                    document.getElementById('rowStructure').classList.remove('d-none');
+                }
+                typeclient.addEventListener('change', function(){
+                    let value = this.value;
+                    if(value ==="professionnel"){
+                        document.getElementById('rowStructure').classList.remove('d-none');
+                    }else{
+                        document.getElementById('rowStructure').classList.add('d-none');
+                    }
+                });
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity2');
+                let SelectCity2 = document.getElementById('selectcity');
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -245,7 +268,6 @@ function submitCustomer(event){
     axios
         .post(action, data)
         .then(function(response){
-            console.log(response.data);
             if(response.data.type === 1){
                 document.getElementById('blockSailers').innerHTML = response.data.liste;
                 document.getElementById('transactionstep2_dateAtPromise').classList.remove('d-none');
@@ -625,7 +647,8 @@ function toasterMessage(message)
     toastElement.show();
 }
 
-function errorDocument(){
+function errorDocument(event){
+    event.preventDefault();
     let url = this.href;
     axios
         .post(url)

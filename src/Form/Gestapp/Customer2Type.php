@@ -22,12 +22,12 @@ class Customer2Type extends AbstractType
             ->add('typeClient', ChoiceType::class,[
                 'label' => 'Type de client',
                 'choices'  => [
-                    'Particulier' => "Particulier",
-                    'Professionnel' => 'Professionnel',
+                    'Particulier' => "particulier",
+                    'Professionnel' => 'professionnel',
                 ],
                 'choice_attr' => [
-                    'Particulier' => ['data-data' => 'Particulier'],
-                    'Professionnel' => ['data-data' => 'Professionnel'],
+                    'Particulier' => ['data-data' => 'particulier'],
+                    'Professionnel' => ['data-data' => 'professionnel'],
                 ],
             ])
             ->add('nameStructure', TextType::class, [
