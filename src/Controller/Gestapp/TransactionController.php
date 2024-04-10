@@ -839,12 +839,13 @@ class TransactionController extends AbstractController
         }
 
         $form->handleRequest($request);
-
+        //dd($form->isSubmitted(), $form->isValid());
         if ($form->isSubmitted() && $form->isValid()) {
             // récupération de la référence du dossier pour construire le chemin vers le dossier Property
             $property = $propertyRepository->find($transaction->getProperty()->getId());
             $ref = explode("/", $property->getRef());
             $newref = $ref[0].'-'.$ref[1];
+            //dd($newref);
 
             // Suppression du PDF si booléen sur "true"
             $isSupprTracfinPdf = $form->get('isSupprTracfinPdf')->getData();
@@ -862,14 +863,16 @@ class TransactionController extends AbstractController
 
             $tracfinpdf = $form->get('tracfinPdfFilename')->getData();
             $tracfinPdfName = $transaction->getTracfinPdfFilename();
+
+            //dd($tracfinpdf, $tracfinPdfName);
             if($tracfinpdf){
-                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
                 $pathfile = $pathdir.$tracfinPdfName;
                 // Suppression du document si déjà présent en BDD.
                 if($tracfinPdfName){
-                    // On vérifie si l'image existe
-                    if(file_exists($pathTracfinPdf)){
-                        unlink($pathTracfinPdf);
+                    // On vérifie si le pdf existe
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
                     }
                 }
                 // Normalisation du nom de fichier
@@ -879,7 +882,7 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $tracfinpdf->move(
-                            $this->getParameter('transaction_tracfin_directory'),
+                            $this->getParameter('property_doc_directory').$newref."/documents/",
                             $newFilename
                         );
                     }else{
@@ -887,14 +890,10 @@ class TransactionController extends AbstractController
                         mkdir($pathdir."/", 0775, true);
                         // Déplacement de la photo
                         $tracfinpdf->move(
-                            $this->getParameter('transaction_tracfin_directory'),
+                            $this->getParameter('property_doc_directory').$newref."/documents/",
                             $newFilename
                         );
                     }
-                    $tracfinpdf->move(
-                        $this->getParameter('transaction_tracfin_directory'),
-                        $newFilename
-                    );
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
@@ -1016,7 +1015,7 @@ class TransactionController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(TransactionTracfinpdfType::class, $transaction, [
             'attr' => ['id'=>'transactiontracfinpdf'],
-            'action' => $this->generateUrl('op_gestapp_transaction_addactepdf_admin', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_addtracfinpdf_admin', ['id' => $transaction->getId()]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -1027,7 +1026,7 @@ class TransactionController extends AbstractController
 
                 // Supression du PDF si Présent
                 $tracfinPdfName = $transaction->getTracfinPdfFilename();
-                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
                 $pathfile = $pathdir.$tracfinPdfName;
                 if($tracfinPdfName){
                     // On vérifie si l'image existe
@@ -1041,7 +1040,7 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $tracfinpdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $this->getParameter('property_doc_directory').$newref."/documents/",
                             $newFilename
                         );
                     }else{

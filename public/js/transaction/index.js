@@ -142,13 +142,22 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 let typeclient = document.getElementById('customer2_typeClient');
                 if(typeclient === 'professionnel'){
                     document.getElementById('rowStructure').classList.remove('d-none');
+                    document.getElementById('kbis').classList.remove('d-none');
+                    document.getElementById('rowStructure').classList.add('animate__animated','animate__fadeIn');
+                    document.getElementById('kbis').classList.add('animate__animated','animate__fadeIn');
                 }
                 typeclient.addEventListener('change', function(){
                     let value = this.value;
-                    if(value ==="professionnel"){
+                    if(value === "professionnel"){
                         document.getElementById('rowStructure').classList.remove('d-none');
+                        document.getElementById('kbis').classList.remove('d-none');
+                        document.getElementById('rowStructure').classList.add('animate__animated','animate__fadeIn');
+                        document.getElementById('kbis').classList.add('animate__animated','animate__fadeIn');
                     }else{
                         document.getElementById('rowStructure').classList.add('d-none');
+                        document.getElementById('kbis').classList.add('d-none');
+                        document.getElementById('rowStructure').classList.remove('animate__animated','animate__fadeIn');
+                        document.getElementById('kbis').classList.remove('animate__animated','animate__fadeIn');
                     }
                 });
                 let commune2 = document.getElementById('customer2_city');

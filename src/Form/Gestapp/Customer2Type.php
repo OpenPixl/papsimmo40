@@ -9,10 +9,12 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 
 class Customer2Type extends AbstractType
 {
@@ -89,6 +91,40 @@ class Customer2Type extends AbstractType
             ->add('ddnIn', TextType::class, [
                 'label' => 'à',
                 'required' => false,
+            ])
+            ->add('cifilename', FileType::class,[
+                'label' => "Le document ne doit pas dépasser 10Mo de taille",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10000k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Attention, veuillez charger un fichier au format jpg ou png',
+                    ])
+                ],
+            ])
+            ->add('kbisfilename', FileType::class,[
+                'label' => "Le document ne doit pas dépasser 10Mo de taille",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10000k',
+                        'mimeTypes' => [
+                            'image/jpg',
+                            'image/jpeg',
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Attention, veuillez charger un fichier au format jpg ou png',
+                    ])
+                ],
             ])
         ;
     }

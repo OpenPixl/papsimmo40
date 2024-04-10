@@ -12,7 +12,7 @@
         {{ form_widget(form.isSupprActePdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
     </td>
 {% elseif transaction.actePdfFilename is null and transaction.dateAtSale is not null %}
-    {# Il n'y a pas de promesse de vente mais une date de signature est enregistrée en BDD #}
+    {# Il n'y a pas d'attestation d'acte de vente mais une date de signature d'acte est enregistrée en BDD #}
     <td>
         <div class="input-group w-100">
             {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
@@ -90,7 +90,7 @@
     {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidActepdf == 0 %}
         {# Dans le cas où le fichier a été déposé par le collaborateur mais non validé par le référent #}
         <td>
-            <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Le document doit être vérifié par votre référent.</p>
+            <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Vous pouvez déposer le "tracfin".</p>
         </td>
         <td class="d-none">
             {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
@@ -130,9 +130,11 @@
             </div>
         </td>
         <td>
+            <a href="">{{ transaction.actePdfFilename }}</a>
             <div class="d-none">
                 {{ form_widget(form.isSupprActePdf, {'attr': {'class':''}}) }} {{ form_label(form.isSupprActePdf) }}
             </div>
+
         </td>
     {% endif %}
 {% endif %}
