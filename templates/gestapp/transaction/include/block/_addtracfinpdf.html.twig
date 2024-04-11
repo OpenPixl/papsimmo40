@@ -1,5 +1,5 @@
 {{ form_start(form) }}
-{% if transaction.tracfinPdfFilename is null and transaction.actePdfFilename is null and transaction.isValidActepdf == 0 %}
+{% if transaction.actePdfFilename is null and transaction.tracfinPdfFilename is null and transaction.dateAtSale is not null %}
     {# Il n'y a pas de promesse de vente et pas de date de signature enregistrée en BDD #}
     <td>
         <span id="rowEmptyTracfinPdf">-</span>
@@ -11,8 +11,8 @@
     <td>
         {{ form_widget(form.isSupprTracfinPdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
     </td>
-{% elseif transaction.tracfinPdfFilename is null and transaction.actePdfFilename is not null and transaction.isValidActepdf == 0 %}
-    {# Il n'y a pas de tracfin mais une attestation d'acte de vente est déposée #}
+{% elseif transaction.actePdfFilename is not null and transaction.tracfinPdfFilename is null and transaction.dateAtSale is not null %}
+    {# Il n'y a pas de tracfin mais une date de signature d'acte est enregistrée en BDD #}
     <td>
         <div class="input-group w-100">
             {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
@@ -34,30 +34,7 @@
             </label>
         </div>
     </td>
-{% elseif transaction.tracfinPdfFilename is null and transaction.actePdfFilename is not null  and transaction.isValidActepdf == 1 %}
-    {# Il n'y a pas de tracfin mais une attestation d'acte de vente est validée par un admin en BDD #}
-    <td>
-        <div class="input-group w-100">
-            {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
-            {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-                {# Dans ce cas, on valide le document par un référent #}
-                <button class="btn btn-sm btn-secondary" type="button" id="btnAddTracfinPdf"><i class="fa-light fa-check"></i></button>
-            {% endif %}
-            {% if 'ROLE_EMPLOYED' in app.user.roles %}
-                {# Dans ce cas, on valide le document par un référent #}
-                <button class="btn btn-sm btn-secondary" type="button" id="btnAddTracfinPdfbyColl"><i class="fa-light fa-check"></i></button>
-            {% endif %}
-        </div>
-    </td>
-    <td>
-        <div class="form-check d-none">
-            {{ form_widget(form.isSupprTracfinPdf, {'attr': {'class':'form-check-input'}}) }}
-            <label class="form-check-label" for="flexCheckDefault">
-                Supprimer
-            </label>
-        </div>
-    </td>
-{% elseif transaction.tracfinPdfFilename is not null and transaction.actePdfFilename is not null  and transaction.isValidActepdf  == 1 %}
+{% elseif transaction.actePdfFilename is not null and transaction.tracfinPdfFilename is not null and transaction.dateAtSale is not null %}
     {# Dans ce cas, le fichier est présent et une date de promesse est présente en BDD #}
     {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
         <td>
@@ -97,8 +74,8 @@
         </td>
         {% if transaction.refEmployed is not same as app.user.id and transaction.isValidtracfinPdf == 0 %}
             <td>
-                <a href="{{ path('op_gestapp_transaction_validtracfinpdf_control', {'id': transaction.id}) }}" class="btn btn-sm btn-success" id="btnAddTracfinPdfControl"><i class="fa-light fa-check"></i> Je valide</a>
-                <a href="{{ path('op_gestapp_transaction_errordocument', {'id': transaction.id, 'name' : transaction.tracfinPdfFilename}) }}" class="btn btn-sm btn-danger" id="btnDocumentPdfError"><i class="fa-sharp fa-regular fa-xmark"></i> Erreur de document</a>
+                <a href="{{ path('op_gestapp_transaction_validtracfinpdf', {'id': transaction.id}) }}" class="btn btn-sm btn-success" id="btnAddTracfinPdfControl"><i class="fa-light fa-check"></i> Je valide</a>
+                <a href="{{ path('op_gestapp_transaction_errordocument', {'id': transaction.id, 'name':transaction.tracfinPdfFilename}) }}" class="btn btn-sm btn-danger" id="btnDocumentPdfError"><i class="fa-sharp fa-regular fa-xmark"></i> Erreur de document</a>
             </td>
         {% endif %}
         <td>
@@ -110,17 +87,17 @@
             </div>
         </td>
     {% endif %}
-    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidtracfinPdf == 0 %}
+    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidTracfinpdf == 0 %}
         {# Dans le cas où le fichier a été déposé par le collaborateur mais non validé par le référent #}
         <td>
-            <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Le document doit être vérifié par votre référent.</p>
+            <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Les 2 documents sont déposés et doivent être controlé.</p>
         </td>
         <td class="d-none">
             {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
             {{ form_widget(form.isSupprTracfinPdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
         </td>
     {% endif %}
-    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidtracfinPdf == 1 %}
+    {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidTracfinpdf == 1 %}
         {# Le ficheir déposé a été vérifié, il peut être modifier si besoin. #}
         <td>
             <div class="input-group w-100">
@@ -132,6 +109,7 @@
             {% set refyear = transaction.property.ref|split('/',2)|first %}
             {% set refnumber = transaction.property.ref|split('/',2)|last %}
             <button id="showTracfin" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalTracfin"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+            <a class="btn btn-sm btn-secondary" href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.tracfinPdfFilename) }}" download="{{ transaction.tracfinPdfFilename }}"><i class="fa-duotone fa-download"></i></a>
             <!-- Modal -->
             <div class="modal fade" id="modalTracfin" tabindex="-1" aria-labelledby="modalTracfin" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -153,9 +131,11 @@
             </div>
         </td>
         <td>
+            <p class="m-0 text-end">Document validé et conforme.</p>
             <div class="d-none">
                 {{ form_widget(form.isSupprTracfinPdf, {'attr': {'class':''}}) }} {{ form_label(form.isSupprTracfinPdf) }}
             </div>
+
         </td>
     {% endif %}
 {% endif %}

@@ -659,6 +659,9 @@ class TransactionController extends AbstractController
                     'row' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
                         'transaction' => $transaction
                     ]),
+                    'rowtrac' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
 
                 ], 200);
             }else if($actepdf){
@@ -951,7 +954,7 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/validTracfinPdf', name: 'op_gestapp_transaction_validtracfinpdf_control', methods: ['GET', 'POST'])]
+    #[Route('/{id}/validTracfinPdf', name: 'op_gestapp_transaction_validtracfinpdf', methods: ['GET', 'POST'])]
     public function validTracfinPdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
         // action ne pouvant être réalisée uniquement par un admin

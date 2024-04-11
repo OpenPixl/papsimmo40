@@ -209,13 +209,22 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 let typeclient = document.getElementById('customer2_typeClient');
                 if(typeclient === 'professionnel'){
                     document.getElementById('rowStructure').classList.remove('d-none');
+                    document.getElementById('kbis').classList.remove('d-none');
+                    document.getElementById('rowStructure').classList.add('animate__animated','animate__fadeIn');
+                    document.getElementById('kbis').classList.add('animate__animated','animate__fadeIn');
                 }
                 typeclient.addEventListener('change', function(){
                     let value = this.value;
                     if(value ==="professionnel"){
                         document.getElementById('rowStructure').classList.remove('d-none');
+                        document.getElementById('kbis').classList.remove('d-none');
+                        document.getElementById('rowStructure').classList.add('animate__animated','animate__fadeIn');
+                        document.getElementById('kbis').classList.add('animate__animated','animate__fadeIn');
                     }else{
                         document.getElementById('rowStructure').classList.add('d-none');
+                        document.getElementById('kbis').classList.add('d-none');
+                        document.getElementById('rowStructure').classList.remove('animate__animated','animate__fadeIn');
+                        document.getElementById('kbis').classList.remove('animate__animated','animate__fadeIn');
                     }
                 });
                 let commune2 = document.getElementById('customer2_city');
@@ -435,6 +444,7 @@ function submitActePdf(event){
         .post(action, data)
         .then(function(response){
             document.getElementById('rowActePdf').innerHTML = response.data.row;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtrac;
             document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').classList.remove('d-none');
             document.getElementById('btnAddTracfinPdf').classList.remove('d-none');
             document.getElementById('rowEmptyTracfinPdf').remove();
