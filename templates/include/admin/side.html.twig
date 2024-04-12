@@ -12,15 +12,24 @@
         </div>
     </div>
     <div class="menu-items">
-        <h6>TRANSACTION</h6>
-        <ul>
-            <li><a href="{{ path('op_gestapp_property_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_property_index'%}active{% elseif app.request.attributes.get("_route") == 'op_gestapp_property_edit' %}active{% elseif app.request.attributes.get("_route") == 'op_gestapp_property_firstedit' %}active{% endif %}"><i class="fa-duotone fa-house-building"></i> Biens</a></li>
-            <li><a href="{{ path('op_gestapp_customer_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-people-arrows-left-right"></i> Clients</a></li>
-            <li><a href="{{ path('op_gestapp_transaction_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_transaction_index' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Ventes</a></li>
-            <li><a href="{{ path('op_gestapp_reco_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_transaction_index' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Recommandations</a></li>
-            <li><a href="https://la-loupe.immo/#login" onclick="window.open(this.href); return false;" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-money-check-dollar-pen"></i> Avis de valeurs</a></li>
-        </ul>
+        {% if is_granted('ROLE_API') %}
+            <h6>TRANSACTION</h6>
+            <ul>
+                <li><a href="{{ path('op_gestapp_reco_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_transaction_index' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Recommandations</a></li>
+            </ul>
+        {% endif %}
+        {% if is_granted('ROLE_EMPLOYED') %}
+            <h6>TRANSACTION</h6>
+            <ul>
+                <li><a href="{{ path('op_gestapp_property_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_property_index'%}active{% elseif app.request.attributes.get("_route") == 'op_gestapp_property_edit' %}active{% elseif app.request.attributes.get("_route") == 'op_gestapp_property_firstedit' %}active{% endif %}"><i class="fa-duotone fa-house-building"></i> Biens</a></li>
+                <li><a href="{{ path('op_gestapp_customer_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-people-arrows-left-right"></i> Clients</a></li>
+                <li><a href="{{ path('op_gestapp_transaction_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_transaction_index' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Ventes</a></li>
+                <li><a href="{{ path('op_gestapp_reco_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_transaction_index' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Recommandations</a></li>
+                <li><a href="https://la-loupe.immo/#login" onclick="window.open(this.href); return false;" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-money-check-dollar-pen"></i> Avis de valeurs</a></li>
+            </ul>
+        {% endif %}
     </div>
+    {% if is_granted('ROLE_EMPLOYED') %}
     <div class="menu-items">
         <h6>RESSOURCES</h6>
         <ul>
@@ -28,6 +37,7 @@
             <li><a href="{{ path('op_cart_product_index') }}" class="{% if app.request.attributes.get("_route") == 'op_cart_product_index' %}active{% endif %}"><i class="fa-duotone fa-folder-open"></i> Supports Commerciaux</a></li>
         </ul>
     </div>
+    {% endif %}
     {% if is_granted('ROLE_SUPER_ADMIN') %}
     <div class="menu-items">
         <h6>WEB</h6>

@@ -18,15 +18,15 @@
 
         {% block javascripts %}
             {{ encore_entry_script_tags('admin') }}
-            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-            <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
-            <script type="text/javascript" src="https://npmcdn.com/flatpickr/dist/flatpickr.min.js"></script>
-            <script type="text/javascript" src="https://npmcdn.com/flatpickr/dist/l10n/fr.js"></script>
-            <script type="text/javascript" src="{{ asset('js/ckeditor5/build/ckeditor.js') }}"></script>
-            <script type="text/javascript" src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
-            <script type="text/javascript" src="https://kit.fontawesome.com/3904e9974b.js" crossorigin="anonymous"></script>
-            <script type="text/javascript" src="{{ asset('js/sortableJS/Sortable.min.js') }}"></script>
-            <script type="text/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+            <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+            <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
+            <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/flatpickr.min.js"></script>
+            <script type="application/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/4.6.13/l10n/fr.min.js"></script>
+            <script type="application/javascript" src="{{ asset('js/ckeditor5/build/ckeditor.js') }}"></script>
+            <script type="application/javascript" src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
+            <script type="application/javascript" src="https://kit.fontawesome.com/3904e9974b.js" crossorigin="anonymous"></script>
+            <script type="application/javascript" src="{{ asset('js/sortableJS/Sortable.min.js') }}"></script>
+            <script type="application/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
             <script type="module" src="{{ asset('js/Admin/dashboard/statutsession.js') }}"></script>
         {% endblock %}
     </head>

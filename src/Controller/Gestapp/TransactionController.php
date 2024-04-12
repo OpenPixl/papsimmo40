@@ -45,7 +45,7 @@ class TransactionController extends AbstractController
         $user = $this->getUser();
 
         if($hasAccess == true){
-            $transactions = $transactionRepository->findBy(['isClosedfolder' => 0]);
+            $transactions = $transactionRepository->findAll();
         }else{
             $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId(), 'isClosedfolder' => 0]);
         }

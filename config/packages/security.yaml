@@ -46,29 +46,35 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/opadmin, roles: ROLE_EMPLOYED }
-        - { path: ^/api/properties, roles: ROLE_USER }
-        - { path: ^/api/property, roles: ROLE_USER }
-        - { path: ^/api/propriete, roles: ROLE_USER }
-        - { path: ^/api/proprietes, roles: ROLE_USER }
-        - { path: ^/api/employed, roles: ROLE_USER }
-        - { path: ^/api/employeds, roles: ROLE_USER }
-        - { path: ^/api/collaborateur, roles: ROLE_USER }
-        - { path: ^/api/collaborateurs, roles: ROLE_USER }
-        - { path: ^/api/customers, roles: ROLE_USER }
-        - { path: ^/api/customer, roles: ROLE_USER }
-        - { path: ^/api/client, roles: ROLE_USER }
-        - { path: ^/api/clients, roles: ROLE_USER }
-        - { path: ^/api/recos, roles: ROLE_USER }
-        - { path: ^/api/reco, roles: ROLE_USER }
-        - { path: ^/api/recommandation, roles: ROLE_USER }
-        - { path: ^/api/recommandations, roles: ROLE_USER }
+        - { path: ^/opadmin, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/properties, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/property, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/propriete, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/proprietes, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/employed, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/employeds, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/collaborateur, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/collaborateurs, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/customers, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/customer, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/client, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/clients, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/recos, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/reco, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/recommandation, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/api/recommandations, roles: [ROLE_EMPLOYED, ROLE_API] }
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
         - { path: ^/api/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/gestapp/transaction, roles: ROLE_EMPLOYED }
+        - { path: ^/gestapp/property, roles: ROLE_EMPLOYED }
+        - { path: ^/gestapp/customer, roles: ROLE_EMPLOYED }
+        - { path: ^/gestapp/document, roles: ROLE_EMPLOYED }
+        - { path: ^/cart/product, roles: ROLE_EMPLOYED }
         # - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
         ROLE_PRESCRIBER: ROLE_USER
+        ROLE_API: ROLE_API
         ROLE_EMPLOYED: ROLE_PRESCRIBER
         ROLE_ADMIN: ROLE_EMPLOYED
         ROLE_SUPER_ADMIN: [ ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH ]

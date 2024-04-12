@@ -11,12 +11,19 @@
     </tr>
     </thead>
     <tbody>
-        {% for transaction in transactions|filter(t => t.refEmployed.id == app.user.id )|filter( t => t.isClosedfolder == 0 ) %}
-            <tr class="align-middle">
+        {% for transaction in transactions|filter(t => t.isClosedfolder == 1 ) %}
+            <tr class="align-middle
+                {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}table-light{% endif %}
+                {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}table-light{% endif %}
+            ">
                 <td>
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': transaction.property.id})) }}
                 </td>
-                <td class="align-left">{{ transaction.name }}</td>
+                <td class="align-left">
+                    <b>{{ transaction.name }}</b>
+                    {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>La promesse de vente doit être controlée.</span>{% endif %}<br>
+                    {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>L'attestation de l'acte de vente doit être controlée.</span>{% endif %}
+                </td>
                 <td>
                     {% if transaction.refEmployed.avatarName is defined %}
                         <img class="rounded-circle" src="{{ asset('images/avatar/' ~ transaction.refEmployed.avatarName) }}" alt="{{ transaction.refEmployed.avatarName }}" style="height:50px;width:50px">
@@ -39,10 +46,8 @@
                         {% set progress = 100 %}
                     {% endif %}
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
-                            {% if progress == 100 %}
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
-                            {% endif %}
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
                         </div>
                     </div>
                 </td>
@@ -56,13 +61,14 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ path('op_gestapp_transaction_show2', {'id': transaction.id}) }}">Voir</a></li>
                             <li><a id="btnModalTransaction" class="dropdown-item" href="{{ path('op_gestapp_transaction_del', {'id': transaction.id}) }}" data-bs-toggle="modal" data-bs-target="#modalTransaction" data-bs-whatever="{{ transaction.id }}">Supprimer</a></li>
+                            <li><a href="{{ path('op_gestapp_transaction_closedfolder', {'id': transaction.id}) }}" class="dropdown-item transClosed">Clôture du dossier</a></li>
                         </ul>
                     </div>
                 </td>
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">Il n'y a pas de vente en cours actuellement.</td>
             </tr>
         {% endfor %}
     </tbody>
