@@ -2,6 +2,7 @@
 import './styles/admin.scss';
 import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
+const flatpickr = require("flatpickr");
 
 // start the Stimulus application
 import './bootstrap';
