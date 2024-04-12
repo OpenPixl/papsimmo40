@@ -11,17 +11,18 @@ const btnCommission = document.getElementById('btnCommission');
 // Ajout d'une recommandation
 btnAddReco.addEventListener('click', showReco);
 
-btnSubmitReco.addEventListener('click', submitReco);
+
 
 document.querySelectorAll('a.btnEditReco').forEach(function(link){
     link.addEventListener('click', showReco);
 });
-btnCommission.addEventListener('click', showComm);
+//btnCommission.addEventListener('click', showComm);
 modalRecoBs.addEventListener('hidden.bs.modal', function(){
     if(modalRecoBs.querySelector('.modal-dialog').classList.contains('modal-xl')){
         modalRecoBs.querySelector('.modal-dialog').classList.remove('modal-xl');
     }
 });
+
 function showReco(event){
     event.preventDefault();
     let opt = this.getAttribute('data-bs-whatever');
@@ -31,9 +32,14 @@ function showReco(event){
     modalReco.show();
     document.getElementById('modalReco').querySelector('.modal-dialog').classList.add('modal-xl');
     document.getElementById('modalReco').querySelector('.modal-title').textContent = contentTitle;
-
-    if(crud === 'EDIT'){
-        document.getElementById('btnModalSubmit').textContent = "Modifier la recommandation";
+    if(crud === 'ADD'){
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').textContent = "Ajouter la recommandation";
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', submitReco);
+    }else if(crud === 'EDIT'){
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').textContent = "Modifier la recommandation";
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', submitReco);
     }
     axios
         .post(url)
@@ -47,21 +53,20 @@ function showReco(event){
             }
             selectRecoStatut.addEventListener('change', function(){
                 if(selectRecoStatut.value > 5){
-                    cardComm.classList.remove('d-none');
+                    cardComm.classList.remove('animate__animated','animate__fadeOut', 'd-none');
                     cardComm.classList.add('animate__animated', 'animate__fadeIn');
-                }else{
-                    cardComm.classList.remove('animate__fadeIn');
-                    cardComm.classList.add('animate__fadeOut');
-                    cardComm.classList.add('d-none');
+                }else if(selectRecoStatut.value < 6){
+                    cardComm.classList.remove('animate__animated','animate__fadeIn');
+                    cardComm.classList.add('animate__animated','animate__fadeOut', 'd-none');
                 }
             });
-
         })
         .catch(function(error){
             console.log(error);
         });
     document.getElementById('modalReco').querySelector('.modal-body').innerHTML = "";
 }
+
 function showComm(event){
     event.preventDefault();
     let opt = this.getAttribute('data-bs-whatever');
@@ -105,8 +110,6 @@ function submitReco(event){
         })
     ;
 }
-
-
 
 function reloadEvent(){
     // Ajout d'une recommandation

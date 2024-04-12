@@ -2,6 +2,7 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Admin\Notification;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Reco;
 use App\Form\Gestapp\RecoType;
@@ -146,6 +147,14 @@ class RecoController extends AbstractController
                     $reco->setPaidCommissionAt(new \DateTime('now'));
                 }
             }
+
+            $notification = new Notification();
+            $notification->setRefEmployed($user);
+            $notification->setIsApi(0);
+            $notification->setLog(array($reco));
+            $notification->setClientHost($request->getClientIp());
+            $entityManager->persist($notification);
+
             $entityManager->flush();
 
             $recos = $recoRepository->findAll();
