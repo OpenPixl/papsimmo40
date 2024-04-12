@@ -1447,7 +1447,7 @@ class TransactionController extends AbstractController
         ], 200);
     }
 
-    #[Route('/deldocument/{id}/{name}', name: 'op_gestapp_transaction_deldocument',  methods: ['POST'])]
+    #[Route('/deldocument/{id}/{name}', name: 'op_gestapp_transaction_deldocument',  methods: ['GET','POST'])]
     public function delDocument(Transaction $transaction, EntityManagerInterface $em, $name, PropertyRepository $propertyRepository)
     {
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property

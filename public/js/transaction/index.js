@@ -45,9 +45,7 @@ let btnEditInvoicePdf = document.getElementById('btnEditInvoicePdf');
 
 let btnDocumentPdfError = document.getElementById('btnDocumentPdfError');
 
-document.querySelector('.supprDocument').forEach(function(link){
-    link.addEventListener('click', supprDocument());
-});
+
 
 // Customer
 btnSubmitCustomer.addEventListener('click', submitCustomer);
@@ -75,6 +73,12 @@ if(btnAddInvoicePdfControl !== null){btnAddInvoicePdfControl.addEventListener('c
 if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
 if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
+if(document.querySelector('.supprDocument') !== null){
+    document.querySelector('.supprDocument').forEach(function(link){
+        link.addEventListener('click', supprDocument());
+    });
+}
+
 
 function removeOptions(selectElement) {
     var i, L = selectElement.options.length - 1;
@@ -679,6 +683,7 @@ function supprDocument(event){
             document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
             document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
             document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtrac;
+            allAddEvent();
         })
         .catch(function(error){
             console.log(error);

@@ -81,6 +81,7 @@
             </td>
         {% endif %}
         <td>
+            <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.tracfinPdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
             <div class="form-check d-none ">
                 {{ form_widget(form.isSupprTracfinPdf, {'attr': {'class':'form-check-input'}}) }}
                 <label class="form-check-label" for="flexCheckDefault21">
