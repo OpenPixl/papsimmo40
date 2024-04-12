@@ -46,7 +46,7 @@ function showReco(event){
                 cardComm.classList.add('animate__animated', 'animate__fadeIn');
             }
             selectRecoStatut.addEventListener('change', function(){
-                if(cardComm.classList.contains('d-none')){
+                if(selectRecoStatut.value > 5){
                     cardComm.classList.remove('d-none');
                     cardComm.classList.add('animate__animated', 'animate__fadeIn');
                 }else{
