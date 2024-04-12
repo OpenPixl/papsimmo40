@@ -45,6 +45,10 @@ let btnEditInvoicePdf = document.getElementById('btnEditInvoicePdf');
 
 let btnDocumentPdfError = document.getElementById('btnDocumentPdfError');
 
+document.querySelector('.supprDocument').forEach(function(link){
+    link.addEventListener('click', supprDocument());
+});
+
 // Customer
 btnSubmitCustomer.addEventListener('click', submitCustomer);
 // Promise
@@ -666,6 +670,21 @@ function toasterMessage(message)
     toastElement.show();
 }
 
+function supprDocument(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
+            document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtrac;
+        })
+        .catch(function(error){
+            console.log(error);
+        });
+}
+
 function errorDocument(event){
     event.preventDefault();
     let url = this.href;
@@ -707,6 +726,9 @@ function allAddEvent(){
     if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
     if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
+    document.querySelector('.supprDocument').forEach(function(link){
+        link.addEventListener('click', supprDocument());
+    });
 }
 
 

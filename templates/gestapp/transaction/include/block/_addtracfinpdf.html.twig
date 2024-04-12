@@ -52,6 +52,8 @@
             {% set refyear = transaction.property.ref|split('/',2)|first %}
             {% set refnumber = transaction.property.ref|split('/',2)|last %}
             <button id="showTracfin" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalTracfin"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+            <a class="btn btn-sm btn-secondary" href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.tracfinPdfFilename) }}" download="{{ transaction.tracfinPdfFilename }}"><i class="fa-duotone fa-download"></i></a>
+
             <!-- Modal -->
             <div class="modal fade" id="modalTracfin" tabindex="-1" aria-labelledby="modalTracfin" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">

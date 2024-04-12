@@ -52,6 +52,7 @@
             {% set refyear = transaction.property.ref|split('/',2)|first %}
             {% set refnumber = transaction.property.ref|split('/',2)|last %}
             <button id="showActe" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalActe"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+            <a class="btn btn-sm btn-secondary" href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.actePdfFilename) }}" download="{{ transaction.actePdfFilename }}"><i class="fa-duotone fa-download"></i></a>
             <!-- Modal -->
             <div class="modal fade" id="modalActe" tabindex="-1" aria-labelledby="modalActe" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -79,7 +80,8 @@
             </td>
         {% endif %}
         <td>
-            <div class="form-check d-none ">
+            <a class="btn btn-sm btn-secondary" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.actePdfFilename}) }}" ><i class="fa-duotone fa-download"></i></a>
+            <div class="form-check d-none">
                 {{ form_widget(form.isSupprActePdf, {'attr': {'class':'form-check-input'}}) }}
                 <label class="form-check-label" for="flexCheckDefault21">
                     Supprimer

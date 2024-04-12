@@ -1447,6 +1447,49 @@ class TransactionController extends AbstractController
         ], 200);
     }
 
+    #[Route('/deldocument/{id}/{name}', name: 'op_gestapp_transaction_deldocument',  methods: ['POST'])]
+    public function delDocument(Transaction $transaction, EntityManagerInterface $em, $name, PropertyRepository $propertyRepository)
+    {
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+        $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+        $pathfile = $pathdir.$name;
+        if(file_exists($pathfile)){
+            unlink($pathfile);
+        }
+
+        // Suppression en BDD du nom de fichier
+        $typeDoc = explode('-', $name)[0];
+        if($typeDoc == 'cv') {
+            $transaction->setPromisePdfFilename(null);
+            $transaction->setIsSupprPromisePdf(0);
+        }elseif($typeDoc == 'av'){
+            $transaction->setActePdfFilename(null);
+            $transaction->setIsSupprActePdf(0);
+        }elseif($typeDoc == 'tf') {
+            $transaction->setTracfinPdfFilename(null);
+            $transaction->setIsSupprTracfinPdf(0);
+        }
+        $em->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Le fichier a été correctement supprimé.',
+            'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                'transaction' => $transaction
+            ]),
+
+        ]);
+    }
+
     #[Route('/addcustomerjson/{type}/{option}', name: 'op_gestapp_transaction_addcustomerjson',  methods: ['GET', 'POST'])]
     public function addCustomerJson(
         Request $request,

@@ -52,6 +52,8 @@
             {% set refyear = transaction.property.ref|split('/',2)|first %}
             {% set refnumber = transaction.property.ref|split('/',2)|last %}
             <button id="showPromise" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+            <a class="btn btn-sm btn-secondary" href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.promisePdfFilename) }}" download="{{ transaction.promisePdfFilename }}"><i class="fa-duotone fa-download"></i></a>
+
             <!-- Modal -->
             <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
