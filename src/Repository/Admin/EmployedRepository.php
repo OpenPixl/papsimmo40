@@ -101,8 +101,9 @@ class EmployedRepository extends ServiceEntityRepository implements PasswordUpgr
             $query = $this->createQueryBuilder('u')
                 ->leftJoin('u.referent', 'e')
                 ->where('u.roles LIKE :val')
-                ->andWhere('e.id', $employed)
+                ->andWhere('e.id = :employed')
                 ->setParameter('val', $roles)
+                ->setParameter('employed', $employed)
                 ->orderBy('u.firstName', 'ASC')
             ;
             return $query->getQuery()->getResult();
