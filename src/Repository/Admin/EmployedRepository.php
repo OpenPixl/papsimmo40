@@ -91,7 +91,7 @@ class EmployedRepository extends ServiceEntityRepository implements PasswordUpgr
             ;
     }
 
-    public function listPrescriber(?string $roles){
+    public function listPrescriber(?string $roles, $employed){
         if (!$roles) {
             $query = $this->createQueryBuilder('u')
                 ->orderBy('u.firstName', 'ASC')
@@ -99,7 +99,9 @@ class EmployedRepository extends ServiceEntityRepository implements PasswordUpgr
             return $query->getQuery()->getResult();
         }else {
             $query = $this->createQueryBuilder('u')
+                ->leftJoin('u.referent', 'e')
                 ->where('u.roles LIKE :val')
+                ->andWhere('e.id', $employed)
                 ->setParameter('val', $roles)
                 ->orderBy('u.firstName', 'ASC')
             ;

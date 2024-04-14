@@ -16,10 +16,11 @@ use Symfony\Component\Validator\Constraints\File;
 
 class PrescriberController extends AbstractController
 {
-    #[Route('/admin/prescriber/', name: 'op_admin_prescriber_index', methods: ['GET'])]
-    public function index(EmployedRepository $employedRepository): Response
+    #[Route('/admin/prescriber/{refemployed}', name: 'op_admin_prescriber_index', methods: ['GET'])]
+    public function index(EmployedRepository $employedRepository, $refemployed): Response
     {
-        $prescribers = $employedRepository->listPrescriber('["ROLE_PRESCRIBER"]');
+        $employed = $employedRepository->find($refemployed);
+        $prescribers = $employedRepository->listPrescriber('["ROLE_PRESCRIBER"]', $employed);
 
         return $this->render('admin/employed/prescriber.html.twig', [
             'prescribers' => $prescribers,
