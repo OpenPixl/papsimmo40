@@ -19,17 +19,17 @@
     {% for reco in recos %}
         <tr class="align-middle" {% if reco.isRead == 0 %}class="table-secondary"{% endif %}>
             <td><input type="checkbox"></td>
+            {# insertion d'un bloc collaborateur #}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
             <td>
-                {# insertion d'un bloc collaborateur #}
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    {% if reco.refEmployed.avatarName is not null %}
-                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ reco.refEmployed.avatarName) }}" alt="{{ reco.refEmployed.avatarName }}" style="height:50px;width:50px">
-                    {% else %}
-                        <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
-                    {% endif %}
-                    {{ reco.refEmployed.firstName }} {{ reco.refEmployed.lastName }}
+                {% if reco.refEmployed.avatarName is not null %}
+                    <img class="rounded-circle" src="{{ asset('images/avatar/' ~ reco.refEmployed.avatarName) }}" alt="{{ reco.refEmployed.avatarName }}" style="height:50px;width:50px">
+                {% else %}
+                    <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
                 {% endif %}
+                {{ reco.refEmployed.firstName }} {{ reco.refEmployed.lastName }}
             </td>
+            {% endif %}
             <td>
                 {% if reco.statutReco is not null %}{{ reco.statutReco.fr }}{% endif %}
             </td>

@@ -46,7 +46,7 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/opadmin, roles: [ROLE_EMPLOYED, ROLE_API] }
+        - { path: ^/opadmin/dashboard, roles: [ROLE_EMPLOYED, ROLE_API] }
         - { path: ^/api/properties, roles: [ROLE_EMPLOYED, ROLE_API] }
         - { path: ^/api/property, roles: [ROLE_EMPLOYED, ROLE_API] }
         - { path: ^/api/propriete, roles: [ROLE_EMPLOYED, ROLE_API] }
