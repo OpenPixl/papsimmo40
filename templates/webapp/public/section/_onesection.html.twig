@@ -33,7 +33,7 @@
         </div>
         {% endif %}
         <div id="section_content" class="row">
-            <div class="col-12">
+            <div class="col-12" id="elements">
                 {# Affiche un ensemble de test si aucun contenu n'est sélectionné #}
                 {% if section.content == 'none' %}
                 {# Affiche un article #}
@@ -51,10 +51,10 @@
                     {{ render(controller('App\\Controller\\Admin\\EmployedController::AllEmployed')) }}
                 {# Affiche tous les biens à la vente #}
                 {% elseif section.content == 'All_properties_sales'%}
-                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllPropertiesSales')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertypublicController::AllPropertiesSales')) }}
                 {# Affiche tous les biens à la location #}
                 {% elseif section.content == 'All_properties_rent'%}
-                    {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllPropertiesRent')) }}
+                    {{ render(controller('App\\Controller\\Gestapp\\PropertypublicController::AllPropertiesRent')) }}
                 {# Affiche tous les biens PRO à la location #}
                 {% elseif section.content == 'All_commerces_rent' %}
                     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AllRentCommerce')) }}

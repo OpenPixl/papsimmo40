@@ -1067,8 +1067,11 @@ class PropertyController extends AbstractController
     public function AllPropertiesSales(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
 
+
         // Récupération de la page si elle existe
-        $page = $request;
+        $page = $request;//->get('page')
+
+        //dd($page);
 
         $data = $propertyRepository->AllPropertiesSales();
 
@@ -1080,10 +1083,18 @@ class PropertyController extends AbstractController
             24
         );
 
-        return $this->renderForm('webapp/page/property/allproperties.html.twig', [
-            'properties' => $properties,
-            'page' => $request->query->getInt('page', 1),
-        ]);
+        if(!$page){
+            return $this->render('webapp/page/property/allproperties.html.twig', [
+                'properties' => $properties,
+                'page' => $request->query->getInt('page', 1),
+            ]);
+        }else{
+            // return $this->json([], 200);
+            return $this->render('webapp/page/property/allproperties.html.twig', [
+                'properties' => $properties,
+                'page' => $request->query->getInt('page', 1),
+            ]);
+        }
 
     }
 
@@ -1105,7 +1116,7 @@ class PropertyController extends AbstractController
             24
         );
 
-        return $this->renderForm('webapp/page/property/allproperties.html.twig', [
+        return $this->render('webapp/page/property/allproperties.html.twig', [
             'properties' => $properties,
             'page' => $request->query->getInt('page', 1),
         ]);

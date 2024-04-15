@@ -67,6 +67,7 @@ security:
         - { path: ^/api/authentication_token, roles: PUBLIC_ACCESS }
         - { path: ^/gestapp/transaction, roles: ROLE_EMPLOYED }
         - { path: ^/gestapp/property, roles: ROLE_EMPLOYED }
+        - { path: ^//gestapp/property/allpropertiessales, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/gestapp/customer, roles: ROLE_EMPLOYED }
         - { path: ^/gestapp/document, roles: ROLE_EMPLOYED }
         - { path: ^/cart/product, roles: ROLE_EMPLOYED }
