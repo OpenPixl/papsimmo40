@@ -45,8 +45,6 @@ let btnEditInvoicePdf = document.getElementById('btnEditInvoicePdf');
 
 let btnDocumentPdfError = document.getElementById('btnDocumentPdfError');
 
-
-
 // Customer
 btnSubmitCustomer.addEventListener('click', submitCustomer);
 // Promise
@@ -73,12 +71,6 @@ if(btnAddInvoicePdfControl !== null){btnAddInvoicePdfControl.addEventListener('c
 if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
 if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
-if(document.querySelector('.supprDocument') !== null){
-    document.querySelector('.supprDocument').forEach(function(link){
-        link.addEventListener('click', supprDocument());
-    });
-}
-
 
 function removeOptions(selectElement) {
     var i, L = selectElement.options.length - 1;
@@ -147,30 +139,9 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
-                let typeclient = document.getElementById('customer2_typeClient');
-                if(typeclient === 'professionnel'){
-                    document.getElementById('rowStructure').classList.remove('d-none');
-                    document.getElementById('kbis').classList.remove('d-none');
-                    document.getElementById('rowStructure').classList.add('animate__animated','animate__fadeIn');
-                    document.getElementById('kbis').classList.add('animate__animated','animate__fadeIn');
-                }
-                typeclient.addEventListener('change', function(){
-                    let value = this.value;
-                    if(value === "professionnel"){
-                        document.getElementById('rowStructure').classList.remove('d-none');
-                        document.getElementById('kbis').classList.remove('d-none');
-                        document.getElementById('rowStructure').classList.add('animate__animated','animate__fadeIn');
-                        document.getElementById('kbis').classList.add('animate__animated','animate__fadeIn');
-                    }else{
-                        document.getElementById('rowStructure').classList.add('d-none');
-                        document.getElementById('kbis').classList.add('d-none');
-                        document.getElementById('rowStructure').classList.remove('animate__animated','animate__fadeIn');
-                        document.getElementById('kbis').classList.remove('animate__animated','animate__fadeIn');
-                    }
-                });
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity');
+                let SelectCity2 = document.getElementById('selectcity2');
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -207,6 +178,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             });
     }else if(crud === "EDIT"){
         let url = button.href;
+        console.log(url);
         let modalHeaderH5 = modalCustomer.querySelector('.modal-title');
         let modalBody = modalCustomer.querySelector('.modal-body');
         modalHeaderH5.textContent = contentTitle;
@@ -214,30 +186,9 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
-                let typeclient = document.getElementById('customer2_typeClient');
-                if(typeclient === 'professionnel'){
-                    document.getElementById('rowStructure').classList.remove('d-none');
-                    document.getElementById('kbis').classList.remove('d-none');
-                    document.getElementById('rowStructure').classList.add('animate__animated','animate__fadeIn');
-                    document.getElementById('kbis').classList.add('animate__animated','animate__fadeIn');
-                }
-                typeclient.addEventListener('change', function(){
-                    let value = this.value;
-                    if(value ==="professionnel"){
-                        document.getElementById('rowStructure').classList.remove('d-none');
-                        document.getElementById('kbis').classList.remove('d-none');
-                        document.getElementById('rowStructure').classList.add('animate__animated','animate__fadeIn');
-                        document.getElementById('kbis').classList.add('animate__animated','animate__fadeIn');
-                    }else{
-                        document.getElementById('rowStructure').classList.add('d-none');
-                        document.getElementById('kbis').classList.add('d-none');
-                        document.getElementById('rowStructure').classList.remove('animate__animated','animate__fadeIn');
-                        document.getElementById('kbis').classList.remove('animate__animated','animate__fadeIn');
-                    }
-                });
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity');
+                let SelectCity2 = document.getElementById('selectcity2');
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -294,6 +245,7 @@ function submitCustomer(event){
     axios
         .post(action, data)
         .then(function(response){
+            console.log(response.data);
             if(response.data.type === 1){
                 document.getElementById('blockSailers').innerHTML = response.data.liste;
                 document.getElementById('transactionstep2_dateAtPromise').classList.remove('d-none');
@@ -452,7 +404,6 @@ function submitActePdf(event){
         .post(action, data)
         .then(function(response){
             document.getElementById('rowActePdf').innerHTML = response.data.row;
-            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtrac;
             document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').classList.remove('d-none');
             document.getElementById('btnAddTracfinPdf').classList.remove('d-none');
             document.getElementById('rowEmptyTracfinPdf').remove();
@@ -674,24 +625,7 @@ function toasterMessage(message)
     toastElement.show();
 }
 
-function supprDocument(event){
-    event.preventDefault();
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
-            document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
-            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtrac;
-            allAddEvent();
-        })
-        .catch(function(error){
-            console.log(error);
-        });
-}
-
-function errorDocument(event){
-    event.preventDefault();
+function errorDocument(){
     let url = this.href;
     axios
         .post(url)
@@ -731,9 +665,6 @@ function allAddEvent(){
     if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
     if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
-    document.querySelector('.supprDocument').forEach(function(link){
-        link.addEventListener('click', supprDocument());
-    });
 }
 
 

@@ -22,12 +22,13 @@ class MailerController extends AbstractController
         ]);
     }
 
+    // Envoi d'un mail vers l'admin du dépot d'un compromis de vente
     #[Route('/admin/mailer/pdfpromisetransaction/{id}', name: 'op_admin_mailer_pdfpromisetransaction')]
     public function pdfpromisetransaction(MailerInterface $mailer, Transaction $transaction): Response
     {
         $email = (new TemplatedEmail())
             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-            ->to('xavier.burke@openpixl.fr')
+            ->to('contact@papsimmo.com')
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')

@@ -46,8 +46,8 @@ class EmployedController extends AbstractController
     #[Route('/opadmin/employed/', name: 'op_admin_employed_index', methods: ['GET'])]
     public function index(EmployedRepository $employedRepository): Response
     {
-        $admins = $employedRepository->listPrescriber('["ROLE_SUPER_ADMIN"]');
-        $employeds = $employedRepository->listPrescriber('["ROLE_EMPLOYED"]');
+        $admins = $employedRepository->listRole('["ROLE_SUPER_ADMIN"]');
+        $employeds = $employedRepository->listRole('["ROLE_EMPLOYED"]');
         $listeEmployeds = [];
         foreach ($admins as $a){
             array_push($listeEmployeds, $a);

@@ -26,7 +26,6 @@ function augmenter() {
                 window.location.replace('/security/login');
             });
     }else{
-        console.log(timer);
     }
 }
 

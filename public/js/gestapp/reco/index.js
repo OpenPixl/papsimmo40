@@ -6,12 +6,12 @@ const btnAddReco = document.getElementById('btnAddReco');
 const btnStatusReco = document.getElementById('openReco');
 const btnSubmitReco = document.getElementById('btnModalSubmit');
 const btnCommission = document.getElementById('btnCommission');
+const btnModalPrescriber = document.getElementById('btnModalPrescriber');
 
 
 // Ajout d'une recommandation
 btnAddReco.addEventListener('click', showReco);
-
-
+btnModalPrescriber.addEventListener('click', showPrescriber);
 
 document.querySelectorAll('a.btnEditReco').forEach(function(link){
     link.addEventListener('click', showReco);
@@ -21,9 +21,18 @@ modalRecoBs.addEventListener('hidden.bs.modal', function(){
     if(modalRecoBs.querySelector('.modal-dialog').classList.contains('modal-xl')){
         modalRecoBs.querySelector('.modal-dialog').classList.remove('modal-xl');
     }
+    modalRecoBs.querySelector('.modal-dialog #btnEditPrescriber').id = "btnModalSubmit";
+    modalRecoBs.querySelector('.modal-body').innerHTML =
+        "<div class=\"d-flex justify-content-center\">"+
+        "<div class=\"spinner-border text-primary\" role=\"status\">"+
+        "<span class=\"visually-hidden\">Loading...</span>"+
+        "</div>"+
+        "</div>"
+    ;
+
 });
 
-function showReco(event){
+function showReco(event) {
     event.preventDefault();
     let opt = this.getAttribute('data-bs-whatever');
     let crud = opt.split('-')[0];
@@ -65,6 +74,27 @@ function showReco(event){
             console.log(error);
         });
     document.getElementById('modalReco').querySelector('.modal-body').innerHTML = "";
+}
+
+function showPrescriber(event){
+    event.preventDefault();
+    let url = this.href;
+    modalReco.show();
+    document.getElementById('modalReco').querySelector('.modal-dialog').classList.add('modal-xl');
+    document.getElementById('modalReco').querySelector('.modal-title').textContent = "Modifier vos informations personnelles";
+    document.getElementById('modalReco').querySelector('.modal-footer #btnModalSubmit').innerHTML = "Modifier les informations";
+    document.getElementById('modalReco').querySelector('.modal-footer #btnModalSubmit').href = url;
+    axios
+        .post(url)
+        .then(function(response) {
+            document.getElementById('modalReco').querySelector('.modal-body').innerHTML = response.data.formView;
+            document.getElementById('modalReco').querySelector('.modal-footer #btnModalSubmit').id = "btnEditPrescriber";
+            reloadEvent();
+        })
+        .catch(function(error){
+           console.log(error);
+        })
+    ;
 }
 
 function showComm(event){
@@ -111,11 +141,30 @@ function submitReco(event){
     ;
 }
 
+function editPrescriber(event){
+    event.preventDefault();
+    let form = document.getElementById('formPrescriber');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            console.log(response.data);
+            document.getElementById('liste').innerHTML = response.data.liste;
+            reloadEvent();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
+}
+
 function reloadEvent(){
     // Ajout d'une recommandation
     btnAddReco.addEventListener('click', showReco);
-
+    btnModalPrescriber.addEventListener('click', showPrescriber);
     btnSubmitReco.addEventListener('click', submitReco);
+    document.getElementById('btnEditPrescriber').addEventListener('click', editPrescriber);
     document.querySelectorAll('a.btnEditReco').forEach(function(link){
         link.addEventListener('click', showReco);
     });

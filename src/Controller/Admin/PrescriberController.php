@@ -3,10 +3,20 @@
 namespace App\Controller\Admin;
 
 use App\Entity\Admin\Employed;
+use App\Form\Admin\PrescriberType;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\RecoRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\ChoiceList\ChoiceList;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,31 +37,28 @@ class PrescriberController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/prescriber/{id}/edit/ci', name: 'op_admin_prescriber_edit_ci', methods: ['GET'])]
-    public function addCi(Employed $employed, Request $request, SluggerInterface $slugger, EntityManagerInterface $em)
+    #[Route('/admin/prescriber/{id}/edit/ci', name: 'op_admin_prescriber_edit_ci', methods: ['GET', 'POST'])]
+    public function addCi(
+        Employed $employed,
+        RecoRepository $recoRepository,
+        Request $request,
+        SluggerInterface $slugger,
+        EntityManagerInterface $em)
     {
-        $form = $this->createFormBuilder($employed)
-            ->add('ciFilename', FileType::class,[
-                'label' => "Déposer le dossier PDF du compromis, le fichier ne doit pas dépasser 10Mo de taille",
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '10238k',
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
-                    ])
-                ],
-            ])
-            ->getForm();
+        $form = $this->createForm(PrescriberType::class, $employed, [
+            'action' => $this->generateUrl('op_admin_prescriber_edit_ci', [
+                'id' => $employed->getId()
+            ]),
+            'attr' => [
+                'id' => 'formPrescriber'
+                ]
+        ]);
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
-            $cipdf = $form->get('ciFilename')->getData();
+            //dd($form->isSubmitted(), $form->isValid());
+            $cipdf = $form->get('ciFileName')->getData();
             $ciFilename = $employed->getCiFileName();
             if($cipdf) {
                 if ($ciFilename) {
@@ -72,19 +79,24 @@ class PrescriberController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-
                 $employed->setCiFileName($newFilename);
-                $em->persist($employed);
-                $em->flush();
-
-                return $this->json([
-                    'message' => 'Le document d\'identité est déposé sur le site'
-                ], 200);
             }
+
+            $em->persist($employed);
+            $em->flush();
+
+            $recos = $recoRepository->findBy(['refEmployed' => $employed]);
+
+            return $this->json([
+                'message' => 'Le document d\'identité est déposé sur le site',
+                'liste' =>  $this->renderView('gestapp/reco/include/_liste.html.twig',[
+                    'recos' => $recos
+                ])
+            ], 200);
         }
 
         // view
-        $view = $this->render('gestapp/reco/_form.html.twig', [
+        $view = $this->render('admin/employed/include/_formPrescriber.html.twig', [
             'employed' => $employed,
             'form' => $form
         ]);

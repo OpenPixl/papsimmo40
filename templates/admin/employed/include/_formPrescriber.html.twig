@@ -1,0 +1,151 @@
+{{ form_start(form) }}
+<div class="row g-2">
+    <div class="col-8">
+        <h4>Informations générales</h4>
+        <hr class="mt-2 mb-2">
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                Identifiant de connexion :
+            </div>
+            <div class="col-3">
+                <b>{{ employed.email }}</b>
+            </div>
+            <div class="col-3">
+            </div>
+        </div>
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.firstName, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+            </div>
+        </div>
+        <hr class="mt-2 mb-2">
+        {#
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-6">
+                {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse ...'}}) }}
+            </div>
+            <div class="w-100"></div>
+            <div class="offset-3 col-6 mt-0">
+                {{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'complément ...'}}) }}
+            </div>
+            <div class="w-100"></div>
+            <div class="offset-3 col-2 mt-0">
+                {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ville/Commune ...'}}) }}
+
+            </div>
+            <div class="col-4 mt-0">
+                {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
+                <select id="selectcity" class="form-select form-select-sm">
+                    <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
+                </select>
+            </div>
+        </div>
+        <hr class="mt-2 mb-2"> #}
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                Contacts
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-plus"></i></span>
+                    {{ form_widget(form.home, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Domicile ...'}}) }}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
+                    {{ form_widget(form.gsm, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Portable ...'}}) }}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-office"></i></span>
+                    {{ form_widget(form.desk, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Bureau ...'}}) }}
+                </div>
+            </div>
+        </div>
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.otherEmail, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-6">
+                {{ form_widget(form.otherEmail, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse ...'}}) }}
+            </div>
+        </div>
+        <hr class="mt-2 mb-2">
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                Réseaux sociaux
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-plus"></i></span>
+                    {{ form_widget(form.facebook, {'attr':{'class':'form-control form-control-sm'}}) }}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
+                    {{ form_widget(form.linkedin, {'attr':{'class':'form-control form-control-sm'}}) }}
+                </div>
+            </div>
+            <div class="col-3">
+                <div class="input-group">
+                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-office"></i></span>
+                    {{ form_widget(form.instagram, {'attr':{'class':'form-control form-control-sm'}}) }}
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-4">
+        <h4>Pièces à fournir</h4>
+        <hr class="mt-2 mb-2" >
+        <p>Pour la validité du dossier, veuillez fournir les pièces demandées au format <b>JPEG</b> ou <b>PDF</b>.</p>
+        <div id="ci" class="row mt-1">
+            <div class="col-12">
+                Scan de la pièce d'identité
+            </div>
+            <div class="col-12">
+                {{ form_widget(form.ciFileName, {'attr': {'class': 'form-control form-control-sm'}}) }}
+            </div>
+        </div>
+        <h4 class="mt-2">Avatar</h4>
+        <hr class="mt-2 mb-2" >
+        <div id="avatar" class="row mt-1">
+            {% if employed.avatarName is not null %}
+                <div class="col-12">
+                    {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                    <div class="mt-1">
+                        <img src="{{ asset('images/avatar/' ~ employed.avatarName) }}" class="img-fluid" alt="{{ employed.avatarName }}">
+                        <a href="{{ asset('images/avatar/' ~ employed.avatarName) }}">Télécharger</a>
+                    </div>
+                </div>
+                {% if app.request.attributes.get('_route') == 'op_admin_employed_edit' %}
+                    <div class="text-center col-12">
+                        {{ form_label(form.isSupprAvatar, "Supprimer") }}
+                        {{ form_widget(form.isSupprAvatar) }}
+                    </div>
+                {% endif %}
+            {% else %}
+                <div class="col-12">
+                    {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                </div>
+                <div class="text-center col-12">
+                    {{ form_widget(form.isSupprAvatar, {'attr': {'style': 'display:none;'}}) }}
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{{ form_rest(form) }}
+{{ form_end(form) }}
