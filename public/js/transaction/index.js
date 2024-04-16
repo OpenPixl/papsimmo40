@@ -139,9 +139,27 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
+                let typeClient = modalCustomer.querySelector('.modal-body #customer2_typeClient');
+                if(typeClient.value === "professionnel"){
+                    document.getElementById("rowStructure").classList.remove('d-none');
+                    document.getElementById('kbis').classList.remove('d-none');
+                }
+                typeClient.addEventListener('change', function(event){
+                    if(typeClient.value === "professionnel"){
+                        document.getElementById("rowStructure").classList.remove('d-none');
+                        document.getElementById('kbis').classList.remove('d-none');
+                        document.getElementById("rowStructure").classList.add('animate__animated', 'animate__fadeIn');
+                        document.getElementById('kbis').classList.add('animate__animated', 'animate__fadeIn');
+                    }else{
+                        document.getElementById("rowStructure").classList.add('d-none');
+                        document.getElementById('kbis').classList.add('d-none');
+                        document.getElementById("rowStructure").classList.remove('animate__animated', 'animate__fadeIn');
+                        document.getElementById('kbis').classList.remove('animate__animated', 'animate__fadeIn');
+                    }
+                });
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity2');
+                let SelectCity2 = document.getElementById('selectcity');
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -186,9 +204,27 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
+                let typeClient = modalCustomer.querySelector('.modal-body #customer2_typeClient');
+                if(typeClient.value === "professionnel"){
+                    document.getElementById("rowStructure").classList.remove('d-none');
+                    document.getElementById('kbis').classList.remove('d-none');
+                }
+                typeClient.addEventListener('change', function(event){
+                    if(typeClient.value === "professionnel"){
+                        document.getElementById("rowStructure").classList.remove('d-none');
+                        document.getElementById('kbis').classList.remove('d-none');
+                        document.getElementById("rowStructure").classList.add('animate__animated', 'animate__fadeIn');
+                        document.getElementById('kbis').classList.add('animate__animated', 'animate__fadeIn');
+                    }else{
+                        document.getElementById("rowStructure").classList.add('d-none');
+                        document.getElementById('kbis').classList.add('d-none');
+                        document.getElementById("rowStructure").classList.remove('animate__animated', 'animate__fadeIn');
+                        document.getElementById('kbis').classList.remove('animate__animated', 'animate__fadeIn');
+                    }
+                });
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
-                let SelectCity2 = document.getElementById('selectcity2');
+                let SelectCity2 = document.getElementById('selectcity');
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
