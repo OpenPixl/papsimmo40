@@ -389,9 +389,11 @@ class TransactionController extends AbstractController
         $entityManager->persist($transaction);
         $entityManager->flush();
 
+        $employedEmail = $transaction->getRefEmployed()->getEmail();
+
         $email = (new TemplatedEmail())
             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-            ->to('xavier.burke@openpixl.fr')
+            ->to($employedEmail)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
@@ -630,7 +632,7 @@ class TransactionController extends AbstractController
                 if($hasAccess == false) {
                     $email = (new TemplatedEmail())
                         ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('xavier.burke@openpixl.fr')
+                        ->to('contact@papsimmo.com')
                         //->cc('cc@example.com')
                         //->bcc('bcc@example.com')
                         //->replyTo('fabien@example.com')
@@ -694,25 +696,27 @@ class TransactionController extends AbstractController
         $entityManager->persist($transaction);
         $entityManager->flush();
 
-        //$email = (new TemplatedEmail())
-        //     ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-        //    ->to('xavier.burke@openpixl.fr')
-        //    //->cc('cc@example.com')
-        //    //->bcc('bcc@example.com')
-        //    //->replyTo('fabien@example.com')
-        //    //->priority(Email::PRIORITY_HIGH)
-        //    ->subject("[PAPs Immo] : Document vérifié")
-        //    ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
-        //    ->context([
-        //        'transaction' => $transaction,
-        //    ]);
-        //try {
-        //    $mailer->send($email);
-        //} catch (TransportExceptionInterface $e) {
-        //    // some error prevented the email sending; display an
-        //    // error message or try to resend the message
-        //    dd($e);
-        //}
+        $employedEmail = $transaction->getRefEmployed()->getEmail();
+
+        $email = (new TemplatedEmail())
+             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+            ->to($employedEmail)
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("[PAPs Immo] : Document vérifié")
+            ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
+            ->context([
+                'transaction' => $transaction,
+            ]);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            dd($e);
+        }
 
         return $this->json([
             'code' => 200,
@@ -907,7 +911,7 @@ class TransactionController extends AbstractController
                 if($hasAccess == false) {
                     $email = (new TemplatedEmail())
                         ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('xavier.burke@openpixl.fr')
+                        ->to('contact@papsimmo.com')
                         //->cc('cc@example.com')
                         //->bcc('bcc@example.com')
                          //->replyTo('fabien@example.com')
@@ -967,25 +971,26 @@ class TransactionController extends AbstractController
         $entityManager->persist($transaction);
         $entityManager->flush();
 
-        //$email = (new TemplatedEmail())
-        //    ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-        //    ->to('xavier.burke@openpixl.fr')
-        //    //->cc('cc@example.com')
-        //    //->bcc('bcc@example.com')
-        //    //->replyTo('fabien@example.com')
-        //    //->priority(Email::PRIORITY_HIGH)
-        //    ->subject("[PAPs Immo] : Document vérifié")
-        //    ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
-        //    ->context([
-        //        'transaction' => $transaction,
-        //    ]);
-        //try {
-        //    $mailer->send($email);
-        //} catch (TransportExceptionInterface $e) {
-        //    // some error prevented the email sending; display an
-        //    // error message or try to resend the message
-        //    dd($e);
-        //}
+        $employedEmail = $transaction->getRefEmployed()->getEmail();
+        $email = (new TemplatedEmail())
+            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+            ->to($employedEmail)
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject("[PAPs Immo] : Document vérifié")
+            ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
+            ->context([
+                'transaction' => $transaction,
+            ]);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            dd($e);
+        }
 
         return $this->json([
             'code' => 200,
@@ -1158,12 +1163,12 @@ class TransactionController extends AbstractController
                 if($hasAccess == false) {
                     $email = (new TemplatedEmail())
                         ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('xavier.burke@openpixl.fr')
+                        ->to('contact@papsimmo.com')
                         //->cc('cc@example.com')
                         //->bcc('bcc@example.com')
                         //->replyTo('fabien@example.com')
                         //->priority(Email::PRIORITY_HIGH)
-                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                        ->subject('[PAPs immo] : Une facture a été déposée - '.$transaction->getName().'.')
                         ->htmlTemplate('admin/mail/messageTransaction.html.twig')
                         ->context([
                             'transaction' => $transaction,
