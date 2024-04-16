@@ -49,7 +49,7 @@ class PropertypublicController extends AbstractController
 
         //dd($properties);
 
-        return $this->renderForm('webapp/page/property/lastproperties.html.twig', [
+        return $this->render('webapp/page/property/lastproperties.html.twig', [
             'properties' => $properties,
         ]);
 
@@ -97,7 +97,7 @@ class PropertypublicController extends AbstractController
         $properties = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
-            12
+            24
         );
 
         if(!$page){
@@ -113,7 +113,6 @@ class PropertypublicController extends AbstractController
                 ])
             ], 200);
         }
-
     }
 
     /**
