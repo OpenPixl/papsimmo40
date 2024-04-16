@@ -8,7 +8,7 @@
     <script type="module" src="{{ asset('js/gestapp/property/show/step2.js') }}"></script>
     <script>
         window.onload = function() {
-        // ---------------------------------------
+            // ---------------------------------------
         // STEP 0 :
         // Mise en place des options de chargement
         // ---------------------------------------
@@ -103,22 +103,7 @@
 
             // autres mises en place
             // AddAvenant.style.display = 'none'
-            // mise en place du datapicker flatpickr sur les champs de date
-            flatpickr(".flatpickr", {
-                "locale": "fr",
-                enableTime: false,
-                allowInput: true,
-                altFormat: "j F Y",
-                dateFormat: "d/m/Y",
-            });
-            // mise en place du datapicker flatpickr sur les champs de date
-            flatpickr(".flatpickrtime", {
-                "locale": "fr",
-                enableTime: true,
-                noCalendar: true,
-                dateFormat: "H:i",
-                time_24hr: true
-            });
+
 
         // ---------------------------------------
         // STEP 1 : Enregistrement des informations initiales du bien sur clic du boutons next
@@ -538,220 +523,7 @@
             // PARTIE Ajout d'un vendeur en Javascript
             // -----------------------------------------
             // Préparation de la Modal d'ajout d'un vendeur à la fiche
-            const modalCustomer = document.getElementById('modalCustomer')
 
-            modalCustomer.addEventListener('show.bs.modal', function (event) {
-                // Button that triggered the modal
-                let a = event.relatedTarget
-                // extraction de la variable
-                let recipient = a.getAttribute('data-bs-data')
-                let url = a.href
-                let crud = recipient.split('-')[0]
-                let contentTitle = recipient.split('-')[1]
-                let id = recipient.split('-')[2]
-                let namePage = recipient.split('-')[3]
-                if(crud === 'ADD'){
-                    modalCustomer.querySelector('.modal-title').textContent = contentTitle
-                    axios
-                        .get(url)
-                        .then(function(response){
-                            modalCustomer.querySelector('.modal-body').innerHTML = response.data.formView
-                            // PARTIE Codepostal sur création & modification du client
-                            // PARTIE Code postal et Ville - API
-                            // ---------------------------------------
-                            let commune2 = document.getElementById('customer2_city')
-                            let zipcode2 = document.getElementById('customer2_zipcode')
-                            let SelectCity2 = document.getElementById('selectcity2')
-                            let addresseInput2 = document.getElementById('pcustomer2_adress')
-                            zipcode2.addEventListener('input', function(event){
-                                if(zipcode2.value.length === 5)
-                                {
-                                    let coord = this.value
-                                    axios
-                                        .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
-                                        .then(function(response){
-                                            let features = response.data
-                                            removeOptions(SelectCity);
-                                            features.forEach((element) => {
-                                                let name = element['codePostal']+" - "+element['nomCommune']
-                                                let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
-                                                SelectCity2.options.add(OptSelectCity);
-                                            })
-                                            if (SelectCity2.options.length === 1){
-                                                let value = SelectCity2.value.split(' ')
-                                                zipcode2.value = value[0]
-                                                commune2.value = value[2].toUpperCase()
-                                            }else{
-                                                let value = SelectCity2.value.split(' ')
-                                                zipcode2.value = value[0]
-                                                commune2.value = value[2].toUpperCase()
-                                            }
-                                        })
-                                }
-                            })
-                            SelectCity2.addEventListener('change', function (event){
-                                let value = this.value.split(' ')
-                                console.log(value)
-                                zipcode2.value = value[0]
-                                commune2.value = value[2].toUpperCase()
-                            })
-
-                        })
-                }else if(crud === 'EDIT'){
-                    modalCustomer.querySelector('.modal-title').textContent = contentTitle
-                    axios
-                        .get(url)
-                        .then(function(response){
-                            modalCustomer.querySelector('.modal-body').innerHTML = response.data.formView
-                            // PARTIE Codepostal sur création & modification du client
-                            // PARTIE Code postal et Ville - API
-                            // ---------------------------------------
-                            let commune2 = document.getElementById('customer2_city')
-                            let zipcode2 = document.getElementById('customer2_zipcode')
-                            let SelectCity2 = document.getElementById('selectcity2')
-                            let addresseInput2 = document.getElementById('pcustomer2_adress')
-                            if(zipcode2 !== null){
-                                zipcode2.addEventListener('input', function(event){
-                                    if(zipcode2.value.length === 5)
-                                    {
-                                        let coord = this.value
-                                        axios
-                                            .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
-                                            .then(function(response){
-                                                let features = response.data
-                                                removeOptions(SelectCity);
-                                                features.forEach((element) => {
-                                                    let name = element['codePostal']+" - "+element['nomCommune']
-                                                    let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
-                                                    SelectCity2.options.add(OptSelectCity);
-                                                })
-                                                if (SelectCity2.options.length === 1){
-                                                    let value = SelectCity2.value.split(' ')
-                                                    zipcode2.value = value[0]
-                                                    commune2.value = value[2].toUpperCase()
-                                                }else{
-                                                    let value = SelectCity2.value.split(' ')
-                                                    zipcode2.value = value[0]
-                                                    commune2.value = value[2].toUpperCase()
-                                                }
-                                            })
-                                    }
-                                })
-                                SelectCity2.addEventListener('change', function (event){
-                                    let value = this.value.split(' ')
-                                    console.log(value)
-                                    zipcode2.value = value[0]
-                                    commune2.value = value[2].toUpperCase()
-                                })
-                            }
-                        })
-                }
-
-            })
-
-            // Evènement sur le bouton btnAddCustomers
-            const btnAddCustomer = document.getElementById('btnAddCustomer')
-            btnAddCustomer.onclick = function (event) {
-                event.preventDefault()
-                // récupération des élements nécéssaire à la création du client depuis le bouton
-                let FormEditCustomer = document.getElementById('FormEditCustomer')
-                let urlEditCustomer = FormEditCustomer.action
-                let dataEditCustomer = new FormData(FormEditCustomer)
-                // envoie des données
-                axios
-                    .post(urlEditCustomer, dataEditCustomer)
-                    .then(function (response) {
-                        const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste;
-                        // modalAddCustomer.addEventListener('hide.bs.modal')
-                        // Rajouter les events
-                        // Ajout d'un évènement sur le click AddCustomerSearch
-                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
-                            link.addEventListener('click', AddCustomerSearch);
-                        })
-                        // Ajout d'un évènement sur le click supprcustomer
-                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
-                            link.addEventListener('click', SupprCustomer);
-                        })
-                        // Ajout d'un évènement sur le click du selecteur EditCustomer
-                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
-                            link.addEventListener('click', EditCustomer);
-                        })
-                    })
-                    .catch(function (error) {
-                        // handle error
-                        console.log(error);
-                    })
-            }
-
-            function submitCustomer(event){
-                event.preventDefault()
-            }
-
-            // fonction d'édition de la fiche Client
-            function EditCustomer(event){
-                event.preventDefault()
-                let urlEditCustomer = this.href
-                let FormEditCustomer = document.querySelector('.formEditCustomer')
-                let dataEditCustomer = new FormData(FormEditCustomer)
-                axios
-                    .post(urlEditCustomer, dataEditCustomer)
-                    .then(function(response){
-                        const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste
-                        // Ajout d'un évènement sur le click AddCustomerSearch
-                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
-                            link.addEventListener('click', AddCustomerSearch);
-                        })
-                        // Ajout d'un évènement sur le click supprcustomer
-                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
-                            link.addEventListener('click', SupprCustomer);
-                        })
-                        // Ajout d'un évènement sur le click du selecteur EditCustomer
-                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
-                            link.addEventListener('click', EditCustomer);
-                        })
-
-                    })
-                    .catch(function (error) {
-                        console.log(error);
-                    })
-
-            }
-
-            // Fonction de suppression d'un client
-            function SupprCustomer(event) {
-                event.preventDefault()
-                let url = this.href
-                axios
-                    .post(url)
-                    .then(function (response) {
-                        const liste = document.getElementById('listeCustomers').innerHTML = response.data.liste;
-                        // Ajout d'un évènement sur le click AddCustomerSearch
-                        document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
-                            link.addEventListener('click', AddCustomerSearch);
-                        })
-                        // Ajout d'un évènement sur le click supprcustomer
-                        document.querySelectorAll('a.supprcustomer').forEach(function (link) {
-                            link.addEventListener('click', SupprCustomer);
-                        })
-                        // Ajout d'un évènement sur le click du selecteur EditCustomer
-                        document.querySelectorAll('a.editCustomer').forEach(function (link) {
-                            link.addEventListener('click', EditCustomer);
-                        })
-                    })
-            }
-
-            // Ajout d'un évènement sur le click AddCustomerSearch
-            document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
-                link.addEventListener('click', AddCustomerSearch);
-            })
-            // Ajout d'un évènement sur le click supprcustomer
-            document.querySelectorAll('a.supprcustomer').forEach(function (link) {
-                link.addEventListener('click', SupprCustomer);
-            })
-            // Ajout d'un évènement sur le click du selecteur EditCustomer
-            document.querySelectorAll('a.editCustomer').forEach(function (link) {
-                link.addEventListener('click', EditCustomer);
-            })
 
             // fonction d'ajout depuis l'évènement AddCustomerSearch
             function AddCustomerSearch(event) {
@@ -825,19 +597,6 @@
                     Informations.className += " active";
                 })
             }
-
-            // Ajout d'un évènement sur le click AddCustomerSearch
-            document.querySelectorAll('a.addcustomersearch').forEach(function (link) {
-                link.addEventListener('click', AddCustomerSearch);
-            })
-            // Ajout d'un évènement sur le click supprcustomer
-            document.querySelectorAll('a.supprcustomer').forEach(function (link) {
-                link.addEventListener('click', SupprCustomer);
-            })
-            // Ajout d'un évènement sur le click du selecteur EditCustomer
-            document.querySelectorAll('a.editCustomer').forEach(function (link) {
-                link.addEventListener('click', EditCustomer);
-            })
 
         // ---------------------------------------
         // STEP 3 : Enregistrement des chiffres
@@ -2026,10 +1785,10 @@
     {{ parent() }}
     <!-- Ajout d'un vendeur sur un bien -->
     <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="modalCustomer" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered ">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ajouter un client à cette fiche</h5>
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-dark">
+                <div class="modal-header text-bg-secondary">
+                    <h5 class="modal-title" id="exampleModalLabel">Fiche Client</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
@@ -2039,30 +1798,14 @@
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer text-bg-secondary">
+                    <a id="btnSubmitCustomer" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
                     <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <a id="btnAddCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
                 </div>
             </div>
         </div>
     </div>
-    <!-- Edition d'un vendeur sur un bien -->
-    <div class="modal fade" id="editCustomer" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Edition d'un client à cette fiche</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div id="ModalBodyEditCustomer" class="modal-body">
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    <a id="btnAddCustomer" class="btn btn-sm btn-primary editCustomer" data-bs-dismiss="modal">Ajouter</a>
-                </div>
-            </div>
-        </div>
-    </div>
+
     {# Ajout d'une zone cadastrale #}
     <div class="modal fade" id="addCadaster" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">

@@ -552,7 +552,7 @@ class Customer
         return $this->NameStructure;
     }
 
-    public function setNameStructure(string $NameStructure): static
+    public function setNameStructure(string $NameStructure = null): static
     {
         $this->NameStructure = $NameStructure;
 
