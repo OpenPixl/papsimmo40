@@ -40,15 +40,11 @@
                 </div>
             </td>
         </tr>
-
         <tr class="align-middle" id="rowPromiseDate">
             <td class="table-light">Date de signature du compromis</td>
             {{ render(controller('App\\Controller\\Gestapp\\TransactionController::addDatePromise', {'id' : transaction.id})) }}
         </tr>
-
         {{ include('gestapp/transaction/include/block/_rowactedate.html.twig') }}
-
-
         <tr class="align-middle">
             <td class="table-light" colspan="4"><b>Documents de transaction</b></td>
         </tr>

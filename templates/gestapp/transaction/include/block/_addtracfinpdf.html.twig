@@ -1,5 +1,17 @@
 {{ form_start(form) }}
-{% if transaction.actePdfFilename is null and transaction.tracfinPdfFilename is null and transaction.dateAtSale is not null %}
+{% if transaction.actePdfFilename is null and transaction.tracfinPdfFilename is null and transaction.dateAtSale is null %}
+    {# Il n'y a pas de promesse de vente et pas de date de signature enregistrée en BDD #}
+    <td>
+        <span id="rowEmptyTracfinPdf">-</span>
+        <div class="input-group w-100">
+            {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
+            <button class="btn btn-sm btn-secondary d-none" type="button" id="btnAddTracfinPdf"><i class="fa-light fa-check"></i></button>
+        </div>
+    </td>
+    <td>
+        {{ form_widget(form.isSupprTracfinPdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
+    </td>
+{% elseif transaction.actePdfFilename is null and transaction.tracfinPdfFilename is null and transaction.dateAtSale is not null %}
     {# Il n'y a pas de promesse de vente et pas de date de signature enregistrée en BDD #}
     <td>
         <span id="rowEmptyTracfinPdf">-</span>
