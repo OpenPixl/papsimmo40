@@ -64,6 +64,7 @@ security:
         - { path: ^/api/recommandation, roles: [ROLE_EMPLOYED, ROLE_API] }
         - { path: ^/api/recommandations, roles: [ROLE_EMPLOYED, ROLE_API] }
         - { path: ^/authentication_token, roles: PUBLIC_ACCESS }
+        - { path: ^/api/search/collaborateur/, roles: PUBLIC_ACCESS }
         - { path: ^/api/authentication_token, roles: PUBLIC_ACCESS }
         - { path: ^/gestapp/transaction, roles: ROLE_EMPLOYED }
         - { path: ^/gestapp/customer, roles: ROLE_EMPLOYED }
