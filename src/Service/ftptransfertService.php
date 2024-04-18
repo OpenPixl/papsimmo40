@@ -84,6 +84,8 @@ class ftptransfertService
                 $bien = 'Parking/box';
             }elseif($propertyDefinition == 'Garage'){
                 $bien = 'Parking/box';
+            }elseif($propertyDefinition == 'Location'){
+                $bien = $property['rubricss'];
             }else{
                 $bien = $propertyDefinition;
             }

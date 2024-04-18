@@ -147,6 +147,12 @@ class Transaction
     #[ORM\Column(nullable: true)]
     private ?bool $isClosedfolder = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $HonorairesPdfFilename = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isSupprHonorairesPdf = false;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -479,6 +485,30 @@ class Transaction
     public function setIsClosedfolder(?bool $isClosedfolder): static
     {
         $this->isClosedfolder = $isClosedfolder;
+
+        return $this;
+    }
+
+    public function getHonorairesPdfFilename(): ?string
+    {
+        return $this->HonorairesPdfFilename;
+    }
+
+    public function setHonorairesPdfFilename(?string $HonorairesPdfFilename): static
+    {
+        $this->HonorairesPdfFilename = $HonorairesPdfFilename;
+
+        return $this;
+    }
+
+    public function isIsSupprHonorairesPdf(): ?bool
+    {
+        return $this->isSupprHonorairesPdf;
+    }
+
+    public function setIsSupprHonorairesPdf(?bool $isSupprHonorairesPdf): static
+    {
+        $this->isSupprHonorairesPdf = $isSupprHonorairesPdf;
 
         return $this;
     }

@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Transaction;
 use App\Form\Gestapp\Customer2Type;
 use App\Form\Gestapp\TransactionActedateType;
 use App\Form\Gestapp\TransactionActepdfType;
+use App\Form\Gestapp\TransactionHonorairesType;
 use App\Form\Gestapp\TransactionInvoicepdfType;
 use App\Form\Gestapp\TransactionTracfinpdfType;
 use App\Form\Gestapp\TransactionType;
@@ -507,6 +508,32 @@ class TransactionController extends AbstractController
         }
 
         return $this->render('gestapp/transaction/include/block/_addpromisepdf.html.twig', [
+            'transaction' => $transaction,
+            'form' => $form,
+        ]);
+    }
+
+    // Dépôt ou modification du compromis de vente en Pdf par le collaborateur
+    #[Route('/{id}/addHonorairePdf', name: 'op_gestapp_transaction_addhonorairepdf', methods: ['GET', 'POST'])]
+    public function addHonorairePdf(
+        Transaction $transaction,
+        Request $request,
+        EntityManagerInterface $em,
+        MailerInterface $mailer,
+        SluggerInterface $slugger,
+        PropertyRepository $propertyRepository
+    ) : response
+    {
+
+        $form = $this->createForm(TransactionHonorairesType::class, $transaction, [
+            'attr' => ['id'=>'transactionhonoraires'],
+            'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf', ['id' => $transaction->getId()]),
+            'method' => 'POST'
+        ]);
+
+        $form->handleRequest($request);
+
+        return $this->render('gestapp/transaction/include/block/_addhonorairespdf.html.twig', [
             'transaction' => $transaction,
             'form' => $form,
         ]);
