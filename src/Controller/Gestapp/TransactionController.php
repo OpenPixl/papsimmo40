@@ -527,11 +527,68 @@ class TransactionController extends AbstractController
 
         $form = $this->createForm(TransactionHonorairesType::class, $transaction, [
             'attr' => ['id'=>'transactionhonoraires'],
-            'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_addhonorairepdf', ['id' => $transaction->getId()]),
             'method' => 'POST'
         ]);
 
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+
         $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $honorairespdf = $form->get('honorairesPdfFilename')->getData();
+            if($honorairespdf){
+                // Suppression du PDF si Présent
+                $honorairesPdfName = $transaction->getHonorairesPdfFilename();
+                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathfile = $pathdir.$honorairesPdfName;
+                if($honorairesPdfName){
+                    // On vérifie si l'image existe
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
+                    }
+                }
+                $originalFilename = pathinfo($honorairespdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = 'cv-'.$safeFilename.'.'.$honorairespdf->guessExtension();
+                try {
+                    if (is_dir($pathdir)){
+                        $honorairespdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $honorairespdf->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $transaction->setHonorairesPdfFilename($newFilename);
+                $em->persist($transaction);
+                $em->flush();
+
+                return $this->json([
+                    'code' => 200,
+                    'message' => 'Promesse de vente réalisée.',
+                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'row' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                ], 200);
+            }
+        }
 
         return $this->render('gestapp/transaction/include/block/_addhonorairespdf.html.twig', [
             'transaction' => $transaction,

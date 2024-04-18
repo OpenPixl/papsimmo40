@@ -148,7 +148,7 @@ class Transaction
     private ?bool $isClosedfolder = false;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $HonorairesPdfFilename = null;
+    private ?string $honorairesPdfFilename = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $isSupprHonorairesPdf = false;
@@ -491,12 +491,12 @@ class Transaction
 
     public function getHonorairesPdfFilename(): ?string
     {
-        return $this->HonorairesPdfFilename;
+        return $this->honorairesPdfFilename;
     }
 
-    public function setHonorairesPdfFilename(?string $HonorairesPdfFilename): static
+    public function setHonorairesPdfFilename(?string $honorairesPdfFilename): static
     {
-        $this->HonorairesPdfFilename = $HonorairesPdfFilename;
+        $this->honorairesPdfFilename = $honorairesPdfFilename;
 
         return $this;
     }

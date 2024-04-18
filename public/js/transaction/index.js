@@ -45,6 +45,8 @@ let btnEditInvoicePdf = document.getElementById('btnEditInvoicePdf');
 
 let btnDocumentPdfError = document.getElementById('btnDocumentPdfError');
 
+let btnHonorairePdf = document.getElementById('btnHonorairePdf');
+
 // Customer
 btnSubmitCustomer.addEventListener('click', submitCustomer);
 // Promise
@@ -71,6 +73,7 @@ if(btnAddInvoicePdfControl !== null){btnAddInvoicePdfControl.addEventListener('c
 if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
 if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
+if(btnHonorairePdf !== null){btnHonorairePdf.addEventListener('click', submitHonoraires);}
 
 function removeOptions(selectElement) {
     var i, L = selectElement.options.length - 1;
@@ -674,6 +677,24 @@ function errorDocument(){
         });
 }
 
+function submitHonoraires(event){
+    event.preventDefault();
+    let form = document.getElementById('transactionhonoraires');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('rowHonorairesPdf').innerHTML = response.data.row;
+            allAddEvent();
+            toasterMessage(response.data.message);
+        })
+        .catch(function (error) {
+            console.log(error);
+        })
+    ;
+}
+
 function allAddEvent(){
     // Customer
     btnSubmitCustomer.addEventListener('click', submitCustomer);
@@ -701,6 +722,7 @@ function allAddEvent(){
     if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
     if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
+    if(btnHonorairePdf !== null){btnHonorairePdf.addEventListener('click', submitHonoraires);}
 }
 
 
