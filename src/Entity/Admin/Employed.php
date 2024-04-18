@@ -81,6 +81,14 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
             normalizationContext: ['groups' => 'employed:list']
         ),
+        new GetCollection(
+            uriTemplate: '/search/collaborateur/',
+            openapiContext: [
+                'summary' => "Récupérer la liste des collaborateurs filtrées.",
+                'description' => "Récupérer la liste des collaborateurs filtrées.",
+            ],
+            normalizationContext: ['groups' => 'employed:search']
+        ),
         new Get(
             uriTemplate: '/authentication_token/{numCollaborator}/getToken',
             uriVariables: [
@@ -170,7 +178,7 @@ use Symfony\Component\Validator\Constraints as Assert;
     ],
     paginationEnabled: false,
 )]
-#[ApiFilter(SearchFilter::class, properties: ['genre' => 'exact'])]
+#[ApiFilter(SearchFilter::class, properties: ['genre' => 'exact', 'firstName' => 'word_start'])]
 class Employed implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -192,11 +200,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private $password;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'employed:search', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 50, nullable: true)]
-    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'employed:search', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $lastName;
 
     #[ORM\Column(type: 'string', length: 80)]
