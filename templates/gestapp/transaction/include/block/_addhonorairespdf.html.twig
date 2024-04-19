@@ -63,33 +63,42 @@
             </div>
         </td>
         {% if transaction.honorairesPdfFilename is not null %}
-            <td colspan="2">
-            {% set refyear = transaction.property.ref|split('/',2)|first %}
-            {% set refnumber = transaction.property.ref|split('/',2)|last %}
-            <button id="showPromise" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalhonoraires"><i class="fa-duotone fa-eye"></i> Voir le document</button>
-            <a class="btn btn-sm btn-secondary" href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.honorairesPdfFilename) }}" download="{{ transaction.honorairesPdfFilename }}"><i class="fa-duotone fa-download"></i></a>
+            <td>
+                {% set refyear = transaction.property.ref|split('/',2)|first %}
+                {% set refnumber = transaction.property.ref|split('/',2)|last %}
+                <button id="showPromise" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalhonoraires"><i class="fa-duotone fa-eye"></i> Voir le document</button>
+                <a class="btn btn-sm btn-secondary" href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.honorairesPdfFilename) }}" download="{{ transaction.honorairesPdfFilename }}"><i class="fa-duotone fa-download"></i></a>
 
-            <!-- Modal -->
-            <div class="modal fade" id="modalhonoraires" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
-                <div class="modal-dialog modal-dialog-centered modal-xl">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Facture d'honoraires</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                        </div>
-                        <div class="modal-body" style="padding: 0;">
-
-                            <div id="externaFile">
-                                <iframe src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.honorairesPdfFilename) }}" width="100%" height="500px"></iframe>
+                <!-- Modal -->
+                <div class="modal fade" id="modalhonoraires" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-xl">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="exampleModalLabel">Facture d'honoraires</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                             </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            <div class="modal-body" style="padding: 0;">
+
+                                <div id="externaFile">
+                                    <iframe src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.honorairesPdfFilename) }}" width="100%" height="500px"></iframe>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-        </td>
+            </td>
+            <td>
+                <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.honorairesPdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
+                <div class="form-check d-none">
+                    {{ form_widget(form.isSupprHonorairesPdf, {'attr': {'class':'form-check-input'}}) }}
+                    <label class="form-check-label" for="flexCheckDefault21">
+                        Supprimer
+                    </label>
+                </div>
+            </td>
         {% else %}
             <td colspan="2">Un document doit être déposé.</td>
         {% endif %}

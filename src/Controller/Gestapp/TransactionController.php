@@ -553,7 +553,7 @@ class TransactionController extends AbstractController
                 }
                 $originalFilename = pathinfo($honorairespdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = 'cv-'.$safeFilename.'.'.$honorairespdf->guessExtension();
+                $newFilename = 'fh-'.$safeFilename.'.'.$honorairespdf->guessExtension();
                 try {
                     if (is_dir($pathdir)){
                         $honorairespdf->move(

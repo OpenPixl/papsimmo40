@@ -1,4 +1,2 @@
-<tr class="align-middle">
-    <td class="table-light">Facture d'honoraire :</td>
-    {{ render(controller('App\\Controller\\Gestapp\\TransactionController::addHonorairePdf', {'id' : transaction.id})) }}
-</tr>
+<td class="table-light">Facture d'honoraire :</td>
+{{ render(controller('App\\Controller\\Gestapp\\TransactionController::addHonorairePdf', {'id' : transaction.id})) }}
