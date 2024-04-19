@@ -1554,9 +1554,12 @@ class TransactionController extends AbstractController
         if($typeDoc == 'cv') {
             $transaction->setPromisePdfFilename(null);
             $transaction->setIsSupprPromisePdf(0);
-        }elseif($typeDoc == 'av'){
-            $transaction->setActePdfFilename(null);
-            $transaction->setIsSupprActePdf(0);
+        }elseif($typeDoc == 'fh'){
+            $transaction->setHonorairesPdfFilename(null);
+            $transaction->setIsSupprHonorairesPdf(0);
+        }elseif($typeDoc == 'tf') {
+            $transaction->setTracfinPdfFilename(null);
+            $transaction->setIsSupprTracfinPdf(0);
         }elseif($typeDoc == 'tf') {
             $transaction->setTracfinPdfFilename(null);
             $transaction->setIsSupprTracfinPdf(0);
