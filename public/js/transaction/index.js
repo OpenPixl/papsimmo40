@@ -44,8 +44,22 @@ let btnAddInvoicePdfControl = document.getElementById('btnAddInvoicePdfControl')
 let btnEditInvoicePdf = document.getElementById('btnEditInvoicePdf');
 
 let btnDocumentPdfError = document.getElementById('btnDocumentPdfError');
-
 let btnHonorairePdf = document.getElementById('btnHonorairePdf');
+
+if(document.querySelector('.supprDocument') !== null){
+    document.querySelectorAll('.supprDocument').forEach(function(link){
+        link.addEventListener('click', supprDocument);
+    });
+}
+if(document.querySelector('.btnDocumentPdfError') !== null){
+    document.querySelectorAll('.btnDocumentPdfError').forEach(function(link){
+        link.addEventListener('click', errorDocument);
+    });
+}
+
+document.querySelectorAll('.supprDocument').forEach(function(link){
+    link.addEventListener('click', supprDocument);
+});
 
 // Customer
 btnSubmitCustomer.addEventListener('click', submitCustomer);
@@ -349,7 +363,8 @@ function submitPromisePdf(){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('rowPromisePdf').innerHTML = response.data.row;
+            document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
+            document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
             document.getElementById('btnAddDateActe').classList.remove('d-none');
             document.getElementById('rowEmptyDateActe').remove();
@@ -369,7 +384,8 @@ function editPromisePdf(){
     axios
         .post(action, data)
         .then(function(response){
-            window.location.reload();
+            document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
+            document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -386,7 +402,8 @@ function submitPromisePdfbyColl(){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('rowPromisePdf').innerHTML = response.data.row;
+            document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
+            document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -402,7 +419,8 @@ function submitPromisePdfControl(event){
     axios
         .post(url)
         .then(function(response){
-            document.getElementById('rowPromisePdf').innerHTML = response.data.row;
+            document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
+            document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -442,8 +460,8 @@ function submitActePdf(event){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('rowActePdf').innerHTML = response.data.row;
-            document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').classList.remove('d-none');
+            document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             document.getElementById('btnAddTracfinPdf').classList.remove('d-none');
             document.getElementById('rowEmptyTracfinPdf').remove();
             allAddEvent();
@@ -477,7 +495,8 @@ function submitActePdfbyColl(){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('rowActePdf').innerHTML = response.data.row;
+            document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -513,7 +532,7 @@ function submitTracfinPdf(event){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             document.getElementById('transaction_invoicepdf_invoicePdfFilename').classList.remove('d-none');
             document.getElementById('btnAddInvoicePdf').classList.remove('d-none');
             document.getElementById('rowEmptyInvoicePdf').remove();
@@ -548,7 +567,7 @@ function submitTracfinPdfbyColl(){
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -565,7 +584,7 @@ function submitTracfinPdfControl(event){
         .post(url)
         .then(function(response){
             event.preventDefault();
-            document.getElementById('rowTracfinPdf').innerHTML = response.data.row;
+            document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -664,11 +683,52 @@ function toasterMessage(message)
     toastElement.show();
 }
 
-function errorDocument(){
+function supprDocument(event){
+    event.preventDefault();
     let url = this.href;
+    let idRow = this.parentNode.parentNode.id;
+    console.log(idRow);
     axios
         .post(url)
         .then(function(response){
+            if(idRow === 'rowPromisePdf'){
+                document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
+            }
+            else if(idRow === 'rowActePdf'){
+                document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
+            }
+            else if(idRow === 'rowTracfinPdf'){
+                document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
+            }
+            else if(idRow === 'rowHonorairesPdf'){
+                document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
+            }
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
+}
+
+function errorDocument(event){
+    event.preventDefault();
+    let url = this.href;
+    let idRow = this.parentNode.parentNode.id;
+    axios
+        .post(url)
+        .then(function(response){
+            if(idRow === 'rowPromisePdf'){
+                document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
+            }
+            else if(idRow === 'rowActePdf'){
+                document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
+            }
+            else if(idRow === 'rowTracfinPdf'){
+                document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
+            }
+            else if(idRow === 'rowHonorairesPdf'){
+                document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
+            }
             allAddEvent();
             toasterMessage(response.data.message);
         })
@@ -715,12 +775,23 @@ function allAddEvent(){
     if(btnAddTracfinPdfbyColl !== null){btnAddTracfinPdfbyColl.addEventListener('click', submitTracfinPdfbyColl);}
     if(btnAddTracfinPdfControl !== null){btnAddTracfinPdfControl.addEventListener('click', submitTracfinPdfControl);}
     if(btnEditTracfinPdf !== null){btnEditTracfinPdf.addEventListener('click', editTracfinPdf);}
+    console.log(document.getElementById(btnAddTracfinPdfbyColl));
 // Facture
     if(btnAddInvoicePdf !== null){btnAddInvoicePdf.addEventListener('click', submitInvoicePdf);}
     if(btnAddInvoicePdfbyColl !== null){btnAddInvoicePdfbyColl.addEventListener('click', submitInvoicePdfbyColl);}
     if(btnAddInvoicePdfControl !== null){btnAddInvoicePdfControl.addEventListener('click', submitInvoicePdfControl);}
     if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editInvoicePdf);}
 // Généralité
+    if(document.querySelector('.supprDocument') !== null){
+        document.querySelectorAll('.supprDocument').forEach(function(link){
+            link.addEventListener('click', supprDocument);
+        });
+    }
+    if(document.querySelector('.btnDocumentPdfError') !== null){
+        document.querySelectorAll('.btnDocumentPdfError').forEach(function(link){
+            link.addEventListener('click', errorDocument);
+        });
+    }
     if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
     if(btnHonorairePdf !== null){btnHonorairePdf.addEventListener('click', submitHonoraires);}
 }

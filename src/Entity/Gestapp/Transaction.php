@@ -153,6 +153,9 @@ class Transaction
     #[ORM\Column(nullable: true)]
     private ?bool $isSupprHonorairesPdf = false;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isDocsFinished = false;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -255,7 +258,7 @@ class Transaction
         return $this->dateAtPromise;
     }
 
-    public function setDateAtPromise(\DateTimeInterface $dateAtPromise): static
+    public function setDateAtPromise(\DateTimeInterface $dateAtPromise = null): static
     {
         $this->dateAtPromise = $dateAtPromise;
 
@@ -279,7 +282,7 @@ class Transaction
         return $this->dateAtSale;
     }
 
-    public function setDateAtSale(?\DateTimeInterface $dateAtSale): static
+    public function setDateAtSale(?\DateTimeInterface $dateAtSale = null): static
     {
         $this->dateAtSale = $dateAtSale;
 
@@ -509,6 +512,18 @@ class Transaction
     public function setIsSupprHonorairesPdf(?bool $isSupprHonorairesPdf): static
     {
         $this->isSupprHonorairesPdf = $isSupprHonorairesPdf;
+
+        return $this;
+    }
+
+    public function isIsDocsFinished(): ?bool
+    {
+        return $this->isDocsFinished;
+    }
+
+    public function setIsDocsFinished(?bool $isDocsFinished): static
+    {
+        $this->isDocsFinished = $isDocsFinished;
 
         return $this;
     }

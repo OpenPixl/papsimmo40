@@ -356,7 +356,10 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-                    'row' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                    'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
                         'transaction' => $transaction
                     ]),
                 ], 200);
@@ -419,7 +422,10 @@ class TransactionController extends AbstractController
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                 'transaction' => $transaction
             ]),
-            'row' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+            'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
                 'transaction' => $transaction
             ]),
         ], 200);
@@ -495,7 +501,10 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-                    'row' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                    'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
                         'transaction' => $transaction
                     ]),
                 ], 200);
@@ -742,10 +751,10 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-                    'row' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
+                    'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
                         'transaction' => $transaction
                     ]),
-                    'rowtrac' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                    'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
                         'transaction' => $transaction
                     ]),
 
@@ -885,7 +894,10 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-                    'row' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
+                    'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
+                        'transaction' => $transaction
+                    ]),
+                    'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
                         'transaction' => $transaction
                     ]),
                 ], 200);
@@ -1021,7 +1033,7 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-                    'row' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                    'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
                         'transaction' => $transaction
                     ]),
                 ], 200);
@@ -1052,6 +1064,7 @@ class TransactionController extends AbstractController
         $transaction->setState('definitive_sale');
         $transaction->setTracfinValidBy($username);
         $transaction->setIsValidtracfinPdf(1);
+        $transaction->setIsDocsFinished(1);
         $entityManager->persist($transaction);
         $entityManager->flush();
 
@@ -1083,9 +1096,9 @@ class TransactionController extends AbstractController
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                 'transaction' => $transaction
             ]),
-            'row' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+            'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
                 'transaction' => $transaction
-            ]),
+            ])
         ], 200);
     }
 
@@ -1159,7 +1172,7 @@ class TransactionController extends AbstractController
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
                         'transaction' => $transaction
                     ]),
-                    'row' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                    'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
                         'transaction' => $transaction
                     ])
                 ], 200);
@@ -1415,7 +1428,6 @@ class TransactionController extends AbstractController
             $transaction->setPromisePdfFilename(null);
             $transaction->setIsSupprPromisePdf(0);
         }elseif($typeDoc == 'av'){
-            //dd('true');
             $transaction->setActePdfFilename(null);
             $transaction->setIsSupprActePdf(0);
         }elseif($typeDoc == 'tf') {
@@ -1449,6 +1461,18 @@ class TransactionController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => 'Un email a été envoyé à votre collaborateur pour lui signifier une erreur dans le document transmis.',
+            'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
+                'transaction' => $transaction
+            ]),
+            'rowhonoraires' =>$this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
+                'transaction' => $transaction
+            ]),
         ], 200);
 
     }
@@ -1553,15 +1577,20 @@ class TransactionController extends AbstractController
         $typeDoc = explode('-', $name)[0];
         if($typeDoc == 'cv') {
             $transaction->setPromisePdfFilename(null);
+            $transaction->setIsValidPromisepdf(0);
+            $transaction->setDateAtPromise(null);
             $transaction->setIsSupprPromisePdf(0);
         }elseif($typeDoc == 'fh'){
             $transaction->setHonorairesPdfFilename(null);
             $transaction->setIsSupprHonorairesPdf(0);
-        }elseif($typeDoc == 'tf') {
+        }elseif($typeDoc == 'av'){
+            $transaction->setActePdfFilename(null);
+            $transaction->setIsValidActepdf(0);
+            $transaction->setDateAtSale(null);
+            $transaction->setIsSupprActePdf(0);
+        }elseif($typeDoc == 'tf'){
             $transaction->setTracfinPdfFilename(null);
-            $transaction->setIsSupprTracfinPdf(0);
-        }elseif($typeDoc == 'tf') {
-            $transaction->setTracfinPdfFilename(null);
+            $transaction->setIsValidtracfinPdf(0);
             $transaction->setIsSupprTracfinPdf(0);
         }
         $em->flush();
@@ -1578,7 +1607,9 @@ class TransactionController extends AbstractController
             'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
                 'transaction' => $transaction
             ]),
-
+            'rowhonoraires' =>$this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
+                'transaction' => $transaction
+            ]),
         ]);
     }
 

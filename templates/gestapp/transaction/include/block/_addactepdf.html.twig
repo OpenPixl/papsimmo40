@@ -76,10 +76,10 @@
         {% if transaction.refEmployed is not same as app.user.id and transaction.isValidActepdf == 0 %}
             <td>
                 <a href="{{ path('op_gestapp_transaction_validactepdf', {'id': transaction.id}) }}" class="btn btn-sm btn-success" id="btnAddActePdfControl"><i class="fa-light fa-check"></i> Je valide</a>
-                <a href="{{ path('op_gestapp_transaction_errordocument', {'id': transaction.id, 'name':transaction.actePdfFilename}) }}" class="btn btn-sm btn-danger" id="btnDocumentPdfError"><i class="fa-sharp fa-regular fa-xmark"></i> Erreur de document</a>
+                <a href="{{ path('op_gestapp_transaction_errordocument', {'id': transaction.id, 'name':transaction.actePdfFilename}) }}" class="btn btn-sm btn-danger btnDocumentPdfError" id="btnDocumentPdfError"><i class="fa-sharp fa-regular fa-xmark"></i> Erreur de document</a>
             </td>
         {% endif %}
-        <td>
+        <td class="{% if transaction.isValidActepdf < 1 %} d-none{% endif %}">
             <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.actePdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
             <div class="form-check d-none">
                 {{ form_widget(form.isSupprActePdf, {'attr': {'class':'form-check-input'}}) }}
@@ -102,7 +102,8 @@
     {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidActepdf == 1 %}
         {# Le ficheir déposé a été vérifié, il peut être modifier si besoin. #}
         <td>
-            <div class="input-group w-100">
+            <p class="m-0">Document validé et conforme.</p>
+            <div class="input-group w-100 d-none">
                 {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
                 <button class="btn btn-sm btn-info" type="button" id="btnEditActePdf"><i class="fa-light fa-arrows-rotate"></i></button>
             </div>
@@ -133,7 +134,6 @@
             </div>
         </td>
         <td>
-            <p class="m-0 text-end">Document validé et conforme.</p>
             <div class="d-none">
                 {{ form_widget(form.isSupprActePdf, {'attr': {'class':''}}) }} {{ form_label(form.isSupprActePdf) }}
             </div>
