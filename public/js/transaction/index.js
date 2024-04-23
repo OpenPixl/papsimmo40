@@ -497,7 +497,7 @@ function submitActePdfbyColl(){
         .then(function(response){
             document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
             document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
-            allAddEvent();
+            window.location.reload();
             toasterMessage(response.data.message);
         })
         .catch(function (error) {
@@ -775,7 +775,6 @@ function allAddEvent(){
     if(btnAddTracfinPdfbyColl !== null){btnAddTracfinPdfbyColl.addEventListener('click', submitTracfinPdfbyColl);}
     if(btnAddTracfinPdfControl !== null){btnAddTracfinPdfControl.addEventListener('click', submitTracfinPdfControl);}
     if(btnEditTracfinPdf !== null){btnEditTracfinPdf.addEventListener('click', editTracfinPdf);}
-    console.log(document.getElementById(btnAddTracfinPdfbyColl));
 // Facture
     if(btnAddInvoicePdf !== null){btnAddInvoicePdf.addEventListener('click', submitInvoicePdf);}
     if(btnAddInvoicePdfbyColl !== null){btnAddInvoicePdfbyColl.addEventListener('click', submitInvoicePdfbyColl);}
