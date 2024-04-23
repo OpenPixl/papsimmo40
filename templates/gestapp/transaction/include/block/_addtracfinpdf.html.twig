@@ -105,7 +105,14 @@
     {% if 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidTracfinpdf == 0 %}
         {# Dans le cas où le fichier a été déposé par le collaborateur mais non validé par le référent #}
         <td>
-            <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Les 2 documents sont déposés et doivent être controlé.</p>
+            {% if transaction.isDocsFinished == 0 %}
+                <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Les 2 documents sont déposés et doivent être controlé.</p>
+            {% else %}
+                <p class="alert alert-warning mb-0 p-1"><i class="fa-duotone fa-hourglass-start"></i> Le "Tracfin" va être contrôlé.</p>
+            {% endif %}
+
+
+
         </td>
         <td class="d-none">
             {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}

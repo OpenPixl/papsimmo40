@@ -17,6 +17,7 @@
 /public/build/*.*
 /public/doc/report/
 /public/doc/transaction/
+/public/properties/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###

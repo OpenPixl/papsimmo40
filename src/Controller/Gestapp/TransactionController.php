@@ -1586,7 +1586,6 @@ class TransactionController extends AbstractController
         }elseif($typeDoc == 'av'){
             $transaction->setActePdfFilename(null);
             $transaction->setIsValidActepdf(0);
-            $transaction->setDateAtSale(null);
             $transaction->setIsSupprActePdf(0);
         }elseif($typeDoc == 'tf'){
             $transaction->setTracfinPdfFilename(null);
