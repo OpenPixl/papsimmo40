@@ -21,6 +21,15 @@ class TransactionRepository extends ServiceEntityRepository
         parent::__construct($registry, Transaction::class);
     }
 
+    public function listCollaborator()
+    {
+        return $this->createQueryBuilder('t')
+            ->select('')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return Transaction[] Returns an array of Transaction objects
 //     */

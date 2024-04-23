@@ -36,7 +36,6 @@
                     </p>
                 </div>
             </div>
-            {#
             <div class="card mt-2">
                 <div class="card-body">
                     <h5>Ajouter un collaborateur</h5>
@@ -45,9 +44,9 @@
                             <select id="searchEmployed" class="form-select form-select-sm"></select>
                         </div>
                     </div>
+                    {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::index')) }}
                 </div>
             </div>
-            #}
         </div>
         <div class="col-9" id="transState">
             <div class="row">
