@@ -51,6 +51,16 @@ use Symfony\Component\Validator\Constraints as Assert;
             ],
             normalizationContext: ['groups' => 'employed:item']),
         new Get(
+            uriTemplate: '/prescripteur/{email}',
+            uriVariables: [
+                'email' => 'email'
+            ],
+            openapiContext: [
+                'summary' => "Récupérer les information  d'un collaborateur par son email.",
+                'description' => "Récupérer les information  d'un collaborateur par son email.",
+            ],
+            normalizationContext: ['groups' => 'employed:item']),
+        new Get(
             uriTemplate: '/mandataire/{numCollaborator}',
             uriVariables: [
                 'numCollaborator' => 'numCollaborator'
