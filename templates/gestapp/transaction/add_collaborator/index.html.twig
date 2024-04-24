@@ -1,5 +1,24 @@
-<div class="row">
-    <div class="col-12">
-        fisrtname  last name
+{% for listcollaborator in listcollaborators %}
+    <div class="row p-1 align-items-center">
+        <div class="col-2">
+            {% if listcollaborator.avatarName is not null %}
+                <img class="rounded-circle" src="{{ asset('images/avatar/' ~ listcollaborator.avatarName) }}" alt="{{ listcollaborator.avatarName }}" style="height:50px;width:50px">
+            {% else %}
+                <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+            {% endif %}
+        </div>
+        <div class="col-8">
+            {{ listcollaborator.firstName }} {{ listcollaborator.lastName }}
+        </div>
+        <div class="col-2">
+            <a id="supprCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_suppr', {'id': listcollaborator.id, 'idtransac': listcollaborator.idTransac}) }}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="DEL-Suppression d'un collaborateur-{{ listcollaborator.idEmployed }}"><i class="fa-duotone fa-user-minus"></i></a>
+        </div>
     </div>
-</div>
+{% else %}
+    <div class="row">
+        <div class="col-12">
+            <p>Pas d'enregistrement en BDD.</p>
+        </div>
+    </div>
+{% endfor %}
+
