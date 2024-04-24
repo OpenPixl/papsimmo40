@@ -21,6 +21,7 @@ use App\Entity\Gestapp\Project;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Reco;
 use App\Entity\Gestapp\Transaction;
+use App\Entity\Gestapp\Transaction\AddCollTransac;
 use App\Entity\Webapp\Articles;
 use App\Entity\Webapp\Page;
 use App\Entity\Webapp\Section;
@@ -358,6 +359,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(nullable: true)]
     private ?bool $isSupprCi = false;
 
+    #[ORM\OneToMany(mappedBy: 'refemployed', targetEntity: AddCollTransac::class, orphanRemoval: true)]
+    private Collection $addCollTransacs;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -370,6 +374,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->transactions = new ArrayCollection();
         $this->recos = new ArrayCollection();
         $this->purchases = new ArrayCollection();
+        $this->addCollTransacs = new ArrayCollection();
     }
 
     /**
@@ -1179,6 +1184,36 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsSupprCi(?bool $isSupprCi): static
     {
         $this->isSupprCi = $isSupprCi;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AddCollTransac>
+     */
+    public function getAddCollTransacs(): Collection
+    {
+        return $this->addCollTransacs;
+    }
+
+    public function addAddCollTransac(AddCollTransac $addCollTransac): static
+    {
+        if (!$this->addCollTransacs->contains($addCollTransac)) {
+            $this->addCollTransacs->add($addCollTransac);
+            $addCollTransac->setRefemployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddCollTransac(AddCollTransac $addCollTransac): static
+    {
+        if ($this->addCollTransacs->removeElement($addCollTransac)) {
+            // set the owning side to null (unless already changed)
+            if ($addCollTransac->getRefemployed() === $this) {
+                $addCollTransac->setRefemployed(null);
+            }
+        }
 
         return $this;
     }

@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\Transaction\AddCollTransac;
 use App\Repository\Gestapp\TransactionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -156,9 +157,13 @@ class Transaction
     #[ORM\Column(nullable: true)]
     private ?bool $isDocsFinished = false;
 
+    #[ORM\OneToMany(mappedBy: 'refTransac', targetEntity: AddCollTransac::class)]
+    private Collection $addCollTransacs;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
+        $this->addCollTransacs = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -524,6 +529,36 @@ class Transaction
     public function setIsDocsFinished(?bool $isDocsFinished): static
     {
         $this->isDocsFinished = $isDocsFinished;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AddCollTransac>
+     */
+    public function getAddCollTransacs(): Collection
+    {
+        return $this->addCollTransacs;
+    }
+
+    public function addAddCollTransac(AddCollTransac $addCollTransac): static
+    {
+        if (!$this->addCollTransacs->contains($addCollTransac)) {
+            $this->addCollTransacs->add($addCollTransac);
+            $addCollTransac->setRefTransac($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAddCollTransac(AddCollTransac $addCollTransac): static
+    {
+        if ($this->addCollTransacs->removeElement($addCollTransac)) {
+            // set the owning side to null (unless already changed)
+            if ($addCollTransac->getRefTransac() === $this) {
+                $addCollTransac->setRefTransac(null);
+            }
+        }
 
         return $this;
     }

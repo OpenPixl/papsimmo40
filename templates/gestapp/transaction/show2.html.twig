@@ -8,7 +8,7 @@
 {% endblock %}
 
 {% block contentTitle %}
-    <div class="row d-flex justify-content-between" >
+    <div class="row d-flex justify-content-between">
         <div class="col-sm-12">
             <h1>TRANSACTION - Ref : {{ transaction.name }}</h1>
             <input id="valueProperty" type="hidden" value="{{ transaction.id }}">
@@ -17,7 +17,7 @@
 {% endblock %}
 
 {% block content %}
-    <div class="row mb-2 align-items-top">
+    <div class="row mb-5 align-items-top">
         <div class="col-3">
             <div class="card">
                 {% if photo is defined %}
@@ -38,13 +38,17 @@
             </div>
             <div class="card mt-2">
                 <div class="card-body">
-                    <h5>Ajouter un collaborateur</h5>
                     <div class="row">
-                        <div class="col-12">
-                            <select id="searchEmployed" class="form-select form-select-sm"></select>
+                        <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
+                        <div class="col-3">
+                            <p class="text-center">
+                                <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                            </p>
                         </div>
                     </div>
-                    {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::index')) }}
+                    <div id="listCollaborator" class="mt-1">
+                        {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::listByTransac', {'id': transaction.id})) }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,8 +65,6 @@
             </div>
         </div>
     </div>
-
-
 {% endblock %}
 
 
@@ -89,6 +91,32 @@
                 <div class="modal-footer text-bg-secondary">
                     <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Annuler</button>
                     <a id="btnSubmitCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Ajout d'un vendeur sur un bien -->
+    <div class="modal fade" id="modalAddColl" tabindex="-1" aria-labelledby="modalAddColl" aria-hidden="true">
+        <div id="modal-dialog" class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content border-dark">
+                <div class="modal-header text-bg-secondary">
+                    <h5 class="modal-title" id="exampleModalLabel">Titre</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="modalBodyForm">
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-grow text-info" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <input id="idProperty" type="hidden" value="">
+                </div>
+                <div class="modal-footer text-bg-secondary">
+                    <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Annuler</button>
+                    <a id="btnSubmitColl" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
                 </div>
             </div>
         </div>

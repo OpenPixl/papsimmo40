@@ -70,7 +70,7 @@ class CadasterController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/cadaster/new.html.twig', [
+        return $this->render('gestapp/cadaster/new.html.twig', [
             'cadaster' => $cadaster,
             'form' => $form,
         ]);

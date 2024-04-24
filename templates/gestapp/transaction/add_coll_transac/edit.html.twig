@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit AddCollTransac{% endblock %}
+
+{% block body %}
+    <h1>Edit AddCollTransac</h1>
+
+    {{ include('gestapp/transaction/add_coll_transac/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_gestapp_transaction_add_coll_transac_index') }}">back to list</a>
+
+    {{ include('gestapp/transaction/add_coll_transac/_delete_form.html.twig') }}
+{% endblock %}

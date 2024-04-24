@@ -17,6 +17,7 @@ flatpickr(".flatpickrtime", {
 
 const modalCustomer = document.getElementById('modalCustomer');
 const modalDelCustomer = document.getElementById('modalDelCustomer');
+const modalAddcollaborateur = document.getElementById('modalAddColl');
 
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
 let btnDelCustommer = document.getElementById('btnDellCustomer');
@@ -45,6 +46,7 @@ let btnEditInvoicePdf = document.getElementById('btnEditInvoicePdf');
 
 let btnDocumentPdfError = document.getElementById('btnDocumentPdfError');
 let btnHonorairePdf = document.getElementById('btnHonorairePdf');
+let btnSubmitColl = document.getElementById('btnSubmitColl');
 
 if(document.querySelector('.supprDocument') !== null){
     document.querySelectorAll('.supprDocument').forEach(function(link){
@@ -56,13 +58,13 @@ if(document.querySelector('.btnDocumentPdfError') !== null){
         link.addEventListener('click', errorDocument);
     });
 }
-
 document.querySelectorAll('.supprDocument').forEach(function(link){
     link.addEventListener('click', supprDocument);
 });
 
 // Customer
 btnSubmitCustomer.addEventListener('click', submitCustomer);
+
 // Promise
 if(btnAddDatePromise !== null){btnAddDatePromise.addEventListener('click', submitDatePromise);}
 if(btnAddPromisePdf !== null){btnAddPromisePdf.addEventListener('click', submitPromisePdf);}
@@ -88,6 +90,7 @@ if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editI
 // Généralité
 if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
 if(btnHonorairePdf !== null){btnHonorairePdf.addEventListener('click', submitHonoraires);}
+btnSubmitColl.addEventListener('click', submitCollaborator);
 
 function removeOptions(selectElement) {
     var i, L = selectElement.options.length - 1;
@@ -119,7 +122,7 @@ function zipcodeGen(event){
                 let features = response.data;
                 removeOptions(SelectCity2);
                 features.forEach((element) => {
-                    let name = element['codePostal'] + " - " + element['nomCommune'];
+                    let name = element.codePostal + " - " + element.nomCommune;
                     let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
                     SelectCity2.options.add(OptSelectCity);
                 });
@@ -186,7 +189,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                                 let features = response.data;
                                 removeOptions(SelectCity2);
                                 features.forEach((element) => {
-                                    let name = element['codePostal'] + " - " + element['nomCommune'];
+                                    let name = element.codePostal + " - " + element.nomCommune;
                                     let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
                                     SelectCity2.options.add(OptSelectCity);
                                 });
@@ -251,7 +254,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                                 let features = response.data;
                                 removeOptions(SelectCity2);
                                 features.forEach((element) => {
-                                    let name = element['codePostal'] + " - " + element['nomCommune'];
+                                    let name = element.codePostal + " - " + element.nomCommune;
                                     let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
                                     SelectCity2.options.add(OptSelectCity);
                                 });
@@ -286,6 +289,45 @@ modalDelCustomer.addEventListener('show.bs.modal', function (event) {
     // extraction de la variable
     let aSubmit = modalDelCustomer.querySelector('#btnDellCustomer');
     aSubmit.href = url;
+});
+
+// ------------------------------------------------------------------------------------------
+// Actions sur le modal d'ajout d'un collaborateur
+// ------------------------------------------------------------------------------------------
+modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
+    // Button that triggered the modal
+    let a = event.relatedTarget;
+    // extraction de la variable
+    let recipient = a.getAttribute('data-bs-whatever');
+    let url = a.href;
+    let crud = recipient.split('-')[0];
+    let contentTitle = recipient.split('-')[1];
+    let id = recipient.split('-')[2];
+    if(crud === "ADD"){
+        let modalHeaderH5 = modalAddcollaborateur.querySelector('.modal-title');
+        let modalBody = modalAddcollaborateur.querySelector('.modal-body');
+        let submitFooter = modalAddcollaborateur.querySelector('.modal-footer #btnSubmitColl');
+        modalHeaderH5.textContent = contentTitle;
+        submitFooter.textContent = "Ajouter au projet";
+        submitFooter.href = url;
+        axios
+            .get(url)
+            .then(function(response){
+                modalBody.innerHTML = response.data.formView;
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
+    }else if(crud === "DEL"){
+        let modalHeaderH5 = modalAddcollaborateur.querySelector('.modal-title');
+        let modalBody = modalAddcollaborateur.querySelector('.modal-body');
+        let submitFooter = modalAddcollaborateur.querySelector('.modal-footer #btnSubmitColl');
+        modalHeaderH5.textContent = contentTitle;
+        submitFooter.textContent = "Retirer du projet";
+        submitFooter.href = url;
+        modalBody.innerHTML = "<p class=\'mb-0\'>Vous êtes sur le point de retirer ce collaborateur du projet.<br>Etes-vous sur de vouloir pour suivre la démarche.</p>";
+    }
 });
 
 btnDelCustommer.addEventListener('click', dellCustomer);
@@ -665,10 +707,41 @@ function submitInvoicePdfControl(event){
 }
 
 // ------------------------------------------------------------------------------------------
+// Fonctions collaborateurs
+// ------------------------------------------------------------------------------------------
+function submitCollaborator(event){
+    event.preventDefault();
+    let form = document.getElementById('FormAddcollaborator');
+    let data = new FormData(form);
+    let action = form.action;
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+    ;
+}
+
+function supprCollaborator(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
+        })
+        .catch(function (error){
+            console.log(error);
+        })
+    ;
+}
+// ------------------------------------------------------------------------------------------
 // Fonctions générique sur la page
 // ------------------------------------------------------------------------------------------
-function toasterMessage(message)
-{
+function toasterMessage(message){
     // préparation du toaster
     let option = {
         animation: true,
