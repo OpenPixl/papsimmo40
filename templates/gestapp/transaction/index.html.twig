@@ -46,8 +46,13 @@
                         <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#liste" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Liste des ventes des collaborateurs</button>
                     </li>
                     <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#coliste" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Ventes en coopération</button>
+                    </li>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <li class="nav-item" role="presentation">
                         <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#listeclosed" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Liste des ventes cloturées</button>
                     </li>
+                    {% endif %}
                 </ul>
                 <div class="tab-content" id="myTabContent">
                     <div class="tab-pane fade show active" id="ownliste" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
@@ -55,6 +60,9 @@
                     </div>
                     <div class="tab-pane fade" id="liste" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
                         {{ include('gestapp/transaction/include/_liste.html.twig') }}
+                    </div>
+                    <div class="tab-pane fade" id="coliste" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+                        {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::listByEmployed', {'idEmployed': app.user.id})) }}
                     </div>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <div class="tab-pane fade" id="listeclosed" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">

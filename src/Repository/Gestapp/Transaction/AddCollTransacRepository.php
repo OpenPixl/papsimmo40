@@ -40,6 +40,37 @@ class AddCollTransacRepository extends ServiceEntityRepository
             ;
     }
 
+    public function listcollEmployed($employed)
+    {
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.refemployed', 'e')
+            ->leftJoin('a.refTransac', 't')
+            ->leftJoin('t.property', 'p')
+            ->select('
+                p.id as property,
+                t.isValidPromisepdf as isValidPromisepdf,
+                t.isValidActepdf as isValidActepdf,
+                t.dateAtSale as dateAtSale,
+                t.dateAtPromise as dateAtPromise,
+                t.isClosedfolder as isClosedfolder,
+                t.state as state,
+                t.updatedAt as updatedAt,
+                t.createdAt as createdAt,
+                t.name as name,
+                t.id as idTransac,
+                e.id as refEmployed,
+                e.avatarName as avatarName,
+                e.lastName as lastName,
+                e.firstName as firstName,
+                a.id as id
+            ')
+            ->andWhere('a.refemployed = :refemployed')
+            ->setParameter('refemployed', $employed)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
 //    /**
 //     * @return AddCollTransac[] Returns an array of AddCollTransac objects
 //     */

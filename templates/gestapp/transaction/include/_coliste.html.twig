@@ -1,0 +1,78 @@
+
+<table class="table">
+    <thead>
+    <tr>
+        <th class="col-1"></th>
+        <th>Numéro de listtransac</th>
+        <th>Collaborateur</th>
+        <th class="col-1">Etat</th>
+        <th>Crée le</th>
+        <th>Mis à jour le</th>
+        <th class="col-2">actions</th>
+    </tr>
+    </thead>
+    <tbody>
+        {% for listtransac in listtransacs|filter(t => t.refEmployed == app.user.id )|filter( t => t.isClosedfolder == 0 ) %}
+            <tr class="align-middle
+                {% if listtransac.dateAtPromise is defined and listtransac.isValidPromisepdf == 0 %}table-light{% endif %}
+                {% if listtransac.isValidPromisepdf == 1 and listtransac.dateAtSale is defined and listtransac.isValidActepdf == 0 %}table-light{% endif %}
+            ">
+                <td>
+                    {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': listtransac.property})) }}
+                </td>
+                <td class="align-left">
+                    <b>{{ listtransac.name }}</b>
+                    {% if listtransac.dateAtPromise is defined and listtransac.isValidPromisepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>La promesse de vente doit être controlée.</span>{% endif %}<br>
+                    {% if listtransac.isValidPromisepdf == 1 and listtransac.dateAtSale is defined and listtransac.isValidActepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>L'attestation de l'acte de vente doit être controlée.</span>{% endif %}
+                </td>
+                <td>
+                    {% if listtransac.refEmployed.avatarName is defined %}
+                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ listtransac.refEmployed.avatarName) }}" alt="{{ listtransac.refEmployed.avatarName }}" style="height:50px;width:50px">
+                        {{ listtransac.refEmployed.firstName }} {{ listtransac.refEmployed.lastName }}
+                    {% else %}
+                        <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+                    {% endif %}
+                </td>
+                <td>
+                    {% set progress = 0 %}
+                    {% if listtransac.state == 'open' %}
+                        {% set progress = 20 %}
+                    {% elseif listtransac.state == 'promise' %}
+                        {% set progress = 40 %}
+                    {% elseif listtransac.state == 'quotation' %}
+                        {% set progress = 60 %}
+                    {% elseif listtransac.state == 'definitive_sale' %}
+                        {% set progress = 80 %}
+                    {% elseif listtransac.state == 'finished' %}
+                        {% set progress = 100 %}
+                    {% endif %}
+                    <div class="progress">
+                        <div class="progress">
+                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ listtransac.createdAt ? listtransac.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ listtransac.updatedAt ? listtransac.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    <div class="dropdown">
+                        <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Action
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="{{ path('op_gestapp_transaction_show2', {'id': listtransac.idTransac}) }}">Voir</a></li>
+                            <li><a id="btnModaltransaction" class="dropdown-item" href="{{ path('op_gestapp_transaction_del', {'id': listtransac.idTransac}) }}" data-bs-toggle="modal" data-bs-target="#modaltransaction" data-bs-whatever="{{ listtransac.idTransac }}">Supprimer</a></li>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <li><a href="{{ path('op_gestapp_transaction_closedfolder', {'id': listtransac.idTransac}) }}" class="dropdown-item transClosed">Clôture du dossier</a></li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">Il n'y a pas de vente en cours actuellement.</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>

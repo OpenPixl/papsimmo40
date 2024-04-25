@@ -326,6 +326,7 @@ modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
         modalHeaderH5.textContent = contentTitle;
         submitFooter.textContent = "Retirer du projet";
         submitFooter.href = url;
+        submitFooter.classList.add('supprCollaborator');
         modalBody.innerHTML = "<p class=\'mb-0\'>Vous êtes sur le point de retirer ce collaborateur du projet.<br>Etes-vous sur de vouloir pour suivre la démarche.</p>";
     }
 });
@@ -711,33 +712,33 @@ function submitInvoicePdfControl(event){
 // ------------------------------------------------------------------------------------------
 function submitCollaborator(event){
     event.preventDefault();
-    let form = document.getElementById('FormAddcollaborator');
-    let data = new FormData(form);
-    let action = form.action;
-    axios
-        .post(action, data)
-        .then(function(response){
-            document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
-        })
-        .catch(function (error){
-            console.log(error);
-        })
-    ;
+    if(this.classList.contains('supprCollaborator')){
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function(response){
+                document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
+            })
+            .catch(function (error){
+                console.log(error);
+            })
+        ;
+    }else{
+        let form = document.getElementById('FormAddcollaborator');
+        let data = new FormData(form);
+        let action = form.action;
+        axios
+            .post(action, data)
+            .then(function(response){
+                document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
+            })
+            .catch(function (error){
+                console.log(error);
+            })
+        ;
+    }
 }
 
-function supprCollaborator(event){
-    event.preventDefault();
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
-        })
-        .catch(function (error){
-            console.log(error);
-        })
-    ;
-}
 // ------------------------------------------------------------------------------------------
 // Fonctions générique sur la page
 // ------------------------------------------------------------------------------------------

@@ -2,10 +2,12 @@
 
 namespace App\Controller\Gestapp\Transaction;
 
+use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\Transaction;
 use App\Entity\Gestapp\Transaction\AddCollTransac;
 use App\Form\Gestapp\Transaction\addCollaboratorType;
 use App\Form\Gestapp\Transaction\AddCollTransacType;
+use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\Transaction\AddCollTransacRepository;
 use App\Repository\Gestapp\TransactionRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -26,12 +28,24 @@ class AddCollaboratorController extends AbstractController
         ]);
     }
 
+    #[Route('/gestapp/transaction/addcollaborator/{idEmployed}/listbyemployed', name: 'op_gestapp_transaction_add_collaborator_listbyemployed')]
+    public function listByEmployed($idEmployed, EmployedRepository $employedRepository, AddCollTransacRepository $addCollTransacRepository): Response
+    {
+        $listtransacs = $addCollTransacRepository->listcollEmployed($idEmployed);
+
+        //dd($listtransacs);
+
+        return $this->render('gestapp/transaction/include/_coliste.html.twig', [
+            'listtransacs' => $listtransacs,
+        ]);
+    }
+
     #[Route('/gestapp/transaction/addcollaborator/add/{idtransac}', name: 'op_gestapp_transaction_addcollaborator_add')]
     public function addColl($idtransac, Request $request, EntityManagerInterface $entityManager, AddCollTransacRepository $addCollTransacRepository, TransactionRepository $transactionRepository): Response
     {
         $addCollTransac = new AddCollTransac();
         $form = $this->createForm(AddCollaboratorType::class, $addCollTransac,[
-            'action' => $this->generateUrl('app_gestapp_transaction_addcollaborator_add', ['idtransac' => $idtransac]),
+            'action' => $this->generateUrl('op_gestapp_transaction_addcollaborator_add', ['idtransac' => $idtransac]),
             'attr' => [
                 'id' => 'FormAddcollaborator',
             ]
