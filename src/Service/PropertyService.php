@@ -254,4 +254,13 @@ class PropertyService
         $em->flush();
     }
 
+    public function getDir(Property $property,){
+
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $ref = explode("/", $property->getRef());
+        $refDir = $ref[0].'-'.$ref[1];
+
+        return $refDir;
+    }
+
 }

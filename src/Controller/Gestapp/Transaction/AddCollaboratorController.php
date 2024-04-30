@@ -5,16 +5,20 @@ namespace App\Controller\Gestapp\Transaction;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\Transaction;
 use App\Entity\Gestapp\Transaction\AddCollTransac;
+use App\Form\Gestapp\Transaction\addCollaboratorInvoiceType;
 use App\Form\Gestapp\Transaction\addCollaboratorType;
 use App\Form\Gestapp\Transaction\AddCollTransacType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\Transaction\AddCollTransacRepository;
 use App\Repository\Gestapp\TransactionRepository;
+use App\Service\PropertyService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AddCollaboratorController extends AbstractController
 {
@@ -83,6 +87,83 @@ class AddCollaboratorController extends AbstractController
             "code" => 200,
             'formView' => $view->getContent()
         ], 200);
+    }
+
+    #[Route('/gestapp/transaction/addcollaborator/{refEmployed}/addinvoice/{idTransac}', name: 'op_gestapp_transaction_addcollaborator_addinvoice')]
+    public function AddInvoice(
+        $refEmployed,
+        $idTransac,
+        Request $request,
+        EntityManagerInterface $em,
+        PropertyService $propertyService,
+        AddCollTransacRepository $addCollTransacRepository,
+        TransactionRepository $transactionRepository,
+        SluggerInterface $slugger
+    )
+    : Response
+    {
+        //dd($refEmployed, $idTransac);
+        $transaction = $transactionRepository->find($idTransac);
+        $addColl = $addCollTransacRepository->findOneBy(['refTransac' => $transaction, 'refemployed' => $this->getUser()]);
+
+        $refDir = $propertyService->getDir($transaction->getProperty());
+
+        $form = $this->createForm(AddCollaboratorInvoiceType::class, $addColl,[
+            'action' => $this->generateUrl('op_gestapp_transaction_addcollaborator_addinvoice', [
+                'refEmployed' => $refEmployed,
+                'idtransac' => $idTransac
+            ]),
+            'attr' => [
+                'id' => 'FormAddcollaboratorInvoice',
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $invoicepdf = $form->get('invoicePdfFilename')->getData();
+            $invoicePdfName = $transaction->getinvoicePdfFilename();
+            if($invoicepdf){
+                // suppression lors de la mise à jour du fichier
+                if($invoicePdfName){
+                    $pathheader = $this->getParameter('transaction_invoice_directory').'/'.$invoicePdfName;
+                    // On vérifie si l'image existe
+                    if(file_exists($pathheader)){
+                        unlink($pathheader);
+                    }
+                }
+
+                $originalFilename = pathinfo($invoicepdf->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'.'.$invoicepdf->guessExtension();
+
+                try {
+                    $invoicepdf->move(
+                        $this->getParameter('transaction_invoice_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $addColl->setInvoicePdfFilename($newFilename);
+                $em->persist($addColl);
+                $em->flush();
+            }
+
+            return $this->json([
+                "code" => 200,
+                "message" => "Le collaborateur à été ajouté",
+                'rowInvoice' => $this->renderView('gestapp/transaction/add_collaborator/addInvoice.html.twig',[
+                    'refemployed' => $refEmployed,
+                    'idTransac' => $idTransac
+                ])
+            ],200);
+        }
+
+        return $this->render('gestapp/transaction/add_collaborator/addInvoice.html.twig',[
+            'form' => $form,
+            'addColl' => $addColl
+        ]);
     }
 
     #[Route('/gestapp/transaction/addcollaborator/{id}/suppr/{idtransac}', name: 'op_gestapp_transaction_addcollaborator_suppr')]

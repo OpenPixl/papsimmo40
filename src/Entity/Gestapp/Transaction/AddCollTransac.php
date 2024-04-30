@@ -26,6 +26,15 @@ class AddCollTransac
     #[ORM\Column(nullable: true)]
     private ?int $pourcentComm = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $InvoicePdfFilename = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $InvoicePdfSize = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $invoicePdfExt = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -63,6 +72,42 @@ class AddCollTransac
     public function setPourcentComm(?int $pourcentComm): static
     {
         $this->pourcentComm = $pourcentComm;
+
+        return $this;
+    }
+
+    public function getInvoicePdfFilename(): ?string
+    {
+        return $this->InvoicePdfFilename;
+    }
+
+    public function setInvoicePdfFilename(?string $InvoicePdfFilename): static
+    {
+        $this->InvoicePdfFilename = $InvoicePdfFilename;
+
+        return $this;
+    }
+
+    public function getInvoicePdfSize(): ?string
+    {
+        return $this->InvoicePdfSize;
+    }
+
+    public function setInvoicePdfSize(?string $InvoicePdfSize): static
+    {
+        $this->InvoicePdfSize = $InvoicePdfSize;
+
+        return $this;
+    }
+
+    public function getInvoicePdfExt(): ?string
+    {
+        return $this->invoicePdfExt;
+    }
+
+    public function setInvoicePdfExt(?string $invoicePdfExt): static
+    {
+        $this->invoicePdfExt = $invoicePdfExt;
 
         return $this;
     }
