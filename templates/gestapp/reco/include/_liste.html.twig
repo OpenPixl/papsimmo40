@@ -55,8 +55,8 @@
             <td>{{ reco.createdAt ? reco.createdAt|date('Y-m-d') : '' }}</td>
             <td>{{ reco.updatedAt ? reco.updatedAt|date('Y-m-d') : '' }}</td>
             <td>
-                {% if reco.statutReco.name =="paid_commission" or reco.statutReco.name =="reco_finished" %}
-                <a id="btnCommission" href="{{ path('op_gestapp_reco_edit_comm', {'id': reco.id}) }}" class="btn btn-sm btn-outline-warning btnCommission" data-bs-whatever="EDIT-Ajout / Edition d'une commission">{% if reco.commission > 0 %}Modifier la commission{% else %}Déclarer la commission{% endif %}</a>
+                {% if reco.statutReco.name == "paid_commission" or reco.statutReco.name =="reco_finished" %}
+                    <a id="btnCommission" href="{{ path('op_gestapp_reco_edit_comm', {'id': reco.id}) }}" class="btn btn-sm btn-outline-warning btnCommission" data-bs-whatever="EDIT-Ajout / Edition d'une commission">{% if reco.commission > 0 %}Modifier la commission{% else %}Déclarer la commission{% endif %}</a>
                 {% endif %}
                 <a id="btnEditReco" href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}" class="btn btn-sm btn-outline-primary btnEditReco" data-bs-whatever="EDIT-Edition d'une recommandation">Modifier</a>
             </td>

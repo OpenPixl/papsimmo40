@@ -11,7 +11,9 @@ const btnModalPrescriber = document.getElementById('btnModalPrescriber');
 
 // Ajout d'une recommandation
 btnAddReco.addEventListener('click', showReco);
-btnModalPrescriber.addEventListener('click', showPrescriber);
+if(btnModalPrescriber !== null){
+    btnModalPrescriber.addEventListener('click', showPrescriber);
+}
 
 document.querySelectorAll('a.btnEditReco').forEach(function(link){
     link.addEventListener('click', showReco);
