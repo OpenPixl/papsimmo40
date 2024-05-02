@@ -157,8 +157,12 @@ function editPrescriber(event){
 function reloadEvent(){
     // Ajout d'une recommandation
     btnAddReco.addEventListener('click', showReco);
-    btnModalPrescriber.addEventListener('click', showPrescriber);
-    btnSubmitReco.addEventListener('click', submitReco);
+    if(btnModalPrescriber !== null){
+        btnModalPrescriber.addEventListener('click', showPrescriber);
+    }
+    if(btnSubmitReco !== null){
+        btnSubmitReco.addEventListener('click', submitReco);
+    }
     if(document.getElementById('btnEditPrescriber')){
         document.getElementById('btnEditPrescriber').addEventListener('click', editPrescriber);
     }
