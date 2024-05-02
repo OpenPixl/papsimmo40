@@ -23,7 +23,9 @@ modalRecoBs.addEventListener('hidden.bs.modal', function(){
     if(modalRecoBs.querySelector('.modal-dialog').classList.contains('modal-xl')){
         modalRecoBs.querySelector('.modal-dialog').classList.remove('modal-xl');
     }
-    modalRecoBs.querySelector('.modal-dialog #btnEditPrescriber').id = "btnModalSubmit";
+    if(modalRecoBs.querySelector('.modal-dialog #btnEditPrescriber')){
+        modalRecoBs.querySelector('.modal-dialog #btnEditPrescriber').id = "btnModalSubmit";
+    }
     modalRecoBs.querySelector('.modal-body').innerHTML =
         "<div class=\"d-flex justify-content-center\">"+
         "<div class=\"spinner-border text-primary\" role=\"status\">"+
@@ -125,15 +127,6 @@ function submitReco(event){
     axios
         .post(action, data)
         .then(function(response){
-            modalReco.hide();
-            document.getElementById('modalReco').querySelector('.modal-dialog').classList.remove('modal-xl');
-            document.getElementById('modalReco').querySelector('.modal-title').textContent = "Ajout d'une recommandation";
-            document.getElementById('modalReco').querySelector('.modal-body').innerHTML =
-                '<div class="d-flex justify-content-center">\n' +
-                '<div class="spinner-border text-primary" role="status">\n' +
-                '<span class="visually-hidden">Loading...</span>\n' +
-                '</div>\n' +
-                '</div>';
             document.getElementById('liste').innerHTML = response.data.liste;
             reloadEvent();
         })
@@ -166,7 +159,9 @@ function reloadEvent(){
     btnAddReco.addEventListener('click', showReco);
     btnModalPrescriber.addEventListener('click', showPrescriber);
     btnSubmitReco.addEventListener('click', submitReco);
-    document.getElementById('btnEditPrescriber').addEventListener('click', editPrescriber);
+    if(document.getElementById('btnEditPrescriber')){
+        document.getElementById('btnEditPrescriber').addEventListener('click', editPrescriber);
+    }
     document.querySelectorAll('a.btnEditReco').forEach(function(link){
         link.addEventListener('click', showReco);
     });
