@@ -157,15 +157,26 @@ class RecoController extends AbstractController
 
             $entityManager->flush();
 
-            $recos = $recoRepository->findAll();
-
-            return $this->json([
-                "code" => 200,
-                "message" => "Les modifications à la recommandations ont étés correctement apportées.",
-                'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig',[
-                    'recos' => $recos
-                ])
-            ],200);
+            if($hasAccess == true)
+            {
+                $recos = $recoRepository->findAll();
+                return $this->json([
+                    "code" => 200,
+                    "message" => "Les modifications à la recommandations ont étés correctement apportées.",
+                    'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig',[
+                        'recos' => $recos
+                    ])
+                ],200);
+            }else{
+                $recos = $recoRepository->findBy(['refEmployed' => $user->getId()]);
+                return $this->json([
+                    "code" => 200,
+                    "message" => "Les modifications à la recommandations ont étés correctement apportées.",
+                    'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig',[
+                        'recos' => $recos
+                    ])
+                ],200);
+            }
         }
 
         // view
