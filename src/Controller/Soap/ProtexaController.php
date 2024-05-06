@@ -4,12 +4,14 @@ namespace App\Controller\Soap;
 
 use SoapClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Service\ProtexaService;
 
 
-class protexaController extends AbstractController
+class ProtexaController extends AbstractController
 {
     #[Route('/soap/protexa', name: 'op_admin_soap_protexa_index')]
     public function index(): Response
@@ -57,26 +59,48 @@ class protexaController extends AbstractController
         ]);
     }
 
-    #[Route('/soap/protexa/listeresaencours', name: 'op_admin_soap_protexa_listeresaencours')]
-    public function listeresaencours(): Response
+    #[Route('/soap/protexa/{idmandat}/addmandant', name: 'op_admin_soap_protexa_addmandant')]
+    public function addMandant($idmandat, ProtexaService $protexaService, Request $request): Response
     {
-        $client = new SoapClient('https://production.protexa.fr/WSPROTEXA_WEB/awws/wsprotexa.awws?wsdl', ['trace' => 1]);
+        $defaultData = ['message' => 'Type your message here'];
+
+        $form = $this->createFormBuilder($defaultData)
+            ->setAction($this->generateUrl('op_admin_soap_protexa_addmandant', ['idmandat' => $idmandat]))
+            ->setMethod('POST')
+            ->setAttributes(['id'=>'formAddMandat'])
+            ->add('Login', TextType::class)
+            ->add('MotdePasse', TextType::class)
+            ->add('Mandat', TextType::class)
+            ->add('pMandant', TextType::class)
+            ->add('pAdresse', TextType::class)
+            ->getForm();
+
+        $form->handleRequest($request);
 
         $parameters = [
             'Login_connexion' => 'testclient@protexa.fr',
             'MotdePasse'=> 'VHWHZF'
         ];
 
-        $results = (array)$client->__soapCall('wslisteresaencours', [
-            'parameters' => $parameters
-        ]);
-        $xml = simplexml_load_string($results['wslisteresaencoursResult']);
-        $json = json_encode($xml);
-        $resas = json_decode($json,TRUE);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $client = $protexaService->getClient();
+            $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
 
-        return $this->render('registre.html.twig', [
-            'resas' => $resas,
+            return $this->json([
+                'code' => 200,
+                'message' => 'Ajout du mandat à la réservation validée auprès du forunisseur.'
+            ], 200);
+        }
+
+        // view
+        $view = $this->render('gestapp/transaction/add_collaborator/add.html.twig', [
+            'form' => $form,
         ]);
+
+        // return
+        return $this->json([
+            "code" => 200,
+            'formView' => $view->getContent()
+        ], 200);
     }
-
 }

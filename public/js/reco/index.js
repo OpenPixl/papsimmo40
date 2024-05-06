@@ -39,8 +39,6 @@ if(btnStatusReco !== null){
             btnSubmit.href = '/gestapp/reco/'+id+'/step3';
             btnSubmit.innerHTML = "<i class=\"fa-duotone fa-circle-check\"></i> Je publie la recommandation";
         }
-
-
     });
 }
 

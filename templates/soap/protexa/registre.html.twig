@@ -2,6 +2,11 @@
 
 {% block title %}Hello protexaController!{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script src="{{ asset('js/soap/protexa/registre.js') }}" type="module"></script>
+{% endblock %}
+
 {% block contentTitle %}
     <div class="row d-flex justify-content-between" >
         <div class="col-sm-12">
@@ -14,19 +19,42 @@
 
     <div class="row">
         <div class="col-12">
-            <a id="btnAddReco" class="btn btn-outline-primary btn-sm" href="#" data-bs-whatever="ADD-Ajout d'une recommandation">Ajouter une recommandation</a>
-            {% if is_granted('ROLE_PRESCRIBER') %}
-                <a id="btnModalPrescriber" class="btn btn-sm btn-outline-dark" href="#">Modifier mes informations personnel et ma carte d'identité</a>
-            {% endif %}
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <a class="btn btn-sm btn-outline-dark" href="#">Liste des prescripteurs</a>
-            {% endif %}
+            <a class="btn btn-sm btn-outline-primary" href="#">Liste des prescripteurs</a>
+            <a class="btn btn-sm btn-outline-primary" href="#">Actualiser le registre</a>
         </div>
     </div>
 
     <div class="row">
         <div class="col-12" id="liste">
+            <p class="mb-2">cette vue est générée à partir de l'accès : <b>testclient@protexa.fr</b></p>
             {{ include('soap/protexa/include/_liste.html.twig') }}
         </div>
     </div>
+{% endblock %}
+
+{% block modal %}
+    {{ parent() }}
+    <!-- Modal -->
+    <div class="modal fade border-dark" id="modalDetails" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Ajout d'information au registre</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
 {% endblock %}

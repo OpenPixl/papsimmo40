@@ -63,8 +63,6 @@ class AddCollaboratorController extends AbstractController
             $entityManager->persist($addCollTransac);
             $entityManager->flush();
 
-
-
             $listCollaborators = $addCollTransacRepository->listcollTransac($idtransac);
 
             return $this->json([
