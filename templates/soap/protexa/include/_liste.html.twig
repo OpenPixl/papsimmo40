@@ -1,0 +1,32 @@
+<table class="table animate__animated animate__fadeIn">
+    <thead>
+        <tr>
+            <th>N°</th>
+            <th>Collaborateur</th>
+            <th>Date</th>
+            <th>Nom du ou des mandant(s)</th>
+            <th>Adresse du ou des mandant(s)</th>
+            <th>nature et situation du ou des bien(s)</th>
+            <th>actions</th>
+        </tr>
+    </thead>
+    <tbody>
+    {% for result in results %}
+        <tr>
+            <td>{{ result.ID }}</td>
+            <td></td>
+            <td>{{ result.DATE_DEBUT }}</td>
+            <td>{{ result.NOM }}</td>
+            <td></td>
+            <td>
+                {% for r in result.DESCRIPTION_OBSERVATION %}
+                    {{ r }}
+                {% endfor %}
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
