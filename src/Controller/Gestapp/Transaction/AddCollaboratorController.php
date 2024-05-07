@@ -109,7 +109,7 @@ class AddCollaboratorController extends AbstractController
         $form = $this->createForm(AddCollaboratorInvoiceType::class, $addColl,[
             'action' => $this->generateUrl('op_gestapp_transaction_addcollaborator_addinvoice', [
                 'refEmployed' => $refEmployed,
-                'idtransac' => $idTransac
+                'idTransac' => $idTransac
             ]),
             'attr' => [
                 'id' => 'FormAddcollaboratorInvoice',
