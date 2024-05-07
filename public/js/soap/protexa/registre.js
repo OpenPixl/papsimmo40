@@ -35,6 +35,15 @@ function showModal(event){
     }else if(crud === 'EDIT' && compl === 'Mandant')
     {
         document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;
+        axios
+            .post(url)
+            .then(function(response){
+                document.getElementById('modalDetails').querySelector('.modal-body').innerHTML = response.data.formView;
+                reloadEventRegistre();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     }else if(crud === 'EDIT' && compl === 'TMandat')
     {
         document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;
@@ -44,5 +53,16 @@ function showModal(event){
     }else if(crud === 'EDIT' && compl === 'OMandat')
     {
         document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;
+    }else if(crud === 'VALID' && compl === 'VMandat')
+    {
+        document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;
+        document.getElementById('modalDetails').querySelector('.modal-body').innerHTML = '<p>En cliquant sur validation, la réservation sera validée dans le registre.<br>Toutes modification sera alors impossible.Etes-vous sur de vouloir continuer ?</p>';
     }
+}
+
+function reloadEventRegistre()
+{
+    document.querySelectorAll('a.btnModalDetails').forEach(function(link){
+        link.addEventListener('click', showModal);
+    });
 }

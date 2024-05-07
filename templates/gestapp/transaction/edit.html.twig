@@ -5,7 +5,7 @@
 {% block body %}
     <h1>Edit Transaction</h1>
 
-    {{ include('gestapp/transaction/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('gestapp/transaction/_formAddMandant.html.twig', {'button_label': 'Update'}) }}
 
     <a href="{{ path('app_gestapp_transaction_index') }}">back to list</a>
 

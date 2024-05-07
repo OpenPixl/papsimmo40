@@ -101,7 +101,7 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        //$view = $this->render('cart/product/_form.html.twig', [
+        //$view = $this->render('cart/product/_formAddMandant.html.twig', [
         //    'product' => $product,
         //    'form' => $form
         //]);
@@ -215,7 +215,7 @@ class ProductController extends AbstractController
             return $this->redirectToRoute('op_cart_product_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        //$view = $this->render('cart/product/_form.html.twig', [
+        //$view = $this->render('cart/product/_formAddMandant.html.twig', [
         //    'product' => $product,
         //    'form' => $form
         //]);

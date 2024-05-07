@@ -67,24 +67,33 @@ class ProtexaController extends AbstractController
         $form = $this->createFormBuilder($defaultData)
             ->setAction($this->generateUrl('op_admin_soap_protexa_addmandant', ['idmandat' => $idmandat]))
             ->setMethod('POST')
-            ->setAttributes(['id'=>'formAddMandat'])
-            ->add('Login', TextType::class)
-            ->add('MotdePasse', TextType::class)
-            ->add('Mandat', TextType::class)
-            ->add('pMandant', TextType::class)
-            ->add('pAdresse', TextType::class)
+            ->add('Mandat', TextType::class, [
+                'label' => 'N° mandat'
+            ])
+            ->add('pMandant', TextType::class, [
+                'label' => 'Nom et prénom'
+            ])
+            ->add('pAdresse', TextType::class, [
+                'label' => 'Adresse'
+            ])
             ->getForm();
-
         $form->handleRequest($request);
 
-        $parameters = [
-            'Login_connexion' => 'testclient@protexa.fr',
-            'MotdePasse'=> 'VHWHZF'
-        ];
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $parameters = [
+                'Login_connexion' => 'testclient@protexa.fr',
+                'MotdePasse'=> 'VHWHZF'
+            ];
             $client = $protexaService->getClient();
             $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+
+            if (is_soap_fault($wsaddmandant)) {
+                return $this->json([
+                    'code' => 300,
+                    'message' => 'Une erreur s\'est produite durant l\'opération.'
+                ], 200);
+            }
 
             return $this->json([
                 'code' => 200,
@@ -93,10 +102,168 @@ class ProtexaController extends AbstractController
         }
 
         // view
-        $view = $this->render('gestapp/transaction/add_collaborator/add.html.twig', [
+        $view = $this->render('soap/protexa/_formAddMandant.html.twig', [
             'form' => $form,
         ]);
+        // return
+        return $this->json([
+            "code" => 200,
+            'formView' => $view->getContent()
+        ], 200);
+    }
 
+    #[Route('/soap/protexa/{idmandat}/addtypemandat', name: 'op_admin_soap_protexa_addtypemandat')]
+    public function addtypemandat($idmandat, ProtexaService $protexaService, Request $request): Response
+    {
+        $defaultData = ['message' => 'Type your message here'];
+
+        $form = $this->createFormBuilder($defaultData)
+            ->setAction($this->generateUrl('op_admin_soap_protexa_addmandant', ['idmandat' => $idmandat]))
+            ->setMethod('POST')
+            ->add('Mandat', TextType::class, [
+                'label' => 'N° mandat'
+            ])
+            ->add('pMandant', TextType::class, [
+                'label' => 'Nom et prénom'
+            ])
+            ->add('pAdresse', TextType::class, [
+                'label' => 'Adresse'
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $parameters = [
+                'Login_connexion' => 'testclient@protexa.fr',
+                'MotdePasse'=> 'VHWHZF'
+            ];
+            $client = $protexaService->getClient();
+            $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+
+            if (is_soap_fault($wsaddmandant)) {
+                return $this->json([
+                    'code' => 300,
+                    'message' => 'Une erreur s\'est produite durant l\'opération.'
+                ], 200);
+            }
+
+            return $this->json([
+                'code' => 200,
+                'message' => 'Ajout du mandat à la réservation validée auprès du forunisseur.'
+            ], 200);
+        }
+
+        // view
+        $view = $this->render('soap/protexa/_formAddMandant.html.twig', [
+            'form' => $form,
+        ]);
+        // return
+        return $this->json([
+            "code" => 200,
+            'formView' => $view->getContent()
+        ], 200);
+    }
+
+    #[Route('/soap/protexa/{idmandat}/adddatemandat', name: 'op_admin_soap_protexa_adddatemandat')]
+    public function adddatemandat($idmandat, ProtexaService $protexaService, Request $request): Response
+    {
+        $defaultData = ['message' => 'Type your message here'];
+
+        $form = $this->createFormBuilder($defaultData)
+            ->setAction($this->generateUrl('op_admin_soap_protexa_addmandant', ['idmandat' => $idmandat]))
+            ->setMethod('POST')
+            ->add('Mandat', TextType::class, [
+                'label' => 'N° mandat'
+            ])
+            ->add('pMandant', TextType::class, [
+                'label' => 'Nom et prénom'
+            ])
+            ->add('pAdresse', TextType::class, [
+                'label' => 'Adresse'
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $parameters = [
+                'Login_connexion' => 'testclient@protexa.fr',
+                'MotdePasse'=> 'VHWHZF'
+            ];
+            $client = $protexaService->getClient();
+            $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+
+            if (is_soap_fault($wsaddmandant)) {
+                return $this->json([
+                    'code' => 300,
+                    'message' => 'Une erreur s\'est produite durant l\'opération.'
+                ], 200);
+            }
+
+            return $this->json([
+                'code' => 200,
+                'message' => 'Ajout du mandat à la réservation validée auprès du forunisseur.'
+            ], 200);
+        }
+
+        // view
+        $view = $this->render('soap/protexa/_formAddMandant.html.twig', [
+            'form' => $form,
+        ]);
+        // return
+        return $this->json([
+            "code" => 200,
+            'formView' => $view->getContent()
+        ], 200);
+    }
+
+    #[Route('/soap/protexa/{idmandat}/addobservmandat', name: 'op_admin_soap_protexa_addobservmandat')]
+    public function addobservmandat($idmandat, ProtexaService $protexaService, Request $request): Response
+    {
+        $defaultData = ['message' => 'Type your message here'];
+
+        $form = $this->createFormBuilder($defaultData)
+            ->setAction($this->generateUrl('op_admin_soap_protexa_addmandant', ['idmandat' => $idmandat]))
+            ->setMethod('POST')
+            ->add('Mandat', TextType::class, [
+                'label' => 'N° mandat'
+            ])
+            ->add('pMandant', TextType::class, [
+                'label' => 'Nom et prénom'
+            ])
+            ->add('pAdresse', TextType::class, [
+                'label' => 'Adresse'
+            ])
+            ->getForm();
+        $form->handleRequest($request);
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $parameters = [
+                'Login_connexion' => 'testclient@protexa.fr',
+                'MotdePasse'=> 'VHWHZF'
+            ];
+            $client = $protexaService->getClient();
+            $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+
+            if (is_soap_fault($wsaddmandant)) {
+                return $this->json([
+                    'code' => 300,
+                    'message' => 'Une erreur s\'est produite durant l\'opération.'
+                ], 200);
+            }
+
+            return $this->json([
+                'code' => 200,
+                'message' => 'Ajout du mandat à la réservation validée auprès du forunisseur.'
+            ], 200);
+        }
+
+        // view
+        $view = $this->render('soap/protexa/_formAddMandant.html.twig', [
+            'form' => $form,
+        ]);
         // return
         return $this->json([
             "code" => 200,
