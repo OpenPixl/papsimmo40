@@ -13,7 +13,21 @@
                         {{ form_label(form.typeClient, '', {'label_attr': {'class':'form-label'}}) }}
                     </div>
                     <div class="col-3">
-                        {{ form_widget(form.typeClient, {'attr': {'class': 'form-select form-select-sm', 'placeholder':'Prénom ...'}}) }}
+                        {{ form_widget(form.typeClient, {'attr': {'class': '', 'placeholder':'Prénom ...'}}) }}
+                    </div>
+                </div>
+                <div class="row align-items-center g-1 mb-1">
+                    <div class="col-3">
+                        {{ form_label(form.civility, '', {'label_attr': {'class':'form-label'}}) }}
+                    </div>
+                    <div class="col-3">
+                        {% for label, value, choice in field_choices(form.civility) %}
+                            {{ choice }}
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" name="{{ field_name(form.civility) }}" id="inlineRadio1" value="{{ value }}" {% if choice is selectedchoice(value) %}selected="selected"{% endif %}>
+                                <label class="form-check-label" for="inlineRadio1">{{ label }}</label>
+                            </div>
+                        {% endfor %}
                     </div>
                 </div>
                 <div class="row align-items-center g-1 mb-1">
@@ -25,6 +39,9 @@
                     </div>
                     <div class="col-3">
                         {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+                    </div>
+                    <div class="col-3">
+                        {{ form_widget(form.maidenName, {'attr': {'class': 'form-control form-control-sm d-none', 'placeholder':'Nom de jeune fille ...'}}) }}
                     </div>
                 </div>
                 <div id="rowStructure" class="row align-items-center g-1 mb-1 d-none animate__animated">
