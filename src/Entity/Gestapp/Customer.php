@@ -186,6 +186,12 @@ class Customer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $kbisfilesize = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $civility = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $maidenName = null;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -627,6 +633,30 @@ class Customer
     public function setKbisfilesize(?string $kbisfilesize): static
     {
         $this->kbisfilesize = $kbisfilesize;
+
+        return $this;
+    }
+
+    public function getCivility(): ?string
+    {
+        return $this->civility;
+    }
+
+    public function setCivility(?string $civility): static
+    {
+        $this->civility = $civility;
+
+        return $this;
+    }
+
+    public function getMaidenName(): ?string
+    {
+        return $this->maidenName;
+    }
+
+    public function setMaidenName(?string $maidenName): static
+    {
+        $this->maidenName = $maidenName;
 
         return $this;
     }

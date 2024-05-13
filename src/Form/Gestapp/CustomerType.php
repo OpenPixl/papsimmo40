@@ -38,11 +38,26 @@ class CustomerType extends AbstractType
                 'empty_data' => '',
                 'required' => false,
             ])
+            ->add('civility', ChoiceType::class, [
+                'label' => 'Civilité',
+                'attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices'  => [
+                    'M.' => 1,
+                    "Mme" => 2,
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
             ->add('firstName', TextType::class, [
                 'label' => 'Nom & Prénom'
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom'
+            ])
+            ->add('maidenName', TextType::class, [
+                'label' => 'Nom de jeune fille'
             ])
             ->add('ddn', DateType::class, [
                 'label' => 'Date de naissance',

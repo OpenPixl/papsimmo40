@@ -5,7 +5,7 @@
 {% block content %}
     <h1>Engager une vente immobilière sur la référence <b>{{ property.ref }}</b></h1>
 
-    {{ include('gestapp/transaction/_formAddMandant.html.twig') }}
+    {{ include('gestapp/transaction/_form.html.twig') }}
 
     <a href="{{ path('op_gestapp_transaction_index') }}">back to list</a>
 {% endblock %}
