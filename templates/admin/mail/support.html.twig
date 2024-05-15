@@ -1,5 +1,9 @@
 {% extends 'admin.html.twig' %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/Admin/contact/contactsupport.js') }}"></script>
+{% endblock %}
 
 {% block content %}
     <div class="row">

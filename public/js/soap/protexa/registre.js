@@ -30,7 +30,7 @@ function showModal(event){
     let id= opt.split('-')[2];
     let compl= opt.split('-')[3];
     let url = this.href;
-    if(crud === 'SHOW'){
+    if(crud === 'SHOW' && compl === 'Ras'){
         document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;
     }else if(crud === 'EDIT' && compl === 'Mandant')
     {
@@ -47,12 +47,39 @@ function showModal(event){
     }else if(crud === 'EDIT' && compl === 'TMandat')
     {
         document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;
+        axios
+            .post(url)
+            .then(function(response){
+                document.getElementById('modalDetails').querySelector('.modal-body').innerHTML = response.data.formView;
+                reloadEventRegistre();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     }else if(crud === 'EDIT' && compl === 'DMandat')
     {
         document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;
+        axios
+            .post(url)
+            .then(function(response){
+                document.getElementById('modalDetails').querySelector('.modal-body').innerHTML = response.data.formView;
+                reloadEventRegistre();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     }else if(crud === 'EDIT' && compl === 'OMandat')
     {
         document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;
+        axios
+            .post(url)
+            .then(function(response){
+                document.getElementById('modalDetails').querySelector('.modal-body').innerHTML = response.data.formView;
+                reloadEventRegistre();
+            })
+            .catch(function(error){
+                console.log(error);
+            });
     }else if(crud === 'VALID' && compl === 'VMandat')
     {
         document.getElementById('modalDetails').querySelector('.modal-title').textContent = contentTitle;

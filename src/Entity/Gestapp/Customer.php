@@ -192,6 +192,12 @@ class Customer
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $maidenName = null;
 
+    #[ORM\Column]
+    private ?bool $isSupprCi = false;
+
+    #[ORM\Column]
+    private ?bool $isSupprKbis = false;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -657,6 +663,30 @@ class Customer
     public function setMaidenName(?string $maidenName): static
     {
         $this->maidenName = $maidenName;
+
+        return $this;
+    }
+
+    public function isSupprCi(): ?bool
+    {
+        return $this->isSupprCi;
+    }
+
+    public function setSupprCi(bool $isSupprCi): static
+    {
+        $this->isSupprCi = $isSupprCi;
+
+        return $this;
+    }
+
+    public function isSupprKbis(): ?bool
+    {
+        return $this->isSupprKbis;
+    }
+
+    public function setSupprKbis(bool $isSupprKbis): static
+    {
+        $this->isSupprKbis = $isSupprKbis;
 
         return $this;
     }

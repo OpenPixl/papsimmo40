@@ -21,7 +21,7 @@ class ContactSupportType extends AbstractType
         $builder
 
             ->add('content', TextareaType::class, [
-                'label' => 'Message',
+                'label' => 'Votre message :',
                 'required' => false,
                 'attr' => [
                     'rows' => 10

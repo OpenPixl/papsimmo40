@@ -51,13 +51,16 @@ class CustomerType extends AbstractType
                 'multiple' => false
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'Nom & Prénom'
+                'label' => 'Nom & Prénom',
+                'required' => false
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'required' => false
             ])
             ->add('maidenName', TextType::class, [
-                'label' => 'Nom de jeune fille'
+                'label' => 'Nom de jeune fille',
+                'required' => false
             ])
             ->add('ddn', DateType::class, [
                 'label' => 'Date de naissance',

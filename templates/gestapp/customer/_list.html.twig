@@ -38,7 +38,7 @@
                 {% if customer.typeClient == "professionnel" %}
                     <strong>{{ customer.NameStructure }}</strong>  <span class="badge rounded-pill bg-success text-dark">Pro</span>
                 {% else %}
-                    <strong>{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-info text-dark">Par</span>
+                    <strong>{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-info text-dark">Par</span>
                 {% endif %}
             </td>
             <td>{% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}</td>

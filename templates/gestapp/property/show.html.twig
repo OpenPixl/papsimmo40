@@ -641,6 +641,7 @@
                 document.getElementById('property_step2_priceFai').value = price + honoraire
             })
 
+
             const property_avenant_price = document.getElementById('property_avenant_price')
             if (property_avenant_price !== null) {
                 property_avenant_price.addEventListener('change', function () {
@@ -657,7 +658,14 @@
                     document.getElementById('property_avenant_priceFai').value = price + honoraire
                 })
             }
-
+            const property_avenant_priceFai = document.getElementById('property_avenant_priceFai');
+            if(property_avenant_priceFai !== null){
+                property_avenant_priceFai.addEventListener('change', function () {
+                    let priceFAI = parseInt(property_avenant_priceFai.value)
+                    let honoraire = parseInt(property_avenant_honoraires.value)
+                    document.getElementById('property_avenant_price').value = priceFAI - honoraire
+                })
+            }
 
             // Logique Modal & Forms
             // ---------------------------------------

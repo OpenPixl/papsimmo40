@@ -8,6 +8,14 @@
     <script>
         window.onload = function()
         {
+            let civility = document.querySelector('input[name=customer\\[civility\\]]:checked').value;
+            if (civility > 1){
+                document.getElementById('customer_maidenName').classList.remove('d-none');
+            }
+            document.querySelector('input[name=customer\\[civility\\]]').addEventListener('change', function(event){
+                console.log(civility);
+            })
+
             function removeOptions(selectElement) {
                 var i, L = selectElement.options.length - 1;
                 for(i = L; i >= 0; i--) {

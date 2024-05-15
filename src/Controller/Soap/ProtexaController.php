@@ -4,6 +4,7 @@ namespace App\Controller\Soap;
 
 use SoapClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -83,7 +84,10 @@ class ProtexaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $parameters = [
                 'Login_connexion' => 'testclient@protexa.fr',
-                'MotdePasse'=> 'VHWHZF'
+                'MotdePasse'=> 'VHWHZF',
+                'Mandat' => $idmandat,
+                'pMandant' => $form->get('pMandant')->getData(),
+                'pAdresse' => $form->get('pAdresse')->getData(),
             ];
             $client = $protexaService->getClient();
             $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
@@ -97,7 +101,7 @@ class ProtexaController extends AbstractController
 
             return $this->json([
                 'code' => 200,
-                'message' => 'Ajout du mandat à la réservation validée auprès du forunisseur.'
+                'message' => 'Ajout du mandat à la réservation validée auprès du fournisseur.'
             ], 200);
         }
 
@@ -118,16 +122,34 @@ class ProtexaController extends AbstractController
         $defaultData = ['message' => 'Type your message here'];
 
         $form = $this->createFormBuilder($defaultData)
-            ->setAction($this->generateUrl('op_admin_soap_protexa_addmandant', ['idmandat' => $idmandat]))
+            ->setAction($this->generateUrl('op_admin_soap_protexa_addtypemandat', ['idmandat' => $idmandat]))
             ->setMethod('POST')
             ->add('Mandat', TextType::class, [
-                'label' => 'N° mandat'
+                'label' => 'N° mandat :'
             ])
-            ->add('pMandant', TextType::class, [
-                'label' => 'Nom et prénom'
+            ->add('type', ChoiceType::class, [
+                'label' => 'Type de mandat :',
+                'choices'  => [
+                    'Baux-Commerciaux' => 'Baux-Commerciaux',
+                    'Délégation/Substitution de mandat' => 'Délégation/Substitution de mandat',
+                ],
+                'choice_attr' => [
+                    'Baux-Commerciaux' => ['data-data' => 'Baux-Commerciaux'],
+                    'Délégation/Substitution de mandat' => ['data-data' => 'Délégation/Substitution de mandat'],
+                ],
             ])
-            ->add('pAdresse', TextType::class, [
-                'label' => 'Adresse'
+            ->add('sousType', TextType::class, [
+                'label' => 'sous type de mandat :',
+                'choices'  => [
+                    'Droit au bail' => 'Droit au bail',
+                    'Location avec droit d\'entrée' => 'Location avec droit d\'entrée',
+                    'Délégation' => 'Délégation',
+                ],
+                'choice_attr' => [
+                    'Droit au bail' => ['data-data' => 'Droit au bail'],
+                    'Location avec droit d\'entrée' => ['data-data' => 'Location avec droit d\'entrée'],
+                    'Délégation' => ['data-data' => 'Délégation']
+                ],
             ])
             ->getForm();
         $form->handleRequest($request);
@@ -136,12 +158,15 @@ class ProtexaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $parameters = [
                 'Login_connexion' => 'testclient@protexa.fr',
-                'MotdePasse'=> 'VHWHZF'
+                'MotdePasse'=> 'VHWHZF',
+                'Mandat' => $idmandat,
+                'type' => $form->get('type')->getData(),
+                'sousType' => $form->get('sousType')->getData(),
             ];
             $client = $protexaService->getClient();
-            $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+            $wsajouttype = $protexaService->callService($client, 'wsajouttype', $parameters);
 
-            if (is_soap_fault($wsaddmandant)) {
+            if (is_soap_fault($wsajouttype)) {
                 return $this->json([
                     'code' => 300,
                     'message' => 'Une erreur s\'est produite durant l\'opération.'
@@ -150,12 +175,12 @@ class ProtexaController extends AbstractController
 
             return $this->json([
                 'code' => 200,
-                'message' => 'Ajout du mandat à la réservation validée auprès du forunisseur.'
+                'message' => 'Ajout du type à la réservation validée auprès du fournisseur.'
             ], 200);
         }
 
         // view
-        $view = $this->render('soap/protexa/_formAddMandant.html.twig', [
+        $view = $this->render('soap/protexa/_formAddType.html.twig', [
             'form' => $form,
         ]);
         // return
@@ -171,16 +196,19 @@ class ProtexaController extends AbstractController
         $defaultData = ['message' => 'Type your message here'];
 
         $form = $this->createFormBuilder($defaultData)
-            ->setAction($this->generateUrl('op_admin_soap_protexa_addmandant', ['idmandat' => $idmandat]))
+            ->setAction($this->generateUrl('op_admin_soap_protexa_adddatemandat', ['idmandat' => $idmandat]))
             ->setMethod('POST')
             ->add('Mandat', TextType::class, [
                 'label' => 'N° mandat'
             ])
-            ->add('pMandant', TextType::class, [
-                'label' => 'Nom et prénom'
+            ->add('dateDebut', TextType::class, [
+                'label' => 'Date de début'
             ])
-            ->add('pAdresse', TextType::class, [
-                'label' => 'Adresse'
+            ->add('dureeInit', TextType::class, [
+                'label' => 'Durée Initiale'
+            ])
+            ->add('dureeTR', TextType::class, [
+                'label' => 'Durée Tacite Reconduction'
             ])
             ->getForm();
         $form->handleRequest($request);
@@ -189,12 +217,16 @@ class ProtexaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $parameters = [
                 'Login_connexion' => 'testclient@protexa.fr',
-                'MotdePasse'=> 'VHWHZF'
+                'MotdePasse'=> 'VHWHZF',
+                'Mandat' => $idmandat,
+                'dateDebut' => $form->get('dateDebut')->getData(),
+                'dureeInit' => $form->get('dureeInit')->getData(),
+                'dureeTR' => $form->get('dureeTR')->getData(),
             ];
             $client = $protexaService->getClient();
-            $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+            $wsajoutdates = $protexaService->callService($client, 'wsajoutdates', $parameters);
 
-            if (is_soap_fault($wsaddmandant)) {
+            if (is_soap_fault($wsajoutdates)) {
                 return $this->json([
                     'code' => 300,
                     'message' => 'Une erreur s\'est produite durant l\'opération.'
@@ -203,12 +235,12 @@ class ProtexaController extends AbstractController
 
             return $this->json([
                 'code' => 200,
-                'message' => 'Ajout du mandat à la réservation validée auprès du forunisseur.'
+                'message' => 'Ajout du mandat à la réservation validée auprès du fournisseur.'
             ], 200);
         }
 
         // view
-        $view = $this->render('soap/protexa/_formAddMandant.html.twig', [
+        $view = $this->render('soap/protexa/_formAddDates.html.twig', [
             'form' => $form,
         ]);
         // return
@@ -224,16 +256,10 @@ class ProtexaController extends AbstractController
         $defaultData = ['message' => 'Type your message here'];
 
         $form = $this->createFormBuilder($defaultData)
-            ->setAction($this->generateUrl('op_admin_soap_protexa_addmandant', ['idmandat' => $idmandat]))
+            ->setAction($this->generateUrl('op_admin_soap_protexa_addobservmandat', ['idmandat' => $idmandat]))
             ->setMethod('POST')
-            ->add('Mandat', TextType::class, [
-                'label' => 'N° mandat'
-            ])
-            ->add('pMandant', TextType::class, [
-                'label' => 'Nom et prénom'
-            ])
-            ->add('pAdresse', TextType::class, [
-                'label' => 'Adresse'
+            ->add('Observation', TextType::class, [
+                'label' => 'Observation'
             ])
             ->getForm();
         $form->handleRequest($request);
@@ -242,12 +268,13 @@ class ProtexaController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $parameters = [
                 'Login_connexion' => 'testclient@protexa.fr',
-                'MotdePasse'=> 'VHWHZF'
+                'MotdePasse'=> 'VHWHZF',
+                'Mandat' => $idmandat
             ];
             $client = $protexaService->getClient();
-            $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+            $wsaddobs = $protexaService->callService($client, 'wsaddobs', $parameters);
 
-            if (is_soap_fault($wsaddmandant)) {
+            if (is_soap_fault($wsaddobs)) {
                 return $this->json([
                     'code' => 300,
                     'message' => 'Une erreur s\'est produite durant l\'opération.'
@@ -256,12 +283,12 @@ class ProtexaController extends AbstractController
 
             return $this->json([
                 'code' => 200,
-                'message' => 'Ajout du mandat à la réservation validée auprès du forunisseur.'
+                'message' => 'Ajout de l\'observation à la réservation validée auprès du fournisseur.'
             ], 200);
         }
 
         // view
-        $view = $this->render('soap/protexa/_formAddMandant.html.twig', [
+        $view = $this->render('soap/protexa/_formAddObs.html.twig', [
             'form' => $form,
         ]);
         // return

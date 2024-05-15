@@ -19,6 +19,8 @@ parameters:
     property_doc_directory: '%kernel.project_dir%/public/properties/'
     property_product_directory: '%kernel.project_dir%/public/images/product/'
     prescriber_ci_directory: '%kernel.project_dir%/public/doc/prescriber/ci/'
+    customer_ci_directory: '%kernel.project_dir%/public/customer/ci/'
+    customer_kbis_directory: '%kernel.project_dir%/public/customer/kbis/'
 
 services:
     # default configuration for services in *this* file

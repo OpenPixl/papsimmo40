@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\ChoiceList\ChoiceList;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -27,6 +28,18 @@ class EmployedType extends AbstractType
             ])
             //->add('roles')
             //->add('password')
+            ->add('civility', ChoiceType::class, [
+                'label' => 'Civilité',
+                'attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices'  => [
+                    'M.' => 1,
+                    "Mme" => 2,
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
             ->add('firstName')
             ->add('lastName')
             //->add('slug')

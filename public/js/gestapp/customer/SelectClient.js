@@ -18,3 +18,4 @@ typeClient.addEventListener('change', function(event){
         document.getElementById('kbis').classList.remove('animate__animated', 'animate__fadeIn');
     }
 });
+
