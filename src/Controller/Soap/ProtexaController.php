@@ -32,19 +32,19 @@ class ProtexaController extends AbstractController
         ];
 
         $client = $protexaService->getClient();
-        $wslisteresaencours = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+        $wslisteresa = $protexaService->callService($client, 'wslisteresa', $parameters);
 
-        //dd($listews['RESERVATION_EN_COURS']);
-
-        foreach ($wslisteresaencours['RESERVATION_EN_COURS'] as $wsl){
+        //dd($wslisteresa);
+        foreach ($wslisteresa['RESERVATION_EN_COURS'] as $wsl){
             $parameters = [
                 'Login' => 'testclient@protexa.fr',
                 'MotdePasse'=> 'VHWHZF',
-                'Mandat' => $wsl['MANDAT']
+                'Mandat' => $wsl['RESA']
             ];
             $wsdetailsmandat = $protexaService->callService($client, 'wsdetailsmandat', $parameters);
+            //dd($wsdetailsmandat);
             array_push($results, [
-                'ID' =>  $wsl['MANDAT'],
+                'ID' =>  $wsl['RESA'],
                 'AGENCE' => $wsdetailsmandat['MANDAT']['DONNEES']['PARAMETRES']['AGENCE'],
                 'DATE_DEBUT' => $wsdetailsmandat['MANDAT']['DONNEES']['PARAMETRES']['DATE_DEBUT'],
                 'DATE_FIN' => $wsdetailsmandat['MANDAT']['DONNEES']['PARAMETRES']['DATE_FIN'],
@@ -54,7 +54,74 @@ class ProtexaController extends AbstractController
             ]);
             //dd($wsdetailsmandat['MANDAT']['DONNEES']);
         }
-        //dd($results);
+        foreach ($wslisteresa['MANDAT_SIGNE_VIA_PROTEXA'] as $wsl){
+            $parameters = [
+                'Login' => 'testclient@protexa.fr',
+                'MotdePasse'=> 'VHWHZF',
+                'Mandat' => $wsl['MANDAT_SIGNE']
+            ];
+            $wsdetailsmandat = $protexaService->callService($client, 'wsdetailsmandat', $parameters);
+            //dd($wsdetailsmandat);
+            // detection des éléments
+            if(!$wsl['MANDAT_SIGNE']){$id = null;} else {$id = $wsl['MANDAT_SIGNE'];};
+            if(!$wsdetailsmandat['MANDAT']['DONNEES']['PARAMETRES']['AGENCE']){$agence = null;} else {$agence = $wsdetailsmandat['MANDAT']['DONNEES']['PARAMETRES']['AGENCE'];};
+            if(!$wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['ACTIONS']){$actions = '';} else {$actions = $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['ACTIONS'];};
+
+
+
+
+            array_push($results, [
+                // information sur le mandat
+                'ID' =>  $id,
+                'AGENCE' => $agence,
+                'DATE_DEBUT' => $wsdetailsmandat['MANDAT']['DONNEES']['PARAMETRES']['DATE_DEBUT'],
+                'DATE_FIN' => $wsdetailsmandat['MANDAT']['DONNEES']['PARAMETRES']['DATE_FIN'],
+                'TIER_NEGO' => $wsdetailsmandat['MANDAT']['DONNEES']['PARAMETRES']['TIER_NEGO'],
+                // Informations sur le bien
+                'FB_SURFACE_BIEN' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_SURFACE_BIEN'],
+                'FB_NB_PIECES' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_NB_PIECES'],
+                'FB_NB_CHAMBRES' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_NB_CHAMBRES'],
+                'FB_TYPE_TERRAIN' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_TYPE_TERRAIN'],
+                'FB_SURFACE_TERRAIN' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_SURFACE_TERRAIN'],
+                'FB_ORIGINE' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_ORIGINE'],
+                'FB_CARREZ' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_CARREZ'],
+                'FB_OCCUPATION' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_OCCUPATION'],
+                'FB_DATE_LIBRE' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FB_DATE_LIBRE'],
+                'FM_PRIX' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FM_PRIX'],
+                'FM_COM_1' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FM_COM_1'],
+                'FM_COM_FIXE_1' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FM_COM_FIXE_1'],
+                'FM_MT_COMMISSION' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FM_MT_COMMISSION'],
+                'FM_MT_COM_TOTALE' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FM_MT_COM_TOTALE'],
+                'FM_TYPE_COM' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FM_TYPE_COM'],
+                'FM_NOTAIRE' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['FM_NOTAIRE'],
+                'RGPD_UTILISATION' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['RGPD_UTILISATION'],
+                'RGPD_1' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['RGPD_1'],
+                'RGPD_2' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['RGPD_2'],
+                'RGPD_3' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['RGPD_3'],
+                'CONDPART' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['CONDPART'],
+                'MOYENS' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['MOYENS'],
+                'ACTIONS' => $actions,
+                'MEDIATEUR' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['MEDIATEUR'],
+                'PERIODICITE' => $wsdetailsmandat['MANDAT']['DONNEES']['FICHE_BIEN']['PERIODICITE'],
+                // Informations sur le vendeurs
+                'NOM' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['NOM'],
+                'PRENOM' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['PRENOM'],
+                'ADRESSE_1' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['ADRESSE_1'],
+                'ADRESSE_2' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['ADRESSE_2'],
+                'CODE_POSTAL' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['CODE_POSTAL'],
+                'VILLE' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['VILLE'],
+                'PAYS' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['PAYS'],
+                'DATE_NAISSANCE' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['DATE_NAISSANCE'],
+                'LIEU_NAISSANCE' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['LIEU_NAISSANCE'],
+                'PORTABLE' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['PORTABLE'],
+                'EMAIL' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['EMAIL'],
+                'LIEN' => $wsdetailsmandat['MANDAT']['DONNEES']['MANDANTS']['DESCRIPTION_MANDANT']['LIEN'],
+                // Options complémentaires
+                'DESCRIPTION_OBSERVATION' => $wsdetailsmandat['MANDAT']['DONNEES']['OBSERVATIONS']['DESCRIPTION_OBSERVATION'],
+            ]);
+            //dd($wsdetailsmandat['MANDAT']['DONNEES']);
+        }
+        dd($results);
         return $this->render('soap/protexa/registre.html.twig',[
             'results' => $results
         ]);
@@ -90,7 +157,7 @@ class ProtexaController extends AbstractController
                 'pAdresse' => $form->get('pAdresse')->getData(),
             ];
             $client = $protexaService->getClient();
-            $wsaddmandant = $protexaService->callService($client, 'wslisteresaencours', $parameters);
+            $wsaddmandant = $protexaService->callService($client, 'wsaddmandant', $parameters);
 
             if (is_soap_fault($wsaddmandant)) {
                 return $this->json([
