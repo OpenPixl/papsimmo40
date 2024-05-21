@@ -59,7 +59,7 @@ class PropertyController extends AbstractController
         if($hasAccess == true){
             // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
-
+            //dd($data);
             $expireAtOut = [];
             // tri des bien avec date de fin de mandat inférieur à aujourd'hui
             foreach ($data as $d){
