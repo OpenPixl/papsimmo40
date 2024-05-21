@@ -4,11 +4,13 @@ namespace App\Service;
 
 
 use App\Entity\Gestapp\Property;
+use App\Entity\Gestapp\Transaction;
 use App\Repository\Gestapp\CadasterRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
+use App\Repository\Gestapp\TransactionRepository;
 use Symfony\Component\HttpFoundation\RequestStack;
 
 class ArchivePropertyService{
@@ -43,7 +45,8 @@ class ArchivePropertyService{
         PhotoRepository $photoRepository,
         CadasterRepository $cadasterRepository,
         PublicationRepository $publicationRepository,
-        ComplementRepository $complementRepository
+        ComplementRepository $complementRepository,
+        TransactionRepository $transactionRepository
     )
     {
         // Suppression des entités liées à la propriété
@@ -59,6 +62,7 @@ class ArchivePropertyService{
         foreach($cadasters as $cadaster){
             $cadasterRepository->remove($cadaster);
         }
+
         // 3. Finalisation des suppression
         $this->propertyRepository->remove($property);
         $publicationRepository->remove($publication);

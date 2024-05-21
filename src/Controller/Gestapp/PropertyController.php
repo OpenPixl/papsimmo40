@@ -25,6 +25,7 @@ use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
+use App\Repository\Gestapp\TransactionRepository;
 use App\Service\ArchivePropertyService;
 use App\Service\PropertyService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -198,6 +199,7 @@ class PropertyController extends AbstractController
             //$archiveProperty->onArchive($propertyRepository);
         }
         $data = $propertyRepository->listAllPropertiesArchived();
+        dd($data);
         $properties = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),

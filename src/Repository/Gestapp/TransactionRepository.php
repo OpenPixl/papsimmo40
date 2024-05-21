@@ -4,6 +4,7 @@ namespace App\Repository\Gestapp;
 
 use App\Entity\Gestapp\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
