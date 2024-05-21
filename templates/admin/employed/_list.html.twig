@@ -16,7 +16,7 @@
     {% for employed in employeds %}
         <tr class="align-middle">
             <td>{{ employed.id }}</td>
-            <td><a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}">{{ employed.firstName }} {{ employed.lastName }}</a></td>
+            <td><a href="{{ path('op_admin_employed_edit', {'id': employed.id}) }}">{% if employed.civility == 2 %}Mme. {% else %}M. {% endif %}{{ employed.firstName }} {{ employed.lastName }}</a></td>
             <td>{{ employed.email }}</td>
             <td>
                 {% for role in employed.roles %}

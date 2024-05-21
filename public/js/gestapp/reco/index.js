@@ -18,7 +18,7 @@ if(btnModalPrescriber !== null){
 document.querySelectorAll('a.btnEditReco').forEach(function(link){
     link.addEventListener('click', showReco);
 });
-//btnCommission.addEventListener('click', showComm);
+btnCommission.addEventListener('click', showComm);
 modalRecoBs.addEventListener('hidden.bs.modal', function(){
     if(modalRecoBs.querySelector('.modal-dialog').classList.contains('modal-xl')){
         modalRecoBs.querySelector('.modal-dialog').classList.remove('modal-xl');

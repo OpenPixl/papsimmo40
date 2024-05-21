@@ -114,7 +114,7 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('op_webapp_public_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/contact/new.html.twig', [
+        return $this->render('admin/contact/new.html.twig', [
             'contact' => $contact,
             'form' => $form,
         ]);

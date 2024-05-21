@@ -26,12 +26,15 @@ class MailController extends AbstractController
     #[Route('/admin/mail/AskPropertyInfo', name: 'op_admin_mail_AskPropertyInfo')]
     public function AskPropertyInfo(): Response
     {
-
+        return $this->render('admin/mail/index.html.twig', [
+            'controller_name' => 'MailController',
+        ]);
     }
 
     #[Route('/admin/mail/contactsupport', name: 'op_admin_mail_contactsupport')]
     public function contactsupport(Request $request, ContactRepository $contactRepository, MailerInterface $mailer): Response
     {
+        $user = $this->getUser();
         $contact = new Contact();
         $form = $this->createForm(ContactSupportType::class, $contact,[
             'method' => 'POST',
@@ -40,6 +43,11 @@ class MailController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $contact->setName($user->getFirstName().' '.$user->getLastName());
+            $contact->setEmail($user->getEmail());
+            $contact->setPhoneHome($user->getHome());
+            $contact->setPhoneGsm($user->getGsm());
+            $contact->setContactBy('email');
             $contactRepository->add($contact, true);
 
             $email = (new Email())
@@ -60,10 +68,10 @@ class MailController extends AbstractController
                 dd($e);
             }
 
-            return $this->redirectToRoute('op_webapp_public_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_admin_dashboard_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/mail/support.html.twig', [
+        return $this->render('admin/mail/support.html.twig', [
             'contact' => $contact,
             'form' => $form,
         ]);

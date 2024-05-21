@@ -17,9 +17,11 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/gestapp/customer')]
 class CustomerController extends AbstractController
@@ -144,7 +146,7 @@ class CustomerController extends AbstractController
             return $this->redirectToRoute('op_gestapp_customer_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/customer/new.html.twig', [
+        return $this->render('gestapp/customer/new.html.twig', [
             'customer' => $customer,
             'form' => $form,
         ]);
@@ -296,7 +298,51 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($form->isValid());
+            // partie ajout CI
+            $ci = $form->get('cifilename')->getData();
+            $ciFilename = $customer->getCifilename();
+            if($ci) {
+                if ($ciFilename) {
+                    $pathheader = $this->getParameter('customer_ci_directory') . '/' . $ciFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $newFilename = $customer->getFirstName().'-'.$customer->getLastName().'-ci.' . $ci->guessExtension();
+                try {
+                    $ci->move(
+                        $this->getParameter('customer_ci_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $customer->setCifilename($newFilename);
+            }
+
+            // partie Ajout Kbis
+            $kbis = $form->get('kbisfilename')->getData();
+            $kbisFilename = $customer->getKbisfilename();
+            if($kbis) {
+                if ($kbisFilename) {
+                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' . $kbisFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $newFilename = $customer->getFirstName().'-'.$customer->getLastName().'-kbis.' . $kbis->guessExtension();
+                try {
+                    $kbis->move(
+                        $this->getParameter('customer_kbis_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $customer->setKbisfilename($newFilename);
+            }
             $customerRepository->add($customer);
             return $this->redirectToRoute('op_gestapp_customer_edit', ['id'=>$customer->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -340,6 +386,7 @@ class CustomerController extends AbstractController
         PropertyRepository $propertyRepository,
         TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
+        SluggerInterface $slugger
     )
     {
         $form = $this->createForm(Customer2Type::class, $customer, [
@@ -354,6 +401,53 @@ class CustomerController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $customerRepository->add($customer);
             $customers = $customerRepository->listbyproperty($idproperty);
+
+            // partie ajout CI
+            $ci = $form->get('cifilename')->getData();
+            $ciFilename = $customer->getCifilename();
+            if($ci) {
+                if ($ciFilename) {
+                    $pathheader = $this->getParameter('customer_ci_directory') . '/' . $ciFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $newFilename = $customer->getFirstName().'-'.$customer->getLastName().'-ci.' . $ci->guessExtension();
+                try {
+                    $ci->move(
+                        $this->getParameter('customer_ci_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $customer->setCifilename($newFilename);
+            }
+
+            // partie Ajout Kbis
+            $kbis = $form->get('kbisfilename')->getData();
+            $kbisFilename = $customer->getKbisfilename();
+            if($kbis) {
+                if ($kbisFilename) {
+                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' . $kbisFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $newFilename = $customer->getFirstName().'-'.$customer->getLastName().'-kbis.' . $kbis->guessExtension();
+                try {
+                    $kbis->move(
+                        $this->getParameter('customer_kbis_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $customer->setKbisfilename($newFilename);
+            }
+
             return $this->json([
                 'code'=> 200,
                 'message' => "Le vendeur a été correctement modifié.",

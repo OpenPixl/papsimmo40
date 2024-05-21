@@ -9,7 +9,20 @@
                 {{ form_label(form.typeClient, '', {'label_attr': {'class':'form-label'}}) }}
             </div>
             <div class="col-3">
-                {{ form_widget(form.typeClient, {'attr': {'class': 'form-select form-select-sm', 'placeholder':'Prénom ...'}}) }}
+                {{ form_widget(form.typeClient, {'attr': {'class': 'form-select form-select-sm'}}) }}
+            </div>
+        </div>
+        <div class="row align-items-center g-1 mb-1">
+            <div class="col-3">
+                {{ form_label(form.civility, '', {'label_attr': {'class':'form-label'}}) }}
+            </div>
+            <div class="col-3">
+                {% for label, value, choice in field_choices(form.civility) %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="{{ field_name(form.civility) }}" id="inlineRadio1" value="{{ value }}" {% if value is same as customer.civility %}checked="checked"{% endif %}>
+                        <label class="form-check-label" for="inlineRadio1">{{ label }}</label>
+                    </div>
+                {% endfor %}
             </div>
         </div>
         <div class="row align-items-center g-1 mb-1">
@@ -21,6 +34,9 @@
             </div>
             <div class="col-3">
                 {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+            </div>
+            <div class="col-3">
+                {{ form_widget(form.maidenName, {'attr': {'class': 'form-control form-control-sm d-none', 'placeholder':'Nom de jeune fille ...'}}) }}
             </div>
         </div>
         <div id="rowStructure" class="row align-items-center g-1 mb-1 d-none animate__animated">
@@ -111,6 +127,11 @@
             <div class="col-12">
                 {{ form_widget(form.cifilename, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </div>
+            {% if customer.cifilename is not empty %}
+                <div class="col-12 mt-1">
+                    <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/ci/'~customer.cifilename) }}" download>Télécharger la pièce d'identité</a>
+                </div>
+            {% endif %}
         </div>
         <div id="kbis" class="row mt-1 mb-1 g-1 d-none">
             <div class="col-12">
@@ -119,6 +140,11 @@
             <div class="col-12">
                 {{ form_widget(form.kbisfilename, {'attr': {'class': 'form-control form-control-sm'}}) }}
             </div>
+            {% if customer.kbisfilename is not empty %}
+                <div class="col-12">
+                    <a href="{{ asset('customer/ci/' ~ customer.kbisfilename) }}" download>sdfsdfsdfds</a>
+                </div>
+            {% endif %}
         </div>
 
     </div>

@@ -362,6 +362,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'refemployed', targetEntity: AddCollTransac::class, orphanRemoval: true)]
     private Collection $addCollTransacs;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $civility = null;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -1214,6 +1217,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $addCollTransac->setRefemployed(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getCivility(): ?string
+    {
+        return $this->civility;
+    }
+
+    public function setCivility(?string $civility): static
+    {
+        $this->civility = $civility;
 
         return $this;
     }

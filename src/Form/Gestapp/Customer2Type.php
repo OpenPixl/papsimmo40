@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -36,11 +37,29 @@ class Customer2Type extends AbstractType
                 'label' => 'Nom de la structure',
                 'required' => false,
             ])
+            ->add('civility', ChoiceType::class, [
+                'label' => 'Civilité',
+                'attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices'  => [
+                    'M.' => 1,
+                    "Mme" => 2,
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom & Nom'
+                'label' => 'Nom & Prénom',
+                'required' => false
             ])
             ->add('lastName', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'required' => false
+            ])
+            ->add('maidenName', TextType::class, [
+                'label' => 'Nom de jeune fille',
+                'required' => false
             ])
             ->add('adress', TextType::class, [
                 'label' => 'Adresse',

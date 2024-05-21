@@ -1,16 +1,17 @@
 {{ form_start(form) }}
-{# Energie du contacter par #}
-
-{#
-<div class="row mb-1 mt-1 g-1">
-    <fieldset>
-        <div class="form-check form-switch">
-            {{ form_widget(form.isRGPD, {'attr': {'class': 'form-check-input'}}) }}
-            {{ form_label(form.isRGPD, {'label_attr': {'class':'col-sm-4 col-form-label'}}) }}
-        </div>
-    </fieldset>
+<div class="row">
+    <div class="col-12 mb-1">
+        {{ form_label(form.content) }}
+    </div>
+    <div class="col-12">
+        {{ form_widget(form.content, {'attr': {'class': 'form-control tinymce'}}) }}
+    </div>
 </div>
-#}
+
 {{ form_rest(form) }}
-<button class="btn btn-sm btn-primary">{{ button_label|default('Envoyer') }}</button>
+<div class="row mt-2">
+    <div class="col-12">
+        <button class="btn btn-sm btn-primary">{{ button_label|default('Envoyer le message au support') }}</button>
+    </div>
+</div>
 {{ form_end(form) }}

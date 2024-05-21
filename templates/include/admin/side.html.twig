@@ -24,6 +24,9 @@
                 <li><a href="{{ path('op_gestapp_property_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_property_index'%}active{% elseif app.request.attributes.get("_route") == 'op_gestapp_property_edit' %}active{% elseif app.request.attributes.get("_route") == 'op_gestapp_property_firstedit' %}active{% endif %}"><i class="fa-duotone fa-house-building"></i> Biens</a></li>
                 <li><a href="{{ path('op_gestapp_customer_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-people-arrows-left-right"></i> Clients</a></li>
                 <li><a href="{{ path('op_gestapp_transaction_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_transaction_index' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Ventes</a></li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <li><a href="{{ path('op_admin_soap_protexa_registre') }}" class="{% if app.request.attributes.get("_route") == 'op_admin_soap_protexa_registre' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Registre</a></li>
+                {% endif %}
                 <li><a href="{{ path('op_gestapp_reco_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_transaction_index' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Recommandations</a></li>
                 <li><a href="https://la-loupe.immo/#login" onclick="window.open(this.href); return false;" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-money-check-dollar-pen"></i> Avis de valeurs</a></li>
             </ul>

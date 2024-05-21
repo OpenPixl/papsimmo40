@@ -127,7 +127,7 @@ class PropertyRepository extends ServiceEntityRepository
     public function listAllProperties()
     {
         return $this->createQueryBuilder('p')
-            ->join('p.refEmployed', 'e')
+            ->leftJoin('p.refEmployed', 'e')
             ->leftjoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
             ->leftJoin('c.denomination', 'd')
@@ -168,7 +168,7 @@ class PropertyRepository extends ServiceEntityRepository
             ')
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')
-            ->orderBy('p.RefMandat', 'DESC')
+            ->addOrderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
             ;

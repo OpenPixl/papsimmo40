@@ -8,7 +8,7 @@
     <div class="alert alert-light mb-1">
         <div class="d-flex justify-content-between">
             <div>
-                <p class="mb-0">{{ loop.index }} | {{ customer.firstname }} {{ customer.lastName }} |
+                <p class="mb-0">{{ loop.index }} | {% if customer.civility ==2 %}Mme. {% else %}M. {% endif %}{{ customer.firstname }} {{ customer.lastName }} |
                     {% if customer.gsm is defined %}{{ customer.gsm }}{% endif %}
                     {% if customer.home is defined %}{{ customer.home }}{% endif %}
                 </p>

@@ -166,7 +166,7 @@ class Property
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $refnumdate;
 
-    #[ORM\Column(type: 'string', length: 255)]
+    #[ORM\Column(type: 'integer')]
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $RefMandat;
 
@@ -682,12 +682,12 @@ class Property
         return $this;
     }
 
-    public function getRefMandat(): ?string
+    public function getRefMandat(): ?int
     {
         return $this->RefMandat;
     }
 
-    public function setRefMandat(string $RefMandat): self
+    public function setRefMandat(int $RefMandat): self
     {
         $this->RefMandat = $RefMandat;
 

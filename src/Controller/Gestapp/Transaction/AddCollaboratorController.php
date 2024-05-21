@@ -63,8 +63,6 @@ class AddCollaboratorController extends AbstractController
             $entityManager->persist($addCollTransac);
             $entityManager->flush();
 
-
-
             $listCollaborators = $addCollTransacRepository->listcollTransac($idtransac);
 
             return $this->json([
@@ -111,7 +109,7 @@ class AddCollaboratorController extends AbstractController
         $form = $this->createForm(AddCollaboratorInvoiceType::class, $addColl,[
             'action' => $this->generateUrl('op_gestapp_transaction_addcollaborator_addinvoice', [
                 'refEmployed' => $refEmployed,
-                'idtransac' => $idTransac
+                'idTransac' => $idTransac
             ]),
             'attr' => [
                 'id' => 'FormAddcollaboratorInvoice',
