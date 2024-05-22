@@ -18,7 +18,10 @@ if(btnModalPrescriber !== null){
 document.querySelectorAll('a.btnEditReco').forEach(function(link){
     link.addEventListener('click', showReco);
 });
-btnCommission.addEventListener('click', showComm);
+document.querySelectorAll('a.btnCommission').forEach(function(link){
+    link.addEventListener('click', showComm);
+});
+
 modalRecoBs.addEventListener('hidden.bs.modal', function(){
     if(modalRecoBs.querySelector('.modal-dialog').classList.contains('modal-xl')){
         modalRecoBs.querySelector('.modal-dialog').classList.remove('modal-xl');
@@ -113,6 +116,8 @@ function showComm(event){
         .post(url)
         .then(function(response){
             document.getElementById('modalReco').querySelector('.modal-body').innerHTML = response.data.formView;
+            document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
+            document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', submitReco);
         })
         .catch(function(error){
             console.log(error);

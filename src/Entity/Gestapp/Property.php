@@ -347,6 +347,12 @@ class Property
     #[ORM\OneToMany(mappedBy: 'refProperty', targetEntity: Reco::class)]
     private Collection $recos;
 
+    /**
+     * @var Collection<int, Transaction>
+     */
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Transaction::class)]
+    private Collection $transactions;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1444,6 +1450,36 @@ class Property
             // set the owning side to null (unless already changed)
             if ($reco->getRefProperty() === $this) {
                 $reco->setRefProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
+    {
+        return $this->transactions;
+    }
+
+    public function addTransaction(Transaction $transaction): static
+    {
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getProperty() === $this) {
+                $transaction->setProperty(null);
             }
         }
 

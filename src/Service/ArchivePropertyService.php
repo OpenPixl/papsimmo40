@@ -62,7 +62,12 @@ class ArchivePropertyService{
         foreach($cadasters as $cadaster){
             $cadasterRepository->remove($cadaster);
         }
-
+        $transactions = $transactionRepository->findBy(['property' => $property]);
+        if($transactions){
+            foreach($transactions as $t){
+                $property->removeTransaction($t);
+            }
+        }
         // 3. Finalisation des suppression
         $this->propertyRepository->remove($property);
         $publicationRepository->remove($publication);

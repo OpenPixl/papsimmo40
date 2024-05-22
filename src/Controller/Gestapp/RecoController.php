@@ -196,14 +196,41 @@ class RecoController extends AbstractController
     #[Route('/{id}/edit/comm', name: 'op_gestapp_reco_edit_comm', methods: ['GET', 'POST'])]
     public function editComm(Request $request, Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager): Response
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
         $form = $this->createFormBuilder($reco)
+            ->setAction($this->generateUrl('op_gestapp_reco_edit_comm', ['id' => $reco->getId()]))
+            ->setMethod('POST')
             ->add('commission')
             ->getForm();
 
         $form->handleRequest($request);
         if ($form->isSubmitted() && $form->isValid())
         {
+            $entityManager->persist($reco);
+            $entityManager->flush();
 
+            if($hasAccess == true)
+            {
+                $recos = $recoRepository->findAll();
+                return $this->json([
+                    "code" => 200,
+                    "message" => "Les modifications à la recommandations ont étés correctement apportées.",
+                    'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig',[
+                        'recos' => $recos
+                    ])
+                ],200);
+            }else{
+                $recos = $recoRepository->findBy(['refEmployed' => $user->getId()]);
+                return $this->json([
+                    "code" => 200,
+                    "message" => "Les modifications à la recommandations ont étés correctement apportées.",
+                    'liste' => $this->renderView('gestapp/reco/include/_liste.html.twig',[
+                        'recos' => $recos
+                    ])
+                ],200);
+            }
         }
 
         // view

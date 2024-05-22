@@ -176,6 +176,7 @@ class PropertyController extends AbstractController
         CadasterRepository $cadasterRepository,
         PublicationRepository $publicationRepository,
         ComplementRepository $complementRepository,
+        TransactionRepository $transactionRepository,
         ArchivePropertyService $archivePropertyService,
         PaginatorInterface $paginator,
         Request $request)
@@ -191,7 +192,7 @@ class PropertyController extends AbstractController
             $archivedAtExpired = [];
             if($now >= $dateArchivedAt){
                 array_push($archivedAtExpired, $property->getId());
-                $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository);
+                $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository, $transactionRepository);
             }
             if(count($archivedAtExpired) > 0){
                 $countArchivedAtExpired = count($archivedAtExpired);
@@ -199,7 +200,7 @@ class PropertyController extends AbstractController
             //$archiveProperty->onArchive($propertyRepository);
         }
         $data = $propertyRepository->listAllPropertiesArchived();
-        dd($data);
+        //dd($data);
         $properties = $paginator->paginate(
             $data,
             $request->query->getInt('page', 1),
