@@ -174,6 +174,9 @@ function reloadEvent(){
     document.querySelectorAll('a.btnEditReco').forEach(function(link){
         link.addEventListener('click', showReco);
     });
+    document.querySelectorAll('a.btnCommission').forEach(function(link){
+        link.addEventListener('click', showComm);
+    });
 }
 
 
