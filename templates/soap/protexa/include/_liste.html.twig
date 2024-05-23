@@ -17,7 +17,8 @@
                 <td class="col-1">{{ result.PARAMETRES.ID_ORDR }}</td>
                 <td class="col-2"></td>
                 <td class="col-1">
-                    {{ result.PARAMETRES.DATE_DEBUT }}
+                    {{ result.PARAMETRES.DATE_DEBUT }}<br>
+                    {{ result.STATUT }}
                 </td>
                 <td class="col-2">
                     {{ result.MANDANT.DESCRIPTION_MANDANT.NOM }}
@@ -27,7 +28,6 @@
                 </td>
                 <td>
                     {% for r in result.OBSERVATIONS.DESCRIPTION_OBSERVATION %}
-                        {{ r }}
                     {% endfor %}
                 </td>
                 <td>
@@ -66,7 +66,6 @@
                             {{ result.DESCRIPTION_MANDANT.ADRESSE_1 }}<br>
                             {% if result.DESCRIPTION_MANDANT.ADRESSE_2 is defined and result.DESCRIPTION_MANDANT.ADRESSE_2|length > 0 %}
                                 {{ result.DESCRIPTION_MANDANT.ADRESSE_2 }}<br>
-                            {% else %}
                             {% endif %}
                             {{ result.DESCRIPTION_MANDANT.CODE_POSTAL }} {{ result.DESCRIPTION_MANDANT.VILLE }}
                         </p>
@@ -77,9 +76,10 @@
                 </td>
                 <td>
                     {% if result.FICHE_BIEN|length > 0 %}
-
+                        {% if result.FICHE_BIEN.FB_DETAIL is defined and result.FICHE_BIEN.FB_DETAIL|length > 0 %}
+                            {{ result.FICHE_BIEN.FB_DETAIL }}<br>
+                        {% endif %}
                     {% endif %}
-
                 </td>
                 <td>
 
@@ -92,15 +92,7 @@
                         <ul class="dropdown-menu" aria-labelledby="action_registre">
                             <li><a class="dropdown-item btnModalDetails" href="#" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="SHOW-Détails de la réservation-{{ result.PARAMETRES.ID_ORDR }}-Ras"><i class="fa-duotone fa-file-pen"></i> Détails de la réservation</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item btnModalDetails" href="{{ path('op_admin_soap_protexa_addmandant', {'idmandat': result.PARAMETRES.ID_ORDR  })}}" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="EDIT-Ajout d'un mandant à la réservation-{{ result.PARAMETRES.ID_ORDR  }}-Mandant"><i class="fa-duotone fa-copy"></i> Ajouter un mandant</a></li>
-                            <li><a class="dropdown-item btnModalDetails" href="{{ path('op_admin_soap_protexa_addtypemandat', {'idmandat': result.PARAMETRES.ID_ORDR  }) }}" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="EDIT-Définition du type de mandat-{{ result.PARAMETRES.ID_ORDR  }}-TMandat"><i class="fa-duotone fa-print"></i> Ajouter le type de mandat</a></li>
-                            <li><a class="dropdown-item btnModalDetails" href="{{ path('op_admin_soap_protexa_adddatemandat', {'idmandat': result.PARAMETRES.ID_ORDR  }) }}" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="EDIT-Spécification des dates-{{ result.PARAMETRES.ID_ORDR  }}-DMandat"><i class="fa-duotone fa-print"></i> Ajouter les dates de mandat</a></li>
-                            <li><a class="dropdown-item btnModalDetails" href="{{ path('op_admin_soap_protexa_addobservmandat', {'idmandat': result.PARAMETRES.ID_ORDR  }) }}" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="EDIT-Observations sur la réservation-{{ result.PARAMETRES.ID_ORDR  }}-OMandat"><i class="fa-duotone fa-print"></i> Ajouter une observation</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item btnModalDetails" href="#" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="EDIT"><i class="fa-duotone fa-print"></i> Informations du mandant</a></li>
-                            <li><a class="dropdown-item btnModalDetails" href="#" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="EDIT"><i class="fa-duotone fa-print"></i> Informations relative au bien</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item btnModalDetails" href="#" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="VALID-Validation de la réservation-{{ result.PARAMETRES.ID_ORDR }}-VMandat"><i class="fa-duotone fa-print"></i> Validation du Mandat réservé</a></li>
+                            <li><a class="dropdown-item" href="{{ path('op_admin_soap_protexa_addproperty', {'idmandat': result.PARAMETRES.ID_ORDR }) }}" ><i class="fa-duotone fa-file-pen"></i> Ajout du mandat aux biens</a></li>
                         </ul>
                     </div>
                 </td>

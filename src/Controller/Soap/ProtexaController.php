@@ -2,6 +2,8 @@
 
 namespace App\Controller\Soap;
 
+use App\Repository\Gestapp\ProjectRepository;
+use App\Repository\Gestapp\PropertyRepository;
 use SoapClient;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -360,5 +362,27 @@ class ProtexaController extends AbstractController
             "code" => 200,
             'formView' => $view->getContent()
         ], 200);
+    }
+
+    #[Route('/soap/protexa/{idmandat}/addproperty', name: 'op_admin_soap_protexa_addproperty')]
+    public function addproperty($idmandat, PropertyRepository $propertyRepository, ProtexaService $protexaService, Request $request): Response
+    {
+        // Test des mandats présents sur l'application
+        $mandats = $propertyRepository->listMandats();
+        $arrayMandats = [];
+        foreach ($mandats as $m){
+            array_push($arrayMandats, $m['RefMandat']);
+        }
+        if(in_array($idmandat, $arrayMandats)){
+            return $this->json([
+                "code" => 300,
+                'message' => 'Attention, le numéro de mandat présenté est présent sur PAPS\'s immo.'
+            ], 200);
+        }else{
+            return $this->json([
+                "code" => 200,
+                'message' => 'Le mandat a été correctement ajouté à la liste des biens PAP\'s immo'
+            ], 200);
+        }
     }
 }

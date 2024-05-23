@@ -396,8 +396,8 @@ class PropertyController extends AbstractController
         )
     {
         // Récupération du collaborateur
-        $user = $this->getUser()->getId();
-        $employed = $employedRepository->find($user);
+        $user = $this->getUser();
+        $employed = $employedRepository->find($user->getId());
         // préparation des complements au bien
         $complement = new Complement();
         $complement->setTerrace(0);
@@ -430,8 +430,6 @@ class PropertyController extends AbstractController
         $family = $familyRepository->find(substr($destination, 0,-1));
         $rubric = $rubricRepository->find(substr($destination, -1,1));
         $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
-
-        $user = $this->getUser()->getId();
 
         $property = new Property();
         $property->setAnnonce('<p>Contacter nous au : '.$user->getGsm().' ou '. $user->getEmail() .'</p><p>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');

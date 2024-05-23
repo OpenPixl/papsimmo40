@@ -1404,6 +1404,24 @@ class PropertyRepository extends ServiceEntityRepository
         return $query->getQuery()->getResult();
     }
 
+    // ----------------------------------------------
+    // Partie Admin
+    // Requête : liste tous les numéros de mandats
+    // ----------------------------------------------
+    public function listMandats()
+    {
+        return $this->createQueryBuilder('p')
+            ->addSelect('
+                p.RefMandat
+            ')
+            ->where('p.isIncreating = 0')
+            ->andWhere('p.isArchived = 0')
+            ->addOrderBy('p.RefMandat', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     // /**
     //  * @return Property[] Returns an array of Property objects
     //  */
