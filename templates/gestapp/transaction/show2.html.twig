@@ -20,7 +20,7 @@
     <div class="row mb-5 align-items-top">
         <div class="col-3">
             <div class="card">
-                {% if photo is defined %}
+                {% if photo is not null %}
                     <img class="card-img-top" src="{{ asset('properties/' ~ photo.path) ~ '/' ~ photo.galeryFrontName }}" alt="">
                 {% else %}
                     <img class="card-img-top" src="{{ asset('images/jpeg/mod_maison.jpg') }}" alt="">

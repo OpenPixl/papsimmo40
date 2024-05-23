@@ -9,6 +9,8 @@ const modalCustomerBs = document.getElementById('modalCustomer');
 let btnAddCustomer = document.getElementById('btnAddCustomer');
 // input
 const typeClient = document.getElementById('customer2_typeClient');
+const civility = document.querySelectorAll('input[name="customer[civility]"]');
+const maidenName = document.getElementById('customer_maidenName');
 
 btnAddCustomer.addEventListener('click', showModalCustomer);
 document.querySelectorAll('.btnEditCustomer').forEach(function(link){
@@ -198,6 +200,16 @@ function submitCustomer(event){
         })
     ;
 }
+
+civility.forEach(function(radio) {
+    radio.addEventListener("change", function () {
+        if (this.value === "2") {
+            maidenName.style.display = "block"; // Afficher le champ input
+        } else {
+            maidenName.style.display = "none"; // Masquer le champ input
+        }
+    });
+});
 
 function loadEventStep2(){
     btnAddCustomer.addEventListener('click', showModalCustomer);

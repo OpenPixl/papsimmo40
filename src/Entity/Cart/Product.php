@@ -26,8 +26,7 @@ class Product
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $descriptif = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $price = null;
+
 
     #[ORM\ManyToOne]
     private ?CategoryProduct $Category = null;
@@ -46,6 +45,9 @@ class Product
 
     #[ORM\OneToMany(mappedBy: 'refProduct', targetEntity: Cart::class)]
     private Collection $carts;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 8, scale: 2, nullable: true)]
+    private ?string $price = null;
 
 
     public function __construct()
@@ -98,18 +100,6 @@ class Product
     public function setDescriptif(?string $descriptif): self
     {
         $this->descriptif = $descriptif;
-
-        return $this;
-    }
-
-    public function getPrice(): ?int
-    {
-        return $this->price;
-    }
-
-    public function setPrice(?int $price): static
-    {
-        $this->price = $price;
 
         return $this;
     }
@@ -201,6 +191,18 @@ class Product
                 $cart->setProductRef(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getPrice(): ?string
+    {
+        return $this->price;
+    }
+
+    public function setPrice(?string $price): static
+    {
+        $this->price = $price;
 
         return $this;
     }
