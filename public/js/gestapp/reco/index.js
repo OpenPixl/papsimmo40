@@ -106,6 +106,9 @@ function showPrescriber(event){
 
 function showComm(event){
     event.preventDefault();
+    if (event.key === "Enter") {
+        event.preventDefault();
+    }
     let opt = this.getAttribute('data-bs-whatever');
     let crud = opt.split('-')[0];
     let contentTitle = opt.split('-')[1];
