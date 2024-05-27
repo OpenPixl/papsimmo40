@@ -4,63 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        window.onload = function(){
-
-            // Code d'ouverture de la modale de suppression d'une ligne
-            var Suppr = document.getElementById('Suppr')
-            Suppr.addEventListener('show.bs.modal', function (event) {
-                var a = event.relatedTarget
-                var recipient = a.getAttribute('data-bs-whatever')
-                var modalTitle = Suppr.querySelector('.modal-title')
-                var modalText = Suppr.querySelector('.modal-text')
-                var modalBodyInput = Suppr.querySelector('.modal-body input')
-                modalTitle.textContent = "Suppression d'un article"
-                modalBodyInput.value = recipient
-                modalText.innerHTML = "Vous êtes sur le point de supprimer l'article sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
-            })
-            // Code de suppression lors du clic sur le bouton de la modal "Suppr"
-            function onClickDelEvent(event){
-                event.preventDefault()
-                const id = document.getElementById('recipient-name').value
-                axios
-                    .post('/webapp/articles/del/'+ id)
-                    .then(function(response)
-                    {
-                        // rafraichissement du tableau
-                        const liste = document.getElementById('liste').innerHTML = response.data.liste
-                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                            link.addEventListener('click', onClickDelEvent)
-                        })
-                        // préparation du toaster
-                        var option = {
-                            animation : true,
-                            autohide: true,
-                            delay : 3000,
-                        };
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                        toastElement.show();
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
-            }
-
-            // Déclaration des Events sur liens de la liste
-            // ------------------------------------------------------
-            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-            document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                link.addEventListener('click', onClickDelEvent)
-            })
-
-        }
-    </script>
+    <script type="module" src="{{ asset('js/webapp/articles/index.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -70,6 +14,47 @@
 
     <div id="liste">
         {{ include('webapp/articles/include/_liste.html.twig') }}
+    </div>
+{% endblock %}
+
+{% block modal %}
+    {{ parent() }}
+    <!-- Modal listes des interventions -->
+    <div class="modal fade " id="modalArticle" tabindex="-1" aria-labelledby="modalArticle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal des articles</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="ModalBodyArticle" class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="SubmitArticle" href="#" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Modifier</a>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# annonce toaster #}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-50 end-0 p-3">
+            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">SoftPAPS</strong>
+                    <small>A l'instant</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

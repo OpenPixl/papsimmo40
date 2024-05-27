@@ -456,6 +456,10 @@ class ProtexaController extends AbstractController
             $property->setPriceFai($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['250000']);
             $property->setSurfaceHome($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['FB_SURFACE_BIEN']);
             $property->setSurfaceLand($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['FB_SURFACE_TERRAIN']);
+            // ----- HYDRATATION -------
+            $propertyRepository->add($property);
+            // Partie destinée à la table Customer lié
+
 
             return $this->json([
                 "code" => 200,

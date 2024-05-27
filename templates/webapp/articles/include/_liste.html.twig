@@ -26,8 +26,8 @@
             <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
             <td>
-                <a class="btn btn-sm btn-outline-primary" id="btnEditArticle" href="{{ path('op_webapp_articles_edit', {'id': article.id})}}"><i class="fa-duotone fa-pen-to-square"></i></a>
-                <a href="" class="btn btn-sm btn-outline-danger delarticle" type="button" data-bs-toggle="modal" data-bs-target="#Suppr" data-bs-whatever="{{ article.id }}"><i class="fa-duotone fa-file-xmark"></i></a>
+                <a class="btn btn-sm btn-outline-primary btnEditArticle" id="btnEditArticle" href="{{ path('op_webapp_articles_edit', {'id': article.id})}}" data-bs-whatever="EDIT-Editer un article-{{ article.id }}"><i class="fa-duotone fa-pen-to-square"></i></a>
+                <a id="btnModalArticle" href="{{ path('op_webapp_articles_del', {'id': article.id}) }}" class="btn btn-sm btn-outline-danger delarticle" type="button" data-bs-toggle="modal" data-bs-target="#modalArticle" data-bs-whatever="DEL-Supprimer un article-{{ article.id }}"><i class="fa-duotone fa-file-xmark"></i></a>
             </td>
         </tr>
     {% else %}

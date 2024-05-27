@@ -4,65 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script>
-        window.onload = function(){
-
-            // Code d'ouverture de la modale de suppression d'une ligne
-            var Suppr = document.getElementById('Suppr')
-            Suppr.addEventListener('show.bs.modal', function (event) {
-                var a = event.relatedTarget
-                var recipient = a.getAttribute('data-bs-whatever')
-                var modalTitle = Suppr.querySelector('.modal-title')
-                var modalText = Suppr.querySelector('.modal-text')
-                var modalBodyInput = Suppr.querySelector('.modal-body input')
-                modalTitle.textContent = "Suppression d'un article"
-                modalBodyInput.value = recipient
-                modalText.innerHTML = "Vous êtes sur le point de supprimer l'article sélectionné.<br><b>Etes-vous sur de continuer ?</b>"
-            })
-
-            // Code de suppression lors du clic sur le bouton de la modal "Suppr"
-            function onClickDelEvent(event){
-                event.preventDefault()
-                const id = document.getElementById('recipient-name').value
-                axios
-                    .post('/webapp/articles/del/'+ id)
-                    .then(function(response)
-                    {
-                        // rafraichissement du tableau
-                        const liste = document.getElementById('liste').innerHTML = response.data.liste
-                        // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-                        document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                            link.addEventListener('click', onClickDelEvent)
-                        })
-                        // préparation du toaster
-                        var option = {
-                            animation : true,
-                            autohide: true,
-                            delay : 3000,
-                        };
-                        // initialisation du toaster
-                        var toastHTMLElement = document.getElementById("toaster");
-                        var message = response.data.message;
-                        var toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
-                        toastBody.textContent = message;
-                        var toastElement = new bootstrap.Toast(toastHTMLElement, option);
-                        toastElement.show();
-                    })
-                    .catch(function(error){
-                        console.log(error);
-                    })
-            }
-
-            // ------------------------------------------------------
-            // Déclaration des différents Events présent sur la page
-            // ------------------------------------------------------
-            // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-            document.querySelectorAll('a.js-data-suppr').forEach(function(link){
-                link.addEventListener('click', onClickDelEvent)
-            })
-
-        }
-    </script>
+    <script type="module" src="{{ asset('js/webapp/articles/index.js') }}"></script>
 {% endblock %}
 
 {% block content %}
