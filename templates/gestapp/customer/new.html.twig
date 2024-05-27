@@ -15,6 +15,23 @@
                 dateFormat: "d/m/Y",
             });
 
+            let valcivility = document.querySelector('input[name=customer\\[civility\\]]:checked').value;
+            if (valcivility > 1){
+                document.getElementById('customer_maidenName').classList.remove('d-none');
+            }
+
+            const radioButtons = document.querySelectorAll('input[name=customer\\[civility\\]]');
+            console.log(radioButtons)
+            radioButtons.forEach(function(radio) {
+                radio.addEventListener("change", function() {
+                    if (parseInt(this.value) === 2) {
+                        document.getElementById('customer_maidenName').classList.remove('d-none');
+                    } else if (parseInt(this.value) === 1){
+                        document.getElementById('customer_maidenName').classList.add('d-none');
+                    }
+                });
+            });
+
             function removeOptions(selectElement) {
                 var i, L = selectElement.options.length - 1;
                 for(i = L; i >= 0; i--) {

@@ -218,6 +218,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch', 'employed:reco', 'employed:search', 'client:item', 'prescriber:write:post', 'reco:item','transaction:list'])]
     private $lastName;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $maidenName = null;
+
     #[ORM\Column(type: 'string', length: 80)]
     private $slug;
 
@@ -481,6 +484,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setLastName(?string $lastName): self
     {
         $this->lastName = $lastName;
+
+        return $this;
+    }
+
+    public function getMaidenName(): ?string
+    {
+        return $this->maidenName;
+    }
+
+    public function setMaidenName(?string $maidenName): static
+    {
+        $this->maidenName = $maidenName;
 
         return $this;
     }

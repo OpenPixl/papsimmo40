@@ -21,6 +21,23 @@
                     }
                 }
             });
+
+            let valcivility = document.querySelector('input[name=employed\\[civility\\]]:checked').value;
+            if (valcivility > 1){
+                document.getElementById('employed_maidenName').classList.remove('d-none');
+            }
+
+            const radioButtons = document.querySelectorAll('input[name=employed\\[civility\\]]');
+            console.log(radioButtons)
+            radioButtons.forEach(function(radio) {
+                radio.addEventListener("change", function() {
+                    if (parseInt(this.value) === 2) {
+                        document.getElementById('employed_maidenName').classList.remove('d-none');
+                    } else if (parseInt(this.value) === 1){
+                        document.getElementById('employed_maidenName').classList.add('d-none');
+                    }
+                });
+            });
         }
     </script>
 {% endblock %}

@@ -42,6 +42,10 @@ class EmployedType extends AbstractType
             ])
             ->add('firstName')
             ->add('lastName')
+            ->add('maidenName', TextType::class, [
+                'label' => 'Nom de jeune fille',
+                'required' => false
+            ])
             //->add('slug')
             ->add('sector')
             ->add('isVerified')

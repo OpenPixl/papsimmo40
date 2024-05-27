@@ -142,6 +142,23 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
+                // -- visuel sur le nom de jeune fille --
+                let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
+                console.log(valcivility);
+                if (valcivility > 1){
+                    document.getElementById('customer2_maidenName').classList.remove('d-none');
+                }
+                const radioButtons = document.querySelectorAll('input[name=customer2\\[civility\\]]');
+                console.log(radioButtons);
+                radioButtons.forEach(function(radio) {
+                    radio.addEventListener("change", function() {
+                        if (parseInt(this.value) === 2) {
+                            document.getElementById('customer2_maidenName').classList.remove('d-none');
+                        } else if (parseInt(this.value) === 1){
+                            document.getElementById('customer2_maidenName').classList.add('d-none');
+                        }
+                    });
+                });
                 let typeClient = modalCustomer.querySelector('.modal-body #customer2_typeClient');
                 if(typeClient.value === "professionnel"){
                     document.getElementById("rowStructure").classList.remove('d-none');
@@ -207,6 +224,23 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
+                // -- visuel sur le nom de jeune fille --
+                let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
+                console.log(valcivility);
+                if (valcivility > 1){
+                    document.getElementById('customer2_maidenName').classList.remove('d-none');
+                }
+                const radioButtons = document.querySelectorAll('input[name=customer2\\[civility\\]]');
+                console.log(radioButtons);
+                radioButtons.forEach(function(radio) {
+                    radio.addEventListener("change", function() {
+                        if (parseInt(this.value) === 2) {
+                            document.getElementById('customer2_maidenName').classList.remove('d-none');
+                        } else if (parseInt(this.value) === 1){
+                            document.getElementById('customer2_maidenName').classList.add('d-none');
+                        }
+                    });
+                });
                 let typeClient = modalCustomer.querySelector('.modal-body #customer2_typeClient');
                 if(typeClient.value === "professionnel"){
                     document.getElementById("rowStructure").classList.remove('d-none');

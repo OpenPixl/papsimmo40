@@ -75,6 +75,23 @@ function showModalCustomer(event){
                         }
                     });
                 }
+                // -- visuel sur le nom de jeune fille --
+                let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
+                console.log(valcivility);
+                if (valcivility > 1){
+                    document.getElementById('customer2_maidenName').classList.remove('d-none');
+                }
+                const radioButtons = document.querySelectorAll('input[name=customer2\\[civility\\]]');
+                console.log(radioButtons);
+                radioButtons.forEach(function(radio) {
+                    radio.addEventListener("change", function() {
+                        if (parseInt(this.value) === 2) {
+                            document.getElementById('customer2_maidenName').classList.remove('d-none');
+                        } else if (parseInt(this.value) === 1){
+                            document.getElementById('customer2_maidenName').classList.add('d-none');
+                        }
+                    });
+                });
                 loadEventStep2();
                 // PARTIE Codepostal sur création & modification du client
                 // PARTIE Code postal et Ville - API
@@ -124,6 +141,23 @@ function showModalCustomer(event){
             .get(url)
             .then(function(response){
                 modalCustomerBs.querySelector('.modal-body').innerHTML = response.data.formView;
+                // -- visuel sur le nom de jeune fille --
+                let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
+                console.log(valcivility);
+                if (valcivility > 1){
+                    document.getElementById('customer2_maidenName').classList.remove('d-none');
+                }
+                const radioButtons = document.querySelectorAll('input[name=customer2\\[civility\\]]');
+                console.log(radioButtons);
+                radioButtons.forEach(function(radio) {
+                    radio.addEventListener("change", function() {
+                        if (parseInt(this.value) === 2) {
+                            document.getElementById('customer2_maidenName').classList.remove('d-none');
+                        } else if (parseInt(this.value) === 1){
+                            document.getElementById('customer2_maidenName').classList.add('d-none');
+                        }
+                    });
+                });
                 let typeClient = modalCustomerBs.querySelector('.modal-body #customer2_typeClient');
                 if(typeClient !== null){
                     if(typeClient.value === "professionnel"){
