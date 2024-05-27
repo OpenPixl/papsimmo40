@@ -174,7 +174,7 @@ class ArticlesController extends AbstractController
     public function articlesByCat($cat, ArticlesRepository $articlesRepository): Response
     {
         //dd($cat);
-        $articles = $articlesRepository->findBy(['category' => $cat], ['updatedAt'=> 'DESC']);
+        $articles = $articlesRepository->findBy(['category' => $cat], ['updatedAt'=> 'DESC'], 3);
         //dd($articles);
         return $this->render('webapp/page/article/category.html.twig', [
             'articles' => $articles,
