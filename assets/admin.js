@@ -25,7 +25,7 @@ flatpickr(".flatpickrtime", {
 // start the Stimulus application
 import './bootstrap';
 import tinymce from "tinymce";
-
+const maxChars = 2000; // Limite de caractères
 // Mise en place de l'éditeur TinyMCE sur la partie Admin
 tinymce.init({
     selector: '.tinymce',
