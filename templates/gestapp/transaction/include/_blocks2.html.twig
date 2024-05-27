@@ -63,13 +63,19 @@
         <tr class="align-middle">
             <td class="table-light" colspan="4"><b>Finalisation du dossier</b></td>
         </tr>
-        {% if transaction.refEmployed is not same as app.user.id %}
-            {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::AddInvoice',{'refEmployed':transaction.refEmployed, 'idTransac' : transaction.id})) }}
-        {% else %}
         <tr class="align-middle" id="rowInvoicePdf">
             {{ include('gestapp/transaction/include/block/_rowinvoicepdf.html.twig') }}
         </tr>
-        {% endif %}
+        <tr class="align-middle" id="rowInvoicePdf">
+            <td class="bg-secondary">Facture de collaborateurs :</td>
+            <td>
+                {% if transaction.addCollTransacs|length > 0 %}
+                    Un collaborateur est enregistré.
+                {% else %}
+                    Pas de collaborateur participant à cette vente.
+                {% endif %}
+            </td>
+        </tr>
     </table>
 </div>
 <div class="col-12 mt-3">

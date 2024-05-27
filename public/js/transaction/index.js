@@ -144,12 +144,10 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 modalBody.innerHTML = response.data.formView;
                 // -- visuel sur le nom de jeune fille --
                 let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
-                console.log(valcivility);
                 if (valcivility > 1){
                     document.getElementById('customer2_maidenName').classList.remove('d-none');
                 }
                 const radioButtons = document.querySelectorAll('input[name=customer2\\[civility\\]]');
-                console.log(radioButtons);
                 radioButtons.forEach(function(radio) {
                     radio.addEventListener("change", function() {
                         if (parseInt(this.value) === 2) {
@@ -216,7 +214,6 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             });
     }else if(crud === "EDIT"){
         let url = button.href;
-        console.log(url);
         let modalHeaderH5 = modalCustomer.querySelector('.modal-title');
         let modalBody = modalCustomer.querySelector('.modal-body');
         modalHeaderH5.textContent = contentTitle;
@@ -226,12 +223,10 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 modalBody.innerHTML = response.data.formView;
                 // -- visuel sur le nom de jeune fille --
                 let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
-                console.log(valcivility);
                 if (valcivility > 1){
                     document.getElementById('customer2_maidenName').classList.remove('d-none');
                 }
                 const radioButtons = document.querySelectorAll('input[name=customer2\\[civility\\]]');
-                console.log(radioButtons);
                 radioButtons.forEach(function(radio) {
                     radio.addEventListener("change", function() {
                         if (parseInt(this.value) === 2) {
@@ -778,7 +773,6 @@ function supprDocument(event){
     event.preventDefault();
     let url = this.href;
     let idRow = this.parentNode.parentNode.id;
-    console.log(idRow);
     axios
         .post(url)
         .then(function(response){
