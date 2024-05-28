@@ -353,6 +353,9 @@ class Property
     #[ORM\OneToMany(mappedBy: 'property', targetEntity: Transaction::class)]
     private Collection $transactions;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isClosedFolder = false;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1482,6 +1485,18 @@ class Property
                 $transaction->setProperty(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isClosedFolder(): ?bool
+    {
+        return $this->isClosedFolder;
+    }
+
+    public function setClosedFolder(?bool $isClosedFolder): static
+    {
+        $this->isClosedFolder = $isClosedFolder;
 
         return $this;
     }

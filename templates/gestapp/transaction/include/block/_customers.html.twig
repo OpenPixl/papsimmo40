@@ -14,13 +14,21 @@
                 </p>
             </div>
             <div>
-                <p class="mb-0">
-                    <a href="{{ path('op_gestapp_transaction_editcustomerjson', {'id': customer.id, 'type': type, 'option': transaction.id}) }}" class="text-info" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="EDIT-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        {% if type == 1 %}{% elseif type == 2 %} | {% endif %}
-                        <a href="{{ path('op_gestapp_transaction_delcustomerjson', {'id': transaction.id, 'idCustomer': customer.id}) }}" class="text-danger {% if type == 1 %}d-none{% elseif type == 2 %}{% endif %}" data-bs-toggle="modal" data-bs-target="#modalDelCustomer"><i class="fa-duotone fa-trash-can"></i></a>
-                    {% endif %}
-                </p>
+                {% if transaction.addCollTransacs|length > 0%}
+                    {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}
+                        <p class="mb-0">
+
+                        </p>
+                    {% endfor %}
+                {% else %}
+                    <p class="mb-0">
+                        <a href="{{ path('op_gestapp_transaction_editcustomerjson', {'id': customer.id, 'type': type, 'option': transaction.id}) }}" class="text-info" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="EDIT-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if type == 1 %}{% elseif type == 2 %} | {% endif %}
+                            <a href="{{ path('op_gestapp_transaction_delcustomerjson', {'id': transaction.id, 'idCustomer': customer.id}) }}" class="text-danger {% if type == 1 %}d-none{% elseif type == 2 %}{% endif %}" data-bs-toggle="modal" data-bs-target="#modalDelCustomer"><i class="fa-duotone fa-trash-can"></i></a>
+                        {% endif %}
+                    </p>
+                {% endif %}
             </div>
         </div>
     </div>

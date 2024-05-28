@@ -12,28 +12,57 @@
         {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
     </td>
 {% elseif transaction.promisePdfFilename is null and transaction.dateAtPromise is not null %}
-    {# Il n'y a pas de promesse de vente mais une date de signature est enregistrée en BDD #}
-    <td>
-        <div class="input-group w-100">
-            {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
-            {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-                {# Dans ce cas, on valide le document par un référent #}
-                <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdf"><i class="fa-light fa-check"></i></button>
-            {% endif %}
-            {% if 'ROLE_EMPLOYED' in app.user.roles %}
-                {# Dans ce cas, on valide le document par un référent #}
-                <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdfbyColl"><i class="fa-light fa-check"></i></button>
-            {% endif %}
-        </div>
-    </td>
-    <td>
-        <div class="form-check d-none">
-            {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-check-input'}}) }}
-            <label class="form-check-label" for="flexCheckDefault">
-                Supprimer
-            </label>
-        </div>
-    </td>
+    {% if transaction.addCollTransacs|length > 0%}
+        {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}
+            {# Il n'y a pas de promesse de vente mais une date de signature est enregistrée en BDD #}
+            <td>
+                <p class="alert alert-info mb-0 p-1">Document en cours de validation</p>
+                <div class="input-group w-100 d-none">
+                    {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                        {# Dans ce cas, on valide le document par un référent #}
+                        <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdf"><i class="fa-light fa-check"></i></button>
+                    {% endif %}
+                    {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                        {# Dans ce cas, on valide le document par un référent #}
+                        <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdfbyColl"><i class="fa-light fa-check"></i></button>
+                    {% endif %}
+                </div>
+            </td>
+            <td>
+                <div class="form-check d-none">
+                    {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-check-input'}}) }}
+                    <label class="form-check-label" for="flexCheckDefault">
+                        Supprimer
+                    </label>
+                </div>
+            </td>
+        {% endfor %}
+    {% else %}
+        {# Il n'y a pas de promesse de vente mais une date de signature est enregistrée en BDD #}
+        <td>
+            <div class="input-group w-100">
+                {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                    {# Dans ce cas, on valide le document par un référent #}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdf"><i class="fa-light fa-check"></i></button>
+                {% endif %}
+                {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                    {# Dans ce cas, on valide le document par un référent #}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddPromisePdfbyColl"><i class="fa-light fa-check"></i></button>
+                {% endif %}
+            </div>
+        </td>
+        <td>
+            <div class="form-check d-none">
+                {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-check-input'}}) }}
+                <label class="form-check-label" for="flexCheckDefault">
+                    Supprimer
+                </label>
+            </div>
+        </td>
+    {% endif %}
+
 {% elseif transaction.promisePdfFilename is not null and transaction.dateAtPromise is not null %}
     {# Dans ce cas, le fichier est présent et une date de promesse est présente en BDD #}
     {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
@@ -42,10 +71,20 @@
             {# Présent si le document est présente par un collaborateur #}
             <p class="alert alert-warning mb-0 p-1">Document à contrôler {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm d-none' }}) }}</p>
         {% else %}
-            <div class="input-group w-100">
-                {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
-                <button class="btn btn-sm btn-info" type="button" id="btnEditPromisePdf"><i class="fa-light fa-arrows-rotate"></i></button>
-            </div>
+            {% if transaction.addCollTransacs|length > 0%}
+                {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}
+                    <p class="alert alert-info mb-0 p-1">Document déposé par : {{ transaction.refEmployed.civility }} {{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}.</p>
+                    <div class="input-group w-100 d-none">
+                        {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
+                        <button class="btn btn-sm btn-info" type="button" id="btnEditPromisePdf"><i class="fa-light fa-arrows-rotate"></i></button>
+                    </div>
+                {% endfor %}
+            {% else %}
+                <div class="input-group w-100">
+                    {{ form_widget(form.promisePdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
+                    <button class="btn btn-sm btn-info" type="button" id="btnEditPromisePdf"><i class="fa-light fa-arrows-rotate"></i></button>
+                </div>
+            {% endif %}
         {% endif %}
         </td>
         <td>
@@ -53,7 +92,6 @@
             {% set refnumber = transaction.property.ref|split('/',2)|last %}
             <button id="showPromise" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalPromise"><i class="fa-duotone fa-eye"></i> Voir le document</button>
             <a class="btn btn-sm btn-secondary" href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.promisePdfFilename) }}" download="{{ transaction.promisePdfFilename }}"><i class="fa-duotone fa-download"></i></a>
-
             <!-- Modal -->
             <div class="modal fade" id="modalPromise" tabindex="-1" aria-labelledby="modalPromise" aria-hidden="true">
                 <div class="modal-dialog modal-dialog-centered modal-xl">
@@ -63,7 +101,6 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div class="modal-body" style="padding: 0;">
-
                             <div id="externaFile">
                                 <iframe src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.promisePdfFilename) }}" width="100%" height="500px"></iframe>
                             </div>
@@ -82,7 +119,10 @@
         </td>
         {% endif %}
         <td class="{% if transaction.isValidPromisepdf < 1 %} d-none{% endif %}">
-            <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.promisePdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
+            {% if transaction.addCollTransacs|length > 0 %}
+            {% else %}
+                <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.promisePdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
+            {% endif %}
             <div class="form-check d-none">
                 {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-check-input'}}) }}
                 <label class="form-check-label" for="flexCheckDefault21">
@@ -140,7 +180,6 @@
             </div>
         </td>
         <td>
-
             <div class="d-none">
                 {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':''}}) }} {{ form_label(form.isSupprPromisePdf) }}
             </div>

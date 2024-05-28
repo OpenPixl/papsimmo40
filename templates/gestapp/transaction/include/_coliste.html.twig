@@ -6,8 +6,7 @@
         <th class="col-1">N°</th>
         <th class="col-2">Collaborateur</th>
         <th class="col-1">Etat</th>
-        <th>Crée le</th>
-        <th>Mis à jour le</th>
+        <th></th>
         <th class="col-2">actions</th>
     </tr>
     </thead>
@@ -26,9 +25,9 @@
                     {% if listtransac.isValidPromisepdf == 1 and listtransac.dateAtSale is defined and listtransac.isValidActepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>L'attestation de l'acte de vente doit être controlée.</span>{% endif %}
                 </td>
                 <td>
-                    {% if listtransac.refEmployed.avatarName is defined %}
-                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ listtransac.refEmployed.avatarName) }}" alt="{{ listtransac.refEmployed.avatarName }}" style="height:50px;width:50px">
-                        {{ listtransac.refEmployed.firstName }} {{ listtransac.refEmployed.lastName }}
+                    {% if listtransac.avatarName is not null %}
+                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ listtransac.avatarName) }}" alt="{{ listtransac.avatarName }}" style="height:50px;width:50px">
+                        {{ listtransac.firstName }} {{ listtransac.lastName }}
                     {% else %}
                         <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
                     {% endif %}
@@ -50,8 +49,12 @@
                         <div class="progress-bar bg-info" role="progressbar" style="width: {{ progress }}%" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </td>
-                <td>{{ listtransac.createdAt ? listtransac.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ listtransac.updatedAt ? listtransac.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>
+                    {% if progress >= 75 %}
+                    {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::AddInvoice',{'refEmployed': listtransac.refEmployed, 'idTransac': listtransac.idTransac})) }}
+                    {% else %}
+                    {% endif %}
+                </td>
                 <td>
                     <div class="dropdown">
                         <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">

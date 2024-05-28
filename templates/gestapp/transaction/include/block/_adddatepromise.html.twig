@@ -11,11 +11,13 @@
 {% else %}
     <td>
         {% if transaction.addCollTransacs|length > 0 %}
+            {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}
             <div class="input-group w-50 d-none">
                 {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
                 <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
             </div>
             {{ transaction.dateAtPromise ? transaction.dateAtPromise|date('d-m-Y') : ''}}
+            {% endfor %}
         {% else %}
         <div class="input-group w-50">
             {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}

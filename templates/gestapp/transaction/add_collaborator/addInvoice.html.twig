@@ -1,11 +1,4 @@
-<tr class="align-middle" id="rowInvoicePdf">
-    <td class="table-light">Dépot de facture : </td>
-    <td>
-        <span id="rowEmptyInvoicePdf">-</span>
-        <div class="input-group w-100">
-            <button class="btn btn-sm btn-secondary d-none" type="button" id="btnAddInvoicePdf"><i class="fa-light fa-check"></i></button>
-        </div>
-    </td>
-    <td>
-    </td>
-</tr>
+{{ form_start(form) }}
+    {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm w-50'}}) }}
+    <button type="submit" class="btn btn-sm btn-outline-dark">Déposer la facture</button>
+{{ form_end(form) }}

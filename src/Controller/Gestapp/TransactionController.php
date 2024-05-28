@@ -1478,12 +1478,16 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/{id}/closedfolder', name: 'op_gestapp_transaction_closedfolder', methods: ['GET'])]
-    public function closedFolder(Transaction $transaction, TransactionRepository $transactionRepository, EntityManagerInterface $em)
+    public function closedFolder(Transaction $transaction, TransactionRepository $transactionRepository, PropertyRepository $propertyRepository, EntityManagerInterface $em)
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
 
+        $idproperty = $transaction->getProperty()->getId();
+        $property = $propertyRepository->find($idproperty);
         $transaction->setIsClosedfolder(1);
+        $property->setClosedFolder(1);
+
         $em->flush();
 
         if($hasAccess == true){
