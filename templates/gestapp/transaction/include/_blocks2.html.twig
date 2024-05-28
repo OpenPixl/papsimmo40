@@ -68,12 +68,11 @@
         </tr>
         <tr class="align-middle" id="rowInvoicePdf">
             <td class="bg-secondary">Facture de collaborateurs :</td>
-            <td>
-                {% if transaction.addCollTransacs|length > 0 %}
-                    Un collaborateur est enregistré.
-                {% else %}
-                    Pas de collaborateur participant à cette vente.
-                {% endif %}
+            {% if transaction.addCollTransacs|length > 0 %}
+                <td>Un collaborateur est enregistré.</td>
+            {% else %}
+                <td>Pas de collaborateur participant à cette vente.</td>
+            {% endif %}
             </td>
         </tr>
     </table>

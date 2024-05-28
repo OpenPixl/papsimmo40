@@ -46,8 +46,11 @@ class AddCollTransacRepository extends ServiceEntityRepository
             ->leftJoin('a.refemployed', 'e')
             ->leftJoin('a.refTransac', 't')
             ->leftJoin('t.property', 'p')
+            ->leftJoin('t.refEmployed', 'te')
             ->select('
                 p.id as property,
+                t.isValidtracfinPdf as isValidtracfinPdf, 
+                t.isValidInvoicePdf as isValidInvoicePdf,
                 t.isValidPromisepdf as isValidPromisepdf,
                 t.isValidActepdf as isValidActepdf,
                 t.dateAtSale as dateAtSale,
@@ -58,10 +61,11 @@ class AddCollTransacRepository extends ServiceEntityRepository
                 t.createdAt as createdAt,
                 t.name as name,
                 t.id as idTransac,
-                e.id as refEmployed,
-                e.avatarName as avatarName,
-                e.lastName as lastName,
-                e.firstName as firstName,
+                e.id as refColl,
+                te.id as refEmployed,
+                te.avatarName as avatarName,
+                te.lastName as lastName,
+                te.firstName as firstName,
                 a.id as id
             ')
             ->andWhere('a.refemployed = :refemployed')

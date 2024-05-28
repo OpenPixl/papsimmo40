@@ -3,8 +3,8 @@
     <thead>
     <tr>
         <th class="col-1"></th>
-        <th>Numéro de listtransac</th>
-        <th>Collaborateur</th>
+        <th class="col-1">N°</th>
+        <th class="col-2">Collaborateur</th>
         <th class="col-1">Etat</th>
         <th>Crée le</th>
         <th>Mis à jour le</th>
@@ -12,7 +12,7 @@
     </tr>
     </thead>
     <tbody>
-        {% for listtransac in listtransacs|filter(t => t.refEmployed == app.user.id )|filter( t => t.isClosedfolder == 0 ) %}
+        {% for listtransac in listtransacs|filter(t => t.refColl == app.user.id )|filter( t => t.isClosedfolder == 0 ) %}
             <tr class="align-middle
                 {% if listtransac.dateAtPromise is defined and listtransac.isValidPromisepdf == 0 %}table-light{% endif %}
                 {% if listtransac.isValidPromisepdf == 1 and listtransac.dateAtSale is defined and listtransac.isValidActepdf == 0 %}table-light{% endif %}
@@ -47,9 +47,7 @@
                         {% set progress = 100 %}
                     {% endif %}
                     <div class="progress">
-                        <div class="progress">
-                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
-                        </div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ progress }}%" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </td>
                 <td>{{ listtransac.createdAt ? listtransac.createdAt|date('Y-m-d H:i:s') : '' }}</td>

@@ -37,7 +37,7 @@ class AddCollaboratorController extends AbstractController
     {
         $listtransacs = $addCollTransacRepository->listcollEmployed($idEmployed);
 
-        //dd($listtransacs);
+        dd($listtransacs);
 
         return $this->render('gestapp/transaction/include/_coliste.html.twig', [
             'listtransacs' => $listtransacs,

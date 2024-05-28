@@ -39,11 +39,7 @@
                         {% set progress = 100 %}
                     {% endif %}
                     <div class="progress">
-                        <div class="progress-bar" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%">
-                            {% if progress == 100 %}
-                                <div class="progress-bar progress-bar-striped progress-bar-animated" style="width: 75%"></div>
-                            {% endif %}
-                        </div>
+                        <div class="progress-bar bg-info" role="progressbar" style="width: {{ progress }}%" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100"></div>
                     </div>
                 </td>
                 <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
