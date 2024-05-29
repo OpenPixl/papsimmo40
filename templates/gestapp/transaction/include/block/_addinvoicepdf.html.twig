@@ -13,28 +13,76 @@
     </td>
 {% elseif transaction.invoicePdfFilename is null and transaction.isValidTracfinpdf == true %}
     {% if transaction.addCollTransacs|length > 0%}
-        {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}
-            <td>
-                <div class="input-group w-100 d-none">
-                    {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
-                    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-                        {# Dans ce cas, on valide le document par un référent #}
-                        <button class="btn btn-sm btn-secondary" type="button" id="btnAddInvoicePdf"><i class="fa-light fa-check"></i></button>
-                    {% endif %}
-                    {% if 'ROLE_EMPLOYED' in app.user.roles %}
-                        {# Dans ce cas, on valide le document par un référent #}
-                        <button class="btn btn-sm btn-secondary" type="button" id="btnAddInvoicePdfbyColl"><i class="fa-light fa-check"></i></button>
-                    {% endif %}
-                </div>
-            </td>
-            <td>
-                <div class="form-check d-none">
-                    {{ form_widget(form.isSupprInvoicePdf, {'attr': {'class':'form-check-input'}}) }}
-                    <label class="form-check-label" for="flexCheckDefault">
-                        Supprimer
-                    </label>
-                </div>
-            </td>
+        {% for AddColl in transaction.addCollTransacs %}
+            {% if AddColl.refemployed.id == app.user.id %}
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <td>
+                        <div class="input-group w-100">
+                            {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                            {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                                {# Dans ce cas, on valide le document par un référent #}
+                                <button class="btn btn-sm btn-secondary" type="button" id="btnAddInvoicePdf"><i class="fa-light fa-check"></i></button>
+                            {% endif %}
+                            {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                                {# Dans ce cas, on valide le document par un référent #}
+                                <button class="btn btn-sm btn-secondary" type="button" id="btnAddInvoicePdfbyColl"><i class="fa-light fa-check"></i></button>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-none">
+                            {{ form_widget(form.isSupprInvoicePdf, {'attr': {'class':'form-check-input'}}) }}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Supprimer
+                            </label>
+                        </div>
+                    </td>
+                {% else %}
+                    <td>
+                        <div class="input-group w-100 d-none">
+                            {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                            {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                                {# Dans ce cas, on valide le document par un référent #}
+                                <button class="btn btn-sm btn-secondary" type="button" id="btnAddInvoicePdf"><i class="fa-light fa-check"></i></button>
+                            {% endif %}
+                            {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                                {# Dans ce cas, on valide le document par un référent #}
+                                <button class="btn btn-sm btn-secondary" type="button" id="btnAddInvoicePdfbyColl"><i class="fa-light fa-check"></i></button>
+                            {% endif %}
+                        </div>
+                    </td>
+                    <td>
+                        <div class="form-check d-none">
+                            {{ form_widget(form.isSupprInvoicePdf, {'attr': {'class':'form-check-input'}}) }}
+                            <label class="form-check-label" for="flexCheckDefault">
+                                Supprimer
+                            </label>
+                        </div>
+                    </td>
+                {% endif %}
+            {% else %}
+                <td>
+                    <div class="input-group w-100">
+                        {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                        {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                            {# Dans ce cas, on valide le document par un référent #}
+                            <button class="btn btn-sm btn-secondary" type="button" id="btnAddInvoicePdf"><i class="fa-light fa-check"></i></button>
+                        {% endif %}
+                        {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                            {# Dans ce cas, on valide le document par un référent #}
+                            <button class="btn btn-sm btn-secondary" type="button" id="btnAddInvoicePdfbyColl"><i class="fa-light fa-check"></i></button>
+                        {% endif %}
+                    </div>
+                </td>
+                <td>
+                    <div class="form-check d-none">
+                        {{ form_widget(form.isSupprInvoicePdf, {'attr': {'class':'form-check-input'}}) }}
+                        <label class="form-check-label" for="flexCheckDefault">
+                            Supprimer
+                        </label>
+                    </div>
+                </td>
+            {% endif %}
         {% endfor %}
     {% else %}
         <td>
