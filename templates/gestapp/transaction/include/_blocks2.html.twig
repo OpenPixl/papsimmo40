@@ -33,7 +33,18 @@
             <td class="col-2 table-light"><b>Acheteur.s</b></td>
             <td class="col-4" id="buyers">
                 {% if transaction.addCollTransacs|length > 0 %}
-                    {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}
+                    {% for AddColl in transaction.addCollTransacs %}
+                        {% if AddColl.refemployed.id == app.user.id %}
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'type':2, 'option': transaction.id}) }}" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
+                                    Ajouter un acheteur.
+                                </a>
+                            {% endif %}
+                        {% else %}
+                            <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'type':2, 'option': transaction.id}) }}" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
+                                Ajouter un acheteur.
+                            </a>
+                        {% endif %}
                     {% endfor %}
                 {% else %}
                     <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'type':2, 'option': transaction.id}) }}" class="btn btn-sm btn-outline-warning w-50 mb-1" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="ADD-Ajout d'un acheteur-{{ transaction.id }}">
