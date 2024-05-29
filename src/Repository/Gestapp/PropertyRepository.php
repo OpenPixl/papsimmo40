@@ -223,6 +223,57 @@ class PropertyRepository extends ServiceEntityRepository
             ->getResult()
             ;
     }
+
+    // ----------------------------------------------
+    // Partie Admin
+    // Requête : Liste les biens archivés
+    // ----------------------------------------------
+    public function listAllPropertiesClosed()
+    {
+        return $this->createQueryBuilder('p')
+            ->join('p.refEmployed', 'e')
+            ->leftjoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
+            ->leftJoin('c.banner', 'b')
+            ->leftjoin('p.propertyDefinition', 'pd')
+            ->leftJoin('c.denomination', 'd')
+            ->addSelect('
+                p.isNomandat as isNomandat,
+                p.dateEndmandat as dateEndmandat,
+                p.dupMandat as dupMandat,
+                p.isArchived as isArchived,
+                d.name as denomination,
+                p.id as id,
+                p.ref as ref,
+                p.RefMandat as refMandat,
+                p.name as name,
+                p.annonce as annonce,
+                p.priceFai as priceFai,
+                p.surfaceHome as surfaceHome,
+                p.piece as piece,
+                p.room as room,
+                p.adress as adress,
+                p.complement as complement,
+                p.zipcode as zipcode,
+                p.city as city,
+                p.createdAt,
+                p.updatedAt,
+                e.id as refEmployed,
+                e.firstName as firstName,
+                e.lastName as lastName,
+                e.avatarName as avatarName,
+                pd.name as propertyDefinition,
+                b.name AS banner,
+                b.bannerFilename AS bannerFilename
+
+            ')
+            ->where('p.isIncreating = 0')
+            ->andWhere('p.isClosedFolder = 1')
+            ->orderBy('p.RefMandat', 'DESC')
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     public function listAllPropertiesArchivedEmployed($user)
     {
         return $this->createQueryBuilder('p')

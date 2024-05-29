@@ -387,7 +387,7 @@
 <div id="listeIncreating" class="row mb-2">
     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::inCreating')) }}
 </div>
-<div class="row">
+<div class="row mb-5">
     {% include ('gestapp/property/include/_navproperty.html.twig')%}
     <div class="col-12">
         {% if expireAtOut is defined and expireAtOut > 0 %}
@@ -404,6 +404,8 @@
     <div id="listArchived" class="col-sm-12" style="display: none;">
     </div>
     <div id="listDiffusion" class="col-sm-12" style="display: none;">
+    </div>
+    <div id="listClosed" class="col-sm-12" style="display: none;">
     </div>
 </div>
 

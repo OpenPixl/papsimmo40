@@ -217,6 +217,36 @@ class PropertyController extends AbstractController
         ], 200);
     }
 
+    #[Route('/listclosed', name: 'op_gestapp_property_listclosed', methods: ['GET'])]
+    public function listClosed(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        CadasterRepository $cadasterRepository,
+        PublicationRepository $publicationRepository,
+        ComplementRepository $complementRepository,
+        TransactionRepository $transactionRepository,
+        ArchivePropertyService $archivePropertyService,
+        PaginatorInterface $paginator,
+        Request $request)
+    {
+        // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
+        $data = $propertyRepository->listAllPropertiesClosed();
+        //dd($data);
+        $properties = $paginator->paginate(
+            $data,
+            $request->query->getInt('page', 1),
+            10
+        );
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Les informations du bien ont été correctement ajoutées.",
+            'listclosed' => $this->renderView('gestapp/property/_listclosed.html.twig',[
+                'properties' => $properties
+            ]),
+        ], 200);
+    }
+
     #[Route('/getlistmandats', name:'op_gestapp_property_getlastmandat', methods: ['GET'])]
     public function getLastMandat(PropertyRepository $propertyRepository){
 
