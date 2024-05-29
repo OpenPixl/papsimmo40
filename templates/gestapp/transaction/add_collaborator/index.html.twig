@@ -10,11 +10,19 @@
         <div class="col-8">
             {{ listcollaborator.firstName }} {{ listcollaborator.lastName }}
         </div>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
-        <div class="col-2">
-            <a id="supprCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_suppr', {'id': listcollaborator.id, 'idtransac': listcollaborator.idTransac}) }}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="DEL-Suppression d'un collaborateur-{{ listcollaborator.idEmployed }}"><i class="fa-duotone fa-user-minus"></i></a>
-        </div>
+
+        {% if transaction.addCollTransacs|length > 0%}
+            <div class="col-2">
+            </div>
+        {% else %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div class="col-2">
+                    <a id="supprCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_suppr', {'id': listcollaborator.id, 'idtransac': listcollaborator.idTransac}) }}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="DEL-Suppression d'un collaborateur-{{ listcollaborator.idEmployed }}"><i class="fa-duotone fa-user-minus"></i></a>
+                </div>
+            {% endif %}
         {% endif %}
+
+
     </div>
 {% else %}
 {% endfor %}

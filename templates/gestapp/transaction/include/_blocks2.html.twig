@@ -74,11 +74,18 @@
         <tr class="align-middle" id="rowInvoicePdf">
             <td class="bg-secondary">Facture de collaborateurs : </td>
             {% if transaction.addCollTransacs|length > 0 %}
-                <td>Un collaborateur est enregistré.</td>
+                {% set refyear = transaction.property.ref|split('/',2)|first %}
+                {% set refnumber = transaction.property.ref|split('/',2)|last %}
+                <td>
+                {% for addColl in transaction.addCollTransacs %}
+                    {% if addColl.invoicePdfFilename is not null %}
+                    <a href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ addColl.invoicePdfFilename) }}" download="{{ addColl.invoicePdfFilename }}">{{ addColl.invoicePdfFilename }}</a>,
+                    {% endif %}
+                {% endfor %}
+                </td>
             {% else %}
                 <td>Pas de collaborateur participant à cette vente.</td>
             {% endif %}
-            </td>
         </tr>
     </table>
 </div>

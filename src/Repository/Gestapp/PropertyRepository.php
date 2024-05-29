@@ -232,8 +232,6 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
-            ->leftjoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
-            ->leftJoin('c.banner', 'b')
             ->leftjoin('p.propertyDefinition', 'pd')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
@@ -241,7 +239,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.dateEndmandat as dateEndmandat,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,
-                d.name as denomination,
                 p.id as id,
                 p.ref as ref,
                 p.RefMandat as refMandat,
@@ -260,14 +257,9 @@ class PropertyRepository extends ServiceEntityRepository
                 e.id as refEmployed,
                 e.firstName as firstName,
                 e.lastName as lastName,
-                e.avatarName as avatarName,
-                pd.name as propertyDefinition,
-                b.name AS banner,
-                b.bannerFilename AS bannerFilename
-
+                e.avatarName as avatarName
             ')
-            ->where('p.isIncreating = 0')
-            ->andWhere('p.isClosedFolder = 1')
+            ->Where('p.isClosedFolder = 1')
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()

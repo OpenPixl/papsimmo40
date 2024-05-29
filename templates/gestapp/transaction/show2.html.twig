@@ -39,14 +39,21 @@
             <div class="card mt-2">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <div class="col-3">
-                            <p class="text-center">
-                                <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
-                            </p>
-                        </div>
+                        {% if transaction.addCollTransacs|length > 0%}
+                            {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}
+                                <div class="col-9"><h5>Liste des collaborateurs</h5></div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <div class="col-3">
+                                    <p class="text-center">
+                                        <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                                    </p>
+                                </div>
+                            {% endif %}
                         {% endif %}
+
                     </div>
                     <div id="listCollaborator" class="mt-1">
                         {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::listByTransac', {'id': transaction.id})) }}

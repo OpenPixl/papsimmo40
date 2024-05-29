@@ -1,4 +1,7 @@
-{{ form_start(form) }}
-    {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm w-50'}}) }}
-    <button type="submit" class="btn btn-sm btn-outline-dark">Déposer la facture</button>
-{{ form_end(form) }}
+<div>
+    {{ form_start(form) }}
+    {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm w-100'}}) }}
+    {{ form_end(form) }}
+</div>
+
+

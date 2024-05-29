@@ -29,6 +29,7 @@ class AddCollaboratorController extends AbstractController
 
         return $this->render('gestapp/transaction/add_collaborator/index.html.twig', [
             'listcollaborators' => $listCollaborators,
+            'transaction' => $transaction,
         ]);
     }
 
@@ -44,7 +45,7 @@ class AddCollaboratorController extends AbstractController
         ]);
     }
 
-    #[Route('/gestapp/transaction/addcollaborator/add/{idtransac}', name: 'op_gestapp_transaction_addcollaborator_add')]
+    #[Route('/gestapp/transaction/addcollaborator/add/{idtransac}', name: 'op_gestapp_transaction_addcollaborator_add', methods: ['POST', 'GET'])]
     public function addColl($idtransac, Request $request, EntityManagerInterface $entityManager, AddCollTransacRepository $addCollTransacRepository, TransactionRepository $transactionRepository): Response
     {
         $addCollTransac = new AddCollTransac();
@@ -87,7 +88,7 @@ class AddCollaboratorController extends AbstractController
         ], 200);
     }
 
-    #[Route('/gestapp/transaction/addcollaborator/{refEmployed}/addinvoice/{idTransac}', name: 'op_gestapp_transaction_addcollaborator_addinvoice')]
+    #[Route('/gestapp/transaction/addcollaborator/{refEmployed}/addinvoice/{idTransac}', name: 'op_gestapp_transaction_addcollaborator_addinvoice', methods: ['POST', 'GET'])]
     public function AddInvoice(
         $refEmployed,
         $idTransac,
@@ -100,9 +101,11 @@ class AddCollaboratorController extends AbstractController
     )
     : Response
     {
+        $user = $this->getUser();
         //dd($refEmployed, $idTransac);
         $transaction = $transactionRepository->find($idTransac);
-        $addColl = $addCollTransacRepository->findOneBy(['refTransac' => $transaction, 'refemployed' => $this->getUser()]);
+        //dd($transaction);
+        $addColl = $addCollTransacRepository->findOneBy(['refTransac' => $idTransac, 'refemployed' => $refEmployed]);
 
         $refDir = $propertyService->getDir($transaction->getProperty());
 
@@ -118,26 +121,23 @@ class AddCollaboratorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $invoicepdf = $form->get('invoicePdfFilename')->getData();
             $invoicePdfName = $transaction->getinvoicePdfFilename();
             if($invoicepdf){
                 // suppression lors de la mise à jour du fichier
                 if($invoicePdfName){
-                    $pathheader = $this->getParameter('transaction_invoice_directory').'/'.$invoicePdfName;
-                    // On vérifie si l'image existe
+                    $pathheader = $this->getParameter('property_doc_directory')."/".$refDir."/documents/".$invoicePdfName;
+                    // On vérifie si le document
                     if(file_exists($pathheader)){
                         unlink($pathheader);
                     }
                 }
-
                 $originalFilename = pathinfo($invoicepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'.'.$invoicepdf->guessExtension();
-
+                $newFilename = 'fhc-'.$user->getLastName().'_'.$user->getFirstName().'.'.$invoicepdf->guessExtension();
                 try {
                     $invoicepdf->move(
-                        $this->getParameter('transaction_invoice_directory'),
+                        $this->getParameter('property_doc_directory')."/".$refDir."/documents/",
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -147,21 +147,28 @@ class AddCollaboratorController extends AbstractController
                 $em->persist($addColl);
                 $em->flush();
             }
-
             return $this->json([
                 "code" => 200,
-                "message" => "Le collaborateur à été ajouté",
-                'rowInvoice' => $this->renderView('gestapp/transaction/add_collaborator/addInvoice.html.twig',[
-                    'refemployed' => $refEmployed,
-                    'idTransac' => $idTransac
-                ])
+                "message" => "La facture a été correctement déposée",
             ],200);
         }
 
-        return $this->render('gestapp/transaction/add_collaborator/addInvoice.html.twig',[
-            'form' => $form,
-            'addColl' => $addColl
+        // view
+        $view = $this->render('gestapp/transaction/add_collaborator/addInvoice.html.twig', [
+            'addColl' => $addColl,
+            'form' => $form
         ]);
+
+        // return
+        return $this->json([
+            "code" => 200,
+            'formView' => $view->getContent()
+        ], 200);
+
+        //return $this->render('gestapp/transaction/add_collaborator/addInvoice.html.twig',[
+        //    'form' => $form,
+        //    'addColl' => $addColl
+        //]);
     }
 
     #[Route('/gestapp/transaction/addcollaborator/{id}/suppr/{idtransac}', name: 'op_gestapp_transaction_addcollaborator_suppr')]

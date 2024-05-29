@@ -96,4 +96,23 @@
             </div>
         </div>
     </div>
+    {# Modal de suppression #}
+    <div class="modal fade" id="modalInvoice" tabindex="-1" aria-labelledby="modalTransaction" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-dark">
+                <div class="modal-header text-bg-secondary">
+                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">Ajoutons une facture</p>
+                    <input type="hidden" id="recipient-name">
+                </div>
+                <div class="modal-footer  text-bg-secondary">
+                    <a id="submitModalInvoice" href="#" type="button" class="btn btn-secondary" data-bs-dismiss="modal">Valider</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
 {% endblock %}

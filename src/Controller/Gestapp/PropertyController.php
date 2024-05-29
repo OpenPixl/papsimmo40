@@ -944,66 +944,73 @@ class PropertyController extends AbstractController
     {
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
-        $publication = $property->getPublication();
-        $complement = $property->getOptions();
 
-        // Supression des images liées à la propriété
-        $photos = $photoRepository->findBy(['property' => $property]);
-        foreach($photos as $photo){
-            $photoRepository->remove($photo);
-        }
+        $closedFolder = $property->isClosedFolder();
 
-        // supression des zones de cadastres liées à la propriété
-        $cadasters = $cadasterRepository->findBy(['property' => $property]);
-        foreach($cadasters as $cadaster){
-            $cadasterRepository->remove($cadaster);
-        }
-
-        // Supression de la propriété
-        $nameProperty = $property->getName();                   // pour afficher le nom du bien dans le toaster
-        $propertyRepository->remove($property);
-        $publicationRepository->remove($publication);
-        $complementRepository->remove($complement);
-
-        if($hasAccess == true){
-            $data = $propertyRepository->listAllProperties();
-            $properties = $paginator->paginate(
-                $data,
-                $request->query->getInt('page', 1),
-                10
-            );
-            $data = $propertyRepository->listAllPropertiesArchived();
-            $propertiesArchived = $paginator->paginate(
-                $data,
-                $request->query->getInt('page', 1),
-                10
-            );
+        if( $closedFolder === true){
+            $nameProperty = $property->getName();
+            return $this->json([
+                'code'=> 200,
+                'message' => '<p>Le bien : ' .$nameProperty. '<br> ne peut pas être supprimé pour l\'instant.</p>'
+            ], 200);
         }else{
-            $data = $propertyRepository->listAllProperties();
-            $properties = $paginator->paginate(
-                $data,
-                $request->query->getInt('page', 1),
-                10
-            );
-            // dans ce cas, nous listons les propriétés de l'utilisateurs courant
-            $data = $propertyRepository->listPropertiesByemployed($user->getId());
-            $propertiesArchived = $paginator->paginate(
-                $data,
-                $request->query->getInt('page', 1),
-                10
-            );
-        }
+            $publication = $property->getPublication();
+            $complement = $property->getOptions();
+            // Supression des images liées à la propriété
+            $photos = $photoRepository->findBy(['property' => $property]);
+            foreach($photos as $photo){
+                $photoRepository->remove($photo);
+            }
+            // supression des zones de cadastres liées à la propriété
+            $cadasters = $cadasterRepository->findBy(['property' => $property]);
+            foreach($cadasters as $cadaster){
+                $cadasterRepository->remove($cadaster);
+            }
+            // Supression de la propriété
+            $nameProperty = $property->getName();                   // pour afficher le nom du bien dans le toaster
+            $propertyRepository->remove($property);
+            $publicationRepository->remove($publication);
+            $complementRepository->remove($complement);
 
-        return $this->json([
-            'code'=> 200,
-            'message' => 'Les informations du bien : <br>' .$nameProperty. '<br> ont été correctement supprimé.',
-            'liste' => $this->renderView('gestapp/property/_list.html.twig', [
-                'properties' => $properties
-            ]),
-            'listeArchived' => $this->renderView('gestapp/property/_listarchived.html.twig', [
-                'properties' => $propertiesArchived
-            ])
-        ], 200);
+            if($hasAccess == true){
+                $data = $propertyRepository->listAllProperties();
+                $properties = $paginator->paginate(
+                    $data,
+                    $request->query->getInt('page', 1),
+                    10
+                );
+                $data = $propertyRepository->listAllPropertiesArchived();
+                $propertiesArchived = $paginator->paginate(
+                    $data,
+                    $request->query->getInt('page', 1),
+                    10
+                );
+            }else{
+                $data = $propertyRepository->listAllProperties();
+                $properties = $paginator->paginate(
+                    $data,
+                    $request->query->getInt('page', 1),
+                    10
+                );
+                // dans ce cas, nous listons les propriétés de l'utilisateurs courant
+                $data = $propertyRepository->listPropertiesByemployed($user->getId());
+                $propertiesArchived = $paginator->paginate(
+                    $data,
+                    $request->query->getInt('page', 1),
+                    10
+                );
+            }
+            return $this->json([
+                'code'=> 200,
+                'message' => 'Les informations du bien : <br>' .$nameProperty. '<br> ont été correctement supprimé.',
+                'liste' => $this->renderView('gestapp/property/_list.html.twig', [
+                    'properties' => $properties
+                ]),
+                'listeArchived' => $this->renderView('gestapp/property/_listarchived.html.twig', [
+                    'properties' => $propertiesArchived
+                ])
+            ], 200);
+        }
     }
 
     /**
