@@ -12,12 +12,20 @@ modalTransaction.addEventListener('show.bs.modal', function (event) {
     submit.href = url;
 });
 
+if(document.querySelectorAll('.transClosed') !== null){
+    document.querySelectorAll('.transClosed').forEach(function(link){
+        link.addEventListener('click', closedFolder);
+    });
+}
+
 if(document.querySelectorAll('.modalInvoice') !== null){
     document.querySelectorAll('.modalInvoice').forEach(function(link){
         link.addEventListener('click', showModalInvoice);
     });
 }
+
 document.getElementById('submitModalInvoice').addEventListener('click', submitModalInvoice);
+btnModalSubmit.addEventListener('click', delTransaction);
 
 function delTransaction(event){
     event.preventDefault();
@@ -38,8 +46,7 @@ function delTransaction(event){
         });
 }
 
-function showModalInvoice(event)
-{
+function showModalInvoice(event){
     event.preventDefault();
     let url = this.href;
     let a = event.currentTarget;
@@ -64,8 +71,7 @@ function showModalInvoice(event)
 
 }
 
-function submitModalInvoice(event)
-{
+function submitModalInvoice(event){
     event.preventDefault();
     let form = document.getElementById('FormAddcollaboratorInvoice');
     let action = form.action;
@@ -80,7 +86,26 @@ function submitModalInvoice(event)
         });
 }
 
-btnModalSubmit.addEventListener('click', delTransaction);
+function closedFolder(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function (response){
+            // initialisation du toaster
+            var toastHTMLElement = document.getElementById("toaster");
+            var message = response.data.message;
+            var toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+            toastBody.textContent = message;
+            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+            toastElement.show();
+        })
+        .catch(function (error){
+            console.log(error);
+        });
+}
+
+
 
 function reloadEvent(){
     document.getElementById('submitModalInvoice').addEventListener('click', submitModalInvoice);
