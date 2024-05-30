@@ -69,7 +69,7 @@
                     <td><span class="badge bg-secondary">Sans mandat</span></td>
                 {% endif %}
                 <td>
-                    <p class="badge bg-primary mb-0">{{ property.propertyDefinition }}</p>
+                    <p class="badge bg-primary mb-0"></p>
                 </td>
                 <td>{{ property.name|u.truncate(60, ' ...') }}</td>
                 <td>{{ property.piece }}</td>
@@ -90,32 +90,9 @@
                             <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a></li>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item ModalDisClosed" data-bs-toggle="modal" data-bs-target="#modalDisClosed" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-open"></i> Décloturer le dossier</a></li>
+                                <li><a href="{{ path('op_gestapp_property_disaclosed', {'id': property.id}) }}" class="dropdown-item modalDisClosed" data-bs-toggle="modal" data-bs-target="#modalDisClosed" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-open"></i> Décloturer le dossier</a></li>
                             {% endif %}
                         </ul>
-                    </div>
-                    <a id="btnSupprArchived"  class="btn btn-sm btn-outline-warning" href="{{ path('op_gestapp_property_del', {'id': property.id}) }}" data-bs-toggle="modal" data-bs-target="#modalSupprArchived" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
-                    {# Modal de suppression property #}
-                    <div class="modal fade" id="Suppr2-{{ property.id }}" tabindex="-1" aria-labelledby="Suppr2-{{ property.id }}" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title text-warning" id="exampleModalLabel">Archivage d'un bien</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <p class="modal-text">Attention, Vous êtes sur le point d'archiver le bien suivant :</p>
-                                    <p class="text-center"><b>{{ property.name }}</b></p>
-                                    <p class="text-center">Sous mandat n°: {{ property.refMandat }}.</p>
-                                    <p class="text-center">Ce bien sera archivé sur une période de 30 jours.<br>Êtes-vous sûr de vouloir continuer ?</p>
-                                    <input type="hidden" id="recipient-name">
-                                </div>
-                                <div class="modal-footer">
-                                    <a href="{{ path('op_gestapp_property_archived', {'id':property.id}) }}" type="button" class="btn btn-sm btn-warning jsModalDelProperty" data-bs-dismiss="modal">Je valide</a>
-                                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
-                                </div>
-                            </div>
-                        </div>
                     </div>
                 </td>
                 </tr>

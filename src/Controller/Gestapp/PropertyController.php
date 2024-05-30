@@ -900,6 +900,53 @@ class PropertyController extends AbstractController
 
     }
 
+    #[Route('/disclosed/{id}', name: 'op_gestapp_property_disaclosed', methods: ['POST'])]
+    public function disclosed(
+        Request $request,
+        Property $property,
+        TransactionRepository $transactionRepository,
+        PropertyRepository $propertyRepository,
+        PaginatorInterface $paginator,
+        EntityManagerInterface $em,
+    ): Response
+    {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        if($hasAccess == true){
+            // décloture sur l'entité Property
+            $property->setClosedFolder(0);
+            // décloture sur l'entité Transaction
+            $transaction = $transactionRepository->find($property);
+            $transaction->setIsClosedfolder(0);
+            $em->flush();
+
+            // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
+            $data = $propertyRepository->listAllPropertiesClosed();
+            $properties = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le dossier a été décloturé. <br>Vous pouvez intervenir dessus.",
+                'listClosed' => $this->renderView('gestapp/property/_list.html.twig', [
+                    'properties' => $properties
+                ]),
+            ], 200);
+        }else{
+            return $this->json([
+                'code'=> 200,
+                'message' => "Vous n'avez pas les privilèges suffisant pour réaliser cette opération.",
+
+            ], 200);
+        }
+
+
+    }
+
     #[Route('/increatingdel/{id}', name:'op_gestapp_property_increatingdel', methods: ['POST'] )]
     public function increatingDel(Property $property, PropertyRepository $propertyRepository)
     {

@@ -6,6 +6,7 @@
     {{ parent() }}
     <script type="module" src="{{ asset('js/gestapp/property/index/onload.js') }}"></script>
     <script type="module" src="{{ asset('js/gestapp/property/index/endMandat.js') }}"></script>
+    <script type="module" src="{{ asset('js/gestapp/property/index/closedProperty.js') }}"></script>
     <script>
         window.onload = function(){
 
@@ -572,6 +573,26 @@
                     {% set isnomandat = 0 %}
                     <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'isNomandat':isnomandat,'refMandat': refmandat, 'destination':4}) }}" class="btn btn-info">Accéder à la fiche</a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal de décloture dossier #}
+    <div class="modal fade" id="modalDisClosed" tabindex="-1" aria-labelledby="modalDisClosed" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content border-dark">
+                <div class="modal-header text-bg-secondary">
+                    <h5 class="modal-title" id="exampleModalLabel">Décloture du dossier</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p class="modal-text">Attention, Vous êtes sur le point décloturer le dossier.</p>
+                    <p class="modal-text">Il va de nouveau être accessible pour toutes les modifications ou les corrections dans les espaces de gestion : "Biens" ou "Ventes".</p>
+                </div>
+                <div class="modal-footer text-bg-secondary">
+                    <a href="#" type="button" class="btn btn-sm btn-outline-dark jsModalDelProperty" data-bs-dismiss="modal">Je réouvre le dossier.</a>
+                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
                 </div>
             </div>
         </div>
