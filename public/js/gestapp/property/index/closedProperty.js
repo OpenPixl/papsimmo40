@@ -1,6 +1,5 @@
 const modalDisClosed = document.getElementById('modalDisClosed');
-<<<<<<< Updated upstream
-const modalDisclosedBS = new boostrap.Modal(document.getElementById('modalClosed'));
+let btnSubmitDisclosed = document.getElementById('submitDisclosed');
 
 if(document.querySelectorAll('.modalDisClosed') !== null){
     document.querySelectorAll('.modalDisClosed').forEach(function(link){
@@ -8,17 +7,8 @@ if(document.querySelectorAll('.modalDisClosed') !== null){
     });
 }
 
-function showDisclosed(event){
-    event.preventDefault();
-    let a = event.currentTarget;
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            document.getElementById('listClosed').innerHTML = response.data.listClosed;
-=======
-
 modalDisClosed.addEventListener('show.bs.modal', showDisclosed);
+btnSubmitDisclosed.addEventListener('click', submitDisclosed);
 
 function showDisclosed(event){
     //event.preventDefault();
@@ -31,7 +21,7 @@ function submitDisclosed(event){
     event.preventDefault();
     let url = this.href;
     axios
-        .post(url)
+        .get(url)
         .then(function (response){
             document.getElementById('listClosed').innerHTML = response.data.listClosed;
             // initialisation du toaster
@@ -41,17 +31,17 @@ function submitDisclosed(event){
             toastBody.textContent = message;
             var toastElement = new bootstrap.Toast(toastHTMLElement, option);
             toastElement.show();
->>>>>>> Stashed changes
         })
         .catch(function(error){
             console.log(error);
         });
 }
 
-function reloadClosedProperty(){
-<<<<<<< Updated upstream
+function transClosed(){
+    event.preventDefault();
+}
 
-=======
+function reloadClosedProperty(){
     modalDisClosed.addEventListener('show.bs.modal', showDisclosed);
->>>>>>> Stashed changes
+    btnSubmitDisclosed.addEventListener('click', submitDisclosed);
 }

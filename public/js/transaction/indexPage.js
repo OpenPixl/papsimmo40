@@ -90,7 +90,7 @@ function closedFolder(event){
     event.preventDefault();
     let url = this.href;
     axios
-        .post(url)
+        .get(url)
         .then(function (response){
             // initialisation du toaster
             var toastHTMLElement = document.getElementById("toaster");

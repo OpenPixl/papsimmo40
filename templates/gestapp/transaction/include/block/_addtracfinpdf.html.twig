@@ -59,20 +59,6 @@
                     </td>
                 {% endif %}
             {% else %}
-                {# Il n'y a pas de tracfin mais une date de signature d'acte est enregistrée en BDD #}
-                <td>
-                    <div class="input-group w-100">
-                        {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
-                        {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-                            {# Dans ce cas, on valide le document par un référent #}
-                            <button class="btn btn-sm btn-secondary" type="button" id="btnAddTracfinPdf"><i class="fa-light fa-check"></i></button>
-                        {% endif %}
-                        {% if 'ROLE_EMPLOYED' in app.user.roles %}
-                            {# Dans ce cas, on valide le document par un référent #}
-                            <button class="btn btn-sm btn-secondary btnAddTracfinPdfbyColl" type="button" id="btnAddTracfinPdfbyColl"><i class="fa-light fa-check"></i></button>
-                        {% endif %}
-                    </div>
-                </td>
             {% endif %}
         {% endfor %}
     {% else %}

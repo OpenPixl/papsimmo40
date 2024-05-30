@@ -52,10 +52,6 @@
                         {{ transaction.dateAtSale ? transaction.dateAtSale|date('d-m-Y') : ''}}
                     {% endif %}
                 {% else %}
-                    <div class="input-group w-50">
-                        {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-                        <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
-                    </div>
                 {% endif %}
             {% endfor %}
             {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}

@@ -900,7 +900,7 @@ class PropertyController extends AbstractController
 
     }
 
-    #[Route('/disclosed/{id}', name: 'op_gestapp_property_disaclosed', methods: ['POST'])]
+    #[Route('/disclosed/{id}', name: 'op_gestapp_property_disaclosed', methods: ['GET'])]
     public function disclosed(
         Request $request,
         Property $property,
@@ -916,8 +916,9 @@ class PropertyController extends AbstractController
         if($hasAccess == true){
             // décloture sur l'entité Property
             $property->setClosedFolder(0);
+            $idproperty = $property->getId();
             // décloture sur l'entité Transaction
-            $transaction = $transactionRepository->find($property);
+            $transaction = $transactionRepository->findOneBy(['property' =>$idproperty]);
             $transaction->setIsClosedfolder(0);
             $em->flush();
 
@@ -932,7 +933,7 @@ class PropertyController extends AbstractController
             return $this->json([
                 'code'=> 200,
                 'message' => "Le dossier a été décloturé. <br>Vous pouvez intervenir dessus.",
-                'listClosed' => $this->renderView('gestapp/property/_list.html.twig', [
+                'listClosed' => $this->renderView('gestapp/property/_listclosed.html.twig', [
                     'properties' => $properties
                 ]),
             ], 200);
@@ -940,7 +941,6 @@ class PropertyController extends AbstractController
             return $this->json([
                 'code'=> 200,
                 'message' => "Vous n'avez pas les privilèges suffisant pour réaliser cette opération.",
-
             ], 200);
         }
 
