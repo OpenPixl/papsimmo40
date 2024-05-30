@@ -52,8 +52,8 @@ axios
 document.getElementById('btnListDiffusion').onclick = function(event){
     listDiffusion.className = listDiffusion.className !== 'show' ? 'show' : 'hide';
     if(listDiffusion.className === 'show') {
-        listDiffusion.style.display = 'block';
         list.style.display = 'none';
+        listDiffusion.style.display = 'block';
         listArchived.style.display = 'none';
         listClosed.style.display = 'none';
         btnDiffusion.textContent = 'Retour sur la liste des biens';
@@ -65,8 +65,8 @@ document.getElementById('btnListDiffusion').onclick = function(event){
         SupprRows.classList.add("disabled");
     }
     if(listDiffusion.className === 'hide') {
-        listDiffusion.style.display = 'none';
         list.style.display = 'block';
+        listDiffusion.style.display = 'none';
         listArchived.style.display = 'none';
         listClosed.style.display = 'none';
         btnDiffusion.classList.remove('btn-dark');
@@ -83,10 +83,10 @@ document.getElementById('btnListDiffusion').onclick = function(event){
 document.getElementById('btnListArchived').onclick = function(event){
     listArchived.className = listArchived.className !== 'show' ? 'show' : 'hide';
     if(listArchived.className === 'show') {
-        listArchived.style.display = 'none';
         list.style.display = 'none';
         listDiffusion.style.display = 'none';
-        listClosed.style.display = 'block';
+        listArchived.style.display = 'block';
+        listClosed.style.display = 'none';
         btnArchived.textContent = 'Retour sur la liste des biens';
         btnArchived.classList.remove('btn-outline-dark');
         btnArchived.classList.add('btn-dark');
@@ -96,15 +96,15 @@ document.getElementById('btnListArchived').onclick = function(event){
         SupprRows.classList.add("disabled");
     }
     if(listArchived.className === 'hide') {
-        listDiffusion.style.display = 'none';
         list.style.display = 'block';
+        listDiffusion.style.display = 'none';
         listArchived.style.display = 'none';
         listClosed.style.display = 'none';
-        btnListClosed.classList.remove('btn-dark');
-        btnListClosed.classList.add('btn-outline-dark');
-        btnListClosed.textContent = 'Afficher les biens archivés';
+        btnArchived.classList.remove('btn-dark');
+        btnArchived.classList.add('btn-outline-dark');
+        btnArchived.textContent = 'Afficher les biens archivés';
         btnDiffusion.classList.remove("disabled");
-        btnArchived.classList.remove("disabled");
+        btnListClosed.classList.remove("disabled");
         addNewProperty.classList.remove("disabled");
         SupprRows.classList.remove("disabled");
     }
@@ -114,10 +114,10 @@ document.getElementById('btnListArchived').onclick = function(event){
 document.getElementById('btnListClosed').onclick = function(event){
     listClosed.className = listClosed.className !== 'show' ? 'show' : 'hide';
     if(listClosed.className === 'show') {
-        listArchived.style.display = 'block';
         list.style.display = 'none';
         listDiffusion.style.display = 'none';
-        listClosed.style.display = 'none';
+        listArchived.style.display = 'none';
+        listClosed.style.display = 'block';
         btnListClosed.textContent = 'Retour sur la liste des biens';
         btnListClosed.classList.remove('btn-outline-dark');
         btnListClosed.classList.add('btn-dark');
@@ -127,15 +127,15 @@ document.getElementById('btnListClosed').onclick = function(event){
         SupprRows.classList.add("disabled");
     }
     if(listClosed.className === 'hide') {
-        listDiffusion.style.display = 'none';
         list.style.display = 'block';
+        listDiffusion.style.display = 'none';
         listArchived.style.display = 'none';
         listClosed.style.display = 'none';
-        btnArchived.classList.remove('btn-dark');
-        btnArchived.classList.add('btn-outline-dark');
-        btnArchived.textContent = 'Afficher les biens archivés';
+        btnListClosed.textContent = 'Afficher les biens cloturés';
+        btnListClosed.classList.add('btn-outline-dark');
+        btnListClosed.classList.remove('btn-dark');
         btnDiffusion.classList.remove("disabled");
-        btnListClosed.classList.remove("disabled");
+        btnArchived.classList.remove("disabled");
         addNewProperty.classList.remove("disabled");
         SupprRows.classList.remove("disabled");
     }

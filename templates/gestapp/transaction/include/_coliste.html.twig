@@ -51,7 +51,7 @@
                 </td>
                 <td>
                     {% if progress >= 75 %}
-                        <p class="alert alert-info mb-0">Le dossier est complet. Vous pouvez déposé votre facture.
+                        <p class="alert alert-info p-1 mb-0">Le dossier est complet. Vous pouvez déposé votre facture.
                             <a href="{{ path('op_gestapp_transaction_addcollaborator_addinvoice', {'refEmployed': app.user.id,'idTransac': listtransac.idTransac}) }}" class="modalInvoice" data-bs-whatever="EDIT-Dépôt de votre facture-{{ listtransac.id }}"><i class="fa-thin fa-file-arrow-down"></i> Dépot</a>
                         </p>
                     {% else %}

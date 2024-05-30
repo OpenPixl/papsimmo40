@@ -232,8 +232,6 @@ class PropertyRepository extends ServiceEntityRepository
     {
         return $this->createQueryBuilder('p')
             ->join('p.refEmployed', 'e')
-            ->leftjoin('p.propertyDefinition', 'pd')
-            ->leftJoin('c.denomination', 'd')
             ->addSelect('
                 p.isNomandat as isNomandat,
                 p.dateEndmandat as dateEndmandat,

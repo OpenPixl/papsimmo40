@@ -88,13 +88,9 @@
                         <ul  class="dropdown-menu" aria-labelledby="action_property">
                             <li><a class="dropdown-item" href="{{ path('op_gestapp_property_show', {'id': property.id}) }}"><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
                             <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a></li>
-                            {#
-                            <li><a class="dropdown-item" href="{{ path('op_admin_pdf_dip', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat DIP</a></li>
-                            <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
-                            #}
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <li><hr class="dropdown-divider"></li>
-                                <li><a class="dropdown-item ModalDisarchived" data-bs-toggle="modal" data-bs-target="#modalDisarchived" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-open"></i> Désarchiver</a></li>
+                                <li><a class="dropdown-item ModalDisClosed" data-bs-toggle="modal" data-bs-target="#modalDisClosed" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-open"></i> Décloturer le dossier</a></li>
                             {% endif %}
                         </ul>
                     </div>
@@ -125,7 +121,7 @@
                 </tr>
             {% else %}
                 <tr>
-                    <td colspan="30">Aucun collaborateur ou vous même avez des biens archivés.</td>
+                    <td colspan="30">Il n'y a pas de dossier cloturés présent.</td>
                 </tr>
             {% endfor %}
             </tbody>
