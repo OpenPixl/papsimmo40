@@ -198,7 +198,8 @@
     {% elseif 'ROLE_EMPLOYED' in app.user.roles and transaction.isValidPromisepdf == 1 and transaction.honorairesPdfFilename is not null %}
         <td>
             <div class="input-group w-100">
-                Une facture d'honoraire ({{ transaction.honorairesPdfFilename }}) a été déposée.
+                <p class="alert alert-info p-1 mb-0">Une facture d'honoraire ({{ transaction.honorairesPdfFilename }}) a été déposée.
+                </p>
                 <div class="input-group w-100">
                     {{ form_widget(form.honorairesPdfFilename, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
                     <button class="btn btn-sm btn-secondary d-none" type="button" id="btnAddPromisePdf"><i class="fa-light fa-check"></i></button>

@@ -1,6 +1,7 @@
 {% set progress = 0 %}
 {% set roleEditor = "" %} {# Editor or visual #}
-
+{% set arrayMember = [{'editor':transaction.refEmployed.id}] %}
+{{ dump(arrayMember) }}
 {% if transaction.state == 'open' %}
     {% set progress = 20 %}
 {% elseif transaction.state == 'promise' %}
