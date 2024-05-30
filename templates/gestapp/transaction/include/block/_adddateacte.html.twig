@@ -9,60 +9,17 @@
     </td>
 {% elseif transaction.dateAtSale is null and transaction.isValidPromisepdf == 1 %}
     <td>
-        {% if transaction.addCollTransacs|length > 0%}
-            {% for AddColl in transaction.addCollTransacs %}
-                {% if AddColl.refemployed.id == app.user.id %}
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <div class="input-group w-50">
-                            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-                            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
-                        </div>
-                    {% else %}
-                        -
-                    {% endif %}
-                {% else %}
-                    <div class="input-group w-50">
-                        {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-                        <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
-                    </div>
-                {% endif %}
-            {% endfor %}
-        {% else %}
-            <div class="input-group w-50">
-                {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-                <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
-            </div>
-        {% endif %}
+        <div class="input-group w-50">
+            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+        </div>
     </td>
 {% elseif transaction.dateAtSale is not null and transaction.isValidPromisepdf == 1 %}
     <td>
-        {% if transaction.addCollTransacs|length > 0 %}
-            {% for AddColl in transaction.addCollTransacs %}
-                {% if AddColl.refemployed.id == app.user.id %}
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <div class="input-group w-50">
-                            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-                            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
-                        </div>
-                    {% else %}
-                        <div class="input-group w-50 d-none">
-                            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-                            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
-                        </div>
-                        {{ transaction.dateAtSale ? transaction.dateAtSale|date('d-m-Y') : ''}}
-                    {% endif %}
-                {% else %}
-                {% endif %}
-            {% endfor %}
-            {% for AddColl in transaction.addCollTransacs|filter(t => t.refEmployed.id == app.user.id ) %}
-
-            {% endfor %}
-        {% else %}
-            <div class="input-group w-50">
-                {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-                <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
-            </div>
-        {% endif %}
+        <div class="input-group w-50">
+            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+        </div>
     </td>
 {% endif %}
 {{ form_end(form) }}

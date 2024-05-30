@@ -39,41 +39,13 @@
             <div class="card mt-2">
                 <div class="card-body">
                     <div class="row">
-                        {% if transaction.addCollTransacs|length > 0%}
-                            {% for AddColl in transaction.addCollTransacs %}
-                                {% if AddColl.refemployed.id == app.user.id %}
-                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                        <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
-                                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                            <div class="col-3">
-                                                <p class="text-center">
-                                                    <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
-                                                </p>
-                                            </div>
-                                        {% endif %}
-                                    {% else %}
-                                        <div class="col-9"><h5>Liste des collaborateurs</h5></div>
-                                    {% endif %}
-                                {% else %}
-                                    <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
-                                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                        <div class="col-3">
-                                            <p class="text-center">
-                                                <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
-                                            </p>
-                                        </div>
-                                    {% endif %}
-                                {% endif %}
-                            {% endfor %}
-                        {% else %}
-                            <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <div class="col-3">
-                                    <p class="text-center">
-                                        <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
-                                    </p>
-                                </div>
-                            {% endif %}
+                        <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <div class="col-3">
+                                <p class="text-center">
+                                    <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                                </p>
+                            </div>
                         {% endif %}
 
                     </div>

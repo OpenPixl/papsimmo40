@@ -83,59 +83,16 @@
         {% endif %}
         {# Il n'y a pas de promesse de vente et pas de date de signature enregistrée en BDD #}
     {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles and transaction.isValidPromisepdf == 1 %}
-        {# Affichage du l'input pdf uniquement pour le mandataire principal#}
-        {% if transaction.addCollTransacs|length > 0%}
-            {% for AddColl in transaction.addCollTransacs %}
-                {% if AddColl.refemployed.id == app.user.id %}
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <td>
-                            <div class="input-group w-100">
-                                {{ form_widget(form.honorairesPdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
-                                {% if transaction.honorairesPdfFilename is not null %}
-                                    <button class="btn btn-sm btn-info" type="button" id="btnHonorairePdf"><i class="fa-light fa-arrows-rotate"></i></button>
-                                {% else %}
-                                    <button class="btn btn-sm btn-success" type="button" id="btnHonorairePdf"><i class="fa-light fa-check"></i></button>
-                                {% endif %}
-                            </div>
-                        </td>
-                    {% else %}
-                        <td>
-                            <p class="alert alert-info mb-0 p-1">Honoraires déposés</p>
-                            <div class="input-group w-100 d-none">
-                                {{ form_widget(form.honorairesPdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
-                                {% if transaction.honorairesPdfFilename is not null %}
-                                    <button class="btn btn-sm btn-info" type="button" id="btnHonorairePdf"><i class="fa-light fa-arrows-rotate"></i></button>
-                                {% else %}
-                                    <button class="btn btn-sm btn-success" type="button" id="btnHonorairePdf"><i class="fa-light fa-check"></i></button>
-                                {% endif %}
-                            </div>
-                        </td>
-                    {% endif %}
+        <td>
+            <div class="input-group w-100">
+                {{ form_widget(form.honorairesPdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
+                {% if transaction.honorairesPdfFilename is not null %}
+                    <button class="btn btn-sm btn-info" type="button" id="btnHonorairePdf"><i class="fa-light fa-arrows-rotate"></i></button>
                 {% else %}
-                    <td>
-                        <div class="input-group w-100">
-                            {{ form_widget(form.honorairesPdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
-                            {% if transaction.honorairesPdfFilename is not null %}
-                                <button class="btn btn-sm btn-info" type="button" id="btnHonorairePdf"><i class="fa-light fa-arrows-rotate"></i></button>
-                            {% else %}
-                                <button class="btn btn-sm btn-success" type="button" id="btnHonorairePdf"><i class="fa-light fa-check"></i></button>
-                            {% endif %}
-                        </div>
-                    </td>
+                    <button class="btn btn-sm btn-success" type="button" id="btnHonorairePdf"><i class="fa-light fa-check"></i></button>
                 {% endif %}
-            {% endfor %}
-        {% else %}
-            <td>
-                <div class="input-group w-100">
-                    {{ form_widget(form.honorairesPdfFilename, {'attr': {'class':'form-control form-control-sm' }}) }}
-                    {% if transaction.honorairesPdfFilename is not null %}
-                        <button class="btn btn-sm btn-info" type="button" id="btnHonorairePdf"><i class="fa-light fa-arrows-rotate"></i></button>
-                    {% else %}
-                        <button class="btn btn-sm btn-success" type="button" id="btnHonorairePdf"><i class="fa-light fa-check"></i></button>
-                    {% endif %}
-                </div>
-            </td>
-        {% endif %}
+            </div>
+        </td>
         {% if transaction.honorairesPdfFilename is not null %}
             <td>
                 {% set refyear = transaction.property.ref|split('/',2)|first %}
@@ -164,20 +121,7 @@
                 </div>
             </td>
             <td>
-                {% if transaction.addCollTransacs|length > 0%}
-                    {% for AddColl in transaction.addCollTransacs %}
-                        {% if AddColl.refemployed.id == app.user.id %}
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.honorairesPdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
-                            {% else %}
-                            {% endif %}
-                        {% else %}
-                            <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.honorairesPdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
-                        {% endif %}
-                    {% endfor %}
-                {% else %}
-                    <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.honorairesPdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
-                {% endif %}
+                <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.honorairesPdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
                 <div class="form-check d-none">
                     {{ form_widget(form.isSupprHonorairesPdf, {'attr': {'class':'form-check-input'}}) }}
                     <label class="form-check-label" for="flexCheckDefault21">
