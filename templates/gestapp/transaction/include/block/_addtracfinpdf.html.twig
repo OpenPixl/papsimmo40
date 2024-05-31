@@ -24,20 +24,56 @@
         {{ form_widget(form.isSupprTracfinPdf, {'attr': {'class':'form-control form-control-sm d-none'}}) }}
     </td>
 {% elseif transaction.actePdfFilename is not null and transaction.tracfinPdfFilename is null and transaction.dateAtSale is not null %}
-    {# Il n'y a pas de tracfin mais une date de signature d'acte est enregistrée en BDD #}
-    <td>
-        <div class="input-group w-100">
-            {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
-            {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
-                {# Dans ce cas, on valide le document par un référent #}
-                <button class="btn btn-sm btn-secondary" type="button" id="btnAddTracfinPdf"><i class="fa-light fa-check"></i></button>
-            {% endif %}
-            {% if 'ROLE_EMPLOYED' in app.user.roles %}
-                {# Dans ce cas, on valide le document par un référent #}
-                <button class="btn btn-sm btn-secondary btnAddTracfinPdfbyColl" type="button" id="btnAddTracfinPdfbyColl"><i class="fa-light fa-check"></i></button>
-            {% endif %}
-        </div>
-    </td>
+    {% if roleEditor == "editor" %}
+        {# Il n'y a pas de tracfin mais une date de signature d'acte est enregistrée en BDD #}
+        <td>
+            <div class="input-group w-100">
+                {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                    {# Dans ce cas, on valide le document par un référent #}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddTracfinPdf"><i class="fa-light fa-check"></i></button>
+                {% endif %}
+                {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                    {# Dans ce cas, on valide le document par un référent #}
+                    <button class="btn btn-sm btn-secondary btnAddTracfinPdfbyColl" type="button" id="btnAddTracfinPdfbyColl"><i class="fa-light fa-check"></i></button>
+                {% endif %}
+            </div>
+        </td>
+    {% else %}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            {# Il n'y a pas de tracfin mais une date de signature d'acte est enregistrée en BDD #}
+            <td>
+                <div class="input-group w-100">
+                    {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                        {# Dans ce cas, on valide le document par un référent #}
+                        <button class="btn btn-sm btn-secondary" type="button" id="btnAddTracfinPdf"><i class="fa-light fa-check"></i></button>
+                    {% endif %}
+                    {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                        {# Dans ce cas, on valide le document par un référent #}
+                        <button class="btn btn-sm btn-secondary btnAddTracfinPdfbyColl" type="button" id="btnAddTracfinPdfbyColl"><i class="fa-light fa-check"></i></button>
+                    {% endif %}
+                </div>
+            </td>
+        {% else %}
+            {# ROLE visual - Il n'y a pas de tracfin mais une date de signature d'acte est enregistrée en BDD #}
+            <td>
+                <p class="alert alert-info p-1 mb-0">Document en cours de dépôt</p>
+                <div class="input-group w-100 d-none">
+                    {{ form_widget(form.tracfinPdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
+                    {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
+                        {# Dans ce cas, on valide le document par un référent #}
+                        <button class="btn btn-sm btn-secondary" type="button" id="btnAddTracfinPdf"><i class="fa-light fa-check"></i></button>
+                    {% endif %}
+                    {% if 'ROLE_EMPLOYED' in app.user.roles %}
+                        {# Dans ce cas, on valide le document par un référent #}
+                        <button class="btn btn-sm btn-secondary btnAddTracfinPdfbyColl" type="button" id="btnAddTracfinPdfbyColl"><i class="fa-light fa-check"></i></button>
+                    {% endif %}
+                </div>
+            </td>
+        {% endif %}
+    {% endif %}
+
     <td>
         <div class="form-check d-none">
             {{ form_widget(form.isSupprTracfinPdf, {'attr': {'class':'form-check-input'}}) }}

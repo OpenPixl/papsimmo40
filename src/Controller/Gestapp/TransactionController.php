@@ -945,9 +945,10 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification de l'attestation de vente en Pdf par le collaborateur
-    #[Route('/{id}/addTracfinPdf', name: 'op_gestapp_transaction_addtracfinpdf', methods: ['GET', 'POST'])]
+    #[Route('/{id}/addTracfinPdf/{roleEditor}', name: 'op_gestapp_transaction_addtracfinpdf', methods: ['GET', 'POST'])]
     public function addTracfinPdf(
         Transaction $transaction,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -959,13 +960,19 @@ class TransactionController extends AbstractController
         if($hasAccess == false){
             $form = $this->createForm(TransactionTracfinpdfType::class, $transaction, [
                 'attr' => ['id'=>'transactiontracfinpdf'],
-                'action' => $this->generateUrl('op_gestapp_transaction_addtracfinpdf', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_addtracfinpdf', [
+                    'id' => $transaction->getId(),
+                    'roleEditor' => $roleEditor
+                ]),
                 'method' => 'POST'
             ]);
         }else{
             $form = $this->createForm(TransactionTracfinpdfType::class, $transaction, [
                 'attr' => ['id'=>'transactiontracfinpdf'],
-                'action' => $this->generateUrl('op_gestapp_transaction_addtracfinpdf_admin', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_addtracfinpdf_admin', [
+                    'id' => $transaction->getId(),
+                    'roleEditor' => $roleEditor
+                ]),
                 'method' => 'POST'
             ]);
         }
@@ -1079,6 +1086,7 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/include/block/_addtracfinpdf.html.twig', [
             'transaction' => $transaction,
+            'roleEditor' => $roleEditor,
             'form' => $form,
         ]);
     }

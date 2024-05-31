@@ -69,7 +69,7 @@
             {% include 'gestapp/transaction/include/block/_rowactepdf.html.twig' with {'roleEditor': roleEditor} %}
         </tr>
         <tr class="align-middle" id="rowTracfinPdf">
-            {{ include('gestapp/transaction/include/block/_rowtracfinpdf.html.twig') }}
+            {% include 'gestapp/transaction/include/block/_rowtracfinpdf.html.twig' with {'roleEditor': roleEditor} %}
         </tr>
         <tr class="align-middle">
             <td class="table-light" colspan="4"><b>Finalisation du dossier</b></td>

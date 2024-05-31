@@ -45,7 +45,7 @@
             </td>
         {% else %}
             <td>
-                <p class="alert alert-info">Document en cours de dépôt</p>
+                <p class="alert alert-info p-1 mb-0">Document en cours de dépôt</p>
                 <div class="input-group w-100 d-none">
                     {{ form_widget(form.actePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
                     {% if 'ROLE_SUPER_ADMIN' in app.user.roles %}
