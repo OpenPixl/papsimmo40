@@ -25,7 +25,11 @@
             </td>
         {% else %}
             <td>
+<<<<<<< HEAD
                 <p class="mb-0">Le {{ transaction.dateAtSale|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY") }}</p>
+=======
+                <p class="mb-0">{{ transaction.dateAtSale|date('d M Y') }}</p>
+>>>>>>> fd143e664e803ddd05b7996e950581b484ee28ad
                 <div class="input-group w-50 d-none">
                     {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
                     <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
@@ -51,7 +55,11 @@
             </td>
         {% else %}
             <td>
+<<<<<<< HEAD
                 <p class="mb-0">Le {{ transaction.dateAtSale|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY") }}</p>
+=======
+                <p class="mb-0">{{ transaction.dateAtSale|date('d M Y') }}</p>
+>>>>>>> fd143e664e803ddd05b7996e950581b484ee28ad
                 <div class="input-group w-50 d-none">
                     {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
                     <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>

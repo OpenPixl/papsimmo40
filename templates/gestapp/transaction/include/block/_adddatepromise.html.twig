@@ -23,7 +23,11 @@
                     <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
                 </div>
             {% else %}
+<<<<<<< HEAD
                 <p class="mb-0">Le {{ transaction.dateAtPromise|format_datetime(locale='fr',pattern="EEEE dd MMMM YYYY") }}</p>
+=======
+                <p class="mb-0">{{ transaction.dateAtPromise|date('d M Y') }}</p>
+>>>>>>> fd143e664e803ddd05b7996e950581b484ee28ad
                 <div class="input-group w-50 d-none">
                     {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
                     <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
