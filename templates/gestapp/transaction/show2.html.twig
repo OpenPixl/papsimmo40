@@ -9,6 +9,8 @@
 {% endif %}
 {% for Member in arrayMember|filter(m => m.id == app.user.id) %}
     {% set roleEditor = Member.user %}
+{% else %}
+    {% set roleEditor = "editor" %}
 {% endfor %}
 
 
@@ -29,6 +31,7 @@
 {% endblock %}
 
 {% block content %}
+    {{ dump(arrayMember) }}
     <div class="row mb-5 align-items-top">
         <div class="col-3">
             <div class="card">

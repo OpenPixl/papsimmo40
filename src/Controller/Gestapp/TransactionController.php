@@ -247,9 +247,10 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification du compromis de vente en Pdf par le collaborateur
-    #[Route('/{id}/addPromisePdf', name: 'op_gestapp_transaction_addpromisepdf', methods: ['GET', 'POST'])]
+    #[Route('/{id}/addPromisePdf/{roleEditor}', name: 'op_gestapp_transaction_addpromisepdf', methods: ['GET', 'POST'])]
     public function addPromisePdf(
         Transaction $transaction,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -261,13 +262,19 @@ class TransactionController extends AbstractController
         if($hasAccess == false){
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
                 'attr' => ['id'=>'transactionstep3'],
-                'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf', [
+                    'id' => $transaction->getId(),
+                    'roleEditor' => $roleEditor
+                ]),
                 'method' => 'POST'
             ]);
         }else{
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
                 'attr' => ['id'=>'transactionstep3'],
-                'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf_admin', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf_admin', [
+                    'id' => $transaction->getId(),
+                    'roleEditor' => $roleEditor
+                ]),
                 'method' => 'POST'
             ]);
         }
@@ -378,6 +385,7 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/include/block/_addpromisepdf.html.twig', [
             'transaction' => $transaction,
+            'roleEditor' => $roleEditor,
             'form' => $form,
         ]);
     }
