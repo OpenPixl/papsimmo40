@@ -10,10 +10,28 @@
     </td>
 {% else %}
     <td>
-        <div class="input-group w-50">
-            {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
-        </div>
+
+        {% if roleEditor == "editor" %}
+            <div class="input-group w-50">
+                {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
+            </div>
+        {% else %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                <div class="input-group w-50">
+                    {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
+                </div>
+            {% else %}
+                <p class="mb-0">{{ transaction.dateAtPromise|date('d M Y') }}</p>
+                <div class="input-group w-50 d-none">
+                    {{ form_widget(form.dateAtPromise, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddDatePromise"><i class="fa-light fa-check"></i></button>
+                </div>
+            {% endif %}
+        {% endif %}
+
+
     </td>
 {% endif %}
 {{ form_end(form) }}
