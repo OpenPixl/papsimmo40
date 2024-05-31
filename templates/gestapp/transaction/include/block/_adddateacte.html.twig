@@ -8,18 +8,56 @@
         </div>
     </td>
 {% elseif transaction.dateAtSale is null and transaction.isValidPromisepdf == 1 %}
-    <td>
-        <div class="input-group w-50">
-            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
-        </div>
-    </td>
+    {% if roleEditor == "editor" %}
+        <td>
+            <div class="input-group w-50">
+                {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+            </div>
+        </td>
+    {% else %}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <td>
+                <div class="input-group w-50">
+                    {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+                </div>
+            </td>
+        {% else %}
+            <td>
+                <p class="mb-0">{{ transaction.dateAtSale|date('d M Y') }}</p>
+                <div class="input-group w-50 d-none">
+                    {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+                </div>
+            </td>
+        {% endif %}
+    {% endif %}
 {% elseif transaction.dateAtSale is not null and transaction.isValidPromisepdf == 1 %}
-    <td>
-        <div class="input-group w-50">
-            {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
-            <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
-        </div>
-    </td>
+    {% if roleEditor == "editor" %}
+        <td>
+            <div class="input-group w-50">
+                {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+            </div>
+        </td>
+    {% else %}
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <td>
+                <div class="input-group w-50">
+                    {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+                </div>
+            </td>
+        {% else %}
+            <td>
+                <p class="mb-0">{{ transaction.dateAtSale|date('d M Y') }}</p>
+                <div class="input-group w-50 d-none">
+                    {{ form_widget(form.dateAtSale, {'attr': {'class':'form-control form-control-sm w-25 flatpickr flatpickr-input'}}) }}
+                    <button class="btn btn-sm btn-secondary" type="button" id="btnAddDateActe"><i class="fa-light fa-check"></i></button>
+                </div>
+            </td>
+        {% endif %}
+    {% endif %}
 {% endif %}
 {{ form_end(form) }}

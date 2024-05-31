@@ -211,12 +211,15 @@ class TransactionController extends AbstractController
     }
 
     // Ajout ou modification de la date de signature de la promesse de vente
-    #[Route('/{id}/addDatePromise', name: 'op_gestapp_transaction_adddatepromise', methods: ['GET', 'POST'])]
-    public function addDatePromise(Transaction $transaction, Request $request, EntityManagerInterface $em) : response
+    #[Route('/{id}/addDatePromise/{roleEditor}', name: 'op_gestapp_transaction_adddatepromise', methods: ['GET', 'POST'])]
+    public function addDatePromise(Transaction $transaction, $roleEditor, Request $request, EntityManagerInterface $em) : response
     {
         $form = $this->createForm(Transactionstep2Type::class, $transaction, [
             'attr' => ['id'=>'addDatePromiseForm'],
-            'action' => $this->generateUrl('op_gestapp_transaction_adddatepromise', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_adddatepromise', [
+                'id' => $transaction->getId(),
+                'roleEditor' => $roleEditor
+            ]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -230,7 +233,7 @@ class TransactionController extends AbstractController
                 'code' => 200,
                 'message' => 'Date de promesse de vente enregistrée.',
                 'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                    'transaction' => $transaction
+                    'transaction' => $transaction,
                 ]),
 
             ], 200);
@@ -238,6 +241,7 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/include/block/_adddatepromise.html.twig', [
             'transaction' => $transaction,
+            'roleEditor' => $roleEditor,
             'form' => $form,
         ]);
     }
@@ -605,12 +609,15 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/addDateActe', name: 'op_gestapp_transaction_adddateacte', methods: ['GET', 'POST'])]
-    public function addDateActe(Transaction $transaction, Request $request, EntityManagerInterface $em) : response
+    #[Route('/{id}/addDateActe/{roleEditor}', name: 'op_gestapp_transaction_adddateacte', methods: ['GET', 'POST'])]
+    public function addDateActe(Transaction $transaction, $roleEditor, Request $request, EntityManagerInterface $em) : response
     {
         $form = $this->createForm(TransactionActedateType::class, $transaction, [
             'attr' => ['id'=>'addDateActeForm'],
-            'action' => $this->generateUrl('op_gestapp_transaction_adddateacte', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_adddateacte', [
+                'id' => $transaction->getId(),
+                'roleEditor' => $roleEditor
+            ]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -632,6 +639,7 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/include/block/_adddateacte.html.twig', [
             'transaction' => $transaction,
+            'roleEditor' => $roleEditor,
             'form' => $form,
         ]);
     }

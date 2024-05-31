@@ -52,9 +52,9 @@
         </tr>
         <tr class="align-middle" id="rowPromiseDate">
             <td class="table-light">Date de signature du compromis</td>
-            {{ render(controller('App\\Controller\\Gestapp\\TransactionController::addDatePromise', {'id' : transaction.id})) }}
+            {{ render(controller('App\\Controller\\Gestapp\\TransactionController::addDatePromise', {'id' : transaction.id, 'roleEditor':roleEditor})) }}
         </tr>
-        {{ include('gestapp/transaction/include/block/_rowactedate.html.twig') }}
+        {% include 'gestapp/transaction/include/block/_rowactedate.html.twig' with {'roleEditor' : roleEditor} %}
         <tr class="align-middle">
             <td class="table-light" colspan="4"><b>Documents de transaction</b></td>
         </tr>
