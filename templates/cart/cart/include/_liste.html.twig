@@ -15,7 +15,7 @@
         {% set totalComm = 0 %}
         {% set qty = 0 %}
         {% for c in carts %}
-            {% set total = total + (c.refProduct.price * c.productQty) %}
+            {% set total = (c.refProduct.price * c.productQty) %}
             {% set totalComm = totalComm + total %}
             {% set qty = qty + c.productQty %}
             <tr id="rowCart" class="align-middle">

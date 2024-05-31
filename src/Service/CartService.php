@@ -108,7 +108,7 @@ class CartService
                 continue;                                           // ne force pas la boucle sur l'incrémentation du produit mais passe à l'item suivnat
             }
             $total = $product->getPrice() * $qty;
-            $totalPrice += $totalPrice + $total;
+            $totalPrice = $totalPrice + $total;
         }
         return $totalPrice;
     }
