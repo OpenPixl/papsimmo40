@@ -2,30 +2,36 @@
     <table class="table">
         <thead>
         <tr>
-
             <th class="col-1"><input type="checkbox" name="checkAllBoxes"></th>
-            <th class="col-1">Date de commande</th>
-            <th>Détails</th>
-            <th>Etat</th>
+            <th class="col-2">Mandataire</th>
+            <th class="col-1">Date de com.</th>
+            <th class="col-2">Détails</th>
+            <th class="col-2">Etat</th>
+            <th class="col-2"></th>
+            <th class="col-2"></th>
         </tr>
         </thead>
         <tbody>
         {% for purchase in purchases %}
-            <tr>
+            <tr class="align-middle">
                 <td></td>
-                <td>{{ purchase.purchaseAt|date('Y-m-d') }}</td>
+                <td>{{ purchase.refEmployed }}</td>
+                <td>
+                    {{ purchase.purchaseAt|format_datetime(locale='fr',pattern="eee dd MMMM yy") }}
+                </td>
                 <td>
                     {% for pi in purchase.purchaseItems %}
                         <li>{{ pi.productName }} - ref : {{ pi.productRef}} | {{ pi.totalItem }}</li>
                     {% endfor %}
                 </td>
-                <td>{{ purchase.total }}€</td>
+                <td>{{ purchase.total }}€ - {{ purchase.totalItem }} produits</td>
                 <td>
                     {% if purchase.status == 'PENDING' %}
-                        En attente
+                        <p class="alert alert-info p-1 mb-0">En attente</p>
                     {% elseif purchase.status == 'other' %}
                     {% endif %}
                 </td>
+                <td></td>
             </tr>
         {% else %}
             <tr>

@@ -97,7 +97,7 @@ class CartService
 
     public function getTotal()
     {
-        $total = 0;
+        $totalPrice = 0;
         foreach($this->getCart() as $item)
         {
             $id = $item['ProductId'];
@@ -107,9 +107,10 @@ class CartService
             {
                 continue;                                           // ne force pas la boucle sur l'incrémentation du produit mais passe à l'item suivnat
             }
-            $total += $product->getPrice() * $qty;
+            $total = $product->getPrice() * $qty;
+            $totalPrice += $totalPrice + $total;
         }
-        return $total;
+        return $totalPrice;
     }
 
     /**

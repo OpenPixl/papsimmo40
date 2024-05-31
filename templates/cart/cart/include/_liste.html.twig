@@ -12,9 +12,11 @@
         </thead>
         <tbody id="bodyCart">
         {% set total = 0 %}
+        {% set totalComm = 0 %}
         {% set qty = 0 %}
         {% for c in carts %}
-            {% set total = total + c.refProduct.price * c.productQty %}
+            {% set total = total + (c.refProduct.price * c.productQty) %}
+            {% set totalComm = totalComm + total %}
             {% set qty = qty + c.productQty %}
             <tr id="rowCart" class="align-middle">
                 <td><input type="checkbox" value="{{ c.item }}"></td>
@@ -46,7 +48,7 @@
             <tr>
                 <td colspan="4" class="text-end">TOTAL</td>
                 <td>{{ qty }}</td>
-                <td colspan="2" class="text-start">{{ total }}€</td>
+                <td colspan="2" class="text-start">{{ totalComm }}€</td>
             </tr>
         </tfoot>
         {% endif %}

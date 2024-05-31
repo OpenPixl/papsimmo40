@@ -38,7 +38,6 @@ class PurchaseConfirmationController extends AbstractController
         $lastPurchase = $purchaseRepository->findLastRef();
         if(!$lastPurchase){
             $numPurchase = 'Comm-' . 1;
-            //dd($lastPurchase);
         }else{
             $lastPurchase = explode('-', $lastPurchase->getNumPurchase());
             $numPurchase = $lastPurchase[1]++;
@@ -62,7 +61,7 @@ class PurchaseConfirmationController extends AbstractController
 
         $this->em->persist($purchase);
 
-        $total = 0;
+        $totalItem = 0;
         foreach($this->cartService->getDetailedCartItem() as $cartItem){
             //récupération des personnalisation du produit
             $purchaseItem = new PurchaseItem;
@@ -76,14 +75,15 @@ class PurchaseConfirmationController extends AbstractController
             ;
             $this->em->persist($purchaseItem);
 
-            $total = $total + $purchaseItem->getTotalItem();
+            $totalItem = $totalItem + $purchaseItem->getTotalItem();
         }
 
+        $purchase->setTotalItem($totalItem);
         $this->em->flush();
         $this->cartService->emptyCart();
         $this->addFlash('success', "La commande est enregistré");
 
-        $purchase->setTotal($total);
+
         $this->em->flush();
 
         // Renouvellement de la session

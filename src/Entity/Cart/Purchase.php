@@ -51,6 +51,9 @@ class Purchase
     #[ORM\OneToMany(mappedBy: 'purchase', targetEntity: PurchaseItem::class)]
     private Collection $purchaseItems;
 
+    #[ORM\Column]
+    private ?int $totalItem = null;
+
     public function __construct()
     {
         $this->purchaseItems = new ArrayCollection();
@@ -208,6 +211,18 @@ class Purchase
                 $purchaseItem->setPurchase(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getTotalItem(): ?int
+    {
+        return $this->totalItem;
+    }
+
+    public function setTotalItem(int $totalItem): static
+    {
+        $this->totalItem = $totalItem;
 
         return $this;
     }
