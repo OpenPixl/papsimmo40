@@ -1,5 +1,17 @@
 {% extends 'admin.html.twig' %}
 
+{% set roleEditor = "" %} {# Editor or visual #}
+{% set arrayMember = [{'id':transaction.refEmployed.id, 'user': 'editor', 'role': transaction.refEmployed.roles|first}] %}
+{% if transaction.addCollTransacs|length > 0 %}
+    {% for addColl in transaction.addCollTransacs %}
+        {% set arrayMember = arrayMember|merge([{'id':addColl.refEmployed.id, 'user': 'visual', 'role': addColl.refEmployed.roles|first}])  %}
+    {% endfor%}
+{% endif %}
+{% for Member in arrayMember|filter(m => m.id == app.user.id) %}
+    {% set roleEditor = Member.user %}
+{% endfor %}
+
+
 {% block title %}Transaction{% endblock %}
 
 {% block javascripts %}
@@ -39,13 +51,26 @@
             <div class="card mt-2">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <div class="col-3">
-                                <p class="text-center">
-                                    <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
-                                </p>
-                            </div>
+                        {% if roleEditor == "editor" %}
+                            <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <div class="col-3">
+                                    <p class="text-center">
+                                        <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                                    </p>
+                                </div>
+                            {% endif %}
+                        {% else %}
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
+                                <div class="col-3">
+                                    <p class="text-center">
+                                        <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-{{ transaction.id }}"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                                    </p>
+                                </div>
+                            {% else %}
+                            <div class="col-9"><h5>Liste des collaborateurs</h5></div>
+                            {% endif%}
                         {% endif %}
 
                     </div>
@@ -62,7 +87,7 @@
                 </div>
                 <div class="row">
                     <div class="col-12" id="blocks">
-                        {{ include('gestapp/transaction/include/_blocks2.html.twig') }}
+                        {% include 'gestapp/transaction/include/_blocks2.html.twig' with {'roleEditor': roleEditor} %}
                     </div>
                 </div>
             </div>
