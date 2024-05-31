@@ -87,7 +87,13 @@
                     {% if addColl.invoicePdfFilename is not null %}
                     <a href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ addColl.invoicePdfFilename) }}" download="{{ addColl.invoicePdfFilename }}">{{ addColl.invoicePdfFilename }}</a>,
                     {% else %}
-                    <p class="alert alert-warning p-1 mb-0">Document à fournir</p>
+                    <p class="alert alert-warning p-1 mb-0">
+                        Document à fournir par
+                        {% if app.user.id is same as addColl.refemployed %}
+                            moi même.
+                        {% else %}
+                            {{ addColl.refemployed.firstName }} {{ addColl.refemployed.lastName }}.
+                        {% endif %}</p>
                     {% endif %}
                 {% endfor %}
                 </td>
