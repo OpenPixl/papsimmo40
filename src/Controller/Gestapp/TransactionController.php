@@ -535,9 +535,10 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification du compromis de vente en Pdf par le collaborateur
-    #[Route('/{id}/addHonorairePdf', name: 'op_gestapp_transaction_addhonorairepdf', methods: ['GET', 'POST'])]
+    #[Route('/{id}/addHonorairePdf/{roleEditor}', name: 'op_gestapp_transaction_addhonorairepdf', methods: ['GET', 'POST'])]
     public function addHonorairePdf(
         Transaction $transaction,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -548,7 +549,10 @@ class TransactionController extends AbstractController
 
         $form = $this->createForm(TransactionHonorairesType::class, $transaction, [
             'attr' => ['id'=>'transactionhonoraires'],
-            'action' => $this->generateUrl('op_gestapp_transaction_addhonorairepdf', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_addhonorairepdf', [
+                'id' => $transaction->getId(),
+                'roleEditor' => $roleEditor
+            ]),
             'method' => 'POST'
         ]);
 
@@ -613,6 +617,7 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/include/block/_addhonorairespdf.html.twig', [
             'transaction' => $transaction,
+            'roleEditor' => $roleEditor,
             'form' => $form,
         ]);
     }
@@ -653,9 +658,10 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification de l'attestation de vente en Pdf par le collaborateur
-    #[Route('/{id}/addActePdf', name: 'op_gestapp_transaction_addactepdf', methods: ['GET', 'POST'])]
+    #[Route('/{id}/addActePdf/{roleEditor}', name: 'op_gestapp_transaction_addactepdf', methods: ['GET', 'POST'])]
     public function addActePdf(
         Transaction $transaction,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -667,13 +673,19 @@ class TransactionController extends AbstractController
         if($hasAccess == false){
             $form = $this->createForm(TransactionActepdfType::class, $transaction, [
                 'attr' => ['id'=>'transactionactepdf'],
-                'action' => $this->generateUrl('op_gestapp_transaction_addactepdf', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_addactepdf', [
+                    'id' => $transaction->getId(),
+                    'roleEditor' => $roleEditor
+                ]),
                 'method' => 'POST'
             ]);
         }else{
             $form = $this->createForm(TransactionActepdfType::class, $transaction, [
                 'attr' => ['id'=>'transactionactepdf'],
-                'action' => $this->generateUrl('op_gestapp_transaction_addactepdf_admin', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_addactepdf_admin', [
+                    'id' => $transaction->getId(),
+                    'roleEditor' => $roleEditor
+                ]),
                 'method' => 'POST'
             ]);
         }
@@ -787,6 +799,7 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/include/block/_addactepdf.html.twig', [
             'transaction' => $transaction,
+            'roleEditor' => $roleEditor,
             'form' => $form,
         ]);
     }
