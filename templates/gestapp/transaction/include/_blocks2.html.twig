@@ -75,10 +75,10 @@
             <td class="table-light" colspan="4"><b>Finalisation du dossier</b></td>
         </tr>
         <tr class="align-middle" id="rowInvoicePdf">
-            {{ include('gestapp/transaction/include/block/_rowinvoicepdf.html.twig') }}
+            {% include 'gestapp/transaction/include/block/_rowinvoicepdf.html.twig' with {'roleEditor': roleEditor} %}
         </tr>
         <tr class="align-middle" id="rowInvoicePdf">
-            <td class="bg-secondary">Facture de collaborateurs : </td>
+            <td class="bg-secondary">Autres factures : </td>
             {% if transaction.addCollTransacs|length > 0 %}
                 {% set refyear = transaction.property.ref|split('/',2)|first %}
                 {% set refnumber = transaction.property.ref|split('/',2)|last %}
@@ -86,6 +86,8 @@
                 {% for addColl in transaction.addCollTransacs %}
                     {% if addColl.invoicePdfFilename is not null %}
                     <a href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ addColl.invoicePdfFilename) }}" download="{{ addColl.invoicePdfFilename }}">{{ addColl.invoicePdfFilename }}</a>,
+                    {% else %}
+                    <p class="alert alert-warning p-1 mb-0">Document à fournir</p>
                     {% endif %}
                 {% endfor %}
                 </td>
