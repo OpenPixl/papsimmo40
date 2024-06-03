@@ -71,7 +71,8 @@ class AddCollaboratorController extends AbstractController
                 "message" => "Le collaborateur à été ajouté",
                 'listCollaborator' => $this->renderView('gestapp/transaction/add_collaborator/index.html.twig',[
                     'listcollaborators' => $listCollaborators
-                ])
+                ]),
+
             ],200);
         }
 
@@ -171,9 +172,63 @@ class AddCollaboratorController extends AbstractController
         //]);
     }
 
+    #[Route('/gestapp/transaction/addcollaborator/{id}/supprinvoice', name: 'op_gestapp_transaction_addcollaborator_supprinvoice', methods: ['POST', 'GET'])]
+    public function SupprInvoice(
+        AddCollTransac $addCollTransac,
+        Request $request,
+        EntityManagerInterface $em,
+        PropertyService $propertyService,
+        AddCollTransacRepository $addCollTransacRepository,
+        TransactionRepository $transactionRepository,
+        SluggerInterface $slugger
+    )
+    : Response
+    {
+        $user = $this->getUser();
+        $iduser = $user->getId();
+
+        // securite : controle que l'user est le bon
+        if ($iduser == $addCollTransac->getRefemployed()->getId())
+        {
+            // supprimer le fichier réel dans le dossier
+            $transaction = $transactionRepository->find($addCollTransac->getRefTransac());
+            $refDir = $propertyService->getDir($transaction->getProperty());
+            $invoicePdfName = $addCollTransac->getInvoicePdfFilename();
+            if($invoicePdfName){
+                $pathheader = $this->getParameter('property_doc_directory')."/".$refDir."/documents/".$invoicePdfName;
+                // On vérifie si le document
+                if(file_exists($pathheader)){
+                    unlink($pathheader);
+                }
+            }
+
+            // alimenter le champs facture par null
+            $addCollTransac->setInvoicePdfFilename(null);
+            $addCollTransac->setInvoicePdfExt(null);
+            $addCollTransac->setInvoicePdfSize(null);
+            $em->flush();
+
+            return $this->json([
+                "code" => 200,
+                "message" => 'La facture a été correctement supprimée de la base.',
+                "row" => $this->renderView('gestapp/transaction/include/block/_rowinvoicesPdf.html.twig', [
+                    'transaction' => $transaction
+                ])
+            ], 200);
+        }else{
+            // return
+            return $this->json([
+                "code" => 200,
+                "message" => 'Vous n\'avez pas la permission de supprimer la facture'
+            ], 200);
+        }
+    }
+
     #[Route('/gestapp/transaction/addcollaborator/{id}/suppr/{idtransac}', name: 'op_gestapp_transaction_addcollaborator_suppr')]
     public function supprCollaborator(AddCollTransac $addCollTransac, EntityManagerInterface $em, AddCollTransacRepository $addCollTransacRepository, $idtransac)
     {
+        $transaction = $addCollTransac->getRefTransac();
+
         $em->remove($addCollTransac);
         $em->flush();
 
@@ -184,6 +239,9 @@ class AddCollaboratorController extends AbstractController
             "message" => "Le collaborateur à été retiré.",
             'listCollaborator' => $this->renderView('gestapp/transaction/add_collaborator/index.html.twig',[
                 'listcollaborators' => $listCollaborators
+            ]),
+            "row" => $this->renderView('gestapp/transaction/include/block/_rowinvoicesPdf.html.twig', [
+                'transaction' => $transaction
             ])
         ],200);
     }

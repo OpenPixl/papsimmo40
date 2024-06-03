@@ -2,9 +2,11 @@
 
 namespace App\Controller\Soap;
 
+use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\ProjectRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
@@ -375,6 +377,7 @@ class ProtexaController extends AbstractController
         PropertyRepository $propertyRepository,
         ProtexaService $protexaService,
         EmployedRepository $employedRepository,
+        ComplementRepository $complementRepository,
         PublicationRepository $publicationRepository,
     ): Response
     {
@@ -397,11 +400,22 @@ class ProtexaController extends AbstractController
             ];
             $client = $protexaService->getClient();
             $wsd = $protexaService->callService($client, 'wsdetailsmandat', $parameters);
-            dd($wsd);
-
+            //dd($wsd);
             // Récupération du collaborateur
             $user = $this->getUser();
             $employed = $employedRepository->find($user->getId());
+
+            // préparation des complements au bien
+            $complement = new Complement();
+            $complement->setTerrace(0);
+            $complement->setWashroom(0);
+            $complement->setBathroom(0);
+            $complement->setWc(0);
+            $complement->setBalcony(0);
+            $complement->setPropertyTax(0);
+            $complement->setCoproprietyTaxe(0);
+            $complement->setLevel(0);
+            $complementRepository->add($complement);
             // Partie destinée à la table Property Publication
             $publication = new Publication();
             $publicationRepository->add($publication);
@@ -411,11 +425,17 @@ class ProtexaController extends AbstractController
             // ------ ADMIN -------
             $property->setRefEmployed($user);
             $property->setRefMandat($idmandat);
+            $property->setIsIncreating(1);
+            $property->setProjet('VH');
+            $property->setRefEmployed($employed);
+            $property->setOptions($complement);
+            $property->setPublication($publication);
+
             $date = new \DateTime();
-            $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);             // Récupération de la dernière propriété enregistrée
+            $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']); // Récupération de la dernière propriété enregistrée
             if($lastproperty){
                 $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
-                $RefMandat = $refMandat;                           // construction du numéro de mandat obligatoire
+                $RefMandat = $wsd['MANDAT']['DONNEES']['PARAMETRES']['ID_ORDR']; // construction du numéro de mandat obligatoire
             }else{
                 $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
                 $RefMandat = 22;
@@ -447,15 +467,19 @@ class ProtexaController extends AbstractController
             $property->setRoom($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['FB_NB_CHAMBRES']);
             // ------ ADRESSE -------
             $property->setAdress($wsd['MANDAT']['DONNEES']['IMMEUBLES']['DESCRIPTION_IMMEUBLE']['IMMEUBLES_ADRESSE_1']);
-            $property->setComplement($wsd['MANDAT']['DONNEES']['IMMEUBLES']['DESCRIPTION_IMMEUBLE']['IMMEUBLES_ADRESSE_1']);
-            $property->setZipcode($wsd['MANDAT']['DONNEES']['IMMEUBLES']['DESCRIPTION_IMMEUBLE']['IMMEUBLES_ADRESSE_1']);
-            $property->setCity($wsd['MANDAT']['DONNEES']['IMMEUBLES']['DESCRIPTION_IMMEUBLE']['IMMEUBLES_ADRESSE_1']);
+            $property->setZipcode($wsd['MANDAT']['DONNEES']['IMMEUBLES']['DESCRIPTION_IMMEUBLE']['IMMEUBLES_CODE_POSTAL']);
+            $property->setCity($wsd['MANDAT']['DONNEES']['IMMEUBLES']['DESCRIPTION_IMMEUBLE']['IMMEUBLES_VILLE']);
             // ------ CHIFFRES -------
-            $property->setPrice($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['250000']);
+            $property->setPrice(intval($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['FM_PRIX']));
             $property->setHonoraires($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['FM_MT_COM_TOTALE']);
-            $property->setPriceFai($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['250000']);
+            $property->setPriceFai($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['FM_MT_PRIX_FAI']);
             $property->setSurfaceHome($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['FB_SURFACE_BIEN']);
             $property->setSurfaceLand($wsd['MANDAT']['DONNEES']['FICHE_BIEN']['FB_SURFACE_TERRAIN']);
+            $property->setDiagChoice('obligatoire');
+            $property->setDiagDpe(0);
+            $property->setDiagGes(0);
+            $property->setDpeEstimateEnergyUp(0);
+            $property->setDpeEstimateEnergyDown(0);
             // ----- HYDRATATION -------
             $propertyRepository->add($property);
             // Partie destinée à la table Customer lié

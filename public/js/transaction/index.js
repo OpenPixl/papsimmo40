@@ -44,6 +44,7 @@ if(document.querySelector('.btnDocumentPdfError') !== null){
 document.querySelectorAll('.supprDocument').forEach(function(link){
     link.addEventListener('click', supprDocument);
 });
+btnSubmitColl.addEventListener('click', submitCollaborator);
 
 // Customer
 btnSubmitCustomer.addEventListener('click', submitCustomer);
@@ -73,7 +74,7 @@ if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editI
 // Généralité
 if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
 if(btnHonorairePdf !== null){btnHonorairePdf.addEventListener('click', submitHonoraires);}
-btnSubmitColl.addEventListener('click', submitCollaborator);
+
 
 function removeOptions(selectElement) {
     var i, L = selectElement.options.length - 1;
@@ -344,14 +345,20 @@ modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
     else if(crud === "DELINV"){
         let modalHeaderH5 = modalAddcollaborateur.querySelector('.modal-title');
         let modalBody = modalAddcollaborateur.querySelector('.modal-body');
-        let submitFooter = modalAddcollaborateur.querySelector('.modal-footer #btnSubmitColl');
+        let submitFooter = modalAddcollaborateur.querySelector('.modal-footer a');
         modalHeaderH5.textContent = contentTitle;
         submitFooter.textContent = "Supprimer la facture";
         submitFooter.href = url;
+        submitFooter.removeAttribute('id');
         submitFooter.classList.add('supprCollInv');
         modalBody.innerHTML = "<p class=\'mb-0\'>Vous êtes sur le point de supprimer la facture que vous aviez déposée.<br>Etes-vous sur de vouloir pour suivre la démarche.</p>";
     }
 });
+
+if(document.querySelector(".supprCollInv") !== null){
+    document.querySelector(".supprCollInv").addEventListener('click', supprInvoiceColl);
+}
+
 
 btnDelCustommer.addEventListener('click', dellCustomer);
 
@@ -729,6 +736,8 @@ function submitInvoicePdfControl(event){
     ;
 }
 
+
+
 // ------------------------------------------------------------------------------------------
 // Fonctions collaborateurs
 // ------------------------------------------------------------------------------------------
@@ -740,11 +749,24 @@ function submitCollaborator(event){
             .post(url)
             .then(function(response){
                 document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
+                document.getElementById('rowInvoicesPdf').innerHTML = response.data.row;
             })
             .catch(function (error){
                 console.log(error);
             })
         ;
+    }else if(this.classList.contains('supprCollInv')){
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function (response){
+                document.getElementById('rowInvoicesPdf').innerHTML = response.data.row;
+                // Toaster
+                toasterMessage(response.data.message);
+            })
+            .catch(function (error){
+                console.log(error);
+            });
     }else{
         let form = document.getElementById('FormAddcollaborator');
         let data = new FormData(form);
@@ -753,6 +775,7 @@ function submitCollaborator(event){
             .post(action, data)
             .then(function(response){
                 document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
+                document.getElementById('rowInvoicesPdf').innerHTML = response.data.row;
             })
             .catch(function (error){
                 console.log(error);
@@ -760,7 +783,6 @@ function submitCollaborator(event){
         ;
     }
 }
-
 // ------------------------------------------------------------------------------------------
 // Fonctions générique sur la page
 // ------------------------------------------------------------------------------------------

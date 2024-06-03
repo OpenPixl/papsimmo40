@@ -52,7 +52,6 @@
         </tr>
         <tr class="align-middle" id="rowPromiseDate">
             <td class="table-light">Date de signature du compromis</td>
-            {{ dump(roleEditor) }}
             {{ render(controller('App\\Controller\\Gestapp\\TransactionController::addDatePromise', {'id' : transaction.id, 'roleEditor':roleEditor})) }}
         </tr>
         {% include 'gestapp/transaction/include/block/_rowactedate.html.twig' with {'roleEditor' : roleEditor} %}
@@ -77,37 +76,8 @@
         <tr class="align-middle" id="rowInvoicePdf">
             {% include 'gestapp/transaction/include/block/_rowinvoicepdf.html.twig' with {'roleEditor': roleEditor} %}
         </tr>
-        <tr class="align-middle" id="rowInvoicePdf">
-            <td class="bg-secondary">Autres factures : </td>
-            {% if transaction.addCollTransacs|length > 0 %}
-                {% set refyear = transaction.property.ref|split('/',2)|first %}
-                {% set refnumber = transaction.property.ref|split('/',2)|last %}
-                <td>
-                {% for addColl in transaction.addCollTransacs %}
-                    {% if addColl.invoicePdfFilename is not null %}
-                        <div class="alert alert-info p-1 mb-0 d-flex justify-content-between">
-                            <div>
-                                <a href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ addColl.invoicePdfFilename) }}" download="{{ addColl.invoicePdfFilename }}">{{ addColl.invoicePdfFilename }}</a>
-                            </div>
-                            <div>
-                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="DELINV-Suppression de votre facture-{{ addColl.id }}"><i class="fa-duotone fa-file-circle-xmark"></i></a>
-                            </div>
-                        </div>
-                    {% else %}
-                    <p class="alert alert-warning p-1 mb-0">
-                        Document à fournir par
-                        {% if app.user.id is same as addColl.refemployed %}
-                            moi même.
-                        {% else %}
-                            {{ addColl.refemployed.firstName }} {{ addColl.refemployed.lastName }}.
-                        {% endif %}
-                    </p>
-                    {% endif %}
-                {% endfor %}
-                </td>
-            {% else %}
-                <td>Pas de collaborateur participant à cette vente.</td>
-            {% endif %}
+        <tr class="align-middle" id="rowInvoicesPdf">
+            {% include 'gestapp/transaction/include/block/_rowinvoicesPdf.html.twig' with {'roleEditor': roleEditor} %}
         </tr>
     </table>
 </div>
