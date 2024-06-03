@@ -85,7 +85,14 @@
                 <td>
                 {% for addColl in transaction.addCollTransacs %}
                     {% if addColl.invoicePdfFilename is not null %}
-                    <a href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ addColl.invoicePdfFilename) }}" download="{{ addColl.invoicePdfFilename }}">{{ addColl.invoicePdfFilename }}</a>,
+                        <div class="alert alert-info p-1 mb-0 d-flex justify-content-between">
+                            <div>
+                                <a href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ addColl.invoicePdfFilename) }}" download="{{ addColl.invoicePdfFilename }}">{{ addColl.invoicePdfFilename }}</a>
+                            </div>
+                            <div>
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="DELINV-Suppression de votre facture-{{ addColl.id }}"><i class="fa-duotone fa-file-circle-xmark"></i></a>
+                            </div>
+                        </div>
                     {% else %}
                     <p class="alert alert-warning p-1 mb-0">
                         Document à fournir par
@@ -93,7 +100,8 @@
                             moi même.
                         {% else %}
                             {{ addColl.refemployed.firstName }} {{ addColl.refemployed.lastName }}.
-                        {% endif %}</p>
+                        {% endif %}
+                    </p>
                     {% endif %}
                 {% endfor %}
                 </td>

@@ -341,6 +341,16 @@ modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
         submitFooter.classList.add('supprCollaborator');
         modalBody.innerHTML = "<p class=\'mb-0\'>Vous êtes sur le point de retirer ce collaborateur du projet.<br>Etes-vous sur de vouloir pour suivre la démarche.</p>";
     }
+    else if(crud === "DELINV"){
+        let modalHeaderH5 = modalAddcollaborateur.querySelector('.modal-title');
+        let modalBody = modalAddcollaborateur.querySelector('.modal-body');
+        let submitFooter = modalAddcollaborateur.querySelector('.modal-footer #btnSubmitColl');
+        modalHeaderH5.textContent = contentTitle;
+        submitFooter.textContent = "Supprimer la facture";
+        submitFooter.href = url;
+        submitFooter.classList.add('supprCollInv');
+        modalBody.innerHTML = "<p class=\'mb-0\'>Vous êtes sur le point de supprimer la facture que vous aviez déposée.<br>Etes-vous sur de vouloir pour suivre la démarche.</p>";
+    }
 });
 
 btnDelCustommer.addEventListener('click', dellCustomer);

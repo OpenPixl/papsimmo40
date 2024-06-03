@@ -157,6 +157,11 @@
         </div>
     </div>
 </div>
-<a href="{{ path('op_webapp_articles_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-chevrons-left"></i> Retour</a>
-<button class="btn btn-sm btn-outline-primary">{{ button_label|default("Ajouter un nouvel article") }}</button>
+<div class="row mb-5">
+    <div class="col-12">
+        <a href="{{ path('op_webapp_articles_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-chevrons-left"></i> Retour</a>
+        <button class="btn btn-sm btn-outline-primary">{{ button_label|default("Ajouter un nouvel article") }}</button>
+    </div>
+</div>
+
 {{ form_end(form) }}
