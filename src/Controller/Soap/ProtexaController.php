@@ -6,6 +6,9 @@ use App\Entity\Gestapp\Complement;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Gestapp\choice\propertyFamilyRepository;
+use App\Repository\Gestapp\choice\propertyRubricRepository;
+use App\Repository\Gestapp\choice\propertyRubricssRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\ProjectRepository;
 use App\Repository\Gestapp\PropertyRepository;
@@ -379,6 +382,9 @@ class ProtexaController extends AbstractController
         EmployedRepository $employedRepository,
         ComplementRepository $complementRepository,
         PublicationRepository $publicationRepository,
+        propertyFamilyRepository $propertyFamilyRepository,
+        propertyRubricRepository $propertyRubricRepository,
+        propertyRubricssRepository $propertyRubricssRepository
     ): Response
     {
         // Test des mandats présents sur l'application
@@ -387,6 +393,7 @@ class ProtexaController extends AbstractController
         foreach ($mandats as $m){
             array_push($arrayMandats, $m['RefMandat']);
         }
+        //dd($arrayMandats);
         if(in_array($idmandat, $arrayMandats)){
             return $this->json([
                 "code" => 300,
@@ -420,6 +427,10 @@ class ProtexaController extends AbstractController
             $publication = new Publication();
             $publicationRepository->add($publication);
 
+            // les rubriques
+            $family = $propertyFamilyRepository->find(8);
+            $rubric = $propertyRubricRepository->find(8);
+            $rubricss = $propertyRubricssRepository->find(69);
             // Partie destinée à la table Property
             $property = new Property();
             // ------ ADMIN -------
@@ -430,6 +441,9 @@ class ProtexaController extends AbstractController
             $property->setRefEmployed($employed);
             $property->setOptions($complement);
             $property->setPublication($publication);
+            $property->setFamily($family);
+            $property->setRubric($rubric);
+            $property->setRubricss($rubricss);
 
             $date = new \DateTime();
             $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']); // Récupération de la dernière propriété enregistrée

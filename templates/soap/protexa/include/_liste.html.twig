@@ -92,7 +92,7 @@
                         <ul class="dropdown-menu" aria-labelledby="action_registre">
                             <li><a class="dropdown-item btnModalDetails" href="#" data-bs-toggle="modal" data-bs-target="#modalDetails" data-bs-whatever="SHOW-Détails de la réservation-{{ result.PARAMETRES.ID_ORDR }}-Ras"><i class="fa-duotone fa-file-pen"></i> Détails de la réservation</a></li>
                             <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="{{ path('op_admin_soap_protexa_addproperty', {'idmandat': result.PARAMETRES.ID_ORDR }) }}" ><i class="fa-duotone fa-file-pen"></i> Ajout du mandat aux biens</a></li>
+                            <li><a class="dropdown-item btnAddPropertySOAP" href="{{ path('op_admin_soap_protexa_addproperty', {'idmandat': result.PARAMETRES.ID_ORDR }) }}" ><i class="fa-duotone fa-file-pen"></i> Ajout du mandat aux biens</a></li>
                         </ul>
                     </div>
                 </td>

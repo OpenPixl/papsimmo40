@@ -22,6 +22,10 @@ modalDetailsBs.addEventListener('hidden.bs.modal', function(){
 
 });
 
+document.querySelectorAll('.btnAddPropertySOAP').forEach(function(link){
+    link.addEventListener('click', addProperty);
+});
+
 function showModal(event){
     event.preventDefault();
     let opt = this.getAttribute('data-bs-whatever');
@@ -87,9 +91,34 @@ function showModal(event){
     }
 }
 
+function addProperty(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            // initialisation du toaster
+            let toastHTMLElement = document.getElementById("toaster");
+            let message = response.data.message;
+            let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+            toastBody.textContent = message;
+            let toastElement = new bootstrap.Toast(toastHTMLElement, {
+                animation: true,
+                autohide: true,
+                delay: 5000,
+            });
+            toastElement.show();
+        })
+        .catch(function(response){
+            console.log(error);
+        })
+    ;
+}
+
 function reloadEventRegistre()
 {
     document.querySelectorAll('a.btnModalDetails').forEach(function(link){
         link.addEventListener('click', showModal);
     });
+
 }

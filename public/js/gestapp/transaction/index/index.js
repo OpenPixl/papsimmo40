@@ -103,11 +103,15 @@ function closedFolder(event){
         .get(url)
         .then(function (response){
             // initialisation du toaster
-            var toastHTMLElement = document.getElementById("toaster");
-            var message = response.data.message;
-            var toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+            let toastHTMLElement = document.getElementById("toaster");
+            let message = response.data.message;
+            let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
             toastBody.textContent = message;
-            var toastElement = new bootstrap.Toast(toastHTMLElement, option);
+            let toastElement = new bootstrap.Toast(toastHTMLElement, {
+                animation: true,
+                autohide: true,
+                delay: 5000,
+            });
             toastElement.show();
         })
         .catch(function (error){

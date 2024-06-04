@@ -1455,8 +1455,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.RefMandat
             ')
-            ->where('p.isIncreating = 0')
-            ->andWhere('p.isArchived = 0')
+            ->where('p.isArchived = 0')
             ->addOrderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
