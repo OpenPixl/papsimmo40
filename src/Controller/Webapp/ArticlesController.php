@@ -21,6 +21,7 @@ class ArticlesController extends AbstractController
     {
         return $this->render('webapp/articles/index.html.twig', [
             'articles' => $articlesRepository->findAll(),
+            'page' => 'allArticles'
         ]);
     }
 
@@ -31,6 +32,7 @@ class ArticlesController extends AbstractController
         //dd($actualites);
         return $this->render('webapp/articles/actualites.html.twig', [
             'articles' => $actualites,
+            'page' => 'actualities'
         ]);
     }
 
@@ -135,12 +137,16 @@ class ArticlesController extends AbstractController
         return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/del/{id}', name: 'op_webapp_articles_del', methods: ['POST'])]
-    public function del(Request $request, Articles $articles,ArticlesRepository $articlesRepository)
+    #[Route('/{id}/del/{page}', name: 'op_webapp_articles_del', methods: ['POST'])]
+    public function del(Request $request, Articles $articles,ArticlesRepository $articlesRepository, $page)
     {
         $articlesRepository->remove($articles);
+        if($page == 'allArticle'){
+            $listarticles = $articlesRepository->findAll();
+        }elseif($page == 'actualities'){
+            $listarticles = $articlesRepository->listbycategory();
+        }
 
-        $listarticles = $articlesRepository->findAll();
 
         return $this->json([
             'code'=> 200,

@@ -79,7 +79,17 @@ function submitModalInvoice(event){
     axios
         .post(action, data)
         .then(function(response){
-
+            // initialisation du toaster
+            let toastHTMLElement = document.getElementById("toaster");
+            let message = response.data.message;
+            let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+            toastBody.textContent = message;
+            let toastElement = new bootstrap.Toast(toastHTMLElement, {
+                animation: true,
+                autohide: true,
+                delay: 5000,
+            });
+            toastElement.show();
         })
         .catch(function(error){
             console.log(error);

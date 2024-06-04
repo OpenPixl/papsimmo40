@@ -9,7 +9,7 @@ document.querySelectorAll('a.delarticle').forEach(function (link) {
 function openModalArticle(event) {
     event.preventDefault();
     let a = event.currentTarget;
-    let url = event.target.href;
+    let url = this.href;
     let recipient = a.getAttribute('data-bs-whatever');
     let crud = recipient.split('-')[0];
     let contentTitle = recipient.split('-')[1];
@@ -39,7 +39,7 @@ function submitModalArticle(event) {
     let a = event.currentTarget;
     let id = a.id;
     if(id === 'btnSupprArticle'){
-        let url = a.href;
+        let url = this.href;
         axios
             .post(url)
             .then(function(response){
@@ -51,13 +51,31 @@ function submitModalArticle(event) {
                 toastBody.textContent = message;
                 let toastElement = new bootstrap.Toast(toastHTMLElement, {animation: true,autohide: true,delay: 3000,});
                 toastElement.show();
+                reloadEventArticle();
             })
             .catch(function(error) {
                 console.log(error);
             });
+    }else{
+        console.log('Pas de bouton portant l\'id suppr');
     }
 
 }
+
+modalArticle.addEventListener('hide.bs.modal', event => {
+    modalArticle.querySelector('.modal-header').innerHTML =
+        '<h1 class="modal-title fs-5" id="exampleModalLabel">Modal des articles</h1>\n' +
+        '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>\n';
+    modalArticle.querySelector('.modal-body').innerHTML =
+        '<div class="d-flex justify-content-center">\n' +
+        '<div class="spinner-border text-primary" role="status">\n' +
+        '<span class="sr-only">Loading...</span>\n' +
+        '</div>\n' +
+        '</div>';
+    modalArticle.querySelector('.modal-footer').innerHTML =
+        '<a id="SubmitArticle" href="#" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Modifier</a>' +
+        '<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>';
+});
 
 function reloadEventArticle(){
     document.getElementById('btnSupprArticle').addEventListener('click', submitModalArticle);
