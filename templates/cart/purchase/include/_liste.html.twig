@@ -5,10 +5,10 @@
             <th class="col-1"><input type="checkbox" name="checkAllBoxes"></th>
             <th class="col-2">Mandataire</th>
             <th class="col-1">Date de com.</th>
-            <th class="col-2">Détails</th>
+            <th class="col-3">Détails</th>
             <th class="col-2">Etat</th>
             <th class="col-2"></th>
-            <th class="col-2"></th>
+            <th class="col-1"></th>
         </tr>
         </thead>
         <tbody>
@@ -21,7 +21,7 @@
                 </td>
                 <td>
                     {% for pi in purchase.purchaseItems %}
-                        <li>{{ pi.productName }} - ref : {{ pi.productRef}} | {{ pi.totalItem }}</li>
+                        <li><b>{{ pi.productName }}</b> | {{ pi.productPrice }}€ x {{ pi.totalItem }} = {{ pi.productPrice * pi.totalItem }}€</li>
                     {% endfor %}
                 </td>
                 <td>{{ purchase.total }}€ - {{ purchase.totalItem }} produits</td>
@@ -32,7 +32,7 @@
                     {% endif %}
                 </td>
                 <td>
-                    <button class="btn btn-sm btn-outline-dark">Supprimer</button>
+                    <a href="{{ path('op_cart_purchase_delete', {'id': purchase.id})}}" class="btn btn-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#showCommande" data-bs-whatever="DELL-Supprimer la commande-{{ purchase.id }}">Supprimer</a>
                 </td>
             </tr>
         {% else %}

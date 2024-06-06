@@ -32,6 +32,10 @@ class PurchaseItem
     #[ORM\ManyToOne(inversedBy: 'purchaseItems')]
     private ?Purchase $purchase = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $propertyVisualFilename = null;
+
+
     public function getId(): ?int
     {
         return $this->id;
@@ -105,6 +109,18 @@ class PurchaseItem
     public function setPurchase(?Purchase $purchase): static
     {
         $this->purchase = $purchase;
+
+        return $this;
+    }
+
+    public function getPropertyVisualFilename(): ?string
+    {
+        return $this->propertyVisualFilename;
+    }
+
+    public function setPropertyVisualFilename(string $propertyVisualFilename): static
+    {
+        $this->propertyVisualFilename = $propertyVisualFilename;
 
         return $this;
     }

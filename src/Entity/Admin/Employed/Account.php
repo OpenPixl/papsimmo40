@@ -24,7 +24,7 @@ class Account
     private ?string $login = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $p�assword = null;
+    private ?string $password = null;
 
     public function getId(): ?int
     {
@@ -67,14 +67,14 @@ class Account
         return $this;
     }
 
-    public function getP�assword(): ?string
+    public function getPassword(): ?string
     {
-        return $this->p�assword;
+        return $this->password;
     }
 
-    public function setP�assword(string $p�assword): static
+    public function setPassword(string $password): static
     {
-        $this->p�assword = $p�assword;
+        $this->password = $password;
 
         return $this;
     }
