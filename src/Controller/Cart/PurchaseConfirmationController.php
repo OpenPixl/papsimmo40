@@ -70,6 +70,7 @@ class PurchaseConfirmationController extends AbstractController
                 ->setProductRef($cartItem->product->getRef())
                 ->setProductName($cartItem->product->getName())
                 ->setProductPrice($cartItem->product->getPrice())
+                ->setPropertyVisualFilename($cartItem->product->getVisualFilename())
                 ->setProductQty($cartItem->qty)
                 ->setTotalItem($cartItem->qty)
             ;
