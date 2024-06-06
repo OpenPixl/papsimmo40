@@ -48,7 +48,7 @@ class TransactionController extends AbstractController
         if($hasAccess == true){
             $transactions = $transactionRepository->findAll();
         }else{
-            $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId(), 'isClosedfolder' => 0]);
+            $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId()]);
         }
         
         return $this->render('gestapp/transaction/index.html.twig', [
@@ -56,7 +56,6 @@ class TransactionController extends AbstractController
             'user' => $user
         ]);
     }
-
 
 
     #[Route('/new/{idproperty}', name: 'op_gestapp_transaction_new', methods: ['GET', 'POST'])]
@@ -1539,6 +1538,7 @@ class TransactionController extends AbstractController
             $transactions = $transactionRepository->findBy(['isClosedfolder' => 0]);
         }else{
             $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId(), 'isClosedfolder' => 0]);
+            dd($transaction);
         }
 
         return $this->json([

@@ -14,6 +14,7 @@ use App\Controller\Api\Admin\Employed\AddPrescriber;
 use App\Controller\Api\Admin\Employed\GetTokenEmailPrescripteur;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
 use App\Controller\Api\Admin\Employed\updatePrescriberpassword;
+use App\Entity\Admin\Employed\Account;
 use App\Entity\Cart\Cart;
 use App\Entity\Cart\Purchase;
 use App\Entity\Gestapp\Customer;
@@ -366,7 +367,14 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $addCollTransacs;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'employed:reco', 'prescriber:write:post', 'transaction:list', 'reco:list'])]
     private ?string $civility = null;
+
+    /**
+     * @var Collection<int, Account>
+     */
+    #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Account::class)]
+    private Collection $accounts;
 
     public function __construct()
     {
@@ -381,6 +389,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->recos = new ArrayCollection();
         $this->purchases = new ArrayCollection();
         $this->addCollTransacs = new ArrayCollection();
+        $this->accounts = new ArrayCollection();
     }
 
     /**
@@ -1244,6 +1253,36 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setCivility(?string $civility): static
     {
         $this->civility = $civility;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Account>
+     */
+    public function getAccounts(): Collection
+    {
+        return $this->accounts;
+    }
+
+    public function addAccount(Account $account): static
+    {
+        if (!$this->accounts->contains($account)) {
+            $this->accounts->add($account);
+            $account->setRefEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccount(Account $account): static
+    {
+        if ($this->accounts->removeElement($account)) {
+            // set the owning side to null (unless already changed)
+            if ($account->getRefEmployed() === $this) {
+                $account->setRefEmployed(null);
+            }
+        }
 
         return $this;
     }

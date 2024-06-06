@@ -9,42 +9,10 @@
 
 {% block javascripts%}
     {{ parent() }}
-    <script type="module" src="{{ asset('js/employed/onload.js') }}"></script>
+    <script type="module" src="{{ asset('js/Admin/employed/edit.js') }}"></script>
     <script>
         window.onload = function(){
-            new TomSelect("#employed_referent",{
-                plugins: ['remove_button'],
-                create: true,
-                onItemAdd:function(){
-                    this.setTextboxValue('');
-                    this.refreshOptions();
-                },
-                render:{
-                    option:function(data,escape){
-                        return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
-                    },
-                    item:function(data,escape){
-                        return '<div>' + escape(data.data) + '</div>';
-                    }
-                }
-            });
 
-            let valcivility = document.querySelector('input[name=employed\\[civility\\]]:checked').value;
-            if (valcivility > 1){
-                document.getElementById('employed_maidenName').classList.remove('d-none');
-            }
-
-            const radioButtons = document.querySelectorAll('input[name=employed\\[civility\\]]');
-            console.log(radioButtons)
-            radioButtons.forEach(function(radio) {
-                radio.addEventListener("change", function() {
-                    if (parseInt(this.value) === 2) {
-                        document.getElementById('employed_maidenName').classList.remove('d-none');
-                    } else if (parseInt(this.value) === 1){
-                        document.getElementById('employed_maidenName').classList.add('d-none');
-                    }
-                });
-            });
         }
     </script>
 {% endblock %}
@@ -62,5 +30,32 @@
             </div>
         </div>
     </section>
+{% endblock %}
+
+{% block modal %}
+    {{ parent() }}
+
+    <!-- Modal Account-->
+    <div class="modal fade" id="showAccount" tabindex="-1" aria-labelledby="showAccount" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Comptes</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
 {% endblock %}
