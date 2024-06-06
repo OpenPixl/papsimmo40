@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Entity\Admin;
+namespace App\Entity\Admin\Employed;
 
-use App\Repository\Admin\AccountNameRepository;
+use App\Repository\Admin\Employed\AccountNameRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;

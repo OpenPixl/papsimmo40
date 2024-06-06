@@ -14,6 +14,7 @@ use App\Controller\Api\Admin\Employed\AddPrescriber;
 use App\Controller\Api\Admin\Employed\GetTokenEmailPrescripteur;
 use App\Controller\Api\Admin\Employed\GetTokenEmployed;
 use App\Controller\Api\Admin\Employed\updatePrescriberpassword;
+use App\Entity\Admin\Employed\Account;
 use App\Entity\Cart\Cart;
 use App\Entity\Cart\Purchase;
 use App\Entity\Gestapp\Customer;
@@ -366,6 +367,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $addCollTransacs;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'employed:reco', 'prescriber:write:post', 'transaction:list', 'reco:list'])]
     private ?string $civility = null;
 
     /**

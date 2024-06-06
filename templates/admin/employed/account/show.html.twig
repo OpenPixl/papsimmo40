@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Account{% endblock %}
+
+{% block body %}
+    <h1>Account</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ account.id }}</td>
+            </tr>
+            <tr>
+                <th>Login</th>
+                <td>{{ account.login }}</td>
+            </tr>
+            <tr>
+                <th>P�assword</th>
+                <td>{{ account.p�assword }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_admin_employed_account_index') }}">back to list</a>
+
+    <a href="{{ path('op_admin_employed_account_edit', {'id': account.id}) }}">edit</a>
+
+    {{ include('admin/employed/account/_delete_form.html.twig') }}
+{% endblock %}

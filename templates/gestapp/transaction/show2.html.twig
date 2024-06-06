@@ -8,11 +8,14 @@
     {% endfor%}
 {% endif %}
 {% for Member in arrayMember|filter(m => m.id == app.user.id) %}
-    {% set roleEditor = Member.user %}
+    {% if transaction.isClosedfolder == 1 and Member.role == 'ROLE_EMPLOYED' %}
+        {% set roleEditor = "visual" %}
+    {% else %}
+        {% set roleEditor = Member.user %}
+    {% endif %}
 {% else %}
     {% set roleEditor = "editor" %}
 {% endfor %}
-
 
 {% block title %}Transaction{% endblock %}
 
@@ -22,6 +25,8 @@
 {% endblock %}
 
 {% block contentTitle %}
+    {{ dump(arrayMember) }}
+    {{ dump(roleEditor) }}
     <div class="row d-flex justify-content-between">
         <div class="col-sm-12">
             <h1>TRANSACTION - Ref : {{ transaction.name }}</h1>
@@ -42,6 +47,8 @@
                 <div class="card-body">
                     <h5 class="card-title">{{ transaction.property.name }}</h5>
                     <p class="card-text">
+                        Bien sous mandat numéro : <b>{{ transaction.property.refMandat }}{% if transaction.property.dupMandat %}{{ transaction.property.dupMandat }}{% endif %}</b>
+                        <br>
                         {% if transaction.refEmployed.id == app.user.id %}
                             Porté par : <b>Moi même</b>
                         {% else %}

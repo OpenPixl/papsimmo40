@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Entity\Admin;
+namespace App\Entity\Admin\Employed;
 
-use App\Repository\Admin\AccountRepository;
+use App\Entity\Admin\Employed;
+use App\Repository\Admin\Employed\AccountRepository;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AccountRepository::class)]
@@ -23,7 +24,7 @@ class Account
     private ?string $login = null;
 
     #[ORM\Column(length: 100)]
-    private ?string $pÃassword = null;
+    private ?string $pï¿½assword = null;
 
     public function getId(): ?int
     {
@@ -66,14 +67,14 @@ class Account
         return $this;
     }
 
-    public function getPÃassword(): ?string
+    public function getPï¿½assword(): ?string
     {
-        return $this->pÃassword;
+        return $this->pï¿½assword;
     }
 
-    public function setPÃassword(string $pÃassword): static
+    public function setPï¿½assword(string $pï¿½assword): static
     {
-        $this->pÃassword = $pÃassword;
+        $this->pï¿½assword = $pï¿½assword;
 
         return $this;
     }
