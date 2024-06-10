@@ -4,6 +4,7 @@ let arrayCheckbox = [];
 let btnConfPurchase = document.getElementById('btnConfPurchase');
 
 // déclaration des évènements de la page
+// ----------------------------------------------
 document.querySelectorAll('a.showCart').forEach(function(link){
     link.addEventListener('click', showModalCart);
 });

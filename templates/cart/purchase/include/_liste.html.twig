@@ -2,7 +2,7 @@
     <table class="table">
         <thead>
         <tr>
-            <th class="col-1"><input type="checkbox" name="checkAllBoxes"></th>
+            <th class="col-1"><input type="checkbox" id="AllCheckBoxes"></th>
             <th class="col-2">Mandataire</th>
             <th class="col-1">Date de com.</th>
             <th class="col-3">Détails</th>
@@ -14,7 +14,7 @@
         <tbody>
         {% for purchase in purchases %}
             <tr class="align-middle">
-                <td><input type="checkbox" name="checkOneBoxes" value="{{ purchase.id }}"></td>
+                <td><input type="checkbox" name="oneCheckbox" value="{{ purchase.id }}"></td>
                 <td>{{ purchase.refEmployed }}</td>
                 <td>
                     {{ purchase.purchaseAt|format_datetime(locale='fr',pattern="eee dd MMMM yy") }}

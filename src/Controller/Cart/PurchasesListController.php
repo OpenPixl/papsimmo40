@@ -3,8 +3,10 @@
 namespace App\Controller\Cart;
 
 use App\Entity\Cart\Purchase;
+use App\Repository\Cart\CartRepository;
 use App\Repository\Cart\PurchaseItemRepository;
 use App\Repository\Cart\PurchaseRepository;
+use App\Service\CartService;
 use Doctrine\ORM\EntityManagerInterface;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use App\Entity\Admin\Employed;
@@ -269,6 +271,43 @@ class PurchasesListController extends abstractController
         return $this->json([
             'code'          => 200,
             'message'       => "La commande a été correctement supprimée.",
+            'liste'         => $this->renderView('cart/purchase/include/_liste.html.twig', [
+                'purchases' => $purchases
+            ])
+        ], 200);
+    }
+
+    #[Route('/cart/purchases/delcheckboxes/', name: 'op_cart_purchases_delcheckboxes', methods: ['POST'])]
+    public function delChexboxes(
+        Request $request,
+        PurchaseRepository $purchaseRepository,
+        PurchaseItemRepository $purchaseItemRepository,
+        CartService $cartService,
+        CartRepository $cartRepository,
+        EntityManagerInterface $em)
+    {
+        $arrayCheckboxes = json_decode($request->getContent());
+        //dd($arrayCheckboxes);
+
+        foreach ($arrayCheckboxes as $array){
+            $purchase = $purchaseRepository->find(intval($array));
+            $listItems = $purchaseItemRepository->findBy(['purchase' => $purchase]);
+            foreach($listItems as $item){
+                $em->remove($item);
+                $em->flush();
+            }
+            $em->remove($purchase);
+            $em->flush();
+        }
+
+        $refEmployed = $this->getUser()->getId();
+        $purchases = $purchaseRepository->findBy([
+            'refEmployed' => $refEmployed
+        ]);
+
+        return $this->json([
+            'code'          => 200,
+            'message'       => "Les commandes ont été correctement supprimées.",
             'liste'         => $this->renderView('cart/purchase/include/_liste.html.twig', [
                 'purchases' => $purchases
             ])

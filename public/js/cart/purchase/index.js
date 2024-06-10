@@ -1,8 +1,43 @@
 const showCommande = document.getElementById('showCommande');
+let arrayCheckbox = [];
 
+// déclaration des évènements de la page
+// ----------------------------------------------
 document.querySelectorAll('a.showCommande').forEach(function(link){
     link.addEventListener('click', modalCommande);
 });
+// sélectionner toutes les checkBox's à partir de la checkbox du ht de page
+document.getElementById('AllCheckBoxes').onclick = function() {
+    let checkboxes = document.getElementsByName('oneCheckbox');
+    //console.log(checkboxes.length);
+    for (let checkbox of checkboxes) {
+        checkbox.checked = this.checked;
+        if(checkbox.checked){
+            arrayCheckbox.push(checkbox.value);
+            arrayCheckbox = [... new Set(arrayCheckbox)];
+        }
+    }
+};
+document.getElementById('supprRows').onclick = function(event){
+    event.preventDefault();
+    let checkboxes = document.getElementsByName('oneCheckbox');
+    for (let checkbox of checkboxes) {
+        if(checkbox.checked){
+            arrayCheckbox.push(checkbox.value);
+            arrayCheckbox = [... new Set(arrayCheckbox)];
+        }
+    }
+    axios
+        .post('/cart/purchases/delcheckboxes/', arrayCheckbox)
+        .then(function(response){
+            document.getElementById('listeSupport').innerHTML = response.data.liste;
+            toasterMessage(response.data.message);
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
+};
 
 showCommande.addEventListener('hidden.bs.modal', function(){
     if(modalRecoBs.querySelector('.modal-dialog').classList.contains('modal-xl')){
