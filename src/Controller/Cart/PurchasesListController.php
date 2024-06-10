@@ -243,20 +243,34 @@ class PurchasesListController extends abstractController
 
     }
 
-    #[Route('/cart/purchases/delete/{commande}', name:'op_cart_purchases_delete', methods: ['POST'])]
-    public function delPurchase(Purchase $purchase, PurchaseRepository $purchaseRepository, PurchaseItemRepository $purchaseItemRepository, EntityManagerInterface $em) : Response
+    #[Route('/cart/purchases/delete/{id}', name:'op_cart_purchases_delete', methods: ['POST'])]
+    public function delPurchase(
+        Purchase $purchase,
+        PurchaseRepository $purchaseRepository,
+        PurchaseItemRepository $purchaseItemRepository,
+        EntityManagerInterface $em
+    ) : Response
     {
-        $member = $this->getUser();
+        $refEmployed = $purchase->getRefEmployed();
+
+        $listItems = $purchaseItemRepository->findBy(['purchase' => $purchase]);
+        foreach($listItems as $item){
+            $em->remove($item);
+            $em->flush();
+        }
 
         $em->remove($purchase);
         $em->flush();
 
+        $purchases = $purchaseRepository->findBy([
+            'refEmployed' => $refEmployed
+        ]);
+
         return $this->json([
             'code'          => 200,
             'message'       => "La commande a été correctement supprimée.",
-            'count'         => $this->renderView('gestapp/purchase/index.html.twig', [
-                'purchases'=> $member->getPurchases(),
-                'hide' => 0,
+            'liste'         => $this->renderView('cart/purchase/include/_liste.html.twig', [
+                'purchases' => $purchases
             ])
         ], 200);
     }

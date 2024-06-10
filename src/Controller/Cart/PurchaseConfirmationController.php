@@ -5,6 +5,7 @@ namespace App\Controller\Cart;
 use App\Entity\Cart\Purchase;
 use App\Entity\Cart\PurchaseItem;
 use App\Form\Gestapp\CartConfirmationType;
+use App\Repository\Cart\PurchaseItemRepository;
 use App\Repository\Cart\PurchaseRepository;
 use App\Service\CartService;
 use DateTime;
@@ -13,6 +14,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class PurchaseConfirmationController extends AbstractController
@@ -97,24 +99,5 @@ class PurchaseConfirmationController extends AbstractController
         ]);
 
         //return $this->redirectToRoute('op_cart_product_index');
-    }
-
-    #[Route('/cart/purchase/delete/{id}', name:'op_cart_purchase_delete', methods: ['POST'])]
-    public function deletePurchase(Purchase $purchase)
-    {
-        $this->em->remove($purchase);
-        $this->em->flush();
-
-        $user = $this->getUser();
-        $purchases =  $this->em->getRepository(Purchase::class)->findBy(array('customer'=>$user));
-
-        return $this->json([
-            'code'          => 200,
-            'message'       => 'La commande et son contenu à été effacée.',
-            'liste'         =>  $this->renderView('gestapp/purchase/include/_liste.html.twig', [
-                'purchases' => $purchases,
-                'hide' => 0
-            ])
-        ], 200);
     }
 }

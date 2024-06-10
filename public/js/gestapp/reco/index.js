@@ -36,7 +36,6 @@ modalRecoBs.addEventListener('hidden.bs.modal', function(){
         "</div>"+
         "</div>"
     ;
-
 });
 
 function showReco(event) {

@@ -22,6 +22,7 @@
             <a id="btnreturn" href="{{ path('op_cart_product_index') }}" class="btn btn-sm btn-outline-dark" >retour</a>
             |
             <a href="{{ path('op_cart_purchase_confirm') }}" class="btn btn-sm btn-outline-primary" id="btnConfPurchase">Valider la commande</a>
+            <button id="supprRows" class="btn btn-sm btn-outline-dark">Supprimer les produits sélectionnés</button>
         </div>
     </div>
     <div class="row mt-2" id="listeSupport">
@@ -33,6 +34,28 @@
 
 {% block modal %}
     {{ parent() }}
+    <!-- Modal -->
+    <div class="modal fade" id="modalCart" tabindex="-1" aria-labelledby="modalCart" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnSubmitCommande" href="#" type="button" class="btn btn-primary" data-bs-dismiss="modal">Modifier</a>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     {# annonce toaster #}
     <div aria-live="polite" aria-atomic="true" class="position-relative">

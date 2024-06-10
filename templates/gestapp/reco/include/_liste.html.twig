@@ -11,7 +11,6 @@
         <th>Client potentiel</th>
         <th>Propriété</th>
         <th>Créer le</th>
-        <th>Mise à jour</th>
         <th>actions</th>
     </tr>
     </thead>
@@ -53,10 +52,9 @@
             </td>
             <td>{{ reco.propertyAddress }}<br>{% if reco.propertyComplement is not null or reco.propertyComplement is not empty %}{{ reco.propertyComplement }}<br>{% endif %}{{ reco.propertyZipcode }} {{ reco.propertyCity }}</td>
             <td>{{ reco.createdAt ? reco.createdAt|date('Y-m-d') : '' }}</td>
-            <td>{{ reco.updatedAt ? reco.updatedAt|date('Y-m-d') : '' }}</td>
             <td>
                 {% if reco.statutReco.name == "paid_commission" or reco.statutReco.name =="reco_finished" %}
-                    <a id="btnCommission" href="{{ path('op_gestapp_reco_edit_comm', {'id': reco.id}) }}" class="btn btn-sm btn-outline-warning btnCommission" data-bs-whatever="EDIT-Ajout / Edition d'une commission">{% if reco.commission > 0 %}Modifier la commission{% else %}Déclarer la commission{% endif %}</a>
+                    <a id="btnCommission" href="{{ path('op_gestapp_reco_edit_comm', {'id': reco.id}) }}" class="btn btn-sm btn-outline-warning btnCommission" data-bs-whatever="EDIT-Ajout / Edition d'une commission">{% if reco.commission > 0 %}Modifier les gains{% else %}Déclarer les gains{% endif %}</a>
                 {% endif %}
                 <a id="btnEditReco" href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}" class="btn btn-sm btn-outline-primary btnEditReco" data-bs-whatever="EDIT-Edition d'une recommandation">Modifier</a>
             </td>

@@ -305,21 +305,106 @@ class CartController extends AbstractController
 
     /**
      * Supprime un produit du panier
-     * @Route("/webapp/cart/del/{id}/{uuid}/{item}", name="op_webapp_cart_delete", requirements={"id":"\d+"})
+     * @Route("/webapp/cart/{idProduct}/del/{item}", name="op_cart_cart_delete", requirements={"id":"\d+"})
      */
-    public function deleteProduct($id, $item, $uuid, ProductRepository $productRepository, CartService $cartService, EntityManagerInterface $em)
+    public function deleteProduct(
+        $idProduct,
+        $item,
+        ProductRepository $productRepository,
+        CartRepository $cartRepository,
+        CartService $cartService,
+        EntityManagerInterface $em)
     {
 
-        $Customize = $this->customizeRepository->findCart($id, $uuid, $item);
-        $CustomizeObject = $this->customizeRepository->find($Customize['id']);
+        // Suppression de la ligne
+        $this->cartService->remove(intval($item), $idProduct);
 
-        $em->remove($CustomizeObject);
-        $em->flush();
+        // récupération des elements du panier
+        $session = $this->requestStack->getSession()->getId();
+        $user = $this->getUser();
+        $detailedCart = $this->cartService->getDetailedCartItem();
 
-        $this->cartService->remove($item, $id, $uuid);
+        foreach ($detailedCart as $d){
+            // Construction des éléments nécessaire au panier
+            $product = $d->product;
 
-        return $this->redirectToRoute("op_webapp_cart_showcart");
+            $cart = new Cart();
+            $cart->setUuid($session);
+            $cart->setRefEmployed($user);
+            $cart->setRefProduct($product);
+            $cart->setProductId($product->getId());
+            $cart->setProductName($product->getName());
+            $cart->setproductCat($product->getCategory());
+            $cart->setProductQty($d->qty);
+            $cart->setItem($d->item);
+            $em->persist($cart);
+            $em->flush();
+        }
+        $carts = $cartRepository->findBy(['uuid'=> $session]);
+        $cartspanel = $carts;
+        foreach($carts as $cart){
+            $em->remove($cart);
+            $em->flush();
+        }
 
+        return $this->json([
+            'code' => 200,
+            'message' => 'Le produit a été correctement retiré du panier',
+            'liste'         => $this->renderView('cart/cart/include/_liste.html.twig', [
+                'carts' => $cartspanel,
+                'session' => $session,
+                'user' => $user,
+            ])
+        ], 200);
+
+    }
+
+    #[Route('/cart/cart/delcheckboxes/', name: 'op_cart_cart_delcheckboxes', methods: ['POST'])]
+    public function delChexboxes(Request $request, CartService $cartService, CartRepository $cartRepository, EntityManagerInterface $em)
+    {
+        $arrayCheckboxes = json_decode($request->getContent());
+
+        foreach($arrayCheckboxes as $array){
+            $item = explode("-", $array)[0];
+            $id = explode("-", $array)[1];
+            $this->cartService->remove(intval($item), $id);
+        }
+        $session = $this->requestStack->getSession()->getId();
+        $user = $this->getUser();
+        $detailedCart = $this->cartService->getDetailedCartItem();
+
+        foreach ($detailedCart as $d){
+            // Construction des éléments nécessaire au panier
+            $product = $d->product;
+
+            $cart = new Cart();
+            $cart->setUuid($session);
+            $cart->setRefEmployed($user);
+            $cart->setRefProduct($product);
+            $cart->setProductId($product->getId());
+            $cart->setProductName($product->getName());
+            $cart->setproductCat($product->getCategory());
+            $cart->setProductQty($d->qty);
+            $cart->setItem($d->item);
+            $em->persist($cart);
+            $em->flush();
+        }
+        $carts = $cartRepository->findBy(['uuid'=> $session]);
+        $cartspanel = $carts;
+        foreach($carts as $cart){
+            $em->remove($cart);
+            $em->flush();
+        }
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Les produits ont été correctement retirés du panier',
+            'liste'         => $this->renderView('cart/cart/include/_liste.html.twig', [
+                'carts' => $cartspanel,
+                'session' => $session,
+                'user' => $user,
+            ])
+        ], 200);
     }
 
 }
