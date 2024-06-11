@@ -8,6 +8,7 @@ use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -16,12 +17,44 @@ class RecoType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('announceCivility', ChoiceType::class, [
+                'label' => 'Civilité',
+                'attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices'  => [
+                    'M.' => 1,
+                    "Mme" => 2,
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
             ->add('announceFirstName')
             ->add('announceLastName')
+            ->add('announceMaiden', TextType::class, [
+                'label' => 'Nom de jeune fille',
+                'required' => false
+            ])
             ->add('announcePhone')
             ->add('announceEmail')
+            ->add('customerCivility', ChoiceType::class, [
+                'label' => 'Civilité',
+                'attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices'  => [
+                    'M.' => 1,
+                    "Mme" => 2,
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
             ->add('customerFirstName')
             ->add('customerLastName')
+            ->add('customerMaiden', TextType::class, [
+                'label' => 'Nom de jeune fille',
+                'required' => false
+            ])
             ->add('customerPhone')
             ->add('customerEmail')
             ->add('propertyAddress')

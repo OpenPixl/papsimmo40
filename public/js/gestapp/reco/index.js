@@ -60,8 +60,15 @@ function showReco(event) {
         .post(url)
         .then(function(response){
             document.getElementById('modalReco').querySelector('.modal-body').innerHTML = response.data.formView;
+            // -- visuel sur le nom de jeune fille de l'annonceur--
+            let valannounceCivility = document.querySelector('input[name=reco\\[announceCivility\\]]:checked').value;
+            const radioBtnsannounceCivility = document.querySelectorAll('input[name=reco\\[announceCivility\\]]');
+            // -- visuel sur le nom de jeune fille de l'annonceur--
+            let valcustomerCivility = document.querySelector('input[name=reco\\[customerCivility\\]]:checked').value;
+            const radioBtnscustomerCivility = document.querySelectorAll('input[name=reco\\[customerCivility\\]]');
             const cardComm = document.getElementById('cardComm');
             let selectRecoStatut = document.getElementById('reco_statutReco');
+            // -- Déclencheurs --
             if(selectRecoStatut.value > 5){
                 cardComm.classList.remove('d-none');
                 cardComm.classList.add('animate__animated', 'animate__fadeIn');
@@ -74,6 +81,30 @@ function showReco(event) {
                     cardComm.classList.remove('animate__animated','animate__fadeIn');
                     cardComm.classList.add('animate__animated','animate__fadeOut', 'd-none');
                 }
+            });
+            if (valannounceCivility > 1){
+                document.getElementById('reco_announceMaiden').classList.remove('d-none');
+            }
+            radioBtnsannounceCivility.forEach(function(radio) {
+                radio.addEventListener("change", function() {
+                    if (parseInt(this.value) === 2) {
+                        document.getElementById('reco_announceMaiden').classList.remove('d-none');
+                    } else if (parseInt(this.value) === 1){
+                        document.getElementById('reco_announceMaiden').classList.add('d-none');
+                    }
+                });
+            });
+            if (valcustomerCivility > 1){
+                document.getElementById('reco_customerMaiden').classList.remove('d-none');
+            }
+            radioBtnscustomerCivility.forEach(function(radio) {
+                radio.addEventListener("change", function() {
+                    if (parseInt(this.value) === 2) {
+                        document.getElementById('reco_customerMaiden').classList.remove('d-none');
+                    } else if (parseInt(this.value) === 1){
+                        document.getElementById('reco_customerMaiden').classList.add('d-none');
+                    }
+                });
             });
         })
         .catch(function(error){

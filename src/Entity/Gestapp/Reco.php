@@ -111,6 +111,10 @@ class Reco
     #[Groups(['reco:item', 'reco:write:post', 'reco:list'])]
     private ?Employed $refEmployed = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?string $announceCivility = "1";
+
     #[ORM\Column(length: 80)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceFirstName = null;
@@ -118,6 +122,10 @@ class Reco
     #[ORM\Column(length: 80, nullable: true)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceLastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?string $announceMaiden = null;
 
     #[ORM\Column(length: 14)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
@@ -127,6 +135,10 @@ class Reco
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceEmail = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?string $customerCivility = "1";
+
     #[ORM\Column(length: 80)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerFirstName = null;
@@ -134,6 +146,10 @@ class Reco
     #[ORM\Column(length: 80, nullable: true)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $customerLastName = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
+    private ?string $customerMaiden = null;
 
     #[ORM\Column(length: 14)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
@@ -249,6 +265,18 @@ class Reco
         return $this;
     }
 
+    public function getAnnounceCivility(): ?string
+    {
+        return $this->announceCivility;
+    }
+
+    public function setAnnounceCivility(?string $announceCivility): static
+    {
+        $this->announceCivility = $announceCivility;
+
+        return $this;
+    }
+
     public function getAnnounceFirstName(): ?string
     {
         return $this->announceFirstName;
@@ -273,6 +301,18 @@ class Reco
         return $this;
     }
 
+    public function getAnnounceMaiden(): ?string
+    {
+        return $this->announceMaiden;
+    }
+
+    public function setAnnounceMaiden(?string $announceMaiden): static
+    {
+        $this->announceMaiden = $announceMaiden;
+
+        return $this;
+    }
+
     public function getAnnouncePhone(): ?string
     {
         return $this->announcePhone;
@@ -293,6 +333,18 @@ class Reco
     public function setAnnounceEmail(string $announceEmail): static
     {
         $this->announceEmail = $announceEmail;
+
+        return $this;
+    }
+
+    public function getCustomerCivility(): ?string
+    {
+        return $this->customerCivility;
+    }
+
+    public function setCustomerCivility(string $customerCivility): static
+    {
+        $this->customerCivility = $customerCivility;
 
         return $this;
     }
@@ -324,6 +376,18 @@ class Reco
     public function getCustomerPhone(): ?string
     {
         return $this->customerPhone;
+    }
+
+    public function getCustomerMaiden(): ?string
+    {
+        return $this->customerMaiden;
+    }
+
+    public function setCustomerMaiden(string $customerMaiden): static
+    {
+        $this->customerMaiden = $customerMaiden;
+
+        return $this;
     }
 
     public function setCustomerPhone(string $customerPhone): static

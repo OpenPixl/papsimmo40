@@ -1080,7 +1080,7 @@ class PropertyController extends AbstractController
 
         //dd($properties);
 
-        return $this->renderForm('webapp/page/property/lastproperties.html.twig', [
+        return $this->render('webapp/page/property/lastproperties.html.twig', [
             'properties' => $properties,
         ]);
 
