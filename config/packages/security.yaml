@@ -47,7 +47,7 @@ security:
     # Note: Only the *first* access control that matches will be used
     access_control:
         - { path: ^/opadmin/dashboard, roles: [ROLE_EMPLOYED, ROLE_API, ROLE_PRESCRIBER] }
-        - { path: ^/api, roles: [ROLE_EMPLOYED, ROLE_API, ROLE_PRESCRIBER] }
+        #- { path: ^/api, roles: [ROLE_EMPLOYED, ROLE_API, ROLE_PRESCRIBER] }
         - { path: ^/api/properties, roles: [ROLE_EMPLOYED, ROLE_API, ROLE_PRESCRIBER] }
         - { path: ^/api/property, roles: [ROLE_EMPLOYED, ROLE_API, ROLE_PRESCRIBER] }
         - { path: ^/api/propriete, roles: [ROLE_EMPLOYED, ROLE_API, ROLE_PRESCRIBER] }
