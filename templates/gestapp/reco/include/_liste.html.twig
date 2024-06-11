@@ -17,7 +17,9 @@
     <tbody>
     {% for reco in recos %}
         <tr class="align-middle" {% if reco.isRead == 0 %}class="table-secondary"{% endif %}>
-            <td><input type="checkbox"></td>
+            <td>
+                <input type="checkbox" value="{{ reco.id }}" name="oneCheckbox">
+            </td>
             {# insertion d'un bloc collaborateur #}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
             <td>
