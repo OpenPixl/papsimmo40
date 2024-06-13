@@ -531,7 +531,7 @@ class CustomerController extends AbstractController
         ], 200);
     }
 
-    #[Route('/{id}/{idproperty}', name: 'op_gestapp_customer_del_onproperty', methods: ['POST'])]
+    #[Route('/{id}/delonproperty/{idproperty}', name: 'op_gestapp_customer_del_onproperty', methods: ['POST'])]
     public function delOnProperty(Customer $customer, $idproperty, PropertyRepository $propertyRepository,CustomerRepository $customerRepository)
     {
         // suprression du client vendeur sur le bien

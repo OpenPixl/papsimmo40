@@ -13,9 +13,10 @@ const civility = document.querySelectorAll('input[name="customer[civility]"]');
 const maidenName = document.getElementById('customer_maidenName');
 
 btnAddCustomer.addEventListener('click', showModalCustomer);
-document.querySelectorAll('.btnEditCustomer').forEach(function(link){
+document.querySelectorAll('.btnShownCustomer').forEach(function(link){
     link.addEventListener('click', showModalCustomer);
 });
+
 if(modalCustomerBs.querySelector('.modal-footer #btnSubmitCustomer') !== null){
     modalCustomerBs.querySelector('.modal-footer #btnSubmitCustomer').addEventListener('click', submitCustomer);
 }
@@ -26,6 +27,12 @@ modalCustomerBs.addEventListener('hidden.bs.modal', event => {
         '<h5 class="modal-title" id="exampleModalLabel">Fiche Client</h5>' +
         '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'
     ;
+    modalCustomerBs.querySelector('.modal-body').innerHTML =
+        "<div class=\"d-flex justify-content-center\">\n" +
+        "<div class=\"spinner-border text-primary\" role=\"status\">\n" +
+        "<span class=\"visually-hidden\">Loading...</span>\n" +
+        "</div>\n" +
+        "</div>";
     modalCustomerBs.querySelector('.modal-footer').innerHTML =
         '<a id="btnSubmitCustomer" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>' +
         '<button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>';
@@ -143,12 +150,10 @@ function showModalCustomer(event){
                 modalCustomerBs.querySelector('.modal-body').innerHTML = response.data.formView;
                 // -- visuel sur le nom de jeune fille --
                 let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
-                console.log(valcivility);
                 if (valcivility > 1){
                     document.getElementById('customer2_maidenName').classList.remove('d-none');
                 }
                 const radioButtons = document.querySelectorAll('input[name=customer2\\[civility\\]]');
-                console.log(radioButtons);
                 radioButtons.forEach(function(radio) {
                     radio.addEventListener("change", function() {
                         if (parseInt(this.value) === 2) {
@@ -216,23 +221,48 @@ function showModalCustomer(event){
                 });
             });
     }
+    else if(crud === 'DEL'){
+        modalCustomerBs.querySelector('.modal-dialog').classList.remove('modal-xl');
+        modalCustomerBs.querySelector('.modal-title').textContent = contentTitle;
+        modalCustomerBs.querySelector('.modal-footer #btnSubmitCustomer').innerHTML = 'Supprimer le propriétaire';
+        modalCustomerBs.querySelector('.modal-footer #btnSubmitCustomer').href = url;
+        modalCustomerBs.querySelector('.modal-body').innerHTML = "<p><b>Attention :</b><br>"+
+            "Vous êtez sur le point de détacher ce propriétaiure de ce bien. <br> Pour continuer, cliquez sur le bouton \"supprimer\".</p>";
+        loadEventStep2();
+    }
 }
 
 function submitCustomer(event){
     event.preventDefault();
     let form = document.getElementById('FormEditCustomer');
-    let data = new FormData(form);
-    let action = form.action;
-    axios
-        .post(action, data)
-        .then(function(response){
-            document.getElementById('listeCustomers').innerHTML = response.data.liste;
-            loadEventStep2();
-        })
-        .catch(function(error){
-            console.log(error);
-        })
-    ;
+    if (form !== null){
+        let data = new FormData(form);
+        let action = form.action;
+        axios
+            .post(action, data)
+            .then(function(response){
+                document.getElementById('listeCustomers').innerHTML = response.data.liste;
+                loadEventStep2();
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
+    }
+    else {
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function(response){
+                document.getElementById('listeCustomers').innerHTML = response.data.liste;
+                loadEventStep2();
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
+    }
+
 }
 
 civility.forEach(function(radio) {
