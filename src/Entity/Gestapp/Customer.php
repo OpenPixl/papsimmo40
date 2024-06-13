@@ -187,7 +187,7 @@ class Customer
     private ?string $kbisfilesize = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $civility = null;
+    private ?string $civility = "1";
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $maidenName = null;
