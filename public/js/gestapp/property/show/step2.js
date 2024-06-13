@@ -243,11 +243,13 @@ function submitCustomer(event){
             .then(function(response){
                 document.getElementById('listeCustomers').innerHTML = response.data.liste;
                 loadEventStep2();
+                toasterMessage(response.data.message);
             })
             .catch(function(error){
                 console.log(error);
             })
         ;
+
     }
     else {
         let url = this.href;
@@ -255,6 +257,7 @@ function submitCustomer(event){
             .post(url)
             .then(function(response){
                 document.getElementById('listeCustomers').innerHTML = response.data.liste;
+                toasterMessage(response.data.message);
                 loadEventStep2();
             })
             .catch(function(error){
@@ -274,6 +277,17 @@ civility.forEach(function(radio) {
         }
     });
 });
+
+function toasterMessage(message){
+    // préparation du toaster
+    let option = {animation: true,autohide: true,delay: 3000,};
+    // initialisation du toaster
+    let toastHTMLElement = document.getElementById("toaster");
+    let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
+    toastBody.textContent = message;
+    let toastElement = new bootstrap.Toast(toastHTMLElement, option);
+    toastElement.show();
+}
 
 function loadEventStep2(){
     btnAddCustomer.addEventListener('click', showModalCustomer);

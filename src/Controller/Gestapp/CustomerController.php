@@ -539,12 +539,12 @@ class CustomerController extends AbstractController
         $property->removeCustomer($customer);
         $propertyRepository->add($property);
 
-        //récupératuion de la liste de teous les client sur le bien
+        // Récupération de la liste de teous les client sur le bien
         $customers = $customerRepository->listbyproperty($property);
 
         return $this->json([
             'code'=> 200,
-            'message' => "Le vendeurs a été correctement ajouté.",
+            'message' => "Le vendeurs a été correctement retiré de ce bien.",
             'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
                 'customers' => $customers,
                 'idproperty' => $idproperty,
