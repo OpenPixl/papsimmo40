@@ -213,7 +213,7 @@ class Reco
 
     #[ORM\Column(nullable: true)]
     #[Groups(['reco:item', 'employed:reco'])]
-    private ?int $commission = null;
+    private ?int $commission = 0;
 
     #[ORM\Column(nullable: true)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
