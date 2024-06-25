@@ -462,7 +462,7 @@ class PropertyController extends AbstractController
         $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
 
         $property = new Property();
-        $property->setAnnonce('<p>Contacter nous au : '.$user->getGsm().' ou '. $user->getEmail() .'</p><p>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');
+        $property->setAnnonce('<p>Contact : '.$user->getGsm().' ou '. $user->getEmail() .'<br>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');
         $property->setFamily($family);
         $property->setRubric($rubric);
         $property->setRubricss($rubricss);

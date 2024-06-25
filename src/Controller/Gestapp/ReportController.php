@@ -39,10 +39,10 @@ class ReportController extends AbstractController
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $propertyService->getDestination($propriete);
-            $data = str_replace(array("\n", "\r"), array('', ''), html_entity_decode($property['annonce']));
+            $data = str_replace(array("\n", "\r", "\u{A0}"), array('<br>', '', ''), html_entity_decode($property['annonce']));
             $annonce = strip_tags($data, '<br>');
 
-            // Contruction de la référence de l'anonnce
+            // Contruction de la référence de l'anonce
             $dup = $property['dup'];
             if ($dup) {
                 $refProperty = $property['ref'] . $dup;
@@ -201,6 +201,7 @@ class ReportController extends AbstractController
             );
             $rows[] = implode('|', $data);
         }
+        dd($rows);
 
         $content = implode("\n", $rows);
         $response = new Response($content);
