@@ -80,6 +80,53 @@ class PdfController extends AbstractController
         }
     }
 
+    #[Route('/admin/pdf/Property/fichepaysage/{id}', name: 'op_admin_pdf_propertypaysage', methods: ['GET'])]
+    public function FichePropertyPaysage(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
+    {
+        $html = 1; // variable pour basculer du mode pdf au mode html
+        $oneproperty = $propertyRepository->oneProperty($property->getId());
+        //dd($property);
+        $options = $property->getOptions();
+        $equipments = $options->getPropertyEquipment();
+        $firstphoto = $photoRepository->firstphoto($property->getId());
+        // Récupération des photos correspondantes au bien
+        $photos = $photoRepository->findBy(['property'=>$property->getId()], ['position' => 'ASC']);
+        $otheroptions = $options->getPropertyOtheroption();
+        $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
+
+        //dd($photos);
+
+        if($html==0){
+            return $this->render(
+                'pdf/ficheproperty2.html.twig', array(
+                'property'  => $oneproperty,
+                'equipments' => $equipments,
+                'otheroptions' => $otheroptions,
+                'application' =>$application,
+                'firstphoto' => $firstphoto,
+                'photos' => $photos
+            ));
+        }else{
+            $html = $this->twig->render('pdf/fichepropertypaysage.html.twig', array(
+                'property'  => $oneproperty,
+                'equipments' => $equipments,
+                'otheroptions' => $otheroptions,
+                'application' =>$application,
+                'firstphoto' => $firstphoto,
+                'photos' => $photos
+            ));
+
+            return new PdfResponse(
+                $knpSnappyPdf
+                    ->setOption("enable-local-file-access",true)
+                    ->setOption("orientation", 'Landscape')
+                    ->getOutputFromHtml($html),
+                'files.pdf'
+            );
+        }
+    }
+
+
     #[Route('/admin/pdf/Property/dip/{id}', name: 'op_admin_pdf_dip', methods: ['GET'])]
     public function dip(
         Property $property,
