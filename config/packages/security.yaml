@@ -71,6 +71,7 @@ security:
         - { path: ^/gestapp/customer, roles: ROLE_EMPLOYED }
         - { path: ^/gestapp/document, roles: ROLE_EMPLOYED }
         - { path: ^/cart/product, roles: ROLE_EMPLOYED }
+        - { path: ^/security/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
         # - { path: ^/profile, roles: ROLE_USER }
 
     role_hierarchy:
