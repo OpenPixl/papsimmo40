@@ -51,6 +51,7 @@ class PdfController extends AbstractController
         //dd($photos);
 
         if($html==0){
+            //dd($oneproperty);
             return $this->render(
                 'pdf/ficheproperty2.html.twig', array(
                 'property'  => $oneproperty,
@@ -61,6 +62,7 @@ class PdfController extends AbstractController
                 'photos' => $photos
             ));
         }else{
+            //dd($oneproperty);
             $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
@@ -75,7 +77,7 @@ class PdfController extends AbstractController
                     ->setOption("enable-local-file-access",true
                     )
                     ->getOutputFromHtml($html),
-                'files.pdf'
+                'fiche'.$property->getRefMandat().'-A4.pdf'
             );
         }
     }
@@ -83,7 +85,7 @@ class PdfController extends AbstractController
     #[Route('/admin/pdf/Property/fichepaysage/{id}', name: 'op_admin_pdf_propertypaysage', methods: ['GET'])]
     public function FichePropertyPaysage(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
-        $html = 1; // variable pour basculer du mode pdf au mode html
+        $html = 0; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         //dd($property);
         $options = $property->getOptions();
@@ -96,9 +98,9 @@ class PdfController extends AbstractController
 
         //dd($photos);
 
-        if($html==0){
+        if($html==1){
             return $this->render(
-                'pdf/ficheproperty2.html.twig', array(
+                'pdf/fichepropertypaysage.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
                 'otheroptions' => $otheroptions,

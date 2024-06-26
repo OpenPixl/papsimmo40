@@ -637,6 +637,11 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $annonce = $form->get('property_step1_annonce')->getData();
+            dd($annonce);
+            $property->setAnnonce($annonce);
+
             $propertyRepository->add($property);
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -686,15 +691,15 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$annonce = $form->get('annonce')->getData();
+            // traitement du contenu de l'annonce
+            $annonce = str_replace(array("\u{A0}"), array(' '),$property->getAnnonce());;
             //dd($annonce);
-
-            $array = array_slice(explode(' ', str_replace(array( "\n", "\r", "\u{A0}","</p><p>", "<br>" ), array( '', '',' ', ' ', '' ), strip_tags($property->getAnnonce()))), 0, 10);
-
-            //dd(implode(" ", $array));
-            $annonceSlug = implode(" ", $array);
-            //dd($annonceSlug);
+            $property->setAnnonce($annonce);
+            // traitement de la variable annonceSlug
+            $array = array_slice(explode(' ', str_replace(array( "\n", "\r", "\u{A0}","</p><p>", "<br>"), array( '', '',' ', ' ', '' ), strip_tags($property->getAnnonce()))), 0, 10);
+            $annonceSlug = implode(" ", $array) . "...";
             $property->setAnnonceSlug($annonceSlug);
+            // Modification en BDD des changements
             $propertyRepository->add($property);
             //dd($property);
             return $this->json([

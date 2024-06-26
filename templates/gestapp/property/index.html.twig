@@ -22,6 +22,7 @@
             const addNewProperty = document.getElementById('addNewProperty')
             const submitAddnewproperty = document.getElementById('submitAddnewproperty')
             const ArrayMandats = []
+            const modalPrint = document.getElementById('modalPrint')
 
             axios
                 .get('/gestapp/property/getlistmandats')
@@ -66,7 +67,6 @@
                     document.getElementById('tdconsign').textContent = "Numéro de mandat valide."
                 }
             })
-
             document.getElementById("submitAddnewproperty").addEventListener('click', function(event){
                 const destination = document.getElementById('SelectDestination').value
 
@@ -91,10 +91,17 @@
                     }
                 }
             })
+            modalPrint.addEventListener('show.bs.modal', function (event) {
+                let a = event.relatedTarget
+                let idproperty = a.getAttribute('data-bs-whatever')
 
-        // ----------------------------------------------------------------
-        // STEP 1 : Fonctionnalités liées à l'archivage de bien.s
-        // ----------------------------------------------------------------
+                document.getElementById('printPdfPortrait').href = "/admin/pdf/Property/fiche/" + idproperty
+                document.getElementById('printPdfPaysage').href = "/admin/pdf/Property/fichepaysage/" + idproperty
+
+                })
+            // ----------------------------------------------------------------
+            // STEP 1 : Fonctionnalités liées à l'archivage de bien.s
+            // ----------------------------------------------------------------
 
             // Archivages d'un bien en création
             // ----------------------------------------------------------------
@@ -167,6 +174,16 @@
                         console.log(error);
                     })
 
+            }
+
+            function printFiche(event){
+                event.preventDefault()
+                let orientation = this.id
+                if(orientation === "portrait"){
+                    let url = ""
+                }else if(orientation === "paysage"){
+                    let url =""
+                }
             }
 
             // Code d'ouverture de la modale de suppression d'une ligne en mode création d'un bien
@@ -573,6 +590,28 @@
                     {% set isnomandat = 0 %}
                     <a id="submitAddnewproperty" href="{{ path('op_gestapp_property_add', {'isNomandat':isnomandat,'refMandat': refmandat, 'destination':4}) }}" class="btn btn-info">Accéder à la fiche</a>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Choix PDF -->
+    <div class="modal fade" id="modalPrint" tabindex="-1" aria-labelledby="modalPrint" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-6">
+                            <p class="text-center">
+                                <a href="#" id="printPdfPortrait"> Mode Portrait</a>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p class="text-center">
+                                <a href="#" id="printPdfPaysage"> Mode Paysage</a>
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

@@ -7,173 +7,190 @@
   }
 }
 
-body {
+.portrait {
   width: 1080px;
   /* to centre page on screen*/
   margin-left: auto;
   margin-right: auto;
-}
+  /*** classes .PAGES ***/
 
-.container {
-  display: flex;
-  flex-direction: row;
-  max-width: 100%;
-}
-
-.div-align-center{
-  align-items: center;
-  justify-content: space-between;
-}
-
-.container p{
-  text-align: right;
-  font-family: "spinnaker", sans-serif;
-  font-size : 12px;
-  color : #069697;
-}
-
-/*** classes .PAGES ***/
-.page {
-  margin: 1rem;
-  padding: 0.5rem;
-  border: #009698 solid 1px;
-  border-radius: 0.5rem;
-  min-height: 1400px;
-  max-height: 1400px;
-  .row{
+  .container {
     display: flex;
     flex-direction: row;
-    min-width: 100%;
     max-width: 100%;
-    .col-20{
-      min-width: 20%;
-      max-width: 20%;
-    }
-    .col-25{
-      min-width: 25%;
-      max-width: 25%;
-    }
-    .col-30{
-      min-width: 20%;
-      max-width: 20%;
-    }
-    .col-33{
-      min-width: 33%;
-      max-width: 33%;
-    }
-    .col-50{
-      min-width: 50%;
-      max-width: 50%;
-    }
-    .col-75{
-      min-width: 75%;
-      max-width: 75%;
-    }
-    .col-100{
+  }
+
+  .div-align-center{
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .container p{
+    text-align: right;
+    font-family: "spinnaker", sans-serif;
+    font-size : 12px;
+    color : #069697;
+  }
+  .page {
+    margin: 1rem;
+    padding: 0.5rem;
+    border: #009698 solid 1px;
+    border-radius: 0.5rem;
+    min-height: 1400px;
+    max-height: 1400px;
+    .row{
+      display: flex;
+      flex-direction: row;
       min-width: 100%;
       max-width: 100%;
+      .col-20{
+        min-width: 20%;
+        max-width: 20%;
+      }
+      .col-25{
+        min-width: 25%;
+        max-width: 25%;
+      }
+      .col-30{
+        min-width: 20%;
+        max-width: 20%;
+      }
+      .col-33{
+        min-width: 33%;
+        max-width: 33%;
+      }
+      .col-50{
+        min-width: 50%;
+        max-width: 50%;
+      }
+      .col-75{
+        min-width: 75%;
+        max-width: 75%;
+      }
+      .col-100{
+        min-width: 100%;
+        max-width: 100%;
+      }
     }
-  }
-  h1, h2, h3, h4, h5, h6{
-    font-family: "spinnaker", sans-serif;
-  }
-  p{
-    font-family: "comfortaa-light", sans-serif;
-    font-size: 14px;
-    text-align: left;
-  }
-  table{
-    tr{
-      th, td{
-        font-size: 0.8rem;
+    h1, h2, h3, h4, h5, h6{
+      font-family: "spinnaker", sans-serif;
+    }
+    p{
+      font-family: "comfortaa-light", sans-serif;
+      font-size: 14px;
+      text-align: left;
+    }
+    table{
+      tr{
+        th, td{
+          font-size: 0.8rem;
+        }
       }
     }
   }
+
+  .page .img-logo{
+    max-width: 100%;
+    max-height: 100%;
+    display: block;
+  }
+
+  .page .img-adapt{
+    max-width: 95%;
+    max-height: 95%;
+    display: block;
+    margin:auto;
+  }
+
+  .page .title-h1 {
+    color: #7d1715;
+    font-family: "spinnaker", sans-serif;
+    font-weight: 700;
+  }
+
+  .page .title-h2 {
+    background-image: $pdf-puceH3;
+    background-repeat: no-repeat;
+    padding-left: 2rem;
+    line-height: 1.5rem;
+    height: 1.5rem;
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    text-align: left;
+  }
+
+  .page .title-h3 {
+    height: 2rem;
+    line-height: 1.5;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
+    background: #009698;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1.5rem;
+    margin-bottom: 0;
+    line-height: 1.5;
+  }
+
+  .page .subtitle {
+    font-family: "comfortaa-light", sans-serif;
+    font-weight: bold;
+    font-size: 12px;
+    text-transform: uppercase;
+    text-align: left;
+    color: #01A5A0;
+  }
+
+  .page table th {
+    font-family: "comfortaa-light", sans-serif;
+    font-weight: bold;
+    font-size: 10px;
+    text-transform: uppercase;
+    text-align: left;
+    color: #01A5A0;
+    color: rgb(1, 165, 160);
+  }
+  .page table td {
+    font-family: "comfortaa-light", sans-serif;
+    font-size: 10px;
+    text-align: left;
+    text-transform: lowercase;
+  }
+
+  .page .input {
+    padding: 0.1rem 2rem;
+    background: #f1f1f1;
+    line-height: 1.2rem;
+  }
+  .page .input-left {
+    padding: 0.1rem 0rem 0.1rem 0rem;
+    background: #f1f1f1;
+    line-height: 1.2rem;
+  }
+
+  .page figure{
+    margin:0;
+  }
+
+}
+.landscape
+{
+  width: 1450px;
+  /* to centre page on screen*/
+  margin-left: auto;
+  margin-right: auto;
+  .page {
+    //margin: 1rem;
+    padding: 0.5rem;
+    border: #009698 solid 1px;
+    border-radius: 0.5rem;
+    min-height: 1000px;
+    max-height: 1000px;
+  }
 }
 
-.page .img-logo{
-  max-width: 100%;
-  max-height: 100%;
-  display: block;
-}
 
-.page .img-adapt{
-  max-width: 95%;
-  max-height: 95%;
-  display: block;
-  margin:auto;
-}
-
-.page .title-h1 {
-  color: #7d1715;
-  font-family: "spinnaker", sans-serif;
-  font-weight: 700;
-}
-
-.page .title-h2 {
-  background-image: $pdf-puceH3;
-  background-repeat: no-repeat;
-  padding-left: 2rem;
-  line-height: 1.5rem;
-  height: 1.5rem;
-  font-size: 1.5rem;
-  text-transform: uppercase;
-  text-align: left;
-}
-
-.page .title-h3 {
-  height: 2rem;
-  line-height: 1.5;
-  padding-left: 0.5rem;
-  padding-right: 0.5rem;
-  background: #009698;
-  color: #fff;
-  text-transform: uppercase;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 1.5rem;
-  margin-bottom: 0;
-  line-height: 1.5;
-}
-
-.page .subtitle {
-  font-family: "comfortaa-light", sans-serif;
-  font-weight: bold;
-  font-size: 12px;
-  text-transform: uppercase;
-  text-align: left;
-  color: #01A5A0;
-}
-
-.page table th {
-  font-family: "comfortaa-light", sans-serif;
-  font-weight: bold;
-  font-size: 10px;
-  text-transform: uppercase;
-  text-align: left;
-  color: #01A5A0;
-  color: rgb(1, 165, 160);
-}
-.page table td {
-  font-family: "comfortaa-light", sans-serif;
-  font-size: 10px;
-  text-align: left;
-  text-transform: lowercase;
-}
-
-.page .input {
-  padding: 0.1rem 2rem;
-  background: #f1f1f1;
-  line-height: 1.2rem;
-}
-.page .input-left {
-  padding: 0.1rem 0rem 0.1rem 0rem;
-  background: #f1f1f1;
-  line-height: 1.2rem;
-}
-
-.page figure{
-  margin:0;
-}
 
 /*** Bloc Diags ***/
 #DiagnosticCard {
