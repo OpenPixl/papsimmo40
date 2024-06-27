@@ -85,7 +85,7 @@ class PdfController extends AbstractController
     #[Route('/admin/pdf/Property/fichepaysage/{id}', name: 'op_admin_pdf_propertypaysage', methods: ['GET'])]
     public function FichePropertyPaysage(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
-        $html = 1; // variable pour basculer du mode pdf au mode html
+        $html = 0; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         //dd($property);
         $options = $property->getOptions();
