@@ -223,10 +223,14 @@
       margin-bottom: 0;
       line-height: 1.5;
     }
+    p{
+      font-family: "comfortaa-light", sans-serif;
+      font-size: 14px;
+    }
     table th {
       font-family: "comfortaa-light", sans-serif;
       font-weight: bold;
-      font-size: 12px;
+      font-size: 14px;
       text-transform: uppercase;
       text-align: left;
       color: #01A5A0;
@@ -234,7 +238,7 @@
     }
     table td {
       font-family: "comfortaa-light", sans-serif;
-      font-size: 12px;
+      font-size: 14px;
       text-align: left;
       text-transform: lowercase;
     }

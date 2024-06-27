@@ -77,7 +77,7 @@ class PdfController extends AbstractController
                     ->setOption("enable-local-file-access",true
                     )
                     ->getOutputFromHtml($html),
-                'fiche'.$property->getRefMandat().'-A4.pdf'
+                'Fiche'.$property->getRefMandat().'-A4Portrait.pdf'
             );
         }
     }
@@ -123,7 +123,7 @@ class PdfController extends AbstractController
                     ->setOption("enable-local-file-access",true)
                     ->setOption("orientation", 'Landscape')
                     ->getOutputFromHtml($html),
-                'files.pdf'
+                'Fiche'.$property->getRefMandat().'-A4Paysage.pdf'
             );
         }
     }
