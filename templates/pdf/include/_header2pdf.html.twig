@@ -4,7 +4,7 @@
             <img class="img-fluid" src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
         </div>
         <div class="col-6">
-            <h1 class="title-h1 text-center" style="text-align: center">{{ property.name }}</h1>
+            <h1 class="title-h1 text-center" style="text-align: center">{{ property.city }} | {{ property.name|upper }}</h1>
         </div>
         <div class="col-4">
             <p class="text-end">MANDAT N° : {{ property.refMandat }}</p>

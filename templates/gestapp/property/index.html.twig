@@ -598,8 +598,14 @@
     <!-- Modal Choix PDF -->
     <div class="modal fade" id="modalPrint" tabindex="-1" aria-labelledby="modalPrint" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content border-dark">
+                <div class="modal-header bg-secondary">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
                 <div class="modal-body">
+                    <p class="text-center">
+                        Veuillez sélectionner le format d'affichage de la fiche à imprimer.
+                    </p>
                     <div class="row">
                         <div class="col-6">
                             <p class="text-center mb-0">
@@ -612,6 +618,9 @@
                             </p>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer bg-secondary">
+                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
                 </div>
             </div>
         </div>

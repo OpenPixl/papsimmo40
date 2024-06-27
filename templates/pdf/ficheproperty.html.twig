@@ -60,7 +60,7 @@
                             </tr>
                             <tr>
                                 <th>Type :</th>
-                                <td colspan="3">{% if property.propertyTypology is not empty%}{{property.propertyTypology}}{% else %}non communiqué{% endif %}</td>
+                                <td colspan="3">{% if property.propertyRubric is not empty%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                             {% if property.constructionAt is not empty %}
                             <tr>
@@ -95,7 +95,7 @@
                     <div class="col-50" style="display:flex;justify-content: space-around;align-items: center;">
                         <div>
                             <h5 class="subtitle" style="text-align: center">Consommation énergétique</h5>
-                            {% if property.diagDpe >= 0  %}
+                            {% if property.diagDpe > 0  %}
                                 {% set letter = '' %}
                                 {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
                                     {% set letter = 'A'%}
@@ -121,6 +121,16 @@
                                     <li class="c-dpe__index dpe-F {% if letter == 'F' %}dpe-active{% endif %}">F{% if letter == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
                                     <li class="c-dpe__index dpe-G {% if letter == 'G' %}dpe-active{% endif %}">G{% if letter == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
                                 </ul>
+                            {% elseif property.diagDpe == 0  %}
+                                <ul class="diag_ener">
+                                    <li class="c-dpe__index dpe-A">A</li>
+                                    <li class="c-dpe__index dpe-B">B</li>
+                                    <li class="c-dpe__index dpe-C">C</li>
+                                    <li class="c-dpe__index dpe-D">D<strong class="dpe_l">{{ property.diagChoice }}</strong></li>
+                                    <li class="c-dpe__index dpe-E">E</li>
+                                    <li class="c-dpe__index dpe-F">F</li>
+                                    <li class="c-dpe__index dpe-G">G</li>
+                                </ul>
                             {% endif %}
                         </div>
 
@@ -128,7 +138,7 @@
                     <div class="col-50" style="display:flex;justify-content: space-around;align-items: center;">
                         <div>
                             <h5 class="subtitle" style="text-align: center">Emission de gaz</h5>
-                            {% if property.diagGes >= 0  %}
+                            {% if property.diagGes > 0  %}
                                 {% if property.diagGes > 0 and property.diagGes <= 5 %}
                                     {% set letter = 'A1'%}
                                 {% elseif property.diagGes > 5 and property.diagGes <= 10 %}
@@ -152,6 +162,16 @@
                                     <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
                                     <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
                                     <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                </ul>
+                            {% else %}
+                                <ul class="diag_ener">
+                                    <li class="c-dpe__index dpe-A1">A</li>
+                                    <li class="c-dpe__index dpe-B1">B</li>
+                                    <li class="c-dpe__index dpe-C1">C</li>
+                                    <li class="c-dpe__index dpe-D1">D<strong class="dpe_l">{{ property.diagChoice }}</strong></li>
+                                    <li class="c-dpe__index dpe-E1">E</li>
+                                    <li class="c-dpe__index dpe-F1">F</li>
+                                    <li class="c-dpe__index dpe-G1">G</li>
                                 </ul>
                             {% endif %}
                         </div>
@@ -261,7 +281,7 @@
                     {% endfor %}
                 </p>
                 <p>
-                    <span class="subtitle">Typologie du bien : </span>{% if property.propertyTypology is not empty%}{{property.propertyTypology}}{% else %}non communiqué{% endif %}</p>
+                    <span class="subtitle">Typologie du bien : </span>{% if property.propertyRubric is not empty%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</p>
                 <p>
                     <span class="subtitle">Etage : </span>{% if property.level is not empty%}{{property.level}}{% else %}non communiqué{% endif %}</p>
                 <p>
