@@ -8,7 +8,7 @@
             <link rel="stylesheet" href="{{ absolute_url(path) }}">
         {% endfor %}
     </head>
-    <body>
+    <body class="portrait">
     {% set piece = '' %}
     {% set room = '' %}
     {% if property.piece < 2 %}{%set piece = 'pièce'%}{%else%}{%set piece = 'pièces'%}{%endif%}

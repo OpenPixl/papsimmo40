@@ -180,6 +180,11 @@
   /* to centre page on screen*/
   margin-left: auto;
   margin-right: auto;
+  #header{
+    p{
+      color:#069697;
+    }
+  }
   .page {
     //margin: 1rem;
     padding: 0.5rem;
@@ -187,6 +192,49 @@
     border-radius: 0.5rem;
     min-height: 1000px;
     max-height: 1000px;
+    .title-h1 {
+      color: #7d1715;
+      font-family: "spinnaker", sans-serif;
+      font-weight: 700;
+    }
+    .title-h2 {
+      background-image: $pdf-puceH3;
+      background-repeat: no-repeat;
+      padding-left: 2rem;
+      line-height: 1.5rem;
+      height: 1.5rem;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      text-align: left;
+    }
+    .title-h3 {
+      height: 2rem;
+      line-height: 1.5;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      background: #009698;
+      color: #fff;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+    table th {
+      font-family: "comfortaa-light", sans-serif;
+      font-weight: bold;
+      font-size: 12px;
+      text-transform: uppercase;
+      text-align: left;
+      color: #01A5A0;
+      color: rgb(1, 165, 160);
+    }
+    table td {
+      font-family: "comfortaa-light", sans-serif;
+      font-size: 12px;
+      text-align: left;
+      text-transform: lowercase;
+    }
   }
 }
 
