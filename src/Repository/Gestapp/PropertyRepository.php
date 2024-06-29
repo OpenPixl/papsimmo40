@@ -605,6 +605,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.rubric', 'pr')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.qrcode_url as qrcodeUrl,
                 f.name as family,
                 p.eeaYear as anneeRefNRJ,
                 p.dupMandat as dupMandat,

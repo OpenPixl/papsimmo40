@@ -302,12 +302,14 @@ class PdfController extends AbstractController
         $qrCode = $qrcodeService->qrcodeOneProperty($property);
 
         $property->setQrcodeUrl($qrCode);
+        $em->persist($property);
+        $em->flush();
 
         return $this->json([
             'code' => 200,
             'message' => 'Le QrCode a été correctement généré',
-            'vue' => $this->renderView('pdf/qrcode.html.twig',[
-                'qrCode' => $qrCode
+            'vueQr' => $this->renderView('gestapp/photo/include/qrcode.html.twig',[
+                'property' => $property,
             ])
         ],200);
     }

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class QrcodeService
 {
     public function __construct(
-        private RequestStack $request,
+        protected RequestStack $request,
     ){}
 
     public function qrcode($query)
@@ -58,7 +58,10 @@ class QrcodeService
 
     public function qrcodeOneProperty(Property $property)
     {
-        $url = '/gestapp/propertypublic/oneproperty/'.$property->getId();
+        $url_property = 'gestapp/propertypublic/oneproperty/'.$property->getId();
+        $request = $this->request->getCurrentRequest();
+        $url_www = $request->getSchemeAndHttpHost().'/';
+        $url = $url_www.$url_property;
 
         // récupération de la référence
         $ref = explode("/", $property->getRef());
@@ -69,11 +72,13 @@ class QrcodeService
 
         $path = dirname(__DIR__, 2).'/public/';
 
+        //dd($path);
+
         // set qrcode
         $result = Builder::create()
             ->writer(new PngWriter())
             ->writerOptions([])
-            ->data($path.$url)
+            ->data($url)
             ->encoding(new Encoding('UTF-8'))
             ->errorCorrectionLevel(ErrorCorrectionLevel::High)
             ->size(300)
@@ -82,19 +87,19 @@ class QrcodeService
             //->logoPath($path.'images/png/LogoPAPSimmo.png')
             //->logoResizeToWidth(80)
             //->logoPunchoutBackground(true)
-            ->labelText('Accéder au site')
-            ->labelFont(new NotoSans(20))
-            ->labelAlignment(LabelAlignment::Center)
+            //->labelText('Accéder au site')
+            //->labelFont(new NotoSans(20))
+            //->labelAlignment(LabelAlignment::Center)
             ->validateResult(false)
             ->build();
         ;
 
         //generate name
-        $namePng = uniqid('', '') . '.png';
+        $namePng = 'qc-'.$newref.'.png';
 
         //Save img png
         $result->saveToFile($path.'properties/'.$newref.'/'.$namePng);
 
-        return $result->getDataUri();
+        return $namePng;
     }
 }

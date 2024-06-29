@@ -1,0 +1,14 @@
+{% if property.qrcodeUrl is not null %}
+    {% set refyear = property.ref|split('/',2)|first %}
+    {% set refnumber = property.ref|split('/',2)|last %}
+    <div class="card mt-2">
+        <img src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl) }}" class="card-img-top" alt="{{ property.qrcodeUrl }}">
+        <div class="card-body">
+            <p class="card-text">Qrcode vers l'url de la page Web</p>
+        </div>
+    </div>
+{% else %}
+    <div class="mt-2">
+        <a id="btnGenQrCode" class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_pdf_qrcodeproperty', {'idproperty': property.id}) }}">Générer le QrCode de la page web</a>
+    </div>
+{% endif %}

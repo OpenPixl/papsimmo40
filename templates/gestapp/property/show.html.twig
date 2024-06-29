@@ -1502,6 +1502,12 @@
         //
         // ---------------------------------------
 
+            const btnGenQrCode = document.getElementById('btnGenQrCode')
+
+            if(btnGenQrCode !==null){
+                btnGenQrCode.addEventListener('click', genQrcode)
+            }
+
             if(nextStepGallery !== null){
                 nextStepGallery.onclick = function (event) {
                     event.preventDefault()
@@ -1620,6 +1626,26 @@
                     }
                 },
             })
+
+            function genQrcode(event){
+                event.preventDefault()
+                let url = this.href
+                axios
+                    .post(url)
+                    .then(function(response){
+                        document.getElementById('QrcodeProperty').innerHTML = response.data.vueQr
+                        // initialisation du toaster
+                        let toastHTMLElement = document.getElementById("toaster");
+                        let message = response.data.message;
+                        let toastBody = toastHTMLElement.querySelector('.toast-body') // selection de l'élément possédant le message
+                        toastBody.textContent = message;
+                        let toastElement = new bootstrap.Toast(toastHTMLElement, {animation : true,autohide: true,delay : 3000,});
+                        toastElement.show();
+                    })
+                    .catch(function(error){
+                        console.log(error)
+                    })
+            }
 
 
         // ---------------------------------------

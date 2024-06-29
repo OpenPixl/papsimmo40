@@ -5,18 +5,9 @@
     <div class="row">
         <div class="col-3">
             {{ render(controller('App\\Controller\\Gestapp\\PropertyController::Images', {'id': property.id})) }}
-            {% if property.qrcodeUrl is not null %}
-                <div class="card mt-2">
-                    <img src="{{ asset('') }}" class="card-img-top" alt="...">
-                    <div class="card-body">
-                        <p class="card-text">Qrcode vers l'url de la page Web</p>
-                    </div>
-                </div>
-            {% else %}
-                <div class="mt-2">
-                    <a id="btnGenQrCode" class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_pdf_qrcodeproperty', {'idproperty': property.id}) }}">Générer le QrCode de la page web</a>
-                </div>
-            {% endif %}
+            <div id="QrcodeProperty">
+                {{ include('gestapp/photo/include/qrcode.html.twig') }}
+            </div>
         </div>
         <div class="col-9">
             <div class="row g-1" id="listephoto">
