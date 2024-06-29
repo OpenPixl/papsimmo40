@@ -152,41 +152,53 @@
                             {% endfor %}
                             <h2 class="title-h2">{{ nouveau_texte|raw }}</h2>
                         </div>
-                        <div class="mt-2 mb-0">
-                            <table>
-                                <tr>
-                                    <th>Référence :</th>
-                                    <td colspan="3">{{ property.ref }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Transaction :</th>
-                                    <td colspan="3">{{ property.family }}</td>
-                                </tr>
-                                {% if property.propertyRubric is not empty %}
-                                <tr>
-                                    <th>Type :</th>
-                                    <td colspan="3">{% if property.propertyRubric is not null%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
-                                </tr>
+                        <div class="row mt-2 mb-0">
+                            <div class="col-9">
+                                <table>
+                                    <tr>
+                                        <th>Référence :</th>
+                                        <td colspan="3">{{ property.ref }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Transaction :</th>
+                                        <td colspan="3">{{ property.family }}</td>
+                                    </tr>
+                                    {% if property.propertyRubric is not empty %}
+                                        <tr>
+                                            <th>Type :</th>
+                                            <td colspan="3">{% if property.propertyRubric is not null%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if property.constructionAt is not empty %}
+                                        <tr>
+                                            <th>Année de construction :</th>
+                                            <td colspan="3">{{ property.constructionAt }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <th>Surfaces : </th>
+                                        <td><b>Habitable : </b> {{ property.surfaceHome }} m2 / <b>Terrain : </b>{{ property.surfaceLand }} m2</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre de pièces : </th>
+                                        <td>{{ property.piece }} {{ piece }} dont {{ property.room }} {{ room }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Prix FAI : </th>
+                                        <td colspan="3">{{property.priceFai}} €</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-3">
+                                {% if property.qrcodeUrl is not null %}
+                                    {% set refyear = property.ref|split('/',2)|first %}
+                                    {% set refnumber = property.ref|split('/',2)|last %}
+                                    <div class="card">
+                                        <img src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl) }}" class="card-img-top" alt="{{ property.qrcodeUrl }}">
+                                    </div>
+                                {% else %}
                                 {% endif %}
-                                {% if property.constructionAt is not empty %}
-                                <tr>
-                                    <th>Année de construction :</th>
-                                    <td colspan="3">{{ property.constructionAt }}</td>
-                                </tr>
-                                {% endif %}
-                                <tr>
-                                    <th>Surfaces : </th>
-                                    <td><b>Habitable : </b> {{ property.surfaceHome }} m2 / <b>Terrain : </b>{{ property.surfaceLand }} m2</td>
-                                </tr>
-                                <tr>
-                                    <th>Nombre de pièces : </th>
-                                    <td>{{ property.piece }} {{ piece }} dont {{ property.room }} {{ room }}</td>
-                                </tr>
-                                <tr>
-                                    <th>Prix FAI : </th>
-                                    <td colspan="3">{{property.priceFai}} €</td>
-                                </tr>
-                            </table>
+                            </div>
                         </div>
                         <div id="descriptions" class="mt-3">
                             <div>

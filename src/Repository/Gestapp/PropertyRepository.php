@@ -600,10 +600,12 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('c.propertyOrientation', 'po')
             ->leftJoin('c.propertyEquipment', 'peq')
             ->leftJoin('p.propertyDefinition', 'pd')
+            ->leftJoin('c.propertyTypology', 'pt')
             ->leftJoin('p.family', 'pf')
             ->leftJoin('p.rubric', 'pr')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                p.qrcode_url as qrcodeUrl,
                 f.name as family,
                 p.eeaYear as anneeRefNRJ,
                 p.dupMandat as dupMandat,
@@ -645,6 +647,7 @@ class PropertyRepository extends ServiceEntityRepository
                 ps.name as propertyState,
                 pe.name as propertyEnergy,
                 po.name as propertyOrientation,
+                pt.name as propertyTypology,
                 pr.name as propertyRubric,
                 c.propertyTax as propertyTax,
                 c.disponibility as disponibility,

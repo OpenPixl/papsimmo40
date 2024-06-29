@@ -7,6 +7,7 @@ use App\Entity\Admin\PdfRendered;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Property;
 use App\Entity\Webapp\Articles;
+use App\Form\Admin\QrcodeType;
 use App\Repository\Admin\ApplicationRepository;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Admin\PdfRenderedRepository;
@@ -14,10 +15,13 @@ use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Webapp\ArticlesRepository;
+use App\Service\QrcodeService;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -282,4 +286,32 @@ class PdfController extends AbstractController
             ], 200);
         }
     }
+
+    #[Route('/admin/pdf/qrcodeproperty/{idproperty}', name: 'op_admin_pdf_qrcodeproperty', methods: ['POST', 'GET'])]
+    public function generateQrcodeProperty(
+        Request $request,
+        QrcodeService $qrcodeService,
+        $idproperty,
+        PropertyRepository $propertyRepository,
+        EntityManagerInterface $em
+    ): Response
+    {
+        $qrCode = null;
+        $property = $propertyRepository->find($idproperty);
+
+        $qrCode = $qrcodeService->qrcodeOneProperty($property);
+
+        $property->setQrcodeUrl($qrCode);
+        $em->persist($property);
+        $em->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Le QrCode a été correctement généré',
+            'vueQr' => $this->renderView('gestapp/photo/include/qrcode.html.twig',[
+                'property' => $property,
+            ])
+        ],200);
+    }
+
 }
