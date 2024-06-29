@@ -356,6 +356,9 @@ class Property
     #[ORM\Column(nullable: true)]
     private ?bool $isClosedFolder = false;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $qrcode_url = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1497,6 +1500,18 @@ class Property
     public function setClosedFolder(?bool $isClosedFolder): static
     {
         $this->isClosedFolder = $isClosedFolder;
+
+        return $this;
+    }
+
+    public function getQrcodeUrl(): ?string
+    {
+        return $this->qrcode_url;
+    }
+
+    public function setQrcodeUrl(?string $qrcode_url): static
+    {
+        $this->qrcode_url = $qrcode_url;
 
         return $this;
     }

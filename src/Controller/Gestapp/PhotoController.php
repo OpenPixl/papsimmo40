@@ -71,7 +71,7 @@ class PhotoController extends AbstractController
         // récupération de la référence
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
-        dd($newref);
+        //dd($newref);
         $photo = new Photo();
         if($lastphoto){
             $position = $lastphoto->getPosition() + 1;
