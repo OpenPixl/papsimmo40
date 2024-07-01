@@ -94,7 +94,7 @@ class PdfController extends AbstractController
         //dd($property);
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
-        $threephotos = $photoRepository->threephotos($property->getId());
+        $threephotos = $photoRepository->threephotos($property->getId(), 3);
         // Récupération des photos correspondantes au bien
         $otheroptions = $options->getPropertyOtheroption();
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
@@ -136,7 +136,7 @@ class PdfController extends AbstractController
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
         $firstphoto = $photoRepository->firstphoto($property->getId());
-        $threephotos = $photoRepository->threephotos($property->getId());
+        $threephotos = $photoRepository->threephotos($property->getId(), 4);
         // Récupération des photos correspondantes au bien
         $photos = $photoRepository->findBy(['property'=>$property->getId()], ['position' => 'ASC']);
         $otheroptions = $options->getPropertyOtheroption();

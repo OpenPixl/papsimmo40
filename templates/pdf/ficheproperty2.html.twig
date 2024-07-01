@@ -189,7 +189,7 @@
             </div>
         </div>
         <div id="Gallery" class="row g-2">
-            {% for p in threephotos %}
+            {% for p in threephotos[1:] %}
                 <div class="col-4">
                     <img class="img-fluid rounded-2" src="{{ asset('properties/' ~ p.path ~ '/' ~ p.galeryFrontName)|imagine_filter('oneproperty_image') }}" alt="{{ p.galeryFrontName }}">
                 </div>
