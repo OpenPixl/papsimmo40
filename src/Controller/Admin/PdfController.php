@@ -94,32 +94,27 @@ class PdfController extends AbstractController
         //dd($property);
         $options = $property->getOptions();
         $equipments = $options->getPropertyEquipment();
-        $firstphoto = $photoRepository->firstphoto($property->getId());
+        $threephotos = $photoRepository->threephotos($property->getId());
         // Récupération des photos correspondantes au bien
-        $photos = $photoRepository->findBy(['property'=>$property->getId()], ['position' => 'ASC']);
         $otheroptions = $options->getPropertyOtheroption();
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
-        //dd($photos);
-
         if($html==1){
             return $this->render(
-                'pdf/fichepropertypaysage.html.twig', array(
+                'pdf/fichepropertypaysage2.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
                 'otheroptions' => $otheroptions,
                 'application' =>$application,
-                'firstphoto' => $firstphoto,
-                'photos' => $photos
+                'threephotos' => $threephotos,
             ));
         }else{
-            $html = $this->twig->render('pdf/fichepropertypaysage.html.twig', array(
+            $html = $this->twig->render('pdf/fichepropertypaysage2.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
                 'otheroptions' => $otheroptions,
                 'application' =>$application,
-                'firstphoto' => $firstphoto,
-                'photos' => $photos
+                'threephotos' => $threephotos,
             ));
 
             return new PdfResponse(

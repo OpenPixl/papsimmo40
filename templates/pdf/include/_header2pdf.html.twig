@@ -1,14 +1,22 @@
-<div id="header" class="container">
+<div id="header">
     <div class="row" style="display:flex;align-items: center;">
         <div class="col-2">
             <img class="img-fluid" src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png'))}}" alt="{{ application.nameSite }}">
         </div>
-        <div class="col-7">
-            <h1 class="title-h1 text-center" style="text-align: center">{{ property.city }} | {{ property.propertyRubric|upper }} - {{ property.priceFai }}€</h1>
+        <div class="col-6">
+            <h1 class="title-h1 text-start" style="text-align: center">{{ property.city }} | {{ property.propertyRubric|upper }}</h1>
         </div>
-        <div class="col-3">
-            <p class="text-end">MANDAT N° : {{ property.refMandat }}</p>
-            <p class="text-end">Dossier édité le : {{ 'now'|date('Y-m-d') }}</p>
+        <div class="col-2">
+            <h1 class="title-price text-end" style="text-align: center">{{ property.priceFai }}€</h1>
+        </div>
+        <div class="col-2">
+            <p class="text-end">
+            {% if property.qrcodeUrl is not null %}
+                {% set refyear = property.ref|split('/',2)|first %}
+                {% set refnumber = property.ref|split('/',2)|last %}
+                <img src="{{ absolute_url(asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl)) }}" class="img-fluid w-75" alt="{{ property.qrcodeUrl }}">
+            {% endif %}
+            </p>
         </div>
     </div>
 </div>
