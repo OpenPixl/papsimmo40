@@ -489,6 +489,204 @@
   }
 }
 
+.client
+{
+  width: 1450px;
+  /* to centre page on screen*/
+  margin-left: auto;
+  margin-right: auto;
+  #header{
+    p{
+      color: $secondary-color;
+    }
+  }
+  .page {
+    //margin: 1rem;
+    padding: 0.5rem;
+    border: $secondary-color solid 1px;
+    border-radius: 0.5rem;
+    min-height: 100%;
+    max-height: 100%;
+    .title-h1 {
+      color: $primary-color;
+      font-family: "spinnaker", sans-serif;
+      font-weight: 700;
+      line-height: 1.5rem;
+      height: 1.5rem;
+      font-size: 2rem;
+    }
+    .title-price {
+      color: $secondary-color-dark;
+      font-family: "spinnaker", sans-serif;
+      font-weight: 700;
+      line-height: 2.5rem;
+      height: 2.5rem;
+      font-size: 2.4rem;
+    }
+    .title-h2 {
+      background-image: $pdf-puceH3;
+      background-repeat: no-repeat;
+      padding-left: 2rem;
+      line-height: 1.5rem;
+      height: 1.4rem;
+      font-size: 1.4rem;
+      text-transform: uppercase;
+      text-align: left;
+    }
+    .title-h3 {
+      height: 2rem;
+      line-height: 1.5;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      background: $secondary-color;
+      color: #fff;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+    p{
+      font-family: "comfortaa-light", sans-serif;
+      font-size: 14px;
+      margin-bottom: 0.5rem;
+    }
+    table th {
+      font-family: "comfortaa-light", sans-serif;
+      font-weight: bold;
+      font-size: 13px;
+      text-transform: uppercase;
+      text-align: left;
+      color: $secondary-color;
+    }
+    table td {
+      font-family: "comfortaa-light", sans-serif;
+      font-size: 13px;
+      text-align: left;
+      text-transform: lowercase;
+    }
+  }
+  /*** Bloc Diags ***/
+  #DiagnosticCard {
+    border: 1px solid $primary-color;
+    border-radius: .5rem;
+    margin-top: 0.5rem;
+    padding:0.5rem;
+    h4,h5{
+      margin-top: 0;
+      margin-bottom:0.5rem;
+      font-size: 13px;
+    }
+    p{
+      margin-top:0.5rem;
+      margin-bottom: 0.5rem;
+      font-size: 13px;
+    }
+    .diag_ener{
+      display: flex;
+      align-items: center;
+      list-style: none;
+      padding-left:0;
+    }
+    .c-dpe__index {
+      display: flex;
+      position: relative;
+      align-items: center;
+      justify-content: center;
+      width: 1.4rem;
+      height: 1.4rem;
+      margin-right: 0.1rem;
+      color: #fff;
+      font-weight: 400;
+      font-size: 1rem;
+      border: 0 solid;
+      border-radius: 0.2rem;
+    }
+
+    .diag_ener .dpe-A {
+      background-color: #029163;
+    }
+    .diag_ener .dpe-B {
+      background-color: #46a64a;
+    }
+    .diag_ener .dpe-C {
+      background-color: #6db56b;
+    }
+    .diag_ener .dpe-D {
+      background-color: #f2e314;
+    }
+    .diag_ener .dpe-E {
+      background-color: #edab0f;
+    }
+    .diag_ener .dpe-F {
+      background-color: #e8782f;
+    }
+    .diag_ener .dpe-G {
+      background-color: #d1201e;
+    }
+
+    .diag_ener .dpe-A1 {
+      background-color: #99d5f7;
+    }
+    .diag_ener .dpe-B1 {
+      background-color: #80abcd;
+    }
+    .diag_ener .dpe-C1 {
+      background-color: #6d87a8;
+    }
+    .diag_ener .dpe-D1 {
+      background-color: #546384;
+    }
+    .diag_ener .dpe-E1 {
+      background-color: #434665;
+    }
+    .diag_ener .dpe-F1 {
+      background-color: #332d47;
+    }
+    .diag_ener .dpe-G1 {
+      background-color: #231a2f;
+    }
+
+    .diag_ener .dpe-active {
+      width: 2rem;
+      height: 2rem;
+      font-weight: 500;
+      size: 2rem;
+      border-radius: 0.2rem;
+    }
+    .diag_ener .dpe_l {
+      position: absolute;
+      top: calc(100% + 1.2rem);
+      left: 50%;
+      z-index: 10;
+      color: #2f2f2f;
+      font-size: 13px;
+      line-height: 13px;
+      transform: translateX(-50%);
+    }
+    .diag_ener .dpe_l::before {
+      content: "";
+      position: absolute;
+      bottom: calc(100% + .4rem);
+      left: calc(50% - .3rem);
+      border-right: .3rem solid transparent;
+      border-bottom: .3rem solid;
+      border-left: .3rem solid transparent;
+    }
+    .diag_ener.dpe_u {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      font-weight: 400;
+      font-size: 1rem;
+    }
+  }
+
+  .color {
+    color: $secondary-color;
+  }
+}
+
 
 
 

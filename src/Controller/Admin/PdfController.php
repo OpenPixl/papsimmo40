@@ -66,7 +66,7 @@ class PdfController extends AbstractController
                 'photos' => $photos
             ));
         }else{
-            //dd($oneproperty);
+
             $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
@@ -123,6 +123,51 @@ class PdfController extends AbstractController
                     ->setOption("orientation", 'Landscape')
                     ->getOutputFromHtml($html),
                 'Fiche'.$property->getRefMandat().'-A4Paysage.pdf'
+            );
+        }
+    }
+
+    #[Route('/admin/pdf/Property/ficheclient/{id}', name: 'op_admin_pdf_propertyclient', methods: ['GET'])]
+    public function FichePropertyClient(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
+    {
+        $html = 0; // variable pour basculer du mode pdf au mode html
+        $oneproperty = $propertyRepository->oneProperty($property->getId());
+        //dd($property);
+        $options = $property->getOptions();
+        $equipments = $options->getPropertyEquipment();
+        $firstphoto = $photoRepository->firstphoto($property->getId());
+        $threephotos = $photoRepository->threephotos($property->getId());
+        // Récupération des photos correspondantes au bien
+        $photos = $photoRepository->findBy(['property'=>$property->getId()], ['position' => 'ASC']);
+        $otheroptions = $options->getPropertyOtheroption();
+        $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
+
+        if($html==1){
+            return $this->render(
+                'pdf/ficheproperty2.html.twig', array(
+                'property'  => $oneproperty,
+                'equipments' => $equipments,
+                'otheroptions' => $otheroptions,
+                'application' =>$application,
+                'firstphoto' => $firstphoto,
+                'threephotos' => $threephotos,
+            ));
+        }else{
+            $html = $this->twig->render('pdf/ficheproperty2.html.twig', array(
+                'property'  => $oneproperty,
+                'equipments' => $equipments,
+                'otheroptions' => $otheroptions,
+                'application' =>$application,
+                'firstphoto' => $firstphoto,
+                'threephotos' => $threephotos,
+            ));
+
+            return new PdfResponse(
+                $knpSnappyPdf
+                    ->setOption("enable-local-file-access",true)
+                    //->setOption("orientation", 'Landscape')
+                    ->getOutputFromHtml($html),
+                'Fiche'.$property->getRefMandat().'_client-A4Portrait.pdf'
             );
         }
     }

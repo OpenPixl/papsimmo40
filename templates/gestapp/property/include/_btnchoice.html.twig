@@ -4,7 +4,8 @@
     </button>
     <ul class="dropdown-menu" aria-labelledby="action_property">
         <li><a class="dropdown-item" href="{{ path('op_gestapp_property_show', {'id': property.id}) }}"><i class="fa-duotone fa-file-pen"></i> Consulter la fiche du bien</a></li>
-        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPrint" data-bs-whatever="{{ property.id }}.id"><i class="fa-duotone fa-print"></i> Imprimer une fiche Pdf</a></li>
+        <li><a class="dropdown-item" href="{{ path('op_admin_pdf_propertyclient', {'id': property.id}) }}"><i class="fa-duotone fa-file-pen"></i> Imprimer une fiche Client</a></li>
+        <li><a class="dropdown-item" href="#" data-bs-toggle="modal" data-bs-target="#modalPrint" data-bs-whatever="{{ property.id }}.id"><i class="fa-duotone fa-print"></i> Imprimer une fiche Boutique</a></li>
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             {% if property.dateEndmandat is not null %}
                 <li><a class="dropdown-item" id="btnDisDateEndMandat" href="" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-calendar-minus"></i> Annuler la fin de mandat</a></li>
