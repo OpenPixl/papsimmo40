@@ -340,7 +340,7 @@ class TransactionController extends AbstractController
                 if($hasAccess == false) {
                     $email = (new TemplatedEmail())
                         ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('xavier.burke@openpixl.fr')
+                        ->to('contact@papsimmo.com')
                         //->cc('cc@example.com')
                         //->bcc('bcc@example.com')
                         //->replyTo('fabien@example.com')
@@ -1456,6 +1456,9 @@ class TransactionController extends AbstractController
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
 
+        //responsable du dossier
+        $email_resp = $property->getRefEmployed()->getEmail();
+
         $typeDoc = explode('-', $name)[0];
         //dd($typeDoc);
         $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
@@ -1482,7 +1485,7 @@ class TransactionController extends AbstractController
 
         $email = (new TemplatedEmail())
             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-            ->to('xavier.burke@openpixl.fr')
+            ->to($email_resp)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
@@ -1714,9 +1717,6 @@ class TransactionController extends AbstractController
                 'type' => 2
             ], 200);
         }
-
-
-        //dd('erreur soumission');
 
         $view = $this->render('gestapp/customer/add.html.twig', [
             'customer' => $customer,
