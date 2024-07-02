@@ -6,292 +6,334 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
         {% for path in encore_entry_css_files('pdf') %}
             <link rel="stylesheet" href="{{ absolute_url(path) }}">
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
         {% endfor %}
     </head>
-    <body class="portrait">
-    {% set piece = '' %}
-    {% set room = '' %}
-    {% if property.piece < 2 %}{%set piece = 'pièce'%}{%else%}{%set piece = 'pièces'%}{%endif%}
-    {% if property.room < 2 %}{%set room = 'chambre'%}{%else%}{%set room = 'chambres'%}{%endif%}
-    {# variables pour la ou les pages de galerie  #}
-    {% set nbphotos = photos|length %}
-    {% set page = ((nbphotos / 6)|round)+1 %}
-    {% set photosCollection = [] %}
-    {% for photo in photos %}
-        {% set photosCollection = photosCollection|merge([photo]) %}
-    {% endfor %}
-    <div id="firstPage" class="page">
-        {{ include('pdf/include/_headerpdf.html.twig') }}
-        <div id="Details">
-            <div id="Title" style="margin-bottom: 0.5rem;">
-                {% set texte = property.name %}
-                {% set mots = texte|split(' ') %}
-                {% set nouveau_texte = '' %}
-                {% set compteur = 0 %}
-
-                {% for mot in mots %}
-                    {% if compteur == 10 %}
-                        {% set nouveau_texte = nouveau_texte ~ '<br>' %}
+    <body class="container" id="portrait">
+        {% set piece = '' %}
+        {% set room = '' %}
+        {% if property.piece < 2 %}{%set piece = 'pièce'%}{%else%}{%set piece = 'pièces'%}{%endif%}
+        {% if property.room < 2 %}{%set room = 'chambre'%}{%else%}{%set room = 'chambres'%}{%endif%}
+        {# variables pour la ou les pages de galerie  #}
+        {% set nbphotos = photos|length %}
+        {% set page = ((nbphotos / 6)|round) %}
+        {% set photosCollection = [] %}
+        {% for photo in photos %}
+            {% set photosCollection = photosCollection|merge([photo]) %}
+        {% endfor %}
+        <div id="firstPage" class="page p-2">
+            {{ include('pdf/include/_headerpdf.html.twig') }}
+            <div id="Details">
+                <div class="row" id="details_title">
+                    <div id="Title" class="col-12 mt-0 mb-2">
+                        {% set texte = property.name %}
+                        {% set mots = texte|split(' ') %}
+                        {% set nouveau_texte = '' %}
                         {% set compteur = 0 %}
-                    {% endif %}
-                    {% set nouveau_texte = nouveau_texte ~ mot ~ ' ' %}
-                    {% set compteur = compteur + 1 %}
-                {% endfor %}
-                <h2 class="title-h2">{{ nouveau_texte|raw }}</h2>
-            </div>
-            <div id="Content" class="row">
-                <div id="FirstImg" class="col-50">
-                    {% if firstphoto is not empty %}
-                        <img class="img-adapt" src="{{ asset('properties/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName)|imagine_filter('oneproperty_image') }}" alt="{{ firstphoto.galeryFrontName }}">
-                    {% else %}
-                        <img class="img-fluid" src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
-                    {% endif %}
-                </div>
-                <div id="Informations" class="col-50">
-                    <div style="padding: 0 0.5rem">
-                        <table>
-                            <tr>
-                                <th>Référence :</th>
-                                <td colspan="3">{{ property.ref }}</td>
-                            </tr>
-                            <tr>
-                                <th>Transaction :</th>
-                                <td colspan="3">{{ property.family }}</td>
-                            </tr>
-                            <tr>
-                                <th>Type :</th>
-                                <td colspan="3">{% if property.propertyRubric is not empty%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
-                            </tr>
-                            {% if property.constructionAt is not empty %}
-                            <tr>
-                                <th>Année de construction :</th>
-                                <td colspan="3">{{ property.constructionAt }}</td>
-                            </tr>
+
+                        {% for mot in mots %}
+                            {% if compteur == 10 %}
+                                {% set nouveau_texte = nouveau_texte ~ '<br>' %}
+                                {% set compteur = 0 %}
                             {% endif %}
+                            {% set nouveau_texte = nouveau_texte ~ mot ~ ' ' %}
+                            {% set compteur = compteur + 1 %}
+                        {% endfor %}
+                        <h2 class="title-h2">{{ nouveau_texte|raw }}</h2>
+                    </div>
+                </div>
+                <div id="details_content" class="row g-3">
+                    <div id="FirstImg" class="col-4">
+                        {% if firstphoto is not empty %}
+                            <img class="img-fluid rounded-2" src="{{ asset('properties/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName)|imagine_filter('oneproperty_image') }}" alt="{{ firstphoto.galeryFrontName }}">
+                        {% else %}
+                            <img class="img-fluid" src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
+                        {% endif %}
+                    </div>
+                    <div id="Informations" class="col-8">
+                        <div class="row align-items-center mt-2 mb-0">
+                            <div class="col-9">
+                                <table class="table">
+                                    <tr>
+                                        <th>Référence :</th>
+                                        <td colspan="3">{{ property.ref }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Transaction :</th>
+                                        <td colspan="3">{{ property.family }}</td>
+                                    </tr>
+                                    {% if property.propertyRubric is not empty %}
+                                        <tr>
+                                            <th>Type :</th>
+                                            <td colspan="3">{% if property.propertyRubric is not null%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
+                                        </tr>
+                                    {% endif %}
+                                    {% if property.constructionAt is not empty %}
+                                        <tr>
+                                            <th>Année de construction :</th>
+                                            <td colspan="3">{{ property.constructionAt }}</td>
+                                        </tr>
+                                    {% endif %}
+                                    <tr>
+                                        <th>Surfaces : </th>
+                                        <td><b>Habitable : </b> {{ property.surfaceHome }} m2 / <b>Terrain : </b>{{ property.surfaceLand }} m2</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Nombre de pièces : </th>
+                                        <td>{{ property.piece }} {{ piece }} dont {{ property.room }} {{ room }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Prix FAI : </th>
+                                        <td colspan="3">{{property.priceFai}} €</td>
+                                    </tr>
+                                </table>
+                            </div>
+                            <div class="col-3">
+                                {% if property.qrcodeUrl is not null %}
+                                    {% set refyear = property.ref|split('/',2)|first %}
+                                    {% set refnumber = property.ref|split('/',2)|last %}
+                                    <div class="card">
+                                        <img src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl) }}" class="card-img-top" alt="{{ property.qrcodeUrl }}">
+                                    </div>
+                                {% else %}
+                                {% endif %}
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div id="DiagnosticCard" class="mt-4 p-2">
+                    <div id="DiagnosticCard-diag">
+                        <div class="row mb-3">
+                            <div id="DiagnosticCard-title" class="col-12">
+                                <h4>Bilan énergétique</h4>
+                            </div>
+                            <div class="col-6">
+                                <div>
+                                    <h5 class="subtitle" >Consommation énergétique</h5>
+                                    {% if property.diagDpe > 0  %}
+                                        {% set letter = '' %}
+                                        {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
+                                            {% set letter = 'A'%}
+                                        {% elseif property.diagDpe > 70 and property.diagDpe <= 110 %}
+                                            {% set letter = 'B'%}
+                                        {% elseif property.diagDpe > 110 and property.diagDpe <= 180 %}
+                                            {% set letter = 'C'%}
+                                        {% elseif property.diagDpe > 180 and property.diagDpe <= 250 %}
+                                            {% set letter = 'D'%}
+                                        {% elseif property.diagDpe > 250 and property.diagDpe <= 330 %}
+                                            {% set letter = 'E'%}
+                                        {% elseif property.diagDpe > 330 and property.diagDpe <= 420 %}
+                                            {% set letter = 'F'%}
+                                        {% elseif property.diagDpe > 420 %}
+                                            {% set letter = 'G'%}
+                                        {% endif %}
+                                        <ul class="diag_ener">
+                                            <li class="c-dpe__index dpe-A {% if letter == 'A' %}dpe-active{% endif %}">A{% if letter == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-B {% if letter == 'B' %}dpe-active{% endif %}">B{% if letter == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-C {% if letter == 'C' %}dpe-active{% endif %}">C{% if letter == 'C' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-D {% if letter == 'D' %}dpe-active{% endif %}">D{% if letter == 'D' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-E {% if letter == 'E' %}dpe-active{% endif %}">E{% if letter == 'E' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-F {% if letter == 'F' %}dpe-active{% endif %}">F{% if letter == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-G {% if letter == 'G' %}dpe-active{% endif %}">G{% if letter == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                                        </ul>
+                                    {% elseif property.diagDpe == 0  %}
+                                        <ul class="diag_ener">
+                                            <li class="c-dpe__index dpe-A">A</li>
+                                            <li class="c-dpe__index dpe-B">B</li>
+                                            <li class="c-dpe__index dpe-C">C</li>
+                                            <li class="c-dpe__index dpe-D">D<strong class="dpe_l">{{ property.diagChoice }}</strong></li>
+                                            <li class="c-dpe__index dpe-E">E</li>
+                                            <li class="c-dpe__index dpe-F">F</li>
+                                            <li class="c-dpe__index dpe-G">G</li>
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div>
+                                    <h5 class="subtitle" >Emission de gaz</h5>
+                                    {% if property.diagGes > 0  %}
+                                        {% if property.diagGes > 0 and property.diagGes <= 5 %}
+                                            {% set letter = 'A1'%}
+                                        {% elseif property.diagGes > 5 and property.diagGes <= 10 %}
+                                            {% set letter = 'B1'%}
+                                        {% elseif property.diagGes > 11 and property.diagGes <= 20 %}
+                                            {% set letter = 'C1'%}
+                                        {% elseif property.diagGes > 21 and property.diagGes <= 35 %}
+                                            {% set letter = 'D1'%}
+                                        {% elseif property.diagGes > 36 and property.diagGes <= 55 %}
+                                            {% set letter = 'E1'%}
+                                        {% elseif property.diagGes > 56 and property.diagGes <= 80 %}
+                                            {% set letter = 'F1'%}
+                                        {% elseif property.diagGes > 80 %}
+                                            {% set letter = 'G1'%}
+                                        {% endif %}
+                                        <ul class="diag_ener">
+                                            <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                        </ul>
+                                    {% else %}
+                                        <ul class="diag_ener">
+                                            <li class="c-dpe__index dpe-A1">A</li>
+                                            <li class="c-dpe__index dpe-B1">B</li>
+                                            <li class="c-dpe__index dpe-C1">C</li>
+                                            <li class="c-dpe__index dpe-D1">D<strong class="dpe_l">{{ property.diagChoice }}</strong></li>
+                                            <li class="c-dpe__index dpe-E1">E</li>
+                                            <li class="c-dpe__index dpe-F1">F</li>
+                                            <li class="c-dpe__index dpe-G1">G</li>
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="DiagnosticCard-count" class="row mt-3">
+                        <div class="col-100">
+                            <h5 class="subtitle">Coût annuel</h5>
+                            <p>Estimation du coût annuel énergie pour un usage standard entre <span class="color">{{ property.dpeEstimateEnergyDown }}€</span> et
+                                <span class="color">{{ property.dpeEstimateEnergyUp }}€</span> au {{ property.anneeRefNRJ|date("Y") }} (abonnement compris) </p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mt-4" id="description">
+                    <div class="row" id="descrp_title">
+                        <div class="col-12">
+                            <h2 class="title-h2">DESCRIPTION</h2>
+                            {{ property.annonce|markdown_to_html }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div style="page-break-before:always;"></div>
+        {% for row in photosCollection|batch(6,'') %}
+            <div id="secondPage" class="page p-2">
+            {{ include('pdf/include/_headerpdf.html.twig') }}
+            <div id="Galerie">
+                <div class="row" id="details_title">
+                    <div id="Title" class="col-12 mt-0 mb-2">
+                        <h2 class="title-h2">PHOTOS (page {{ loop.index }} sur {{ page }})</h2>
+                    </div>
+                </div>
+                <div id="photos" class="row g-2">
+                    {% for photo in row %}
+                        {% if photo is not empty %}
+                            <div class="col-6">
+                                <img class="img-fluid rounded" src="{{ asset('properties/' ~ photo.path ~ '/' ~ photo.galeryFrontName)|imagine_filter('oneproperty_image2') }}" alt="{{ photo.galeryFrontName }}" >
+                            </div>
+                        {% else %}
+                        {% endif %}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+            <div style="page-break-before:always;"></div>
+        {% endfor %}
+        <div style="page-break-before:always;"></div>
+        <div id="thirdPage" class="page p-2">
+            {{ include('pdf/include/_headerpdf.html.twig') }}
+            <div id="technique">
+                <div class="row" id="tech_title">
+                    <div id="Title" class="col-12 mt-0 mb-2">
+                        <h2 class="title-h2">INFO - {{ property.name }}</h2>
+                    </div>
+                </div>
+                <div class="row" id="tech_content">
+                    <div class="col-12">
+                        <table class="table">
                             <tr>
-                                <th>Surfaces : </th>
-                                <td><b>Habitable : </b> {{ property.surfaceHome }} m2 / <b>Terrain : </b>{{ property.surfaceLand }} m2</td>
+                                <th class="head" colspan="2">ESTIMATION DU COUT ANNUEL ENERGETIQUE DU BIEN</th>
                             </tr>
                             <tr>
-                                <th>Nombre de pièces : </th>
-                                <td>{{ property.piece }} {{ piece }} dont {{ property.room }} {{ room }}</td>
+                                <th class="col-3">Estimation énergie basse : </th>
+                                <td>{% if property.dpeEstimateEnergyDown is not empty %}{{ property.dpeEstimateEnergyDown }} €{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th>Prix FAI : </th>
-                                <td colspan="3">{{property.priceFai}} €</td>
+                                <th class="col-3">Estimation énergie élevée : </th>
+                                <td>{% if property.dpeEstimateEnergyUp is not empty %}{{property.dpeEstimateEnergyUp}} €{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Année de référence : </th>
+                                <td>{% if property.anneeref is not empty %}{{ property.anneeref|date("Y") }}{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-12">
+                        <table class="table">
+                            <tr>
+                                <th class="head" colspan="2">PIECES</th>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Terrasse : </th>
+                                <td>{% if property.terrace is not empty%}{{property.terrace}}{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Salle d'eau : </th>
+                                <td>{% if property.washroom is not empty%}{{property.washroom}}{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Salle de bain : </th>
+                                <td>{% if property.bathroom is not empty%}{{property.bathroom}}{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">WC : </th>
+                                <td>{% if property.wc is not empty%}{{property.wc}}{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Balcon : </th>
+                                <td>{% if property.balcony is not empty%}{{property.balcony}}{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                        </table>
+                    </div>
+                    <div class="col-12">
+                        <table class="table">
+                            <tr>
+                                <th class="head" colspan="2">EQUIPEMENTS</th>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Meublé : </th>
+                                <td>{% if property.isFurnished == 1 %}Oui{% else %}Non{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Bien en copropriété : </th>
+                                <td>{% if property.coproperty == 1 %}Oui | <span class="subtitle">Estimation des charges par an : </span>{{ property.coproprietyTaxe }}€{% else %}Non{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Equipements du bien : </th>
+                                <td>
+                                    {% for equipment in equipments %}
+                                        {% if loop.first %}{{ equipment.name }} - {% elseif loop.last%}{{ equipment.name }}{% else %} {{ equipment.name }} - {% endif %}
+                                    {% endfor %}
+                                </td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Typologie du bien : </th>
+                                <td>{% if property.propertyRubric is not empty%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Etage : </th>
+                                <td>{% if property.level is not empty%}{{property.level}}{% else %}non communiqué{% endif %}</td>
+                            </tr>
+                            <tr>
+                                <th class="col-3">Autres options du bien : </th>
+                                <td>
+                                    {% for otheroption in otheroptions %}
+                                        {% if loop.first %}{{ otheroption.name }} - {% elseif loop.last%}{{ otheroption.name }}{% else %}{{ otheroption.name }} - {% endif %}
+                                    {% endfor %}
+                                </td>
                             </tr>
                         </table>
                     </div>
                 </div>
             </div>
-            <div id="DiagnosticCard">
-                <div id="DiagnosticCard-title" class="row">
-                    <div class="col-100">
-                        <h4>Bilan énergétique</h4>
-                    </div>
-                </div>
-                <div id="DiagnosticCard-diag" class="row">
-
-                    <div class="col-50" style="display:flex;justify-content: space-around;align-items: center;">
-                        <div>
-                            <h5 class="subtitle" style="text-align: center">Consommation énergétique</h5>
-                            {% if property.diagDpe > 0  %}
-                                {% set letter = '' %}
-                                {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
-                                    {% set letter = 'A'%}
-                                {% elseif property.diagDpe > 70 and property.diagDpe <= 110 %}
-                                    {% set letter = 'B'%}
-                                {% elseif property.diagDpe > 110 and property.diagDpe <= 180 %}
-                                    {% set letter = 'C'%}
-                                {% elseif property.diagDpe > 180 and property.diagDpe <= 250 %}
-                                    {% set letter = 'D'%}
-                                {% elseif property.diagDpe > 250 and property.diagDpe <= 330 %}
-                                    {% set letter = 'E'%}
-                                {% elseif property.diagDpe > 330 and property.diagDpe <= 420 %}
-                                    {% set letter = 'F'%}
-                                {% elseif property.diagDpe > 420 %}
-                                    {% set letter = 'G'%}
-                                {% endif %}
-                                <ul class="diag_ener">
-                                    <li class="c-dpe__index dpe-A {% if letter == 'A' %}dpe-active{% endif %}">A{% if letter == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-B {% if letter == 'B' %}dpe-active{% endif %}">B{% if letter == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-C {% if letter == 'C' %}dpe-active{% endif %}">C{% if letter == 'C' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-D {% if letter == 'D' %}dpe-active{% endif %}">D{% if letter == 'D' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-E {% if letter == 'E' %}dpe-active{% endif %}">E{% if letter == 'E' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-F {% if letter == 'F' %}dpe-active{% endif %}">F{% if letter == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-G {% if letter == 'G' %}dpe-active{% endif %}">G{% if letter == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                </ul>
-                            {% elseif property.diagDpe == 0  %}
-                                <ul class="diag_ener">
-                                    <li class="c-dpe__index dpe-A">A</li>
-                                    <li class="c-dpe__index dpe-B">B</li>
-                                    <li class="c-dpe__index dpe-C">C</li>
-                                    <li class="c-dpe__index dpe-D">D<strong class="dpe_l">{{ property.diagChoice }}</strong></li>
-                                    <li class="c-dpe__index dpe-E">E</li>
-                                    <li class="c-dpe__index dpe-F">F</li>
-                                    <li class="c-dpe__index dpe-G">G</li>
-                                </ul>
-                            {% endif %}
-                        </div>
-
-                    </div>
-                    <div class="col-50" style="display:flex;justify-content: space-around;align-items: center;">
-                        <div>
-                            <h5 class="subtitle" style="text-align: center">Emission de gaz</h5>
-                            {% if property.diagGes > 0  %}
-                                {% if property.diagGes > 0 and property.diagGes <= 5 %}
-                                    {% set letter = 'A1'%}
-                                {% elseif property.diagGes > 5 and property.diagGes <= 10 %}
-                                    {% set letter = 'B1'%}
-                                {% elseif property.diagGes > 11 and property.diagGes <= 20 %}
-                                    {% set letter = 'C1'%}
-                                {% elseif property.diagGes > 21 and property.diagGes <= 35 %}
-                                    {% set letter = 'D1'%}
-                                {% elseif property.diagGes > 36 and property.diagGes <= 55 %}
-                                    {% set letter = 'E1'%}
-                                {% elseif property.diagGes > 56 and property.diagGes <= 80 %}
-                                    {% set letter = 'F1'%}
-                                {% elseif property.diagGes > 80 %}
-                                    {% set letter = 'G1'%}
-                                {% endif %}
-                                <ul class="diag_ener">
-                                    <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                    <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                </ul>
-                            {% else %}
-                                <ul class="diag_ener">
-                                    <li class="c-dpe__index dpe-A1">A</li>
-                                    <li class="c-dpe__index dpe-B1">B</li>
-                                    <li class="c-dpe__index dpe-C1">C</li>
-                                    <li class="c-dpe__index dpe-D1">D<strong class="dpe_l">{{ property.diagChoice }}</strong></li>
-                                    <li class="c-dpe__index dpe-E1">E</li>
-                                    <li class="c-dpe__index dpe-F1">F</li>
-                                    <li class="c-dpe__index dpe-G1">G</li>
-                                </ul>
-                            {% endif %}
-                        </div>
-                    </div>
-                </div>
-                <div id="DiagnosticCard-count" class="row">
-                    <div class="col-100">
-                        <h5 class="subtitle">Coût annuel</h5>
-                        <p>Estimation du coût annuel énergie pour un usage standard entre <span class="color">{{ property.dpeEstimateEnergyDown }}€</span> et
-                            <span class="color">{{ property.dpeEstimateEnergyUp }}€</span> au {{ property.anneeRefNRJ|date("Y") }} (abonnement compris) </p>
-                    </div>
-                </div>
-            </div>
         </div>
-        <div id="descriptions">
-            <div>
-                <h2 class="title-h2">DESCRIPTION</h2>
-            </div>
-            <div id="propertyDescription">
-                <p><span class="subtitle">{{ property.name }}</span> </p>
-                <p>{{ property.annonce|markdown_to_html }}</p>
-            </div>
-        </div>
-    </div>
-    <div style="page-break-before:always;"></div>
-    {% for row in photosCollection|batch(6,'') %}
-    <div class="page">
-        {{ include('pdf/include/_headerpdf.html.twig') }}
-        <div id="Title">
-            <h2 class="title-h2">PHOTOS (page 1 sur {{ page }})</h2>
-        </div>
-        <div id="Galerie">
-            <div class="row">
-            {% for photo in row|slice(0, 2) %}
-                {% if photo is not empty %}
-                    <div class="col-50">
-                        <img class="img-adapt" src="{{ asset('properties/' ~ photo.path ~ '/' ~ photo.galeryFrontName)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
-                    </div>
-                {% else %}
-                {% endif %}
-            {% endfor %}
-            </div>
-            <div class="row">
-            {% for photo in row|slice(2, 2) %}
-                {% if photo is not empty %}
-                    <div class="col-50">
-                        <img class="img-adapt" src="{{ asset('properties/' ~ photo.path ~ '/' ~ photo.galeryFrontName)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
-                    </div>
-                {% else %}
-                {% endif %}
-            {% endfor %}
-            </div>
-            <div class="row">
-            {% for photo in row|slice(4, 2) %}
-                {% if photo is not empty %}
-                    <div class="col-50">
-                        <img class="img-adapt" src="{{ asset('properties/' ~ photo.path ~ '/' ~ photo.galeryFrontName)|imagine_filter('ficheproperty_image') }}" alt="{{ photo.galeryFrontName }}" >
-                    </div>
-                {% else %}
-                {% endif %}
-            {% endfor %}
-            </div>
-        </div>
-    </div>
-    <div style="page-break-before:always;"></div>
-    {% endfor %}
-    <div class="page">
-        {{ include('pdf/include/_headerpdf.html.twig') }}
-        <div id="Title">
-            <h2 class="title-h2">INFO - {{ property.name }}</h2>
-        </div>
-        <div id="techniques">
-            <div id="Subtitle">
-                <h3 class="title-h3">ESTIMATION DU COUT ANNUEL ENERGETIQUE DU BIEN</h3>
-                <p><span class="subtitle">Estimation énergie basse : </span>{% if property.dpeEstimateEnergyDown is not
-                        empty %}{{ property.dpeEstimateEnergyDown }} €{% else %}non communiqué{% endif %}</p>
-                <p><span class="subtitle">Estimation énergie élevée : </span>{% if property.dpeEstimateEnergyUp is not empty %}{{property.dpeEstimateEnergyUp}} €{% else %}non communiqué{% endif %}</p>
-                <p><span class="subtitle">Année de référence : </span>{% if property.anneeref is not empty %}{{ property.anneeref|date("Y") }}{% else %}non communiqué{% endif %}</p>
-            </div>
-            <div>
-                <h3 class="title-h3">Piéces</h3>
-                <p><span class="subtitle">Terrasse : </span>{% if property.terrace is not empty%}{{property.terrace}}{%
-                    else %}non communiqué{% endif %}</p>
-                <p><span class="subtitle">Salle d'eau : </span>{% if property.washroom is not
-                        empty%}{{property.washroom}}{% else %}non communiqué{% endif %}</p>
-                <p><span class="subtitle">Salle de bain : </span>{% if property.bathroom is not
-                        empty%}{{property.bathroom}}{% else %}non communiqué{% endif %}</p>
-                <p><span class="subtitle">WC : </span>{% if property.wc is not empty%}{{property.wc}}{% else %}non
-                    communiqué{% endif %}</p>
-                <p><span class="subtitle">Balcon : </span>{% if property.balcony is not empty%}{{property.balcony}}{%
-                    else %}non communiqué{% endif %}</p>
-            </div>
-            <div>
-                <h3 class="title-h3">Equipements</h3>
-                <p>
-                    <span class="subtitle">Meublé : </span>
-                    {% if property.isFurnished == 1 %}Oui{% else %}Non{% endif %}
-                </p>
-                <p>
-                    <span class="subtitle">bien en copropriété : </span>{% if property.coproperty == 1 %}Oui | <span class="subtitle">Estimation des charges par an : </span>{{ property.coproprietyTaxe }}€{% else %}Non{% endif %}
-                </p>
-
-                <p>
-                    <span class="subtitle">Equipement du bien : </span>
-                    {% for equipment in equipments %}
-                        {% if loop.first %}{{ equipment.name }} - {% elseif loop.last%}{{ equipment.name }}{% else %} {{ equipment.name }} - {% endif %}
-                    {% endfor %}
-                </p>
-                <p>
-                    <span class="subtitle">Typologie du bien : </span>{% if property.propertyRubric is not empty%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</p>
-                <p>
-                    <span class="subtitle">Etage : </span>{% if property.level is not empty%}{{property.level}}{% else %}non communiqué{% endif %}</p>
-                <p>
-                    <span class="subtitle">Autres options du bien : </span>
-                    {% for otheroption in otheroptions %}
-                        {% if loop.first %}{{ otheroption.name }} - {% elseif loop.last%}{{ otheroption.name }}{% else %}{{ otheroption.name }} - {% endif %}
-                    {% endfor %}
-                </p>
-            </div>
-        </div>
-    </div>
     </body>
 </html>

@@ -95,7 +95,7 @@
                 let a = event.relatedTarget
                 let idproperty = a.getAttribute('data-bs-whatever')
 
-                document.getElementById('printPdfPortrait').href = "/admin/pdf/Property/fiche/" + idproperty
+                document.getElementById('printPdfPortrait').href = "/admin/pdf/Property/ficheclient/" + idproperty
                 document.getElementById('printPdfPaysage').href = "/admin/pdf/Property/fichepaysage/" + idproperty
 
                 })
@@ -174,16 +174,6 @@
                         console.log(error);
                     })
 
-            }
-
-            function printFiche(event){
-                event.preventDefault()
-                let orientation = this.id
-                if(orientation === "portrait"){
-                    let url = ""
-                }else if(orientation === "paysage"){
-                    let url =""
-                }
             }
 
             // Code d'ouverture de la modale de suppression d'une ligne en mode création d'un bien

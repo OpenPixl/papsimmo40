@@ -73,7 +73,8 @@ class PdfController extends AbstractController
                 'otheroptions' => $otheroptions,
                 'application' =>$application,
                 'firstphoto' => $firstphoto,
-                'photos' => $photos
+                'photos' => $photos,
+
             ));
 
             return new PdfResponse(

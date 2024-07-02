@@ -7,287 +7,208 @@
   }
 }
 
-.portrait {
-  width: 1080px;
+#portrait {
+  width: 1450px;
   /* to centre page on screen*/
   margin-left: auto;
   margin-right: auto;
-  /*** classes .PAGES ***/
-
-  .container {
-    display: flex;
-    flex-direction: row;
-    max-width: 100%;
-  }
-
-  .div-align-center{
-    align-items: center;
-    justify-content: space-between;
-  }
-
-  .container p{
-    text-align: right;
-    font-family: "spinnaker", sans-serif;
-    font-size : 12px;
-    color : #069697;
-  }
-  .page {
-    margin: 1rem;
-    padding: 0.5rem;
-    border: #009698 solid 1px;
-    border-radius: 0.5rem;
-    min-height: 1400px;
-    max-height: 1400px;
-    .row{
-      display: flex;
-      flex-direction: row;
-      min-width: 100%;
-      max-width: 100%;
-      .col-20{
-        min-width: 20%;
-        max-width: 20%;
-      }
-      .col-25{
-        min-width: 25%;
-        max-width: 25%;
-      }
-      .col-30{
-        min-width: 20%;
-        max-width: 20%;
-      }
-      .col-33{
-        min-width: 33%;
-        max-width: 33%;
-      }
-      .col-50{
-        min-width: 50%;
-        max-width: 50%;
-      }
-      .col-75{
-        min-width: 75%;
-        max-width: 75%;
-      }
-      .col-100{
-        min-width: 100%;
-        max-width: 100%;
-      }
+  #header{
+    p{
+      color: $secondary-color;
     }
-    h1, h2, h3, h4, h5, h6{
+  }
+  .page{
+    //margin: 1rem;
+    //padding: 0.5rem;
+    border: $secondary-color solid 1px;
+    border-radius: 0.5rem;
+    min-height: 2000px;
+    max-height: 2000px;
+    .title-h1 {
+      color: #7d1715;
       font-family: "spinnaker", sans-serif;
+      font-weight: 700;
+    }
+    .title-h2 {
+      background-image: $pdf-puceH3;
+      background-repeat: no-repeat;
+      padding-left: 2rem;
+      line-height: 1.5rem;
+      height: 1.5rem;
+      font-size: 1.5rem;
+      text-transform: uppercase;
+      text-align: left;
+    }
+    .title-h3 {
+      height: 2rem;
+      line-height: 1.5;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
+      background: #009698;
+      color: #fff;
+      text-transform: uppercase;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 1.5rem;
+      margin-bottom: 0;
+      line-height: 1.5;
+    }
+    .page .subtitle {
+      font-family: "comfortaa-light", sans-serif;
+      font-weight: bold;
+      font-size: 12px;
+      text-transform: uppercase;
+      text-align: left;
+      color: #01A5A0;
     }
     p{
       font-family: "comfortaa-light", sans-serif;
-      font-size: 14px;
+      font-size: 20px;
       text-align: left;
     }
+    .page .input {
+      padding: 0.1rem 2rem;
+      background: #f1f1f1;
+      line-height: 1.2rem;
+    }
+    .page .input-left {
+      padding: 0.1rem 0rem 0.1rem 0rem;
+      background: #f1f1f1;
+      line-height: 1.2rem;
+    }
+
+    .page figure{
+      margin:0;
+    }
     table{
-      tr{
-        th, td{
-          font-size: 0.8rem;
-        }
+      .head{
+        background-color: $secondary-color;
+        color: #ffffff;
+      }
+      th {
+        font-family: "comfortaa-light", sans-serif;
+        font-weight: bold;
+        font-size: 16px;
+        text-transform: uppercase;
+        text-align: left;
+        color: $secondary-color;
+      }
+      td {
+        font-family: "comfortaa-light", sans-serif;
+        font-size: 16px;
+        text-align: left;
+        text-transform: lowercase;
       }
     }
-  }
-
-  .page .img-logo{
-    max-width: 100%;
-    max-height: 100%;
-    display: block;
-  }
-
-  .page .img-adapt{
-    max-width: 95%;
-    max-height: 95%;
-    display: block;
-    margin:auto;
-  }
-
-  .page .title-h1 {
-    color: #7d1715;
-    font-family: "spinnaker", sans-serif;
-    font-weight: 700;
-  }
-
-  .page .title-h2 {
-    background-image: $pdf-puceH3;
-    background-repeat: no-repeat;
-    padding-left: 2rem;
-    line-height: 1.5rem;
-    height: 1.5rem;
-    font-size: 1.5rem;
-    text-transform: uppercase;
-    text-align: left;
-  }
-
-  .page .title-h3 {
-    height: 2rem;
-    line-height: 1.5;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    background: #009698;
-    color: #fff;
-    text-transform: uppercase;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1.5rem;
-    margin-bottom: 0;
-    line-height: 1.5;
-  }
-
-  .page .subtitle {
-    font-family: "comfortaa-light", sans-serif;
-    font-weight: bold;
-    font-size: 12px;
-    text-transform: uppercase;
-    text-align: left;
-    color: #01A5A0;
-  }
-
-  .page table th {
-    font-family: "comfortaa-light", sans-serif;
-    font-weight: bold;
-    font-size: 10px;
-    text-transform: uppercase;
-    text-align: left;
-    color: #01A5A0;
-    color: rgb(1, 165, 160);
-  }
-  .page table td {
-    font-family: "comfortaa-light", sans-serif;
-    font-size: 10px;
-    text-align: left;
-    text-transform: lowercase;
-  }
-
-  .page .input {
-    padding: 0.1rem 2rem;
-    background: #f1f1f1;
-    line-height: 1.2rem;
-  }
-  .page .input-left {
-    padding: 0.1rem 0rem 0.1rem 0rem;
-    background: #f1f1f1;
-    line-height: 1.2rem;
-  }
-
-  .page figure{
-    margin:0;
-  }
-  /*** Bloc Diags ***/
-  #DiagnosticCard {
-    border: 1px solid $primary-color;
-    border-radius: .5rem;
-    margin-top: 0.5rem;
-    padding:0.5rem;
-    h4,h5{
-      margin-top: 0;
-      margin-bottom:0.5rem;
-    }
-    p{
-      margin-top:0.5rem;
-      margin-bottom: 0.5rem;
-    }
-    .diag_ener{
-      display: flex;
-      align-items: center;
-      list-style: none;
-      padding-left:0;
-    }
-    .c-dpe__index {
-      display: flex;
-      position: relative;
-      align-items: center;
-      justify-content: center;
-      width: 2.25rem;
-      height: 2.25rem;
-      margin-right: .2rem;
-      color: #fff;
-      font-weight: 400;
-      font-size: 1.2rem;
-      border: 0 solid;
+    #DiagnosticCard {
+      border: 1px solid $primary-color;
       border-radius: .5rem;
-    }
+      h4,h5{
+        margin-top: 0;
+        margin-bottom:0.5rem;
+      }
+      p{
+        margin-top:0.5rem;
+        margin-bottom: 0.5rem;
+      }
+      .diag_ener{
+        display: flex;
+        align-items: center;
+        list-style: none;
+        padding-left:0;
+      }
+      .c-dpe__index {
+        display: flex;
+        position: relative;
+        align-items: center;
+        justify-content: center;
+        width: 2.25rem;
+        height: 2.25rem;
+        margin-right: .2rem;
+        color: #fff;
+        font-weight: 400;
+        font-size: 1.2rem;
+        border: 0 solid;
+        border-radius: .5rem;
+      }
 
-    .diag_ener .dpe-A {
-      background-color: #029163;
-    }
-    .diag_ener .dpe-B {
-      background-color: #46a64a;
-    }
-    .diag_ener .dpe-C {
-      background-color: #6db56b;
-    }
-    .diag_ener .dpe-D {
-      background-color: #f2e314;
-    }
-    .diag_ener .dpe-E {
-      background-color: #edab0f;
-    }
-    .diag_ener .dpe-F {
-      background-color: #e8782f;
-    }
-    .diag_ener .dpe-G {
-      background-color: #d1201e;
-    }
+      .diag_ener .dpe-A {
+        background-color: #029163;
+      }
+      .diag_ener .dpe-B {
+        background-color: #46a64a;
+      }
+      .diag_ener .dpe-C {
+        background-color: #6db56b;
+      }
+      .diag_ener .dpe-D {
+        background-color: #f2e314;
+      }
+      .diag_ener .dpe-E {
+        background-color: #edab0f;
+      }
+      .diag_ener .dpe-F {
+        background-color: #e8782f;
+      }
+      .diag_ener .dpe-G {
+        background-color: #d1201e;
+      }
 
-    .diag_ener .dpe-A1 {
-      background-color: #99d5f7;
-    }
-    .diag_ener .dpe-B1 {
-      background-color: #80abcd;
-    }
-    .diag_ener .dpe-C1 {
-      background-color: #6d87a8;
-    }
-    .diag_ener .dpe-D1 {
-      background-color: #546384;
-    }
-    .diag_ener .dpe-E1 {
-      background-color: #434665;
-    }
-    .diag_ener .dpe-F1 {
-      background-color: #332d47;
-    }
-    .diag_ener .dpe-G1 {
-      background-color: #231a2f;
-    }
+      .diag_ener .dpe-A1 {
+        background-color: #99d5f7;
+      }
+      .diag_ener .dpe-B1 {
+        background-color: #80abcd;
+      }
+      .diag_ener .dpe-C1 {
+        background-color: #6d87a8;
+      }
+      .diag_ener .dpe-D1 {
+        background-color: #546384;
+      }
+      .diag_ener .dpe-E1 {
+        background-color: #434665;
+      }
+      .diag_ener .dpe-F1 {
+        background-color: #332d47;
+      }
+      .diag_ener .dpe-G1 {
+        background-color: #231a2f;
+      }
 
-    .diag_ener .dpe-active {
-      width: 3.5rem;
-      height: 3.5rem;
-      font-weight: 500;
-      size: 2rem;
-      border-radius: 0.5rem;
+      .diag_ener .dpe-active {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-weight: 500;
+        size: 2rem;
+        border-radius: 0.5rem;
+      }
+      .diag_ener .dpe_l {
+        position: absolute;
+        top: calc(100% + 1.2rem);
+        left: 50%;
+        z-index: 10;
+        color: #2f2f2f;
+        font-size: 1rem;
+        line-height: 1rem;
+        transform: translateX(-50%);
+      }
+      .diag_ener .dpe_l::before {
+        content: "";
+        position: absolute;
+        bottom: calc(100% + .4rem);
+        left: calc(50% - .3rem);
+        border-right: .3rem solid transparent;
+        border-bottom: .3rem solid;
+        border-left: .3rem solid transparent;
+      }
+      .diag_ener.dpe_u {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        font-weight: 400;
+        font-size: 1rem;
+      }
     }
-    .diag_ener .dpe_l {
-      position: absolute;
-      top: calc(100% + 1.2rem);
-      left: 50%;
-      z-index: 10;
-      color: #2f2f2f;
-      font-size: 1rem;
-      line-height: 1rem;
-      transform: translateX(-50%);
-    }
-    .diag_ener .dpe_l::before {
-      content: "";
-      position: absolute;
-      bottom: calc(100% + .4rem);
-      left: calc(50% - .3rem);
-      border-right: .3rem solid transparent;
-      border-bottom: .3rem solid;
-      border-left: .3rem solid transparent;
-    }
-    .diag_ener.dpe_u {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      font-weight: 400;
-      font-size: 1rem;
-    }
-  }
-
-  .color {
-    color: $secondary-color;
   }
 }
 
