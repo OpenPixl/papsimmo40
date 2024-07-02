@@ -15,27 +15,37 @@
   #header{
     p{
       color: $secondary-color;
+      margin-bottom: 0.5rem;
     }
   }
   .page{
-    //margin: 1rem;
-    //padding: 0.5rem;
     border: $secondary-color solid 1px;
     border-radius: 0.5rem;
     min-height: 2000px;
     max-height: 2000px;
     .title-h1 {
-      color: #7d1715;
+      color: $primary-color;
       font-family: "spinnaker", sans-serif;
       font-weight: 700;
+      line-height: 1.5rem;
+      height: 1.5rem;
+      font-size: 2rem;
+    }
+    .title-price {
+      color: $secondary-color-dark;
+      font-family: "spinnaker", sans-serif;
+      font-weight: 700;
+      line-height: 2.5rem;
+      height: 2.5rem;
+      font-size: 2.4rem;
     }
     .title-h2 {
       background-image: $pdf-puceH3;
       background-repeat: no-repeat;
       padding-left: 2rem;
       line-height: 1.5rem;
-      height: 1.5rem;
-      font-size: 1.5rem;
+      height: 1.4rem;
+      font-size: 1.4rem;
       text-transform: uppercase;
       text-align: left;
     }
@@ -44,7 +54,7 @@
       line-height: 1.5;
       padding-left: 0.5rem;
       padding-right: 0.5rem;
-      background: #009698;
+      background: $secondary-color;
       color: #fff;
       text-transform: uppercase;
       font-family: 'Montserrat', sans-serif;
@@ -52,7 +62,7 @@
       margin-bottom: 0;
       line-height: 1.5;
     }
-    .page .subtitle {
+    .subtitle {
       font-family: "comfortaa-light", sans-serif;
       font-weight: bold;
       font-size: 12px;
@@ -64,19 +74,20 @@
       font-family: "comfortaa-light", sans-serif;
       font-size: 20px;
       text-align: left;
+      margin-bottom: 0.5rem;
     }
-    .page .input {
+    .input {
       padding: 0.1rem 2rem;
       background: #f1f1f1;
       line-height: 1.2rem;
     }
-    .page .input-left {
+    .input-left {
       padding: 0.1rem 0rem 0.1rem 0rem;
       background: #f1f1f1;
       line-height: 1.2rem;
     }
 
-    .page figure{
+    figure{
       margin:0;
     }
     table{
@@ -121,8 +132,8 @@
         position: relative;
         align-items: center;
         justify-content: center;
-        width: 2.25rem;
-        height: 2.25rem;
+        width: 3rem;
+        height: 3rem;
         margin-right: .2rem;
         color: #fff;
         font-weight: 400;
