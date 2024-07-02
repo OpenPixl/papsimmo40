@@ -1608,6 +1608,9 @@ class TransactionController extends AbstractController
             'accessAdmin' => $hasAccess,
             'liste' => $this->renderView('gestapp/transaction/include/_liste.html.twig', [
                 'transactions' => $transactions
+            ]),
+            'ownliste' => $this->renderView('gestapp/transaction/include/_ownliste.html.twig', [
+                'transactions' => $transactions
             ])
         ], 200);
     }

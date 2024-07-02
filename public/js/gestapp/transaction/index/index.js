@@ -1,15 +1,20 @@
 // Déclaration des constructeurs
 const btnModalTransaction = document.getElementById('btnModalTransaction');
-const modalTransaction = document.getElementById('modalTransaction');
-const btnModalSubmit = document.getElementById('btnModalSubmit');
+const modalShow = document.getElementById('modalTransaction');
 const btnSubmitInvoiceAddColl = document.getElementById('btnSubmitInvoiceAddColl');
 const modalInvoiceBS = new bootstrap.Modal(document.getElementById('modalInvoice'));
 
-modalTransaction.addEventListener('show.bs.modal', function (event) {
+modalShow.addEventListener('show.bs.modal', function (event) {
     let a = event.relatedTarget;
-    let url = a.href;
-    let submit = modalTransaction.querySelector('#btnModalSubmit');
-    submit.href = url;
+
+    let opt = a.getAttribute('data-bs-whatever');
+    let crud = opt.split('-')[0];
+    let contentTitle = opt.split('-')[1];
+    if(crud ==='DEL'){
+        modalShow.querySelector('.modal-title').textContent = contentTitle;
+        modalShow.querySelector('#btnModalSubmit').href = a.href;
+        modalShow.querySelector('#btnModalSubmit').addEventListener('click', delTransaction);
+    }
 });
 
 if(document.querySelectorAll('.transClosed') !== null){
@@ -25,7 +30,6 @@ if(document.querySelectorAll('.modalInvoice') !== null){
 }
 
 document.getElementById('submitModalInvoice').addEventListener('click', submitModalInvoice);
-btnModalSubmit.addEventListener('click', delTransaction);
 
 function delTransaction(event){
     event.preventDefault();
@@ -36,10 +40,11 @@ function delTransaction(event){
             if(response.data.accessAdmin === true)
             {
                 document.getElementById('liste').innerHTML = response.data.liste;
+                document.getElementById('ownliste').innerHTML = response.data.ownliste;
             }else{
                 document.getElementById('ownliste').innerHTML = response.data.liste;
             }
-            btnModalSubmit.addEventListener('click', delTransaction);
+            reloadEvent;
         })
         .catch(function(error){
             console.log(error);
@@ -118,8 +123,6 @@ function closedFolder(event){
             console.log(error);
         });
 }
-
-
 
 function reloadEvent(){
     document.getElementById('submitModalInvoice').addEventListener('click', submitModalInvoice);
