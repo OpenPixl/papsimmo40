@@ -171,10 +171,8 @@ class CartController extends AbstractController
         ]);
     }
 
-    /**
-     * Liste les produits inclus dans le panier
-     * @Route("/webapp/cart/showjson", name="op_webapp_cart_showcartjson")
-     */
+    // Liste les produits inclus dans le panier
+    #[Route("/webapp/cart/showjson", name:"op_webapp_cart_showcartjson", methods: ['GET'])]
     public function showCartJson(Request $request, EntityManagerInterface $em, CartRepository $cartRepository)
     {
         $form = $this->createForm(CartConfirmationType::class);
@@ -243,10 +241,8 @@ class CartController extends AbstractController
         ], 200);
     }
 
-    /**
-     * Liste les produits inclus dans le panier
-     * @Route("/webapp/cart/showcartcount/{id}", name="op_gestapp_cart_showcartcount")
-     */
+    // Liste les produits inclus dans le panier
+    #[Route("/webapp/cart/showcartcount/{id}", name:"op_gestapp_cart_showcartcount")]
     public function showcartcount($id, Request $request, EntityManagerInterface $em, CartService $cartService)
     {
         $detailedCart = $this->cartService->getDetailedCartItem();
@@ -260,9 +256,8 @@ class CartController extends AbstractController
         ], 200);
     }
 
-    /**
-     * @Route("/cart/cart/decrement/{id}", name="op_cart_cart_decrement", requirements={"id":"\d+"})
-     */
+    // Décrémentation du panier
+    #[Route("/cart/cart/decrement/{id}", name: "op_cart_cart_decrement", requirements: ["id"=>"\d+"], methods: ['POST'])]
     public function decrementeCart($id,  Request $request): Response
     {
         $json = intval($request->query->get('json'));
@@ -303,10 +298,8 @@ class CartController extends AbstractController
         return $this->redirectToRoute('op_cart_product_index');
     }
 
-    /**
-     * Supprime un produit du panier
-     * @Route("/webapp/cart/{idProduct}/del/{item}", name="op_cart_cart_delete", requirements={"id":"\d+"})
-     */
+    // Suppression produit du panier
+    #[Route("/webapp/cart/{idProduct}/del/{item}", name: "op_cart_cart_delete", requirements: ["id"=>"\d+"], methods: ['POST'])]
     public function deleteProduct(
         $idProduct,
         $item,

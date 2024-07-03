@@ -165,10 +165,7 @@ class PurchasesListController extends abstractController
         ], 200);
     }
 
-    /**
-     * Affiche les nouvelles commandes sur le dashboard 
-     * @Route("/op_admin/gestapp/purchases/byuserNew/{hide}", name="op_gestapp_purchases_byusernewpurchases", methods={"GET"})
-     */
+    // Affiche les nouvelles commandes sur le dashboard
     #[Route('/cart/purchases/byuserNew/{hide}', name:'op_cart_purchases_byusernewpurchases', methods: ['GET'])]
     public function byUserReceiptNewPurchases($hide, PurchaseRepository $purchaseRepository): Response
     {
