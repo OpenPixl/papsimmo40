@@ -54,6 +54,21 @@ liip_imagine:
                     # set the position of the watermark
                     position: center
                 auto_rotate: ~
+        oneproperty3_image:
+            quality: 150
+            filters:
+                thumbnail:
+                    size: [ 516, 450 ]
+                    mode: outbond
+                    # use and setup the "watermark_image" filter
+                watermark_image:
+                    # path to the watermark file (prepended with "%kernel.project_dir%")
+                    image: assets/styles/images/svg/watermark.png
+                    # size of the water mark relative to the input image
+                    size: 0.5
+                    # set the position of the watermark
+                    position: center
+                auto_rotate: ~
         oneproperty_image2:
             quality: 150
             filters:
