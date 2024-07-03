@@ -7,6 +7,7 @@
     <script type="module" src="{{ asset('js/gestapp/property/index/onload.js') }}"></script>
     <script type="module" src="{{ asset('js/gestapp/property/index/endMandat.js') }}"></script>
     <script type="module" src="{{ asset('js/gestapp/property/index/closedProperty.js') }}"></script>
+    <script type="module" src="{{ asset('js/gestapp/property/index/galery.js') }}"></script>
     <script>
         window.onload = function(){
 
@@ -22,7 +23,6 @@
             const addNewProperty = document.getElementById('addNewProperty')
             const submitAddnewproperty = document.getElementById('submitAddnewproperty')
             const ArrayMandats = []
-            const modalPrint = document.getElementById('modalPrint')
 
             axios
                 .get('/gestapp/property/getlistmandats')
@@ -91,14 +91,8 @@
                     }
                 }
             })
-            modalPrint.addEventListener('show.bs.modal', function (event) {
-                let a = event.relatedTarget
-                let idproperty = a.getAttribute('data-bs-whatever')
 
-                document.getElementById('printPdfPortrait').href = "/admin/pdf/Property/ficheclient/" + idproperty
-                document.getElementById('printPdfPaysage').href = "/admin/pdf/Property/fichepaysage/" + idproperty
 
-                })
             // ----------------------------------------------------------------
             // STEP 1 : Fonctionnalités liées à l'archivage de bien.s
             // ----------------------------------------------------------------

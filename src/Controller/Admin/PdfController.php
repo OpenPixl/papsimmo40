@@ -87,8 +87,8 @@ class PdfController extends AbstractController
         }
     }
 
-    #[Route('/admin/pdf/Property/fichepaysage/{id}', name: 'op_admin_pdf_propertypaysage', methods: ['GET'])]
-    public function FichePropertyPaysage(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
+    #[Route('/admin/pdf/Property/ficheagencepaysage/{id}', name: 'op_admin_pdf_ficheagencepaysage', methods: ['GET'])]
+    public function FicheAgencePaysage(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
         $html = 0; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
@@ -128,8 +128,8 @@ class PdfController extends AbstractController
         }
     }
 
-    #[Route('/admin/pdf/Property/ficheclient/{id}', name: 'op_admin_pdf_propertyclient', methods: ['GET'])]
-    public function FichePropertyClient(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
+    #[Route('/admin/pdf/Property/ficheagenceportrait/{id}', name: 'op_admin_pdf_ficheagenceportrait', methods: ['GET'])]
+    public function FicheAgencePortrait(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
         $html = 0; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());

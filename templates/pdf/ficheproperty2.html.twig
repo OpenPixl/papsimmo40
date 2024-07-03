@@ -188,7 +188,7 @@
                 <p>{{ property.annonce|markdown_to_html }}</p>
             </div>
         </div>
-        <div id="Gallery" class="row g-2">
+        <div id="Gallery" class="row g-0">
             {% for p in threephotos[1:] %}
                 <div class="col-4">
                     <img class="img-fluid rounded-2" src="{{ asset('properties/' ~ p.path ~ '/' ~ p.galeryFrontName)|imagine_filter('oneproperty_image') }}" alt="{{ p.galeryFrontName }}">
