@@ -257,6 +257,7 @@ class TransactionController extends AbstractController
         PropertyRepository $propertyRepository
         ) : response
     {
+        //dd($roleEditor);
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
@@ -267,6 +268,7 @@ class TransactionController extends AbstractController
                 ]),
                 'method' => 'POST'
             ]);
+
         }else{
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
                 'attr' => ['id'=>'transactionstep3'],
@@ -277,7 +279,7 @@ class TransactionController extends AbstractController
                 'method' => 'POST'
             ]);
         }
-
+        //dd($form);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
@@ -443,10 +445,11 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
-    #[Route('/{id}/addPromisePdfAdmin', name: 'op_gestapp_transaction_addpromisepdf_admin', methods: ['POST'])]
+    #[Route('/{id}/addPromisePdfAdmin/{roleEditor}', name: 'op_gestapp_transaction_addpromisepdf_admin', methods: ['POST', 'GET'])]
     public function addPromisePdfAdmin(
         Request $request,
         Transaction $transaction,
+        $roleEditor,
         EntityManagerInterface $entityManager,
         PropertyRepository $propertyRepository,
         SluggerInterface $slugger)
@@ -460,7 +463,10 @@ class TransactionController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(Transactionstep3Type::class, $transaction, [
             'attr' => ['id'=>'transactionstep3'],
-            'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf_admin', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf_admin', [
+                'id' => $transaction->getId(),
+                'roleEditor' => $roleEditor
+            ]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -529,6 +535,7 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/include/block/_addpromisepdf.html.twig', [
             'transaction' => $transaction,
+            'roleEditor' => $roleEditor,
             'form' => $form,
         ]);
     }
@@ -558,6 +565,7 @@ class TransactionController extends AbstractController
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
         $ref = explode("/", $property->getRef());
+        //dd($ref);
         $newref = $ref[0].'-'.$ref[1];
 
         $form->handleRequest($request);
