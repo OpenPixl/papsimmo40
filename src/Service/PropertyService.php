@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Gestapp\Property;
+use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -12,12 +13,14 @@ class PropertyService
 {
     public function __construct(
         public  EntityManagerInterface $em,
-        public PropertyRepository $propertyRepository
+        public PropertyRepository $propertyRepository,
+        public PhotoRepository $photoRepository,
+        protected RequestStack $request
     )
     {}
 
-    public function getAnnonce($property){
-        $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property['annonce']) );
+    public function getAnnonce(Property $property){
+        $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property->getAnnonce()) );
         $annonce = strip_tags($data, '<br>');
 
         return  $annonce;
@@ -186,6 +189,41 @@ class PropertyService
         return array('ref'=>$newRef, 'dup'=> $dup);
     }
 
+    public function getDates($property)
+    {
+        // Préparation de la date dpeAt
+        if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {
+            $dpeAt = $property['dpeAt']->format('d/m/Y');
+        }else{
+            $dpeAt ="";
+        }
+
+        // Préparation de la date de réation mandat
+        if ($property['mandatAt'] && $property['mandatAt'] instanceof \DateTime) {
+            $mandatAt = $property['mandatAt']->format('d/m/Y');
+        }else{
+            $mandatAt ="";
+        }
+
+        // Préparation de la date de création RefDPE
+        if ($property['RefDPE'] && $property['RefDPE'] instanceof \DateTime) {
+            $refDPE = $property['RefDPE']->format('d/m/Y');
+        }else{
+            $refDPE ="";
+        }
+
+        // Préparation de la date de disponibilité
+        if ($property['disponibilityAt'] instanceof \DateTime) {
+            $disponibilityAt = $property['disponibilityAt']->format('d/m/Y');
+        }else{
+            $disponibilityAt ="";
+        }
+
+        $dates = ['dpeAt' => $dpeAt, 'mandatAt' => $mandatAt, 'disponibilityAt' => $disponibilityAt, 'refDPE' => $refDPE ];
+
+        return $dates;
+    }
+
     // Détermination des classes des diagnostique dpe et ges
     public function getClasseDpe(Property $property){
         if($property->getDiagChoice() == "obligatoire"){
@@ -261,7 +299,7 @@ class PropertyService
         $em->flush();
     }
 
-    public function getDir(Property $property,){
+    public function getDir(Property $property){
 
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $ref = explode("/", $property->getRef());
@@ -329,25 +367,109 @@ class PropertyService
         return $bien;
     }
 
-    public function arraySLFIG(
-        $property,
-        $ref,
-        $destination,
-        $bien,
-        $annonce,
-        $disponibilityAt,
-        $sud,
-        $nord,
-        $ouest,
-        $est,
-        $terrace,
-        $publications
-    ){
+    public function getUrlPhotos($property)
+    {
+        $request = $this->request->getCurrentRequest();
+        // Création de l'url pour les photos
+        $fullHttp = $request->getUri();
+        $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
+        $port = parse_url($fullHttp, PHP_URL_PORT);
+        $host = parse_url($fullHttp, PHP_URL_HOST);
+        //dd($scheme, $port, $host);
+        if (!$port){
+            $app = $scheme.'://'.$host;
+        }else{
+            $app = $scheme.'://'.$host.':'.$port;
+        }
+
+        $photos = $this->photoRepository->findNameBy(['property' => $property['id']]);
+        if(!$photos){                                                                       // Si aucune photo présente
+            $url = [];
+            $titrephoto = [];
+            for ($i = 1; $i<31; $i++){
+                ${'url'.$i} = '';
+                array_push($url, ${'url'.$i});
+            }
+            // génération des titres de photos
+            for ($i = 1; $i<31; $i++){
+                ${'titrephoto'.$i} = '';
+                array_push($titrephoto, ${'titrephoto'.$i});
+            }
+            return $url;
+        }else{
+            $url = [];
+            $titrephoto = [];
+            $arraykey = array_keys($photos);
+            for ($key = 0; $key<30; $key++){
+                if(array_key_exists($key,$arraykey)){
+                    ${'url'.$key+1} = $app.'/properties/'.$photos[$key]['path'].'/'.$photos[$key]['galeryFrontName']."?".$photos[$key]['createdAt']->format('Ymd');
+                    array_push($url, ${'url'.$key+1});
+                }else{
+                    ${'url'.$key+1} = '';
+                    array_push($url, ${'url'.$key+1});
+                }
+            }
+            // génération des titres de photos
+            for ($key = 0; $key<30; $key++){
+                if(array_key_exists($key,$arraykey)){
+                    ${'titrephoto'.$key+1} = 'Photo-'.$property['ref'].'-'.$key+1;
+                    array_push($titrephoto, ${'titrephoto'.$key+1});
+                }else{
+                    ${'titrephoto'.$key+1} = '';
+                    array_push($titrephoto, ${'titrephoto'.$key+1});
+                }
+            }
+            return $url;
+        }
+    }
+
+    public function getTitrePhotos($property)
+    {
+        $request = $this->request->getCurrentRequest();
+        // Création de l'url pour les photos
+        $fullHttp = $request->getUri();
+        $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
+        $port = parse_url($fullHttp, PHP_URL_PORT);
+        $host = parse_url($fullHttp, PHP_URL_HOST);
+        //dd($scheme, $port, $host);
+        if (!$port){
+            $app = $scheme.'://'.$host;
+        }else{
+            $app = $scheme.'://'.$host.':'.$port;
+        }
+
+        $photos = $this->photoRepository->findNameBy(['property' => $property['id']]);
+        if(!$photos){                                                                       // Si aucune photo présente
+            $titrephoto = [];
+            // génération des titres de photos
+            for ($i = 1; $i<31; $i++){
+                ${'titrephoto'.$i} = '';
+                array_push($titrephoto, ${'titrephoto'.$i});
+            }
+            return $titrephoto;
+        }else{
+            $titrephoto = [];
+            $arraykey = array_keys($photos);
+            // génération des titres de photos
+            for ($key = 0; $key<30; $key++){
+                if(array_key_exists($key,$arraykey)){
+                    ${'titrephoto'.$key+1} = 'Photo-'.$property['ref'].'-'.$key+1;
+                    array_push($titrephoto, ${'titrephoto'.$key+1});
+                }else{
+                    ${'titrephoto'.$key+1} = '';
+                    array_push($titrephoto, ${'titrephoto'.$key+1});
+                }
+            }
+            return $titrephoto;
+        }
+    }
+
+    public function arrayRowSLFIG(Property $propriete, $destination, $dates, $infos, $url, $titrephoto, $property){
         $data = array(
-            '"RC1860977"',                                                  // 1 - Identifiant Agence
-            '"' . $ref . '"',                                               // 2 - Référence agence du bien
+            '"' . $infos['refDossier'] . '"',                               // 1 - Identifiant Agence
+            '"' . $property['ref'] . '"',                                   // 2 - Référence agence du bien
             '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
-            '"' . $bien . '"',                                             // 4 - Type de bien
+            '"' . $this->getBien($property) . '"',                          // 4 - Type de bien
             '"' . $property['zipcode'] . '"',                               // 5 - CP
             '"' . $property['city'] . '"',                                  // 6 - Ville
             '"France"',                                                     // 7 - Pays
@@ -364,8 +486,8 @@ class PropertyService
             '"' . $property['piece'] . '"',                                 // 18 - NB de pièces
             '"' . $property['room'] . '"',                                  // 19 - NB de chambres
             '"' . $property['name'] . '"',                                  // 20 - Libellé
-            '"' . $annonce . '"',                                           // 21 - Descriptif
-            '"' . $disponibilityAt . '"',                                    // 22 - Date de disponibilité
+            '"' . $this->getAnnonce($propriete) . '"',            // 21 - Descriptif
+            '"' . $dates['disponibilityAt'] . '"',                                   // 22 - Date de disponibilité
             '""',                                                           // 23 - Charges
             '"' . $property['level'] . '"',                                 // 24 - Etage
             '""',                                                           // 25 - NB d’étages
@@ -378,10 +500,10 @@ class PropertyService
             '"0"',                                                          // 32 - WC séparés
             '"' . $property['slCode'] . '"',                                // 33 - Type de chauffage
             '""',                                                           // 34 - Type de cuisine
-            '"' . $sud . '"',                                               // 35 - Orientation sud
-            '"' . $est . '"',                                               // 36 - Orientation est
-            '"' . $ouest . '"',                                             // 37 - Orientation ouest
-            '"' . $nord . '"',                                              // 38 - Orientation nord
+            '"' . $infos['sud'] . '"',                                               // 35 - Orientation sud
+            '"' . $infos['est'] . '"',                                               // 36 - Orientation est
+            '"' . $infos['ouest'] . '"',                                             // 37 - Orientation ouest
+            '"' . $infos['nord'] . '"',                                              // 38 - Orientation nord
             '"' . $property['balcony'] . '"',                               // 39 - NB balcons
             '""',                                                           // 40 - SF Balcon
             '"0"',                                                          // 41 - Ascenseur
@@ -391,19 +513,19 @@ class PropertyService
             '"0"',                                                          // 45 - Digicode
             '"0"',                                                          // 46 - Interphone
             '"0"',                                                          // 47 - Gardien
-            '"' . $terrace . '"',                                           // 48 - Terrasse
-            '""',                                                       // 49 - Prix semaine Basse Saison
-            '""',                                                       // 50 - Prix quinzaine Basse Saison
-            '""',                                                       // 51 - Prix mois / Basse Saison
-            '""',                                                       // 52 - Prix semaine Haute Saison
-            '""',                                                       // 53 - Prix quinzaine Haute Saison
-            '""',                                                       // 54 - Prix mois Haute Saison
-            '""',                                                       // 55 - NB de personnes
-            '""',                                                       // 56 - Type de résidence
-            '""',                                                       // 57 - Situation
-            '""',                                                       // 58 - NB de couverts
-            '""',                                                       // 59 - NB de lits doubles
-            '""',                                                       // 60 - NB de lits simples
+            '"' . $infos['terrace'] . '"',                                           // 48 - Terrasse
+            '""',                                                           // 49 - Prix semaine Basse Saison
+            '""',                                                           // 50 - Prix quinzaine Basse Saison
+            '""',                                                           // 51 - Prix mois / Basse Saison
+            '""',                                                           // 52 - Prix semaine Haute Saison
+            '""',                                                           // 53 - Prix quinzaine Haute Saison
+            '""',                                                           // 54 - Prix mois Haute Saison
+            '""',                                                           // 55 - NB de personnes
+            '""',                                                           // 56 - Type de résidence
+            '""',                                                           // 57 - Situation
+            '""',                                                           // 58 - NB de couverts
+            '""',                                                           // 59 - NB de lits doubles
+            '""',                                                           // 60 - NB de lits simples
             '"0"',// 61 - Alarme
             '"0"',// 62 - Câble TV
             '"0"',// 63 - Calme
@@ -425,27 +547,27 @@ class PropertyService
             '""',                                       // 79 - Chiffre d’affaire
             '""',                                       // 80 - Longueur façade (m)
             '"0"',                                      // 81 - Duplex
-            '"' . $publications . '"',                                  // 82 - Publications
+            '"' . $infos['publications'] . '"',                                  // 82 - Publications
             '"0"',                                      // 83 - Mandat en exclusivité
             '"0"',                                      // 84 - Coup de cœur
-            '"' . $url1 . '"',                                              // 85 - Photo 1
-            '"' . $url2 . '"',                                              // 86 - Photo 2
-            '"' . $url3 . '"',                                              // 87 - Photo 3
-            '"' . $url4 . '"',                                              // 88 - Photo 4
-            '"' . $url5 . '"',                                              // 89 - Photo 5
-            '"' . $url6 . '"',                                              // 90 - Photo 6
-            '"' . $url7 . '"',                                              // 91 - Photo 7
-            '"' . $url8 . '"',                                              // 92 - Photo 8
-            '"' . $url9 . '"',                                              // 93 - Photo 9
-            '"' . $titrephoto1 . '"',                                       // 94 - Titre photo 1
-            '"' . $titrephoto2 . '"',                                       // 95 - Titre photo 2
-            '"' . $titrephoto3 . '"',                                       // 96 - Titre photo 3
-            '"' . $titrephoto4 . '"',                                       // 97 - Titre photo 4
-            '"' . $titrephoto5 . '"',                                       // 98 - Titre photo 5
-            '"' . $titrephoto6 . '"',                                       // 99 - Titre photo 6
-            '"' . $titrephoto7 . '"',                                       // 100 - Titre photo 7
-            '"' . $titrephoto8 . '"',                                       // 101 - Titre photo 8
-            '"' . $titrephoto9 . '"',                                       // 102 - Titre photo 9
+            '"' . $url[0] . '"',                                              // 85 - Photo 1
+            '"' . $url[1] . '"',                                              // 86 - Photo 2
+            '"' . $url[2] . '"',                                              // 87 - Photo 3
+            '"' . $url[3] . '"',                                              // 88 - Photo 4
+            '"' . $url[4] . '"',                                              // 89 - Photo 5
+            '"' . $url[5] . '"',                                              // 90 - Photo 6
+            '"' . $url[6] . '"',                                              // 91 - Photo 7
+            '"' . $url[7] . '"',                                              // 92 - Photo 8
+            '"' . $url[8] . '"',                                              // 93 - Photo 9
+            '"' . $titrephoto[0] . '"',                                       // 94 - Titre photo 1
+            '"' . $titrephoto[1] . '"',                                       // 95 - Titre photo 2
+            '"' . $titrephoto[2] . '"',                                       // 96 - Titre photo 3
+            '"' . $titrephoto[3] . '"',                                       // 97 - Titre photo 4
+            '"' . $titrephoto[4] . '"',                                       // 98 - Titre photo 5
+            '"' . $titrephoto[6] . '"',                                       // 99 - Titre photo 6
+            '"' . $titrephoto[7] . '"',                                       // 100 - Titre photo 7
+            '"' . $titrephoto[8] . '"',                                       // 101 - Titre photo 8
+            '"' . $titrephoto[9] . '"',                                       // 102 - Titre photo 9
             '""',                                                       // 103 - Photo panoramique
             '""',                                                       // 104 - URL visite virtuelle
             '"' . $property['gsm'] . '"',                                   // 105 - Téléphone à afficher
@@ -455,8 +577,8 @@ class PropertyService
             '"' . $property['city'] . '"',                                  // 109 - Ville réelle du bien
             '""',                                                       // 110 - Inter-cabinet
             '""',                                                       // 111 - Inter-cabinet prive
-            '"' . $refMandat . '"',                                  // 112 - N° de mandat
-            '"' . $mandatAt . '"',                                          // 113 - Date mandat
+            '"' . $property['refMandat'] . '"',                                  // 112 - N° de mandat
+            '"' . $dates['mandatAt'] . '"',                                          // 113 - Date mandat
             '""',                                                       // 114 - Nom mandataire
             '""',                                                       // 115 - Prénom mandataire
             '""',                                                       // 116 - Raison sociale mandataire
@@ -507,23 +629,23 @@ class PropertyService
             '""',                                                       // 161 - Dépôt de garantie
             '"0"',                                                      // 162 - Récent
             '"0"',                                                      // 163 - Travaux à prévoir
-            '"' . $url10 . '"',                                             // 164 - Photo 10
-            '"' . $url11 . '"',                                             // 165 - Photo 11
-            '"' . $url12 . '"',                                             // 166 - Photo 12
-            '"' . $url13 . '"',                                             // 167 - Photo 13
-            '"' . $url14 . '"',                                             // 168 - Photo 14
-            '"' . $url15 . '"',                                             // 169 - Photo 15
-            '"' . $url16 . '"',                                             // 170 - Photo 16
-            '"' . $url17 . '"',                                             // 171 - Photo 17
-            '"' . $url18 . '"',                                             // 172 - Photo 18
-            '"' . $url19 . '"',                                             // 173 - Photo 19
-            '"' . $url20 . '"',                                             // 174 - Photo 20
-            '""',                                                       // 175 - Identifiant technique
+            '"' . $url[9] . '"',                                                // 164 - Photo 10
+            '"' . $url[10] . '"',                                               // 165 - Photo 11
+            '"' . $url[11] . '"',                                               // 166 - Photo 12
+            '"' . $url[12] . '"',                                               // 167 - Photo 13
+            '"' . $url[13] . '"',                                               // 168 - Photo 14
+            '"' . $url[14] . '"',                                               // 169 - Photo 15
+            '"' . $url[15] . '"',                                               // 170 - Photo 16
+            '"' . $url[16] . '"',                                               // 171 - Photo 17
+            '"' . $url[17] . '"',                                               // 172 - Photo 18
+            '"' . $url[18] . '"',                                               // 173 - Photo 19
+            '"' . $url[19] . '"',                                               // 174 - Photo 20
+            '""',                                                               // 175 - Identifiant technique
             '"' . $property['diagDpe'] . '"',                               // 176 - Consommation énergie
-            '"' . $bilanDpe . '"',                                          // 177 - Bilan consommation énergie
+            '"' . $this->getClasseDpe($propriete) . '"',                                          // 177 - Bilan consommation énergie
             '"' . $property['diagGes'] . '"',                               // 178 - Emissions GES
-            '"' . $bilanGes . '"',                                          // 179 - Bilan émission GES
-            '""',                                                       // 180 - Identifiant quartier (obsolète)
+            '"' . $this->getClasseGes($propriete) . '"',                                          // 179 - Bilan émission GES
+            '""',                                                           // 180 - Identifiant quartier (obsolète)
             '"' . $property['ssCategory'] . '"',                            // 181 - Sous type de bien
             '""',                                                       // 182 - Périodes de disponibilité
             '""',                                                       // 183 - Périodes basse saison
@@ -607,44 +729,44 @@ class PropertyService
             '""',                                   // 261 - Syndicat des copropriétaires en procédure
             '""',                                   // 262 - Détail procédure du syndicat des copropriétaires
             '""',                                   // 263 - Champ personnalisé 26
-            '"' . $url21 . '"',                                             // 264 - Photo 21
-            '"' . $url22 . '"',                                             // 265 - Photo 22
-            '"' . $url23 . '"',                                             // 266 - Photo 23
-            '"' . $url24 . '"',                                             // 267 - Photo 24
-            '"' . $url25 . '"',                                             // 268 - Photo 25
-            '"' . $url26 . '"',                                             // 269 - Photo 26
-            '"' . $url27 . '"',                                             // 270 - Photo 27
-            '"' . $url28 . '"',                                             // 271 - Photo 28
-            '"' . $url29 . '"',                                             // 272 - Photo 29
-            '"' . $url30 . '"',                                             // 273 - Photo 30
-            '"' . $titrephoto10 . '"',                                      // 274 - Titre photo 10
-            '"' . $titrephoto11 . '"',                                      // 275 - Titre photo 11
-            '"' . $titrephoto12 . '"',                                      // 276 - Titre photo 12
-            '"' . $titrephoto13 . '"',                                      // 277 - Titre photo 13
-            '"' . $titrephoto14 . '"',                                      // 278 - Titre photo 14
-            '"' . $titrephoto15 . '"',                                      // 279 - Titre photo 15
-            '"' . $titrephoto16 . '"',                                      // 280 - Titre photo 16
-            '"' . $titrephoto17 . '"',                                      // 281 - Titre photo 17
-            '"' . $titrephoto18 . '"',                                      // 282 - Titre photo 18
-            '"' . $titrephoto19 . '"',                                      // 283 - Titre photo 19
-            '"' . $titrephoto20 . '"',                                      // 284 - Titre photo 20
-            '"' . $titrephoto21 . '"',                                      // 285 - Titre photo 21
-            '"' . $titrephoto22 . '"',                                      // 286 - Titre photo 22
-            '"' . $titrephoto23 . '"',                                      // 287 - Titre photo 23
-            '"' . $titrephoto24 . '"',                                      // 288 - Titre photo 24
-            '"' . $titrephoto25 . '"',                                      // 289 - Titre photo 25
-            '"' . $titrephoto26 . '"',                                      // 290 - Titre photo 26
-            '"' . $titrephoto27 . '"',                                      // 291 - Titre photo 27
-            '"' . $titrephoto28 . '"',                                      // 292 - Titre photo 28
-            '"' . $titrephoto29 . '"',                                      // 293 - Titre photo 29
-            '"' . $titrephoto30 . '"',                                      // 294 - Titre photo 30
+            '"' . $url[20] . '"',                                             // 264 - Photo 21
+            '"' . $url[21] . '"',                                             // 265 - Photo 22
+            '"' . $url[22] . '"',                                             // 266 - Photo 23
+            '"' . $url[23] . '"',                                             // 267 - Photo 24
+            '"' . $url[24] . '"',                                             // 268 - Photo 25
+            '"' . $url[25] . '"',                                             // 269 - Photo 26
+            '"' . $url[26] . '"',                                             // 270 - Photo 27
+            '"' . $url[27] . '"',                                             // 271 - Photo 28
+            '"' . $url[28] . '"',                                             // 272 - Photo 29
+            '"' . $url[29] . '"',                                             // 273 - Photo 30
+            '"' . $titrephoto[9] . '"',                                      // 274 - Titre photo 10
+            '"' . $titrephoto[10] . '"',                                      // 275 - Titre photo 11
+            '"' . $titrephoto[11] . '"',                                      // 276 - Titre photo 12
+            '"' . $titrephoto[12] . '"',                                      // 277 - Titre photo 13
+            '"' . $titrephoto[13] . '"',                                      // 278 - Titre photo 14
+            '"' . $titrephoto[14] . '"',                                      // 279 - Titre photo 15
+            '"' . $titrephoto[15] . '"',                                      // 280 - Titre photo 16
+            '"' . $titrephoto[16] . '"',                                      // 281 - Titre photo 17
+            '"' . $titrephoto[17] . '"',                                      // 282 - Titre photo 18
+            '"' . $titrephoto[18] . '"',                                      // 283 - Titre photo 19
+            '"' . $titrephoto[19] . '"',                                      // 284 - Titre photo 20
+            '"' . $titrephoto[20] . '"',                                      // 285 - Titre photo 21
+            '"' . $titrephoto[21] . '"',                                      // 286 - Titre photo 22
+            '"' . $titrephoto[22] . '"',                                      // 287 - Titre photo 23
+            '"' . $titrephoto[23] . '"',                                      // 288 - Titre photo 24
+            '"' . $titrephoto[24] . '"',                                      // 289 - Titre photo 25
+            '"' . $titrephoto[25] . '"',                                      // 290 - Titre photo 26
+            '"' . $titrephoto[26] . '"',                                      // 291 - Titre photo 27
+            '"' . $titrephoto[27] . '"',                                      // 292 - Titre photo 28
+            '"' . $titrephoto[28] . '"',                                      // 293 - Titre photo 29
+            '"' . $titrephoto[19] . '"',                                      // 294 - Titre photo 30
             '""',// 295 - Prix du terrain
             '""',// 296 - Prix du modèle de maison
             '""',// 297 - Nom de l'agence gérant le terrain
             '""',// 298 - Latitude
             '""',// 299 - Longitude
             '""',// 300 - Précision GPS
-            '"4.11"',// 301 - Version Format
+            '"' . $infos['version'] . '"',                                                 // 301 - Version Format
             '""',// 302 - Honoraires à la charge de l'acquéreur
             '""',// 303 - Prix hors honoraires acquéreur
             '""',// 304 - Modalités charges locataire
@@ -667,17 +789,18 @@ class PropertyService
             '""',// 321 - Surface terrain nécessaire
             '""',// 322 - Localisation
             '""',// 323 - Nom du modèle
-            '"' . $dpeAt . '"',                                             // 324 - Date réalisation DPE
+            '"' . $dates['dpeAt'] . '"',                                             // 324 - Date réalisation DPE
             '""',                                                       // 325 - Version DPE
             '"' . $property['dpeEstimateEnergyDown'] . '"',                 // 326 - DPE coût min conso
             '"' . $property['dpeEstimateEnergyUp'] . '"',                   // 327 - DPE coût max conso
-            '"' . $RefDPE . '"',                                            // 328 - DPE date référence conso
+            '"' . $dates['refDPE'] . '"',                                            // 328 - DPE date référence conso
             '""',                                                       // 329 - Surface terrasse
             '""',                                                       // 330 - DPE coût conso annuelle
             '""',                                                       // 331 - Loyer de base
             '""',                                                       // 332 - Loyer de référence majoré
             '""',                                                       // 333 - Encadrement des loyers
         );
-    }
 
+        return $data;
+    }
 }
