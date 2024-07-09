@@ -131,7 +131,7 @@
             </td>
         {% endif %}
         <td class="{% if transaction.isValidPromisepdf < 1 %} d-none{% endif %}">
-            <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.promisePdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
+            <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.promisePdfFilename, 'roleEditor':roleEditor}) }}" ><i class="fa-duotone fa-trash"></i></a>
             <div class="form-check d-none">
                 {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':'form-check-input'}}) }}
                 <label class="form-check-label" for="flexCheckDefault21">
@@ -189,7 +189,6 @@
             </div>
         </td>
         <td>
-
             <div class="d-none">
                 {{ form_widget(form.isSupprPromisePdf, {'attr': {'class':''}}) }} {{ form_label(form.isSupprPromisePdf) }}
             </div>

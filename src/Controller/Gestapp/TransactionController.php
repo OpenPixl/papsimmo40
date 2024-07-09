@@ -258,6 +258,7 @@ class TransactionController extends AbstractController
         ) : response
     {
         //dd($roleEditor);
+        $submit = 0;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
@@ -338,41 +339,45 @@ class TransactionController extends AbstractController
                 $transaction->setPromisePdfFilename($newFilename);
                 $em->persist($transaction);
                 $em->flush();
-
-                if($hasAccess == false) {
-                    $email = (new TemplatedEmail())
-                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('contact@papsimmo.com')
-                        //->cc('cc@example.com')
-                        //->bcc('bcc@example.com')
-                        //->replyTo('fabien@example.com')
-                        //->priority(Email::PRIORITY_HIGH)
-                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
-                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                        ->context([
-                            'transaction' => $transaction,
-                            'url' => $request->server->get('HTTP_HOST')
-                        ]);
-                    try {
-                        $mailer->send($email);
-                     } catch (TransportExceptionInterface $e) {
-                         // some error prevented the email sending; display an
-                         // error message or try to resend the message
-                        dd($e);
+                if($submit = 1){
+                    if($hasAccess == false) {
+                        $email = (new TemplatedEmail())
+                            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                            ->to('xavier.burke@openpixl.fr')
+                            //->cc('cc@example.com')
+                            //->bcc('bcc@example.com')
+                            //->replyTo('fabien@example.com')
+                            //->priority(Email::PRIORITY_HIGH)
+                            ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                            ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                            ->context([
+                                'transaction' => $transaction,
+                                'url' => $request->server->get('HTTP_HOST')
+                            ]);
+                        try {
+                            $mailer->send($email);
+                        } catch (TransportExceptionInterface $e) {
+                            // some error prevented the email sending; display an
+                            // error message or try to resend the message
+                            dd($e);
+                        }
                     }
                 }
+
 
                 return $this->json([
                     'code' => 200,
                     'message' => 'Le document PDF est déposé sur la plateforme en attente de validation.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
                     ]),
                     'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                 ], 200);
             }else if($promisepdf){
@@ -395,6 +400,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validPromisePdf', name: 'op_gestapp_transaction_validpromisepdf', methods: ['GET', 'POST'])]
     public function validPromisePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
+        $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -408,32 +414,35 @@ class TransactionController extends AbstractController
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-            ->to($employedEmail)
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject("[PAPs Immo] : Document vérifié")
-            ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
-            ->context([
-                'transaction' => $transaction,
-            ]);
-        try {
-            $mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            // some error prevented the email sending; display an
-            // error message or try to resend the message
-            dd($e);
+        if($submit = 1){
+            $email = (new TemplatedEmail())
+                ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                ->to($employedEmail)
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject("[PAPs Immo] : Document vérifié")
+                ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
+                ->context([
+                    'transaction' => $transaction,
+                ]);
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                dd($e);
+            }
         }
+
 
         return $this->json([
             'code' => 200,
             'message' => "Vous venez de valider la promesse de vente de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.",
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
             ]),
             'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
                 'transaction' => $transaction
@@ -454,6 +463,7 @@ class TransactionController extends AbstractController
         PropertyRepository $propertyRepository,
         SluggerInterface $slugger)
     {
+        $submit = 0;
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
         $ref = explode("/", $property->getRef());
@@ -516,13 +526,16 @@ class TransactionController extends AbstractController
                     'code' => 200,
                     'message' => 'Promesse de vente réalisée.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                 ], 200);
             }
@@ -616,7 +629,8 @@ class TransactionController extends AbstractController
                         'transaction' => $transaction
                     ]),
                     'row' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                 ], 200);
             }
@@ -676,6 +690,7 @@ class TransactionController extends AbstractController
         SluggerInterface $slugger
     ) : response
     {
+        $submit = 0;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionActepdfType::class, $transaction, [
@@ -757,26 +772,28 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                if($hasAccess == false) {
-                    $email = (new TemplatedEmail())
-                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('contact@papsimmo.com')
-                        //->cc('cc@example.com')
-                        //->bcc('bcc@example.com')
-                        //->replyTo('fabien@example.com')
-                        //->priority(Email::PRIORITY_HIGH)
-                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
-                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                        ->context([
-                            'transaction' => $transaction,
-                            'url' => $request->server->get('HTTP_HOST')
-                         ]);
-                     try {
-                        $mailer->send($email);
-                    } catch (TransportExceptionInterface $e) {
-                        // some error prevented the email sending; display an
-                        // error message or try to resend the message
-                        dd($e);
+                if($submit= 1){
+                    if($hasAccess == false) {
+                        $email = (new TemplatedEmail())
+                            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                            ->to('contact@papsimmo.com')
+                            //->cc('cc@example.com')
+                            //->bcc('bcc@example.com')
+                            //->replyTo('fabien@example.com')
+                            //->priority(Email::PRIORITY_HIGH)
+                            ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                            ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                            ->context([
+                                'transaction' => $transaction,
+                                'url' => $request->server->get('HTTP_HOST')
+                            ]);
+                        try {
+                            $mailer->send($email);
+                        } catch (TransportExceptionInterface $e) {
+                            // some error prevented the email sending; display an
+                            // error message or try to resend the message
+                            dd($e);
+                        }
                     }
                 }
 
@@ -784,13 +801,16 @@ class TransactionController extends AbstractController
                     'code' => 200,
                     'message' => 'Le document PDF est déposé sur la plateforme en attente de validation.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
 
                 ], 200);
@@ -814,6 +834,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validActePdf', name: 'op_gestapp_transaction_validactepdf', methods: ['GET', 'POST'])]
     public function validActePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
+        $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -826,25 +847,26 @@ class TransactionController extends AbstractController
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
-
-        $email = (new TemplatedEmail())
-             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-            ->to($employedEmail)
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject("[PAPs Immo] : Document vérifié")
-            ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
-            ->context([
-                'transaction' => $transaction,
-            ]);
-        try {
-            $mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            // some error prevented the email sending; display an
-            // error message or try to resend the message
-            dd($e);
+        if($submit = 1){
+            $email = (new TemplatedEmail())
+                ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                ->to($employedEmail)
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject("[PAPs Immo] : Document vérifié")
+                ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
+                ->context([
+                    'transaction' => $transaction,
+                ]);
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                dd($e);
+            }
         }
 
         return $this->json([
@@ -862,10 +884,11 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
-    #[Route('/{id}/addActePdfAdmin', name: 'op_gestapp_transaction_addactepdf_admin', methods: ['POST'])]
+    #[Route('/{id}/addActePdfAdmin/roleEditor', name: 'op_gestapp_transaction_addactepdf_admin', methods: ['POST'])]
     public function addActePdfAdmin(
         Request $request,
         Transaction $transaction,
+        $roleEditor,
         EntityManagerInterface $entityManager,
         PropertyRepository $propertyRepository,
         SluggerInterface $slugger)
@@ -874,7 +897,10 @@ class TransactionController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(TransactionActepdfType::class, $transaction, [
             'attr' => ['id'=>'transactionactepdf'],
-            'action' => $this->generateUrl('op_gestapp_transaction_addactepdf_admin', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_addactepdf_admin', [
+                'id' => $transaction->getId(),
+                'roleEditor' => $roleEditor
+            ]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -931,10 +957,10 @@ class TransactionController extends AbstractController
                         'transaction' => $transaction
                     ]),
                     'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
                     ]),
                     'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
                     ]),
                 ], 200);
             }
@@ -945,8 +971,9 @@ class TransactionController extends AbstractController
             ], 200);
         }
 
-        return $this->render('gestapp/transaction/include/block/_addpromisepdf.html.twig', [
+        return $this->render('gestapp/transaction/include/block/_addactepdf.html.twig', [
             'transaction' => $transaction,
+            'roleEditor'=> $roleEditor,
             'form' => $form,
         ]);
     }
@@ -963,6 +990,7 @@ class TransactionController extends AbstractController
         SluggerInterface $slugger
     ) : response
     {
+        $submit = 0;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionTracfinpdfType::class, $transaction, [
@@ -1047,26 +1075,28 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                if($hasAccess == false) {
-                    $email = (new TemplatedEmail())
-                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('contact@papsimmo.com')
-                        //->cc('cc@example.com')
-                        //->bcc('bcc@example.com')
-                         //->replyTo('fabien@example.com')
-                         //->priority(Email::PRIORITY_HIGH)
-                        ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
-                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                        ->context([
-                            'transaction' => $transaction,
-                            'url' => $request->server->get('HTTP_HOST')
-                        ]);
-                    try {
-                        $mailer->send($email);
-                    } catch (TransportExceptionInterface $e) {
-                        // some error prevented the email sending; display an
-                        // error message or try to resend the message
-                        dd($e);
+                if($submit = 1){
+                    if($hasAccess == false) {
+                        $email = (new TemplatedEmail())
+                            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                            ->to('contact@papsimmo.com')
+                            //->cc('cc@example.com')
+                            //->bcc('bcc@example.com')
+                            //->replyTo('fabien@example.com')
+                            //->priority(Email::PRIORITY_HIGH)
+                            ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                            ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                            ->context([
+                                'transaction' => $transaction,
+                                'url' => $request->server->get('HTTP_HOST')
+                            ]);
+                        try {
+                            $mailer->send($email);
+                        } catch (TransportExceptionInterface $e) {
+                            // some error prevented the email sending; display an
+                            // error message or try to resend the message
+                            dd($e);
+                        }
                     }
                 }
 
@@ -1074,10 +1104,12 @@ class TransactionController extends AbstractController
                     'code' => 200,
                     'message' => 'Le document PDF est déposé sur la plateforme en attente de validation.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                 ], 200);
 
@@ -1101,6 +1133,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validTracfinPdf', name: 'op_gestapp_transaction_validtracfinpdf', methods: ['GET', 'POST'])]
     public function validTracfinPdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
+        $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -1113,25 +1146,28 @@ class TransactionController extends AbstractController
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
-        $email = (new TemplatedEmail())
-            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-            ->to($employedEmail)
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject("[PAPs Immo] : Document vérifié")
-            ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
-            ->context([
-                'transaction' => $transaction,
-            ]);
-        try {
-            $mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            // some error prevented the email sending; display an
-            // error message or try to resend the message
-            dd($e);
+        if($submit = 1){
+            $email = (new TemplatedEmail())
+                ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                ->to($employedEmail)
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject("[PAPs Immo] : Document vérifié")
+                ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
+                ->context([
+                    'transaction' => $transaction,
+                ]);
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                dd($e);
+            }
         }
+
 
         return $this->json([
             'code' => 200,
@@ -1147,14 +1183,16 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
-    #[Route('/{id}/addTracfinPdfAdmin', name: 'op_gestapp_transaction_addtracfinpdf_admin', methods: ['POST'])]
+    #[Route('/{id}/addTracfinPdfAdmin/{roleEditor}', name: 'op_gestapp_transaction_addtracfinpdf_admin', methods: ['POST'])]
     public function addTracfinPdfAdmin(
         Request $request,
         Transaction $transaction,
+        $roleEditor,
         EntityManagerInterface $entityManager,
         PropertyRepository $propertyRepository,
         SluggerInterface $slugger)
     {
+        $submit = 0;
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
         $ref = explode("/", $property->getRef());
@@ -1164,7 +1202,10 @@ class TransactionController extends AbstractController
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(TransactionTracfinpdfType::class, $transaction, [
             'attr' => ['id'=>'transactiontracfinpdf'],
-            'action' => $this->generateUrl('op_gestapp_transaction_addtracfinpdf_admin', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_addtracfinpdf_admin', [
+                'id' => $transaction->getId(),
+                'roleEditor' => $roleEditor
+            ]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -1245,6 +1286,7 @@ class TransactionController extends AbstractController
         SluggerInterface $slugger
     ) : response
     {
+        $submit =0;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionInvoicepdfType::class, $transaction, [
@@ -1308,37 +1350,42 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                if($hasAccess == false) {
-                    $email = (new TemplatedEmail())
-                        ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                        ->to('contact@papsimmo.com')
-                        //->cc('cc@example.com')
-                        //->bcc('bcc@example.com')
-                        //->replyTo('fabien@example.com')
-                        //->priority(Email::PRIORITY_HIGH)
-                        ->subject('[PAPs immo] : Une facture a été déposée - '.$transaction->getName().'.')
-                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                        ->context([
-                            'transaction' => $transaction,
-                            'url' => $request->server->get('HTTP_HOST')
-                        ]);
-                    try {
-                        $mailer->send($email);
-                    } catch (TransportExceptionInterface $e) {
-                        // some error prevented the email sending; display an
-                        // error message or try to resend the message
-                        dd($e);
+                if($submit = 1){
+                    if($hasAccess == false) {
+                        $email = (new TemplatedEmail())
+                            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                            ->to('contact@papsimmo.com')
+                            //->cc('cc@example.com')
+                            //->bcc('bcc@example.com')
+                            //->replyTo('fabien@example.com')
+                            //->priority(Email::PRIORITY_HIGH)
+                            ->subject('[PAPs immo] : Une facture a été déposée - '.$transaction->getName().'.')
+                            ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                            ->context([
+                                'transaction' => $transaction,
+                                'url' => $request->server->get('HTTP_HOST')
+                            ]);
+                        try {
+                            $mailer->send($email);
+                        } catch (TransportExceptionInterface $e) {
+                            // some error prevented the email sending; display an
+                            // error message or try to resend the message
+                            dd($e);
+                        }
                     }
                 }
+
 
                 return $this->json([
                     'code' => 200,
                     'message' => 'Votre facture est déposé sur le site.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'row' => $this->renderView('gestapp/transaction/include/block/_rowinvoicepdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                 ], 200);
 
@@ -1361,6 +1408,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validInvoicePdf', name: 'op_gestapp_transaction_validinvoicepdf_control', methods: ['GET', 'POST'])]
     public function validInvoicePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
+        $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -1456,6 +1504,7 @@ class TransactionController extends AbstractController
         EntityManagerInterface $em,
         $name)
     {
+        $submit=0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
 
@@ -1491,33 +1540,35 @@ class TransactionController extends AbstractController
         }
         $em->flush();
 
-        $email = (new TemplatedEmail())
-            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-            ->to($email_resp)
-            //->cc('cc@example.com')
-            //->bcc('bcc@example.com')
-            //->replyTo('fabien@example.com')
-            //->priority(Email::PRIORITY_HIGH)
-            ->subject("[PAPs Immo] : Erreur sur le document présenté")
-            ->htmlTemplate('admin/mail/messageErrorDocument.html.twig')
-            ->context([
-                'transaction' => $transaction,
-                'url' => $request->server->get('HTTP_HOST'),
-                'typedoc' => $typeDoc
-            ]);
-        try {
-            $mailer->send($email);
-        } catch (TransportExceptionInterface $e) {
-            // some error prevented the email sending; display an
-            // error message or try to resend the message
-            dd($e);
+        if($submit = 1){
+            $email = (new TemplatedEmail())
+                ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                ->to($email_resp)
+                //->cc('cc@example.com')
+                //->bcc('bcc@example.com')
+                //->replyTo('fabien@example.com')
+                //->priority(Email::PRIORITY_HIGH)
+                ->subject("[PAPs Immo] : Erreur sur le document présenté")
+                ->htmlTemplate('admin/mail/messageErrorDocument.html.twig')
+                ->context([
+                    'transaction' => $transaction,
+                    'url' => $request->server->get('HTTP_HOST'),
+                    'typedoc' => $typeDoc
+                ]);
+            try {
+                $mailer->send($email);
+            } catch (TransportExceptionInterface $e) {
+                // some error prevented the email sending; display an
+                // error message or try to resend the message
+                dd($e);
+            }
         }
 
         return $this->json([
             'code' => 200,
             'message' => 'Un email a été envoyé à votre collaborateur pour lui signifier une erreur dans le document transmis.',
             'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
             ]),
             'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
                 'transaction' => $transaction
@@ -1623,8 +1674,14 @@ class TransactionController extends AbstractController
         ], 200);
     }
 
-    #[Route('/deldocument/{id}/{name}', name: 'op_gestapp_transaction_deldocument',  methods: ['GET','POST'])]
-    public function delDocument(Transaction $transaction, EntityManagerInterface $em, $name, PropertyRepository $propertyRepository)
+    #[Route('/deldocument/{id}/{name}/{roleEditor}', name: 'op_gestapp_transaction_deldocument',  methods: ['GET','POST'])]
+    public function delDocument(
+        Transaction $transaction,
+        EntityManagerInterface $em,
+        $name,
+        $roleEditor,
+        PropertyRepository $propertyRepository
+    )
     {
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
@@ -1661,21 +1718,25 @@ class TransactionController extends AbstractController
             'code' => 200,
             'message' => 'Le fichier a été correctement supprimé.',
             'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
             'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
             'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
             'rowhonoraires' =>$this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
         ]);
     }
 
-    #[Route('/addcustomerjson/{type}/{option}', name: 'op_gestapp_transaction_addcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/addcustomerjson/{type}/{option}/{roleEditor}', name: 'op_gestapp_transaction_addcustomerjson',  methods: ['GET', 'POST'])]
     public function addCustomerJson(
         Request $request,
         CustomerRepository $customerRepository,
@@ -1684,7 +1745,8 @@ class TransactionController extends AbstractController
         TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
         $type,
-        $option
+        $option,
+        $roleEditor
     )
     {
         $user = $this->getUser()->getId();
@@ -1696,7 +1758,8 @@ class TransactionController extends AbstractController
             'action'=> $this->generateUrl('op_gestapp_transaction_addcustomerjson', [
                 'id'=> $customer->getId(),
                 'type' => $type,
-                'option' => $option
+                'option' => $option,
+                'roleEditor' => $roleEditor
             ]),
             'method'=>'POST'
         ]);
@@ -1723,7 +1786,8 @@ class TransactionController extends AbstractController
                 'message' => "L'acheteur a été correctement ajouté.",
                 'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
                     'transaction' => $transac,
-                    'type' => 2
+                    'type' => 2,
+                    'roleEditor' => $roleEditor
                 ]),
                 'type' => 2
             ], 200);
@@ -1741,12 +1805,13 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/editcustomerjson/{id}/{type}/{option}', name: 'op_gestapp_transaction_editcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/editcustomerjson/{id}/{type}/{option}/{roleEditor}', name: 'op_gestapp_transaction_editcustomerjson',  methods: ['GET', 'POST'])]
     public function editCustomerJson(
         Request $request,
         Customer $customer,
         $type,
         $option,
+        $roleEditor,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
@@ -1760,7 +1825,8 @@ class TransactionController extends AbstractController
             'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
                 'id'=> $customer->getId(),
                 'type' => $type,
-                'option' => $option
+                'option' => $option,
+                'roleEditor' => $roleEditor
             ]),
             'method'=>'POST'
         ]);
@@ -1776,7 +1842,8 @@ class TransactionController extends AbstractController
                     'message' => "Le vendeur a été correctement modifié.",
                     'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
                         'transaction' => $transac,
-                        'type' => $type
+                        'type' => $type,
+                        'roleEditor' => $roleEditor
                     ])
                 ], 200);
             }
@@ -1784,7 +1851,8 @@ class TransactionController extends AbstractController
             // Affichage du formulaire de modification du client
             $view = $this->render('gestapp/customer/_form2.html.twig', [
                 'customer' => $customer,
-                'form' => $form
+                'form' => $form,
+                'roleEditor' => $roleEditor
             ]);
 
             return $this->json([
@@ -1801,14 +1869,16 @@ class TransactionController extends AbstractController
                     'message' => "Le vendeur a été correctement modifié.",
                     'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
                         'transaction' => $transac,
-                        'type' => $type
+                        'type' => $type,
+                        'roleEditor' => $roleEditor
                     ])
                 ], 200);
             }
             // Affichage du formulaire de modification du client
             $view = $this->render('gestapp/customer/_form2.html.twig', [
                 'customer' => $customer,
-                'form' => $form
+                'form' => $form,
+                'roleEditor' => $roleEditor
             ]);
 
             return $this->json([

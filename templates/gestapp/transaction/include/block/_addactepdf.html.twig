@@ -114,7 +114,7 @@
             </td>
         {% endif %}
         <td class="{% if transaction.isValidActepdf < 1 %} d-none{% endif %}">
-            <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.actePdfFilename}) }}" ><i class="fa-duotone fa-trash"></i></a>
+            <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.actePdfFilename, 'roleEditor': roleEditor}) }}" ><i class="fa-duotone fa-trash"></i></a>
             <div class="form-check d-none">
                 {{ form_widget(form.isSupprActePdf, {'attr': {'class':'form-check-input'}}) }}
                 <label class="form-check-label" for="flexCheckDefault21">
