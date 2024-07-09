@@ -40,8 +40,6 @@ class ftptransfertService
         $request = $this->requestStack->getCurrentRequest();
         $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
 
-        //dd($properties);
-
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
         $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
@@ -69,25 +67,77 @@ class ftptransfertService
             $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
-            $propertyDefinition = $property['rubric'];
-            if($propertyDefinition == 'Propriété / Château') {
+            if($property['family'] == 'Vente immobilier')
+            {
+                if($property['rubric'] == 'Propriété / Château') {
+                    $bien = 'Château';
+                }elseif($property['rubric'] == 'vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
+                    $bien = 'Immeuble';
+                }elseif($property['rubric'] == 'A définir'){
+                    $bien = 'Inconnu';
+                }elseif($property['rubric'] == 'Loft'){
+                    $bien = 'loft/atelier/surface';
+                }elseif($property['rubric'] == 'Atelier'){
+                    $bien = 'loft/atelier/surface';
+                }elseif($property['rubric'] == 'Parking'){
+                    $bien = 'Parking/box';
+                }elseif($property['rubric'] == 'Garage'){
+                    $bien = 'Parking/box';
+                }elseif($property['rubric'] == 'Location'){
+                    $bien = $property['rubricss'];
+                }else{
+                    $bien = $property['rubric'];
+                }
+            }else if($property['family'] == 'Immobilier professionnel')
+            {
+                if($property['rubric'] == 'Propriété / Château') {
+                    $bien = 'Château';
+                }elseif($property['rubric'] == 'vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
+                    $bien = 'Immeuble';
+                }elseif($property['rubric'] == 'A définir'){
+                    $bien = 'Inconnu';
+                }elseif($property['rubric'] == 'Loft'){
+                    $bien = 'loft/atelier/surface';
+                }elseif($property['rubric'] == 'Atelier'){
+                    $bien = 'loft/atelier/surface';
+                }elseif($property['rubric'] == 'Parking'){
+                    $bien = 'Parking/box';
+                }elseif($property['rubric'] == 'Garage'){
+                    $bien = 'Parking/box';
+                }elseif($property['rubric'] == 'Location'){
+                    $bien = $property['rubricss'];
+                }else{
+                    $bien = $property['rubric'];
+                }
+            }else if($property['family'] == 'Vente commerce, Reprise')
+            {
+                if($property['rubric'] == 'vente') {
+                    $bien = 'boutique';
+                }else{
+                    $bien = 'bureaux';
+                }
+            }else
+            {
+
+            }
+            if($property['rubric'] == 'Propriété / Château') {
                 $bien = 'Château';
-            }elseif($propertyDefinition == 'vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
+            }elseif($property['rubric'] == 'vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
                 $bien = 'Immeuble';
-            }elseif($propertyDefinition == 'A définir'){
+            }elseif($property['rubric'] == 'A définir'){
                 $bien = 'Inconnu';
-            }elseif($propertyDefinition == 'Loft'){
+            }elseif($property['rubric'] == 'Loft'){
                 $bien = 'loft/atelier/surface';
-            }elseif($propertyDefinition == 'Atelier'){
+            }elseif($property['rubric'] == 'Atelier'){
                 $bien = 'loft/atelier/surface';
-            }elseif($propertyDefinition == 'Parking'){
+            }elseif($property['rubric'] == 'Parking'){
                 $bien = 'Parking/box';
-            }elseif($propertyDefinition == 'Garage'){
+            }elseif($property['rubric'] == 'Garage'){
                 $bien = 'Parking/box';
-            }elseif($propertyDefinition == 'Location'){
+            }elseif($property['rubric'] == 'Location'){
                 $bien = $property['rubricss'];
             }else{
-                $bien = $propertyDefinition;
+                $bien = $property['rubric'];
             }
 
             // Préparation de la date dpeAt
@@ -206,7 +256,7 @@ class ftptransfertService
             // Création d'une ligne du tableau
             $data = array(
                 '"RC1860977"',                                                  // 1 - Identifiant Agence
-                '"' . $ref . '"',                                       // 2 - Référence agence du bien
+                '"' . $ref . '"',                                               // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
                 '"' . $bien . '"',                                             // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
@@ -615,23 +665,22 @@ class ftptransfertService
             $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
-            $propertyDefinition = $property['rubric'];
-            if($propertyDefinition == 'Propriété / Château') {
+            if($property['rubric'] == 'Propriété / Château') {
                 $bien = 'Château';
-            }elseif($propertyDefinition == 'Vente'){
+            }elseif($property['rubric'] == 'Vente'){
                 $bien = 'Immeuble';
-            }elseif($propertyDefinition == 'A définir'){
+            }elseif($property['rubric'] == 'A définir'){
                 $bien = 'Inconnu';
-            }elseif($propertyDefinition == 'Loft'){
+            }elseif($property['rubric'] == 'Loft'){
                 $bien = 'loft/atelier/surface';
-            }elseif($propertyDefinition == 'Atelier'){
+            }elseif($property['rubric'] == 'Atelier'){
                 $bien = 'loft/atelier/surface';
-            }elseif($propertyDefinition == 'Parking'){
+            }elseif($property['rubric'] == 'Parking'){
                 $bien = 'Parking/box';
-            }elseif($propertyDefinition == 'Garage'){
+            }elseif($property['rubric'] == 'Garage'){
                 $bien = 'Parking/box';
             }else{
-                $bien = $propertyDefinition;
+                $bien = $property['rubric'];
             }
 
             // Préparation de la date dpeAt
