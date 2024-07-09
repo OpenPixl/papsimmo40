@@ -240,7 +240,7 @@ class ReportController extends AbstractController
 
             // Sélection du type de bien
             $bien = $propertyService->getBien($property);
-            dd($bien);
+            //dd($bien);
             // Préparation de la date dpeAt
             if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {
                 $dpeAt = $property['dpeAt']->format('d/m/Y');
