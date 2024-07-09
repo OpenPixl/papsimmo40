@@ -38,7 +38,7 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('app_gestapp_publication_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/publication/new.html.twig', [
+        return $this->render('gestapp/publication/new.html.twig', [
             'publication' => $publication,
             'form' => $form,
         ]);
@@ -87,7 +87,7 @@ class PublicationController extends AbstractController
                 $photoRepository,
                 $complementRepository,
             );
-            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            // Service de dépot sur serveur le serveur FTP "GreenAcres"
             $ftptransfertService->greenacresFTP(
                 $propertyRepository,
                 $photoRepository,
@@ -143,7 +143,7 @@ class PublicationController extends AbstractController
             return $this->redirectToRoute('app_gestapp_publication_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/publication/edit.html.twig', [
+        return $this->render('gestapp/publication/edit.html.twig', [
             'publication' => $publication,
             'form' => $form,
         ]);

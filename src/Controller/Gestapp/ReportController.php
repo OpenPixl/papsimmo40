@@ -24,9 +24,7 @@ class ReportController extends AbstractController
         ]);
     }
 
-    /**
-     * Génération du Fichiers CSV pour PARUVendu
-     **/
+    // Génération du Fichiers CSV pour PARUVendu
     #[Route('/report/report_properties_csv', name: 'app_gestapp_report_propertycsv')]
     public function PropertyCSV(PropertyRepository $propertyRepository, PhotoRepository $photoRepository,PropertyService $propertyService): Response
     {
@@ -210,9 +208,7 @@ class ReportController extends AbstractController
         return $response;
     }
 
-    /**
-     * Génération du Fichiers CSV pour MeilleurAgent/LeBonCoin
-     **/
+    // Génération du Fichiers CSV pour MeilleurAgent / LeBonCoin
     #[Route('/report/report_properties_csv2', name: 'app_gestapp_report_propertycsv2')]
     public function PropertyCSV2(
         PropertyRepository $propertyRepository,
@@ -243,19 +239,8 @@ class ReportController extends AbstractController
             $refMandat = $property['refMandat'];
 
             // Sélection du type de bien
-            $propertyDefinition = $property['propertyDefinition'];
-            if ($propertyDefinition == 'Propriété / Château') {
-                $bien = 'Château';
-            } elseif ($propertyDefinition == 'A définir') {
-                $bien = 'Inconnu';
-            } elseif ($propertyDefinition == 'Atelier') {
-                $bien = 'loft/atelier/surface';
-            } elseif ($propertyDefinition == 'Parking / Garage') {
-                $bien = 'Parking/box';
-            } else {
-                $bien = $propertyDefinition;
-            }
-
+            $bien = $propertyService->getBien($property);
+            dd($bien);
             // Préparation de la date dpeAt
             if ($property['dpeAt'] && $property['dpeAt'] instanceof \DateTime) {
                 $dpeAt = $property['dpeAt']->format('d/m/Y');
@@ -379,7 +364,7 @@ class ReportController extends AbstractController
             // Création d'une ligne du tableau
             $data = array(
                 '"papsimmo"',                                                   // 1 - Identifiant Agence
-                '"' . $ref . '"',                                       // 2 - Référence agence du bien
+                '"' . $ref . '"',                                               // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
                 '"' . $destination['typeBien'] . '"',                           // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
