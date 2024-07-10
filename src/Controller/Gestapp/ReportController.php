@@ -199,7 +199,6 @@ class ReportController extends AbstractController
             );
             $rows[] = implode('|', $data);
         }
-        dd($rows);
 
         $content = implode("\n", $rows);
         $response = new Response($content);
