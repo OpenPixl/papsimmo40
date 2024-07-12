@@ -462,7 +462,7 @@ class PropertyController extends AbstractController
         $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
 
         $property = new Property();
-        $property->setAnnonce('<p>Contact : '.$user->getGsm().' ou '. $user->getEmail() .'<br>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');
+        $property->setAnnonceDown('<p class="mb-0">Contact : '.$user->getGsm().' ou '. $user->getEmail() .'</p><p>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');
         $property->setFamily($family);
         $property->setRubric($rubric);
         $property->setRubricss($rubricss);
@@ -695,6 +695,9 @@ class PropertyController extends AbstractController
             $annonce = str_replace(array("\u{A0}"), array(' '),$property->getAnnonce());;
             //dd($annonce);
             $property->setAnnonce($annonce);
+            if(empty($property->getAnnonceDown()) || is_null($property->getAnnonceDown())){
+                $property->setAnnonceDown('<p class="mb-0">Contact : '.$property->getRefEmployed()->getGsm().' ou '. $property->getRefEmployed()->getEmail() .'</p><p>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');
+            }
             // traitement de la variable annonceSlug
             $array = array_slice(explode(' ', str_replace(array( "\n", "\r", "\u{A0}","</p><p>", "<br>"), array( '', '',' ', ' ', '' ), strip_tags($property->getAnnonce()))), 0, 10);
             $annonceSlug = implode(" ", $array) . "...";

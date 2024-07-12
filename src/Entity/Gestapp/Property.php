@@ -357,7 +357,12 @@ class Property
     private ?bool $isClosedFolder = false;
 
     #[ORM\Column(length: 100, nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private ?string $qrcode_url = null;
+
+    #[ORM\Column(type: 'text', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
+    private ?string $annonceDown = null;
 
     public function __construct()
     {
@@ -1512,6 +1517,18 @@ class Property
     public function setQrcodeUrl(?string $qrcode_url): static
     {
         $this->qrcode_url = $qrcode_url;
+
+        return $this;
+    }
+
+    public function getAnnonceDown(): ?string
+    {
+        return $this->annonceDown;
+    }
+
+    public function setAnnonceDown(?string $annonceDown): static
+    {
+        $this->annonceDown = $annonceDown;
 
         return $this;
     }

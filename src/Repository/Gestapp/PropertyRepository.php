@@ -616,6 +616,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.RefMandat as refMandat,
                 p.name as name,
                 p.annonce as annonce,
+                p.annonceDown as annonceDown,
                 p.piece as piece,
                 p.room as room,
                 e.id as refEmployed,
@@ -1107,6 +1108,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.city as city,
                 p.adress as adress,
                 p.annonce as annonce,
+                p.annonceDown as annonceDown,
                 p.name as name,
                 p.RefMandat as refMandat,
                 p.id as id
@@ -1191,6 +1193,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.city as city,
                 p.adress as adress,
                 p.annonce as annonce,
+                p.annonceDown as annonceDown,
                 p.name as name,
                 p.RefMandat as refMandat,
                 p.id as id
@@ -1274,6 +1277,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.city as city,
                 p.adress as adress,
                 p.annonce as annonce,
+                p.annonceDown as annonceDown,
                 p.name as name,
                 p.RefMandat as refMandat,
                 p.id as id
@@ -1357,6 +1361,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.city as city,
                 p.adress as adress,
                 p.annonce as annonce,
+                p.annonceDown as annonceDown,
                 p.name as name,
                 p.RefMandat as refMandat,
                 p.id as id
@@ -1442,6 +1447,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.city as city,
                 p.adress as adress,
                 p.annonce as annonce,
+                p.annonceDown as annonceDown,
                 p.name as name,
                 p.RefMandat as refMandat,
                 p.id as id
