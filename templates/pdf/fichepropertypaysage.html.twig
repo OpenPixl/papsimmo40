@@ -205,7 +205,8 @@
                                 <h2 class="title-h2">DESCRIPTION</h2>
                             </div>
                             <div id="propertyDescription">
-                                <p>{{ property.annonce|markdown_to_html }}</p>
+                                {{ property.annonce|markdown_to_html }}
+                                {{ property.annonceDown|markdown_to_html }}
                             </div>
                         </div>
                     </div>

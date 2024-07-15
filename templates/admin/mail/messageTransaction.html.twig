@@ -1,10 +1,26 @@
-<h1>[PAPs Immo] : Un document attends votre approbation</h1>
-<h3>Transaction n°: {{ transaction.name }}</h3>
-<hr>
-<h4>Bonjour,</h4>
-<p>
-    Dans le cadre d'une transaction immobilière, l'un de vos collaborateurs à déposer un document : {{ transaction.promisePdfFilename }}.
-    En cliquant sur le lien suivant vous pourrez-le controler.
-    <br>
-    <a href="https://{{ url }}{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
-</p>
+<!doctype html>
+<html lang="fr">
+{{ include('admin/mail/include/head.html.twig') }}
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <a href="{{ url('op_webapp_public_homepage') }}">
+                <img src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png')) }}" class="logo" alt="Logo">
+            </a>
+            <h1>[PAPs Immo] : Un document attends votre approbation.</h1>
+        </div>
+        <div class="content">
+            <h3>Transaction n°: {{ transaction.name }}</h3>
+            <hr>
+            <h4>Bonjour,</h4>
+            <p>
+                Dans le cadre de la transaction immobilière {{ transaction.name }}, l'un de vos collaborateurs à déposer un document : {{ transaction.promisePdfFilename }}.
+                En cliquant sur le lien suivant vous pourrez-le controler.
+            </p>
+            <p>
+                <a class="btn" href="https://{{ url }}{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
+            </p>
+        </div>
+    </div>
+</div>
+

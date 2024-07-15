@@ -39,6 +39,13 @@ use function Symfony\Component\Clock\now;
 #[Route('/gestapp/transaction')]
 class TransactionController extends AbstractController
 {
+    private bool $submit;
+
+    public function __construct()
+    {
+        $this->submit = true; // Initialisation de la variable $public
+    }
+
     #[Route('/', name: 'op_gestapp_transaction_index', methods: ['GET'])]
     public function index(TransactionRepository $transactionRepository): Response
     {
@@ -79,8 +86,6 @@ class TransactionController extends AbstractController
             'form' => $form,
         ]);
     }
-
-
 
     #[Route('/add/{idproperty}', name: 'op_gestapp_transaction_add', methods: ['GET'])]
     public function add(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository)
@@ -249,7 +254,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addPromisePdf/{roleEditor}', name: 'op_gestapp_transaction_addpromisepdf', methods: ['GET', 'POST'])]
     public function addPromisePdf(
         Transaction $transaction,
-                    $roleEditor,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -257,7 +262,6 @@ class TransactionController extends AbstractController
         PropertyRepository $propertyRepository
     ) : response
     {
-        $submit = 0;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
@@ -338,7 +342,7 @@ class TransactionController extends AbstractController
                 $transaction->setPromisePdfFilename($newFilename);
                 $em->persist($transaction);
                 $em->flush();
-                if($submit == 1){
+                if($this->submit == true){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
                             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
