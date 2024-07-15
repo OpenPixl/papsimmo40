@@ -16,7 +16,10 @@
 /node_modules/
 /public/build/*.*
 /public/doc/report/
+/public/doc/pdf/
+/public/doc/mp4/
 /public/doc/transaction/
+/public/doc/word/
 /public/properties/
 npm-debug.log
 yarn-error.log

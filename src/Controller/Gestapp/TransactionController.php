@@ -50,7 +50,7 @@ class TransactionController extends AbstractController
         }else{
             $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId()]);
         }
-        
+
         return $this->render('gestapp/transaction/index.html.twig', [
             'transactions' => $transactions,
             'user' => $user
@@ -154,7 +154,7 @@ class TransactionController extends AbstractController
         CustomerChoiceRepository $customerChoiceRepository,
         Request $request,
         EntityManagerInterface $em
-        )
+    )
     {
         $user = $this->getUser();
         $property = $transaction->getProperty();
@@ -249,15 +249,14 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addPromisePdf/{roleEditor}', name: 'op_gestapp_transaction_addpromisepdf', methods: ['GET', 'POST'])]
     public function addPromisePdf(
         Transaction $transaction,
-        $roleEditor,
+                    $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
         SluggerInterface $slugger,
         PropertyRepository $propertyRepository
-        ) : response
+    ) : response
     {
-        //dd($roleEditor);
         $submit = 0;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
@@ -339,7 +338,7 @@ class TransactionController extends AbstractController
                 $transaction->setPromisePdfFilename($newFilename);
                 $em->persist($transaction);
                 $em->flush();
-                if($submit = 1){
+                if($submit == 1){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
                             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
@@ -400,7 +399,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validPromisePdf/{roleEditor}', name: 'op_gestapp_transaction_validpromisepdf', methods: ['GET', 'POST'])]
     public function validPromisePdf(
         Request $request,
-        $roleEditor,
+                $roleEditor,
         Transaction $transaction,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
@@ -420,7 +419,7 @@ class TransactionController extends AbstractController
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
 
-        if($submit = 1){
+        if($submit == 1){
             $email = (new TemplatedEmail())
                 ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
                 ->to($employedEmail)
@@ -565,7 +564,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addHonorairePdf/{roleEditor}', name: 'op_gestapp_transaction_addhonorairepdf', methods: ['GET', 'POST'])]
     public function addHonorairePdf(
         Transaction $transaction,
-        $roleEditor,
+                    $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -690,7 +689,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addActePdf/{roleEditor}', name: 'op_gestapp_transaction_addactepdf', methods: ['GET', 'POST'])]
     public function addActePdf(
         Transaction $transaction,
-        $roleEditor,
+                    $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -780,7 +779,7 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                if($submit= 1){
+                if($submit == 1){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
                             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
@@ -842,7 +841,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validActePdf/{roleEditor}', name: 'op_gestapp_transaction_validactepdf', methods: ['GET', 'POST'])]
     public function validActePdf(
         Request $request,
-        $roleEditor,
+                $roleEditor,
         Transaction $transaction,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer)
@@ -997,7 +996,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addTracfinPdf/{roleEditor}', name: 'op_gestapp_transaction_addtracfinpdf', methods: ['GET', 'POST'])]
     public function addTracfinPdf(
         Transaction $transaction,
-        $roleEditor,
+                    $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -1090,7 +1089,7 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                if($submit = 1){
+                if($submit == 1){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
                             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
@@ -1148,7 +1147,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validTracfinPdf/{roleEditor}', name: 'op_gestapp_transaction_validtracfinpdf', methods: ['GET', 'POST'])]
     public function validTracfinPdf(
         Request $request,
-        $roleEditor,
+                $roleEditor,
         Transaction $transaction,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
@@ -1167,7 +1166,7 @@ class TransactionController extends AbstractController
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
-        if($submit = 1){
+        if($submit == 1){
             $email = (new TemplatedEmail())
                 ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
                 ->to($employedEmail)
@@ -1302,7 +1301,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addinvoicePdf/{roleEditor}', name: 'op_gestapp_transaction_addinvoicepdf', methods: ['GET', 'POST'])]
     public function addInvoicePdf(
         Transaction $transaction,
-        $roleEditor,
+                    $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -1373,7 +1372,7 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                if($submit = 1){
+                if($submit == 1){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
                             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
@@ -1563,7 +1562,7 @@ class TransactionController extends AbstractController
         }
         $em->flush();
 
-        if($submit = 1){
+        if($submit == 1){
             $email = (new TemplatedEmail())
                 ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
                 ->to($email_resp)
