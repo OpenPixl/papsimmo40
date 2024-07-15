@@ -397,8 +397,14 @@ class TransactionController extends AbstractController
     }
 
     // Validation de la promesse de vente par un Administrateur
-    #[Route('/{id}/validPromisePdf', name: 'op_gestapp_transaction_validpromisepdf', methods: ['GET', 'POST'])]
-    public function validPromisePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
+    #[Route('/{id}/validPromisePdf/{roleEditor}', name: 'op_gestapp_transaction_validpromisepdf', methods: ['GET', 'POST'])]
+    public function validPromisePdf(
+        Request $request,
+        $roleEditor,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer
+    )
     {
         $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
@@ -445,10 +451,12 @@ class TransactionController extends AbstractController
                 'transaction' => $transaction,
             ]),
             'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
             'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
         ], 200);
     }
@@ -831,8 +839,13 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/validActePdf', name: 'op_gestapp_transaction_validactepdf', methods: ['GET', 'POST'])]
-    public function validActePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
+    #[Route('/{id}/validActePdf/{roleEditor}', name: 'op_gestapp_transaction_validactepdf', methods: ['GET', 'POST'])]
+    public function validActePdf(
+        Request $request,
+        $roleEditor,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer)
     {
         $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
@@ -874,10 +887,12 @@ class TransactionController extends AbstractController
             'message' => "Vous venez de valider la promesse de vente de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.",
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
             'row' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
 
         ], 200);
@@ -1130,8 +1145,14 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/validTracfinPdf', name: 'op_gestapp_transaction_validtracfinpdf', methods: ['GET', 'POST'])]
-    public function validTracfinPdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
+    #[Route('/{id}/validTracfinPdf/{roleEditor}', name: 'op_gestapp_transaction_validtracfinpdf', methods: ['GET', 'POST'])]
+    public function validTracfinPdf(
+        Request $request,
+        $roleEditor,
+        Transaction $transaction,
+        EntityManagerInterface $entityManager,
+        MailerInterface $mailer
+    )
     {
         $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
@@ -1174,10 +1195,12 @@ class TransactionController extends AbstractController
             'message' => "Vous venez de valider la promesse de vente de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.",
             'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
             'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ])
         ], 200);
     }
