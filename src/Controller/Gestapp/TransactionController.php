@@ -701,7 +701,6 @@ class TransactionController extends AbstractController
         SluggerInterface $slugger
     ) : response
     {
-        $submit = 0;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionActepdfType::class, $transaction, [
@@ -783,11 +782,11 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                if($submit == 1){
+                if($this->submit == true){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
                             ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                            ->to('contact@papsimmo.com')
+                            ->to('xavier.burke@openpixl.fr')
                             //->cc('cc@example.com')
                             //->bcc('bcc@example.com')
                             //->replyTo('fabien@example.com')

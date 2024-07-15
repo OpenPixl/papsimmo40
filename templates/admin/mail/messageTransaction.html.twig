@@ -5,7 +5,7 @@
     <div class="container">
         <div class="header text-center">
             <a href="{{ url('op_webapp_public_homepage') }}">
-                <img src="{{ absolute_url(asset('images/png/LogoPAPSimmo.png')) }}" class="logo" alt="Logo">
+                <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
             </a>
             <h1>[PAPs Immo] : Un document attends votre approbation.</h1>
         </div>
@@ -13,13 +13,30 @@
             <h3>Transaction n°: {{ transaction.name }}</h3>
             <hr>
             <h4>Bonjour,</h4>
-            <p>
-                Dans le cadre de la transaction immobilière {{ transaction.name }}, l'un de vos collaborateurs à déposer un document : {{ transaction.promisePdfFilename }}.
-                En cliquant sur le lien suivant vous pourrez-le controler.
-            </p>
+                {% if transaction.promisePdfFilename is not null and transaction.actePdfFilename is null and transaction.tracfinPdfFilename is null %}
+                    <p>
+                        Dans le cadre de la transaction immobilière {{ transaction.name }}, l'un de vos collaborateurs à déposer
+                        un compromis de vente : {{ transaction.promisePdfFilename }}.<br>
+                        En cliquant sur le lien suivant vous pourrez-le controler.
+                    </p>
+
+                {% elseif transaction.promisePdfFilename is not null and transaction.actePdfFilename is not null and transaction.tracfinPdfFilename is null %}
+                    <p>
+                        Dans le cadre de la transaction immobilière {{ transaction.name }}, l'un de vos collaborateurs à déposer
+                        une attestation de vente : {{ transaction.actePdfFilename }}.<br>
+                        En cliquant sur le lien suivant vous pourrez-le controler.
+                    </p>
+                {% elseif transaction.promisePdfFilename is not null and transaction.actePdfFilename is not null and transaction.tracfinPdfFilename is not null %}
+                    <p>
+                        Dans le cadre de la transaction immobilière {{ transaction.name }}, l'un de vos collaborateurs à déposer
+                    un tracfin : {{ transaction.tracfinPdfFilename }}.<br>
+                        En cliquant sur le lien suivant vous pourrez-le controler.
+                    </p>
+                {% endif%}
             <p>
                 <a class="btn" href="https://{{ url }}{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
             </p>
+
         </div>
     </div>
 </div>
