@@ -32,7 +32,7 @@
                         {% set compteur = 0 %}
 
                         {% for mot in mots %}
-                            {% if compteur == 10 %}
+                            {% if compteur == 18 %}
                                 {% set nouveau_texte = nouveau_texte ~ '<br>' %}
                                 {% set compteur = 0 %}
                             {% endif %}
@@ -93,7 +93,7 @@
                                     {% set refyear = property.ref|split('/',2)|first %}
                                     {% set refnumber = property.ref|split('/',2)|last %}
                                     <div class="card">
-                                        <img src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl) }}" class="card-img-top" alt="{{ property.qrcodeUrl }}">
+                                        <img src="{{ absolute_url(asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl)) }}" class="card-img-top" alt="{{ property.qrcodeUrl }}">
                                     </div>
                                 {% else %}
                                 {% endif %}
