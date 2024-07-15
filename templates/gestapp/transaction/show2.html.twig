@@ -50,7 +50,7 @@
                         {% if transaction.refEmployed.id == app.user.id %}
                             Porté par : <b>Moi même</b>
                         {% else %}
-                            Porté par : <b>{% if transaction.refEmployed.civility == 2 %}Mme{% else %}M. {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}</b>
+                            Porté par : <b>{% if transaction.refEmployed.civility == 2 %}Mme {% else %}M. {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}</b>
                         {% endif %}
                     </p>
                 </div>

@@ -18,7 +18,7 @@ let btnAddActePdfControl = document.getElementById('btnAddActePdfControl');
 let btnEditActePdf = document.getElementById('btnEditActePdf');
 
 let btnAddTracfinPdf = document.getElementById('btnAddTracfinPdf');
-let btnAddTracfinPdfbyColl = document.getElementById('btnAddTracfinPdfbyColl');
+let btnAddTracfinPdfbyColl = document.querySelector('#rowTracfinPdf #btnAddTracfinPdfbyColl');
 let btnAddTracfinPdfControl = document.getElementById('btnAddTracfinPdfControl');
 let btnEditTracfinPdf = document.getElementById('btnEditTracfinPdf');
 
@@ -359,7 +359,6 @@ if(document.querySelector(".supprCollInv") !== null){
     document.querySelector(".supprCollInv").addEventListener('click', supprInvoiceColl);
 }
 
-
 btnDelCustommer.addEventListener('click', dellCustomer);
 
 function submitCustomer(event){
@@ -412,6 +411,11 @@ function submitDatePromise(event){
     let form = document.getElementById('addDatePromiseForm');
     let action = form.action;
     let data = new FormData(form);
+    let dateAtPromise = document.getElementById('transactionstep2_dateAtPromise').value;
+    if(!dateAtPromise){
+        alert( "Aucune date n'a été renseignée ! veuillez compléter le champs" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -432,6 +436,11 @@ function submitPromisePdf(){
     let form = document.getElementById('transactionstep3');
     let action = form.action;
     let data = new FormData(form);
+    let promisePdfFilename = document.getElementById('transactionstep3_promisePdfFilename').value;
+    if(!promisePdfFilename){
+        alert( "Veuillez charger un document" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -453,6 +462,11 @@ function editPromisePdf(){
     let form = document.getElementById('transactionstep3');
     let action = form.action;
     let data = new FormData(form);
+    let promisePdfFilename = document.getElementById('transactionstep3_promisePdfFilename').value;
+    if(!promisePdfFilename){
+        alert( "Veuillez charger un document" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -471,6 +485,11 @@ function submitPromisePdfbyColl(){
     let form = document.getElementById('transactionstep3');
     let action = form.action;
     let data = new FormData(form);
+    let promisePdfFilename = document.getElementById('transactionstep3_promisePdfFilename').value;
+    if(!promisePdfFilename){
+        alert( "Veuillez charger un document" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -510,6 +529,11 @@ function submitDateActe(event){
     let form = document.getElementById('addDateActeForm');
     let action = form.action;
     let data = new FormData(form);
+    let dateAtSale = document.getElementById('transaction_actedate_dateAtSale').value;
+    if(!dateAtSale){
+        alert( "Aucune date n'a été renseignée ! veuillez compléter le champs" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -529,6 +553,11 @@ function submitActePdf(event){
     let form = document.getElementById('transactionactepdf');
     let action = form.action;
     let data = new FormData(form);
+    let actePdfFilename = document.getElementById('transaction_actepdf_actePdfFilename').value;
+    if(!actePdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -548,6 +577,11 @@ function editActePdf(event){
     let form = document.getElementById('transactionactepdf');
     let action = form.action;
     let data = new FormData(form);
+    let actePdfFilename = document.getElementById('transaction_actepdf_actePdfFilename').value;
+    if(!actePdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -564,12 +598,17 @@ function submitActePdfbyColl(){
     let form = document.getElementById('transactionactepdf');
     let action = form.action;
     let data = new FormData(form);
+    let actePdfFilename = document.getElementById('transaction_actepdf_actePdfFilename').value;
+    if(!actePdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
             document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
             document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
-            window.location.reload();
+            allAddEvent();
             toasterMessage(response.data.message);
         })
         .catch(function (error) {
@@ -601,6 +640,11 @@ function submitTracfinPdf(event){
     let form = document.getElementById('transactiontracfinpdf');
     let action = form.action;
     let data = new FormData(form);
+    let tracfinPdfFilename = document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').value;
+    if(!tracfinPdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -620,6 +664,11 @@ function editTracfinPdf(event){
     let form = document.getElementById('transactiontracfinpdf');
     let action = form.action;
     let data = new FormData(form);
+    let tracfinPdfFilename = document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').value;
+    if(!tracfinPdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -636,6 +685,11 @@ function submitTracfinPdfbyColl(){
     let form = document.getElementById('transactiontracfinpdf');
     let action = form.action;
     let data = new FormData(form);
+    let tracfinPdfFilename = document.getElementById('transaction_tracfinpdf_tracfinPdfFilename').value;
+    if(!tracfinPdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -667,13 +721,18 @@ function submitTracfinPdfControl(event){
 }
 
 // ------------------------------------------------------------------------------------------
-// Actions sur le dépôt du TracFin
+// Actions sur le dépôt honoraire
 // ------------------------------------------------------------------------------------------
 
 function submitInvoicePdf(event){
     let form = document.getElementById('transactioninvoicepdf');
     let action = form.action;
     let data = new FormData(form);
+    let invoicePdfFilename = document.getElementById('transaction_invoicepdf_invoicePdfFilename').value;
+    if(!invoicePdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -690,6 +749,11 @@ function editInvoicePdf(event){
     let form = document.getElementById('transactioninvoicepdf');
     let action = form.action;
     let data = new FormData(form);
+    let invoicePdfFilename = document.getElementById('transaction_invoicepdf_invoicePdfFilename').value;
+    if(!invoicePdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -706,6 +770,11 @@ function submitInvoicePdfbyColl(){
     let form = document.getElementById('transactioninvoicepdf');
     let action = form.action;
     let data = new FormData(form);
+    let invoicePdfFilename = document.getElementById('transaction_invoicepdf_invoicePdfFilename').value;
+    if(!invoicePdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -735,8 +804,6 @@ function submitInvoicePdfControl(event){
         })
     ;
 }
-
-
 
 // ------------------------------------------------------------------------------------------
 // Fonctions collaborateurs
@@ -859,6 +926,11 @@ function submitHonoraires(event){
     let form = document.getElementById('transactionhonoraires');
     let action = form.action;
     let data = new FormData(form);
+    let honorairesPdfFilename = document.getElementById('transaction_honoraires_honorairesPdfFilename').value;
+    if(!honorairesPdfFilename){
+        alert( "Veuillez charger un document !" );
+        return false;
+    }
     axios
         .post(action, data)
         .then(function(response){
@@ -889,7 +961,7 @@ function allAddEvent(){
     if(btnEditActePdf !== null){btnEditActePdf.addEventListener('click', editActePdf);}
 // Tracfin
     if(btnAddTracfinPdf !== null){btnAddTracfinPdf.addEventListener('click', submitTracfinPdf);}
-    if(btnAddTracfinPdfbyColl !== null){btnAddTracfinPdfbyColl.addEventListener('click', submitTracfinPdfbyColl);}
+    if(document.querySelector('#rowTracfinPdf #btnAddTracfinPdfbyColl') !== null){document.querySelector('#rowTracfinPdf #btnAddTracfinPdfbyColl').addEventListener('click', submitTracfinPdfbyColl);}
     if(btnAddTracfinPdfControl !== null){btnAddTracfinPdfControl.addEventListener('click', submitTracfinPdfControl);}
     if(btnEditTracfinPdf !== null){btnEditTracfinPdf.addEventListener('click', editTracfinPdf);}
 // Facture
