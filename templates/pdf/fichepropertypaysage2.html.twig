@@ -20,7 +20,7 @@
                 <div id="imgs" class="row g-2">
                     {% for p in threephotos %}
                         <div class="col-4">
-                            <img class="img-fluid rounded-2" src="{{ asset('properties/' ~ p.path ~ '/' ~ p.galeryFrontName)|imagine_filter('oneproperty_image') }}" alt="{{ p.galeryFrontName }}">
+                            <img class="img-fluid rounded-2" src="{{ asset('properties/' ~ p.path ~ '/' ~ p.galeryFrontName)|imagine_filter('oneproperty_imagelandscape') }}" alt="{{ p.galeryFrontName }}">
                         </div>
                     {% else %}
                         <div class="col-4">
