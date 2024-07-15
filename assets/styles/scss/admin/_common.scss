@@ -6,6 +6,23 @@ $width-content-large: calc(100% - 12rem);
 
 main{
   margin-top: 66px;
+  #content{
+    #listeIncreating{
+      .card{
+        .card-body{
+          .card-title{
+              font-size:1rem;
+              small{
+                font-size: 0.9rem;
+              }
+          }
+          .card-text{
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
 }
 footer{
   color: #ffffff;

@@ -84,7 +84,9 @@ class EmployedRepository extends ServiceEntityRepository implements PasswordUpgr
                 e.lastName as lastName
             ')
             ->andWhere('e.isVerified = :isVerified')
+            ->andWhere('e.roles like :roles')
             ->setParameter('isVerified', 1)
+            ->setParameter('roles', '["ROLE_EMPLOYED"]')
             ->orderBy('e.id', 'ASC')
             ->getQuery()
             ->getResult()

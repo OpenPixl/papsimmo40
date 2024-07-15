@@ -35,7 +35,7 @@ class Transactionstep4Type extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '10238k',
+                        'maxSize' => '20476k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
