@@ -1,10 +1,31 @@
-<h1>[PAPs Immo] : Document Vérifié</h1>
-<h3>Transaction n°: {{ transaction.name }}</h3>
-<hr>
-<h4>Bonjour,</h4>
-<p>
-    Le document présenté a été vérifié par un administrateur.
-    <br>
-    Vous pouvez continuer votre démarche de vente en cliquant sur le lien suivant.
-    <a href="https://{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
-</p>
+<!doctype html>
+<html lang="fr">
+{{ include('admin/mail/include/head.html.twig') }}
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <a href="{{ url('op_webapp_public_homepage') }}">
+                <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
+            </a>
+            <h1>[PAPs Immo] : Document Vérifié</h1>
+        </div>
+        <div class="content">
+            <h3>Transaction n°: {{ transaction.name }}</h3>
+            <hr>
+            <h4>Bonjour,</h4>
+            <p>
+                Le document présenté a été vérifié par un administrateur.
+                <br>
+                Vous pouvez continuer votre démarche de vente en cliquant sur la plateforme "SoftPAPs" en cliquant le lien suivant.
+            </p>
+            <p>
+                <a class="btn" href="https://{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
+            </p>
+        </div>
+    </div>
+</div>
+
+
+
+
+

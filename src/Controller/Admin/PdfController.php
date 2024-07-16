@@ -31,17 +31,18 @@ class PdfController extends AbstractController
 {
     private Environment $twig;
     private Pdf $pdf;
+    private bool $html;
 
     public function __construct(Environment $twig, Pdf $pdf)
     {
         $this->twig = $twig;
         $this->pdf = $pdf;
+        $this->html = true;
     }
 
     #[Route('/admin/pdf/Property/fiche/{id}', name: 'op_admin_pdf_property', methods: ['GET'])]
     public function FicheProperty(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
-        $html = 0; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         //dd($property);
         $options = $property->getOptions();
@@ -52,10 +53,8 @@ class PdfController extends AbstractController
         $otheroptions = $options->getPropertyOtheroption();
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
-        //dd($photos);
 
-        if($html==1){
-            //dd($oneproperty);
+        if($this->html == 1){
             return $this->render(
                 'pdf/ficheproperty.html.twig', array(
                 'property'  => $oneproperty,
@@ -90,7 +89,6 @@ class PdfController extends AbstractController
     #[Route('/admin/pdf/Property/ficheagencepaysage/{id}', name: 'op_admin_pdf_ficheagencepaysage', methods: ['GET'])]
     public function FicheAgencePaysage(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
-        $html = 0; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         //dd($property);
         $options = $property->getOptions();
@@ -100,7 +98,7 @@ class PdfController extends AbstractController
         $otheroptions = $options->getPropertyOtheroption();
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
-        if($html==1){
+        if($this->html == 1){
             return $this->render(
                 'pdf/fichepropertypaysage2.html.twig', array(
                 'property'  => $oneproperty,
@@ -131,7 +129,6 @@ class PdfController extends AbstractController
     #[Route('/admin/pdf/Property/ficheagenceportrait/{id}', name: 'op_admin_pdf_ficheagenceportrait', methods: ['GET'])]
     public function FicheAgencePortrait(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
-        $html = 0; // variable pour basculer du mode pdf au mode html
         $oneproperty = $propertyRepository->oneProperty($property->getId());
         //dd($property);
         $options = $property->getOptions();
@@ -143,7 +140,7 @@ class PdfController extends AbstractController
         $otheroptions = $options->getPropertyOtheroption();
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
-        if($html==1){
+        if($this->html == 1){
             return $this->render(
                 'pdf/ficheproperty2.html.twig', array(
                 'property'  => $oneproperty,
@@ -172,7 +169,6 @@ class PdfController extends AbstractController
             );
         }
     }
-
 
     #[Route('/admin/pdf/Property/dip/{id}', name: 'op_admin_pdf_dip', methods: ['GET'])]
     public function dip(

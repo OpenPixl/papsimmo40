@@ -39,9 +39,8 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/gestapp/propertypublic')]
 class PropertypublicController extends AbstractController
 {
-    /**
-     * Liste les 10 derniers biens immobiliers sur la page d'accueil.
-     */
+
+    // Liste les 10 derniers biens immobiliers sur la page d'accueil.
     #[Route('/lastproperty', name: 'op_gestapp_properties_lastproperty', methods: ['GET'])]
     public function LastProperty(PropertyRepository $propertyRepository)
     {
@@ -55,9 +54,8 @@ class PropertypublicController extends AbstractController
 
     }
 
-    /**
-     * Affiche la description conmplete d'un bien sur la page "nos biens"
-     */
+
+    // Affiche la description conmplete d'un bien sur la page "nos biens"
     #[Route('/oneproperty/{id}', name: 'op_gestapp_properties_oneproperty', methods: ['GET'])]
     public function OneProperty(Property $property, PropertyRepository $propertyRepository, PhotoRepository $photoRepository, EmployedRepository $employedRepository)
     {
@@ -79,9 +77,7 @@ class PropertypublicController extends AbstractController
         ]);
     }
 
-    /**
-     * Affiche tous les biens immobiliers dans la section adaptée".
-     */
+    // Affiche tous les biens immobiliers dans la section adaptée".
     #[Route('/allpropertiessales', name: 'op_gestapp_properties_allpropertysales', methods: ['GET'])]
     public function AllPropertiesSales(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request)
     {
@@ -115,9 +111,7 @@ class PropertypublicController extends AbstractController
         }
     }
 
-    /**
-     * Affiche tous les biens immobiliers dans la section adaptée".
-     */
+    // Affiche tous les biens immobiliers dans la section adaptée".
     #[Route('/allpropertiesrent', name: 'op_gestapp_properties_allpropertyrent', methods: ['GET'])]
     public function AllPropertiesRent(PropertyRepository $propertyRepository, PaginatorInterface $paginator, Request $request): Response
     {
@@ -140,11 +134,7 @@ class PropertypublicController extends AbstractController
 
     }
 
-
-
-    /**
-     * Mettre en place l'archivage d'un bien selon une date de fin de mandat
-     */
+    //Mettre en place l'archivage d'un bien selon une date de fin de mandat
     #[Route('/add_dateendmandat/{id}', name: 'op_gestapp_properties_adddateendmandat', methods: ['GET','POST'])]
     public function addDateEndMandat(Property $property, PropertyRepository $propertyRepository, Request $request, PaginatorInterface $paginator)
     {
@@ -207,9 +197,7 @@ class PropertypublicController extends AbstractController
 
     }
 
-    /**
-     * Annule l'archivage d'un bien selon une date de fin de mandat
-     */
+    // Annule l'archivage d'un bien selon une date de fin de mandat
     #[Route('/dis_dateendmandat/{id}', name: 'op_gestapp_properties_disdateendmandat', methods: ['GET','POST'])]
     public function disDateEndMandat(Property $property, PropertyRepository $propertyRepository, Request $request, PaginatorInterface $paginator)
     {

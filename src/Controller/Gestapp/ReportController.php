@@ -710,9 +710,7 @@ class ReportController extends AbstractController
         return $response;
     }
 
-    /**
-     * Génération du Fichiers XML pour green-acres
-     **/
+    // Génération du Fichiers XML pour green-acres
     #[Route('/report/annoncesGreenAcres', name: 'app_gestapp_report_annoncesgreenacres')]
     public function PropertyGreenAcres(
         PropertyRepository   $propertyRepository,
@@ -926,7 +924,6 @@ class ReportController extends AbstractController
             array_push($adverts, $xml);
 
         }
-        dd($adverts);
         $xmlContent = $this->renderView('gestapp/report/greenacrees.html.twig', [
             'adverts' => $adverts
         ]);

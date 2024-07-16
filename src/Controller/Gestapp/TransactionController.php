@@ -2,6 +2,7 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Entity\Admin\Application;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Transaction;
 use App\Form\Gestapp\Customer2Type;
@@ -33,17 +34,17 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
-use function Symfony\Component\Clock\now;
 
 #[Route('/gestapp/transaction')]
 class TransactionController extends AbstractController
 {
     private bool $submit;
+    private Application $application;
 
-    public function __construct()
+    public function __construct(EntityManagerInterface $entityManager)
     {
         $this->submit = true; // Initialisation de la variable $public
+        $this->application = $entityManager->getRepository(Application::class)->find(1);
     }
 
     #[Route('/', name: 'op_gestapp_transaction_index', methods: ['GET'])]
@@ -345,8 +346,8 @@ class TransactionController extends AbstractController
                 if($this->submit == true){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
-                            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                            ->to('xavier.burke@openpixl.fr')
+                            ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'))
+                            ->to($this->application->getAdminEmail())
                             //->cc('cc@example.com')
                             //->bcc('bcc@example.com')
                             //->replyTo('fabien@example.com')
@@ -403,13 +404,12 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validPromisePdf/{roleEditor}', name: 'op_gestapp_transaction_validpromisepdf', methods: ['GET', 'POST'])]
     public function validPromisePdf(
         Request $request,
-                $roleEditor,
+        $roleEditor,
         Transaction $transaction,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
     )
     {
-        $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -422,11 +422,19 @@ class TransactionController extends AbstractController
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
-
-        if($submit == 1){
+        $fullHttp = $request->getUri();
+        $host = parse_url($fullHttp, PHP_URL_HOST);
+        if($this->submit == true){
             $email = (new TemplatedEmail())
-                ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                ->to($employedEmail)
+                ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'));
+            if($host == '127.0.0.1'){
+                $email
+                    ->to('xavier.burke@openpixl.fr');
+            }else{
+                $email
+                    ->to($employedEmail);
+            }
+            $email
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
@@ -474,7 +482,6 @@ class TransactionController extends AbstractController
         PropertyRepository $propertyRepository,
         SluggerInterface $slugger)
     {
-        $submit = 0;
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
         $ref = explode("/", $property->getRef());
@@ -785,8 +792,8 @@ class TransactionController extends AbstractController
                 if($this->submit == true){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
-                            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                            ->to('xavier.burke@openpixl.fr')
+                            ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'))
+                            ->to($this->application->getAdminEmail())
                             //->cc('cc@example.com')
                             //->bcc('bcc@example.com')
                             //->replyTo('fabien@example.com')
@@ -849,7 +856,6 @@ class TransactionController extends AbstractController
         EntityManagerInterface $entityManager,
         MailerInterface $mailer)
     {
-        $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -862,10 +868,19 @@ class TransactionController extends AbstractController
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
-        if($submit = 1){
+        $fullHttp = $request->getUri();
+        $host = parse_url($fullHttp, PHP_URL_HOST);
+        if($this->submit == true){
             $email = (new TemplatedEmail())
-                ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                ->to($employedEmail)
+                ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'));
+            if($host == '127.0.0.1'){
+                $email
+                    ->to('xavier.burke@openpixl.fr');
+            }else{
+                $email
+                    ->to($employedEmail);
+            }
+            $email
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
@@ -1007,7 +1022,6 @@ class TransactionController extends AbstractController
         SluggerInterface $slugger
     ) : response
     {
-        $submit = 0;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionTracfinpdfType::class, $transaction, [
@@ -1092,11 +1106,11 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
-                if($submit == 1){
+                if($this->submit == 1){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
-                            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                            ->to('contact@papsimmo.com')
+                            ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'))
+                            ->to($this->application->getAdminEmail())
                             //->cc('cc@example.com')
                             //->bcc('bcc@example.com')
                             //->replyTo('fabien@example.com')
@@ -1150,13 +1164,12 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validTracfinPdf/{roleEditor}', name: 'op_gestapp_transaction_validtracfinpdf', methods: ['GET', 'POST'])]
     public function validTracfinPdf(
         Request $request,
-                $roleEditor,
+        $roleEditor,
         Transaction $transaction,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
     )
     {
-        $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -1169,10 +1182,19 @@ class TransactionController extends AbstractController
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
-        if($submit == 1){
+        $fullHttp = $request->getUri();
+        $host = parse_url($fullHttp, PHP_URL_HOST);
+        if($this->submit == true){
             $email = (new TemplatedEmail())
-                ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
-                ->to($employedEmail)
+                ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'));
+            if($host == '127.0.0.1'){
+                $email
+                    ->to('xavier.burke@openpixl.fr');
+            }else{
+                $email
+                    ->to($employedEmail);
+            }
+            $email
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
@@ -1217,7 +1239,6 @@ class TransactionController extends AbstractController
         PropertyRepository $propertyRepository,
         SluggerInterface $slugger)
     {
-        $submit = 0;
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
         $ref = explode("/", $property->getRef());

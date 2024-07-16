@@ -122,7 +122,6 @@ class CartController extends AbstractController
     public function showCart(Request $request, EntityManagerInterface $em, CartRepository $cartRepository)
     {
         $user = $this->getUser();
-        /** Pour l'ajout de la livraison **/
         $form = $this->createForm(CartConfirmationType::class);
 
         //Récupération de l'id de session et des personnalisation

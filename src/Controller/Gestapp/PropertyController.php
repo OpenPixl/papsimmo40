@@ -99,9 +99,7 @@ class PropertyController extends AbstractController
         }
     }
 
-    /**
-     * Affiche tous les biens immobiliers en location dans la section adaptée".
-     */
+    // Affiche tous les biens immobiliers en location dans la section adaptée".
     #[Route('/allRentCommerce', name: 'op_gestapp_properties_allrentcommerce', methods: ['GET'])]
     public function AllRentCommerce(
         PropertyRepository $propertyRepository,

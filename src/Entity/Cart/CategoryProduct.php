@@ -43,9 +43,7 @@ class CategoryProduct
         return $this;
     }
 
-    /**
-     * @return Collection<int, Cart>
-     */
+    // Obtenir le panier
     public function getCarts(): Collection
     {
         return $this->carts;

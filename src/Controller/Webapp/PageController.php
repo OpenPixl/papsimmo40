@@ -104,9 +104,7 @@ class PageController extends AbstractController
         ], 200);
     }
 
-    /**
-     * affiche la page en front office selon le slug
-     */
+    // affiche la page en front office selon le slug
     #[Route('/slug/{slug}', name:'op_webapp_page_slug' , methods: ["GET"])]
     public function slug($slug, PageRepository $pageRepository, SectionRepository $sectionRepository) : response
     {
@@ -119,9 +117,7 @@ class PageController extends AbstractController
         ]);
     }
 
-    /**
-     * Création du formulaire de recherche de biens depuis la page d'accueil
-     */
+    // Création du formulaire de recherche de biens depuis la page d'accueil
     #[Route('/search/propertyhome', name:'op_webapp_page_searchpropertyhome' , methods: ["POST", "GET"])]
     public function formSearchPropertyHome(PropertyRepository $propertyRepository, Request $request) : response
     {
@@ -150,9 +146,7 @@ class PageController extends AbstractController
 
     }
 
-    /**
-     * Création du formulaire de recherche de biens depuis la page d'accueil
-     */
+    // Création du formulaire de recherche de biens depuis la page d'accueil
     #[Route('/search/propertyhomecomplete', name:'op_webapp_page_searchpropertyhomecomplete' , methods: ["POST", "GET"])]
     public function formSearchPropertyHomeComplete(PropertyRepository $propertyRepository, Request $request) : response
     {

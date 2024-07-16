@@ -65,9 +65,7 @@ class DashboardController extends AbstractController
         ]);
     }
 
-    /**
-     * Personnalisation de la navbar
-     */
+    // Personnalisation de la navbar
     #[Route("/webapp/public/menus", name:'op_webapp_public_listmenus')]
     public function NavBar(ApplicationRepository $applicationRepository,Request $request): Response
     {

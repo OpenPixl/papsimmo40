@@ -481,15 +481,7 @@ class CustomerController extends AbstractController
         return $this->redirectToRoute('op_gestapp_customer_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    /**
-     * @param Request $request
-     * @param Customer $customer
-     * @param CustomerRepository $customerRepository
-     * @return Response
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
-     * Suppression d'un client depuis la page index "Client"
-     */
+    // Suppression d'un client depuis la page index "Client"
     #[Route('/del/{id}', name: 'op_gestapp_customer_del', methods: ['POST'])]
     public function del(Request $request, Customer $customer, CustomerRepository $customerRepository, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
     {

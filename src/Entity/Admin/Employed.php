@@ -370,9 +370,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['employed:list', 'employed:item', 'employed:write:post', 'employed:write:patch', 'employed:reco', 'prescriber:write:post', 'transaction:list', 'reco:list'])]
     private ?string $civility = null;
 
-    /**
-     * @var Collection<int, Account>
-     */
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Account::class)]
     private Collection $accounts;
 
@@ -392,10 +389,8 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->accounts = new ArrayCollection();
     }
 
-    /**
-     * Permet d'initialiser le slug !
-     * Utilisation de slugify pour transformer une chaine de caractères en slug
-     */
+    // Permet d'initialiser le slug !
+    // Utilisation de slugify pour transformer une chaine de caractères en slug
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function initializeSlug() {
@@ -420,19 +415,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * A visual identifier that represents this user.
-     *
-     * @see UserInterface
-     */
     public function getUserIdentifier(): string
     {
         return (string) $this->email;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function getRoles(): array
     {
         $roles = $this->roles;
@@ -449,9 +436,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see PasswordAuthenticatedUserInterface
-     */
     public function getPassword(): string
     {
         return $this->password;
@@ -464,9 +448,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @see UserInterface
-     */
     public function eraseCredentials()
     {
         // If you store any temporary, sensitive data on the user, clear it here
@@ -557,14 +538,11 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * Si vous téléchargez manuellement un fichier (c'est-à-dire sans utiliser Symfony Form),
-     * assurez-vous qu'une instance de "UploadedFile" est injectée dans ce paramètre pour déclencher la mise à jour.
-     * Si le paramètre de configuration 'inject_on_load' de ce bundle est défini sur 'true', ce setter doit être
-     * capable d'accepter une instance de 'File' car le bundle en injectera une ici pendant l'hydratation de Doctrine.
-     *
-     * @param File|\Symfony\Component\HttpFoundation\File\UploadedFile|null $avatarFile
-     */
+
+    // Si vous téléchargez manuellement un fichier (c'est-à-dire sans utiliser Symfony Form),
+    // assurez-vous qu'une instance de "UploadedFile" est injectée dans ce paramètre pour déclencher la mise à jour.
+    // Si le paramètre de configuration 'inject_on_load' de ce bundle est défini sur 'true', ce setter doit être
+    // capable d'accepter une instance de 'File' car le bundle en injectera une ici pendant l'hydratation de Doctrine.
     public function setAvatarFile(?File $avatarFile = null): void
     {
         $this->avatarFile = $avatarFile;
@@ -729,9 +707,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->firstName." ".$this->lastName;
     }
 
-    /**
-     * @return Collection<int, Customer>
-     */
     public function getCustomer(): Collection
     {
         return $this->Customer;
@@ -759,9 +734,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Property>
-     */
     public function getProperties(): Collection
     {
         return $this->properties;
@@ -789,9 +761,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Project>
-     */
     public function getProjects(): Collection
     {
         return $this->projects;
@@ -819,9 +788,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Articles>
-     */
     public function getArticles(): Collection
     {
         return $this->articles;
@@ -849,9 +815,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Section>
-     */
     public function getSections(): Collection
     {
         return $this->sections;
@@ -879,9 +842,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Page>
-     */
     public function getPages(): Collection
     {
         return $this->pages;
@@ -909,9 +869,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Contact>
-     */
     public function getContacts(): Collection
     {
         return $this->contacts;
@@ -987,9 +944,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Transaction>
-     */
     public function getTransactions(): Collection
     {
         return $this->transactions;
@@ -1017,9 +971,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Reco>
-     */
     public function getRecos(): Collection
     {
         return $this->recos;
@@ -1095,9 +1046,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Purchase>
-     */
     public function getPurchases(): Collection
     {
         return $this->purchases;
@@ -1125,9 +1073,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Cart>
-     */
     public function getCarts(): Collection
     {
         return $this->carts;
@@ -1215,9 +1160,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, AddCollTransac>
-     */
     public function getAddCollTransacs(): Collection
     {
         return $this->addCollTransacs;
@@ -1257,9 +1199,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    /**
-     * @return Collection<int, Account>
-     */
     public function getAccounts(): Collection
     {
         return $this->accounts;

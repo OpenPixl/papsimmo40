@@ -73,14 +73,7 @@ class ContactController extends AbstractController
         ], 200);
     }
 
-    /***
-     * Envoie d'un message depuis le Footer de la page.
-     *
-     * @param Request $request
-     * @param ContactRepository $contactRepository
-     * @param MailerInterface $mailer
-     * @return Response
-     */
+    // Envoie d'un message depuis le Footer de la page.
     #[Route('/new', name: 'op_admin_contact_new', methods: ['GET', 'POST'])]
     public function new(Request $request, ContactRepository $contactRepository, MailerInterface $mailer): Response
     {

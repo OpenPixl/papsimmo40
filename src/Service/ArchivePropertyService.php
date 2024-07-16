@@ -20,9 +20,7 @@ class ArchivePropertyService{
     )
     {}
 
-    /**
-     * Mets en archive les biens possédant une date de fin de mandat
-     */
+    // Mets en archive les biens possédant une date de fin de mandat
     public function onArchive(PropertyRepository $propertyRepository)
     {
         $now = new \DateTime('now');
@@ -37,9 +35,7 @@ class ArchivePropertyService{
         }
     }
 
-    /**
-     * Supprime les biens archivés au bout de trois mois en archive
-     */
+    // Supprime les biens archivés au bout de trois mois en archive
     public function DelArchived(
         Property $property,
         PhotoRepository $photoRepository,

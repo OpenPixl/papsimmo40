@@ -28,7 +28,7 @@ let btnAddInvoicePdfControl = document.getElementById('btnAddInvoicePdfControl')
 let btnEditInvoicePdf = document.getElementById('btnEditInvoicePdf');
 
 let btnDocumentPdfError = document.getElementById('btnDocumentPdfError');
-let btnHonorairePdf = document.getElementById('btnHonorairePdf');
+let btnHonorairePdf = document.querySelector('#rowHonorairesPdf #btnHonorairePdf');
 let btnSubmitColl = document.getElementById('btnSubmitColl');
 
 if(document.querySelector('.supprDocument') !== null){
@@ -887,6 +887,7 @@ function supprDocument(event){
             else if(idRow === 'rowHonorairesPdf'){
                 document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             }
+            allAddEvent();
         })
         .catch(function(error){
             console.log(error);
@@ -923,10 +924,10 @@ function errorDocument(event){
 
 function submitHonoraires(event){
     event.preventDefault();
-    let form = document.getElementById('transactionhonoraires');
+    let form = document.querySelector('#rowHonorairesPdf #transactionhonoraires');
     let action = form.action;
     let data = new FormData(form);
-    let honorairesPdfFilename = document.getElementById('transaction_honoraires_honorairesPdfFilename').value;
+    let honorairesPdfFilename = document.querySelector('#rowHonorairesPdf #transaction_honoraires_honorairesPdfFilename').value;
     if(!honorairesPdfFilename){
         alert( "Veuillez charger un document !" );
         return false;
@@ -981,7 +982,7 @@ function allAddEvent(){
         });
     }
     if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
-    if(btnHonorairePdf !== null){btnHonorairePdf.addEventListener('click', submitHonoraires);}
+    if(document.querySelector('#rowHonorairesPdf #btnHonorairePdf') !== null){document.querySelector('#rowHonorairesPdf #btnHonorairePdf').addEventListener('click', submitHonoraires);}
 }
 
 

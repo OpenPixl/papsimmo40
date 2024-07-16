@@ -56,9 +56,7 @@ class PublicController extends AbstractController
         }
     }
 
-    /**
-     * Fonction d'affichage de la page hors ligne du site
-     */
+    // Fonction d'affichage de la page hors ligne du site
     #[route("/webapp/public/offline", name: 'op_webapp_public_offline')]
     public function Offline(EntityManagerInterface $em): Response
     {
@@ -80,10 +78,7 @@ class PublicController extends AbstractController
     }
 
 
-    /**
-     * @return Response
-     * Fonction d'inclusion des balises "meta" pour le référencement
-     */
+    // Fonction d'inclusion des balises "meta" pour le référencement
     public function meta(EntityManagerInterface $em): Response
     {
         $application = $em->getRepository(Application::class)->find(1);
@@ -93,9 +88,7 @@ class PublicController extends AbstractController
         ]);
     }
 
-    /**
-     * Affiche les différents menus sur la page d'accueil
-     */
+    // Affiche les différents menus sur la page d'accueil
     #[Route("/webapp/public/menus/{route}", name: 'op_webapp_public_listmenus')]
     public function BlocMenu(PageRepository $pageRepository, ApplicationRepository $applicationRepository, PropertyRepository $propertyRepository, Request $request, $route): Response
     {
@@ -113,9 +106,7 @@ class PublicController extends AbstractController
         ]);
     }
 
-    /**
-     * Affiche le bottom footer
-     */
+    // Affiche le bottom footer
     #[Route("/webapp/public/footer/top", name: 'op_webapp_public_topfooter')]
     public function topFooter(PageRepository $pageRepository, ApplicationRepository $applicationRepository, Request $request): Response
     {
@@ -130,9 +121,7 @@ class PublicController extends AbstractController
         ]);
     }
 
-    /**
-     * Affiche le bottom footer
-     */
+    //Affiche le bottom footer
     #[Route("/webapp/public/footer/bottom", name: 'op_webapp_public_bottomfooter')]
     public function bottomFooter(ApplicationRepository $applicationRepository, Request $request): Response
     {

@@ -26,8 +26,6 @@ class Product
     #[ORM\Column(type: 'text', nullable: true)]
     private ?string $descriptif = null;
 
-
-
     #[ORM\ManyToOne]
     private ?CategoryProduct $Category = null;
 
@@ -54,7 +52,6 @@ class Product
     {
         $this->carts = new ArrayCollection();
     }
-
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
@@ -165,9 +162,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Collection<int, Cart>
-     */
     public function getCarts(): Collection
     {
         return $this->carts;

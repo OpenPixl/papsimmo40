@@ -107,7 +107,6 @@ class DocumentController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            /** @var UploadedFile $logoFile */
             $fileFileName = $form->get('fileFilename')->getData();
             $category = $form->get('category')->getData();
             if($fileFileName){
