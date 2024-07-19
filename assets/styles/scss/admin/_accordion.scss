@@ -1,0 +1,26 @@
+.accordion{
+  border: #eeeeee 1px solid;
+  margin-bottom: 4px;
+  .accordion-item{
+    .accordion-header{
+      .accordion-button{
+        padding: 5px;
+        font-size: 0.8rem;
+      }
+      .accordion-button:not(.collapse){
+        background-color: #eeeeee;
+      }
+      .accordion-button:focus{
+        background-color: #eeeeee;
+      }
+    }
+    .accordion-collapse{
+      .accordion-body{
+        font-size: 0.8rem;
+        .list-group-item{
+          font-size: 0.8rem;
+        }
+      }
+    }
+  }
+}

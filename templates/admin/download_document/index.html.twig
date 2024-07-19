@@ -1,0 +1,66 @@
+{% extends 'admin.html.twig' %}
+
+{% block title %}Hello DownloadDocumentController!{% endblock %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1>Répertoire des documents</h1>
+        </div>
+    </div>
+    <div class="row mb-5 scrollable-block">
+        <div class="col-12">
+            {% for content in contents %}
+                {% set photos = 0 %}
+                {% for c in content.children|filter(c => c.type == 'file') %}
+                    {% set photos = photos + 1 %}
+                {% endfor %}
+                {% set docs = 0 %}
+                {% for c in content.children|filter(c => c.type == 'directory') %}
+                    {% for d in c.children %}
+                        {% set docs = docs + 1 %}
+                    {% endfor %}
+                {% endfor %}
+                <div class="accordion accordion-flush" id="accordion_{{ loop.index }}">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header">
+                            <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-{{ loop.index }}" aria-expanded="false" aria-controls="flush-collapseOne">
+                                Dossier {{ content.name }} | {{ photos }} photos - {{ docs }} documents
+                            </button>
+                        </h2>
+                        <div id="flush-{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#accordion_{{ loop.index }}">
+                            <div class="accordion-body p-1">
+                                <div class="row g-1">
+                                    <div class="col-4">
+                                        <p class="mb-1"><b>Photos</b></p>
+                                        {% if content.children is defined %}
+                                            <ul class="list-group">
+                                                {% for c in content.children|filter(c => c.type == 'file') %}
+                                                    <li class="list-group-item p-1"><a href="{{ asset(c.path) }}">{{ c.name }}</a></li>
+                                                {% endfor %}
+                                            </ul>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-4">
+                                        <p class="mb-1"><b>Documents</b></p>
+                                        {% if content.children is defined %}
+                                            {% set documents = [] %}
+                                            {% for c in content.children|filter(c => c.type == 'directory') %}
+                                                <ul class="list-group">
+                                                {% for cs in c.children %}
+                                                    <li class="list-group-item p-1"><a href="{{ asset(cs.path) }}">{{ cs.name }}</a></li>
+                                                {% endfor %}
+                                                </ul>
+                                            {% endfor %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}

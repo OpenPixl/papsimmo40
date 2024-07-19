@@ -24,7 +24,7 @@
             <script type="application/javascript" src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
             <script type="application/javascript" src="https://kit.fontawesome.com/3904e9974b.js" crossorigin="anonymous"></script>
             <script type="application/javascript" src="{{ asset('js/sortableJS/Sortable.min.js') }}"></script>
-            <script type="application/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+            <script type="application/javascript" src="https://unpkg.com/leaflet/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
             <script type="module" src="{{ asset('js/Admin/dashboard/statutsession.js') }}"></script>
         {% endblock %}
     </head>
@@ -42,7 +42,7 @@
 
             <section id="content" class="float-end">
                 <div class="container-fluid">
-                    <section id="content_breadcumb" class="mt-3">
+                    <section id="content_breadcumb" class="mt-2">
                         {% block breadcrumb %}
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>

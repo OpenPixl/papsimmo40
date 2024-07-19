@@ -653,6 +653,22 @@ class PropertyController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/updateCoordonnees/{coordonnees}', name: 'op_gestapp_property_updateCoordonnees', methods: ['POST'])]
+    public function updateCoordonnees(Property $property, $coordonnees, EntityManagerInterface $em)
+    {
+        $latitude = explode('&', $coordonnees)[0];
+        $longitude = explode('&', $coordonnees)[1];
+
+        $property->setCoordLat($latitude);
+        $property->setCoordLong($longitude);
+        $em->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Coordonnées correctement persistées en BDD.'
+        ], 200);
+    }
+
     #[Route('/{id}/firstedit', name: 'op_gestapp_property_firstedit', methods: ['GET', 'POST'])]
     public function firstedit(Request $request, Property $property, PropertyRepository $propertyRepository): Response
     {

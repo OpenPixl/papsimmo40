@@ -108,7 +108,7 @@ body{
   }
 }
 
-#oneproperty_main {
+#oneproperty_main_content {
   #generalCard{
     font-family: Montserrat-light,sans-serif !important;
   }
@@ -395,7 +395,7 @@ body{
     right: 0.5rem;
     color: $primary-color;
     font-size: 16px;
-    font-family: "Montserrat-regular", sans-serif;
+    font-family: $font-primary;
   }
 
   #Calque_1{
@@ -409,7 +409,7 @@ body{
   }
 }
 
-#oneproperty_main{
+#oneproperty_main_content{
   h1 {
     color: $secondary-color;
     font-family: "Montserrat-light", sans-serif;
@@ -453,8 +453,12 @@ body{
 
   }
   #DiagnosticCard{
+    font-family: $font-primary;
     border: 1px solid $primary-color;
     border-radius: .5rem;
+    p{
+      font-family: $font-primary-light;
+    }
     .diag_ener {
       display: flex;
       align-items: center;
@@ -856,7 +860,7 @@ form{
     font-family: 'Montserrat-regular', sans-serif;
   }
 
-  #oneproperty_main{
+  #oneproperty_main_content{
     h1 {
       color: $secondary-color;
       font-family: "Montserrat-light", sans-serif;

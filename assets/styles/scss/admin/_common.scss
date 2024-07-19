@@ -7,9 +7,16 @@ $width-content-large: calc(100% - 12rem);
 main{
   margin-top: 66px;
   #content{
+    .scrollable-block {
+      height: 600px;
+      overflow-y: scroll; /* Ajoute une scrollbar verticale */
+    }
     #listeIncreating{
       .card{
         .card-body{
+          .btn-sm{
+            font-size: 0.8rem;
+          }
           .card-title{
               font-size:1rem;
               small{

@@ -20,13 +20,9 @@ document.querySelectorAll('.btnShownCustomer').forEach(function(link){
 if(modalCustomerBs.querySelector('.modal-footer #btnSubmitCustomer') !== null){
     modalCustomerBs.querySelector('.modal-footer #btnSubmitCustomer').addEventListener('click', submitCustomer);
 }
-
+// comportement à adopter à la fermeture de la modal des customers
 modalCustomerBs.addEventListener('hidden.bs.modal', event => {
     modalCustomerBs.querySelector('.modal-dialog').classList.remove('modal-xl');
-    modalCustomerBs.querySelector('.modal-title').innerHTML =
-        '<h5 class="modal-title" id="exampleModalLabel">Fiche Client</h5>' +
-        '<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>'
-    ;
     modalCustomerBs.querySelector('.modal-body').innerHTML =
         "<div class=\"d-flex justify-content-center\">\n" +
         "<div class=\"spinner-border text-primary\" role=\"status\">\n" +
@@ -290,7 +286,9 @@ function toasterMessage(message){
 }
 
 function loadEventStep2(){
-    btnAddCustomer.addEventListener('click', showModalCustomer);
+    document.querySelectorAll('.btnShownCustomer').forEach(function(link){
+        link.addEventListener('click', showModalCustomer);
+    });
     document.querySelectorAll('.btnEditCustomer').forEach(function(link){
         link.addEventListener('click', showModalCustomer);
     });

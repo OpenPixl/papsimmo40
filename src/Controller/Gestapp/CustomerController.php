@@ -303,16 +303,16 @@ class CustomerController extends AbstractController
             $ciFilename = $customer->getCifilename();
             if($ci) {
                 if ($ciFilename) {
-                    $pathheader = $this->getParameter('customer_ci_directory') . '/' . $ciFilename;
+                    $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
                     // On vérifie si l'image existe
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
                     }
                 }
-                $newFilename = $customer->getFirstName().'-'.$customer->getLastName().'-ci.' . $ci->guessExtension();
+                $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
                 try {
                     $ci->move(
-                        $this->getParameter('customer_ci_directory'),
+                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -326,16 +326,16 @@ class CustomerController extends AbstractController
             $kbisFilename = $customer->getKbisfilename();
             if($kbis) {
                 if ($kbisFilename) {
-                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' . $kbisFilename;
+                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
                     // On vérifie si l'image existe
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
                     }
                 }
-                $newFilename = $customer->getFirstName().'-'.$customer->getLastName().'-kbis.' . $kbis->guessExtension();
+                $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
                 try {
                     $kbis->move(
-                        $this->getParameter('customer_kbis_directory'),
+                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -407,16 +407,16 @@ class CustomerController extends AbstractController
             $ciFilename = $customer->getCifilename();
             if($ci) {
                 if ($ciFilename) {
-                    $pathheader = $this->getParameter('customer_ci_directory') . '/' . $ciFilename;
+                    $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
                     // On vérifie si l'image existe
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
                     }
                 }
-                $newFilename = $customer->getFirstName().'-'.$customer->getLastName().'-ci.' . $ci->guessExtension();
+                $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
                 try {
                     $ci->move(
-                        $this->getParameter('customer_ci_directory'),
+                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -430,16 +430,16 @@ class CustomerController extends AbstractController
             $kbisFilename = $customer->getKbisfilename();
             if($kbis) {
                 if ($kbisFilename) {
-                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' . $kbisFilename;
+                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
                     // On vérifie si l'image existe
                     if (file_exists($pathheader)) {
                         unlink($pathheader);
                     }
                 }
-                $newFilename = $customer->getFirstName().'-'.$customer->getLastName().'-kbis.' . $kbis->guessExtension();
+                $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
                 try {
                     $kbis->move(
-                        $this->getParameter('customer_kbis_directory'),
+                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -447,6 +447,8 @@ class CustomerController extends AbstractController
                 }
                 $customer->setKbisfilename($newFilename);
             }
+
+            $customerRepository->add($customer);
 
             return $this->json([
                 'code'=> 200,

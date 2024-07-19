@@ -1,5 +1,9 @@
 {% extends 'base.html.twig' %}
 
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+
 {% block javascripts %}
     {{ parent() }}
     <script>
@@ -79,16 +83,8 @@
             </div>
         </div>
     </section>
-
-    <section id="oneproperty_main_title">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="text-center property_h1">{{property.name}}</h1>
-            </div>
-        </div>
-    </section>
     <section id="oneproperty_header_sm" class="pt-1 pb-1 d-lg-none">
-        <div class="container-fluid">
+        <div class="container">
             {# bandeau de présentation des informations prioncipales du bien #}
             <div class="row" id="informations">
                 <div class="col-6 mb-3" id="property_surface">
@@ -106,302 +102,323 @@
             </div>
         </div>
     </section>
-    <section id="oneproperty_main" class="container mb-5">
-        {# Row du contenu principal du bien #}
-        <div class="row">
-            <div class="col-12">
-                {# Row des visuels du bien #}
-                <div class="row">
-                    {# image principale#}
-                    <div id="firstphoto" class="col-12 col-lg-5">
-                        {% if firstphoto is not empty%}
-                            <img src="{{ asset('properties/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName)|imagine_filter('oneproperty_image') }}" class="card-img img-fluid" alt="{{ firstphoto.galeryFrontName }}" >
-                        {% else %}
-                            <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="card-img" alt="none-visuel">
-                        {% endif %}
-                        <a href="{{ path('op_admin_mail_AskPropertyInfo', {'id': property.id }) }}" class="btn btn-primary w-100 mt-1 btnAskContactProperty" id="btnAskContactProperty">Ce bien vous interesse ?<br>Contactez-nous</a>
-                    </div>
-                    {# Galerie#}
-                    <div id="galery" class="col-12 col-lg-7">
-                        {{ render(controller('App\\Controller\\Gestapp\\PhotoController::PublicGalleryByProperty', {'idproperty':property.id}))}}
-                    </div>
+
+    <section id="oneproperty_main_title">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1 class="text-center property_h1">{{property.name}}</h1>
                 </div>
-                {# Row du contenu Descritpif du Bien #}
-                <div class="row" id="generalCard">
-                    <div class="col-12 col-lg-8">
-                        <h3 class="descriptif">DESCRIPTIF :</h3>
-                        <h4 class="small">Ref : {{property.ref}}</h4>
-                        <article>
-                            {{ property.annonce|markdown_to_html}}
-                            {% if property.annonceDown is not empty or property.annonceDown is not null %}
-                            {{ property.annonceDown|markdown_to_html}}
-                            {% endif %}
-                        </article>
-                    </div>
-                    <div class="col-12 col-lg-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <p class="text-center">
-                                    {% if employed.avatarName is not empty%}
-                                        <img class="rounded-circle" src="{{ asset('/images/avatar/' ~ property.avatarName)|imagine_filter('vignette_employed') }}" alt="{{ property.avatarName }}" >
-                                    {% else %}
-                                        <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/mod_maison.jpg')|imagine_filter('vignette_employed')}}" alt="none-visuel">
-                                    {% endif %}
-                                </p>
-                                <div class="row">
-                                    <div class="col-12">
-                                        <h6 class="text-center">Votre conseiller<br><small>{{ employed.firstName }} {{ employed.lastName }}</small></h6>
-                                        <p class="text-center">
-                                            {% if employed.sector is empty %}{% else %}Secteur : {{ employed.sector }}<br>{% endif %}
-                                            <i class="fa-duotone fa-mobile"></i> {{ employed.gsm }}
-                                        </p>
-                                        <button type="button" class="btn btn-primary w-100 mt-1" data-bs-toggle="modal" data-bs-target="#AskPropertyModal" data-bs-whatever="{{ property.id }}">Laisser un message</button>
+            </div>
+        </div>
+    </section>
+
+    <section id="oneproperty_main_content" class="mb-5">
+        <div class="container">
+            {# Row des visuels du bien #}
+            <div class="row g-1">
+                {# image principale #}
+                <div id="firstphoto" class="col-12 col-lg-5">
+                    {% if firstphoto is not empty%}
+                        <img src="{{ asset('properties/' ~ firstphoto.path ~ '/' ~ firstphoto.galeryFrontName)|imagine_filter('oneproperty_image_public') }}" class="img-fluid rounded" alt="{{ firstphoto.galeryFrontName }}" >
+                    {% else %}
+                        <img src="{{ asset('images/jpeg/mod_maison.jpg')}}" class="img-fluid rounded" alt="none-visuel">
+                    {% endif %}
+                    <a href="{{ path('op_admin_mail_AskPropertyInfo', {'id': property.id }) }}" class="btn btn-primary w-100 mt-1 btnAskContactProperty" id="btnAskContactProperty">Ce bien vous interesse ?<br>Contactez-nous</a>
+                </div>
+                {# Galerie#}
+                <div id="galery" class="col-12 col-lg-7">
+                    {{ render(controller('App\\Controller\\Gestapp\\PhotoController::PublicGalleryByProperty', {'idproperty':property.id}))}}
+                </div>
+            </div>
+            {# Row du contenu principal du bien #}
+            <div class="row">
+                <div class="col-12">
+                    {# Row du contenu Descritpif du Bien #}
+                    <div class="row" id="generalCard">
+                        <div class="col-12 col-lg-8">
+                            <h3 class="descriptif">DESCRIPTIF :</h3>
+                            <h4 class="small">Ref : {{property.ref}}</h4>
+                            <article>
+                                {{ property.annonce|markdown_to_html}}
+                                {% if property.annonceDown is not empty or property.annonceDown is not null %}
+                                    {{ property.annonceDown|markdown_to_html}}
+                                {% endif %}
+                            </article>
+                        </div>
+                        <div class="col-12 col-lg-4">
+                            <div class="card">
+                                <div class="card-body">
+                                    <p class="text-center">
+                                        {% if employed.avatarName is not empty%}
+                                            <img class="rounded-circle" src="{{ asset('/images/avatar/' ~ property.avatarName)|imagine_filter('vignette_employed') }}" alt="{{ property.avatarName }}" >
+                                        {% else %}
+                                            <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/mod_maison.jpg')|imagine_filter('vignette_employed')}}" alt="none-visuel">
+                                        {% endif %}
+                                    </p>
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <h6 class="text-center">Votre conseiller<br><small>{{ employed.firstName }} {{ employed.lastName }}</small></h6>
+                                            <p class="text-center">
+                                                {% if employed.sector is empty %}{% else %}Secteur : {{ employed.sector }}<br>{% endif %}
+                                                <i class="fa-duotone fa-mobile"></i> {{ employed.gsm }}
+                                            </p>
+                                            <button type="button" class="btn btn-primary w-100 mt-1" data-bs-toggle="modal" data-bs-target="#AskPropertyModal" data-bs-whatever="{{ property.id }}">Laisser un message</button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                {# Row du contenu Technique du Bien #}
-                <div class="row" id="technicalCard">
-                    <div class="col-12">
-                        <h3 class="technique">FICHE TECHNIQUE :</h3>
-                        <div class="row">
-                            <div class="col-12 col-lg-4">
-                                <h4>Informations générales</h4>
+            </div>
+            {# Row du contenu Technique du Bien #}
+            <div class="row" id="technicalCard">
+                <div class="col-12">
+                    <h3 class="technique">FICHE TECHNIQUE :</h3>
+                    <div class="row">
+                        <div class="col-12 col-lg-4">
+                            <h4>Informations générales</h4>
 
-                                <table class="table table-bordered">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <td>Type</td>
+                                    <td>
+                                        <span class="color">{{ property.propertyDefinition }}</span> -
+                                        {% if property.denomination == 'A définir' %}
+                                        {% else %}
+                                            <span class="color">{{ property.denomination }}</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                                {% if property.propertyState != 'A définir' %}
                                     <tr>
-                                        <td>Type</td>
+                                        <td>Etat du bien</td>
+                                        <td><span class="color">{{ property.propertyState }}</span></td>
+                                    </tr>
+                                {% endif %}
+                                {% if property.propertyEnergy != 'A définir' %}
+                                    <tr>
+                                        <td>Energie</td>
+                                        <td><span class="color">{{ property.propertyEnergy }}</span></td>
+                                    </tr>
+                                {% endif %}
+                                {% if property.propertyTax > 0 %}
+                                    <tr>
+                                        <td>Taxe Foncière : </td>
+                                        <td><span class="color">{{ property.propertyTax }} €</span></td>
+                                    </tr>
+                                {% endif %}
+                                {% if property.propertyOrientation != 'A définir' %}
+                                    <tr>
+                                        <td>Orientation</td>
+                                        <td><span class="color">{{ property.propertyOrientation }}</span></td>
+                                    </tr>
+                                {% endif %}
+                                {% if property.disponibility != 'a-definir' or property.location != 'a-definir' %}
+                                    <tr>
                                         <td>
-                                            <span class="color">{{ property.propertyDefinition }}</span> -
-                                            {% if property.denomination == 'A définir' %}
-                                            {% else %}
-                                                <span class="color">{{ property.denomination }}</span>
-                                            {% endif %}
+                                            {% if property.disponibility != 'a-definir' %}Disponible{% endif %}
+                                            {% if property.location != 'a-definir' %}Louable{% endif %}
+                                        </td>
+                                        <td>
+                                            <span class="color">{% if property.disponibility != 'a-definir' %}A partir du{% endif %}</span>
+                                            <span class="color">{% if property.location != 'a-definir' %}Louable{% endif %}{{ property.disponibilityAt|format_datetime('medium', 'none', locale='fr') }}</span>
                                         </td>
                                     </tr>
-                                    {% if property.propertyState != 'A définir' %}
-                                        <tr>
-                                            <td>Etat du bien</td>
-                                            <td><span class="color">{{ property.propertyState }}</span></td>
-                                        </tr>
-                                    {% endif %}
-                                    {% if property.propertyEnergy != 'A définir' %}
-                                        <tr>
-                                            <td>Energie</td>
-                                            <td><span class="color">{{ property.propertyEnergy }}</span></td>
-                                        </tr>
-                                    {% endif %}
-                                    {% if property.propertyTax > 0 %}
-                                        <tr>
-                                            <td>Taxe Foncière : </td>
-                                            <td><span class="color">{{ property.propertyTax }} €</span></td>
-                                        </tr>
-                                    {% endif %}
-                                    {% if property.propertyOrientation != 'A définir' %}
-                                        <tr>
-                                            <td>Orientation</td>
-                                            <td><span class="color">{{ property.propertyOrientation }}</span></td>
-                                        </tr>
-                                    {% endif %}
-                                    {% if property.disponibility != 'a-definir' or property.location != 'a-definir' %}
-                                        <tr>
-                                            <td>
-                                                {% if property.disponibility != 'a-definir' %}Disponible{% endif %}
-                                                {% if property.location != 'a-definir' %}Louable{% endif %}
-                                            </td>
-                                            <td>
-                                                <span class="color">{% if property.disponibility != 'a-definir' %}A partir du{% endif %}</span>
-                                                <span class="color">{% if property.location != 'a-definir' %}Louable{% endif %}{{ property.disponibilityAt|format_datetime('medium', 'none', locale='fr') }}</span>
-                                            </td>
-                                        </tr>
-                                    {% endif %}
+                                {% endif %}
 
-                                </table>
-                            </div>
-                            <div class="col-12 col-lg-8">
-                                <h4>Détails du bien</h4>
-                                <div class="row">
-                                    {% if (property.washroom == 0) and (property.bathroom == 0) and (property.wc == 0) and (property.balcony == 0) and (property.terrace == 0) %}
-                                    {% else %}
-                                        <div class="col-12 col-lg-6">
-                                            <table class="table table-bordered">
-                                                {% if property.washroom > 0 %}
-                                                    <tr>
-                                                        <td>Salle d'eau</td>
-                                                        <td><span class="color">{{property.washroom}}</span></td>
-                                                    </tr>
-                                                {% endif %}
-                                                {% if property.bathroom >0 %}
-                                                    <tr>
-                                                        <td>Salle de Bain</td>
-                                                        <td><span class="color">{{property.bathroom}}</span></td>
-                                                    </tr>
-                                                {% endif %}
-                                                {% if property.wc >0 %}
-                                                    <tr>
-                                                        <td>Toilette</td>
-                                                        <td><span class="color">{{property.wc}}</span></td>
-                                                    </tr>
-                                                {% endif %}
-                                                {% if property.balcony >0 %}
-                                                    <tr>
-                                                        <td>Balcon</td>
-                                                        <td><span class="color">{{property.balcony}}</span></td>
-                                                    </tr>
-                                                {% endif %}
-                                                {% if property.terrace >0 %}
-                                                    <tr>
-                                                        <td>terrasse</td>
-                                                        <td><span class="color">{{property.terrace}}</span></td>
-                                                    </tr>
-                                                {% endif %}
-                                            </table>
-                                        </div>
-                                    {% endif %}
+                            </table>
+                        </div>
+                        <div class="col-12 col-lg-8">
+                            <h4>Détails du bien</h4>
+                            <div class="row">
+                                {% if (property.washroom == 0) and (property.bathroom == 0) and (property.wc == 0) and (property.balcony == 0) and (property.terrace == 0) %}
+                                {% else %}
                                     <div class="col-12 col-lg-6">
                                         <table class="table table-bordered">
-                                            {% if equipments|length == 1 %}
+                                            {% if property.washroom > 0 %}
+                                                <tr>
+                                                    <td>Salle d'eau</td>
+                                                    <td><span class="color">{{property.washroom}}</span></td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if property.bathroom >0 %}
+                                                <tr>
+                                                    <td>Salle de Bain</td>
+                                                    <td><span class="color">{{property.bathroom}}</span></td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if property.wc >0 %}
+                                                <tr>
+                                                    <td>Toilette</td>
+                                                    <td><span class="color">{{property.wc}}</span></td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if property.balcony >0 %}
+                                                <tr>
+                                                    <td>Balcon</td>
+                                                    <td><span class="color">{{property.balcony}}</span></td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if property.terrace >0 %}
+                                                <tr>
+                                                    <td>terrasse</td>
+                                                    <td><span class="color">{{property.terrace}}</span></td>
+                                                </tr>
+                                            {% endif %}
+                                        </table>
+                                    </div>
+                                {% endif %}
+                                <div class="col-12 col-lg-6">
+                                    <table class="table table-bordered">
+                                        {% if equipments|length == 1 %}
                                             {% for equipment in equipments %}
-                                            {% if equipment.id == 1 %}
-                                            {% else %}
-                                            <tr>
-                                                <td class="text-center align-middle">Equipement</td>
-                                                <td>
-                                                    {% if equipments|length == 1 %}
-                                                        {% for equipment in equipments %}
-                                                            {% if equipment.id == 1 %}
+                                                {% if equipment.id == 1 %}
+                                                {% else %}
+                                                    <tr>
+                                                        <td class="text-center align-middle">Equipement</td>
+                                                        <td>
+                                                            {% if equipments|length == 1 %}
+                                                                {% for equipment in equipments %}
+                                                                    {% if equipment.id == 1 %}
+                                                                    {% else %}
+                                                                        <span class="color">{{ equipment.name }}</span>
+                                                                    {% endif %}
+                                                                {% endfor %}
                                                             {% else %}
-                                                                <span class="color">{{ equipment.name }}</span>
+                                                                {% for equipment in equipments %}
+                                                                    {% if equipment.id == 1 %}
+                                                                    {% else %}
+                                                                        <span class="color">{{ equipment.name }}</span> -
+                                                                    {% endif %}
+                                                                {% endfor %}
                                                             {% endif %}
-                                                        {% endfor %}
-                                                    {% else %}
-                                                        {% for equipment in equipments %}
-                                                            {% if equipment.id == 1 %}
-                                                            {% else %}
-                                                                <span class="color">{{ equipment.name }}</span> -
-                                                            {% endif %}
-                                                        {% endfor %}
-                                                    {% endif %}
-                                                </td>
-                                            </tr>
-                                            {% endif %}{% endfor %}{% endif %}
-                                            {% if property.propertyTypology != 'A définir' %}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}{% endfor %}{% endif %}
+                                        {% if property.propertyTypology != 'A définir' %}
                                             <tr>
                                                 <td class="text-center align-middle">Type de bien</td>
                                                 <td>
                                                     <span class="color">{{ property.propertyTypology }}</span>
                                                 </td>
                                             </tr>
-                                            {% endif %}
-                                            {% if options|length == 1 %}
+                                        {% endif %}
+                                        {% if options|length == 1 %}
                                             {% for option in options %}
-                                            {% if option.id == 1 %}
-                                            {% else %}
-                                            <tr>
-                                                <td class="text-center align-middle">Autres options</td>
-                                                <td>
-                                                {% if options|length == 1 %}
-                                                    {% for option in options %}
-                                                        {% if option.id == 1 %}
-                                                        {% else %}
-                                                        <span class="color">{{ option.name }}</span>
-                                                        {% endif %}
-                                                    {% endfor %}
+                                                {% if option.id == 1 %}
                                                 {% else %}
-                                                    {% for option in options %}
-                                                        {% if option.id == 1 %}
-                                                        {% else %}
-                                                        <span class="color">{{ option.name }}</span> -
-                                                        {% endif %}
-                                                    {% endfor %}
-                                                {% endif %}
-                                                </td>
-                                            </tr>
-                                            {% endif %}{% endfor %}{% endif %}
-                                        </table>
-                                    </div>
+                                                    <tr>
+                                                        <td class="text-center align-middle">Autres options</td>
+                                                        <td>
+                                                            {% if options|length == 1 %}
+                                                                {% for option in options %}
+                                                                    {% if option.id == 1 %}
+                                                                    {% else %}
+                                                                        <span class="color">{{ option.name }}</span>
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% else %}
+                                                                {% for option in options %}
+                                                                    {% if option.id == 1 %}
+                                                                    {% else %}
+                                                                        <span class="color">{{ option.name }}</span> -
+                                                                    {% endif %}
+                                                                {% endfor %}
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endif %}{% endfor %}{% endif %}
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
+            </div>
 
-                {# Row du contenu Diagnostique Dpe du Bien #}
-                <div class="row pt-3 mt-3" id="DiagnosticCard">
-                    <h4>Bilan énergétique</h4>
-                    <div class="col-12 col-lg-4">
-                        <h5>Consommation énergétique</h5>
-                        {% if property.diagDpe >= 0  %}
-                            {% set letter = '' %}
-                            {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
-                                {% set letter = 'A'%}
-                            {% elseif property.diagDpe > 70 and property.diagDpe <= 110 %}
-                                {% set letter = 'B'%}
-                            {% elseif property.diagDpe > 110 and property.diagDpe <= 180 %}
-                                {% set letter = 'C'%}
-                            {% elseif property.diagDpe > 180 and property.diagDpe <= 250 %}
-                                {% set letter = 'D'%}
-                            {% elseif property.diagDpe > 250 and property.diagDpe <= 330 %}
-                                {% set letter = 'E'%}
-                            {% elseif property.diagDpe > 330 and property.diagDpe <= 420 %}
-                                {% set letter = 'F'%}
-                            {% elseif property.diagDpe > 420 %}
-                                {% set letter = 'G'%}
-                            {% endif %}
-                            <ul class="diag_ener">
-                                <li class="c-dpe__index dpe-A {% if letter == 'A' %}dpe-active{% endif %}">A{% if letter == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-B {% if letter == 'B' %}dpe-active{% endif %}">B{% if letter == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-C {% if letter == 'C' %}dpe-active{% endif %}">C{% if letter == 'C' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-D {% if letter == 'D' %}dpe-active{% endif %}">D{% if letter == 'D' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-E {% if letter == 'E' %}dpe-active{% endif %}">E{% if letter == 'E' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-F {% if letter == 'F' %}dpe-active{% endif %}">F{% if letter == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-G {% if letter == 'G' %}dpe-active{% endif %}">G{% if letter == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
-                            </ul>
+            {# Row du contenu Diagnostique Dpe du Bien #}
+            <div class="row pt-3 m-0" id="DiagnosticCard">
+                <h4>Bilan énergétique</h4>
+                <div class="col-12 col-lg-4">
+                    <h5>Consommation énergétique</h5>
+                    {% if property.diagDpe >= 0  %}
+                        {% set letter = '' %}
+                        {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
+                            {% set letter = 'A'%}
+                        {% elseif property.diagDpe > 70 and property.diagDpe <= 110 %}
+                            {% set letter = 'B'%}
+                        {% elseif property.diagDpe > 110 and property.diagDpe <= 180 %}
+                            {% set letter = 'C'%}
+                        {% elseif property.diagDpe > 180 and property.diagDpe <= 250 %}
+                            {% set letter = 'D'%}
+                        {% elseif property.diagDpe > 250 and property.diagDpe <= 330 %}
+                            {% set letter = 'E'%}
+                        {% elseif property.diagDpe > 330 and property.diagDpe <= 420 %}
+                            {% set letter = 'F'%}
+                        {% elseif property.diagDpe > 420 %}
+                            {% set letter = 'G'%}
                         {% endif %}
-                    </div>
-                    <div class="col-12 col-lg-4">
-                        <h5>Emission de gaz</h5>
-                        {% if property.diagGes >= 0  %}
-                            {% if property.diagGes > 0 and property.diagGes <= 5 %}
-                                {% set letter = 'A1'%}
-                            {% elseif property.diagGes > 5 and property.diagGes <= 10 %}
-                                {% set letter = 'B1'%}
-                            {% elseif property.diagGes > 11 and property.diagGes <= 20 %}
-                                {% set letter = 'C1'%}
-                            {% elseif property.diagGes > 21 and property.diagGes <= 35 %}
-                                {% set letter = 'D1'%}
-                            {% elseif property.diagGes > 36 and property.diagGes <= 55 %}
-                                {% set letter = 'E1'%}
-                            {% elseif property.diagGes > 56 and property.diagGes <= 80 %}
-                                {% set letter = 'F1'%}
-                            {% elseif property.diagGes > 80 %}
-                                {% set letter = 'G1'%}
-                            {% endif %}
-                            <ul class="diag_ener">
-                                <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
-                            </ul>
+                        <ul class="diag_ener">
+                            <li class="c-dpe__index dpe-A {% if letter == 'A' %}dpe-active{% endif %}">A{% if letter == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-B {% if letter == 'B' %}dpe-active{% endif %}">B{% if letter == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-C {% if letter == 'C' %}dpe-active{% endif %}">C{% if letter == 'C' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-D {% if letter == 'D' %}dpe-active{% endif %}">D{% if letter == 'D' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-E {% if letter == 'E' %}dpe-active{% endif %}">E{% if letter == 'E' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-F {% if letter == 'F' %}dpe-active{% endif %}">F{% if letter == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-G {% if letter == 'G' %}dpe-active{% endif %}">G{% if letter == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">kWh/m2.an</span></strong>{% endif %}</li>
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-lg-4">
+                    <h5>Emission de gaz</h5>
+                    {% if property.diagGes >= 0  %}
+                        {% if property.diagGes > 0 and property.diagGes <= 5 %}
+                            {% set letter = 'A1'%}
+                        {% elseif property.diagGes > 5 and property.diagGes <= 10 %}
+                            {% set letter = 'B1'%}
+                        {% elseif property.diagGes > 11 and property.diagGes <= 20 %}
+                            {% set letter = 'C1'%}
+                        {% elseif property.diagGes > 21 and property.diagGes <= 35 %}
+                            {% set letter = 'D1'%}
+                        {% elseif property.diagGes > 36 and property.diagGes <= 55 %}
+                            {% set letter = 'E1'%}
+                        {% elseif property.diagGes > 56 and property.diagGes <= 80 %}
+                            {% set letter = 'F1'%}
+                        {% elseif property.diagGes > 80 %}
+                            {% set letter = 'G1'%}
                         {% endif %}
-                    </div>
-                    <div class="col-12 col-lg-4">
-                        <h5>Coût annuel</h5>
-                        <p>Estimation du coût annuel énergie pour un usage standard entre <span class="color">{{ property.dpeEstimateEnergyDown }}€</span> et
-                            <span class="color">{{ property.dpeEstimateEnergyUp }}€</span> au {{ property.anneeRefNRJ|date("Y") }} (abonnement compris) </p>
-                    </div>
+                        <ul class="diag_ener">
+                            <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                            <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">kgeqCO2/m².an</span></strong>{% endif %}</li>
+                        </ul>
+                    {% endif %}
+                </div>
+                <div class="col-12 col-lg-4">
+                    <h5>Coût annuel</h5>
+                    <p>Estimation du coût annuel énergie pour un usage standard entre <span class="color">{{ property.dpeEstimateEnergyDown }}€</span> et
+                        <span class="color">{{ property.dpeEstimateEnergyUp }}€</span> au {{ property.anneeRefNRJ|date("Y") }} (abonnement compris) </p>
                 </div>
             </div>
         </div>
     </section>
-    <section id="oneproperty_footer" class="container">
 
+    <section id="oneproperty_main_footer">
+        <div class="container">
+            <div class="col-12">
+                <div id="map">
+
+                </div>
+            </div>
+        </div>
     </section>
+
     <section>
         <div class="modal fade" id="AskPropertyModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-xl modal-dialog-centered">
@@ -418,7 +435,7 @@
                         </div>
                         <div class="row">
                             <div class="col-12 form">
-                            {{ render(controller('App\\Controller\\Admin\\ContactController::AskPropertyInfo', {'idproperty': property.id})) }}
+                                {{ render(controller('App\\Controller\\Admin\\ContactController::AskPropertyInfo', {'idproperty': property.id})) }}
                             </div>
                         </div>
                         <div class="row">
@@ -454,6 +471,7 @@
             </div>
         </div>
     </section>
+
 {% endblock %}
 
 {% block modal %}

@@ -338,10 +338,10 @@ class Property
     #[ORM\Column(nullable: true)]
     private ?bool $commerceRentalAnnual = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 4, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6, nullable: true)]
     private ?string $coordLong = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 4, nullable: true)]
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 6, nullable: true)]
     private ?string $coordLat = null;
 
     #[ORM\OneToMany(mappedBy: 'refProperty', targetEntity: Reco::class)]

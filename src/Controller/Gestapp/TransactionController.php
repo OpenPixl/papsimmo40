@@ -1325,7 +1325,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addinvoicePdf/{roleEditor}', name: 'op_gestapp_transaction_addinvoicepdf', methods: ['GET', 'POST'])]
     public function addInvoicePdf(
         Transaction $transaction,
-                    $roleEditor,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -1451,10 +1451,9 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/validInvoicePdf', name: 'op_gestapp_transaction_validinvoicepdf_control', methods: ['GET', 'POST'])]
-    public function validInvoicePdf(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, MailerInterface $mailer)
+    #[Route('/{id}/validInvoicePdf/{roleEditor}', name: 'op_gestapp_transaction_validinvoicepdf_control', methods: ['GET', 'POST'])]
+    public function validInvoicePdf(Request $request,Transaction $transaction, $roleEditor, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
-        $submit = 0;
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -1470,7 +1469,8 @@ class TransactionController extends AbstractController
                 'transaction' => $transaction
             ]),
             'row' => $this->renderView('gestapp/transaction/include/block/_rowinvoicepdf.html.twig', [
-                'transaction' => $transaction
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
             ]),
         ], 200);
     }

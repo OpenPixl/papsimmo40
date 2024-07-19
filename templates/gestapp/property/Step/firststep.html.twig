@@ -110,12 +110,13 @@
                     <td colspan="6">
                         {% if property.coordLong is not null and property.coordLat is not null%}
                             <div class="d-flex flex-row-reverse">
-                                <input id="coordLong" type="text" value="{{ property.coordLong }}">
-                                <input id="coordLat" type="text" value="{{ property.coordLat }}">
+                                <p>Latitude : {{ property.coordLat }}, Longitude : {{ property.coordLong }} <a id="findGeoCoord" class=""><i class="fa-duotone fa-repeat"></i></a></p>
+                                <input id="coordLong" type="hidden" value="{{ property.coordLong }}">
+                                <input id="coordLat" type="hidden" value="{{ property.coordLat }}">
                             </div>
                         {% else %}
                             <div class="d-flex flex-row-reverse">
-                                <a id="findGeoCoord" href="{{ path('op_gestapp_geocode_addpropertycoords', {'idproperty' : property.id}) }}" class="btn btn-sm btn-outline-info">Ajouter les coordonnées GPS</a>
+                                <a id="findGeoCoord" class="btn btn-sm btn-outline-info">Ajouter les coordonnées GPS</a>
                             </div>
                         {% endif %}
                     </td>
@@ -186,8 +187,10 @@
                 <div class="col-12">
                     {% if property.coordLong is null and property.coordLat is null %}
                         <div id="carte"></div>
+                        <p id="result"></p>
                     {% else %}
                         <div id="carte"></div>
+                        <p id="result"></p>
                     {% endif %}
                 </div>
             </div>

@@ -4,162 +4,192 @@
     <div class="tab-pane fade show active" id="InformationGenerales" role="tabpanel" aria-labelledby="home-tab">
         <div class="row pt-2 pb-2">
             <div class="col-12">
-                <table class="table">
-                    <tr>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-4"></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td colspan="5"><h5>RELATIVE AU SITE</h5></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.nameSite, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td>{{ form_widget(form.nameSite, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.sloganSite, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td>{{ form_widget(form.sloganSite, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.descrSite, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td colspan="2">{{ form_widget(form.descrSite, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td colspan="5"><h5><i class="fa-duotone fa-cloud-exclamation"></i> MODE HORS-LIGNE</h5></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">
-                            {{ form_label(form.isOnline, '', {'label_attr': {'class':'form-check-label'}}) }}
-                        </td>
-                        <td colspan="2">
-                            <fieldset>
-                                <div class="form-check form-switch mt-2 mb-1">
-                                    {{ form_widget(form.isOnline, {'attr': {'class': 'form-check-input'}}) }}
-                                </div>
-                            </fieldset>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">
-                            {{ form_label(form.isShowofflinemessage, '', {'label_attr': {'class':'form-check-label'}}) }}
-                        </td>
-                        <td colspan="2">
-                            <fieldset>
-                                <div class="form-check form-switch mt-2 mb-1">
-                                    {{ form_widget(form.isShowofflinemessage, {'attr': {'class': 'form-check-input'}}) }}
-                                </div>
-                            </fieldset>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">
-                            {{ form_label(form.isShowofflinelogo, '', {'label_attr': {'class':'form-check-label'}}) }}
-                        </td>
-                        <td colspan="2">
-                            <fieldset>
-                                <div class="form-check form-switch mt-2 mb-1">
-                                    {{ form_widget(form.isShowofflinelogo, {'attr': {'class': 'form-check-input'}}) }}
-                                </div>
-                            </fieldset>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.offlineMessage, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
-                        <td colspan="2">{{ form_widget(form.offlineMessage, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
+                <h5>INFORMATIONS GENERALES RELATIVE AU FONCTIONNEMENT DE LA PLATEFORME.</h5>
+            </div>
+            <div class="col-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h6 class="mb-0"><i class="fa-duotone fa-display-code"></i> RELATIVE AU SITE</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                {{ form_label(form.nameSite, '', {'label_attr': {'class':'col-form-label'}}) }}
+                            </div>
+                            <div class="col-7">
+                                {{ form_widget(form.nameSite, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                {{ form_label(form.sloganSite, '', {'label_attr': {'class':'col-form-label'}}) }}
+                            </div>
+                            <div class="col-7">
+                                {{ form_widget(form.sloganSite, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                {{ form_label(form.descrSite, '', {'label_attr': {'class':'col-form-label'}}) }}
+                            </div>
+                            <div class="col-7">
+                                {{ form_widget(form.descrSite, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <h6><i class="fa-duotone fa-cloud-exclamation"></i> MODE HORS-LIGNE</h6>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.isOnline, '', {'label_attr': {'class':'form-check-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        <fieldset>
+                            <div class="form-check form-switch mt-2 mb-1">
+                                {{ form_widget(form.isOnline, {'attr': {'class': 'form-check-input'}}) }}
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.isShowofflinemessage, '', {'label_attr': {'class':'form-check-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        <fieldset>
+                            <div class="form-check form-switch mt-2 mb-1">
+                                {{ form_widget(form.isShowofflinemessage, {'attr': {'class': 'form-check-input'}}) }}
+                            </div>
+                        </fieldset>
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.isShowofflinelogo, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.isShowofflinelogo, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.offlineMessage, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.offlineMessage, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-4">
+
+                <h5><i class="fa-duotone fa-display-code"></i> AFFICHAGES</h5>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.isBlockmenufluid, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.isBlockmenufluid, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.isShowtitlesitehome, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.isShowtitlesitehome, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+
+                <h5><i class="fa-duotone fa-image"></i> IMAGES</h5>
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <p class="mb-0">Affiche le logo de votre structure dans le header (entête de page) de l'application et le footer (pied de page)</p>
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(form.logoFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+                    </div>
+                    <div class="col-6">
+                        {% if application.logoName is not null %}
+                            <img class="img-fluid" src="{{ asset('images/application/' ~ application.logoName) }}" alt="{{ application.logoName }}">
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-12">
+                        <p class="mb-0">Affiche le logo de votre structure dans l'onglet de votre navigateur.</p>
+                    </div>
+                    <div class="col-6">
+                        {{ form_widget(form.faviconFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+                    </div>
+                    <div class="col-6">
+                        {% if application.faviconName is not null %}
+                            <img class="imgfluid" src="{{ asset('images/application/' ~ application.logoName) }}" alt="{{ application.faviconName }}">
+                        {% endif %}
+                    </div>
+                </div>
+
+            </div>
+            <div class="col-4">
+
+                <h6>RELATIFS A L'ADMINISTRATION</h6>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.adminWebmaster, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.adminWebmaster, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.adminEmail, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.adminEmail, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+
+                <h6>RELATIFS AU RESEAUX SOCIAUX</h6>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.urlFacebook, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.urlFacebook, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.urlInstagram, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.urlInstagram, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.urlLinkedin, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.urlLinkedin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
+                <div class="row align-items-center">
+                    <div class="col-5">
+                        {{ form_label(form.urlGooglebusiness, '', {'label_attr': {'class':'col-form-label'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_widget(form.urlGooglebusiness, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="tab-pane fade" id="images" role="tabpanel" aria-labelledby="profile-tab">
-        <div class="row pt-2 pb-2">
-            <div class="col-12">
-                <table class="table">
-                    <tr class="align-middle">
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                    </tr>
-                    <tr>
-                        <td colspan="5"><h5><i class="fa-duotone fa-display-code"></i> AFFICHAGES</h5></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">
-                            {{ form_label(form.isBlockmenufluid, '', {'label_attr': {'class':'form-check-label'}}) }}
-                        </td>
-                        <td colspan="2">
-                            <fieldset>
-                                <div class="form-check form-switch mt-2 mb-1">
-                                    {{ form_widget(form.isBlockmenufluid, {'attr': {'class': 'form-check-input'}}) }}
-                                </div>
-                            </fieldset>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">
-                            {{ form_label(form.isShowtitlesitehome, '', {'label_attr': {'class':'form-check-label'}}) }}
-                        </td>
-                        <td colspan="2">
-                            <fieldset>
-                                <div class="form-check form-switch mt-2 mb-1">
-                                    {{ form_widget(form.isShowtitlesitehome, {'attr': {'class': 'form-check-input'}}) }}
-                                </div>
-                            </fieldset>
-                        </td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td colspan="5"><h5><i class="fa-duotone fa-image"></i> IMAGES</h5></td>
-                    </tr>
-                    <tr class="align-middle table-light">
-                        <td class="col-2"><h6>LOGO</h6></td>
-                        <td class="col-2"><h6>FAVICON</h6></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="col-2">Affiche le logo de votre structure dans le header (entête de page) de l'application et le footer (pied de page)</td>
-                        <td class="col-2">Affiche le logo de votre structure dans l'onglet de votre navigateur. <br>Ce dernier doit être au format de 50px / 50 px</td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="col-2">{{ form_widget(form.logoFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}</td>
-                        <td class="col-2">{{ form_widget(form.faviconFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}</td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
-    </div>
+
     <div class="tab-pane fade" id="transactions" role="tabpanel" aria-labelledby="profile-tab">
         <div class="row g-1 pt-2 pb-2">
             <div class="col-3">
@@ -193,69 +223,15 @@
 
         </div>
     </div>
-    <div class="tab-pane fade" id="contacts" role="tabpanel" aria-labelledby="contact-tab">
-        <div class="row pt-2 pb-2">
-            <div class="col-12">
-                <table class="table">
-                    <tr>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-2"></td>
-                        <td class="col-4"></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td colspan="5"><h5>RELATIFS A L'ADMINISTRATION</h5></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.adminWebmaster, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td>{{ form_widget(form.adminWebmaster, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.adminEmail, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td>{{ form_widget(form.adminEmail, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td colspan="5"><h5>RELATIFS AU RESEAUX SOCIAUX</h5></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.urlFacebook, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td>{{ form_widget(form.urlFacebook, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'http://www.facebook.com'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.urlInstagram, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td>{{ form_widget(form.urlInstagram, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'http://www.instagram.com'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.urlLinkedin, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td>{{ form_widget(form.urlLinkedin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'http://www.linkedin.com'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.urlGooglebusiness, '', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                        <td>{{ form_widget(form.urlGooglebusiness, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'http://www.google.com'}}) }}</td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </table>
-            </div>
-        </div>
+
+    <div class="tab-pane fade" id="docs" role="tabpanel" aria-labelledby="contact-tab">
+        {{render(controller('App\\Controller\\Admin\\DownloadDocumentController::transaction'))}}
     </div>
+
+    <div class="tab-pane fade" id="customers" role="tabpanel" aria-labelledby="contact-tab">
+        {{render(controller('App\\Controller\\Admin\\DownloadDocumentController::customer'))}}
+    </div>
+
     <div class="tab-pane fade" id="diffuseur" role="tabpanel" aria-labelledby="profile-tab">
         <div class="row mt-3">
             <div class="col-12">
@@ -281,6 +257,7 @@
             </div>
         </div>
     </div>
+
     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
 </div>
 

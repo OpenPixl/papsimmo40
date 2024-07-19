@@ -1,0 +1,37 @@
+<div class="row mt-2 mb-2 scrollable-block">
+    <div class="col-12">
+        {% for content in contents %}
+            {% set pieces = 0 %}
+            {% for c in content.children|filter(c => c.type == 'file') %}
+                {% set pieces = pieces + 1 %}
+            {% endfor %}
+            <div class="accordion accordion-flush" id="accordion_{{ loop.index }}">
+                <div class="accordion-item">
+                    <h2 class="accordion-header">
+                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-{{ loop.index }}" aria-expanded="false" aria-controls="flush-collapseOne">
+                            Dossier {{ content.name }} | {{ pieces }} documents
+                        </button>
+                    </h2>
+                    <div id="flush-{{ loop.index }}" class="accordion-collapse collapse" data-bs-parent="#accordion_{{ loop.index }}">
+                        <div class="accordion-body p-1">
+                            <div class="row g-1">
+                                <div class="col-4">
+                                    <p class="mb-1"><b>Pièces</b></p>
+                                    {% if content.children is defined %}
+                                        <ul class="list-group">
+                                            {% for c in content.children|filter(c => c.type == 'file') %}
+                                                <li class="list-group-item p-1"><a href="{{ asset(c.path) }}">{{ c.name }}</a></li>
+                                            {% endfor %}
+                                        </ul>
+                                    {% endif %}
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+

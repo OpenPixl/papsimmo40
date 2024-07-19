@@ -6,12 +6,13 @@
     {{ parent() }}
     <script type="module" src="{{ asset('js/gestapp/property/show/step1.js') }}"></script>
     <script type="module" src="{{ asset('js/gestapp/property/show/step2.js') }}"></script>
+    <script type="module" src="{{ asset('js/gestapp/property/show/map.js') }}"></script>
     <script>
         window.onload = function() {
             // ---------------------------------------
-        // STEP 0 :
-        // Mise en place des options de chargement
-        // ---------------------------------------
+            // STEP 0 :
+            // Mise en place des options de chargement
+            // ---------------------------------------
 
             // Preparation "Liste dynamique" - Récupération de l'id dans l'url
             const urlCourante = document.location.href.replace(/\/$/, "");
@@ -465,38 +466,9 @@
                 })
             }
 
-            // Partie map
-            let carte = L.map('carte').setView([43.8909, -0.5009], 15);
-            L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', {
-                attribution: '&copy; OpenStreetMap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributeurs',
-                minZoom: 10,
-                maxZoom: 16
-            }).addTo(carte);
 
-            // partie obtenir les coordonnées GPS
-            //let findGeoCoord = document.getElementById('findGeoCoord')
-            //findGeoCoord.addEventListener('click', getCoords)
 
-            //    event.preventDefault()
-            //    let url = this.href;
-            //    let adress = document.getElementById('property_step1_adress').value.replaceAll(' ','+')
-            //    let zipcode = document.getElementById('property_step1_zipcode').value
-            //    let commune = document.getElementById('property_step1_city').value
-            //    let queryString = adress + zipcode +'+'+ commune
-            //    let arrayCoord = []
-            //    axios
-            //        .get('https://api-adresse.data.gouv.fr/search/?q='+queryString+'=housenumber&limit=1')
-            //        .then(function(response){
-            //            arrayCoordX = response.data.features[0].geometry['coordinates'][0]
-            //            arrayCoordY = response.data.features[0].geometry['coordinates'][1]
-            //            arrayCoord.push(arrayCoordY)
-            //            arrayCoord.push(arrayCoordX)
-            //            axios
-            //                .post(url, {'arrayCoord': arrayCoord})
-            //                .then(function(response){
-            //                })
-            //        })
-            //}
+
 
         // ---------------------------------------
         // STEP 2 : Enregistrement du ou des acheteurs
@@ -1717,6 +1689,7 @@
         <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
         <li class="breadcrumb-item active">Transaction</li>
         <li class="breadcrumb-item active"><a href="{{ path('op_gestapp_property_index') }}">Biens immobilier</a></li>
+        <li class="breadcrumb-item active">Fiche {{ property.ref }}</li>
     </ol>
 {% endblock %}
 
