@@ -97,8 +97,17 @@ class QrcodeService
         //generate name
         $namePng = 'qc-'.$newref.'.png';
 
-        //Save img png
-        $result->saveToFile($path.'properties/'.$newref.'/'.$namePng);
+        if (is_dir($path.'properties/'.$newref)){
+            //Save img png
+            $result->saveToFile($path.'properties/'.$newref.'/'.$namePng);
+        }else{
+            // Création du répertoire s'il n'existe pas.
+            mkdir($path.'properties/'.$newref, 0775, true);
+            //Save img png
+            $result->saveToFile($path.'properties/'.$newref.'/'.$namePng);
+        }
+        
+
 
         return $namePng;
     }
