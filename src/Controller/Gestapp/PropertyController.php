@@ -28,6 +28,7 @@ use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\TransactionRepository;
 use App\Service\ArchivePropertyService;
 use App\Service\PropertyService;
+use App\Service\QrcodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -420,7 +421,9 @@ class PropertyController extends AbstractController
         propertyRubricssRepository $rubricssRepository,
         $isNomandat,
         $refMandat,
-        $destination
+        $destination,
+        EntityManagerInterface $em,
+        QrcodeService $qrcodeService
         )
     {
         // Récupération du collaborateur
@@ -508,6 +511,11 @@ class PropertyController extends AbstractController
         $property->setIsWithoutExclusivity(1);
         $property->setProjet('VH');
         $propertyRepository->add($property);
+
+        $qrCode = $qrcodeService->qrcodeOneProperty($property);
+        $property->setQrcodeUrl($qrCode);
+        $em->persist($property);
+        $em->flush();
 
         return $this->redirectToRoute('op_gestapp_property_show', [
             'id' => $property->getId()
