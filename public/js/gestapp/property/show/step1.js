@@ -1,10 +1,12 @@
 // ------------------------------------------------
 // Javascript en lien avec la première partie de l'édition d'un bien
+import tinymce from "tinymce";
+
 const maxChars = 2000; // Limite de caractères
 
 // Mise en place de l'éditeur TinyMCE sur la partie Admin
 tinymce.init({
-    selector: '#property_step1_annonce',
+    selector: '.tinymce',
     setup: function(editor) {
         editor.on('input', function() {
             const content = editor.getContent({ format: 'text' });
