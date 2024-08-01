@@ -182,6 +182,9 @@
                             <div id="descriptions"  class="col-12">
                                 <h2 class="title-h2">{{ nouveau_texte|raw }}</h2>
                                 {{ property.annonce|markdown_to_html }}
+                                {% if property.annonceDown is not null %}
+                                    {{ property.annonceDown|markdown_to_html }}
+                                {% endif %}
                             </div>
                         </div>
                     </div>

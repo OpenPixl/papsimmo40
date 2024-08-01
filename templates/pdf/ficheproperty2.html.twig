@@ -186,7 +186,9 @@
             </div>
             <div id="propertyDescription" class="col-12">
                 {{ property.annonce|markdown_to_html }}
+                {% if property.annonceDown is not null %}
                 {{ property.annonceDown|markdown_to_html }}
+                {% endif %}
             </div>
         </div>
         <div id="Gallery" class="row me-0 ms-0 g-1">

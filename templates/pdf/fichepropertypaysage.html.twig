@@ -206,7 +206,9 @@
                             </div>
                             <div id="propertyDescription">
                                 {{ property.annonce|markdown_to_html }}
-                                {{ property.annonceDown|markdown_to_html }}
+                                {% if property.annonceDown is not null %}
+                                    {{ property.annonceDown|markdown_to_html }}
+                                {% endif %}
                             </div>
                         </div>
                     </div>
