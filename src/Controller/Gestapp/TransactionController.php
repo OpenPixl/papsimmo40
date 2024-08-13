@@ -916,7 +916,7 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
-    #[Route('/{id}/addActePdfAdmin/roleEditor', name: 'op_gestapp_transaction_addactepdf_admin', methods: ['POST'])]
+    #[Route('/{id}/addActePdfAdmin/{roleEditor}', name: 'op_gestapp_transaction_addactepdf_admin', methods: ['POST'])]
     public function addActePdfAdmin(
         Request $request,
         Transaction $transaction,
@@ -986,13 +986,16 @@ class TransactionController extends AbstractController
                     'code' => 200,
                     'message' => 'Promesse de vente réalisée.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowacte' => $this->renderView('gestapp/transaction/include/block/_rowactepdf.html.twig', [
                         'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
                         'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                 ], 200);
             }
@@ -1301,10 +1304,12 @@ class TransactionController extends AbstractController
                     'code' => 200,
                     'message' => 'Promesse de vente réalisée.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'rowtracfin' => $this->renderView('gestapp/transaction/include/block/_rowtracfinpdf.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ])
                 ], 200);
             }

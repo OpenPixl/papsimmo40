@@ -106,8 +106,6 @@ class QrcodeService
             //Save img png
             $result->saveToFile($path.'properties/'.$newref.'/'.$namePng);
         }
-        
-
 
         return $namePng;
     }

@@ -27,6 +27,7 @@ use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\TransactionRepository;
 use App\Service\ArchivePropertyService;
+use App\Service\DirectoryService;
 use App\Service\PropertyService;
 use App\Service\QrcodeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -1017,7 +1018,9 @@ class PropertyController extends AbstractController
         CadasterRepository $cadasterRepository,
         PublicationRepository $publicationRepository,
         ComplementRepository $complementRepository,
-        PaginatorInterface $paginator)
+        PaginatorInterface $paginator,
+        DirectoryService $directoryService
+    )
     {
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
@@ -1048,6 +1051,13 @@ class PropertyController extends AbstractController
             $propertyRepository->remove($property);
             $publicationRepository->remove($publication);
             $complementRepository->remove($complement);
+            // suppression du dossier et de son contenu
+            $path = dirname(__DIR__, 2).'/public/';
+            // récupération de la référence
+            $ref = explode("/", $property->getRef());
+            $newref = $ref[0].'-'.$ref[1];
+
+            $directoryService->delRepertory($path.'properties/'.$newref);
 
             if($hasAccess == true){
                 $data = $propertyRepository->listAllProperties();
