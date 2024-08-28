@@ -24,6 +24,25 @@
             const submitAddnewproperty = document.getElementById('submitAddnewproperty')
             const ArrayMandats = []
 
+            const modalArchived = document.getElementById('modalArchived')
+            modalArchived.addEventListener('show.bs.modal', function(event) {
+                let url = event.relatedTarget.href
+                let opt = event.relatedTarget.getAttribute('data-bs-whatever')
+                let id = opt.split('-')[0];
+                let name = opt.split('-')[1];
+                let refMandat = opt.split('-')[2];
+                let dupMandat = opt.split('-')[3];
+                let body = modalArchived.querySelector('.modal-body')
+                let submit = modalArchived.querySelector('.modal-footer a')
+                body.innerHTML =
+                    "<p class=\"text-center\">Attention, Vous êtes sur le point d'archiver le bien suivant :</p>" +
+                    "<p class=\"text-center\"><b>"+name+"</b></p>" +
+                    "<p class=\"text-center\">Sous mandat n°: <b>"+refMandat+dupMandat+"</b>.</p>"
+                ;
+                submit.href = url;
+                submit.addEventListener('click', ArchivageProperty)
+            });
+
             axios
                 .get('/gestapp/property/getlistmandats')
                 .then(function(response){
@@ -623,6 +642,29 @@
                 </div>
                 <div class="modal-footer text-bg-secondary">
                     <a id="submitDisclosed" href="#" type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Je réouvre le dossier.</a>
+                    <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {# Modal de suppression property #}
+    <div class="modal fade" id="modalArchived" tabindex="-1" aria-labelledby="modalArchived" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title text-warning" id="exampleModalLabel">Archivage d'un bien</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a href="#" type="button" class="btn btn-sm btn-warning submitArchived" data-bs-dismiss="modal">Je valide</a>
                     <button class="btn btn-sm btn-secondary" data-bs-dismiss="modal">J'annule</button>
                 </div>
             </div>
