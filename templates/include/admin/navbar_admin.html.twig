@@ -16,13 +16,13 @@
                     <a class="nav-link active" aria-current="page" href="https://pro1.mail.ovh.net/owa/auth/logon.aspx?replaceCurrent=1&url=https%3a%2f%2fpro1.mail.ovh.net%2fowa%2f" onclick="window.open(this.href); return false;"><i class="fa-duotone fa-browser"></i> Ma messagerie</a>
                 </li>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('op_webapp_public_homepage') }}" onclick="window.open(this.href); return false;"><i class="fa-duotone fa-browser"></i> Voir le site</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('op_webapp_public_homepage') }}" onclick="window.open(this.href); return false;"><i class="fa-duotone fa-browser"></i> Voir le site</a>
+                    </li>
                 {% else %}
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="{{ path('op_admin_employed_showwithproperty', {'id': app.user.id}) }}" onclick="window.open(this.href); return false;"><i class="fa-duotone fa-browser"></i> Voir ma page</a>
-                </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="{{ path('op_admin_employed_showwithproperty', {'id': app.user.id}) }}" onclick="window.open(this.href); return false;"><i class="fa-duotone fa-browser"></i> Voir ma page</a>
+                    </li>
                 {% endif %}
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

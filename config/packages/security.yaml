@@ -15,10 +15,10 @@ security:
                 property: email
     firewalls:
         api:
-                   pattern: ^/api
-                   stateless: true
-                   provider: app_user_provider
-                   jwt: ~
+           pattern: ^/api
+           stateless: true
+           provider: app_user_provider
+           jwt: ~
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
