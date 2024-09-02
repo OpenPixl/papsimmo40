@@ -277,37 +277,40 @@
                 }
             }
             // ou récupération des lignes sélectionnées
-            document.getElementById('SupprRows').onclick = function(event){
-                event.preventDefault()
-                let checkboxes = document.getElementsByName('CheckProperty');
-                for (let checkbox of checkboxes) {
-                    if(checkbox.checked){
-                        arrayCheckbox.push(parseInt(checkbox.value))
+            if(document.getElementById('SupprRows') !== null){
+                document.getElementById('SupprRows').onclick = function(event){
+                    event.preventDefault()
+                    let checkboxes = document.getElementsByName('CheckProperty');
+                    for (let checkbox of checkboxes) {
+                        if(checkbox.checked){
+                            arrayCheckbox.push(parseInt(checkbox.value))
+                        }
+                    }
+                    for(let array of arrayCheckbox)
+                    {
+                        axios
+                            .post('/gestapp/property/archived/' + array)
+                            .then(function(response){
+                                document.getElementById('listArchived').innerHTML = response.data.liste
+                                // Mise en place de l'évenement pour la suppression d'un bien en cours de création
+                                document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
+                                    link.addEventListener('click', DelPropertyIncreating)
+                                })
+                                // Mise en place de l'évenement pour l'archivage d'un bien
+                                document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
+                                    link.addEventListener('click', ArchivageProperty)
+                                })
+                                document.querySelectorAll('a.Modaltransferate').forEach(function(link){
+                                    link.addEventListener('click', modalTransferate)
+                                })
+                            })
+                            .catch(function(error){
+                                console.log(error)
+                            })
                     }
                 }
-                for(let array of arrayCheckbox)
-                {
-                    axios
-                        .post('/gestapp/property/archived/' + array)
-                        .then(function(response){
-                            document.getElementById('listArchived').innerHTML = response.data.liste
-                            // Mise en place de l'évenement pour la suppression d'un bien en cours de création
-                            document.querySelectorAll('a.jsModalDelPropertyIncreating').forEach(function(link){
-                                link.addEventListener('click', DelPropertyIncreating)
-                            })
-                            // Mise en place de l'évenement pour l'archivage d'un bien
-                            document.querySelectorAll('a.jsModalDelProperty').forEach(function(link){
-                                link.addEventListener('click', ArchivageProperty)
-                            })
-                            document.querySelectorAll('a.Modaltransferate').forEach(function(link){
-                                link.addEventListener('click', modalTransferate)
-                            })
-                        })
-                        .catch(function(error){
-                            console.log(error)
-                        })
-                }
             }
+
 
             function removeOptions(selectElement) {
                 var i, L = selectElement.options.length - 1;
