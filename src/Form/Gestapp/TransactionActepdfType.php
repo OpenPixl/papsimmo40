@@ -22,7 +22,7 @@ class TransactionActepdfType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '20476k',
+                        'maxSize' => '40952k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',

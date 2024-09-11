@@ -22,7 +22,7 @@ class TransactionHonorairesType extends AbstractType
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '10238k',
+                        'maxSize' => '40952k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
