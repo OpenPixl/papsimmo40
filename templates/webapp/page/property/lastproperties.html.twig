@@ -99,7 +99,7 @@
                                 <div class="name">
                                     {{ property.rubric }} |
                                     {{ property.rubricss }} |
-                                    {% if property.idrubric == 56 or property.idrubric == 58 or property.idrubric == 50 or property.idrubric == 43 or property.idrubric == 22 or property.idrubric == 29 or property.idrubric == 52 or property.idrubric == 57 %}
+                                    {% if property.idrubric in [22,27,29,37,46,50,51,52,56,58] %}
                                         {{ property.surfaceLand }} m2
                                     {% else %}
                                         {{ property.surfaceHome}} m2
