@@ -17,12 +17,12 @@ class Transactionstep3Type extends AbstractType
     {
         $builder
             ->add('promisePdfFilename', FileType::class,[
-                'label' => "Déposer le dossier PDF du compromis, le fichier ne doit pas dépasser 10Mo de taille",
+                'label' => "Déposer le dossier PDF du compromis, le fichier ne doit pas dépasser 20Mo de taille",
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '20476k',
+                        'maxSize' => '40952k',
                         'mimeTypes' => [
                             'application/pdf',
                             'application/x-pdf',
