@@ -782,7 +782,7 @@ form{
     }
   }
 
-  #Properties{
+  {
     h2,.h2,h3,.h3 {
       color: $secondary-color;
       font-family: "Montserrat-light", sans-serif;
@@ -827,7 +827,7 @@ form{
     }
     .annonce{
       position: absolute;
-      bottom: 0;
+      bottom: 0.4rem;
       z-index: 2;
       left: 0.5rem;
       color: #FFFFFF;
