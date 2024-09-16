@@ -22,6 +22,7 @@ use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\TransactionRepository;
+use App\Service\transactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -103,6 +104,7 @@ class TransactionController extends AbstractController
         $transaction = new Transaction();
         $transaction->setProperty($property);
         $transaction->setState('open');
+        $transaction->setProject(0);
         $transaction->setName($name);
         $transaction->setRefEmployed($user);
         $entityManager->persist($transaction);
@@ -217,7 +219,7 @@ class TransactionController extends AbstractController
 
     // Ajout ou modification de la date de signature de la promesse de vente
     #[Route('/{id}/addDatePromise/{roleEditor}', name: 'op_gestapp_transaction_adddatepromise', methods: ['GET', 'POST'])]
-    public function addDatePromise(Transaction $transaction, $roleEditor, Request $request, EntityManagerInterface $em) : response
+    public function addDatePromise(Transaction $transaction, $roleEditor, Request $request, EntityManagerInterface $em, transactionService $transactionService) : response
     {
         $form = $this->createForm(Transactionstep2Type::class, $transaction, [
             'attr' => ['id'=>'addDatePromiseForm'],
@@ -232,6 +234,10 @@ class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $transaction->setState('deposit');
             $em->persist($transaction);
+            $em->flush();
+
+            $project = $transactionService->calculateProject($transaction);
+            $transaction->setProject($project);
             $em->flush();
 
             return $this->json([
@@ -260,7 +266,8 @@ class TransactionController extends AbstractController
         EntityManagerInterface $em,
         MailerInterface $mailer,
         SluggerInterface $slugger,
-        PropertyRepository $propertyRepository
+        PropertyRepository $propertyRepository,
+        transactionService $transactionService
     ) : response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
@@ -340,9 +347,15 @@ class TransactionController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
+
                 $transaction->setPromisePdfFilename($newFilename);
                 $em->persist($transaction);
                 $em->flush();
+
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $em->flush();
+
                 if($this->submit == true){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
@@ -406,6 +419,7 @@ class TransactionController extends AbstractController
         Request $request,
         $roleEditor,
         Transaction $transaction,
+        transactionService $transactionService,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
     )
@@ -419,6 +433,10 @@ class TransactionController extends AbstractController
         $transaction->setPromiseValidBy($username);
         $transaction->setIsValidPromisepdf(1);
         $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        $project = $transactionService->calculateProject($transaction);
+        $transaction->setProject($project);
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
@@ -477,6 +495,7 @@ class TransactionController extends AbstractController
     public function addPromisePdfAdmin(
         Request $request,
         Transaction $transaction,
+        transactionService $transactionService,
         $roleEditor,
         EntityManagerInterface $entityManager,
         PropertyRepository $propertyRepository,
@@ -540,6 +559,10 @@ class TransactionController extends AbstractController
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $entityManager->flush();
+
                 return $this->json([
                     'code' => 200,
                     'message' => 'Promesse de vente réalisée.',
@@ -575,7 +598,8 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addHonorairePdf/{roleEditor}', name: 'op_gestapp_transaction_addhonorairepdf', methods: ['GET', 'POST'])]
     public function addHonorairePdf(
         Transaction $transaction,
-                    $roleEditor,
+        transactionService $transactionService,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -640,6 +664,10 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $em->flush();
+
                 return $this->json([
                     'code' => 200,
                     'message' => 'Promesse de vente réalisée.',
@@ -662,7 +690,7 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/{id}/addDateActe/{roleEditor}', name: 'op_gestapp_transaction_adddateacte', methods: ['GET', 'POST'])]
-    public function addDateActe(Transaction $transaction, $roleEditor, Request $request, EntityManagerInterface $em) : response
+    public function addDateActe(Transaction $transaction, transactionService $transactionService, $roleEditor, Request $request, EntityManagerInterface $em) : response
     {
         $form = $this->createForm(TransactionActedateType::class, $transaction, [
             'attr' => ['id'=>'addDateActeForm'],
@@ -677,6 +705,10 @@ class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $transaction->setState('definitive_sale');
             $em->persist($transaction);
+            $em->flush();
+
+            $project = $transactionService->calculateProject($transaction);
+            $transaction->setProject($project);
             $em->flush();
 
             return $this->json([
@@ -700,7 +732,8 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addActePdf/{roleEditor}', name: 'op_gestapp_transaction_addactepdf', methods: ['GET', 'POST'])]
     public function addActePdf(
         Transaction $transaction,
-                    $roleEditor,
+        transactionService $transactionService,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -789,6 +822,10 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $em->flush();
+
                 if($this->submit == true){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
@@ -851,8 +888,9 @@ class TransactionController extends AbstractController
     #[Route('/{id}/validActePdf/{roleEditor}', name: 'op_gestapp_transaction_validactepdf', methods: ['GET', 'POST'])]
     public function validActePdf(
         Request $request,
-                $roleEditor,
+        $roleEditor,
         Transaction $transaction,
+        transactionService $transactionService,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer)
     {
@@ -865,6 +903,10 @@ class TransactionController extends AbstractController
         $transaction->setActeValidBy($username);
         $transaction->setIsValidActepdf(1);
         $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        $project = $transactionService->calculateProject($transaction);
+        $transaction->setProject($project);
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
@@ -920,6 +962,7 @@ class TransactionController extends AbstractController
     public function addActePdfAdmin(
         Request $request,
         Transaction $transaction,
+        transactionService $transactionService,
         $roleEditor,
         EntityManagerInterface $entityManager,
         PropertyRepository $propertyRepository,
@@ -982,6 +1025,10 @@ class TransactionController extends AbstractController
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $entityManager->flush();
+
                 return $this->json([
                     'code' => 200,
                     'message' => 'Promesse de vente réalisée.',
@@ -1017,7 +1064,8 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addTracfinPdf/{roleEditor}', name: 'op_gestapp_transaction_addtracfinpdf', methods: ['GET', 'POST'])]
     public function addTracfinPdf(
         Transaction $transaction,
-                    $roleEditor,
+        transactionService $transactionService,
+        $roleEditor,
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
@@ -1109,6 +1157,10 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $em->flush();
+
                 if($this->submit == 1){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
@@ -1169,6 +1221,7 @@ class TransactionController extends AbstractController
         Request $request,
         $roleEditor,
         Transaction $transaction,
+        transactionService $transactionService,
         EntityManagerInterface $entityManager,
         MailerInterface $mailer
     )
@@ -1182,6 +1235,10 @@ class TransactionController extends AbstractController
         $transaction->setIsValidtracfinPdf(1);
         $transaction->setIsDocsFinished(1);
         $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        $project = $transactionService->calculateProject($transaction);
+        $transaction->setProject($project);
         $entityManager->flush();
 
         $employedEmail = $transaction->getRefEmployed()->getEmail();
@@ -1237,6 +1294,7 @@ class TransactionController extends AbstractController
     public function addTracfinPdfAdmin(
         Request $request,
         Transaction $transaction,
+        transactionService $transactionService,
         $roleEditor,
         EntityManagerInterface $entityManager,
         PropertyRepository $propertyRepository,
@@ -1300,6 +1358,10 @@ class TransactionController extends AbstractController
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $entityManager->flush();
+
                 return $this->json([
                     'code' => 200,
                     'message' => 'Promesse de vente réalisée.',
@@ -1330,6 +1392,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/addinvoicePdf/{roleEditor}', name: 'op_gestapp_transaction_addinvoicepdf', methods: ['GET', 'POST'])]
     public function addInvoicePdf(
         Transaction $transaction,
+        transactionService $transactionService,
         $roleEditor,
         Request $request,
         EntityManagerInterface $em,
@@ -1401,6 +1464,10 @@ class TransactionController extends AbstractController
                 $em->persist($transaction);
                 $em->flush();
 
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $em->flush();
+
                 if($submit == 1){
                     if($hasAccess == false) {
                         $email = (new TemplatedEmail())
@@ -1457,13 +1524,17 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/{id}/validInvoicePdf/{roleEditor}', name: 'op_gestapp_transaction_validinvoicepdf_control', methods: ['GET', 'POST'])]
-    public function validInvoicePdf(Request $request,Transaction $transaction, $roleEditor, EntityManagerInterface $entityManager, MailerInterface $mailer)
+    public function validInvoicePdf(Request $request,Transaction $transaction, transactionService $transactionService, $roleEditor, EntityManagerInterface $entityManager, MailerInterface $mailer)
     {
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $user = $this->getUser();
         $transaction->setIsValidInvoicePdf(1);
         $entityManager->persist($transaction);
+        $entityManager->flush();
+
+        $project = $transactionService->calculateProject($transaction);
+        $transaction->setProject($project);
         $entityManager->flush();
 
         return $this->json([
@@ -1482,7 +1553,7 @@ class TransactionController extends AbstractController
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
     #[Route('/{id}/addInvoicePdfAdmin', name: 'op_gestapp_transaction_addinvoicepdf_admin', methods: ['POST'])]
-    public function addInvoicePdfAdmin(Request $request, Transaction $transaction, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    public function addInvoicePdfAdmin(Request $request, Transaction $transaction, transactionService $transactionService, EntityManagerInterface $entityManager, SluggerInterface $slugger)
     {
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -1522,6 +1593,10 @@ class TransactionController extends AbstractController
                 $entityManager->persist($transaction);
                 $entityManager->flush();
 
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $entityManager->flush();
+
                 return $this->json([
                     'code' => 200,
                     'message' => 'La Facture a étét correctement déposée.',
@@ -1550,6 +1625,7 @@ class TransactionController extends AbstractController
     public function errorPdf(
         Request $request,
         Transaction $transaction,
+        transactionService $transactionService,
         PropertyRepository $propertyRepository,
         MailerInterface $mailer,
         EntityManagerInterface $em,
@@ -1589,6 +1665,10 @@ class TransactionController extends AbstractController
             $transaction->setTracfinPdfFilename(null);
             $transaction->setIsSupprTracfinPdf(0);
         }
+        $em->flush();
+
+        $project = $transactionService->calculateProject($transaction);
+        $transaction->setProject($project);
         $em->flush();
 
         if($submit == 1){
@@ -1728,6 +1808,7 @@ class TransactionController extends AbstractController
     #[Route('/deldocument/{id}/{name}/{roleEditor}', name: 'op_gestapp_transaction_deldocument',  methods: ['GET','POST'])]
     public function delDocument(
         Transaction $transaction,
+        transactionService $transactionService,
         EntityManagerInterface $em,
         $name,
         $roleEditor,
@@ -1763,6 +1844,10 @@ class TransactionController extends AbstractController
             $transaction->setIsValidtracfinPdf(0);
             $transaction->setIsSupprTracfinPdf(0);
         }
+        $em->flush();
+
+        $project = $transactionService->calculateProject($transaction);
+        $transaction->setProject($project);
         $em->flush();
 
         return $this->json([

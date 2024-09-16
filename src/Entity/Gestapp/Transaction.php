@@ -160,6 +160,9 @@ class Transaction
     #[ORM\OneToMany(mappedBy: 'refTransac', targetEntity: AddCollTransac::class)]
     private Collection $addCollTransacs;
 
+    #[ORM\Column(type: Types::SMALLINT, nullable: true)]
+    private ?int $project = null;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -559,6 +562,18 @@ class Transaction
                 $addCollTransac->setRefTransac(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getProject(): ?int
+    {
+        return $this->project;
+    }
+
+    public function setProject(?int $project): static
+    {
+        $this->project = $project;
 
         return $this;
     }

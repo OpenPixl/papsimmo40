@@ -419,6 +419,7 @@ function submitDatePromise(event){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('transactionstep3_promisePdfFilename').classList.remove('d-none');
             document.getElementById('btnAddPromisePdf').classList.remove('d-none');
             document.getElementById('rowEmptyPromisePdf').remove();
@@ -444,6 +445,7 @@ function submitPromisePdf(){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
             document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             document.getElementById('transaction_actedate_dateAtSale').classList.remove('d-none');
@@ -470,6 +472,7 @@ function editPromisePdf(){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
             document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             allAddEvent();
@@ -493,6 +496,7 @@ function submitPromisePdfbyColl(){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
             document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             allAddEvent();
@@ -510,6 +514,7 @@ function submitPromisePdfControl(event){
     axios
         .post(url)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowPromisePdf').innerHTML = response.data.rowpromise;
             document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
             allAddEvent();
@@ -537,6 +542,7 @@ function submitDateActe(event){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('transaction_actepdf_actePdfFilename').classList.remove('d-none');
             document.getElementById('btnAddActePdf').classList.remove('d-none');
             document.getElementById('rowEmptyActePdf').remove();
@@ -561,6 +567,7 @@ function submitActePdf(event){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
             document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             document.getElementById('btnAddTracfinPdf').classList.remove('d-none');
@@ -606,6 +613,7 @@ function submitActePdfbyColl(){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowActePdf').innerHTML = response.data.rowacte;
             document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             allAddEvent();
@@ -623,6 +631,7 @@ function submitActePdfControl(event){
     axios
         .post(url)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowActePdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
@@ -648,6 +657,7 @@ function submitTracfinPdf(event){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             document.getElementById('transaction_invoicepdf_invoicePdfFilename').classList.remove('d-none');
             document.getElementById('btnAddInvoicePdf').classList.remove('d-none');
@@ -693,6 +703,7 @@ function submitTracfinPdfbyColl(){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             allAddEvent();
             toasterMessage(response.data.message);
@@ -710,6 +721,7 @@ function submitTracfinPdfControl(event){
         .post(url)
         .then(function(response){
             event.preventDefault();
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowTracfinPdf').innerHTML = response.data.rowtracfin;
             allAddEvent();
             toasterMessage(response.data.message);
@@ -736,6 +748,7 @@ function submitInvoicePdf(event){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowInvoicePdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
@@ -778,6 +791,7 @@ function submitInvoicePdfbyColl(){
     axios
         .post(action, data)
         .then(function(response){
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowInvoicePdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
@@ -795,6 +809,7 @@ function submitInvoicePdfControl(event){
         .post(url)
         .then(function(response){
             event.preventDefault();
+            document.getElementById('progress_project').innerHTML = response.data.transState;
             document.getElementById('rowInvoicePdf').innerHTML = response.data.row;
             allAddEvent();
             toasterMessage(response.data.message);
