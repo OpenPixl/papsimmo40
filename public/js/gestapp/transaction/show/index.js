@@ -4,6 +4,7 @@ const modalAddcollaborateur = document.getElementById('modalAddColl');
 
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
 let btnDelCustommer = document.getElementById('btnDellCustomer');
+const selectCustomer = "selectCustomer";
 
 let btnAddDatePromise = document.getElementById('btnAddDatePromise');
 let btnAddPromisePdf = document.getElementById('btnAddPromisePdf');
@@ -121,6 +122,43 @@ function zipcodeGen(event){
                 }
             });
     }
+}
+
+function tomSelect(selectId){
+    new TomSelect(selectId,{
+        plugins: ['remove_button'],
+        create: true,
+        valueField: 'value',      // Champ contenant la valeur de l'option
+        labelField: 'text',       // Champ contenant le texte affiché
+        searchField: 'text',      // Champ utilisé pour la recherche
+        load: function(query, callback) {
+            var url = "/gestapp/customer/getCustomer";  // URL du contrôleur Symfony
+
+            fetch(url)
+                .then(function(response) {
+                    if (!response.ok) {
+                        throw new Error("Erreur lors de la récupération des options.");
+                    }
+                    return response.json();
+                })
+                .then(function(json) {
+                    console.log("Données reçues:", json); // Débogage
+                    callback(json);
+                })
+                .catch(function(error) {
+                    console.error("Erreur:", error);  // Débogage des erreurs
+                    callback();
+                });
+        },
+        render:{
+            option:function(data,escape){
+                return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+            },
+            item:function(data,escape){
+                return '<div>' + escape(data.data) + '</div>';
+            }
+        }
+    });
 }
 
 // ------------------------------------------------------------------------------------------
@@ -1000,5 +1038,6 @@ function allAddEvent(){
     if(document.querySelector('#rowHonorairesPdf #btnHonorairePdf') !== null){document.querySelector('#rowHonorairesPdf #btnHonorairePdf').addEventListener('click', submitHonoraires);}
 }
 
-
+allAddEvent();
+//tomSelect('#selectCustomer');
 

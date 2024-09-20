@@ -21,8 +21,10 @@
                 </td>
                 <td class="align-left">
                     <b>{{ transaction.name }}</b>
-                    {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>La promesse de vente doit être controlée.</span>{% endif %}<br>
-                    {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>L'attestation de l'acte de vente doit être controlée.</span>{% endif %}
+                    {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}<br><span class="text-danger">La promesse de vente doit être controlée.</span>{% endif %}<br>
+                    {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}<br><span class="text-danger">L'attestation de l'acte de vente doit être controlée.</span>{% endif %}
+                    {% if transaction.isValidActepdf == 1 and transaction.isValidActepdf == 0 %}<br><span class="text-danger">Le TRACFIN doit être controlée.</span>{% endif %}
+
                 </td>
                 <td>
                     {% if transaction.refEmployed.avatarName is defined %}

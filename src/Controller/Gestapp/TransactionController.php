@@ -66,6 +66,19 @@ class TransactionController extends AbstractController
         ]);
     }
 
+    #[Route('/updateprogress', name: 'op_gestapp_transaction_updateprogress', methods: ['GET'])]
+    public function updateProgress(TransactionRepository $transactionRepository, EntityManagerInterface $em, transactionService $transactionService)
+    {
+        $transactions = $transactionRepository->findAll();
+        foreach($transactions as $transaction)
+        {
+            $project = $transactionService->calculateProject($transaction);
+            $transaction->setProject($project);
+            $em->flush();
+        }
+
+        return $this->redirectToRoute('op_gestapp_transaction_index');
+    }
 
     #[Route('/new/{idproperty}', name: 'op_gestapp_transaction_new', methods: ['GET', 'POST'])]
     public function new(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository): Response
@@ -90,7 +103,13 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/add/{idproperty}', name: 'op_gestapp_transaction_add', methods: ['GET'])]
-    public function add(Request $request, $idproperty, EntityManagerInterface $entityManager, PropertyRepository $propertyRepository)
+    public function add(
+        Request $request,
+        $idproperty,
+        EntityManagerInterface $entityManager,
+        PropertyRepository $propertyRepository,
+        MailerInterface $mailer,
+    )
     {
         $user = $this->getUser();
         $property = $propertyRepository->find($idproperty);
@@ -111,6 +130,31 @@ class TransactionController extends AbstractController
         $property->setIsTransaction(1);
         $entityManager->persist($property);
         $entityManager->flush();
+
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+
+        $email = (new TemplatedEmail())
+            ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'))
+            ->to($this->application->getAdminEmail())
+            //->cc('cc@example.com')
+            //->bcc('bcc@example.com')
+            //->replyTo('fabien@example.com')
+            //->priority(Email::PRIORITY_HIGH)
+            ->subject('[PAPs immo] : Une nouvelle transaction immobilière est engagée')
+            ->htmlTemplate('admin/mail/messageNewTransaction.html.twig')
+            ->context([
+                'transaction' => $transaction,
+                'ref' => $newref,
+                'url' => $request->server->get('HTTP_HOST')
+            ]);
+        try {
+            $mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            dd($e);
+        }
 
         return $this->redirectToRoute('op_gestapp_transaction_show2', [
             'id' => $transaction->getId()
@@ -365,7 +409,7 @@ class TransactionController extends AbstractController
                             //->bcc('bcc@example.com')
                             //->replyTo('fabien@example.com')
                             //->priority(Email::PRIORITY_HIGH)
-                            ->subject('[PAPs immo] : Un document de transaction attend votre approbation')
+                            ->subject('[PAPs immo] : Une promesse de vente attend votre approbation.')
                             ->htmlTemplate('admin/mail/messageTransaction.html.twig')
                             ->context([
                                 'transaction' => $transaction,
@@ -457,10 +501,11 @@ class TransactionController extends AbstractController
                 //->bcc('bcc@example.com')
                 //->replyTo('fabien@example.com')
                 //->priority(Email::PRIORITY_HIGH)
-                ->subject("[PAPs Immo] : Document vérifié")
+                ->subject("[PAPs Immo] : Document ". $transaction->getPromisePdfFilename() ." vérifié.")
                 ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
                 ->context([
                     'transaction' => $transaction,
+                    'url' => $request->server->get('HTTP_HOST')
                 ]);
             try {
                 $mailer->send($email);

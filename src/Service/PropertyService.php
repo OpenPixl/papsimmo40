@@ -8,6 +8,7 @@ use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class PropertyService
 {
@@ -15,7 +16,8 @@ class PropertyService
         public  EntityManagerInterface $em,
         public PropertyRepository $propertyRepository,
         public PhotoRepository $photoRepository,
-        protected RequestStack $request
+        protected RequestStack $request,
+        protected UrlGeneratorInterface $urlGenerator
     )
     {}
 

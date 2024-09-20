@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="fr">
+{{ include('admin/mail/include/head.html.twig') }}
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <a href="{{ url('op_webapp_public_homepage') }}">
+                <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
+            </a>
+            <h1>[PAPs Immo] :<br>Une nouvelle transaction immobilière est engagée.</h1>
+        </div>
+        <div class="content">
+            <h3>Transaction n°: <span>{{ transaction.name }}</span></h3>
+            <h4>Bonjour,</h4>
+            <p>
+                Un de vos collaborateur vient d'engager une nouvelle transaction immobilière.
+            </p>
+            <table>
+                <tr>
+                    <td>
+                        <img src="{{ email.image('@firstimage/'~ref~'/'~transaction.property.photos|first) }}" alt="{{ transaction.property.photos|first }}" width="auto">
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <h5>{{ transaction.property.name }}</h5>
+                        <p>Bien sous mandat numéro : {{ transaction.property.RefMandat }}</p>
+                        <p>{{ transaction.property.annonceSlug }}...</p>
+                    </td>
+                </tr>
+            </table>
+            <p>
+                <a class="btn" href="https://{{ url }}{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
+            </p>
+
+        </div>
+    </div>
+</div>
+

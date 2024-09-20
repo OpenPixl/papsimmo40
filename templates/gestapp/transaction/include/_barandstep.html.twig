@@ -2,8 +2,8 @@
     <div class="col-12">
         <ul class="nav nav-justified">
             <li class="nav-item">
-                <a id="icoStepOne" class="nav-link {% if transaction.project >= 20 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
-                    {% if transaction.project >= 20 %}
+                <a id="icoStepOne" class="nav-link {% if transaction.project > 1 %}active{% else %}disabled{% endif %}" aria-current="page" href="#">
+                    {% if transaction.project > 1 %}
                         <img src="{{ asset('images/png/g9.png') }}" alt="" width="100px">
                     {% else %}
                         <img src="{{ asset('images/png/g8.png') }}" alt="" width="100px">

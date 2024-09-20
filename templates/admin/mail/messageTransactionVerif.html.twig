@@ -7,7 +7,10 @@
             <a href="{{ url('op_webapp_public_homepage') }}">
                 <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
             </a>
-            <h1>[PAPs Immo] : Document Vérifié</h1>
+            <h1>
+                [PAPs Immo] :<br>
+                Document Vérifié
+            </h1>
         </div>
         <div class="content">
             <h3>Transaction n°: {{ transaction.name }}</h3>
@@ -19,7 +22,7 @@
                 Vous pouvez continuer votre démarche de vente en cliquant sur la plateforme "SoftPAPs" en cliquant le lien suivant.
             </p>
             <p>
-                <a class="btn" href="https://{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
+                <a class="btn" href="https://{{ url }}{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
             </p>
         </div>
     </div>

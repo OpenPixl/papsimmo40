@@ -18,6 +18,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -40,6 +41,22 @@ class CustomerController extends AbstractController
         return $this->render('gestapp/customer/index.html.twig', [
             'customers' => $customers,
         ]);
+    }
+
+    #[Route('/getCustomer', name: 'op_gestapp_customer_getcustomer', methods: ['GET'])]
+    public function getCustomer(CustomerRepository $customerRepository) : JsonResponse
+    {
+        $customers = $customerRepository->findAll();
+
+        $data = [];
+        foreach($customers as $customer){
+            $data[] = [
+                'value' => $customer->getId(),
+                'text' => $customer->getFirstName().' '.$customer->getLastName(),
+            ];
+        }
+        return new JsonResponse($data);
+
     }
 
     #[Route('/byproperty/{id}', name: 'op_gestapp_customer_listbyproperty', methods: ['GET'])]
