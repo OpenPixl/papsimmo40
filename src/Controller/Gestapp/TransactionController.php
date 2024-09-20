@@ -66,7 +66,7 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/updateprogress', name: 'op_gestapp_transaction_updateprogress', methods: ['GET'])]
+    #[Route('/updateprogress', name: 'op_gestapp_transaction_updateprogress', methods: ['POST'])]
     public function updateProgress(TransactionRepository $transactionRepository, EntityManagerInterface $em, transactionService $transactionService)
     {
         $transactions = $transactionRepository->findAll();
