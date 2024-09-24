@@ -5,6 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Admin\Notification;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Reco;
+use App\Form\Gestapp\Reco2Type;
 use App\Form\Gestapp\RecoType;
 use App\Repository\Gestapp\RecoRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -40,10 +41,14 @@ class RecoController extends AbstractController
     #[Route('/new', name: 'op_gestapp_reco_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
 
         $reco = new Reco();
+        $reco->setRefEmployed($user->getReferent());
+        $reco->setAnnounceFirstName($user->getFirstName());
+        $reco->setAnnounceLastName($user->getLastName());
+        $reco->setAnnounceEmail($user->getEmail());
+        $reco->setAnnouncePhone($user->getGsm());
         $form = $this->createForm(RecoType::class, $reco, [
             'action' => $this->generateUrl('op_gestapp_reco_new') ,
             'method' => 'POST',
@@ -56,7 +61,6 @@ class RecoController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $reco->setRefEmployed($user);
             $reco->setOpenRecoAt(new \DateTime('now'));
 
             $entityManager->persist($reco);

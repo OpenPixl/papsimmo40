@@ -6,8 +6,8 @@
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <th>Collaborateur</th>
         {% endif %}
-        <th>Statut</th>
         <th>Prescripteur</th>
+        <th>Statut</th>
         <th>Client potentiel</th>
         <th>Propriété</th>
         <th>Créer le</th>
@@ -32,9 +32,6 @@
             </td>
             {% endif %}
             <td>
-                {% if reco.statutReco is not null %}{{ reco.statutReco.fr }}{% endif %}
-            </td>
-            <td>
                 <i class="fa-duotone fa-circle-user"></i> {{ reco.announceFirstName }} {{ reco.announceLastName }}<br>
                 {% if reco.announcePhone and reco.announceEmail %}
                     <i class="fa-duotone fa-circle-user"></i> {{ reco.announcePhone }} / <i class="fa-duotone fa-circle-envelope"></i> {{ reco.announceEmail }}
@@ -42,6 +39,9 @@
                     {% if reco.announcePhone is defined %}<i class="fa-duotone fa-circle-user"></i> {{ reco.announcePhone }}{% endif %}
                     {% if reco.announceEmail is defined %}<i class="fa-duotone fa-circle-envelope"></i> {{ reco.announceEmail }}{% endif %}
                 {% endif %}
+            </td>
+            <td>
+                {% if reco.statutReco is not null %}{{ reco.statutReco.fr }}{% endif %}
             </td>
             <td>
                 <i class="fa-duotone fa-circle-user"></i> {{ reco.customerFirstName }} {{ reco.customerLastName }}<br>
