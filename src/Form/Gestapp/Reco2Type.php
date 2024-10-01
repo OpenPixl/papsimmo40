@@ -56,18 +56,6 @@ class Reco2Type extends AbstractType
                     'Local commercial' => ['data-data' => 'local_commercial'],
                 ],
             ])
-            ->add('statutReco', EntityType::class, [
-                 'label'=> 'Catégorie',
-                 'class' => StatutReco::class,
-                 'query_builder' => function (EntityRepository $er) {
-                     return $er->createQueryBuilder('d')
-                         ->orderBy('d.id', 'ASC');
-                 },
-                 'choice_label' => 'fr',
-                 'choice_attr' => function (StatutReco $product, $key, $index) {
-                     return ['data-data' => $product->getName() ];
-                 }
-             ])
             ->add('typeReco', ChoiceType::class,[
                 'label' => 'Type de recommandation',
                 'choices'  => [
@@ -81,7 +69,6 @@ class Reco2Type extends AbstractType
                     'Acquisition' => ['data-data' => 'Acquisition']
                 ],
             ])
-            ->add('commission')
         ;
     }
 

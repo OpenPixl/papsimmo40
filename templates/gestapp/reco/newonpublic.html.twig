@@ -3,7 +3,7 @@
 {% block title %}New Reco{% endblock %}
 
 {% block content %}
-    <section class="op_page_content">
+    <section id="op_page_content">
         <div class="container">
             <div class="row">
                 <div class="col-12">
@@ -11,9 +11,9 @@
                 </div>
             </div>
 
-            {{ include('gestapp/reco/_form.html.twig') }}
+            {{ include('gestapp/reco/_form2.html.twig') }}
 
-            <a href="{{ path('op_gestapp_reco_index') }}">retour à la liste des recommandations</a>
+            <a class="btn btn-sm btn-outline-dark" href="{{ path('op_gestapp_reco_index_prescripteur') }}">retour à la liste des recommandations</a>
         </div>
     </section>
 {% endblock %}

@@ -92,6 +92,20 @@ body{
       font-size: 1.3rem;
     }
   }
+  p{
+    font-family: Montserrat-light,sans-serif;
+    font-size: 0.8rem;
+  }
+  .card{
+    .card-header{
+      font-family: Montserrat-light,sans-serif;
+      font-size: 1rem;
+    }
+    .card-body{
+      font-family: Montserrat-light,sans-serif;
+      font-size: 0.8rem;
+    };
+  }
 }
 
 #prez_collaborateur {

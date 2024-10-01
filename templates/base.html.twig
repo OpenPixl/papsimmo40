@@ -28,6 +28,7 @@
         <header>
             {% block header %}
                 {{ render(controller('App\\Controller\\Webapp\\PublicController::BlocMenu', {'route': route_name})) }}
+                {{ include('include/public/jumbotron.html.twig') }}
             {% endblock %}
         </header>
         <main>

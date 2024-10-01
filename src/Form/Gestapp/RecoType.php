@@ -75,6 +75,7 @@ class RecoType extends AbstractType
                     'Local commercial' => ['data-data' => 'local_commercial'],
                 ],
             ])
+
             ->add('statutReco', EntityType::class, [
                  'label'=> 'Catégorie',
                  'class' => StatutReco::class,

@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Reco;
 use App\Form\Gestapp\Reco2Type;
 use App\Form\Gestapp\RecoType;
+use App\Repository\Gestapp\choice\StatutRecoRepository;
 use App\Repository\Gestapp\RecoRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -40,29 +41,26 @@ class RecoController extends AbstractController
     #[Route('/espace_prescripteur', name: 'op_gestapp_reco_index_prescripteur', methods: ['GET'])]
     public function index_prescripteur(RecoRepository $recoRepository): Response
     {
-        $hasAccess = $this->isGranted('ROLE_PRESCRIBER');
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
+        //$hasAccess = $this->isGranted('ROLE_PRESCRIBER');
         $user = $this->getUser();
-        if($hasAccess == true)
-        {
-            $recos = $recoRepository->findBy(['refPrescripteur' => $user->getId()]);
-            return $this->render('gestapp/reco/indexPrescriber.html.twig', [
-                'recos' => $recos,
-            ]);
-        }else{
-            $recos = $recoRepository->findBy(['refEmployed' => $user->getId()]);
-            return $this->render('gestapp/reco/indexPrescriber.html.twig', [
-                'recos' => $recos,
-            ]);
-        }
+
+        $recos = $recoRepository->findBy(['refPrescripteur' => $user->getId()]);
+        return $this->render('gestapp/reco/indexPrescriber.html.twig', [
+            'recos' => $recos,
+        ]);
+
     }
 
     #[Route('/newOnPublic', name: 'op_gestapp_reco_newonpublic', methods: ['GET', 'POST'])]
-    public function newOnPublic(Request $request, EntityManagerInterface $entityManager): Response
+    public function newOnPublic(Request $request, EntityManagerInterface $entityManager, StatutRecoRepository $statutRecoRepository): Response
     {
         $user = $this->getUser();
+        $startReco = $statutRecoRepository->findOneBy(['id' => 1 ]);
 
         $reco = new Reco();
         $reco->setRefPrescripteur($user);
+        $reco->setStatutReco($startReco);
         $reco->setRefEmployed($user->getReferent());
         $reco->setAnnounceFirstName($user->getFirstName());
         $reco->setAnnounceLastName($user->getLastName());
