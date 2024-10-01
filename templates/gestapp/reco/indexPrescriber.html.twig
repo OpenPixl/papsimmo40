@@ -1,0 +1,76 @@
+{% extends 'prescriber.html.twig' %}
+
+{% block title %}Reco index{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="text/javascript">
+        window.onload = function() {
+            document.addEventListener("keydown", function(event) {
+                if (event.key === "Enter") {
+                    const activeElement = document.activeElement;
+                    if (activeElement && activeElement.tagName === "INPUT" && activeElement.type !== "submit") {
+                        event.preventDefault(); // Empêche la soumission du formulaire
+                    }
+                }
+            });
+        }
+    </script>
+{% endblock %}
+
+{% block contentTitle %}
+
+{% endblock %}
+
+{% block content %}
+    <section class="op_page_content">
+        <div class="container">
+            <div class="row my-3 d-flex justify-content-between" >
+                <div class="col-sm-12">
+                    <h1>Espace de recommandations</h1>
+                    <h2>Bienvenue {{ app.user.firstName }} {{ app.user.lastName }}</h2>
+                </div>
+            </div>
+            <div class="row my-3">
+                <div class="col-12">
+                    <a id="btnAddReco" class="btn btn-outline-primary btn-sm" href="{{ path('op_gestapp_reco_newonpublic') }}">Ajouter une recommandation</a>
+                    {% if is_granted('ROLE_PRESCRIBER') %}
+                        <a id="btnModalPrescriber" class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_edit_ci', {'id': app.user.id}) }}">Modifier mes informations personnel et ma carte d'identité</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12" id="liste">
+                    {{ include('gestapp/reco/include/_liste.html.twig') }}
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}
+
+{% block modal %}
+    {{ parent() }}
+    {# Modal de suppression #}
+    <div class="modal fade" id="modalReco" tabindex="-1" aria-labelledby="modalStatus" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Modal Recommandation</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                    <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -373,6 +373,12 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'refEmployed', targetEntity: Account::class)]
     private Collection $accounts;
 
+    /**
+     * @var Collection<int, Reco>
+     */
+    #[ORM\OneToMany(mappedBy: 'refPrescripteur', targetEntity: Reco::class)]
+    private Collection $recosPrescripteur;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -387,6 +393,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->purchases = new ArrayCollection();
         $this->addCollTransacs = new ArrayCollection();
         $this->accounts = new ArrayCollection();
+        $this->recosPrescripteur = new ArrayCollection();
     }
 
     // Permet d'initialiser le slug !
@@ -1220,6 +1227,36 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($account->getRefEmployed() === $this) {
                 $account->setRefEmployed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Reco>
+     */
+    public function getRecosPrescripteur(): Collection
+    {
+        return $this->recosPrescripteur;
+    }
+
+    public function addRecosPrescripteur(Reco $recosPrescripteur): static
+    {
+        if (!$this->recosPrescripteur->contains($recosPrescripteur)) {
+            $this->recosPrescripteur->add($recosPrescripteur);
+            $recosPrescripteur->setRefPrescripteur($this);
+        }
+
+        return $this;
+    }
+
+    public function removeRecosPrescripteur(Reco $recosPrescripteur): static
+    {
+        if ($this->recosPrescripteur->removeElement($recosPrescripteur)) {
+            // set the owning side to null (unless already changed)
+            if ($recosPrescripteur->getRefPrescripteur() === $this) {
+                $recosPrescripteur->setRefPrescripteur(null);
             }
         }
 

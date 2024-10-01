@@ -16,10 +16,9 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Validator\Constraints\File;
 
-#[Route('/gestapp/reco')]
 class RecoController extends AbstractController
 {
-    #[Route('/', name: 'op_gestapp_reco_index', methods: ['GET'])]
+    #[Route('/gestapp/reco/', name: 'op_gestapp_reco_index', methods: ['GET'])]
     public function index(RecoRepository $recoRepository): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
@@ -38,7 +37,78 @@ class RecoController extends AbstractController
         }
     }
 
-    #[Route('/new', name: 'op_gestapp_reco_new', methods: ['GET', 'POST'])]
+    #[Route('/espace_prescripteur', name: 'op_gestapp_reco_index_prescripteur', methods: ['GET'])]
+    public function index_prescripteur(RecoRepository $recoRepository): Response
+    {
+        $hasAccess = $this->isGranted('ROLE_PRESCRIBER');
+        $user = $this->getUser();
+        if($hasAccess == true)
+        {
+            $recos = $recoRepository->findBy(['refPrescripteur' => $user->getId()]);
+            return $this->render('gestapp/reco/indexPrescriber.html.twig', [
+                'recos' => $recos,
+            ]);
+        }else{
+            $recos = $recoRepository->findBy(['refEmployed' => $user->getId()]);
+            return $this->render('gestapp/reco/indexPrescriber.html.twig', [
+                'recos' => $recos,
+            ]);
+        }
+    }
+
+    #[Route('/newOnPublic', name: 'op_gestapp_reco_newonpublic', methods: ['GET', 'POST'])]
+    public function newOnPublic(Request $request, EntityManagerInterface $entityManager): Response
+    {
+        $user = $this->getUser();
+
+        $reco = new Reco();
+        $reco->setRefPrescripteur($user);
+        $reco->setRefEmployed($user->getReferent());
+        $reco->setAnnounceFirstName($user->getFirstName());
+        $reco->setAnnounceLastName($user->getLastName());
+        $reco->setAnnounceEmail($user->getEmail());
+        $reco->setAnnouncePhone($user->getGsm());
+
+        $form = $this->createForm(Reco2Type::class, $reco, [
+            'action' => $this->generateUrl('op_gestapp_reco_new') ,
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formReco'
+            ]
+        ]);
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $reco->setOpenRecoAt(new \DateTime('now'));
+
+            $entityManager->persist($reco);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('op_gestapp_reco_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        // view
+        //$view = $this->render('gestapp/reco/_form.html.twig', [
+        //    'reco' => $reco,
+        //    'form' => $form
+        //]);
+
+        // return
+        //return $this->json([
+        //    "code" => 200,
+        //    'formView' => $view->getContent()
+        //], 200);
+
+        return $this->render('gestapp/reco/newonpublic.html.twig', [
+            'reco' => $reco,
+            'form' => $form,
+        ]);
+
+    }
+
+    #[Route('/gestapp/reco/new', name: 'op_gestapp_reco_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
@@ -88,7 +158,7 @@ class RecoController extends AbstractController
 
     }
 
-    #[Route('/{id}', name: 'op_gestapp_reco_show', methods: ['GET'])]
+    #[Route('/gestapp/reco/{id}', name: 'op_gestapp_reco_show', methods: ['GET'])]
     public function show(Reco $reco): Response
     {
         return $this->render('gestapp/reco/show.html.twig', [
@@ -97,7 +167,7 @@ class RecoController extends AbstractController
     }
 
 
-    #[Route('/{id}/edit', name: 'op_gestapp_reco_edit', methods: ['GET', 'POST'])]
+    #[Route('/gestapp/reco/{id}/edit', name: 'op_gestapp_reco_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
@@ -197,7 +267,7 @@ class RecoController extends AbstractController
 
     }
 
-    #[Route('/{id}/edit/comm', name: 'op_gestapp_reco_edit_comm', methods: ['GET', 'POST'])]
+    #[Route('/gestapp/reco/{id}/edit/comm', name: 'op_gestapp_reco_edit_comm', methods: ['GET', 'POST'])]
     public function editComm(Request $request, Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager): Response
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
@@ -250,7 +320,7 @@ class RecoController extends AbstractController
         ], 200);
     }
 
-    #[Route('/{id}/AddProperty', name: 'op_gestapp_reco_addproperty', methods: ['GET', 'POST'])]
+    #[Route('/gestapp/reco/{id}/AddProperty', name: 'op_gestapp_reco_addproperty', methods: ['GET', 'POST'])]
     public function AddProperty(Reco $reco, Property $property)
     {
         // Récupérer les information à transférer
@@ -275,7 +345,7 @@ class RecoController extends AbstractController
         $reco->setRefProperty($property);
     }
 
-    #[Route('/{id}/step1', name: 'op_gestapp_reco_step1', methods: ['POST'])]
+    #[Route('/gestapp/reco/{id}/step1', name: 'op_gestapp_reco_step1', methods: ['POST'])]
     public function step1(Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager)
     {
         $reco->setIsRead(1);
@@ -294,7 +364,7 @@ class RecoController extends AbstractController
         ], 200);
     }
 
-    #[Route('/{id}/step2', name: 'op_gestapp_reco_step2', methods: ['POST'])]
+    #[Route('/gestapp/reco/{id}/step2', name: 'op_gestapp_reco_step2', methods: ['POST'])]
     public function step2(Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager)
     {
         $reco->setIsRead(0);
@@ -313,7 +383,7 @@ class RecoController extends AbstractController
         ], 200);
     }
 
-    #[Route('/{id}/step3', name: 'op_gestapp_reco_step3', methods: ['POST'])]
+    #[Route('/gestapp/reco/{id}/step3', name: 'op_gestapp_reco_step3', methods: ['POST'])]
     public function step3(Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager)
     {
         $reco->setIsRead(0);
@@ -332,7 +402,7 @@ class RecoController extends AbstractController
         ], 200);
     }
 
-    #[Route('/{id}', name: 'op_gestapp_reco_delete', methods: ['POST'])]
+    #[Route('/gestapp/reco/{id}', name: 'op_gestapp_reco_delete', methods: ['POST'])]
     public function delete(Request $request, Reco $reco, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$reco->getId(), $request->request->get('_token'))) {

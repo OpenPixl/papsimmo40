@@ -248,6 +248,15 @@ class Reco
     #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
     private ?\DateTimeInterface $paidCommissionAt = null;
 
+    #[ORM\ManyToOne(inversedBy: 'recosPrescripteur')]
+    private ?Employed $refPrescripteur = null;
+
+    #[ORM\Column]
+    private ?bool $isAuthRGPD = null;
+
+    #[ORM\Column]
+    private ?bool $isAuthCustomer = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -707,6 +716,42 @@ class Reco
     public function setPaidCommissionAt(?\DateTimeInterface $paidCommissionAt): static
     {
         $this->paidCommissionAt = $paidCommissionAt;
+
+        return $this;
+    }
+
+    public function getRefPrescripteur(): ?Employed
+    {
+        return $this->refPrescripteur;
+    }
+
+    public function setRefPrescripteur(?Employed $refPrescripteur): static
+    {
+        $this->refPrescripteur = $refPrescripteur;
+
+        return $this;
+    }
+
+    public function isAuthRGPD(): ?bool
+    {
+        return $this->isAuthRGPD;
+    }
+
+    public function setAuthRGPD(bool $isAuthRGPD): static
+    {
+        $this->isAuthRGPD = $isAuthRGPD;
+
+        return $this;
+    }
+
+    public function isAuthCustomer(): ?bool
+    {
+        return $this->isAuthCustomer;
+    }
+
+    public function setAuthCustomer(bool $isAuthCustomer): static
+    {
+        $this->isAuthCustomer = $isAuthCustomer;
 
         return $this;
     }

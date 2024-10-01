@@ -1,0 +1,19 @@
+{% extends 'prescriber.html.twig' %}
+
+{% block title %}New Reco{% endblock %}
+
+{% block content %}
+    <section class="op_page_content">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h1>Ajouter une Recomandation</h1>
+                </div>
+            </div>
+
+            {{ include('gestapp/reco/_form.html.twig') }}
+
+            <a href="{{ path('op_gestapp_reco_index') }}">retour à la liste des recommandations</a>
+        </div>
+    </section>
+{% endblock %}
