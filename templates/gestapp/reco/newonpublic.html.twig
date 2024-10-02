@@ -3,17 +3,22 @@
 {% block title %}New Reco{% endblock %}
 
 {% block content %}
-    <section id="op_page_content" style="position:relative; top:60px;">
+    <section id="op_page_content" class="mb-5" style="position:relative; top:60px;">
         <div class="container">
-            <div class="row">
-                <div class="col-12">
-                    <h3>Ajouter une Recommandation</h3>
+            <div class="row align-items-center">
+                <div class="col-2">
+                    <a href="{{ path('op_gestapp_reco_index_prescripteur') }}"><h3> <i class="fa-sharp-duotone fa-solid fa-arrow-left"></i></h3></a>
+                </div>
+                <div class="col-10">
+                    <h3 class="text-end">Ajouter une Recommandation</h3>
                 </div>
             </div>
-
             {{ include('gestapp/reco/_form2.html.twig') }}
+            <div class="row mt-1 pb-5">
+                <div class="col-12">
 
-            <a class="btn btn-sm btn-outline-dark" href="{{ path('op_gestapp_reco_index_prescripteur') }}">retour à la liste des recommandations</a>
+                </div>
+            </div>
         </div>
     </section>
 {% endblock %}

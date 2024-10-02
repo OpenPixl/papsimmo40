@@ -24,22 +24,26 @@
             <div class="row my-3 d-flex justify-content-between" >
                 <div class="col-md-12">
                     <h1 class="text-start">Espace de recommandations</h1>
-                    <h2 class="text-start">Bienvenue {{ app.user.firstName }} {{ app.user.lastName }}</h2>
+                    <h3 class="text-start">Bienvenue {{ app.user.firstName }} {{ app.user.lastName }}</h3>
                 </div>
             </div>
-            <div class="row my-3">
-                <div class="col-12">
-                    <a id="btnAddReco" class="btn btn-outline-primary btn-sm" href="{{ path('op_gestapp_reco_newonpublic') }}">Ajouter une recommandation</a>
-                    {% if is_granted('ROLE_PRESCRIBER') %}
-                        <a id="btnModalPrescriber" class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_edit_ci', {'id': app.user.id}) }}">Modifier mes informations personnel et ma carte d'identité</a>
-                    {% endif %}
-                </div>
-            </div>
+
             <div class="row">
                 <div class="col-12" id="liste">
-
                     {{ include('gestapp/reco/include/_listePrescriber.html.twig') }}
                 </div>
+            </div>
+
+            <div id="btnAddOptions" class="row justify-content-end my-3">
+                <div class="col-2">
+                    {% if is_granted('ROLE_PRESCRIBER') %}
+                        <a id="btnModalPrescriber" href="{{ path('op_admin_prescriber_edit_ci', {'id': app.user.id}) }}"><h3><i class="fa-duotone fa-solid fa-circle-user fa-2xl"></i></h3></a>
+                    {% endif %}
+                </div>
+                <div class="col-2">
+                    <a id="btnAddReco" href="{{ path('op_gestapp_reco_newonpublic') }}"><h3><i class="fa-duotone fa-solid fa-circle-plus fa-2xl"></i></h3></a>
+                </div>
+
             </div>
         </div>
     </section>

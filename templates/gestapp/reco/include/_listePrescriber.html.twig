@@ -1,16 +1,40 @@
-<div class="card rounded-1">
-    <div class="card-header">
-        <h5 class="card-title mb-0">Mes Recos</h5>
+<div class="row g-1 border-bottom py-2">
+    <div class="col-4">
+        <div class="card rounded-1">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Mes Recos</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">{{ recos|length }}</p>
+            </div>
+        </div>
     </div>
-    <div class="card-body">
-        <p class="mb-0">{{ recos|length }}</p>
+    <div class="col-4">
+        <div class="card rounded-1">
+            <div class="card-header">
+                <h5 class="card-title mb-0">Mes Gains</h5>
+            </div>
+            <div class="card-body">
+                <p class="mb-0">{{ gains }} €</p>
+            </div>
+        </div></div>
+    <div class="col-4"></div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <table class="table">
+            <tbody>
+            {% for reco in recos %}
+                <tr>
+                    <td>{{ reco.typeReco }}/{{ reco.type }}<br><small class="text-muted">{{ reco.createdAt }}</small></td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td>Aucune recommandation enregistrée.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
     </div>
 </div>
-<div class="card rounded-1">
-    <div class="card-header">
-        <h5 class="card-title mb-0">Mes Gains</h5>
-    </div>
-    <div class="card-body">
-        <p class="mb-0">{{ recos|length }} €</p>
-    </div>
-</div>
+

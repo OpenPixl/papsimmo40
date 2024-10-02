@@ -46,8 +46,14 @@ class RecoController extends AbstractController
         $user = $this->getUser();
 
         $recos = $recoRepository->findBy(['refPrescripteur' => $user->getId()]);
+        $gains = 0;
+        foreach ($recos as $reco){
+            $gain = $reco->getCommission();
+            $gains = $gains + $gain;
+        }
         return $this->render('gestapp/reco/indexPrescriber.html.twig', [
             'recos' => $recos,
+            'gains' => $gains
         ]);
 
     }
@@ -86,7 +92,7 @@ class RecoController extends AbstractController
             $entityManager->persist($reco);
             $entityManager->flush();
 
-            return $this->redirectToRoute('op_gestapp_reco_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_gestapp_reco_index_prescripteur', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('gestapp/reco/newonpublic.html.twig', [
