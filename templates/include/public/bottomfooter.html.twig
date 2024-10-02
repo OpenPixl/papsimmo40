@@ -1,20 +1,31 @@
 <section id="bottom_footer" class="container-fluid">
     <div class="row d-flex align-items-center justify-content-between">
         <div class="col-12 col-md-6">
-            <p class="text-start">&copy;{{ "now"|date("Y") }} {% if application %}{{ application.nameSite }}{% else %}OpenGaia{% endif%} | Tous droits réservés | Créer par OpenPixl</p></div>
+            <p class="text-start">&copy;{{ "now"|date("Y") }} {% if application %}{{ application.nameSite }}{% else %}OpenGaia{% endif%} |
+                <span class="d-none d-md-block">Tous droits réservés |</span> Créer par OpenPixl
+            </p>
+        </div>
         <div class="col-12 col-md-6">
-            <ul class="nav justify-content-end mb-2 mb-lg-0">
+            <ul class="nav justify-content-center justify-content-md-end mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_public_homepage')}}"><i class="fa-duotone fa-house"></i></a>
+                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_public_homepage')}}">
+                        <i class="fa-duotone fa-house"></i>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_page_slug', {'slug': 'mentions-legales'}) }}"> Mentions légales</a>
+                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_page_slug', {'slug': 'mentions-legales'}) }}">
+                        Mentions<span class="d-none d-md-block"> légales</span>
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_page_slug', {'slug': 'politique-de-confidentialite'}) }}"> Politiques de confidentialité</a>
+                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_page_slug', {'slug': 'politique-de-confidentialite'}) }}">
+                        <span class="d-none d-md-block">Politiques de </span>confidentialité
+                    </a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_page_slug', {'slug': 'honoraires'}) }}"> Honoraires</a>
+                    <a class="nav-link" aria-current="page" href="{{ path('op_webapp_page_slug', {'slug': 'honoraires'}) }}">
+                        Honoraires
+                    </a>
                 </li>
                 <li class="nav-item dropdown dropup">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">

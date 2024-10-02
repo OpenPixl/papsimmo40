@@ -19,10 +19,10 @@
 {% endblock %}
 
 {% block content %}
-    <section id="op_page_content">
+    <section id="op_page_content" style="position:relative; top:60px;">
         <div class="container">
             <div class="row my-3 d-flex justify-content-between" >
-                <div class="col-sm-12">
+                <div class="col-md-12">
                     <h1 class="text-start">Espace de recommandations</h1>
                     <h2 class="text-start">Bienvenue {{ app.user.firstName }} {{ app.user.lastName }}</h2>
                 </div>
@@ -37,12 +37,12 @@
             </div>
             <div class="row">
                 <div class="col-12" id="liste">
-                    {{ include('gestapp/reco/include/_liste.html.twig') }}
+
+                    {{ include('gestapp/reco/include/_listePrescriber.html.twig') }}
                 </div>
             </div>
         </div>
     </section>
-
 {% endblock %}
 
 {% block modal %}

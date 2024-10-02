@@ -6,6 +6,7 @@
  */
 
 import './styles/login.scss';
-require('bootstrap');
+import * as bootstrap from 'bootstrap';
+window.bootstrap = bootstrap;
 // start the Stimulus application
 import './bootstrap';

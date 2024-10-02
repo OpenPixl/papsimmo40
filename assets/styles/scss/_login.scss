@@ -4,18 +4,17 @@ body{
   //border-top : 2px solid;
   //border-image-source: $admin-color;
   //border-image-slice: 1;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6{
-  font-family: "CerebriSans-Light";
-}
-p{
-  font-family: "CerebriSans-Light";
+main{
+  h1, h2, h3, h4, h5, h6{
+    font-family: "CerebriSans-Light";
+  }
+  p{
+    font-family: "CerebriSans-Light";
+  }
 }
 
 .bg-cover {
