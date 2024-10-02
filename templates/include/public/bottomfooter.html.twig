@@ -2,7 +2,7 @@
     <div class="row d-flex align-items-center justify-content-between">
         <div class="col-12 col-md-6">
             <p class="text-start">&copy;{{ "now"|date("Y") }} {% if application %}{{ application.nameSite }}{% else %}OpenGaia{% endif%} |
-                <span class="d-none d-md-block">Tous droits réservés |</span> Créer par OpenPixl
+                Tous droits réservés | Créer par <a href="{{ path('op_webapp_security_register_prescriber') }}">OpenPixl</a>
             </p>
         </div>
         <div class="col-12 col-md-6 d-none d-lg-block">
@@ -19,7 +19,7 @@
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" aria-current="page" href="{{ path('op_webapp_page_slug', {'slug': 'politique-de-confidentialite'}) }}">
-                        <span class="d-none d-md-block">Politiques de </span>confidentialité
+                        Politiques de confidentialité
                     </a>
                 </li>
                 <li class="nav-item">
