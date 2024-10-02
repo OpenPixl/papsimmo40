@@ -55,6 +55,7 @@ class RecoController extends AbstractController
     #[Route('/newOnPublic', name: 'op_gestapp_reco_newonpublic', methods: ['GET', 'POST'])]
     public function newOnPublic(Request $request, EntityManagerInterface $entityManager, StatutRecoRepository $statutRecoRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');
         $user = $this->getUser();
         $startReco = $statutRecoRepository->findOneBy(['id' => 1 ]);
 
@@ -68,7 +69,7 @@ class RecoController extends AbstractController
         $reco->setAnnouncePhone($user->getGsm());
 
         $form = $this->createForm(Reco2Type::class, $reco, [
-            'action' => $this->generateUrl('op_gestapp_reco_new') ,
+            'action' => $this->generateUrl('op_gestapp_reco_newonpublic') ,
             'method' => 'POST',
             'attr' => [
                 'id' => 'formReco'
@@ -86,18 +87,6 @@ class RecoController extends AbstractController
 
             return $this->redirectToRoute('op_gestapp_reco_index', [], Response::HTTP_SEE_OTHER);
         }
-
-        // view
-        //$view = $this->render('gestapp/reco/_form.html.twig', [
-        //    'reco' => $reco,
-        //    'form' => $form
-        //]);
-
-        // return
-        //return $this->json([
-        //    "code" => 200,
-        //    'formView' => $view->getContent()
-        //], 200);
 
         return $this->render('gestapp/reco/newonpublic.html.twig', [
             'reco' => $reco,
