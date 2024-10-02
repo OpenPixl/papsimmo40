@@ -3,7 +3,9 @@
 namespace App\Controller;
 
 use App\Entity\Admin\Employed;
+use App\Form\RegistrationForm2Type;
 use App\Form\RegistrationFormType;
+use App\Repository\Admin\EmployedRepository;
 use App\Security\EmailVerifier;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
@@ -35,12 +37,12 @@ class RegistrationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // encode the plain password
             $user->setPassword(
-            $userPasswordHasher->hashPassword(
+                $userPasswordHasher->hashPassword(
                     $user,
                     $form->get('password')->getData()
                 )
             );
-
+            $user->setIsVerified(1);
             $entityManager->persist($user);
             $entityManager->flush();
 
@@ -58,6 +60,55 @@ class RegistrationController extends AbstractController
         }
 
         return $this->render('registration/register.html.twig', [
+            'registrationForm' => $form->createView(),
+        ]);
+    }
+
+    #[Route('/security/register/prescriber', name: 'op_webapp_security_register_prescriber')]
+    public function registerPrescriber(Request $request, UserPasswordHasherInterface $userPasswordHasher, EntityManagerInterface $entityManager, EmployedRepository $employedRepository): Response
+    {
+        $user = new Employed();
+        $form = $this->createForm(RegistrationForm2Type::class, $user);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $code = $form->get('numCollaborator')->getData();
+
+            $collaborateur = $employedRepository->findOneBy(['numCollaborator'=> $code]);
+            //dd($collaborateur);
+            if($collaborateur){
+                // encode the plain password
+                $user->setPassword(
+                    $userPasswordHasher->hashPassword(
+                        $user,
+                        $form->get('password')->getData()
+                    )
+                );
+                $user->setReferent($collaborateur);
+                $user->setRoles(['ROLE_PRESCRIBER']);
+
+                $entityManager->persist($user);
+                $entityManager->flush();
+
+                // generate a signed url and email it to the user
+                $this->emailVerifier->sendEmailConfirmation('op_webapp_security_verifyemail', $user,
+                    (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo40.fr', 'Contact Paps Immo 40'))
+                        ->to($user->getEmail())
+                        ->subject('Please Confirm your Email')
+                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                );
+                // do anything else you need here, like send an email
+                return $this->redirectToRoute('op_admin_dashboard_index');
+            }else{
+                $this->addFlash('error_collaborator', "Le collaborateur n'existe pas.");
+                return $this->render('registration/register2.html.twig', [
+                    'registrationForm' => $form->createView(),
+                ]);
+            }
+        }
+
+        return $this->render('registration/register2.html.twig', [
             'registrationForm' => $form->createView(),
         ]);
     }

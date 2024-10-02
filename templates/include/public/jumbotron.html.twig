@@ -1,4 +1,8 @@
-{% if app.request.attributes.get('_route') == 'op_gestapp_reco_index_prescripteur' %}
+{% if
+    app.request.attributes.get('_route') == 'op_gestapp_reco_index_prescripteur'
+    or app.request.attributes.get('_route') == 'op_webapp_security_register_prescriber'
+    or app.request.attributes.get('_route') == 'op_webapp_security_register'
+%}
 {% else %}
     {# Jumbotron #}
     <div class="banner-image d-flex justify-content-center align-items-center">

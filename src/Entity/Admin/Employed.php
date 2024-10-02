@@ -379,6 +379,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'refPrescripteur', targetEntity: Reco::class)]
     private Collection $recosPrescripteur;
 
+    #[ORM\Column]
+    private ?bool $agreeTerms = null;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -1259,6 +1262,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $recosPrescripteur->setRefPrescripteur(null);
             }
         }
+
+        return $this;
+    }
+
+    public function isAgreeTerms(): ?bool
+    {
+        return $this->agreeTerms;
+    }
+
+    public function setAgreeTerms(bool $agreeTerms): static
+    {
+        $this->agreeTerms = $agreeTerms;
 
         return $this;
     }

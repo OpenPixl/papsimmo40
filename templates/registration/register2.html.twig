@@ -1,0 +1,97 @@
+{% extends 'prescriber.html.twig' %}
+
+{% block title %}Création de compte | PAP's immo{% endblock %}
+
+{% block content %}
+    <section id="op_page_content" style="position:relative; top:60px;">
+        <div class="container">
+            {{ form_start(registrationForm) }}
+            <div class="row g-1 justify-content-center">
+                <div class="col-md-8">
+                    <h1>Création de votre espace prescripteur</h1>
+                </div>
+                <div class="col-md-8">
+                    {% for flash_error in app.flashes('verify_email_error') %}
+                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                    {% endfor %}
+                    {% for flash_error in app.flashes('error_collaborator') %}
+                        <div class="alert alert-danger" role="alert">{{ flash_error }}</div>
+                    {% endfor %}
+                </div>
+
+                <div class="col-md-8 mb-3">
+                    <div class="row g-1 align-items-center">
+                        <div class="col-7">
+                            {{ form_label(registrationForm.numCollaborator, null, {'label_attr': {'class': 'form-label', 'for': registrationForm.numCollaborator.vars.label}}) }}
+                        </div>
+                        <div class="col-5">
+                            {{ form_widget(registrationForm.numCollaborator,  {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row g-1 align-items-center">
+                        <div class="col-3">
+                            {{ form_label(registrationForm.email, null, {'label_attr': {'class': 'form-label', 'for': registrationForm.email.vars.label}}) }}
+                        </div>
+                        <div class="col-9">
+                            {{ form_widget(registrationForm.email,  {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row g-1 align-items-center">
+                        <div class="col-3">
+                            {{ form_label(registrationForm.firstName, 'Prénom', {'label_attr': {'class': 'form-label', 'for': registrationForm.firstName.vars.label}}) }}
+                        </div>
+                        <div class="col-9">
+                            {{ form_widget(registrationForm.firstName,  {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row g-1 align-items-center">
+                        <div class="col-3">
+                            {{ form_label(registrationForm.lastName, 'nom', {'label_attr': {'class': 'form-label', 'for': registrationForm.lastName.vars.label}}) }}
+                        </div>
+                        <div class="col-9">
+                            {{ form_widget(registrationForm.lastName,  {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row g-1 align-items-center">
+                        <div class="col-8">
+                            {{ form_label(registrationForm.gsm, 'Tel. mobile', {'label_attr': {'class': 'form-label', 'for': registrationForm.lastName.vars.label}}) }}
+                        </div>
+                        <div class="col-4">
+                            {{ form_widget(registrationForm.gsm,  {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <div class="row g-1 align-items-center">
+                        <div class="col-3">
+                            {{ form_label(registrationForm.password, '', {'label_attr': {'class': 'form-label', 'for': registrationForm.password.vars.label}}) }}
+                        </div>
+                        <div class="col-9">
+                            {{ form_widget(registrationForm.password,  {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <p>En cochant cette case, vous acceptez que PAPs immo collecte et traite vos données personnelles conformément à notre <a href=\"chemin_vers_la_page\">Politique de Confidentialité</a>. Vous disposez de droits d'accès, de rectification et de suppression de vos données, que vous pouvez exercer à tout moment..</p>
+                    <div class="form-check form-check-reverse">
+                        {{ form_widget(registrationForm.agreeTerms,  {'attr': {'class': 'form-check-input'}}) }}
+                        {{ form_label(registrationForm.agreeTerms, 'J\'accepte', {'label_attr': {'class': 'form-label', 'for': registrationForm.agreeTerms.vars.label}}) }}
+                    </div>
+                </div>
+                <div class="col-md-8">
+                    <button type="submit" class="btn btn-sm btn-outline-primary">Valider votre compte</button>
+                </div>
+            </div>
+            {{ form_end(registrationForm) }}
+        </div>
+    </section>
+
+{% endblock %}
