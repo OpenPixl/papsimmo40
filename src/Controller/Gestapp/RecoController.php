@@ -67,7 +67,6 @@ class RecoController extends AbstractController
         $reco->setAnnounceLastName($user->getLastName());
         $reco->setAnnounceEmail($user->getEmail());
         $reco->setAnnouncePhone($user->getGsm());
-
         $form = $this->createForm(Reco2Type::class, $reco, [
             'action' => $this->generateUrl('op_gestapp_reco_newonpublic') ,
             'method' => 'POST',
@@ -81,6 +80,8 @@ class RecoController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $reco->setOpenRecoAt(new \DateTime('now'));
+            $reco->setAuthCustomer(0);
+            $reco->setAuthRGPD(0);
 
             $entityManager->persist($reco);
             $entityManager->flush();
