@@ -490,4 +490,116 @@ class ftptransfertService
         }
         file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
     }
+
+    // Protocole de transfert des annonces pour la plateforme Superimmo
+    public function superimmo(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+    )
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $properties = $propertyRepository->reportpropertycsv4();            // On récupère les biens à publier sur SeLoger
+
+        $rows = array();
+        foreach ($properties as $property){
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $this->propertyService->getDestination($propriete);
+            // Description de l'annonce
+            $annonce = $this->propertyService->getAnnonce($propriete);
+            //dd($annonce);
+
+            $dates = $this->propertyService->getDates($property);
+
+            // Calcul des honoraires en %
+            //$honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
+            //dd($property['price'], $property['priceFai'], $honoraires);
+
+            // Récupération des images liées au bien
+            $url = $this->propertyService->getUrlPhotos($property);
+            $titrephoto = $this->propertyService->getTitrePhotos($property);
+
+            // Orientation
+            if($property['orientation'] = 'nord'){
+                $nord = 1;
+                $est = 0;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'est'){
+                $nord = 0;
+                $est = 1;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'sud'){
+                $nord = 0;
+                $est = 0;
+                $sud = 1;
+                $ouest = 0;
+            }else{
+                $nord = 0;
+                $est = 0;
+                $sud = 0;
+                $ouest = 1;
+            }
+
+            // publication sur les réseaux
+            $publications = 'SI';
+            // version du document
+            $version = '4.11';
+
+            // Transformation terrace en booléen
+            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+
+            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+
+            // Equipements
+            $idcomplement = $property['idComplement'];
+            $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
+            //dd($equipments);
+
+            // Récupération DPE & GES
+            $bilanDpe = $this->propertyService->getClasseDpe($propriete);
+            $bilanGes = $this->propertyService->getClasseGes($propriete);
+
+            // Création d'une ligne du tableau
+            $data = $this->propertyService->arrayRowSLFIG($propriete, $destination, $dates, $infos, $url, $titrephoto, $property);
+            $rows[] = implode('!#', $data);
+        }
+        $content = implode("\n", $rows);
+
+        // PARTIE II : Génération du fichier CSV
+        $file = 'doc/report/Annonces/papsimmo.csv';                                // Chemin du fichier
+        if(file_exists($file))
+        {
+            unlink($file);                                                  // Suppression du précédent s'il existe
+            file_put_contents('doc/report/AnnoncesSuperimmo/papsimmo.csv', $content); // Génération du fichier dans l'arborescence du fichiers du site
+        }
+        file_put_contents('doc/report/AnnoncesSuperimmo/papsimmo.csv', $content);     // Génération du fichier dans l'arborescence du fichiers du site
+
+        // PARTIE III : Constitution du dossier zip
+        $Rep = 'doc/report/AnnoncesSuperimmo/';
+        $zip = new \ZipArchive();                                          // instanciation de la classe Zip
+        if(is_dir($Rep))
+        {
+            if($zip->open('papsimmo.zip', ZipArchive::CREATE) == TRUE)
+            {
+                $fichiers = scandir($Rep);
+                unset($fichiers[0], $fichiers[1]);
+                foreach($fichiers as $f)
+                {
+                    // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
+                    // Pour ne pas créer de dossier dans l’archive.
+                    if(!$zip->addFile($Rep.$f, $f))
+                    {
+                        dd('erreur');
+                    }
+                }
+                $zip->close();
+                rename('papsimmo.zip', 'doc/report/papsimmo.zip');
+            }else{
+                dd('Erreur');
+            }
+        }
+    }
 }

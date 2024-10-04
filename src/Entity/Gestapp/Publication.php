@@ -40,6 +40,9 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishgreenacres = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishsuperimmo = false;
+
 
     public function getId(): ?int
     {
@@ -157,4 +160,14 @@ class Publication
         return $this;
     }
 
+    public function isIsPublishsuperimmo(): ?bool
+    {
+        return $this->isPublishsuperimmo;
+    }
+    public function setIsPublishsuperimmo(bool $isPublishsuperimmo): self
+    {
+        $this->isPublishsuperimmo = $isPublishsuperimmo;
+
+        return $this;
+    }
 }
