@@ -4,6 +4,7 @@
 {% set fig = 0 %}
 {% set ma = 0 %}
 {% set ga = 0 %}
+{% set si = 0 %}
 {% for property in listproperties|filter(p => p.isPublishParven == 1) %}
     {% set pv = pv + 1 %}
 {% endfor %}
@@ -22,18 +23,22 @@
 {% for property in listproperties|filter(p => p.isPublishgreenacres == 1) %}
     {% set ga = ga + 1 %}
 {% endfor %}
+{% for property in listproperties|filter(p => p.isPublishsuperimmo == 1) %}
+    {% set si = si + 1 %}
+{% endfor %}
 
 <div class="mt-2">
     <p>
         <b>Support des diffusions :</b>
     </p>
-    <p>  |
+    <p style="font-size: 0.8rem;"> |
         <span class="badge bg-light text-dark">PV :</span> Paru Vendu <span class="badge rounded-pill bg-warning">{{ pv }}</span> |
         <span class="badge bg-light text-dark">SL :</span> Se loger, logic immo <span class="badge rounded-pill bg-warning">{{ sl }}</span> |
         <span class="badge bg-light text-dark">MA :</span> Meilleurs agents <span class="badge rounded-pill bg-warning">{{ ma }}</span> |
         <span class="badge bg-light text-dark">LB :</span> Le Bon Coin, A vendre et à louer <span class="badge rounded-pill bg-warning">{{ lb }}</span> |
         <span class="badge bg-light text-dark">FIG :</span> Le Figaro Immobilier <span class="badge rounded-pill bg-warning">{{ fig }}</span> |
         <span class="badge bg-light text-dark">GA :</span> Green ACRES <span class="badge rounded-pill bg-warning">{{ ga }}</span> |
+        <span class="badge bg-light text-dark">SI :</span> Superimmo <span class="badge rounded-pill bg-warning">{{ si }}</span> |
     </p>
 </div>
 <table class="table">
@@ -105,6 +110,7 @@
                 {% if property.isPublishleboncoin == 1 %}<span class="badge bg-light text-dark">LB</span>{% endif %}
                 {% if property.isPublishfigaro == 1 %}<span class="badge bg-light text-dark">FIG</span>{% endif %}
                 {% if property.isPublishgreenacres == 1 %}<span class="badge bg-light text-dark">GA</span>{% endif %}
+                {% if property.isPublishsuperimmo == 1 %}<span class="badge bg-light text-dark">SI</span>{% endif %}
             </td>
             <td>
                 {% include('gestapp/property/include/_btnchoice.html.twig') %}
