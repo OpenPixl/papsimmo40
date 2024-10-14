@@ -106,6 +106,22 @@ class PublicController extends AbstractController
         ]);
     }
 
+    // Affiche les différents menus sur la page d'accueil
+    #[Route("/webapp/public/jumbotron/{route}", name: 'op_webapp_public_jumbotron')]
+    public function Jumbotron(PageRepository $pageRepository, ApplicationRepository $applicationRepository, PropertyRepository $propertyRepository, Request $request, $route): Response
+    {
+        // on récupère l'utilisateur courant
+        $user = $this->getUser();
+
+        // préparation des éléments d'interactivité du menu
+        $application = $applicationRepository->findFirstReccurence();
+
+        return $this->render('include/public/jumbotron.html.twig', [
+            'application' => $application,
+            'route' => $route,
+        ]);
+    }
+
     // Affiche le bottom footer
     #[Route("/webapp/public/footer/top", name: 'op_webapp_public_topfooter')]
     public function topFooter(PageRepository $pageRepository, ApplicationRepository $applicationRepository, Request $request): Response

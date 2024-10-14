@@ -28,7 +28,7 @@
         <header>
             {% block header %}
                 {{ render(controller('App\\Controller\\Webapp\\PublicController::BlocMenu', {'route': route_name})) }}
-                {{ include('include/public/jumbotron.html.twig') }}
+                {{ render(controller('App\\Controller\\Webapp\\PublicController::Jumbotron', {'route': route_name})) }}
             {% endblock %}
         </header>
         <main>
