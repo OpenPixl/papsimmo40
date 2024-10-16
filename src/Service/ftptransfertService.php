@@ -134,8 +134,14 @@ class ftptransfertService
             $bilanGes = $this->propertyService->getClasseGes($propriete);
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRowSLFIG($propriete, $destination, $dates, $infos, $url, $titrephoto, $property);
-            $rows[] = implode('!#', $data);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            //dd($data);
+            $row = [];
+            for ($i = 0; $i < count($data); $i++) {
+                //dd($data[$i+1]);
+                array_push($row, $data[$i+1]);
+            }
+            $rows[] = implode('!#', $row);
         }
         $content = implode("\n", $rows);
 
@@ -266,8 +272,13 @@ class ftptransfertService
             $bilanGes = $this->propertyService->getClasseGes($propriete);
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRowSLFIG($propriete, $destination, $dates, $infos, $url, $titrephoto, $property);
-            $rows[] = implode('!#', $data);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $row = [];
+            for ($i = 0; $i < count($data); $i++) {
+                //dd($data[$i+1]);
+                array_push($row, $data[$i+1]);
+            }
+            $rows[] = implode('!#', $row);
         }
 
         $content = implode("\n", $rows);
@@ -328,6 +339,7 @@ class ftptransfertService
         }
     }
 
+    // Protocole de transfert des annonces pour la plateforme GreenACRES et VIZZIT - XML
     public function greenacresFTP(
         PropertyRepository $propertyRepository,
         PhotoRepository $photoRepository,
@@ -565,7 +577,7 @@ class ftptransfertService
         file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
     }
 
-    // Protocole de transfert des annonces pour la plateforme Superimmo
+    // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.11
     public function superimmo(
         PropertyRepository $propertyRepository,
         PhotoRepository $photoRepository,
@@ -637,16 +649,215 @@ class ftptransfertService
             $bilanGes = $this->propertyService->getClasseGes($propriete);
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRowSLFIG($propriete, $destination, $dates, $infos, $url, $titrephoto, $property);
-            $rows[] = implode('!#', $data);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $row = [];
+            for ($i = 0; $i < count($data); $i++) {
+                //dd($data[$i+1]);
+                array_push($row, $data[$i+1]);
+            }
+            $rows[] = implode('!#', $row);
         }
         $content = implode("\n", $rows);
+        //dd($content);
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
         $nameRep = 'AnnoncesSuperimmo';             // Nom du dossier
         $nameFile = 'paps_superimmo';               // Nom du Fichier sans extension
         $Rep = 'doc/report/AnnoncesSuperimmo/';     // nom du répertoire final
+        if(is_dir($Rep))
+        {
+            $this->directoryZip($nameRep, $nameFile, $content);
+        }else{
+            // Création du répertoire s'il n'existe pas.
+            mkdir($Rep."/", 0775, true);
+            $this->directoryZip($nameRep, $nameFile, $content);
+        }
+    }
+
+    // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.09
+    public function alentoor(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+    )
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $properties = $propertyRepository->reportpropertycsv4();            // On récupère les biens à publier sur SeLoger
+
+        $rows = array();
+        foreach ($properties as $property){
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $this->propertyService->getDestination($propriete);
+            // Description de l'annonce
+            $annonce = $this->propertyService->getAnnonce($propriete);
+            //dd($annonce);
+
+            $dates = $this->propertyService->getDates($property);
+
+            // Calcul des honoraires en %
+            //$honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
+            //dd($property['price'], $property['priceFai'], $honoraires);
+
+            // Récupération des images liées au bien
+            $url = $this->propertyService->getUrlPhotos($property);
+            $titrephoto = $this->propertyService->getTitrePhotos($property);
+
+            // Orientation
+            if($property['orientation'] = 'nord'){
+                $nord = 1;
+                $est = 0;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'est'){
+                $nord = 0;
+                $est = 1;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'sud'){
+                $nord = 0;
+                $est = 0;
+                $sud = 1;
+                $ouest = 0;
+            }else{
+                $nord = 0;
+                $est = 0;
+                $sud = 0;
+                $ouest = 1;
+            }
+
+            // publication sur les réseaux
+            $publications = 'AL';
+            // version du document
+            $version = '4.09';
+
+            // Transformation terrace en booléen
+            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+
+            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+
+            // Equipements
+            $idcomplement = $property['idComplement'];
+            $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
+            //dd($equipments);
+
+            // Récupération DPE & GES
+            $bilanDpe = $this->propertyService->getClasseDpe($propriete);
+            $bilanGes = $this->propertyService->getClasseGes($propriete);
+
+            // Création d'une ligne du tableau
+            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $row = [];
+            for ($i = 0; $i < count($data); $i++) {
+                //dd($data[$i+1]);
+                array_push($row, $data[$i+1]);
+            }
+            $rows[] = implode('!#', $row);
+        }
+        $content = implode("\n", $rows);
+
+        // PARTIE II : Génération du dossier et création fichier CSV
+        // ---------------------------------------------------------
+        $nameRep = 'AnnoncesAlentour';             // Nom du dossier
+        $nameFile = 'paps_alentour';               // Nom du Fichier sans extension
+        $Rep = 'doc/report/AnnoncesAlentour/';     // nom du répertoire final
+        if(is_dir($Rep))
+        {
+            $this->directoryZip($nameRep, $nameFile, $content);
+        }else{
+            // Création du répertoire s'il n'existe pas.
+            mkdir($Rep."/", 0775, true);
+            $this->directoryZip($nameRep, $nameFile, $content);
+        }
+    }
+
+    // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.12
+    public function ht_louer(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+    )
+    {
+        $request = $this->requestStack->getCurrentRequest();
+        $properties = $propertyRepository->reportpropertycsv4();            // On récupère les biens à publier sur SeLoger
+
+        $rows = array();
+        foreach ($properties as $property){
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $this->propertyService->getDestination($propriete);
+            // Description de l'annonce
+            $annonce = $this->propertyService->getAnnonce($propriete);
+            //dd($annonce);
+
+            $dates = $this->propertyService->getDates($property);
+
+            // Calcul des honoraires en %
+            //$honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
+            //dd($property['price'], $property['priceFai'], $honoraires);
+
+            // Récupération des images liées au bien
+            $url = $this->propertyService->getUrlPhotos($property);
+            $titrephoto = $this->propertyService->getTitrePhotos($property);
+
+            // Orientation
+            if($property['orientation'] = 'nord'){
+                $nord = 1;
+                $est = 0;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'est'){
+                $nord = 0;
+                $est = 1;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'sud'){
+                $nord = 0;
+                $est = 0;
+                $sud = 1;
+                $ouest = 0;
+            }else{
+                $nord = 0;
+                $est = 0;
+                $sud = 0;
+                $ouest = 1;
+            }
+
+            // publication sur les réseaux
+            $publications = 'AL';
+            // version du document
+            $version = '4.12';
+
+            // Transformation terrace en booléen
+            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+
+            // Equipements
+            $idcomplement = $property['idComplement'];
+            $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
+            //dd($equipments);
+
+            // Récupération DPE & GES
+            $bilanDpe = $this->propertyService->getClasseDpe($propriete);
+            $bilanGes = $this->propertyService->getClasseGes($propriete);
+
+            // Création d'une ligne du tableau
+            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $row = [];
+            for ($i = 0; $i < count($data); $i++) {
+                //dd($data[$i+1]);
+                array_push($row, $data[$i+1]);
+            }
+            $rows[] = implode('!#', $row);
+        }
+        $content = implode("\n", $rows);
+
+        // PARTIE II : Génération du dossier et création fichier CSV
+        // ---------------------------------------------------------
+        $nameRep = 'AnnoncesHtlouer';             // Nom du dossier
+        $nameFile = 'paps_htlouer';               // Nom du Fichier sans extension
+        $Rep = 'doc/report/AnnoncesHtlouer/';     // nom du répertoire final
         if(is_dir($Rep))
         {
             $this->directoryZip($nameRep, $nameFile, $content);

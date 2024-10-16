@@ -1,5 +1,10 @@
+{% set display = 'd-block' %}
+
+{% if property.isNomandat == 1 %}
+    {% set display = 'd-none' %}
+{% endif %}
 {{ form_start(form, {'attr': {'id':'FormPublication'}}) }}
-<div class="row">
+<div class="row {{ display }}">
     <div class="col-12">
         <table class="table table-sm mt-2">
             <thead>
@@ -86,6 +91,22 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>{{ form_label(form.isPublishalentoor, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            {{ form_widget(form.isPublishalentoor, {'attr': {'class': 'form-check-input'}}) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>{{ form_label(form.isPublishhtlouer, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
+                    <td>
+                        <div class="form-check form-switch">
+                            {{ form_widget(form.isPublishhtlouer, {'attr': {'class': 'form-check-input'}}) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td>{{ form_label(form.isSocialNetwork, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
                     <td>
                         <div class="form-check form-switch">
@@ -97,7 +118,15 @@
         </table>
     </div>
 </div>
-
+{% if display == 'd-none' %}
+    <div class="row py-3">
+        <div class="col-12">
+            <p class="alert alert-warning">
+                Votre bien ne possède pas de numéro de mandat. Dans l'état actuel, vous ne pouvez pas publier ce bien sur notre plateforme, ni chez nos diffuseurs.
+            </p>
+        </div>
+    </div>
+{% endif %}
 <div class="row mt-2">
     <div class="col-12">
         <div class="mt-1">

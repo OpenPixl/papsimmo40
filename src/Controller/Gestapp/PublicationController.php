@@ -63,6 +63,8 @@ class PublicationController extends AbstractController
         complementRepository $complementRepository
     ): Response
     {
+        $property = $propertyRepository->findOneBy(['publication'=>$publication->getId()]);
+
         $form = $this->createForm(PublicationType::class, $publication,[
             'action' => $this->generateUrl('op_admin_contact_showbyproperty', ['id' => $publication->getId()]),
             'method' => 'POST'
@@ -72,7 +74,6 @@ class PublicationController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $publicationRepository->add($publication);
             // mettre la propriété en fin de parcours création
-            $property = $propertyRepository->findOneBy(['publication'=>$publication->getId()]);
             $property->setIsIncreating(0);
             $propertyRepository->add($property);
             // Service de dépot sur serveur le serveur FTP "SeLoger"
@@ -99,6 +100,18 @@ class PublicationController extends AbstractController
                 $photoRepository,
                 $complementRepository
             );
+            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            $ftptransfertService->ht_louer(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository
+            );
+            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            $ftptransfertService->alentoor(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository
+            );
 
 
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
@@ -106,42 +119,9 @@ class PublicationController extends AbstractController
 
         return $this->render('gestapp/publication/showbyproperty.html.twig', [
             'publication' => $publication,
-            'property' => $propertyRepository->findOneBy(['publication'=>$publication->getId()]),
+            'property' => $property,
             'form' => $form,
         ]);
-    }
-
-    public function publiconftp(
-        PropertyRepository $propertyRepository,
-        PhotoRepository $photoRepository,
-        ComplementRepository $complementRepository,
-        ftptransfertService $ftptransfertService,
-    )
-    {
-        // Service de dépot sur serveur le serveur FTP "SeLoger"
-        $ftptransfertService->selogerFTP(
-            $propertyRepository,
-            $photoRepository,
-            $complementRepository,
-        );
-        // Service de dépot sur serveur le serveur FTP "figaroImmo"
-        $ftptransfertService->figaroFTP(
-            $propertyRepository,
-            $photoRepository,
-            $complementRepository,
-        );
-        // Service de dépot sur serveur le serveur FTP "figaroImmo"
-        $ftptransfertService->greenacresFTP(
-            $propertyRepository,
-            $photoRepository,
-            $complementRepository
-        );
-        // Service de dépot sur serveur le serveur FTP "figaroImmo"
-        $ftptransfertService->superimmo(
-            $propertyRepository,
-            $photoRepository,
-            $complementRepository
-        );
     }
 
     #[Route('/{id}/edit', name: 'app_gestapp_publication_edit', methods: ['GET', 'POST'])]

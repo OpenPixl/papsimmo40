@@ -443,9 +443,18 @@ class PropertyController extends AbstractController
         $complement->addPropertyEquipment($propertyEquipementRepository->findOneBy([], ['id'=>'ASC']));
         $complement->addPropertyOtheroption($otherOptionRepository->findOneBy([], ['id'=>'ASC']));
         $complementRepository->add($complement);
+
         // création d'une fiche Publication
         $publication = new Publication();
         $publicationRepository->add($publication);
+        $publication->setIsPublishleboncoin(0);
+        $publication->setIsPublishgreenacres(0);
+        $publication->setIsPublishfigaro(0);
+        $publication->setIsPublishMeilleur(0);
+        $publication->setIsPublishParven(0);
+        $publication->setIsPublishsuperimmo(0);
+        $publication->setIsPublishseloger(0);
+
         // ---
         // Contruction de la référence pour chaque propriété
         // ---

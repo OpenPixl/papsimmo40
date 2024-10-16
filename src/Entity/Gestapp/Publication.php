@@ -43,6 +43,12 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishsuperimmo = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishalentoor = false;
+
+    #[ORM\Column]
+    private ?bool $isPublishhtlouer = false;
+
 
     public function getId(): ?int
     {
@@ -167,6 +173,28 @@ class Publication
     public function setIsPublishsuperimmo(bool $isPublishsuperimmo): self
     {
         $this->isPublishsuperimmo = $isPublishsuperimmo;
+
+        return $this;
+    }
+
+    public function isIsPublishalentoor(): ?bool
+    {
+        return $this->isPublishalentoor;
+    }
+    public function setIsPublishalentoor(bool $isPublishalentoor): self
+    {
+        $this->isPublishalentoor = $isPublishalentoor;
+
+        return $this;
+    }
+
+    public function isIsPublishhtlouer(): ?bool
+    {
+        return $this->isPublishhtlouer;
+    }
+    public function setIsPublishhtlouer(bool $isPublishhtlouer): self
+    {
+        $this->isPublishhtlouer = $isPublishhtlouer;
 
         return $this;
     }

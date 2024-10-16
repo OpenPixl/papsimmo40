@@ -50,6 +50,14 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur "Superimmo" ?',
                 'required' => false
             ])
+            ->add('isPublishalentoor', CheckboxType::class, [
+                'label' => 'Publié sur "Alentoor" ?',
+                'required' => false
+            ])
+            ->add('isPublishhtlouer', CheckboxType::class, [
+                'label' => 'Publié sur "Acheter-Louer" ?',
+                'required' => false
+            ])
             //->add('sector', ChoiceType::class, [
             //    'label' => 'Secteur',
             //    'choices'  => [
