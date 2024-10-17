@@ -585,7 +585,8 @@ class ftptransfertService
     )
     {
         $request = $this->requestStack->getCurrentRequest();
-        $properties = $propertyRepository->reportpropertycsv4();            // On récupère les biens à publier sur SeLoger
+        $partenaire = 'SI';
+        $properties = $propertyRepository->reportpropertycsv4($partenaire);            // On récupère les biens à publier sur SeLoger
 
         $rows = array();
         foreach ($properties as $property){
@@ -683,7 +684,8 @@ class ftptransfertService
     )
     {
         $request = $this->requestStack->getCurrentRequest();
-        $properties = $propertyRepository->reportpropertycsv4();            // On récupère les biens à publier sur SeLoger
+        $partenaire = 'AL';
+        $properties = $propertyRepository->reportpropertycsv4($partenaire);            // On récupère les biens à publier sur SeLoger
 
         $rows = array();
         foreach ($properties as $property){
@@ -780,7 +782,8 @@ class ftptransfertService
     )
     {
         $request = $this->requestStack->getCurrentRequest();
-        $properties = $propertyRepository->reportpropertycsv4();            // On récupère les biens à publier sur SeLoger
+        $partenaire = 'HT';
+        $properties = $propertyRepository->reportpropertycsv4($partenaire);            // On récupère les biens à publier sur SeLoger
 
         $rows = array();
         foreach ($properties as $property){
@@ -825,13 +828,13 @@ class ftptransfertService
             }
 
             // publication sur les réseaux
-            $publications = 'AL';
+            $publications = 'HT';
             // version du document
             $version = '4.12';
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
-            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => 'g46426', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -856,7 +859,7 @@ class ftptransfertService
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
         $nameRep = 'AnnoncesHtlouer';             // Nom du dossier
-        $nameFile = 'paps_htlouer';               // Nom du Fichier sans extension
+        $nameFile = 'g46426';               // Nom du Fichier sans extension
         $Rep = 'doc/report/AnnoncesHtlouer/';     // nom du répertoire final
         if(is_dir($Rep))
         {

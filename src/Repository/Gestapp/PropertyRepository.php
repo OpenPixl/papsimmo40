@@ -1459,9 +1459,9 @@ class PropertyRepository extends ServiceEntityRepository
 
     // ----------------------------------------------
     // Partie Admin
-    // Requête : Recherche les biens pour la génération CSV - SE LOGER
+    // Requête : Recherche les biens pour la génération CSV - SUPERIMMO
     // ----------------------------------------------
-    public function reportpropertycsv4()
+    public function reportpropertycsv4($partenaire)
     {
         $query = $this->createQueryBuilder('p');
         $query->join('p.refEmployed', 'e');
@@ -1475,7 +1475,13 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
-        $query->where('pu.isPublishsuperimmo = 1');
+        if($partenaire == "SI"){
+            $query->where('pu.isPublishsuperimmo = 1');
+        }elseif($partenaire == "AL"){
+            $query->where('pu.isPublishhtlouer = 1');
+        }elseif($partenaire == "HT"){
+            $query->where('pu.isPublishalentoor = 1');
+        }
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
         $query->select('
@@ -1485,7 +1491,6 @@ class PropertyRepository extends ServiceEntityRepository
                 ru.name as rubric,
                 rus.code as rubricssCode,
                 rus.name as rubricss,
-                pu.isPublishsuperimmo AS superimmo,
                 c.wc as wc,
                 c.washroom AS washroom,
                 c.sanitation as sanitation,

@@ -27,7 +27,6 @@
     <body>
         <header>
             {% block header %}
-                {{ render(controller('App\\Controller\\Webapp\\PublicController::BlocMenu', {'route': route_name})) }}
             {% endblock %}
         </header>
         <main>
@@ -39,7 +38,6 @@
 
             {% endblock %}
             {% block footer %}
-                {{ render(controller('App\\Controller\\Webapp\\PublicController::bottomFooter')) }}
             {% endblock %}
         </footer>
     </body>

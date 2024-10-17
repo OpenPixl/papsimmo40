@@ -21,6 +21,8 @@
 /public/doc/transaction/
 /public/doc/word/
 /public/properties/
+/public/customer
+/public/media/
 npm-debug.log
 yarn-error.log
 ###< symfony/webpack-encore-bundle ###
