@@ -6,7 +6,10 @@ function AllCheckedPublication(){
     const isChecked = this.checked;
     const switches = document.querySelectorAll('#FormPublication .form-check-input[type="checkbox"]');
     switches.forEach((switchInput) => {
-        switchInput.checked = isChecked;  // Cocher chaque switch
+        // Ne pas changer l'état des switches désactivés
+        if (!switchInput.disabled) {
+            switchInput.checked = isChecked;  // Cocher ou décocher les autres switches non désactivés
+        }
     });
     //console.log(switches);
 }

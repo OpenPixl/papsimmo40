@@ -51,7 +51,7 @@
                     <td>{{ form_label(form.isPublishMeilleur, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
                     <td>
                         <div class="form-check form-switch form-check-reverse">
-                            {{ form_widget(form.isPublishMeilleur, {'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_widget(form.isPublishMeilleur, {'attr': {'class': 'form-check-input disabled', 'disabled':'disabled'}}) }}
                         </div>
                     </td>
                 </tr>
@@ -67,7 +67,7 @@
                     <td>{{ form_label(form.isPublishseloger, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
                     <td>
                         <div class="form-check form-switch form-check-reverse">
-                            {{ form_widget(form.isPublishseloger, {'attr': {'class': 'form-check-input'}}) }}
+                            {{ form_widget(form.isPublishseloger, {'attr': {'class': 'form-check-input', 'disabled':'disabled'}}) }}
                         </div>
                     </td>
                 </tr>
