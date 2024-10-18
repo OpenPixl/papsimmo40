@@ -1,0 +1,53 @@
+{% extends 'prescriber.html.twig' %}
+
+{% block title %}Reco{% endblock %}
+
+{% block content %}
+
+    <section id="op_page_content" class="mb-5" style="position:relative; top:60px;">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-2">
+                    <a href="{{ path('op_gestapp_reco_index_prescripteur') }}"><h3> <i class="fa-sharp-duotone fa-solid fa-arrow-left"></i></h3></a>
+                </div>
+                <div class="col-10">
+                    <h3 class="text-end"> Recommandations</h3>
+                </div>
+            </div>
+
+            <div class="row mt-1 pb-5">
+                <div class="col-12">
+                    <div class="card text-bg-warning rounded-1">
+                        <div class="card-header">
+                            <h4 class="card-title text-start my-0">Statut : {{ reco.statutReco }}</h4>
+                        </div>
+                        <div class="card-body">
+                            <p>Date d'ouverture du dossier : {{ reco.createdAt }}</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <h5>Client</h5>
+                    <dl>
+                        <dt>Nom & prénom</dt>
+                        <dd>{% if reco.customerCivility == 1 %}M.{% else%}Mme{% endif%} {{ reco.customerFirstName }} {{ reco.customerLastName }}</dd>
+                    </dl>
+                    <dl>
+                        <dt>Contacts</dt>
+                        <dd>{{ reco.customerPhone }} / {{ reco.customerEmail }}</dd>
+                    </dl>
+                    <h5>Le bien</h5>
+                    <dl>
+                        <dt>Type de proposition</dt>
+                        <dd>{{ reco.typeReco }}/{{ reco.typeProperty }}</dd>
+                    </dl>
+                    <dl>
+                        <dt>Adresse</dt>
+                        <dd>{{ reco.propertyAddress }}<br>{{ reco.propertyComplement }}<br>{{ reco.propertyZipcode }} {{ reco.propertyCity }}</dd>
+                    </dl>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock %}

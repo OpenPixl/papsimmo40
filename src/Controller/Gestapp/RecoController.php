@@ -160,6 +160,14 @@ class RecoController extends AbstractController
         ]);
     }
 
+    #[Route('/gestapp/reco/public/{id}', name: 'op_gestapp_reco_showonpublic', methods: ['GET'])]
+    public function showonpublic(Reco $reco): Response
+    {
+        return $this->render('gestapp/reco/show_on_public.html.twig', [
+            'reco' => $reco,
+        ]);
+    }
+
 
     #[Route('/gestapp/reco/{id}/edit', name: 'op_gestapp_reco_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager): Response

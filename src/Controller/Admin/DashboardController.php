@@ -18,6 +18,8 @@ class DashboardController extends AbstractController
     #[Route('/opadmin/dashboard', name: 'op_admin_dashboard_index')]
     public function index(Request $request, SessionService $sessionService, ChartBuilderInterface $chartBuilder, PropertyRepository $propertyRepository): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_ADMIN');
+
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
 
         $year = date("Y");

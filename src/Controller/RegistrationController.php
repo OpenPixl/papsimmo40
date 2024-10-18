@@ -96,9 +96,9 @@ class RegistrationController extends AbstractController
                         ->from(new Address('contact@papsimmo40.fr', 'Contact Paps Immo 40'))
                         ->to($user->getEmail())
                         ->subject('Please Confirm your Email')
-                        ->htmlTemplate('registration/confirmation_email.html.twig')
+                        ->htmlTemplate('registration/confirmation_email2.html.twig')
                 );
-                $this->addFlash('success', 'Votre compte est crée...');
+                $this->addFlash('success', 'Votre compte est crée. Toutefois, nous controlons si cette inscription est issu d\'un être humain et nom d\'un robot informatique en vous envoyant un e-mail de confirmation à l\'adresse indiquée. L\'inscription sera définitive après validation de ce mail de votre part.');
                 // do anything else you need here, like send an email
                 return $this->redirectToRoute('op_admin_dashboard_index');
             }else{

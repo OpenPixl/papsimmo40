@@ -3,61 +3,145 @@
 {% block title %}OpenGAIA | Login {% endblock %}
 
 {% block content %}
+    <!-- large -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 align-self-center px-lg-6 my-5 d-none d-lg-block">
 
-<div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 align-self-center px-lg-6 my-5">
-    <!-- Heading -->
-    <h2 class="display-4 text-center mb-3">
-        Se connecter
-    </h2>
-    <p class="text-center d-lg-none">
-        <img class="img-fluid" src="#" alt="papsimmo40">
-    </p>
-    <!-- Subheading -->
-    <p class="text-muted text-center mb-5">
-        Accéder à votre espace personnel.
-    </p>
-    <form method="post">
-        {% if error %}
-            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-        {% endif %}
-        {% for flash_success in app.flashes('success') %}
-            <div class="alert alert-success" role="alert">{{ flash_success }}</div>
-        {% endfor %}
-
-        {% if app.user %}
-        <div class="mb-3">
-            Vous êtes déjà connecté sous le nom : {{ app.user.firstName }} {{ app.user.lastName }}. <br>
-            Au choix :
-            <a href="{{ path('op_admin_security_logout') }}">Se déconnecter</a> | <a href="{{ path('op_admin_dashboard_index') }}">Accéder à l'administration</a>
+        <!-- header large screen -->
+        <div class="d-none d-lg-block">
+            <h2 class="text-center mb-3">
+                Se connecter
+            </h2>
+            <!-- Subheading -->
+            <p class="text-muted text-center">
+                Accéder à votre espace personnel.
+            </p>
         </div>
-        {% endif %}
 
-        <h1 class="h3 mb-2 font-weight-normal">Espace de connexion</h1>
-        <label for="inputEmail">Email</label>
-        <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-sm" autocomplete="email" required autofocus>
-        <label for="inputPassword">Password</label>
-        <input type="password" name="password" id="inputPassword" class="form-control form-control-sm" autocomplete="current-password" required>
+        <!-- form -->
+        <div>
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                {% for flash_success in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">{{ flash_success }}</div>
+                {% endfor %}
 
-        <input type="hidden" name="_csrf_token"
-               value="{{ csrf_token('authenticate') }}"
-        >
+                {% if app.user %}
+                    <div class="mb-3">
+                        Vous êtes déjà connecté sous le nom : {{ app.user.firstName }} {{ app.user.lastName }}. <br>
+                        Au choix :
+                        <a href="{{ path('op_admin_security_logout') }}">Se déconnecter</a> | <a href="{{ path('op_admin_dashboard_index') }}">Accéder à l'administration</a>
+                    </div>
+                {% endif %}
 
-    {#
-        Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
-        See https://symfony.com/doc/current/security/remember_me.html
+                <h1 class="h3 text-center mb-2 font-weight-normal">Espace de connexion</h1>
+                <label for="inputEmail">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-sm" autocomplete="email" required autofocus>
+                <label for="inputPassword">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control form-control-sm" autocomplete="current-password" required>
 
-        <div class="checkbox mb-3">
-            <label>
-                <input type="checkbox" name="_remember_me"> Remember me
-            </label>
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                {#
+                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                See https://symfony.com/doc/current/security/remember_me.html
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Remember me
+                    </label>
+                </div>
+                #}
+
+                <button class="btn btn-sm btn-primary mt-2" type="submit">
+                    Connection
+                </button>
+
+
+            </form>
         </div>
-    #}
 
-    <button class="btn btn-sm btn-primary mt-2" type="submit">
-        Connection
-    </button>
-</form>
-</div>
+        <!-- footer small screen -->
+        <div class="d-lg-none mt-3">
+            <p>Première connexion ? <a href="{{ path('op_webapp_security_register_prescriber') }}">inscrivez-vous</a></p>
+        </div>
+
+    </div>
+    <!-- small -->
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-6 col-xl-4 align-self-center px-3 my-5 d-lg-none">
+
+        <!-- header small screen -->
+        <div class="d-lg-none mb-3">
+            <h1 class="text-center">
+                Appli PAP's
+            </h1>
+            <h4 class="text-muted text-center mb-3">
+                Se connecter
+            </h4>
+            <!-- Heading image on small screen-->
+            <p class="text-center">
+                <img class="img-fluid" src="{{ asset('images/jpeg/LogoPAPSimmo.jpg') }}" alt="papsimmo40">
+            </p>
+            <!-- Subheading -->
+            <p class="text-center d-lg-none">Devenez partenaire de l'immobilier.</p>
+        </div>
+
+        <!-- form -->
+        <div>
+            <form method="post">
+                {% if error %}
+                    <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+                {% endif %}
+                {% for flash_success in app.flashes('success') %}
+                    <div class="alert alert-success" role="alert">{{ flash_success }}</div>
+                {% endfor %}
+
+                {% if app.user %}
+                    <div class="mb-3">
+                        Vous êtes déjà connecté sous le nom : {{ app.user.firstName }} {{ app.user.lastName }}. <br>
+                        Au choix :
+                        <a href="{{ path('op_admin_security_logout') }}">Se déconnecter</a> | <a href="{{ path('op_admin_dashboard_index') }}">Accéder à l'administration</a>
+                    </div>
+                {% endif %}
+
+                <h1 class="h3 text-center mb-2 font-weight-normal">Espace de connexion</h1>
+                <label for="inputEmail">Email</label>
+                <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control form-control-sm" autocomplete="email" required autofocus>
+                <label for="inputPassword">Password</label>
+                <input type="password" name="password" id="inputPassword" class="form-control form-control-sm" autocomplete="current-password" required>
+
+                <input type="hidden" name="_csrf_token"
+                       value="{{ csrf_token('authenticate') }}"
+                >
+
+                {#
+                Uncomment this section and add a remember_me option below your firewall to activate remember me functionality.
+                See https://symfony.com/doc/current/security/remember_me.html
+
+                <div class="checkbox mb-3">
+                    <label>
+                        <input type="checkbox" name="_remember_me"> Remember me
+                    </label>
+                </div>
+                #}
+
+                <button class="btn btn-sm btn-primary mt-2" type="submit">
+                    Connection
+                </button>
+
+
+            </form>
+        </div>
+
+        <!-- footer small screen -->
+        <div class="d-lg-none mt-3">
+            <p>Première connexion ? <a href="{{ path('op_webapp_security_register_prescriber') }}">inscrivez-vous</a></p>
+        </div>
+
+    </div>
     <div class="col-md-6 col-lg-6 col-xl-8 d-none d-lg-block">
         <!-- Image -->
         <div id="block_login_image" class="bg-cover h-100 min-vh-100 mt-n1 mr-n3">

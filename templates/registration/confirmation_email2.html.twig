@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="fr">
+{{ include('admin/mail/include/head.html.twig') }}
+<div class="body">
+    <div class="container">
+        <div class="header text-center">
+            <a href="{{ url('op_webapp_public_homepage') }}">
+                <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
+            </a>
+            <h1>[PAPs Immo] : Un document attends votre approbation.</h1>
+        </div>
+        <div class="content">
+
+            <h1>Hi! Please confirm your email!</h1>
+
+            <p>
+                Confirmez-votre adresse email en cliqunet sur le lien suivant : <br><br>
+                <a href="{{ signedUrl }}">Je confirme mon e-mail.</a>.<br><br>
+                Ce lien expirera le {{ expiresAtMessageKey|trans(expiresAtMessageData, 'VerifyEmailBundle') }}.
+            </p>
+
+            <p>
+                Merci
+            </p>
+
+        </div>
+    </div>
+</div>
