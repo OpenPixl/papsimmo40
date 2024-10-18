@@ -5,6 +5,8 @@
 {% set ma = 0 %}
 {% set ga = 0 %}
 {% set si = 0 %}
+{% set al = 0 %}
+{% set ht = 0 %}
 {% for property in listproperties|filter(p => p.isPublishParven == 1) %}
     {% set pv = pv + 1 %}
 {% endfor %}
@@ -26,6 +28,12 @@
 {% for property in listproperties|filter(p => p.isPublishsuperimmo == 1) %}
     {% set si = si + 1 %}
 {% endfor %}
+{% for property in listproperties|filter(p => p.isPublishalentoor == 1) %}
+    {% set al = al + 1 %}
+{% endfor %}
+{% for property in listproperties|filter(p => p.isPublishhtlouer == 1) %}
+    {% set ht = ht + 1 %}
+{% endfor %}
 
 <div class="mt-2">
     <p>
@@ -39,6 +47,8 @@
         <span class="badge bg-light text-dark">FIG :</span> Le Figaro Immobilier <span class="badge rounded-pill bg-warning">{{ fig }}</span> |
         <span class="badge bg-light text-dark">GA :</span> Green ACRES <span class="badge rounded-pill bg-warning">{{ ga }}</span> |
         <span class="badge bg-light text-dark">SI :</span> Superimmo <span class="badge rounded-pill bg-warning">{{ si }}</span> |
+        <span class="badge bg-light text-dark">AL :</span> Alentoor <span class="badge rounded-pill bg-warning">{{ al }}</span> |
+        <span class="badge bg-light text-dark">HT :</span> Acheter-Louer <span class="badge rounded-pill bg-warning">{{ ht }}</span> |
     </p>
 </div>
 <table class="table">
@@ -111,6 +121,8 @@
                 {% if property.isPublishfigaro == 1 %}<span class="badge bg-light text-dark">FIG</span>{% endif %}
                 {% if property.isPublishgreenacres == 1 %}<span class="badge bg-light text-dark">GA</span>{% endif %}
                 {% if property.isPublishsuperimmo == 1 %}<span class="badge bg-light text-dark">SI</span>{% endif %}
+                {% if property.isPublishalentoor == 1 %}<span class="badge bg-light text-dark">AL</span>{% endif %}
+                {% if property.isPublishhtlouer == 1 %}<span class="badge bg-light text-dark">HT</span>{% endif %}
             </td>
             <td>
                 {% include('gestapp/property/include/_btnchoice.html.twig') %}
