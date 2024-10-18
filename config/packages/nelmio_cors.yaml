@@ -7,4 +7,9 @@ nelmio_cors:
         expose_headers: ['Link']
         max_age: 3600
     paths:
-        '^/': null
+        '^/': # Applies to all API endpoints
+            allow_origin: [ 'https://p-a-ps-immo-6uru6s.flutterflow.app', 'appli-p-a-ps-a-p-i-prod-d8eudn.flutterflow.app' ]
+            allow_methods: [ 'GET', 'OPTIONS', 'POST', 'PUT', 'DELETE' ]
+            allow_headers: [ 'Content-Type', 'Authorization' ]
+            expose_headers: [ 'Link' ]
+            max_age: 3600
