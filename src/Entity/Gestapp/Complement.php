@@ -135,10 +135,17 @@ class Complement
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private ?PropertyBanner $banner = null;
 
+    /**
+     * @var Collection<int, PropertyEnergy>
+     */
+    #[ORM\ManyToMany(targetEntity: PropertyEnergy::class, inversedBy: 'complements')]
+    private Collection $energies;
+
     public function __construct()
     {
         $this->propertyEquipment = new ArrayCollection();
         $this->propertyOtheroption = new ArrayCollection();
+        $this->energies = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -490,6 +497,30 @@ class Complement
     public function setBanner(?PropertyBanner $banner): self
     {
         $this->banner = $banner;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PropertyEnergy>
+     */
+    public function getEnergies(): Collection
+    {
+        return $this->energies;
+    }
+
+    public function addEnergy(PropertyEnergy $energy): static
+    {
+        if (!$this->energies->contains($energy)) {
+            $this->energies->add($energy);
+        }
+
+        return $this;
+    }
+
+    public function removeEnergy(PropertyEnergy $energy): static
+    {
+        $this->energies->removeElement($energy);
 
         return $this;
     }

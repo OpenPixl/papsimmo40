@@ -17,6 +17,7 @@ use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\CadasterRepository;
 use App\Repository\Gestapp\choice\OtherOptionRepository;
 use App\Repository\Gestapp\choice\PropertyDefinitionRepository;
+use App\Repository\Gestapp\choice\PropertyEnergyRepository;
 use App\Repository\Gestapp\choice\PropertyEquipementRepository;
 use App\Repository\Gestapp\choice\propertyFamilyRepository;
 use App\Repository\Gestapp\choice\propertyRubricRepository;
@@ -415,6 +416,7 @@ class PropertyController extends AbstractController
         ComplementRepository $complementRepository,
         PublicationRepository $publicationRepository,
         PropertyEquipementRepository $propertyEquipementRepository,
+        PropertyEnergyRepository $propertyEnergyRepository,
         OtherOptionRepository $otherOptionRepository,
         PropertyDefinitionRepository $propertyDefinitionRepository,
         propertyFamilyRepository $familyRepository,
@@ -440,6 +442,7 @@ class PropertyController extends AbstractController
         $complement->setPropertyTax(0);
         $complement->setCoproprietyTaxe(0);
         $complement->setLevel(0);
+        $complement->addEnergy($propertyEnergyRepository->findOneBy([], ['id'=>'ASC']));
         $complement->addPropertyEquipment($propertyEquipementRepository->findOneBy([], ['id'=>'ASC']));
         $complement->addPropertyOtheroption($otherOptionRepository->findOneBy([], ['id'=>'ASC']));
         $complementRepository->add($complement);

@@ -109,6 +109,15 @@ class ComplementType extends AbstractType
                     return ['data-data' => $product->getName() ];
                 }
             ])
+            ->add('energies', EntityType::class, [
+                'class' => PropertyEnergy::class,
+                'help' => 'Seule la première source d\'énérgie sera publiée sur les diffuseurs',
+                'label' => 'Energies',
+                'multiple' => true,
+                'choice_attr' => function (PropertyEnergy $product, $key, $index) {
+                    return ['data-data' => $product->getName() ];
+                },
+            ])
             ->add('propertyTax', NumberType::class, [
                 'label' => 'Taxe foncière',
                 'required' => false,
@@ -243,6 +252,7 @@ class ComplementType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Complement::class,
+            'first_energy' => null
         ]);
     }
 }

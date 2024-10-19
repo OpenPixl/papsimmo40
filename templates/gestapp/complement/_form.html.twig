@@ -106,6 +106,13 @@
                             <div class="col-6">
                                 {{ form_widget(form.propertyEnergy) }}
                             </div>
+                        </div>
+                        {# Energie du bien #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.energies, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-6">
+                                {{ form_widget(form.energies) }}
+                            </div>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                                 <div class="col-1">
                                     <button id="addHouseEnergy" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-circle-plus"></i></button>
