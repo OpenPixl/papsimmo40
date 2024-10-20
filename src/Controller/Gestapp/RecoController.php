@@ -38,7 +38,7 @@ class RecoController extends AbstractController
         }
     }
 
-    #[Route('/espace_prescripteur', name: 'op_gestapp_reco_index_prescripteur', methods: ['GET'])]
+    #[Route('/espace_partenaire', name: 'op_gestapp_reco_index_partenaire', methods: ['GET'])]
     public function index_prescripteur(RecoRepository $recoRepository): Response
     {
         $this->denyAccessUnlessGranted('ROLE_PRESCRIBER');

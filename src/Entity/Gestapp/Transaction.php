@@ -163,10 +163,17 @@ class Transaction
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $project = null;
 
+    /**
+     * @var Collection<int, AgencyEmployed>
+     */
+    #[ORM\OneToMany(mappedBy: 'refTransaction', targetEntity: AgencyEmployed::class)]
+    private Collection $agencyEmployeds;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
         $this->addCollTransacs = new ArrayCollection();
+        $this->agencyEmployeds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -574,6 +581,36 @@ class Transaction
     public function setProject(?int $project): static
     {
         $this->project = $project;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, AgencyEmployed>
+     */
+    public function getAgencyEmployeds(): Collection
+    {
+        return $this->agencyEmployeds;
+    }
+
+    public function addAgencyEmployed(AgencyEmployed $agencyEmployed): static
+    {
+        if (!$this->agencyEmployeds->contains($agencyEmployed)) {
+            $this->agencyEmployeds->add($agencyEmployed);
+            $agencyEmployed->setRefTransaction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAgencyEmployed(AgencyEmployed $agencyEmployed): static
+    {
+        if ($this->agencyEmployeds->removeElement($agencyEmployed)) {
+            // set the owning side to null (unless already changed)
+            if ($agencyEmployed->getRefTransaction() === $this) {
+                $agencyEmployed->setRefTransaction(null);
+            }
+        }
 
         return $this;
     }
