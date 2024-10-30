@@ -15,12 +15,21 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/gestapp/choice/property/family')]
 class propertyFamilyController extends AbstractController
 {
-    #[Route('/', name: 'app_gestapp_choice_property_family_index', methods: ['GET'])]
+    #[Route('/', name: 'op_gestapp_choice_property_family_index', methods: ['GET'])]
     public function index(propertyFamilyRepository $propertyFamilyRepository): Response
     {
-        return $this->render('gestapp/choice/property_family/index.html.twig', [
-            'property_families' => $propertyFamilyRepository->findAll(),
-        ]);
+        $propertyFamilies = $propertyFamilyRepository->findAll();
+
+        return $this->json([
+            "code" => 200,
+            "view" => $this->renderView('gestapp/choice/property_family/index.html.twig', [
+                'property_families' => $propertyFamilies
+            ]),
+        ], 200);
+
+        //return $this->render('gestapp/choice/property_family/index.html.twig', [
+        //    'property_families' => $propertyFamilies
+        //]);
     }
 
     #[Route('/value/', name: 'app_gestapp_choice_property_family_value', methods: ['GET'])]
@@ -75,7 +84,7 @@ class propertyFamilyController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_family_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_family/new.html.twig', [
+        return $this->render('gestapp/choice/property_family/new.html.twig', [
             'property_family' => $propertyFamily,
             'form' => $form,
         ]);

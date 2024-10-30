@@ -1,0 +1,30 @@
+<div id="listAgent">
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom & Prénom</th>
+                <th>Tel</th>
+                <th>Agence</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for agencyemployed in agencyemployeds %}
+            <tr>
+                <td>{{ agencyemployed.id }}</td>
+                <td>{{ agencyemployed.firstName }} {{ agencyemployed.lastName }}</td>
+                <td>{{ agencyemployed.refAgency }}</td>
+                <td>
+                    <a href="{{ path('app_gestapp_agency_employed_show', {'id': agencyemployed.id}) }}"><i class="fa-duotone fa-eye"></i></a>
+                    <a href="{{ path('app_gestapp_agency_employed_edit', {'id': agencyemployed.id}) }}"><i class="fa-duotone fa-pen-to-square"></i></a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>

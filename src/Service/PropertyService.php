@@ -6,6 +6,7 @@ use App\Entity\Gestapp\Property;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
+use DateTime;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -229,21 +230,40 @@ class PropertyService
     // Détermination des classes des diagnostique dpe et ges
     public function getClasseDpe(Property $property){
         if($property->getDiagChoice() == "obligatoire"){
-            // Bilan GES
-            if($property->getDiagDpe() > 0 and $property->getDiagDpe() <= 50 ){
-                $bilanDpe = 'A';
-            }elseif($property->getDiagDpe() > 50 and $property->getDiagDpe() <= 90 ){
-                $bilanDpe = 'B';
-            }elseif($property->getDiagDpe() > 90 and $property->getDiagDpe()<= 150 ){
-                $bilanDpe = 'C';
-            }elseif($property->getDiagDpe() > 150 and $property->getDiagDpe() <= 230 ){
-                $bilanDpe = 'D';
-            }elseif($property->getDiagDpe() > 230 and $property->getDiagDpe() <= 330 ){
-                $bilanDpe = 'E';
-            }elseif($property->getDiagDpe() > 330 and $property->getDiagDpe() <= 450 ){
-                $bilanDpe = 'F';
+            if($property->getDpeAt() <= new DateTime('2021-07-01')){
+                // Bilan GES
+                if($property->getDiagDpe() > 0 and $property->getDiagDpe() <= 50 ){
+                    $bilanDpe = 'A';
+                }elseif($property->getDiagDpe() > 50 and $property->getDiagDpe() <= 90 ){
+                    $bilanDpe = 'B';
+                }elseif($property->getDiagDpe() > 90 and $property->getDiagDpe()<= 150 ){
+                    $bilanDpe = 'C';
+                }elseif($property->getDiagDpe() > 150 and $property->getDiagDpe() <= 230 ){
+                    $bilanDpe = 'D';
+                }elseif($property->getDiagDpe() > 230 and $property->getDiagDpe() <= 330 ){
+                    $bilanDpe = 'E';
+                }elseif($property->getDiagDpe() > 330 and $property->getDiagDpe() <= 450 ){
+                    $bilanDpe = 'F';
+                }else{
+                    $bilanDpe = 'G';
+                }
             }else{
-                $bilanDpe = 'G';
+                // Bilan GES
+                if($property->getDiagDpe() > 0 and $property->getDiagDpe() <= 70 ){
+                    $bilanDpe = 'A';
+                }elseif($property->getDiagDpe() > 70 and $property->getDiagDpe() <= 110 ){
+                    $bilanDpe = 'B';
+                }elseif($property->getDiagDpe() > 110 and $property->getDiagDpe()<= 180 ){
+                    $bilanDpe = 'C';
+                }elseif($property->getDiagDpe() > 180 and $property->getDiagDpe() <= 250 ){
+                    $bilanDpe = 'D';
+                }elseif($property->getDiagDpe() > 250 and $property->getDiagDpe() <= 330 ){
+                    $bilanDpe = 'E';
+                }elseif($property->getDiagDpe() > 330 and $property->getDiagDpe() <= 420 ){
+                    $bilanDpe = 'F';
+                }else{
+                    $bilanDpe = 'G';
+                }
             }
         }elseif($property->getDiagChoice() == "vierge"){
             $bilanDpe = "VI";
@@ -255,21 +275,40 @@ class PropertyService
 
     public function getClasseGes(Property $property){
         if($property->getDiagChoice() == "obligatoire"){
-            // Bilan GES
-            if($property->getDiagGes() > 0 and $property->getDiagGes() <= 50 ){
-                $bilanGes = 'A';
-            }elseif($property->getDiagGes() > 50 and $property->getDiagGes() <= 90 ){
-                $bilanGes = 'B';
-            }elseif($property->getDiagGes() > 90 and $property->getDiagGes() <= 150 ){
-                $bilanGes = 'C';
-            }elseif($property->getDiagGes() > 150 and $property->getDiagGes() <= 230 ){
-                $bilanGes = 'D';
-            }elseif($property->getDiagGes() > 230 and $property->getDiagGes() <= 330 ){
-                $bilanGes = 'E';
-            }elseif($property->getDiagGes() > 330 and $property->getDiagGes() <= 450 ){
-                $bilanGes = 'F';
+            if($property->getDpeAt() <= new DateTime('2021-07-01')){
+                // Bilan GES
+                if($property->getDiagGes() > 0 and $property->getDiagGes() <= 5 ){
+                    $bilanGes = 'A';
+                }elseif($property->getDiagGes() > 5 and $property->getDiagGes() <= 90 ){
+                    $bilanGes = 'B';
+                }elseif($property->getDiagGes() > 90 and $property->getDiagGes() <= 150 ){
+                    $bilanGes = 'C';
+                }elseif($property->getDiagGes() > 150 and $property->getDiagGes() <= 230 ){
+                    $bilanGes = 'D';
+                }elseif($property->getDiagGes() > 230 and $property->getDiagGes() <= 330 ){
+                    $bilanGes = 'E';
+                }elseif($property->getDiagGes() > 330 and $property->getDiagGes() <= 450 ){
+                    $bilanGes = 'F';
+                }else{
+                    $bilanGes = 'G';
+                }
             }else{
-                $bilanGes = 'G';
+                // Bilan GES
+                if($property->getDiagGes() > 0 and $property->getDiagGes() <= 6 ){
+                    $bilanGes = 'A';
+                }elseif($property->getDiagGes() > 6 and $property->getDiagGes() <= 10 ){
+                    $bilanGes = 'B';
+                }elseif($property->getDiagGes() > 10 and $property->getDiagGes() <= 29 ){
+                    $bilanGes = 'C';
+                }elseif($property->getDiagGes() > 29 and $property->getDiagGes() <= 49 ){
+                    $bilanGes = 'D';
+                }elseif($property->getDiagGes() > 49 and $property->getDiagGes() <= 69 ){
+                    $bilanGes = 'E';
+                }elseif($property->getDiagGes() > 69 and $property->getDiagGes() <= 99 ){
+                    $bilanGes = 'F';
+                }else{
+                    $bilanGes = 'G';
+                }
             }
         }elseif($property->getDiagChoice() == "vierge"){
             $bilanGes = "VI";

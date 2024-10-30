@@ -3,11 +3,13 @@
 namespace App\Entity\Gestapp;
 
 use App\Repository\Gestapp\AgencyRepository;
+use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AgencyRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Agency
 {
     #[ORM\Id]
@@ -48,6 +50,13 @@ class Agency
     public function __construct()
     {
         $this->agencyEmployeds = new ArrayCollection();
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function initializeSlug() {
+        $slugify = new Slugify();
+        $this->slug = $slugify->slugify($this->name);
     }
 
     public function getId(): ?int

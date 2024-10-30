@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Agency{% endblock %}
+
+{% block body %}
+    <h1>Edit Agency</h1>
+
+    {{ include('gestapp/agency/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_gestapp_agency_index') }}">back to list</a>
+
+    {{ include('gestapp/agency/_delete_form.html.twig') }}
+{% endblock %}

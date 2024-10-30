@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}AgencyEmployed{% endblock %}
+
+{% block body %}
+    <h1>AgencyEmployed</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ agency_employed.id }}</td>
+            </tr>
+            <tr>
+                <th>FirstName</th>
+                <td>{{ agency_employed.firstName }}</td>
+            </tr>
+            <tr>
+                <th>LastName</th>
+                <td>{{ agency_employed.lastName }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_agency_employed_index') }}">back to list</a>
+
+    <a href="{{ path('app_gestapp_agency_employed_edit', {'id': agency_employed.id}) }}">edit</a>
+
+    {{ include('gestapp/agency_employed/_delete_form.html.twig') }}
+{% endblock %}

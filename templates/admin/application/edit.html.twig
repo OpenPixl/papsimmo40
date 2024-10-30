@@ -4,6 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script src="{{ asset('js/Admin/Application/edit.js') }}" type="module"></script>
     <script src="{{ asset('js/Admin/Application/banner.js') }}" type="module"></script>
 {% endblock %}
 
@@ -37,22 +38,38 @@
 
 {% block modal %}
     {{ parent() }}
-    {# Modal transaction #}
-    <div class="modal fade" id="modalTransaction" tabindex="-1" aria-labelledby="modalTransactionLabel" aria-hidden="true">
+    {# Modal initiale #}
+    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
+            <div class="modal-content border-dark">
+                <div class="modal-header bg-light">
+                    <h5 class="modal-title" id="exampleModalLabel">Ouverture</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Exemple de contenu</p>
+                </div>
+                <div class="modal-footer bg-light">
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# Modal initiale #}
+    <div class="modal fade" id="modalSuppr" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered ">
+            <div class="modal-content border-warning">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une Transaction :</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Ouverture</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
                     <p>Exemple de contenu</p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary">Sauvegarder</button>
+                    <a id="btnSuppr" href="#" type="button" class="btn btn-sm btn-outline-warning" data-bs-dismiss="modal">Oui</a>
+                    <button type="button" class="btn btn-sm btn-secondary no-validate" data-bs-dismiss="modal">Non</button>
                 </div>
-
             </div>
         </div>
     </div>
@@ -62,44 +79,6 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Ajouter une Bannière :</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Exemple de contenu</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary">Sauvegarder</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    {# Modal rubrique #}
-    <div class="modal fade" id="modalRubric" tabindex="-1" aria-labelledby="modalRubricLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une rubrique :</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Exemple de contenu</p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                    <button type="button" class="btn btn-primary">Sauvegarder</button>
-                </div>
-
-            </div>
-        </div>
-    </div>
-    {# Modal sous rubrique #}
-    <div class="modal fade" id="modalRubricss" tabindex="-1" aria-labelledby="modalRubricssLabel" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ajouter une sous rubrique :</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">

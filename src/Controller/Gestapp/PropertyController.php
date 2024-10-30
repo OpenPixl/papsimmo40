@@ -13,6 +13,7 @@ use App\Form\Gestapp\PropertyImageType;
 use App\Form\Gestapp\PropertyStep1Type;
 use App\Form\Gestapp\PropertyStep2Type;
 use App\Form\Gestapp\PropertyType;
+use App\Form\Gestapp\PublicationType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\CadasterRepository;
 use App\Repository\Gestapp\choice\OtherOptionRepository;
@@ -29,6 +30,7 @@ use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\TransactionRepository;
 use App\Service\ArchivePropertyService;
 use App\Service\DirectoryService;
+use App\Service\ftptransfertService;
 use App\Service\PropertyService;
 use App\Service\QrcodeService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -168,6 +170,38 @@ class PropertyController extends AbstractController
                 'listproperties' => $listProperties
             ])
         ],200);
+    }
+
+    #[Route('/propertiesdiffuseurs', name: 'op_admin_contact_propertiesdiffuseurs', methods: ['GET','POST'])]
+    public function propertiesdiffuseurs(
+        Request $request,
+        //Publication $publication,
+        //PublicationRepository $publicationRepository,
+        PropertyRepository $propertyRepository,
+        ftptransfertService $ftptransfertService,
+        PhotoRepository $photoRepository,
+        complementRepository $complementRepository
+    ): Response
+    {
+        $properties = $propertyRepository->findAll();
+
+        $diffuseur = 'isPublishsuperimmo';
+
+        // Service de dépot sur serveur le serveur FTP "Superimmo"
+        $ftptransfertService->createfileForFTPTransfert(
+            $propertyRepository,
+            $photoRepository,
+            $complementRepository,
+            $diffuseur
+        );
+
+        dd();
+
+        return $this->render('gestapp/publication/showbyproperty.html.twig', [
+            'publication' => $publication,
+            'property' => $property,
+            'form' => $form,
+        ]);
     }
 
     #[Route('/listarchived', name: 'op_gestapp_property_listarchived', methods: ['GET'])]

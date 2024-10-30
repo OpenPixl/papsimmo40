@@ -14,12 +14,16 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/gestapp/choice/property/rubricss')]
 class propertyRubricssController extends AbstractController
 {
-    #[Route('/', name: 'app_gestapp_choice_property_rubricss_index', methods: ['GET'])]
+    #[Route('/', name: 'op_gestapp_choice_property_rubricss_index', methods: ['GET'])]
     public function index(propertyRubricssRepository $propertyRubricssRepository): Response
     {
-        return $this->render('gestapp/choice/property_rubricss/index.html.twig', [
-            'property_rubricsses' => $propertyRubricssRepository->findAll(),
-        ]);
+        $propertyRubricsses = $propertyRubricssRepository->findAll();
+        return $this->json([
+            "code" => 200,
+            "view" => $this->renderView('gestapp/choice/property_rubricss/index.html.twig', [
+                'property_rubricsses' => $propertyRubricsses
+            ]),
+        ], 200);
     }
 
     #[Route('/new', name: 'app_gestapp_choice_property_rubricss_new', methods: ['GET', 'POST'])]

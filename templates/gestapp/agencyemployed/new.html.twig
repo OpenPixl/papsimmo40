@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New AgencyEmployed{% endblock %}
+
+{% block body %}
+    <h1>Create new AgencyEmployed</h1>
+
+    {{ include('gestapp/agency_employed/_form.html.twig') }}
+
+    <a href="{{ path('app_gestapp_agency_employed_index') }}">back to list</a>
+{% endblock %}

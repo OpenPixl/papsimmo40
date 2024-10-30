@@ -1,0 +1,13 @@
+.form-control-xs{
+  border-radius: 0;
+  font-size: .750rem;
+  min-height: calc(1.5em + .5rem + 2px);
+  padding: .125rem .25rem;
+}
+.btn-group-sm > .btn, .btn-xs {
+  --bs-btn-padding-y: 0.125rem;
+  --bs-btn-padding-x: 0.25rem;
+  --bs-btn-font-size: 0.750rem;
+  --bs-btn-border-radius: 0;
+  min-height: calc(1.5em + .5rem + 2px);
+}

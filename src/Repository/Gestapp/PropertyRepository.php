@@ -1552,6 +1552,33 @@ class PropertyRepository extends ServiceEntityRepository
 
     // ----------------------------------------------
     // Partie Admin
+    // Requête : Recherche les biens pour la génération CSV - SUPERIMMO
+    // ----------------------------------------------
+    public function listPropertyByDiffuseur($diffuseur)
+    {
+        $query = $this->createQueryBuilder('p');
+        $query->join('p.refEmployed', 'e');
+        $query->leftjoin('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
+        $query->leftjoin('c.denomination', 'd');
+        $query->leftjoin('p.propertyDefinition', 'pd');
+        $query->join('p.publication', 'pu');
+        $query->leftjoin('p.sscategory', 'ss');
+        $query->leftjoin('c.propertyOrientation', 'po');
+        $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('p.family', 'f');
+        $query->leftjoin('p.rubric', 'ru');
+        $query->leftjoin('p.rubricss', 'rus');
+        $query->where('pu.'.$diffuseur.'= 1');
+        $query->andWhere('p.isArchived = 0');
+        $query->andWhere('p.isNomandat = 0');
+        $query->select('
+                p.id as id
+            ');
+        return $query->getQuery()->getResult();
+    }
+
+    // ----------------------------------------------
+    // Partie Admin
     // Requête : liste tous les numéros de mandats
     // ----------------------------------------------
     public function listMandats()

@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+<div class="row g-1">
+    <div class="col-1 fw-bold">{{ form_label(form.name) }}</div>
+    <div class="col-3 fw-bold">{{ form_label(form.address) }}</div>
+    <div class="col-2 fw-bold">{{ form_label(form.complement) }}</div>
+    <div class="col-1 fw-bold">{{ form_label(form.zipcode) }}</div>
+    <div class="col-1 fw-bold">{{ form_label(form.city) }}</div>
+    <div class="col-1 fw-bold">{{ form_label(form.contactPhone) }}</div>
+    <div class="col-2 fw-bold">{{ form_label(form.contactEmail) }}</div>
+    <div class="col-1"></div>
+</div>
+<div class="row g-1">
+    <div class="col-1">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-3">{{ form_widget(form.address, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-2">{{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-1">{{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-1">{{ form_widget(form.city, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-1">{{ form_widget(form.contactPhone, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-2">{{ form_widget(form.contactEmail, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-1"><button type="submit" class="btn btn-xs btn-outline-dark modalSubmit w-100" data-bs-whatever="formAgency-"><i class="fa-solid fa-square-plus"></i> Ajouter</button></div>
+</div>
+{{ form_widget(form) }}
+{{ form_end(form) }}

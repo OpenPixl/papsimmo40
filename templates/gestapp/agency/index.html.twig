@@ -1,0 +1,19 @@
+{% for agency in agencies %}
+    <tr id="liste">
+        <td>{{ agency.name }}</td>
+        <td>{{ agency.address }}</td>
+        <td>{{ agency.complement }}</td>
+        <td>{{ agency.zipcode }}</td>
+        <td>{{ agency.city }}</td>
+        <td>{{ agency.contactPhone }}</td>
+        <td>{{ agency.contactEmail }}</td>
+        <td>
+            <a href="{{ path('app_gestapp_agency_show', {'id': agency.id}) }}">show</a>
+            <a href="{{ path('app_gestapp_agency_edit', {'id': agency.id}) }}">edit</a>
+        </td>
+    </tr>
+{% else %}
+    <tr id="liste">
+        <td colspan="10">Pas d'agence actuellement</td>
+    </tr>
+{% endfor %}
