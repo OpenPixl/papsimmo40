@@ -353,7 +353,7 @@ modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
     let url = a.href;
     let crud = recipient.split('-')[0];
     let contentTitle = recipient.split('-')[1];
-    let id = recipient.split('-')[2];
+    let name = recipient.split('-')[2];
     if(crud === "ADD"){
         let modalHeaderH5 = modalAddcollaborateur.querySelector('.modal-title');
         let modalBody = modalAddcollaborateur.querySelector('.modal-body');
@@ -361,6 +361,7 @@ modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
         modalHeaderH5.textContent = contentTitle;
         submitFooter.textContent = "Ajouter au projet";
         submitFooter.href = url;
+        submitFooter.setAttribute('data-bs-whatever', name);
         axios
             .get(url)
             .then(function(response){
@@ -390,6 +391,15 @@ modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
         submitFooter.removeAttribute('id');
         submitFooter.classList.add('supprCollInv');
         modalBody.innerHTML = "<p class=\'mb-0\'>Vous êtes sur le point de supprimer la facture que vous aviez déposée.<br>Etes-vous sur de vouloir pour suivre la démarche.</p>";
+    }else if(crud === "DELAE"){
+        let modalHeaderH5 = modalAddcollaborateur.querySelector('.modal-title');
+        let modalBody = modalAddcollaborateur.querySelector('.modal-body');
+        let submitFooter = modalAddcollaborateur.querySelector('.modal-footer #btnSubmitColl');
+        modalHeaderH5.textContent = contentTitle;
+        submitFooter.textContent = "Retirer du projet";
+        submitFooter.href = url;
+        submitFooter.classList.add('supprAgencyEmployed');
+        modalBody.innerHTML = "<p class=\'mb-0\'>Vous êtes sur le point de retirer cette agent extérieur du projet.<br>Etes-vous sur de vouloir pour suivre la démarche.</p>";
     }
 });
 
@@ -887,20 +897,47 @@ function submitCollaborator(event){
             .catch(function (error){
                 console.log(error);
             });
-    }else{
-        let form = document.getElementById('FormAddcollaborator');
-        let data = new FormData(form);
-        let action = form.action;
+    }else if(this.classList.contains('supprAgencyEmployed')){
+        let url = this.href;
         axios
-            .post(action, data)
-            .then(function(response){
-                document.getElementById('listCollaborator').innerHTML = response.data.listCollaborator;
-                document.getElementById('rowInvoicesPdf').innerHTML = response.data.row;
+            .post(url)
+            .then(function (response){
+                document.querySelector('#blockAgencyEmployed .card-body').innerHTML = response.data.view;
+                toasterMessage(response.data.message);
             })
             .catch(function (error){
                 console.log(error);
-            })
-        ;
+            });
+    }else{
+        let opt = this.getAttribute('data-bs-whatever');
+        let name = opt.split('-')[0];
+        let form = document.getElementById(name);
+        let data = new FormData(form);
+        let action = form.action;
+        if(name === 'FormAddCollaborator'){
+            axios
+                .post(action, data)
+                .then(function(response){
+                    document.getElementById('listCollaborator').innerHTML = response.data.liste;
+                    document.getElementById('rowInvoicesPdf').innerHTML = response.data.row;
+                })
+                .catch(function (error){
+                    console.log(error);
+                })
+            ;
+        }else{
+            axios
+                .post(action, data)
+                .then(function(response){
+                    document.querySelector('#blockAgencyEmployed .card-body').innerHTML = response.data.view;
+                    toasterMessage(response.data.message);
+                })
+                .catch(function (error){
+                    console.log(error);
+                })
+            ;
+        }
+
     }
 }
 // ------------------------------------------------------------------------------------------

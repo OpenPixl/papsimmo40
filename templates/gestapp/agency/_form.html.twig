@@ -1,7 +1,8 @@
 {{ form_start(form) }}
 <div class="row g-1">
     <div class="col-1 fw-bold">{{ form_label(form.name) }}</div>
-    <div class="col-3 fw-bold">{{ form_label(form.address) }}</div>
+    <div class="col-1 fw-bold">{{ form_label(form.numbercardt) }}</div>
+    <div class="col-2 fw-bold">{{ form_label(form.address) }}</div>
     <div class="col-2 fw-bold">{{ form_label(form.complement) }}</div>
     <div class="col-1 fw-bold">{{ form_label(form.zipcode) }}</div>
     <div class="col-1 fw-bold">{{ form_label(form.city) }}</div>
@@ -11,7 +12,8 @@
 </div>
 <div class="row g-1">
     <div class="col-1">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
-    <div class="col-3">{{ form_widget(form.address, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-1">{{ form_widget(form.numbercardt, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-2">{{ form_widget(form.address, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
     <div class="col-2">{{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
     <div class="col-1">{{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
     <div class="col-1">{{ form_widget(form.city, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>

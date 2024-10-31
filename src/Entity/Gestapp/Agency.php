@@ -47,6 +47,9 @@ class Agency
     #[ORM\OneToMany(mappedBy: 'refAgency', targetEntity: AgencyEmployed::class)]
     private Collection $agencyEmployeds;
 
+    #[ORM\Column(length: 255)]
+    private ?string $numbercardt = null;
+
     public function __construct()
     {
         $this->agencyEmployeds = new ArrayCollection();
@@ -188,5 +191,22 @@ class Agency
         }
 
         return $this;
+    }
+
+    public function getNumbercardt(): ?string
+    {
+        return $this->numbercardt;
+    }
+
+    public function setNumbercardt(string $numbercardt): static
+    {
+        $this->numbercardt = $numbercardt;
+
+        return $this;
+    }
+
+    public function __toString()
+    {
+        return $this->name;
     }
 }

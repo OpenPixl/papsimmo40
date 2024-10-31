@@ -163,17 +163,13 @@ class Transaction
     #[ORM\Column(type: Types::SMALLINT, nullable: true)]
     private ?int $project = null;
 
-    /**
-     * @var Collection<int, AgencyEmployed>
-     */
-    #[ORM\OneToMany(mappedBy: 'refTransaction', targetEntity: AgencyEmployed::class)]
-    private Collection $agencyEmployeds;
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    private ?AgencyEmployed $refAgencyemployed = null;
 
     public function __construct()
     {
         $this->customer = new ArrayCollection();
         $this->addCollTransacs = new ArrayCollection();
-        $this->agencyEmployeds = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -585,34 +581,15 @@ class Transaction
         return $this;
     }
 
-    /**
-     * @return Collection<int, AgencyEmployed>
-     */
-    public function getAgencyEmployeds(): Collection
+    public function getRefAgencyemployed(): ?AgencyEmployed
     {
-        return $this->agencyEmployeds;
+        return $this->refAgencyemployed;
     }
 
-    public function addAgencyEmployed(AgencyEmployed $agencyEmployed): static
+    public function setRefAgencyemployed(?AgencyEmployed $refAgencyemployed): static
     {
-        if (!$this->agencyEmployeds->contains($agencyEmployed)) {
-            $this->agencyEmployeds->add($agencyEmployed);
-            $agencyEmployed->setRefTransaction($this);
-        }
+        $this->refAgencyemployed = $refAgencyemployed;
 
         return $this;
     }
-
-    public function removeAgencyEmployed(AgencyEmployed $agencyEmployed): static
-    {
-        if ($this->agencyEmployeds->removeElement($agencyEmployed)) {
-            // set the owning side to null (unless already changed)
-            if ($agencyEmployed->getRefTransaction() === $this) {
-                $agencyEmployed->setRefTransaction(null);
-            }
-        }
-
-        return $this;
-    }
-
 }

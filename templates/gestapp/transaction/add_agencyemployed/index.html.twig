@@ -1,0 +1,24 @@
+<div class="row">
+    <div class="col-9">
+        <h5>Ajouter un agent extérieur</h5>
+    </div>
+    <div class="col-3">
+        <p class="mb-0 text-center">
+            <a id="btnAddAgent" href="{{ path('op_gestapp_transaction_addagencyemployed_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un agent-formAddAgencyEmployed"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+        </p>
+    </div>
+</div>
+{% if transaction.refAgencyemployed is not null %}
+<div class="row p-1 align-items-center">
+    <div class="col-2">
+        <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+    </div>
+    <div class="col-8">
+        {{ transaction.refAgencyemployed.firstName }} {{ transaction.refAgencyemployed.lastName }}
+    </div>
+    <div class="col-2">
+        <a id="supprCollaborator" href="{{ path('op_gestapp_transaction_addagencyemployed_suppr', {'idtransac': transaction.id}) }}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="DELAE-Suppression d'un agent extérieur-{{ transaction.refAgencyemployed.id}}"><i class="fa-duotone fa-user-minus"></i></a>
+    </div>
+</div>
+{% endif %}
+

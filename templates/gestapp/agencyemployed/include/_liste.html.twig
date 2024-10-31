@@ -1,0 +1,15 @@
+{% for agencyemployed in agencyemployeds %}
+    <div class="row g-1">
+        <div class="col-3">{{ agencyemployed.firstName }}</div>
+        <div class="col-4">{{ agencyemployed.lastName }}</div>
+        <div class="col-3">{{ agencyemployed.refAgency }}</div>
+        <div class="col-2 text-center">
+            <a href="{{ path('app_gestapp_agency_employed_edit', {'id': agencyemployed.id}) }}" class="btnModalEdit" data-bs-dismiss="modal"><i class="fa-duotone fa-pen-to-square"></i></a>&nbsp;
+            <a href="{{ path('op_gestapp_agencyemployed_del', {'id': agencyemployed.id}) }}" class="btnModalSuppr text-warning" data-bs-dismiss="modal" data-bs-whatever="DEL-Suppression de l'agence-"><i class="fa-light fa-trash-xmark"></i></a>
+        </div>
+    </div>
+{% else %}
+    <div class="row g-1">
+        <div class="col-12">no records found</div>
+    </div>
+{% endfor %}

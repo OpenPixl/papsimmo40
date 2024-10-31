@@ -116,12 +116,29 @@ class AgencyController extends AbstractController
         $entityManager->remove($agency);
         $entityManager->flush();
 
+        $agency = new Agency();
+        $form = $this->createForm(AgencyType::class, $agency, [
+            'action' => $this->generateUrl('op_gestapp_agency_new'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formAgency',
+            ]
+        ]);
+        $form->handleRequest($request);
+
         $agencies = $entityManager->getRepository(Agency::class)->findAll();
 
+        // view
+        $view = $this->render('gestapp/agency/new.html.twig', [
+            'agencies' => $agencies,
+            'agency' => $agency,
+            'form' => $form,
+        ]);
+
+        // return
         return $this->json([
-            'liste' => $this->renderView('gestapp/agency/include/_liste.html.twig',[
-                'agencies' => $agencies
-            ]),
+            "code" => 200,
+            'view' => $view->getContent()
         ], 200);
     }
 

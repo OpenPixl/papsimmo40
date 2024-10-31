@@ -26,24 +26,46 @@ class AgencyEmployedController extends AbstractController
         ], 200);
     }
 
-    #[Route('/new', name: 'app_gestapp_agency_employed_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_agencyemployed_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $agencyEmployed = new AgencyEmployed();
-        $form = $this->createForm(AgencyEmployedType::class, $agencyEmployed);
+        $form = $this->createForm(AgencyEmployedType::class, $agencyEmployed, [
+            'action' => $this->generateUrl('op_gestapp_agencyemployed_new'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formAgencyEmployed',
+            ]
+        ]);
         $form->handleRequest($request);
+
+        $agencyemployeds = $entityManager->getRepository(AgencyEmployed::class)->findAll();
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($agencyEmployed);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_gestapp_agency_employed_index', [], Response::HTTP_SEE_OTHER);
+            $agencyemployeds = $entityManager->getRepository(AgencyEmployed::class)->findAll();
+
+            return $this->json([
+                "code" => 200,
+                "message" => "Les modifications à la recommandations ont étés correctement apportées.",
+                'liste' => $this->renderView('gestapp/agencyemployed/include/_liste.html.twig',[
+                    'agencyemployeds' => $agencyemployeds
+                ])
+            ],200);
         }
 
-        return $this->render('gestapp/agency_employed/new.html.twig', [
+        $view = $this->renderView('gestapp/agencyemployed/new.html.twig', [
+            'agencyemployeds' => $agencyemployeds,
             'agency_employed' => $agencyEmployed,
             'form' => $form,
         ]);
+
+        return $this->json([
+            'code' => 200,
+            'view' => $view,
+        ],200);
     }
 
     #[Route('/{id}', name: 'app_gestapp_agency_employed_show', methods: ['GET'])]
@@ -82,4 +104,33 @@ class AgencyEmployedController extends AbstractController
 
         return $this->redirectToRoute('app_gestapp_agency_employed_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/del', name: 'op_gestapp_agencyemployed_del', methods: ['POST'])]
+    public function del(Request $request, AgencyEmployed $agencyEmployed, EntityManagerInterface $entityManager): Response
+    {
+        $entityManager->remove($agencyEmployed);
+        $entityManager->flush();
+
+        $agencyEmployed = new AgencyEmployed();
+        $form = $this->createForm(AgencyEmployedType::class, $agencyEmployed, [
+            'action' => $this->generateUrl('op_gestapp_agencyemployed_new'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formAgencyEmployed',
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        $agencyemployeds = $entityManager->getRepository(AgencyEmployed::class)->findAll();
+
+        $view = $this->renderView('gestapp/agencyemployed/new.html.twig', [
+            'agencyemployeds' => $agencyemployeds,
+            'agency_employed' => $agencyEmployed,
+            'form' => $form,
+        ]);
+
+        return $this->json([
+            'code' => 200,
+            'view' => $view,
+        ],200);}
 }

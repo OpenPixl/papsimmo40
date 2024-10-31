@@ -1,4 +1,15 @@
 {{ form_start(form) }}
+<div class="row g-1">
+    <div class="col-3 fw-bold">{{ form_label(form.firstName) }}</div>
+    <div class="col-4 fw-bold">{{ form_label(form.lastName) }}</div>
+    <div class="col-3 fw-bold">{{ form_label(form.refAgency) }}</div>
+    <div class="col-2"></div>
+</div>
+<div class="row g-1">
+    <div class="col-3">{{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-4">{{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-xs'}}) }}</div>
+    <div class="col-3">{{ form_widget(form.refAgency, {'attr': {'class': 'form-select form-select-xs'}}) }}</div>
+    <div class="col-2"><button type="submit" class="btn btn-xs btn-outline-dark modalSubmit w-100" data-bs-whatever="formAgencyEmployed-"><i class="fa-solid fa-square-plus"></i> Ajouter</button></div>
+</div>
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}

@@ -16,6 +16,24 @@ class AgencyEmployedRepository extends ServiceEntityRepository
         parent::__construct($registry, AgencyEmployed::class);
     }
 
+    public function listcollTransac($transaction){
+        return $this->createQueryBuilder('a')
+            ->leftJoin('a.refTransac', 't')
+            ->select('
+            t.id as idTransac,
+            e.avatarName as avatarName,
+            e.lastName as lastName,
+            e.firstName as firstName,
+            e.id as idEmployed,
+            a.id as id
+            ')
+            ->andWhere('a.refTransac = :refTransac')
+            ->setParameter('refTransac', $transaction)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
     //    /**
     //     * @return AgencyEmployed[] Returns an array of AgencyEmployed objects
     //     */

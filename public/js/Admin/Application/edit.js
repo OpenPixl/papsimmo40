@@ -1,5 +1,3 @@
-import axios from "axios";
-
 const modal = new bootstrap.Modal(document.getElementById('modal'), {keyboard: false});
 const modalSuppr = new bootstrap.Modal(document.getElementById('modalSuppr'), {keyboard: false});
 const strechedlinks = document.querySelectorAll(".stretched-link");
@@ -30,10 +28,13 @@ function openModal(event){
             });
     }else if(crud === "OPEN_Agent"){
         document.getElementById('modal').querySelector('.modal-title').textContent = contentTitle;
+        document.getElementById('modal').querySelector('.modal-dialog').classList.add('modal-lg');
+        loadEvents();
         axios
             .get(url)
             .then(function(response){
                 document.getElementById('modal').querySelector('.modal-body').innerHTML = response.data.view;
+                loadEvents();
             })
             .catch(function(error){
                 console.log(error);
@@ -76,19 +77,18 @@ function submitModalForm(event){
     event.preventDefault();
     let opt = this.getAttribute('data-bs-whatever');
     let name = opt.split('-')[0];
-
-    if(name === 'formAgency'){
-        let form = document.getElementById(name);
-        let action = form.action;
-        let data = new FormData(form);
-        axios
-            .post(action, data)
-            .then(function(response){
-                document.getElementById('liste').innerHTML = response.data.liste;
-            })
-            .catch(function(error){console.log(error);});
-    }
-
+    // Récupération du formulaire
+    let form = document.getElementById(name);
+    let action = form.action;
+    let data = new FormData(form);
+    // Soumission du formulaire
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('liste').innerHTML = response.data.liste;
+            loadEvents();
+        })
+        .catch(function(error){console.log(error);});
 }
 
 function openModalSuppr(event) {
@@ -100,30 +100,23 @@ function openModalSuppr(event) {
     modalSuppr.show();
     document.getElementById('modalSuppr').querySelector('.modal-title').textContent = contentTitle;
     document.getElementById('modalSuppr').querySelector('.modal-footer a#btnSuppr').href = url;
+    document.getElementById('modalSuppr').querySelector('.modal-footer button').setAttribute('data-bs-whatever','OPEN_Rubric-Liste des rubriques');
     document.getElementById('modalSuppr').querySelector('.modal-body').innerHTML =
-    "Vous êtes sur le point de supprimer une agence. Etes-vous sur de votre choix ?";
+    "Vous êtes sur le point de supprimer un élément. Etes-vous sur de votre choix ?";
     document.getElementById('modalSuppr').querySelector('.modal-footer a#btnSuppr').addEventListener('click', SupprAgency);
 }
 
 function SupprAgency(event){
     event.preventDefault;
+    modal.show();
+    document.getElementById('modal').querySelector('.modal-dialog').classList.add('modal-xl');
+    document.getElementById('modal').querySelector('.modal-dialog').setAttribute('style', 'width:1600px');
     let url = this.href;
     axios
         .post(url)
         .then(function (response){
-            let url = 'gestapp/agency/';
-            modalSuppr.hide();
-            modal.show();
-            document.getElementById('modal').querySelector('.modal-title').textContent = contentTitle;
-            document.getElementById('modal').querySelector('.modal-dialog').classList.add('modal-xl');
-            axios
-                .post(url)
-                .then(function(response){
-                    document.getElementById('modal').querySelector('.modal-body').innerHTML = response.data.view;
-                    loadEvents();
-                })
-                .catch();
-
+            document.getElementById('modal').querySelector('.modal-body').innerHTML = response.data.view;
+            loadEvents();
         })
         .catch(function(error){
             console.log(error);

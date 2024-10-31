@@ -34,6 +34,9 @@ class AgencyType extends AbstractType
             ->add('contactEmail', TextType::class, [
                 'label' => 'Email'
             ])
+            ->add('numbercardt', TextType::class, [
+                'label' => 'N° Carte T'
+            ])
         ;
     }
 

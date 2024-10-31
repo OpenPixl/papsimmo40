@@ -3,6 +3,8 @@
 namespace App\Entity\Gestapp;
 
 use App\Repository\Gestapp\AgencyEmployedRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AgencyEmployedRepository::class)]
@@ -22,8 +24,16 @@ class AgencyEmployed
     #[ORM\ManyToOne(inversedBy: 'agencyEmployeds')]
     private ?Agency $refAgency = null;
 
-    #[ORM\ManyToOne(inversedBy: 'agencyEmployeds')]
-    private ?Transaction $refTransaction = null;
+    /**
+     * @var Collection<int, Transaction>
+     */
+    #[ORM\OneToMany(mappedBy: 'refAgencyemployed', targetEntity: Transaction::class)]
+    private Collection $transactions;
+
+    public function __construct()
+    {
+        $this->transactions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -66,15 +76,38 @@ class AgencyEmployed
         return $this;
     }
 
-    public function getRefTransaction(): ?Transaction
+    /**
+     * @return Collection<int, Transaction>
+     */
+    public function getTransactions(): Collection
     {
-        return $this->refTransaction;
+        return $this->transactions;
     }
 
-    public function setRefTransaction(?Transaction $refTransaction): static
+    public function addTransaction(Transaction $transaction): static
     {
-        $this->refTransaction = $refTransaction;
+        if (!$this->transactions->contains($transaction)) {
+            $this->transactions->add($transaction);
+            $transaction->setRefAgencyemployed($this);
+        }
 
         return $this;
+    }
+
+    public function removeTransaction(Transaction $transaction): static
+    {
+        if ($this->transactions->removeElement($transaction)) {
+            // set the owning side to null (unless already changed)
+            if ($transaction->getRefAgencyemployed() === $this) {
+                $transaction->setRefAgencyemployed(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function __toString(): string
+    {
+        return $this->getFirstName() . ' ' . $this->getLastName() . ' | ' .$this->getRefAgency()->getName();
     }
 }
