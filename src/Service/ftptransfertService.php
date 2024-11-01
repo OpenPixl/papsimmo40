@@ -656,7 +656,7 @@ class ftptransfertService
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
-        $nameRep = 'AnnoncesSuperimmo';             // Nom du dossier
+        $nameRep = 'Superimmo';                     // Nom du dossier
         $nameFile = 'paps_superimmo';               // Nom du Fichier sans extension
         $Rep = 'doc/report/AnnoncesSuperimmo/';     // nom du répertoire final
         if(is_dir($Rep))
