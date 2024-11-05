@@ -141,6 +141,9 @@ class Complement
     #[ORM\ManyToMany(targetEntity: PropertyEnergy::class, inversedBy: 'complements')]
     private Collection $energies;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $otherPieces = null;
+
     public function __construct()
     {
         $this->propertyEquipment = new ArrayCollection();
@@ -521,6 +524,18 @@ class Complement
     public function removeEnergy(PropertyEnergy $energy): static
     {
         $this->energies->removeElement($energy);
+
+        return $this;
+    }
+
+    public function getOtherPieces(): ?string
+    {
+        return $this->otherPieces;
+    }
+
+    public function setOtherPieces(?string $otherPieces): static
+    {
+        $this->otherPieces = $otherPieces;
 
         return $this;
     }

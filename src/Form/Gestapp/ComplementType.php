@@ -20,6 +20,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -82,6 +83,11 @@ class ComplementType extends AbstractType
                 'label' => "Balcon",
                 'required' => false,
                 'empty_data' => 0
+            ])
+            ->add('otherPieces', TextType::class, [
+                'label' => "Autres pièces",
+                'empty_data' => 0,
+                'help' => 'Attention, ce champs ne peut contenir que 250 caractères.'
             ])
 
             // Partie "Le Bien"

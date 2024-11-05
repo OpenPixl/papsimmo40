@@ -152,41 +152,41 @@ class ReportController extends AbstractController
                 '"0"',                                                      // 27 - A ajouter dans la BDD - Terrain ou bien Constructible
                 '"' . $property['surfaceHome'] . '"',                       // 28
                 '"' . $property['surfaceLand'] . '"',                       // 29
-                '""',                                                   // 30 - Nom du Quartier
+                '""',                                                       // 30 - Nom du Quartier
                 '"' . $property['isFurnished'] . '"',                       // 31
                 '"' . $property['piece'] . '"',                             // 32 - Nombre de pièces
-                '""',                                                   // 33 - Url de visite virtuelle
-                '""',                                                   // 34 - Texte supplémentaire
-                '""',                                                   // 35 - Programme immo neuf
+                '""',                                                       // 33 - Url de visite virtuelle
+                '""',                                                       // 34 - Texte supplémentaire
+                '""',                                                       // 35 - Programme immo neuf
                 '"' . $property['level'] . '"',                             // 36 - Etage
-                '""',                                                   // 37 - Lien contact - Programme imm neuf
-                "1",                                                    // 38 - Mettre en ligne le bien - PV
-                '""',                                                   // 39 - Ancienneté
+                '""',                                                       // 37 - Lien contact - Programme imm neuf
+                "1",                                                        // 38 - Mettre en ligne le bien - PV
+                '""',                                                       // 39 - Ancienneté
                 '"' . $property['constructionAt'] . '"',                    // 40 - Année de construction
-                '""',                                // 41 - Dépot de garantie
+                '""',                                                       // 41 - Dépot de garantie
                 '"' . $property['room'] . '"',                              // 42 - Nombre de chambres
                 '"' . $property['bathroom'] . '"',                          // 43 - Nombre de salles de bain
-                '""',                                                   // 44 - Nombre de parking extérieur
-                '""',                                                   // 45 - Nombre de parking intérieur
+                '""',                                                       // 44 - Nombre de parking extérieur
+                '""',                                                       // 45 - Nombre de parking intérieur
                 '"' . $property['diagDpe'] . '"',                           // 46 - DPE
                 '"' . $property['diagGes'] . '"',                           // 47 - GES
                 '"' . $property['isWithExclusivity'] . '"',                 // 48 - Exclusivité
-                '"0"',                                                  // 49 - Honoraire à la charge de l'acquéreur
-                '""',                                                   // 50 - Pourcentage de honoraires à la charge de l'acquéreur
+                '"0"',                                                      // 49 - Honoraire à la charge de l'acquéreur
+                '""',                                                       // 50 - Pourcentage de honoraires à la charge de l'acquéreur
                 '"' . $property['coproperty'] . '"',                        // 51
-                '""',                                                   // 52 - Nombre de lots
-                "0",                                                    // 53 - Montant moyen des charges annuelles
-                '""',                                                   // 54 - procédure sur le syndicat des copropriétaires
-                '""',                                                   // 55 - détail sur la procédure ci dessus
+                '""',                                                       // 52 - Nombre de lots
+                "0",                                                        // 53 - Montant moyen des charges annuelles
+                '""',                                                       // 54 - procédure sur le syndicat des copropriétaires
+                '""',                                                       // 55 - détail sur la procédure ci dessus
                 '"' . $url7 . '"',                                          // 56 - url photo 7
                 '"' . $url8 . '"',                                          // 57 - url photo 8
                 '"' . $url9 . '"',                                          // 58 - url photo 9
-                '"' . $rentChargeModsPayment . '"',                                                   // 59 - Modalité Règlement charges - Location
-                '""',                                                   // 60 - Complement de loyer
-                '"' . $warrantyDeposit . '"',                                                   // 61 - Dépôt de garantie
-                '""',                                                   // 62
+                '"' . $rentChargeModsPayment . '"',                         // 59 - Modalité Règlement charges - Location
+                '""',                                                       // 60 - Complement de loyer
+                '"' . $warrantyDeposit . '"',                               // 61 - Dépôt de garantie
+                '""',                                                       // 62
                 '"' . $property['price'] . '"',                             // 63 -
-                '""',                                                   // 64 - url Baremes Honoraires
+                '""',                                                       // 64 - url Baremes Honoraires
                 '"' . $url10 . '"',                                         // 65 - url photo 10
                 '"' . $url11 . '"',                                         // 66 - url photo 11
                 '"' . $url12 . '"',                                         // 67 - url photo 12
@@ -365,7 +365,7 @@ class ReportController extends AbstractController
                 '"papsimmo"',                                                   // 1 - Identifiant Agence
                 '"' . $ref . '"',                                               // 2 - Référence agence du bien
                 '"' . $destination['destination'] . '"',                        // 3 - Type d’annonce
-                '"' . $bien . '"',                           // 4 - Type de bien
+                '"' . $bien . '"',                                              // 4 - Type de bien
                 '"' . $property['zipcode'] . '"',                               // 5 - CP
                 '"' . $property['city'] . '"',                                  // 6 - Ville
                 '"France"',                                                     // 7 - Pays
