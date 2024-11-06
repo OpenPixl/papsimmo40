@@ -595,7 +595,6 @@ class PropertyController extends AbstractController
                         $photo->setPosition(1);
                     }
 
-
                     $originalphotoFileName = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
                     // this is needed to safely include the file name as part of the URL
                     $safephotoFileName = $slugger->slug($originalphotoFileName);
@@ -661,7 +660,7 @@ class PropertyController extends AbstractController
             return $this->redirectToRoute('op_gestapp_property_firstedit', ['id'=>$property->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/property/editimage.html.twig', [
+        return $this->render('gestapp/property/editimage.html.twig', [
             'form' => $form,
         ]);
     }
@@ -684,7 +683,6 @@ class PropertyController extends AbstractController
     public function edit(Request $request, Property $property, PropertyRepository $propertyRepository): Response
     {
         $complement = $property->getOptions();
-        //dd($complement->getId());
 
         $form = $this->createForm(PropertyType::class, $property);
         $form->handleRequest($request);
@@ -692,14 +690,13 @@ class PropertyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $annonce = $form->get('property_step1_annonce')->getData();
-            dd($annonce);
             $property->setAnnonce($annonce);
 
             $propertyRepository->add($property);
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/property/edit.html.twig', [
+        return $this->render('gestapp/property/edit.html.twig', [
             'property' => $property,
             'idProperty' => $property->getId(),
             'complement' => $complement->getId(),
@@ -795,7 +792,6 @@ class PropertyController extends AbstractController
         ]);
 
         $form->handleRequest($request);
-        //dd($request->getContent());
 
         if ($form->isSubmitted() && $form->isValid()) {
             $rentalAnnual = $form->get('commerceRentalAnnual')->getData();
@@ -804,7 +800,6 @@ class PropertyController extends AbstractController
                 $commerceAnnualChargeRentGlobal = ($form->get('commerceAnnualChargeRentGlobal')->getData())*12;
                 $commerceAnnualRentMeter = ($form->get('commerceAnnualRentMeter')->getData())*12;
                 $commerceAnnualChargeRentMeter = ($form->get('commerceAnnualChargeRentMeter')->getData())*12;
-                //dd($rentalAnnual,$commerceAnnualRentGlobal);
                 $property->setCommerceAnnualRentGlobal($commerceAnnualRentGlobal);
                 $property->setCommerceAnnualChargeRentGlobal($commerceAnnualChargeRentGlobal);
                 $property->setCommerceAnnualRentMeter($commerceAnnualRentMeter);
@@ -817,7 +812,7 @@ class PropertyController extends AbstractController
             ], 200);
 
         }
-        return $this->renderform('gestapp/property/Step/secondstep.html.twig',[
+        return $this->render('gestapp/property/Step/secondstep.html.twig',[
             'form'=>$form,
             'property'=>$property
         ]);
@@ -855,10 +850,8 @@ class PropertyController extends AbstractController
     public function stepInformationsImag(Request $request, Property $property, PropertyRepository $propertyRepository)
     {
 
-        //dd($request->files->get('file'));
         $property->setImageFile($request->files->get('file'));
         $propertyRepository->add($property);
-        //dd($property);
 
         return $this->json([
             'code'=> 200,
@@ -881,7 +874,6 @@ class PropertyController extends AbstractController
     {
         $property->setIsArchived(1);
         $property->setArchivedAt(new \DateTime('+90 days'));
-        //dd($property);
         $propertyRepository->add($property);
 
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');

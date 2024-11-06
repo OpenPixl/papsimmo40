@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Video index{% endblock %}
+
+{% block body %}
+    <h1>Video index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>VideoName</th>
+                <th>VideoSize</th>
+                <th>Position</th>
+                <th>Path</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for video in videos %}
+            <tr>
+                <td>{{ video.id }}</td>
+                <td>{{ video.createdAt ? video.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ video.updatedAt ? video.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ video.videoName }}</td>
+                <td>{{ video.videoSize }}</td>
+                <td>{{ video.position }}</td>
+                <td>{{ video.path }}</td>
+                <td>
+                    <a href="{{ path('app_gestapp_video_show', {'id': video.id}) }}">show</a>
+                    <a href="{{ path('app_gestapp_video_edit', {'id': video.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_video_new') }}">Create new</a>
+{% endblock %}

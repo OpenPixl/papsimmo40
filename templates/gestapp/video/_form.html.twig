@@ -1,0 +1,9 @@
+<p class="alert alert-info p-2">
+    La vidéo déposée doit être enregistrée au format MP4 en ne pas dépassée 100Mo.
+</p>
+{{ form_start(form) }}
+    {{ form_widget(form) }}
+    <div class="mt-1">
+        <button type="submit" id="btnAddVideo" class="btn btn-sm btn-outline-primary">{{ button_label|default('Ajouter') }}</button>
+    </div>
+{{ form_end(form) }}

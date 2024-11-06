@@ -5,6 +5,7 @@
     <div class="row">
         <div class="col-3">
             {{ render(controller('App\\Controller\\Gestapp\\PropertyController::Images', {'id': property.id})) }}
+            {{ render(controller('App\\Controller\\Gestapp\\VideoController::new', {'idproperty': property.id})) }}
             <div id="QrcodeProperty">
                 {{ include('gestapp/photo/include/qrcode.html.twig') }}
             </div>
