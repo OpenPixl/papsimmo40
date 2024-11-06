@@ -39,10 +39,6 @@ class Video
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $videoSize;
 
-    #[ORM\Column]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
-    private ?int $position = null;
-
     #[ORM\Column(length: 250, nullable: true)]
     private ?string $path = null;
 
@@ -128,18 +124,6 @@ class Video
     public function __toString()
     {
         return $this->videoName;
-    }
-
-    public function getPosition(): ?int
-    {
-        return $this->position;
-    }
-
-    public function setPosition(int $position): self
-    {
-        $this->position = $position;
-
-        return $this;
     }
 
     public function getPath(): ?string
