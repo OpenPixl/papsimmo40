@@ -74,8 +74,11 @@ class VideoController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
+                $video->setPath($newref);
                 $video->setVideoName($newvideoName);
             }
+
+            $property->setVideo($video);
 
             $entityManager->persist($video);
             $entityManager->flush();
