@@ -83,7 +83,10 @@ class VideoController extends AbstractController
             $entityManager->persist($video);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_gestapp_video_index', [], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code' => 200,
+                'message' => 'La vidéo à correctement été déposée sur le serveur',
+            ], 200);
         }
 
         return $this->render('gestapp/video/new.html.twig', [

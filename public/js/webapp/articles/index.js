@@ -1,6 +1,9 @@
 const modalArticleBs = new bootstrap.Modal(document.getElementById('modalArticle'), {keyboard: false});
 const modalArticle = document.getElementById('modalArticle');
+const btnDelArcticles = document.querySelectorAll('a.delarticle');
 let bntModalArticle = document.getElementById('btnModalArticle');
+
+console.log(btnDelArcticles);
 
 document.querySelectorAll('a.delarticle').forEach(function (link) {
     link.addEventListener('click',openModalArticle);
@@ -28,10 +31,10 @@ function openModalArticle(event) {
         let modalHeaderH5 = modalArticle.querySelector('.modal-title');
         modalHeaderH5.textContent = contentTitle;
         modalArticle.querySelector('.modal-body').innerHTML =
-            '<p><b>Attention</b> : Vous êtes sur le point de supprimer l\'article '+ id +'.</p>' +
-            '<p>Pour valider cette opération, veuillez clisur sur \'Supprimer\'.</p>';
-        reloadEventArticle();
+            "<p><b>Attention</b> : Vous êtes sur le point de supprimer l'article "+ id +".</p>" +
+            "<p>Etes-vous sur de vouloir supprimer l'article</p>";
     }
+    reloadEventArticle();
 }
 
 function submitModalArticle(event) {
@@ -59,7 +62,6 @@ function submitModalArticle(event) {
     }else{
         console.log('Pas de bouton portant l\'id suppr');
     }
-
 }
 
 modalArticle.addEventListener('hide.bs.modal', event => {

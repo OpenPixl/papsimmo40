@@ -8,12 +8,53 @@
 {% endblock %}
 
 {% block content %}
-    <h1>Articles index</h1>
+    <h1>LISTE DES ARTICLES</h1>
 
     <a href="{{ path('op_webapp_articles_new') }}" class="btn btn-sm btn-outline-primary btnPostAddArticle">Ajouter un article</a>
 
     <div id="liste">
         {{ include('webapp/articles/include/_liste.html.twig') }}
+    </div>
+{% endblock %}
+
+{% block modal %}
+    {{ parent() }}
+    <!-- Modal listes des interventions -->
+    <div class="modal fade " id="modalArticle" tabindex="-1" aria-labelledby="modalArticle" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Modal des articles</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="ModalBodyArticle" class="modal-body">
+                    <div class="d-flex justify-content-center">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="sr-only">Loading...</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <a id="SubmitArticle" href="#" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Modifier</a>
+                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    {# annonce toaster #}
+    <div aria-live="polite" aria-atomic="true" class="position-relative">
+        <div class="toast-container position-absolute top-50 end-0 p-3">
+            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                <div class="toast-header">
+                    <strong class="me-auto">SoftPAPS</strong>
+                    <small>A l'instant</small>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                </div>
+                <div class="toast-body">
+                    Hello, world! This is a toast message.
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
 

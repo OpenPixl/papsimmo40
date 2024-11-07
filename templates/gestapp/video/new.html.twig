@@ -1,11 +1,10 @@
-<h3>Ajouter une vidéo</h3>
-<div class="card text-dark bg-light">
+<div class="row">
     {% if property.video is null %}
-        <div class="card-body p-2">
+        <div class="col-12">
         {{ include('gestapp/video/_form.html.twig') }}
         </div>
     {% else %}
-        <div class="card-body p-2">
+        <div class="col-12">
             <p class="mb-0">Futur lien de la video</p>
         </div>
     {% endif %}

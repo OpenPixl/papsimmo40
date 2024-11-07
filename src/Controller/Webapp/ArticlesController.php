@@ -7,6 +7,7 @@ use App\Form\Webapp\ArticlesType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Webapp\ArticlesRepository;
 use App\Repository\Webapp\choice\CategoryRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,8 +20,10 @@ class ArticlesController extends AbstractController
     #[Route('/', name: 'op_webapp_articles_index', methods: ['GET'])]
     public function index(ArticlesRepository $articlesRepository): Response
     {
+        $articles = $articlesRepository->listwithoutactuality();
+
         return $this->render('webapp/articles/index.html.twig', [
-            'articles' => $articlesRepository->findAll(),
+            'articles' => $articles,
             'page' => 'allArticles'
         ]);
     }
@@ -29,7 +32,7 @@ class ArticlesController extends AbstractController
     public function actualites(ArticlesRepository $articlesRepository): Response
     {
         $actualites = $articlesRepository->listbycategory();
-        //dd($actualites);
+
         return $this->render('webapp/articles/actualites.html.twig', [
             'articles' => $actualites,
             'page' => 'actualities'
@@ -37,13 +40,15 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/new', name: 'op_webapp_articles_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository): Response
+    public function new(Request $request, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository, CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
+        $actualite = $categoryRepository->find(1);
 
         $article = new Articles();
         $article->setAuthor($employed);
+        $article->setCategory($actualite);
         $form = $this->createForm(ArticlesType::class, $article, [
             'action' => $this->generateUrl('op_webapp_articles_new'),
             'method' => 'POST',
@@ -65,7 +70,7 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/newactualite', name: 'op_webapp_articles_newactualite', methods: ['GET', 'POST'])]
-    public function newActualite(Request $request, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository, CategoryRepository $categoryRepository): Response
+    public function newActualite(Request $request,EntityManagerInterface $em, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository, CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
@@ -77,6 +82,7 @@ class ArticlesController extends AbstractController
         $article = new Articles();
         $article->setAuthor($employed);
         $article->setCategory($actualite);
+        //dd($article);
         $form = $this->createForm(ArticlesType::class, $article, [
             'action' => $this->generateUrl('op_webapp_articles_new'),
             'method' => 'POST',
@@ -87,11 +93,13 @@ class ArticlesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $articlesRepository->add($article);
-            return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
+            //$article->setCategory($actualite);
+            $em->persist($article);
+            $em->flush();
+            return $this->redirectToRoute('op_webapp_articles_actualites', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('webapp/articles/new.html.twig', [
+        return $this->render('webapp/articles/new.html.twig', [
             'article' => $article,
             'form' => $form,
         ]);
@@ -180,7 +188,7 @@ class ArticlesController extends AbstractController
     public function articlesByCat($cat, ArticlesRepository $articlesRepository): Response
     {
         //dd($cat);
-        $articles = $articlesRepository->findBy(['category' => $cat], ['updatedAt'=> 'DESC'], 3);
+        $articles = $articlesRepository->findBy(['category' => $cat, 'state' => 'publiée'], ['updatedAt'=> 'DESC'], 3);
         //dd($articles);
         return $this->render('webapp/page/article/category.html.twig', [
             'articles' => $articles,

@@ -52,6 +52,7 @@ class ArticlesType extends AbstractType
                     'Archivée' => 'archivee',
                     'Publiée' => 'publiée'
                 ],
+                'data' => 'brouillon',
                 'choice_attr' => [
                     'Brouillon' => ['data-data' => 'Brouillon'],
                     'Archivée' => ['data-data' => 'Archivée'],

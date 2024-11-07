@@ -15,7 +15,7 @@ class VideoType extends AbstractType
     {
         $builder
             ->add('videoFile', FileType::class,[
-                'label' => "La video ne doit pas dépasser 100Mo de taille",
+                //'label' => "La video ne doit pas dépasser 100Mo de taille",
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
