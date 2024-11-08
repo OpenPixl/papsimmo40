@@ -136,18 +136,20 @@ class VideoController extends AbstractController
     #[Route('/{id}/del', name: 'op_gestapp_video_del', methods: ['POST'])]
     public function del(Request $request, Video $video, EntityManagerInterface $entityManager): Response
     {
+        dd($video);
         $nameVideo = $video->getVideoName();
         $repVideo = $video->getPath();
         $path = $this->getParameter('property_photo_directory')."/".$repVideo."/".$nameVideo;
 
         if (file_exists($path)){
             unlink($path);
+        }else{
+            return $this->json(['code' => 300,'message' => 'Le fichier n\'existe plus dans le serveur.']);
         }
 
         $video->getProperty()->setVideo(null);
         $entityManager->remove($video);
         $entityManager->flush();
-
 
         return $this->json(['code' => 200]);
     }
