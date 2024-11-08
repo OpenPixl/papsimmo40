@@ -122,15 +122,24 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_gestapp_video_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'op_gestapp_video_delete', methods: ['POST'])]
     public function delete(Request $request, Video $video, EntityManagerInterface $entityManager): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$video->getId(), $request->getPayload()->get('_token'))) {
-            $entityManager->remove($video);
-            $entityManager->flush();
+        $nameVideo = $video->getVideoName();
+        $repVideo = $video->getPath();
+        $path = $this->getParameter('property_photo_directory')."/".$repVideo."/".$nameVideo;
+
+        if (file_exists($path)){
+            unlink($path);
+        }else{
+            return $this->json(['code' => 300,'message' => 'Le fichier n\'existe plus dans le serveur.']);
         }
 
-        return $this->redirectToRoute('app_gestapp_video_index', [], Response::HTTP_SEE_OTHER);
+        $video->getProperty()->setVideo(null);
+        $entityManager->remove($video);
+        $entityManager->flush();
+
+        return $this->json(['code' => 200]);
     }
 
     #[Route('/del/{id}', name: 'op_gestapp_video_del', methods: ['POST'])]
