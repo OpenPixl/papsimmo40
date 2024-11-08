@@ -9,7 +9,6 @@
                     <h5 class="card-title">Photos</h5>
                     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::Images', {'id': property.id})) }}
                     <div class="border-bottom m-2"></div>
-                    <h5 class="card-title">Vidéo</h5>
                     {{ render(controller('App\\Controller\\Gestapp\\VideoController::new', {'idproperty': property.id})) }}
                 </div>
             </div>

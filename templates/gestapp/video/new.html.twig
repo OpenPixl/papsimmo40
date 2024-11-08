@@ -1,9 +1,27 @@
-<div class="row">
+
     {% if property.video is null %}
+    <div class="row">
+        <div class="col-12">
+            <h5 class="card-title">Vidéo</h5>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12">
         {{ include('gestapp/video/_form.html.twig') }}
         </div>
+    </div>
     {% else %}
+    <div class="row">
+        <div class="col-10">
+            <h5 class="card-title">Vidéo</h5>
+        </div>
+        <div class="col-2">
+            <p class="text-center">
+                <a href="#" class="btn btn-sm btn-outline-dark"><i class="fa-light fa-film-slash"></i></a>
+            </p>
+        </div>
+    </div>
+    <div class="row">
         <div class="col-12">
             <div class="ratio ratio-16x9">
                 <video controls class="w-100">
@@ -12,7 +30,7 @@
                 </video>
             </div>
         </div>
+    </div>
     {% endif %}
-</div>
 
 
