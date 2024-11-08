@@ -5,8 +5,11 @@
         </div>
     {% else %}
         <div class="col-12">
-            <div class="embed-responsive embed-responsive-21by9">
-                <iframe class="embed-responsive-item" src="{{ asset('/properties/'~ property.video.path ~'/'~property.video.videoName) }}"></iframe>
+            <div class="ratio ratio-16x9">
+                <video controls class="w-100">
+                    <source src="{{ asset('/properties/'~ property.video.path ~'/'~property.video.videoName) }}" type="video/mp4">
+                    Ton navigateur ne supporte pas la vidéo HTML5.
+                </video>
             </div>
         </div>
     {% endif %}
