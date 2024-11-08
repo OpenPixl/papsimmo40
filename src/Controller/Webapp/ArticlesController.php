@@ -63,7 +63,7 @@ class ArticlesController extends AbstractController
             return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('webapp/articles/new.html.twig', [
+        return $this->render('webapp/articles/new.html.twig', [
             'article' => $article,
             'form' => $form,
         ]);
@@ -84,7 +84,7 @@ class ArticlesController extends AbstractController
         $article->setCategory($actualite);
         //dd($article);
         $form = $this->createForm(ArticlesType::class, $article, [
-            'action' => $this->generateUrl('op_webapp_articles_new'),
+            'action' => $this->generateUrl('op_webapp_articles_newactualite'),
             'method' => 'POST',
             'attr' => [
                 'id' => 'FormAddArticle'
@@ -94,6 +94,7 @@ class ArticlesController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             //$article->setCategory($actualite);
+
             $em->persist($article);
             $em->flush();
             return $this->redirectToRoute('op_webapp_articles_actualites', [], Response::HTTP_SEE_OTHER);
@@ -136,6 +137,29 @@ class ArticlesController extends AbstractController
         ]);
     }
 
+    #[Route('/editactualite/{id}', name: 'op_webapp_articles_editactualite', methods: ['GET', 'POST'])]
+    public function editactualite(Request $request, Articles $article, ArticlesRepository $articlesRepository): Response
+    {
+        $form = $this->createForm(ArticlesType::class, $article, [
+            'action' => $this->generateUrl('op_webapp_articles_editactualite', ['id'=> $article->getId()]),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'FormEditArticle'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $articlesRepository->add($article);
+            return $this->redirectToRoute('op_webapp_articles_editactualite', ['id'=>$article->getId()], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('webapp/articles/edit.html.twig', [
+            'article' => $article,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/{id}', name: 'op_webapp_articles_delete', methods: ['POST'])]
     public function delete(Request $request, Articles $article, ArticlesRepository $articlesRepository): Response
     {
@@ -149,18 +173,18 @@ class ArticlesController extends AbstractController
     public function del(Request $request, Articles $articles,ArticlesRepository $articlesRepository, $page)
     {
         $articlesRepository->remove($articles);
-        if($page == 'allArticle'){
-            $listarticles = $articlesRepository->findAll();
+        if($page == 'allArticles'){
+            $listarticles = $articlesRepository->listwithoutactuality();
         }elseif($page == 'actualities'){
             $listarticles = $articlesRepository->listbycategory();
         }
-
 
         return $this->json([
             'code'=> 200,
             'message' => "La photo du bien a été correctement modifiée.",
             'liste' => $this->renderView('webapp/articles/include/_liste.html.twig', [
-                'articles' => $listarticles
+                'articles' => $listarticles,
+                'page' => $page
             ])
         ], 200);
     }
