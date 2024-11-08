@@ -1,0 +1,17 @@
+
+    {% if property.video is null %}
+    <div class="row">
+        <div class="col-12">
+            <h5 class="card-title">Vidéo</h5>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+        {{ include('gestapp/video/_form.html.twig') }}
+        </div>
+    </div>
+    {% else %}
+    {{ render(controller('op_gestapp_video_show', {'id': property.video.id})) }}
+    {% endif %}
+
+

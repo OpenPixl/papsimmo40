@@ -27,7 +27,11 @@
 {% block content %}
     <div class="row">
         <div class="col-8">
-            <h1>Edition d'un nouvel article</h1>
+            {% if app.request.attributes.get('_route') == 'op_webapp_articles_edit' %}
+                <h1>Edition d'un nouvel article</h1>
+            {% elseif app.request.attributes.get('_route') == 'op_webapp_articles_editactualite' %}
+                <h1>Edition d'une nouvelle actualité</h1>
+            {% endif %}
         </div>
     </div>
     {{ include('webapp/articles/_form.html.twig', {'button_label': 'Mettre à jour'}) }}

@@ -73,6 +73,15 @@
                                 {{ form_widget(form.balcony, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
                         </div>
+                        {# Nombre de balcons #}
+                        <div class="row mb-1 g-1">
+                            {{ form_label(form.otherPieces, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
+                            <div class="col-8">
+                                {{ form_widget(form.otherPieces, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            </div>
+                            <div class="w-100"></div>
+                            <div class="col-12"><span class="text-muted">{{ form_help(form.otherPieces, {'attr': {'class': 'form-control form-control-sm'}}) }}</span></div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -101,7 +110,7 @@
                             {% endif %}
                         </div>
                         {# Energie du bien #}
-                        <div class="row mb-1 g-1">
+                        <div class="row mb-1 g-1 d-none">
                             {{ form_label(form.propertyEnergy, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
                             <div class="col-6">
                                 {{ form_widget(form.propertyEnergy, {'attr' : {'disabled':'disabled'}}) }}

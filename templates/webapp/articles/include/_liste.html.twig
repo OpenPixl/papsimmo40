@@ -23,10 +23,14 @@
                 <span class="badge bg-primary">{{ article.state }}</span>
             {% endif %}
             </td>
-            <td>{{ article.createdAt ? article.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            <td>{{ article.updatedAt ? article.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ article.createdAt ? article.createdAt|date('d-m-Y') : '' }}</td>
+            <td>{{ article.updatedAt ? article.updatedAt|date('d-m-Y') : '' }}</td>
             <td>
+                {% if app.request.attributes.get('_route') == 'op_webapp_articles_index' %}
                 <a class="btn btn-sm btn-outline-primary btnEditArticle" id="btnEditArticle" href="{{ path('op_webapp_articles_edit', {'id': article.id})}}" data-bs-whatever="EDIT-Editer un article-{{ article.id }}"><i class="fa-duotone fa-pen-to-square"></i></a>
+                {% elseif app.request.attributes.get('_route') == 'op_webapp_articles_actualites' %}
+                <a class="btn btn-sm btn-outline-primary btnEditArticle" id="btnEditArticle" href="{{ path('op_webapp_articles_editactualite', {'id': article.id})}}" data-bs-whatever="EDIT-Editer un article-{{ article.id }}"><i class="fa-duotone fa-pen-to-square"></i></a>
+                {% endif %}
                 <a id="btnModalArticle" href="{{ path('op_webapp_articles_del', {'id': article.id, 'page' : page}) }}" class="btn btn-sm btn-outline-danger delarticle" type="button" data-bs-toggle="modal" data-bs-target="#modalArticle" data-bs-whatever="DEL-Supprimer un article-{{ article.id }}"><i class="fa-duotone fa-file-xmark"></i></a>
             </td>
         </tr>

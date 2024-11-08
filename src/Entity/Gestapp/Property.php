@@ -364,6 +364,9 @@ class Property
     #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private ?string $annonceDown = null;
 
+    #[ORM\OneToOne(inversedBy: 'property', cascade: ['persist', 'remove'])]
+    private ?Video $video = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1529,6 +1532,18 @@ class Property
     public function setAnnonceDown(?string $annonceDown): static
     {
         $this->annonceDown = $annonceDown;
+
+        return $this;
+    }
+
+    public function getVideo(): ?Video
+    {
+        return $this->video;
+    }
+
+    public function setVideo(?Video $video): static
+    {
+        $this->video = $video;
 
         return $this;
     }

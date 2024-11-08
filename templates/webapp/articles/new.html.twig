@@ -9,7 +9,11 @@
 {% block content %}
     <div class="row">
         <div class="col-8">
+            {% if app.request.attributes.get('_route') == 'op_webapp_articles_new' %}
             <h1>Edition d'un nouvel article</h1>
+            {% elseif app.request.attributes.get('_route') == 'op_webapp_articles_newactualite' %}
+            <h1>Edition d'une nouvelle actualité</h1>
+            {% endif %}
         </div>
     </div>
     {{ include('webapp/articles/_form.html.twig') }}

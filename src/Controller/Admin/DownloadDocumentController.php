@@ -2,6 +2,7 @@
 
 namespace App\Controller\Admin;
 
+use App\Repository\Gestapp\PropertyRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -10,12 +11,41 @@ use Symfony\Component\Routing\Attribute\Route;
 class DownloadDocumentController extends AbstractController
 {
     #[Route('/docs', name: 'app_admin_download_document_docs')]
-    public function transaction(): Response
+    public function transaction(PropertyRepository $propertyRepository): Response
     {
         $directory = $this->getParameter('kernel.project_dir') . '/public/properties';
-        $contents = $this->scanDirectory($directory);
+        $scans = $this->scanDirectory($directory);
+        //dd($scans);
+        $properties = $propertyRepository->findAll();
+        $contents = [];
 
-        //dd($contents);
+        foreach ($scans as $scan) {
+            $refscan = explode('-', $scan['name']);
+            $ref = $refscan[0].'/'.$refscan[1].'-'.$refscan[2];
+            foreach ($properties as $property) {
+                if($property->getRef() === $ref) {
+                    $dupMandat = $property->getDupMandat();
+                    if(!$dupMandat){
+                        $mandat = $property->getRefMandat();
+                    }else{
+                        $mandat = $property->getRefMandat().$dupMandat;
+                    }
+                    $row = array(
+                        'id' => $property->getRefMandat(),
+                        'type' => $scan['type'],
+                        'name' => $scan['name'],
+                        'path' => $scan['path'],
+                        'children' => $scan['children'],
+                        'mandat' => $mandat
+                    );
+                    array_push($contents, $row);
+                }
+            }
+        }
+
+        usort($contents, function ($a, $b) {
+            return $a['id'] <=> $b['id'];
+        });
 
         return $this->render('admin/download_document/transaction.html.twig', [
             'contents' => $contents,
