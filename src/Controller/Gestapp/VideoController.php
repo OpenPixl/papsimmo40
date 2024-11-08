@@ -133,7 +133,7 @@ class VideoController extends AbstractController
         return $this->redirectToRoute('app_gestapp_video_index', [], Response::HTTP_SEE_OTHER);
     }
 
-    #[Route('/{id}/del', name: 'app_gestapp_video_del', methods: ['POST'])]
+    #[Route('/{id}/del', name: 'op_gestapp_video_del', methods: ['POST'])]
     public function del(Request $request, Video $video, EntityManagerInterface $entityManager): Response
     {
         $nameVideo = $video->getVideoName();
