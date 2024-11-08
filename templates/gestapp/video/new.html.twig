@@ -11,26 +11,7 @@
         </div>
     </div>
     {% else %}
-    <div class="row">
-        <div class="col-10">
-            <h5 class="card-title">Vidéo</h5>
-        </div>
-        <div class="col-2">
-            <p class="text-center">
-                <a href="{{ path('op_gestapp_video_delete', {'id':property.video.id}) }}" class="btn btn-sm btn-outline-dark delVideo"><i class="fa-light fa-film-slash"></i></a>
-            </p>
-        </div>
-    </div>
-    <div class="row">
-        <div class="col-12">
-            <div class="ratio ratio-16x9">
-                <video controls class="w-100">
-                    <source src="{{ asset('/properties/'~ property.video.path ~'/'~property.video.videoName) }}" type="video/mp4">
-                    Ton navigateur ne supporte pas la vidéo HTML5.
-                </video>
-            </div>
-        </div>
-    </div>
+    {{ render(controller('op_gestapp_video_show', {'id': property.video.id})) }}
     {% endif %}
 
 

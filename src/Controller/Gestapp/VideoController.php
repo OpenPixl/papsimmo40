@@ -96,7 +96,7 @@ class VideoController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_gestapp_video_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'op_gestapp_video_show', methods: ['GET'])]
     public function show(Video $video): Response
     {
         return $this->render('gestapp/video/show.html.twig', [
@@ -125,21 +125,12 @@ class VideoController extends AbstractController
     #[Route('/{id}', name: 'op_gestapp_video_delete', methods: ['POST'])]
     public function delete(Request $request, Video $video, EntityManagerInterface $entityManager): Response
     {
-        $nameVideo = $video->getVideoName();
-        $repVideo = $video->getPath();
-        $path = $this->getParameter('property_photo_directory')."/".$repVideo."/".$nameVideo;
-
-        if (file_exists($path)){
-            unlink($path);
-        }else{
-            return $this->json(['code' => 300,'message' => 'Le fichier n\'existe plus dans le serveur.']);
+        if ($this->isCsrfTokenValid('delete'.$video->getId(), $request->getPayload()->get('_token'))) {
+            $entityManager->remove($video);
+            $entityManager->flush();
         }
 
-        $video->getProperty()->setVideo(null);
-        $entityManager->remove($video);
-        $entityManager->flush();
-
-        return $this->json(['code' => 200]);
+        return $this->redirectToRoute('app_gestapp_video_index', [], Response::HTTP_SEE_OTHER);
     }
 
     #[Route('/del/{id}', name: 'op_gestapp_video_del', methods: ['POST'])]

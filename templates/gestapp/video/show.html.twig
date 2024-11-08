@@ -1,46 +1,20 @@
-{% extends 'admin.html.twig' %}
-
-{% block title %}Video{% endblock %}
-
-{% block content %}
-    <h1>Video</h1>
-
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ video.id }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ video.createdAt ? video.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ video.updatedAt ? video.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>VideoName</th>
-                <td>{{ video.videoName }}</td>
-            </tr>
-            <tr>
-                <th>VideoSize</th>
-                <td>{{ video.videoSize }}</td>
-            </tr>
-            <tr>
-                <th>Position</th>
-                <td>{{ video.position }}</td>
-            </tr>
-            <tr>
-                <th>Path</th>
-                <td>{{ video.path }}</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_gestapp_video_index') }}">back to list</a>
-
-    <a href="{{ path('app_gestapp_video_edit', {'id': video.id}) }}">edit</a>
-
-    {{ include('gestapp/video/_delete_form.html.twig') }}
-{% endblock %}
+<div class="row">
+    <div class="col-10">
+        <h5 class="card-title">Vidéo</h5>
+    </div>
+    <div class="col-2">
+        <p class="text-center">
+            <a href="{{ path('op_gestapp_video_del', {'id':video.id}) }}" class="btn btn-sm btn-outline-dark delVideo"><i class="fa-light fa-film-slash"></i></a>
+        </p>
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        <div class="ratio ratio-16x9">
+            <video controls class="w-100">
+                <source src="{{ asset('/properties/'~ video.path ~'/'~ video.videoName) }}" type="video/mp4">
+                Ton navigateur ne supporte pas la vidéo HTML5.
+            </video>
+        </div>
+    </div>
+</div>
