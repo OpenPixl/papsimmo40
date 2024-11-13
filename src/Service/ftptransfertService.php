@@ -617,7 +617,7 @@ class ftptransfertService
         // ---------------------------------------------------------
         $nameRep = 'Superimmo';                     // Nom du dossier
         $nameFile = 'paps_superimmo';               // Nom du Fichier sans extension
-        $Rep = 'doc/report/AnnoncesSuperimmo/';     // nom du répertoire final
+        $Rep = 'doc/report/Superimmo/';             // nom du répertoire final
         if(is_dir($Rep))
         {
             $this->directoryZip($nameRep, $nameFile, $content);

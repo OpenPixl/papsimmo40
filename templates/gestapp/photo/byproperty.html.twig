@@ -9,7 +9,11 @@
                     <h5 class="card-title">Photos</h5>
                     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::Images', {'id': property.id})) }}
                     <div class="border-bottom m-2"></div>
+                    {% if property.video is null %}
                     {{ render(controller('App\\Controller\\Gestapp\\VideoController::new', {'idproperty': property.id})) }}
+                    {% else %}
+                    {{ render(controller('App\\Controller\\Gestapp\\VideoController::show', {'id': property.video.id})) }}
+                    {% endif %}
                 </div>
             </div>
 
