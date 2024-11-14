@@ -822,6 +822,106 @@ class ftptransfertService
         }
     }
 
+    public function ubiflow(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+    ){
+        $request = $this->requestStack->getCurrentRequest();
+        //$partenaire = 'BI';
+        $properties = $propertyRepository->reportpropertycsv2();            // On récupère les biens à publier sur SeLoger
+
+        $rows = array();
+        foreach ($properties as $property){
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $this->propertyService->getDestination($propriete);
+            // Description de l'annonce
+            $annonce = $this->propertyService->getAnnonce($propriete);
+
+            $dates = $this->propertyService->getDates($property);
+
+            // Récupération des images liées au bien
+            $url = $this->propertyService->getUrlPhotos($property);
+            $titrephoto = $this->propertyService->getTitrePhotos($property);
+
+            // Orientation
+            if($property['orientation'] = 'nord'){
+                $nord = 1;
+                $est = 0;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'est'){
+                $nord = 0;
+                $est = 1;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'sud'){
+                $nord = 0;
+                $est = 0;
+                $sud = 1;
+                $ouest = 0;
+            }else{
+                $nord = 0;
+                $est = 0;
+                $sud = 0;
+                $ouest = 1;
+            }
+
+            // publication sur les réseaux
+            $diffuseurs = [];
+            if ($property['seloger'] == 1) {
+                array_push($diffuseurs, 'MEILLEURSAGENTS');
+            }
+            if ($property['leboncoin'] == 1) {
+                array_push($diffuseurs, 'LEBONCOIN_IMMO_V2');
+            }
+            if ($property['bienici'] == 1) {
+                array_push($diffuseurs, 'INSOON_EB');
+            }
+            $publications = implode(",", $diffuseurs);
+            // version du document
+            $version = '4.11';
+
+            // Transformation terrace en booléen
+            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+
+            $infos = ['refDossier' => 'RC1860977', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+
+            // Complements du bien
+            $complement = $propriete->getOptions();
+            $energies = $complement->getEnergies();
+
+            // Récupération DPE & GES
+            $bilanDpe = $this->propertyService->getClasseDpe($propriete);
+            $bilanGes = $this->propertyService->getClasseGes($propriete);
+
+            // Création d'une ligne du tableau
+            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $row = [];
+            for ($i = 0; $i < count($data); $i++) {
+                //dd($data[$i+1]);
+                array_push($row, $data[$i+1]);
+            }
+            $rows[] = implode('!#', $row);
+        }
+        $content = implode("\n", $rows);
+
+        // PARTIE II : Génération du dossier et création fichier CSV
+        // ---------------------------------------------------------
+        $nameRep = 'ubiflow';                           // Nom du dossier
+        $nameFile = 'papsimmo_ubiflow';                 // Nom du Fichier sans extension
+        $Rep = 'doc/report/ubiflow/';                   // nom du répertoire final
+        if(is_dir($Rep))
+        {
+            $this->directoryZip($nameRep, $nameFile, $content);
+        }else{
+            // Création du répertoire s'il n'existe pas.
+            mkdir($Rep."/", 0775, true);
+            $this->directoryZip($nameRep, $nameFile, $content);
+        }
+    }
+
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.12
     public function createfileForFTPTransfert(
         PropertyRepository $propertyRepository,

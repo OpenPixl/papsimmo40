@@ -113,6 +113,13 @@ class PublicationController extends AbstractController
                 $complementRepository
             );
 
+            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            $ftptransfertService->ubiflow(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository
+            );
+
 
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
