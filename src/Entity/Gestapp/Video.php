@@ -2,14 +2,14 @@
 
 namespace App\Entity\Gestapp;
 
-use App\Repository\Gestapp\PhotoRepository;
+use App\Repository\Gestapp\VideoRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Vich\UploaderBundle\Mapping\Annotation\UploadableField;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Serializer\Annotation\Groups;
 
-#[ORM\Entity(repositoryClass: PhotoRepository::class)]
+#[ORM\Entity(repositoryClass: VideoRepository::class)]
 #[ORM\HasLifecycleCallbacks]
 #[Vich\Uploadable]
 class Video
@@ -42,7 +42,7 @@ class Video
     #[ORM\Column(length: 250, nullable: true)]
     private ?string $path = null;
 
-    #[ORM\OneToOne(mappedBy: 'video', cascade: ['persist', 'remove'])]
+    #[ORM\OneToOne(mappedBy: 'video', cascade: ['persist'])]
     private ?Property $property = null;
 
     public function getId(): ?int

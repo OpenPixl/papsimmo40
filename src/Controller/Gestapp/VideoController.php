@@ -86,6 +86,9 @@ class VideoController extends AbstractController
             return $this->json([
                 'code' => 200,
                 'message' => 'La vidéo à correctement été déposée sur le serveur',
+                'view' => $this->renderView('gestapp/video/show.html.twig', [
+                    'video' => $video
+                ])
             ], 200);
         }
 
@@ -134,23 +137,47 @@ class VideoController extends AbstractController
     }
 
     #[Route('/del/{id}', name: 'op_gestapp_video_del', methods: ['POST'])]
-    public function del(Request $request, Video $video, EntityManagerInterface $entityManager): Response
+    public function del(Request $request, Video $video, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
-        dd($video);
         $nameVideo = $video->getVideoName();
         $repVideo = $video->getPath();
         $path = $this->getParameter('property_photo_directory')."/".$repVideo."/".$nameVideo;
 
         if (file_exists($path)){
+
+            $property = $video->getProperty();
+            $property->setVideo(null);
+            $entityManager->remove($video);
+            $entityManager->flush();
+
             unlink($path);
+
+            $video = new Video();
+            $form = $this->createForm(VideoType::class, $video, [
+                'action' => $this->generateUrl('app_gestapp_video_new', ['idproperty' => $property->getId()]),
+                'method' => 'POST',
+                'attr' => [
+                    'id' => 'addVideo'
+                ]
+            ]);
+            $form->handleRequest($request);
+
+            $view = $this->render('gestapp/video/new.html.twig', [
+                'property' => $property,
+                'video' => $video,
+                'form' => $form,
+            ]);
+
+            return $this->json([
+                'code' => 300,
+                'message' => 'La vidéo a été supprimée du serveur',
+                'view' =>  $view->getContent()
+            ], 200);
+
         }else{
             return $this->json(['code' => 300,'message' => 'Le fichier n\'existe plus dans le serveur.']);
         }
 
-        $video->getProperty()->setVideo(null);
-        $entityManager->remove($video);
-        $entityManager->flush();
 
-        return $this->json(['code' => 200]);
     }
 }
