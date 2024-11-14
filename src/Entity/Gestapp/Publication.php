@@ -49,6 +49,9 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishhtlouer = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishBienici = false;
+
 
     public function getId(): ?int
     {
@@ -195,6 +198,18 @@ class Publication
     public function setIsPublishhtlouer(bool $isPublishhtlouer): self
     {
         $this->isPublishhtlouer = $isPublishhtlouer;
+
+        return $this;
+    }
+
+    public function isIsPublishBienici(): ?bool
+    {
+        return $this->isPublishBienici;
+    }
+
+    public function setIsPublishBienici(bool $isPublishBienici): static
+    {
+        $this->isPublishBienici = $isPublishBienici;
 
         return $this;
     }

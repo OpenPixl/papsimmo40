@@ -147,15 +147,32 @@
                             </article>
                         </div>
                         <div class="col-12 col-lg-4">
-                            <div class="card text-bg-dark mb-2">
+                            {% if property.videoName is not null %}
+                            <div id="watchVideo" class="card text-bg-green mb-2">
                                 <div class="card-body">
                                     <div class="row align-items-center">
                                         <div class="col-2"><i class="fa-sharp fa-light fa-circle-play fa-2x"></i></div>
                                         <div class="col-4"> Voir la vidéo</div>
-                                        <a href="#" class="stretched-link"></a>
+                                        <a href="#" class="stretched-link" data-bs-toggle="modal" data-bs-target="#showVideo"></a>
                                     </div>
                                 </div>
                             </div>
+                            <div class="modal fade" id="showVideo" tabindex="-1" aria-labelledby="showVideo" aria-hidden="true">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body p-0">
+                                            <video controls class="w-100">
+                                                <source src="{{ asset('/properties/'~ property.videoPath ~'/'~ property.videoName) }}" type="video/mp4">
+                                                Ton navigateur ne supporte pas la vidéo HTML5.
+                                            </video>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endif %}
                             <div class="card">
                                 <div class="card-body">
                                     <p class="text-center">
@@ -208,7 +225,7 @@
                                 {% endif %}
                                 {% if property.propertyEnergy != 'A définir' %}
                                     <tr>
-                                        <td>Energie</td>
+                                        <td>Energie principal</td>
                                         <td><span class="color">{{ property.propertyEnergy }}</span></td>
                                     </tr>
                                 {% endif %}

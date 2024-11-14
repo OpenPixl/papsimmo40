@@ -335,6 +335,7 @@ class PropertyRepository extends ServiceEntityRepository
                 pu.isPublishsuperimmo as isPublishsuperimmo,
                 pu.isPublishalentoor as isPublishalentoor,
                 pu.isPublishhtlouer as isPublishhtlouer,
+                pu.isPublishBienici as isPublisBienici,
                 p.dupMandat as dupMandat,
                 p.id as id,
                 p.ref as ref,
@@ -383,6 +384,7 @@ class PropertyRepository extends ServiceEntityRepository
                 pu.isPublishsuperimmo as isPublishsuperimmo,
                 pu.isPublishalentoor as isPublishalentoor,
                 pu.isPublishhtlouer as isPublishhtlouer,
+                pu.isPublishBienici as isPublisBienici,
                 p.dupMandat as dupMandat,
                 p.id as id,
                 p.ref as ref,
@@ -597,12 +599,13 @@ class PropertyRepository extends ServiceEntityRepository
     public function oneProperty($property)
     {
         return $this->createQueryBuilder('p')
+            ->leftJoin('p.video', 'v')
             ->leftJoin('p.refEmployed', 'e')
             ->leftJoin('p.options', 'c')    // p.options correspond à la table "Complement" d'où l'alias "c"
             ->leftJoin('c.banner', 'b')
             ->leftJoin('p.family', 'f')
             ->leftJoin('c.propertyState', 'ps')
-            ->leftJoin('c.propertyEnergy', 'pe')
+            ->leftJoin('c.energies', 'pe')
             ->leftJoin('c.propertyOrientation', 'po')
             ->leftJoin('c.propertyEquipment', 'peq')
             ->leftJoin('p.propertyDefinition', 'pd')
@@ -611,6 +614,8 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.rubric', 'pr')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                v.videoName as videoName,
+                v.path as videoPath,
                 p.qrcode_url as qrcodeUrl,
                 f.name as family,
                 p.eeaYear as anneeRefNRJ,
@@ -1140,7 +1145,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
-        $query->where('pu.isPublishMeilleur = 1 OR pu.isPublishleboncoin = 1');            // filtre sur la publication Paru-Vendu
+        $query->where('pu.isPublishMeilleur = 1 OR pu.isPublishleboncoin = 1 OR pu.isPublishBienici = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
         $query->select('
@@ -1152,6 +1157,7 @@ class PropertyRepository extends ServiceEntityRepository
                 rus.name as rubricss,
                 pu.isPublishleboncoin AS leboncoin,
                 pu.isPublishMeilleur AS seloger,
+                pu.isPublishBienici AS bienici,
                 c.wc as wc,
                 c.washroom AS washroom,
                 c.sanitation as sanitation,

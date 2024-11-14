@@ -334,6 +334,21 @@
                                     {% endfor %}
                                 </td>
                             </tr>
+
+                        </table>
+                    </div>
+                    <div class="col-12">
+                        <table class="table">
+                            <tr>
+                                <th class="head" colspan="2">Autres informations</th>
+                            </tr>
+
+                            {% if property.propertyTax > 0 %}
+                                <tr>
+                                    <th class="col-3">Taxe Foncière : </th>
+                                    <td><span class="color">{{ property.propertyTax }} €</span></td>
+                                </tr>
+                            {% endif %}
                         </table>
                     </div>
                 </div>

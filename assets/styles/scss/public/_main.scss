@@ -454,6 +454,11 @@ body{
 
   #generalCard {
     margin-top: 4rem;
+    #watchVideo .text-bg-green {
+      background-color: #069697 !important;
+      color: $secondary-color !important;
+      border: $secondary-color;;
+    }
     .small{
       color: $primary-color;
     }
@@ -903,6 +908,14 @@ form{
     }
     #generalCard {
       margin-top: 2rem;
+      .text-bg-green {
+        background-color: #069697 !important;
+        color: #FFFFFF !important;
+        border: $secondary-color;;
+      }
+      .text-bg-green:hover{
+        background-color: #06969780 !important;
+      }
       .small{
         color: $primary-color;
       }

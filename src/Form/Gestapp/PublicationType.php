@@ -58,6 +58,10 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur "Acheter-Louer" ?',
                 'required' => false
             ])
+            ->add('isPublishBienici', CheckboxType::class, [
+                'label' => 'Publié sur "Bien\'ici" ?',
+                'required' => false
+            ])
             //->add('sector', ChoiceType::class, [
             //    'label' => 'Secteur',
             //    'choices'  => [

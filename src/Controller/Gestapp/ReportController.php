@@ -207,7 +207,7 @@ class ReportController extends AbstractController
         return $response;
     }
 
-    // Génération du Fichiers CSV pour MeilleurAgent / LeBonCoin
+    // Génération du Fichiers CSV pour MeilleurAgent / LeBonCoin  / BienIci
     #[Route('/report/report_properties_csv2', name: 'app_gestapp_report_propertycsv2')]
     public function PropertyCSV2(
         PropertyRepository $propertyRepository,
@@ -342,6 +342,9 @@ class ReportController extends AbstractController
             if ($property['leboncoin'] == 1) {
                 array_push($publications, 'LEBONCOIN_IMMO_V2');
             }
+            if ($property['bienici'] == 1) {
+                array_push($publications, 'INSOON_EB');
+            }
             $listpublications = implode(",", $publications);
 
             // Transformation terrace en booléen
@@ -376,7 +379,7 @@ class ReportController extends AbstractController
                 '"' . $destination['rent'] . '"',                               // 12 - Loyer / mois murs
                 '"' . $destination['rentCC'] . '"',                             // 13 - Loyer CC
                 '"' . $destination['rentHT'] . '"',                             // 14 - Loyer HT
-                '"' . $destination['rentChargeHonoraire'] . '"',                // 15 - Honoraires                                                 // 15 - Honoraires
+                '"' . $destination['rentChargeHonoraire'] . '"',                // 15 - Honoraires
                 '"' . $property['surfaceHome'] . '"',                           // 16 - Surface (m²)
                 '"' . $property['surfaceLand'] . '"',                           // 17 - Surface terrain (m²)
                 '"' . $property['piece'] . '"',                                 // 18 - NB de pièces
@@ -402,13 +405,13 @@ class ReportController extends AbstractController
                 '"' . $nord . '"',                                              // 38 - Orientation nord
                 '"' . $property['balcony'] . '"',                               // 39 - NB balcons
                 '""',                                                           // 40 - SF Balcon
-                '"0"',// 41 - Ascenseur
-                '"0"',// 42 - Cave
+                '"0"',                                                          // 41 - Ascenseur
+                '"0"',                                                          // 42 - Cave
                 '""',                                                           // 43 - NB de parkings
                 '"0"',                                                          // 44 - NB de boxes
-                '"0"',// 45 - Digicode
-                '"0"',// 46 - Interphone
-                '"0"',// 47 - Gardien
+                '"0"',                                                          // 45 - Digicode
+                '"0"',                                                          // 46 - Interphone
+                '"0"',                                                          // 47 - Gardien
                 '"' . $terrace . '"',                                           // 48 - Terrasse
                 '""',                                                           // 49 - Prix semaine Basse Saison
                 '""',                                                           // 50 - Prix quinzaine Basse Saison
@@ -422,30 +425,30 @@ class ReportController extends AbstractController
                 '""',                                                           // 58 - NB de couverts
                 '""',                                                           // 59 - NB de lits doubles
                 '""',                                                           // 60 - NB de lits simples
-                '"0"',// 61 - Alarme
-                '"0"',// 62 - Câble TV
-                '"0"',// 63 - Calme
-                '"0"',// 64 - Climatisation
-                '"0"',// 65 - Piscine
-                '"0"',// 66 - Aménagement pour handicapés
-                '"0"',// 67 - Animaux acceptés
-                '"0"',// 68 - Cheminée
-                '"0"',// 69 - Congélateur
-                '"0"',// 70 - Four
-                '"0"',// 71 - Lave-vaisselle
-                '"0"',// 72 - Micro-ondes
-                '"0"',// 73 - Placards
-                '"0"',// 74 - Téléphone
-                '"0"',// 75 - Proche lac
-                '"0"',// 76 - Proche tennis
-                '"0"',// 77 - Proche pistes de ski
-                '"0"',// 78 - Vue dégagée
-                '""',                                       // 79 - Chiffre d’affaire
-                '""',                                       // 80 - Longueur façade (m)
-                '"0"',                                      // 81 - Duplex
+                '"0"',                                                          // 61 - Alarme
+                '"0"',                                                          // 62 - Câble TV
+                '"0"',                                                          // 63 - Calme
+                '"0"',                                                          // 64 - Climatisation
+                '"0"',                                                          // 65 - Piscine
+                '"0"',                                                          // 66 - Aménagement pour handicapés
+                '"0"',                                                          // 67 - Animaux acceptés
+                '"0"',                                                          // 68 - Cheminée
+                '"0"',                                                          // 69 - Congélateur
+                '"0"',                                                          // 70 - Four
+                '"0"',                                                          // 71 - Lave-vaisselle
+                '"0"',                                                          // 72 - Micro-ondes
+                '"0"',                                                          // 73 - Placards
+                '"0"',                                                          // 74 - Téléphone
+                '"0"',                                                          // 75 - Proche lac
+                '"0"',                                                          // 76 - Proche tennis
+                '"0"',                                                          // 77 - Proche pistes de ski
+                '"0"',                                                          // 78 - Vue dégagée
+                '""',                                                           // 79 - Chiffre d’affaire
+                '""',                                                           // 80 - Longueur façade (m)
+                '"0"',                                                          // 81 - Duplex
                 '"' . $listpublications . '"',                                  // 82 - Publications
-                '"0"',                                      // 83 - Mandat en exclusivité
-                '"0"',                                      // 84 - Coup de cœur
+                '"0"',                                                          // 83 - Mandat en exclusivité
+                '"0"',                                                          // 84 - Coup de cœur
                 '"' . $url1 . '"',                                              // 85 - Photo 1
                 '"' . $url2 . '"',                                              // 86 - Photo 2
                 '"' . $url3 . '"',                                              // 87 - Photo 3
