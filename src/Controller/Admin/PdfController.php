@@ -37,7 +37,7 @@ class PdfController extends AbstractController
     {
         $this->twig = $twig;
         $this->pdf = $pdf;
-        $this->html = false;
+        $this->html = true;
     }
 
     #[Route('/admin/pdf/Property/fiche/{id}', name: 'op_admin_pdf_property', methods: ['GET'])]

@@ -59,10 +59,12 @@
                                 <th>Nbre de pièces : </th>
                                 <td>{{ property.piece }} {{ piece }} dont {{ property.room }} {{ room }}</td>
                             </tr>
+                            {% if property.propertyTax > 0 %}
                             <tr class="align-middle">
-                                <th>Prix FAI : </th>
-                                <td>{{property.priceFai}} €</td>
+                                <th>Taxe foncière : </th>
+                                <td>{{property.propertyTax}} €</td>
                             </tr>
+                            {% endif %}
                         </table>
                         <div id="DiagnosticCard">
                             <div id="DiagnosticCard-diag">

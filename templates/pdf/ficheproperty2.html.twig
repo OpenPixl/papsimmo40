@@ -46,35 +46,41 @@
                     <div id="Informations" class="col-6">
                         <table class="table table-sm">
                             <tr>
-                                <th>Référence :</th>
+                                <th>Référence</th>
                                 <td colspan="3">{{ property.ref }}</td>
                             </tr>
                             <tr>
-                                <th>Transaction :</th>
+                                <th>Transaction</th>
                                 <td colspan="3">{{ property.family }}</td>
                             </tr>
                             <tr>
-                                <th>Type :</th>
+                                <th>Type</th>
                                 <td colspan="3">{% if property.propertyRubric is not empty%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                             {% if property.constructionAt is not empty %}
                                 <tr>
-                                    <th>Année de construction :</th>
+                                    <th>Construction</th>
                                     <td colspan="3">{{ property.constructionAt }}</td>
                                 </tr>
                             {% endif %}
                             <tr>
-                                <th>Surfaces : </th>
+                                <th>Surfaces</th>
                                 <td><b>Habitable : </b> {{ property.surfaceHome }} m2 / <b>Terrain : </b>{{ property.surfaceLand }} m2</td>
                             </tr>
                             <tr>
-                                <th>Nombre de pièces : </th>
+                                <th>Pièces</th>
                                 <td>{{ property.piece }} {{ piece }} dont {{ property.room }} {{ room }}</td>
                             </tr>
                             <tr>
-                                <th>Prix FAI : </th>
+                                <th>Prix FAI</th>
                                 <td colspan="3">{{property.priceFai}} €</td>
                             </tr>
+                            {% if property.propertyTax > 0 %}
+                            <tr>
+                                <th class="col-3">Taxe Foncière</th>
+                                <td>{{ property.propertyTax }} €</td>
+                            </tr>
+                            {% endif %}
                         </table>
                         <div id="DiagnosticCard">
                             <div id="DiagnosticCard-title" class="row">

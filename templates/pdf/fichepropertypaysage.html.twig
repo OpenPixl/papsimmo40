@@ -187,6 +187,12 @@
                                         <th>Prix FAI : </th>
                                         <td colspan="3">{{property.priceFai}} €</td>
                                     </tr>
+                                    {% if property.propertyTax > 0 %}
+                                        <tr class="align-middle">
+                                            <th>Taxe Foncière : </th>
+                                            <td>{{property.propertyTax}} €</td>
+                                        </tr>
+                                    {% endif %}
                                 </table>
                             </div>
                             <div class="col-3">
