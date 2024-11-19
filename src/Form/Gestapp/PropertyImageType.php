@@ -22,21 +22,10 @@ class PropertyImageType extends AbstractType
     {
         $builder
             ->add('images', FileType::class,[
-                'label' => "La photo ne doit pas dépasser 40Mo de taille",
+                'label' => "La photo ne doit pas dépasser 20Mo de taille",
                 'mapped' => false,
                 'required' => false,
-                'multiple' => true,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '20000k',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpg',
-                            'image/jpeg',
-                        ],
-                        'mimeTypesMessage' => 'Attention, veuillez charger un fichier au format jpg ou png',
-                    ])
-                ],
+                'multiple' => true
             ])
         ;
     }
