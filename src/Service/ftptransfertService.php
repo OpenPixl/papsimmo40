@@ -910,7 +910,7 @@ class ftptransfertService
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
         $nameRep = 'ubiflow';                           // Nom du dossier
-        $nameFile = 'papsimmo_ubiflow';                 // Nom du Fichier sans extension
+        $nameFile = 'ubiflow';                          // Nom du Fichier sans extension
         $Rep = 'doc/report/ubiflow/';                   // nom du répertoire final
         if(is_dir($Rep))
         {
