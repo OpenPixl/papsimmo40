@@ -191,7 +191,7 @@
                 <h2 class="title-h2">DESCRIPTION</h2>
             </div>
             <div id="propertyDescription" class="col-12">
-                {{ property.annonce|markdown_to_html }}
+                {{ annonce|markdown_to_html }}
                 {% if property.annonceDown is not null %}
                 {{ property.annonceDown|markdown_to_html }}
                 {% endif %}

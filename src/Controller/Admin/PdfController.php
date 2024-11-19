@@ -40,6 +40,34 @@ class PdfController extends AbstractController
         $this->html = false;
     }
 
+    public function cleanText(string $text): string
+    {
+        // Autoriser uniquement les balises <p> et <strong>
+        $text = strip_tags($text, '<p><strong>');
+
+        // Insérer le contenu des listes (<ul> et <ol>) dans le <p> parent
+        $text = preg_replace_callback('/<p>(.*?)<\/p>/is', function ($matches) {
+            $content = $matches[1];
+
+            // Supprimer les balises <ul> et <ol>, mais conserver leur contenu
+            $content = preg_replace('/<ul.*?>|<ol.*?>|<\/ul>|<\/ol>/i', '', $content);
+
+            // Remplacer les <li> par des <br>
+            $content = preg_replace('/<li.*?>/i', '<br>', $content);
+            $content = preg_replace('/<\/li>/i', '', $content);
+
+            return "<p>$content</p>";
+        }, $text);
+
+        // Nettoyer les <p> vides créés accidentellement
+        $text = preg_replace('/<p>\s*<\/p>/', '', $text);
+
+        // Éliminer les <br> consécutifs pour éviter les sauts multiples
+        $text = preg_replace('/(<br\s*\/?>\s*)+/', '<br>', $text);
+
+        return $text;
+    }
+
     #[Route('/admin/pdf/Property/fiche/{id}', name: 'op_admin_pdf_property', methods: ['GET'])]
     public function FicheProperty(Property $property, PropertyRepository $propertyRepository, ApplicationRepository $applicationRepository, Pdf $knpSnappyPdf, PhotoRepository $photoRepository)
     {
@@ -98,10 +126,13 @@ class PdfController extends AbstractController
         $otheroptions = $options->getPropertyOtheroption();
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
+        $annonce = $this->cleanText($property->getAnnonce());
+
         if($this->html == 1){
             return $this->render(
                 'pdf/fichepropertypaysage2.html.twig', array(
                 'property'  => $oneproperty,
+                'annonce' => $annonce,
                 'equipments' => $equipments,
                 'otheroptions' => $otheroptions,
                 'application' =>$application,
@@ -110,6 +141,7 @@ class PdfController extends AbstractController
         }else{
             $html = $this->twig->render('pdf/fichepropertypaysage2.html.twig', array(
                 'property'  => $oneproperty,
+                'annonce' => $annonce,
                 'equipments' => $equipments,
                 'otheroptions' => $otheroptions,
                 'application' =>$application,
@@ -140,10 +172,13 @@ class PdfController extends AbstractController
         $otheroptions = $options->getPropertyOtheroption();
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
+        $annonce = $this->cleanText($property->getAnnonce());
+
         if($this->html == 1){
             return $this->render(
                 'pdf/ficheproperty2.html.twig', array(
                 'property'  => $oneproperty,
+                'annonce' => $annonce,
                 'equipments' => $equipments,
                 'otheroptions' => $otheroptions,
                 'application' =>$application,
@@ -153,6 +188,7 @@ class PdfController extends AbstractController
         }else{
             $html = $this->twig->render('pdf/ficheproperty2.html.twig', array(
                 'property'  => $oneproperty,
+                'annonce' => $annonce,
                 'equipments' => $equipments,
                 'otheroptions' => $otheroptions,
                 'application' =>$application,

@@ -24,7 +24,7 @@
         <div id="firstPage" class="page p-2">
             {{ include('pdf/include/_headerpdf.html.twig') }}
             <div id="Details">
-                <div class="row" id="details_title">
+                <div  class="row" >
                     <div id="Title" class="col-12 mt-0 mb-2">
                         {% set texte = property.name %}
                         {% set mots = texte|split(' ') %}
@@ -222,7 +222,7 @@
             <div id="secondPage" class="page p-2">
             {{ include('pdf/include/_headerpdf.html.twig') }}
             <div id="Galerie">
-                <div class="row" id="details_title">
+                <div id="details_title" class="row">
                     <div id="Title" class="col-12 mt-0 mb-2">
                         <h2 class="title-h2">PHOTOS (page {{ loop.index }} sur {{ page }})</h2>
                     </div>
