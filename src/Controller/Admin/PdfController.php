@@ -37,8 +37,10 @@ class PdfController extends AbstractController
     {
         $this->twig = $twig;
         $this->pdf = $pdf;
-        $this->html = false;
+        $this->html = true;
     }
+
+
 
     public function cleanText(string $text): string
     {
@@ -52,9 +54,12 @@ class PdfController extends AbstractController
             // Supprimer les balises <ul> et <ol>, mais conserver leur contenu
             $content = preg_replace('/<ul.*?>|<ol.*?>|<\/ul>|<\/ol>/i', '', $content);
 
-            // Remplacer les <li> par des <br>
-            $content = preg_replace('/<li.*?>/i', '<br>', $content);
-            $content = preg_replace('/<\/li>/i', '', $content);
+            // Remplacer les <li> par une virgule suivie d'un saut de ligne
+            $content = preg_replace('/<li.*?>/i', '', $content); // Supprime les balises <li> ouvrantes
+            $content = preg_replace('/<\/li>/i', ',<br>', $content); // Ajoute une virgule et un saut après chaque élément
+
+            // Supprimer la dernière virgule ajoutée avant la fermeture d'un <p>
+            $content = preg_replace('/,<br>$/', '<br>', $content);
 
             return "<p>$content</p>";
         }, $text);
@@ -62,8 +67,8 @@ class PdfController extends AbstractController
         // Nettoyer les <p> vides créés accidentellement
         $text = preg_replace('/<p>\s*<\/p>/', '', $text);
 
-        // Éliminer les <br> consécutifs pour éviter les sauts multiples
-        $text = preg_replace('/(<br\s*\/?>\s*)+/', '<br>', $text);
+        // Ajouter des espaces visuels entre les paragraphes
+        $text = preg_replace('/<\/p>(?!\s*<\/p>)/', "</p>\n<p>&nbsp;</p>", $text);
 
         return $text;
     }
