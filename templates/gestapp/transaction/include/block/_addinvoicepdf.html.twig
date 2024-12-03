@@ -29,7 +29,7 @@
         </td>
     {% else %}
         {% if is_granted('ROLE_SUPER_ADMIN') %}
-            {# Il n'y a pas de facture déposée par le mandataire en cours mais le tracfin a tété validé #}
+            {# Il n'y a pas de facture déposée par le mandataire en cours mais le tracfin a été validé #}
             <td>
                 <div class="input-group w-100">
                     {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm'}}) }}
@@ -44,7 +44,7 @@
                 </div>
             </td>
         {% else %}
-            {# ROLE Visual - Il n'y a pas de facture déposée par le mandataire en cours mais le tracfin a tété validé #}
+            {# ROLE Visual - Il n'y a pas de facture déposée par le mandataire en cours mais le tracfin a été validé #}
             <td>
                 <p class="alert alert-info p-1 mb-0">Document en cours de dépôt</p>
                 <div class="input-group w-100 d-none">
@@ -86,6 +86,8 @@
             {% endif %}
         </td>
         <td>
+            {% set refyear = transaction.property.ref|split('/',2)|first %}
+            {% set refnumber = transaction.property.ref|split('/',2)|last %}
             <button id="showInvoice" type="button" class="btn btn-sm btn-secondary" data-bs-toggle="modal" data-bs-target="#modalInvoice"><i class="fa-duotone fa-eye"></i> Voir la facture</button>
             <a class="btn btn-sm btn-secondary" href="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.invoicePdfFilename) }}" download="{{ transaction.invoicePdfFilename }}"><i class="fa-duotone fa-download"></i></a>
             <!-- Modal -->
@@ -98,7 +100,7 @@
                         </div>
                         <div class="modal-body" style="padding: 0;">
                             <div id="externaFile">
-                                <iframe src="{{ asset('doc/transaction/invoice/' ~ transaction.invoicePdfFilename) }}" width="100%" height="500px"></iframe>
+                                <iframe src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/documents/' ~ transaction.invoicePdfFilename) }}" width="100%" height="500px"></iframe>
                             </div>
                         </div>
                         <div class="modal-footer">
@@ -115,7 +117,7 @@
         {% endif %}
         <td>
             <a class="btn btn-sm btn-secondary supprDocument" href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'name':transaction.invoicePdfFilename, 'roleEditor' : roleEditor}) }}" ><i class="fa-duotone fa-trash"></i></a>
-            <div class="form-check d-none ">
+            <div class="form-check d-none">
                 {{ form_widget(form.isSupprInvoicePdf, {'attr': {'class':'form-check-input'}}) }}
                 <label class="form-check-label" for="flexCheckDefault21">
                     Supprimer

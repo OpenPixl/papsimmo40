@@ -1442,10 +1442,16 @@ class TransactionController extends AbstractController
         Request $request,
         EntityManagerInterface $em,
         MailerInterface $mailer,
-        SluggerInterface $slugger
+        SluggerInterface $slugger,
+        PropertyRepository $propertyRepository,
     ) : response
     {
-        $submit =0;
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+
+        $submit = 1;
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionInvoicepdfType::class, $transaction, [
@@ -1470,38 +1476,38 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
-            // Suppression du PDF si booléen sur "true"
-            $isSupprInvoicePdf = $form->get('isSupprInvoicePdf')->getData();
-            if($isSupprInvoicePdf && $isSupprInvoicePdf == true){
-                // récupération du nom de l'image
-                $invoicePdfName = $transaction->getInvoicePdfFilename();
-                $pathInvoicePdf = $this->getParameter('transaction_tracfin_directory').'/'.$invoicePdfName;
-                // On vérifie si l'image existe
-                if(file_exists($pathInvoicePdf)){
-                    unlink($pathInvoicePdf);
-                }
-                $transaction->setInvoicePdfFilename(null);
-            }
-
             $invoicepdf = $form->get('invoicePdfFilename')->getData();
-            $invoicePdfName = $transaction->getinvoicePdfFilename();
             if($invoicepdf){
+                // Supression du PDF si Présent
+                $invoicePdfName = $transaction->getInvoicePdfFilename();
+                $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+                $pathfile = $pathdir.$invoicePdfName;
                 if($invoicePdfName){
-                    $pathheader = $this->getParameter('transaction_invoice_directory').'/'.$invoicePdfName;
                     // On vérifie si l'image existe
-                    if(file_exists($pathheader)){
-                        unlink($pathheader);
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
                     }
                 }
+                $mandataireFn = $transaction->getRefEmployed()->getFirstName();
+                $mandataireLn = $transaction->getRefEmployed()->getLastName();
+                $mandataire = $mandataireFn."_".$mandataireLn;
                 $originalFilename = pathinfo($invoicepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'.'.$invoicepdf->guessExtension();
+                $newFilename = 'fcol-'.$mandataire."-".$safeFilename.".".$invoicepdf->guessExtension();
                 try {
-                    $invoicepdf->move(
-                        $this->getParameter('transaction_invoice_directory'),
-                        $newFilename
-                    );
+                    if (is_dir($pathdir)){
+                        $invoicepdf->move(
+                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        mkdir($pathdir."/", 0775, true);
+                        $invoicepdf->move(
+                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $newFilename
+                        );
+                    }
+
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
@@ -1538,7 +1544,6 @@ class TransactionController extends AbstractController
                     }
                 }
 
-
                 return $this->json([
                     'code' => 200,
                     'message' => 'Votre facture est déposé sur le site.',
@@ -1551,13 +1556,6 @@ class TransactionController extends AbstractController
                         'roleEditor' => $roleEditor
                     ]),
                 ], 200);
-
-            }else if($invoicepdf){
-                if($invoicePdfName){
-                    dd('doc pdf présent');
-                }else{
-                    dd('pas de doc');
-                }
             }
         }
 
@@ -1597,67 +1595,118 @@ class TransactionController extends AbstractController
     }
 
     // Dépôt ou modification du compromis de vente en Pdf par un administrateur
-    #[Route('/{id}/addInvoicePdfAdmin', name: 'op_gestapp_transaction_addinvoicepdf_admin', methods: ['POST'])]
-    public function addInvoicePdfAdmin(Request $request, Transaction $transaction, transactionService $transactionService, EntityManagerInterface $entityManager, SluggerInterface $slugger)
+    #[Route('/{id}/addInvoicePdfAdmin/{roleEditor}', name: 'op_gestapp_transaction_addinvoicepdf_admin', methods: ['POST'])]
+    public function addInvoicePdfAdmin(
+        Request $request,
+        PropertyRepository $propertyRepository,
+        Transaction $transaction,
+        transactionService $transactionService,
+        EntityManagerInterface $em,
+        SluggerInterface $slugger,
+        MailerInterface $mailer,
+        $roleEditor)
     {
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $submit = 1;
+
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
         $form = $this->createForm(TransactionInvoicepdfType::class, $transaction, [
             'attr' => ['id'=>'transactioninvoicepdf'],
-            'action' => $this->generateUrl('op_gestapp_transaction_addinvoicepdf_admin', ['id' => $transaction->getId()]),
+            'action' => $this->generateUrl('op_gestapp_transaction_addinvoicepdf_admin', [
+                'id' => $transaction->getId(),
+                'roleEditor' => $roleEditor
+            ]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($transaction);
             $invoicepdf = $form->get('invoicePdfFilename')->getData();
             if($invoicepdf){
                 // Supression du PDF si Présent
-                $invoicePdfName = $transaction->getTracfinPdfFilename();
+                $invoicePdfName = $transaction->getInvoicePdfFilename();
+                $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+                $pathfile = $pathdir.$invoicePdfName;
                 if($invoicePdfName){
-                    $pathheader = $this->getParameter('transaction_invoice_directory').'/'.$invoicePdfName;
                     // On vérifie si l'image existe
-                    if(file_exists($pathheader)){
-                        unlink($pathheader);
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
                     }
                 }
+
+                $mandataire = $transaction->getRefEmployed()->getSlug();
                 $originalFilename = pathinfo($invoicepdf->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = $safeFilename.'-'.uniqid().'.'.$invoicepdf->guessExtension();
+                $newFilename = 'fcol-'.$mandataire."-".$safeFilename.".".$invoicepdf->guessExtension();
                 try {
-                    $invoicepdf->move(
-                        $this->getParameter('transaction_invoice_directory'),
-                        $newFilename
-                    );
+                    if (is_dir($pathdir)){
+                        $invoicepdf->move(
+                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        mkdir($pathdir."/", 0775, true);
+                        $invoicepdf->move(
+                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $newFilename
+                        );
+                    }
+
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
                 $transaction->setInvoicePdfFilename($newFilename);
-                $transaction->setIsValidinvoicePdf(1);
-                $entityManager->persist($transaction);
-                $entityManager->flush();
+                $em->persist($transaction);
+                $em->flush();
 
                 $project = $transactionService->calculateProject($transaction);
                 $transaction->setProject($project);
-                $entityManager->flush();
+                $em->flush();
+
+                if($submit == 1){
+                    if($hasAccess == false) {
+                        $email = (new TemplatedEmail())
+                            ->from(new Address('contact@papsimmo.com', 'SoftPAPs'))
+                            ->to('contact@papsimmo.com')
+                            //->cc('cc@example.com')
+                            //->bcc('bcc@example.com')
+                            //->replyTo('fabien@example.com')
+                            //->priority(Email::PRIORITY_HIGH)
+                            ->subject('[PAPs immo] : Une facture a été déposée - '.$transaction->getName().'.')
+                            ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                            ->context([
+                                'transaction' => $transaction,
+                                'url' => $request->server->get('HTTP_HOST')
+                            ]);
+                        try {
+                            $mailer->send($email);
+                        } catch (TransportExceptionInterface $e) {
+                            // some error prevented the email sending; display an
+                            // error message or try to resend the message
+                            dd($e);
+                        }
+                    }
+                }
 
                 return $this->json([
                     'code' => 200,
-                    'message' => 'La Facture a étét correctement déposée.',
+                    'message' => 'Votre facture est déposé sur le site.',
                     'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
                     ]),
                     'row' => $this->renderView('gestapp/transaction/include/block/_rowinvoicepdf.html.twig', [
-                        'transaction' => $transaction
-                    ])
+                        'transaction' => $transaction,
+                        'roleEditor' => $roleEditor
+                    ]),
                 ], 200);
             }
-
-            return $this->json([
-                'code' => 300,
-                'message' => 'Il manque le document en pdf.'
-            ], 200);
         }
 
         return $this->render('gestapp/transaction/include/block/_addinvoicepdf.html.twig', [
@@ -1888,6 +1937,10 @@ class TransactionController extends AbstractController
             $transaction->setTracfinPdfFilename(null);
             $transaction->setIsValidtracfinPdf(0);
             $transaction->setIsSupprTracfinPdf(0);
+        }elseif($typeDoc == 'fcol'){
+            $transaction->setInvoicePdfFilename(null);
+            $transaction->setIsValidInvoicepdf(0);
+            $transaction->setIsSupprInvoicePdf(0);
         }
         $em->flush();
 
