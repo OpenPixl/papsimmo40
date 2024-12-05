@@ -976,6 +976,8 @@ function supprDocument(event){
             }
             else if(idRow === 'rowHonorairesPdf'){
                 document.getElementById('rowHonorairesPdf').innerHTML = response.data.rowhonoraires;
+            }else if(idRow === 'rowInvoicePdf'){
+                document.getElementById('rowInvoicePdf').innerHTML = response.data.rowinvoice;
             }
             allAddEvent();
         })

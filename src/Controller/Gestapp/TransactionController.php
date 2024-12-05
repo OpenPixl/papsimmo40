@@ -1899,12 +1899,12 @@ class TransactionController extends AbstractController
         ], 200);
     }
 
-    #[Route('/deldocument/{id}/{name}/{roleEditor}', name: 'op_gestapp_transaction_deldocument',  methods: ['GET','POST'])]
+    #[Route('/deldocument/{doc}/{id}/{roleEditor}', name: 'op_gestapp_transaction_deldocument',  methods: ['GET','POST'])]
     public function delDocument(
         Transaction $transaction,
         transactionService $transactionService,
         EntityManagerInterface $em,
-        $name,
+        $doc,
         $roleEditor,
         PropertyRepository $propertyRepository
     )
@@ -1912,10 +1912,23 @@ class TransactionController extends AbstractController
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
         $ref = explode("/", $property->getRef());
+
         $newref = $ref[0].'-'.$ref[1];
+        if($doc == "acte"){
+            $name = $transaction->getActePdfFilename();
+        }elseif($doc == "hono"){
+            $name = $transaction->getHonorairesPdfFilename();
+        }elseif($doc == "invoi"){
+            $name = $transaction->getInvoicePdfFilename();
+        }elseif($doc == "prom"){
+            $name = $transaction->getPromisePdfFilename();
+        }elseif ($doc == "trac"){
+            $name = $transaction->getTracfinPdfFilename();
+        }
+
         $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
         $pathfile = $pathdir.$name;
-        if(file_exists($pathfile)){
+        if($name && file_exists($pathfile)){
             unlink($pathfile);
         }
 
@@ -1964,6 +1977,10 @@ class TransactionController extends AbstractController
                 'roleEditor' => $roleEditor
             ]),
             'rowhonoraires' =>$this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
+                'transaction' => $transaction,
+                'roleEditor' => $roleEditor
+            ]),
+            'rowinvoice' =>$this->renderView('gestapp/transaction/include/block/_rowinvoicepdf.html.twig', [
                 'transaction' => $transaction,
                 'roleEditor' => $roleEditor
             ]),
