@@ -1008,9 +1008,9 @@ class ftptransfertService
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
-        $nameRep = 'clefsmoi';                     // Nom du dossier
-        $nameFile = 'paps_clefsmoi';               // Nom du Fichier sans extension
-        $Rep = 'doc/report/clefsmoi/';             // nom du répertoire final
+        $nameRep = 'lcdcm';                     // Nom du dossier
+        $nameFile = 'paps_lcdcm';               // Nom du Fichier sans extension
+        $Rep = 'doc/report/lcdcm/';             // nom du répertoire final
         if(is_dir($Rep))
         {
             $this->directoryZip($nameRep, $nameFile, $content);
