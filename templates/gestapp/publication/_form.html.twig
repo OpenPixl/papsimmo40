@@ -120,6 +120,14 @@
                     </td>
                 </tr>
                 <tr>
+                    <td>{{ form_label(form.isPublishClefsmoi, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
+                    <td>
+                        <div class="form-check form-switch form-check-reverse">
+                            {{ form_widget(form.isPublishClefsmoi, {'attr': {'class': 'form-check-input'}}) }}
+                        </div>
+                    </td>
+                </tr>
+                <tr>
                     <td>{{ form_label(form.isSocialNetwork, '', {'label_attr': {'class':'form-check-label'}}) }}</td>
                     <td>
                         <div class="form-check form-switch form-check-reverse">

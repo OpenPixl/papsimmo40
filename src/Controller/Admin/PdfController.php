@@ -40,8 +40,6 @@ class PdfController extends AbstractController
         $this->html = false;
     }
 
-
-
     public function cleanText(string $text): string
     {
         // Autoriser uniquement les balises <p> et <strong>

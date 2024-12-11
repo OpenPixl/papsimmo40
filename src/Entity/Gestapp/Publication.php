@@ -52,6 +52,9 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishBienici = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishClefsmoi = false;
+
 
     public function getId(): ?int
     {
@@ -210,6 +213,18 @@ class Publication
     public function setIsPublishBienici(bool $isPublishBienici): static
     {
         $this->isPublishBienici = $isPublishBienici;
+
+        return $this;
+    }
+
+    public function isIsPublishClefsmoi(): ?bool
+    {
+        return $this->isPublishClefsmoi;
+    }
+
+    public function setIsPublishClefsmoi(bool $isPublishClefsmoi): static
+    {
+        $this->isPublishClefsmoi = $isPublishClefsmoi;
 
         return $this;
     }
