@@ -115,6 +115,9 @@ class Reco
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceCivility = "1";
 
+    #[ORM\Column(length: 120, nullable: true)]
+    private ?string $title = null;
+
     #[ORM\Column(length: 80)]
     #[Groups(['reco:item', 'reco:write:post', 'employed:reco'])]
     private ?string $announceFirstName = null;
@@ -273,6 +276,19 @@ class Reco
 
         return $this;
     }
+
+    public function getTitle(): ?string
+    {
+        return $this->title;
+    }
+
+    public function setTitle(?string $title): static
+    {
+        $this->title = $title;
+
+        return $this;
+    }
+
 
     public function getAnnounceCivility(): ?string
     {

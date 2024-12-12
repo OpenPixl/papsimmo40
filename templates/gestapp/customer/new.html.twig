@@ -96,21 +96,20 @@
                             if (SelectCity.options.length === 1){
                                 let value = SelectCity.value.split(' ')
                                 zipcode.value = value[0]
-                                commune.value = value[2].toUpperCase()
+                                commune.value = value.slice(1).join(" ").toUpperCase();
                             }else{
                                 let value = SelectCity.value.split(' ')
                                 zipcode.value = value[0]
-                                commune.value = value[2].toUpperCase()
+                                commune.value = value.slice(1).join(" ").toUpperCase();
                             }
                         })
                 }
             })
             SelectCity.addEventListener('change', function (event){
-                let value = this.value.split(' ')
-                console.log(value)
-                zipcode.value = value[0]
-                commune.value = value[2].toUpperCase()
-            })
+                let value = this.value.split(' ');
+                zipcode2.value = value[0];
+                commune2.value = value.slice(1).join(" ").toUpperCase();
+            });
         }
     </script>
 {% endblock %}

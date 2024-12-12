@@ -112,19 +112,19 @@ function showModalCustomer(event){
                                 let features = response.data;
                                 removeOptions(SelectCity);
                                 features.forEach((element) => {
-                                    let name = element['codePostal']+" - "+element['nomCommune'];
+                                    let cp = element['codePostal'];
+                                    let commune = element['nomCommune'];
+                                    let name = cp +" - "+ commune ;
                                     let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
                                     SelectCity.options.add(OptSelectCity);
                                 });
 
                                 if (SelectCity.options.length === 1){
-                                    let value = SelectCity.value.split(' ');
                                     zipcode2.value = value[0];
-                                    commune2.value = value[2].toUpperCase();
+                                    commune2.value = value.slice(1).join(" ").toUpperCase();
                                 }else{
-                                    let value = SelectCity.value.split(' ');
                                     zipcode2.value = value[0];
-                                    commune2.value = value[2].toUpperCase();
+                                    commune2.value = value.slice(1).join(" ").toUpperCase();
                                 }
                             });
                     }
@@ -132,7 +132,7 @@ function showModalCustomer(event){
                 SelectCity.addEventListener('change', function (event){
                     let value = this.value.split(' ');
                     zipcode2.value = value[0];
-                    commune2.value = value[2].toUpperCase();
+                    commune2.value = value.slice(1).join(" ").toUpperCase();
                 });
             });
     }
@@ -193,7 +193,9 @@ function showModalCustomer(event){
                                 let features = response.data;
                                 removeOptions(SelectCity);
                                 features.forEach((element) => {
-                                    let name = element['codePostal']+" - "+element['nomCommune'];
+                                    let cp = element['codePostal'];
+                                    let commune = element['nomCommune'];
+                                    let name = cp +" - "+ commune ;
                                     let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
                                     SelectCity.options.add(OptSelectCity);
                                 });
@@ -201,11 +203,11 @@ function showModalCustomer(event){
                                 if (SelectCity.options.length === 1){
                                     let value = SelectCity.value.split(' ');
                                     zipcode2.value = value[0];
-                                    commune2.value = value[2].toUpperCase();
+                                    commune2.value = value.slice(1).join(" ").toUpperCase();
                                 }else{
                                     let value = SelectCity.value.split(' ');
                                     zipcode2.value = value[0];
-                                    commune2.value = value[2].toUpperCase();
+                                    commune2.value = value.slice(1).join(" ").toUpperCase();
                                 }
                             });
                     }
@@ -213,7 +215,7 @@ function showModalCustomer(event){
                 SelectCity.addEventListener('change', function (event){
                     let value = this.value.split(' ');
                     zipcode2.value = value[0];
-                    commune2.value = value[2].toUpperCase();
+                    commune2.value = value.slice(1).join(" ").toUpperCase();
                 });
             });
     }
