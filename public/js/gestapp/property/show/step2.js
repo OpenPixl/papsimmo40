@@ -80,12 +80,10 @@ function showModalCustomer(event){
                 }
                 // -- visuel sur le nom de jeune fille --
                 let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
-                console.log(valcivility);
                 if (valcivility > 1){
                     document.getElementById('customer2_maidenName').classList.remove('d-none');
                 }
                 const radioButtons = document.querySelectorAll('input[name=customer2\\[civility\\]]');
-                console.log(radioButtons);
                 radioButtons.forEach(function(radio) {
                     radio.addEventListener("change", function() {
                         if (parseInt(this.value) === 2) {
@@ -102,6 +100,8 @@ function showModalCustomer(event){
                 let commune2 = modalCustomerBs.querySelector('.modal-body #customer2_city');
                 let zipcode2 = modalCustomerBs.querySelector('.modal-body #customer2_zipcode');
                 let SelectCity = modalCustomerBs.querySelector('.modal-body #selectcity');
+                let cp = '';
+                let ville = '';
                 zipcode2.addEventListener('input', function(event){
                     if(zipcode2.value.length === 5)
                     {
@@ -112,27 +112,25 @@ function showModalCustomer(event){
                                 let features = response.data;
                                 removeOptions(SelectCity);
                                 features.forEach((element) => {
-                                    let cp = element['codePostal'];
-                                    let commune = element['nomCommune'];
-                                    let name = cp +" - "+ commune ;
-                                    let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
+                                    cp = element['codePostal'];
+                                    ville = element['nomCommune'];
+                                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
                                     SelectCity.options.add(OptSelectCity);
                                 });
 
                                 if (SelectCity.options.length === 1){
-                                    zipcode2.value = value[0];
-                                    commune2.value = value.slice(1).join(" ").toUpperCase();
+                                    zipcode2.value = cp;
+                                    commune2.value = ville.toUpperCase();
                                 }else{
-                                    zipcode2.value = value[0];
-                                    commune2.value = value.slice(1).join(" ").toUpperCase();
+                                    zipcode2.value = cp;
+                                    commune2.value = ville.toUpperCase();
                                 }
                             });
                     }
                 });
                 SelectCity.addEventListener('change', function (event){
-                    let value = this.value.split(' ');
-                    zipcode2.value = value[0];
-                    commune2.value = value.slice(1).join(" ").toUpperCase();
+                    zipcode2.value = cp;
+                    commune2.value = ville.toUpperCase();
                 });
             });
     }
@@ -183,6 +181,8 @@ function showModalCustomer(event){
                 let commune2 = modalCustomerBs.querySelector('.modal-body #customer2_city');
                 let zipcode2 = modalCustomerBs.querySelector('.modal-body #customer2_zipcode');
                 let SelectCity = modalCustomerBs.querySelector('.modal-body #selectcity');
+                let cp = '';
+                let ville = "";
                 zipcode2.addEventListener('input', function(event){
                     if(zipcode2.value.length === 5)
                     {
@@ -193,29 +193,25 @@ function showModalCustomer(event){
                                 let features = response.data;
                                 removeOptions(SelectCity);
                                 features.forEach((element) => {
-                                    let cp = element['codePostal'];
-                                    let commune = element['nomCommune'];
-                                    let name = cp +" - "+ commune ;
-                                    let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
+                                    cp = element['codePostal'];
+                                    ville = element['nomCommune'];
+                                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
                                     SelectCity.options.add(OptSelectCity);
                                 });
 
                                 if (SelectCity.options.length === 1){
-                                    let value = SelectCity.value.split(' ');
-                                    zipcode2.value = value[0];
-                                    commune2.value = value.slice(1).join(" ").toUpperCase();
+                                    zipcode2.value = cp;
+                                    commune2.value = ville.toUpperCase();
                                 }else{
-                                    let value = SelectCity.value.split(' ');
-                                    zipcode2.value = value[0];
-                                    commune2.value = value.slice(1).join(" ").toUpperCase();
+                                    zipcode2.value = cp;
+                                    commune2.value = ville.toUpperCase();
                                 }
                             });
                     }
                 });
                 SelectCity.addEventListener('change', function (event){
-                    let value = this.value.split(' ');
-                    zipcode2.value = value[0];
-                    commune2.value = value.slice(1).join(" ").toUpperCase();
+                    zipcode2.value = cp;
+                    commune2.value = ville.toUpperCase();
                 });
             });
     }

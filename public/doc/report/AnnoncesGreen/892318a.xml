@@ -4,58 +4,6 @@
         <add_adverts>
                                                                                                                                             <advert>
                     <account_id>892318a</account_id>
-                    <reference>892318a-2024/012134-1</reference>
-                    <price>880000</price>
-                    <currency>EUR</currency>
-                    <has_included_fees>0</has_included_fees>
-                    <agency_rates_type>0</agency_rates_type>
-                    <fees>38000</fees>
-                    <postal_code>40360</postal_code>
-                    <city>POMAREZ</city>
-                    <advert_type>properties</advert_type>
-                    <title_fr>Propriété agricole chalossaise avec maison de maitre, dépendances et terres agricoles bio</title_fr>
-                    <summary_fr>Cette propriété agricole située en terre chalossaise entre Dax et Orthez, vous propose une belle maison de Maitre de 236m²  avec grande dépendance jouxtant la partie habitable . La partie agricole est composée de 30 ha de terres fertiles cultivées en agriculture biologique,   3 ha de bois,  deux bâtiments d&#039;élevage et une  conserverie aux normes européennes .Ce bien atypique alliant charme et fonctionnalité  offre de solides atouts  pour  des projets agricoles. Il permet d&#039;envisager notamment  plusieurs ateliers de production, transformation, élevage  à proximité de villes qui constituent de réels débouchés commerciaux.Contact: Marie-Paule Hernandez 06 03 98 08 42 ou mphernandez@papsimmo.frLes informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</summary_fr>
-                    <country_code>fr</country_code>
-                    <property_type></property_type>
-                    <habitable_surface>236</habitable_surface>
-                    <land_surface>330000</land_surface>
-                    <dpe_type>E</dpe_type>
-                    <dpe_value>296</dpe_value>
-                    <ges_type>B</ges_type>
-                    <ges_value>8</ges_value>
-                    <rooms_number>14</rooms_number>
-                    <bedrooms_number>4</bedrooms_number>
-                    <baths_number>0</baths_number>
-                    <showers_number>0</showers_number>
-                    <floor>1</floor>
-                    <has_terrace>0</has_terrace>
-                    <balconies_number>0</balconies_number>
-                    <has_closets>0</has_closets>
-                                        <charges></charges>
-                                        <furnished>0</furnished>
-                    <heating>chaudière à granulés</heating>
-                    <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-012130-1/Facade-maison.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-012130-1/Conserverie.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-012130-1/20240201-110450.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-012130-1/IMG-20230813-203554-1.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-012130-1/maison-habitation-2.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-012130-1/20240201-105033.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-012130-1/20240201-105039.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-012130-1/20240201-105507.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-012130-1/cuisine-1.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-012130-1/cuisine-2.jpg</pic>
-                        <pic order="11">http://127.0.0.1:8001/properties/2024-012130-1/chambre-1.jpg</pic>
-                        <pic order="12">http://127.0.0.1:8001/properties/2024-012130-1/chambre-2.jpg</pic>
-                        <pic order="13">http://127.0.0.1:8001/properties/2024-012130-1/20240201-110111.jpg</pic>
-                        <pic order="14">http://127.0.0.1:8001/properties/2024-012130-1/20240201-110151.jpg</pic>
-                    </pics>
-                    <publications>
-                        <greenacres>1</greenacres>
-                    </publications>
-                </advert>
-                                                                                                                                            <advert>
-                    <account_id>892318a</account_id>
                     <reference>892318a-2024/011810-1</reference>
                     <price>109500</price>
                     <currency>EUR</currency>
@@ -87,13 +35,13 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-011810-1/thumbnail-20231204-101813.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-011810-1/thumbnail-20231204-101755.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-011810-1/thumbnail-20231204-101827.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-011810-1/thumbnail-20231204-101856.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-011810-1/thumbnail-20231204-101714.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-011810-1/thumbnail-20231204-102527.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-011810-1/20231204-102704.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-011810-1/thumbnail-20231204-101813.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-011810-1/thumbnail-20231204-101755.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-011810-1/thumbnail-20231204-101827.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-011810-1/thumbnail-20231204-101856.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-011810-1/thumbnail-20231204-101714.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-011810-1/thumbnail-20231204-102527.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-011810-1/20231204-102704.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -132,15 +80,15 @@
                                         <furnished>0</furnished>
                     <heating>Individuel</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-20240510-122522.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-20240510-123130.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-20240306-141904.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-Screenshot-20240805-203232-Facebook.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-20240510-123457.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-20240510-122113.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-20240306-143911.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-20240306-143603.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-030619-1/thumbnail-20240306-143244.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-20240510-122522.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-20240510-123130.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-20240306-141904.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-Screenshot-20240805-203232-Facebook.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-20240510-123457.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-20240510-122113.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-20240306-143911.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-20240306-143603.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-030619-1/thumbnail-20240306-143244.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -179,24 +127,24 @@
                                         <furnished>0</furnished>
                     <heating>Individuel gaz</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-161419.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-160608.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-102004-1/Vue-aererienne.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-161918-1.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-161315.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-161440.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-102004-1/20200717-221840.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-161511.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-161804.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-102004-1/IMG-59691.jpg</pic>
-                        <pic order="11">http://127.0.0.1:8001/properties/2024-102004-1/DSC04202.jpg</pic>
-                        <pic order="12">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-154608.jpg</pic>
-                        <pic order="13">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-155141.jpg</pic>
-                        <pic order="14">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-155458.jpg</pic>
-                        <pic order="15">http://127.0.0.1:8001/properties/2024-102004-1/IMG-E4211.jpg</pic>
-                        <pic order="16">http://127.0.0.1:8001/properties/2024-102004-1/thumbnail-20241019-155837.jpg</pic>
-                        <pic order="17">http://127.0.0.1:8001/properties/2024-102004-1/20200717-222459.jpg</pic>
-                        <pic order="18">http://127.0.0.1:8001/properties/2024-102004-1/IMG-3798.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-161419.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-160608.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-102004-1/Vue-aererienne.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-161918-1.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-161315.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-161440.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-102004-1/20200717-221840.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-161511.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-161804.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-102004-1/IMG-59691.jpg</pic>
+                        <pic order="11">https://www.papsimmo.fr/properties/2024-102004-1/DSC04202.jpg</pic>
+                        <pic order="12">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-154608.jpg</pic>
+                        <pic order="13">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-155141.jpg</pic>
+                        <pic order="14">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-155458.jpg</pic>
+                        <pic order="15">https://www.papsimmo.fr/properties/2024-102004-1/IMG-E4211.jpg</pic>
+                        <pic order="16">https://www.papsimmo.fr/properties/2024-102004-1/thumbnail-20241019-155837.jpg</pic>
+                        <pic order="17">https://www.papsimmo.fr/properties/2024-102004-1/20200717-222459.jpg</pic>
+                        <pic order="18">https://www.papsimmo.fr/properties/2024-102004-1/IMG-3798.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -213,8 +161,8 @@
                     <postal_code>40000</postal_code>
                     <city>MONT-DE-MARSAN</city>
                     <advert_type>properties</advert_type>
-                    <title_fr>Maison traditionnelle de 147 m² sur terrain de 920 m²</title_fr>
-                    <summary_fr> À quelques pas du chemin de Halage, le long des rives pittoresques de la Midouze, découvrez cette charmante demeure construite en 1981, offrant un cadre de vie exceptionnel.&lt;br&gt;Dès votre entrée, vous serez accueilli par un vaste séjour de 42 m², inondé de lumière naturelle grâce à ses larges baies vitrées. Ce séjour est équipé de volets roulants électriques solaires, garantissant à la fois confort et économies d&#039;énergie. La cuisine attenante, entièrement aménagée et équipée, bénéficie également de ce système moderne, alliant praticité et élégance.&lt;br&gt;La maison propose deux grandes chambres, chacune offrant un espace généreux pour un aménagement personnalisé. Vous y trouverez aussi une salle d&#039;eau moderne, une salle de bain supplémentaire, ainsi qu&#039;un WC indépendant pour répondre aux besoins quotidiens de la famille.&lt;br&gt;Le sous-sol, dans l&#039;ensemble aménagé, constitue un espace complémentaire des plus appréciables. Il comprend deux chambres supplémentaires, idéales pour accueillir des invités ou pour un usage professionnel, une salle d&#039;eau avec WC, ainsi qu&#039;un dressing fonctionnel. Le sous-sol abrite également un spacieux garage de 58 m², offrant de multiples possibilités de rangement ou d&#039;aménagement.&lt;br&gt;L&#039;ensemble est implanté sur un terrain paysager de 920 m², véritable écrin de verdure, où vous pourrez profiter de moments de détente en plein air, en toute tranquillité. Cette propriété se distingue par sa situation privilégiée, à proximité immédiate des promenades bucoliques le long de la Midouze, tout en offrant un accès facile aux commodités du quotidien.Ne manquez pas cette opportunité rare d&#039;acquérir une maison alliant charme, confort moderne et emplacement exceptionnel.&lt;br&gt;Taxe foncière : 1468€Prix : 244 900€</summary_fr>
+                    <title_fr>Maison traditionnelle avec sous-sol sur terrain de 920 m²</title_fr>
+                    <summary_fr>VOTRE HAVRE DE PAIX EN BORD DE RIVIÈRE&lt;br&gt; Située à deux pas du charmant chemin de Halage, le long des rives pittoresques de la Midouze, cette maison construite en 1981 offre un cadre de vie exceptionnel, mêlant confort moderne et sérénité.Une maison lumineuse et accueillante :Séjour spacieux et lumineux : Dès l&#039;entrée, laissez-vous séduire par le vaste séjour de 42 m², baigné de lumière naturelle grâce à ses larges baies vitrées. Équipé de volets roulants électriques solaires, il allie confort et économie d&#039;énergie, tout en offrant une vue apaisante sur le jardin.Cuisine contemporaine : Entièrement aménagée et équipée, cette cuisine fonctionnelle allie praticité et design pour répondre à vos envies culinaires.Espaces nuit confortables :À l&#039;étage principal : Deux grandes chambres chaleureuses, une salle d&#039;eau moderne, une salle de bain supplémentaire et un WC indépendant.Au sous-sol aménagé : Deux chambres supplémentaires idéales pour accueillir la famille ou les invités, une salle d&#039;eau avec WC, ainsi qu&#039;un dressing pratique .Sous-sol multifonction :Un garage spacieux de 58 m², parfait pour abriter vos véhicules, créez un espace atelier ou aménager selon vos besoins. Ce sous-sol offre également un espace modulable pour vos projets personnels ou professionnels.Un cadre verdoyant et apaisant :L&#039;ensemble est conçu sur un terrain paysager de 920 m², véritable écrin de verdure où se mêlent détente et nature. Profitez de moments en plein air dans ce jardin intime, parfait pour des repas en famille ou des après-midis au soleil.Un emplacement privilégié :À seulement quelques pas des promenades bucoliques de la Midouze et à proximité des commodités, cette propriété allie le charme d&#039;une vie paisible et la praticité d&#039;un accès rapide à toutes les infrastructures essentielles.Informations pratiques :Taxe foncière : 1468 €Prix ​​: 244 900 €Un équilibre parfait entre charme, confort et emplacement de choix. Cette maison n&#039;attend plus que vous pour écrire une nouvelle histoire.</summary_fr>
                     <country_code>fr</country_code>
                     <property_type></property_type>
                     <habitable_surface>147</habitable_surface>
@@ -235,14 +183,15 @@
                                         <furnished>0</furnished>
                     <heating>Gaz Radiateur</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-082817-1/IMG-20240828-WA0006.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-082817-1/IMG-20240828-WA0011.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-082817-1/IMG-20240828-WA0027.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-082817-1/IMG-20240828-WA0026.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-082817-1/IMG-20240828-WA0017.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-082817-1/IMG-20240828-WA0018.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-082817-1/IMG-20240828-WA0008.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-082817-1/IMG-20240828-WA0003.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-082817-1/401-534-290524092913-HEIC.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-082817-1/IMG-20240828-WA0004.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-082817-1/IMG-20240828-WA0011.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-082817-1/IMG-20240828-WA0027.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-082817-1/IMG-20240828-WA0026.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-082817-1/IMG-20240828-WA0017.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-082817-1/IMG-20240828-WA0018.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-082817-1/IMG-20240828-WA0008.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-082817-1/IMG-20240828-WA0014.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -281,59 +230,13 @@
                                         <furnished>0</furnished>
                     <heating></heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-100851-1/0zj1j8ol7ztryx5yxiym3mnrqsrullnnr8kypo8ps.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-100851-1/0aehw4z3t5c48awocc70jdo73zlu49j8qd410f9r4.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-100851-1/0a3cun4p624xulia16vlyjdpkr1qe7o18gr7dvu3k.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-100851-1/1j3i1vuewzp756agrwmsplxxrym4xcnr1hsaiy42o.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-100851-1/029j0fxgz2halvs8a8o1jziiqw6gh9m6iznm20nxc.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-100851-1/08talkij4wslsbzj5eipvmi63vk8htnae8vwk70o0.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-100851-1/223a02w8ipuatwvai0a5liw05ra4o8nk71mxib4tc.jpg</pic>
-                    </pics>
-                    <publications>
-                        <greenacres>1</greenacres>
-                    </publications>
-                </advert>
-                                                                                                                                            <advert>
-                    <account_id>892318a</account_id>
-                    <reference>892318a-2024/101451-1</reference>
-                    <price>280000</price>
-                    <currency>EUR</currency>
-                    <has_included_fees>0</has_included_fees>
-                    <agency_rates_type>0</agency_rates_type>
-                    <fees>12000</fees>
-                    <postal_code>40270</postal_code>
-                    <city>GRENADE-SUR-L&#039;ADOUR</city>
-                    <advert_type>properties</advert_type>
-                    <title_fr>Propriété de 9 pièces sur un terrain arboré d&#039;environ 2600 m²</title_fr>
-                    <summary_fr>Votre havre de paix familial à Grenade-sur-l&#039;Adour&lt;br&gt;Coup de cœur assuré ! Cette magnifique propriété de neuf pièces, nichée sur un terrain arboré d&#039;environ 2600 m², vous offre le meilleur des deux mondes : confort et charme authentique.&lt;br&gt;Au rez-de-chaussée : Un vaste séjour lumineux de 63m² baigné de soleil, une cuisine équipée récente de 30m², un espace nuit complet avec deux chambres, un bureau, une salle d&#039;eau et WC, une véranda et une terrasse pour profiter pleinement de l&#039;extérieur.&lt;br&gt;À l&#039;étage : chambres spacieuses pour accueillir toute la famille, une salle de bain et WC indépendants&lt;br&gt;Les plus de cette propriété : Un sous-sol aménagé de 130m² avec garage, buanderie et cave à vin, un terrain paysagé avec de nombreux fruitiers, des prestations de qualité : chauffage électrique et bois, climatisation réversible, tout-à-l&#039;égout, un environnement calme et verdoyant à proximité des commerces.&lt;br&gt;Pourquoi vous allez l&#039;adorer ?&lt;br&gt;Espace et luminosité : Des pièces généreuses pour vivre en toute sérénité.&lt;br&gt;Confort moderne : Équipements récents et pratiques pour un quotidien facilité.&lt;br&gt;Extérieur : Un jardin arboré pour vos moments de détente et de loisirs.&lt;br&gt;Potentiel : Une maison à personnaliser selon vos envies.&lt;br&gt;Taxe Foncière : 2120 €Prix : 280 000€  </summary_fr>
-                    <country_code>fr</country_code>
-                    <property_type></property_type>
-                    <habitable_surface>209</habitable_surface>
-                    <land_surface>2600</land_surface>
-                    <dpe_type>D</dpe_type>
-                    <dpe_value>233</dpe_value>
-                    <ges_type>B</ges_type>
-                    <ges_value>7</ges_value>
-                    <rooms_number>9</rooms_number>
-                    <bedrooms_number>6</bedrooms_number>
-                    <baths_number>1</baths_number>
-                    <showers_number>1</showers_number>
-                    <floor>1</floor>
-                    <has_terrace>1</has_terrace>
-                    <balconies_number>1</balconies_number>
-                    <has_closets>1</has_closets>
-                                        <charges></charges>
-                                        <furnished>0</furnished>
-                    <heating></heating>
-                    <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-101451-1/IMG-20240826-WA0080.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-101451-1/IMG-20240826-WA0084.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-101451-1/IMG-20240826-WA0107.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-101451-1/IMG-20240826-WA0114.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-101451-1/IMG-20240826-WA0116.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-101451-1/IMG-20240826-WA0123.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-101451-1/IMG-20240826-WA0125.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-101451-1/IMG-20240826-WA0129.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-100851-1/0zj1j8ol7ztryx5yxiym3mnrqsrullnnr8kypo8ps.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-100851-1/0aehw4z3t5c48awocc70jdo73zlu49j8qd410f9r4.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-100851-1/0a3cun4p624xulia16vlyjdpkr1qe7o18gr7dvu3k.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-100851-1/1j3i1vuewzp756agrwmsplxxrym4xcnr1hsaiy42o.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-100851-1/029j0fxgz2halvs8a8o1jziiqw6gh9m6iznm20nxc.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-100851-1/08talkij4wslsbzj5eipvmi63vk8htnae8vwk70o0.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-100851-1/223a02w8ipuatwvai0a5liw05ra4o8nk71mxib4tc.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -372,14 +275,55 @@
                                         <furnished>0</furnished>
                     <heating></heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-111905-1/IMG-20241119-WA0003.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-111905-1/Salon-SAM-2.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-111905-1/IMG-20241119-WA0017.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-111905-1/IMG-20241119-WA0014.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-111905-1/IMG-20241119-WA0005.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-111905-1/IMG-20241119-WA0011.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-111905-1/IMG-20241119-WA0002.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-111905-1/IMG-20241119-WA0019.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-111905-1/IMG-20241119-WA0003.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-111905-1/Salon-SAM-2.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-111905-1/IMG-20241119-WA0017.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-111905-1/IMG-20241119-WA0014.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-111905-1/IMG-20241119-WA0005.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-111905-1/IMG-20241119-WA0011.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-111905-1/IMG-20241119-WA0002.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-111905-1/IMG-20241119-WA0019.jpg</pic>
+                    </pics>
+                    <publications>
+                        <greenacres>1</greenacres>
+                    </publications>
+                </advert>
+                                                                                                                                            <advert>
+                    <account_id>892318a</account_id>
+                    <reference>892318a-2024/120944-1</reference>
+                    <price>80000</price>
+                    <currency>EUR</currency>
+                    <has_included_fees>0</has_included_fees>
+                    <agency_rates_type>0</agency_rates_type>
+                    <fees>7000</fees>
+                    <postal_code>40280</postal_code>
+                    <city>SAINT-PIERRE-DU-MONT</city>
+                    <advert_type>properties</advert_type>
+                    <title_fr>Joli Terrain Plat au Centre de Saint-Pierre-du-Mont</title_fr>
+                    <summary_fr>Ce terrain plat, idéalement situé au cœur de Saint-Pierre-du-Mont, à proximité immédiate de toutes les commodités, offre une belle opportunité pour la construction de votre futur projet immobilier.Caractéristiques du terrain :Implantation des constructions : Les façades doivent être implantées en retrait d&#039;au moins 3 m des limites séparatives latérales, et au moins une façade doit être située dans une bande de 0 à 5 m de la limite d&#039;entreprise publique.Hauteur maximale : Zone intra-rocade autorisant jusqu&#039;à R+2. Si des bâtiments plus hauts existent dans un rayon de 150 mètres, il est possible de dépasser cette hauteur.Prise au sol maximale : 80% de l&#039;ensemble du terrain, offrant une grande flexibilité pour votre projet.Qualité urbaine et paysagère : Le terrain se situe dans une zone de qualité urbaine, architecturale, environnementale et paysagère (Niveau 2a), garantissant un environnement harmonieux et bien intégré.Mixité sociale et fonctionnelle : Le quartier, principalement résidentiel, permet également une certaine diversité d&#039;usages, offrant un cadre de vie agréable et dynamique.Prix ​​: 80 000€</summary_fr>
+                    <country_code>fr</country_code>
+                    <property_type></property_type>
+                    <habitable_surface>0</habitable_surface>
+                    <land_surface>669</land_surface>
+                    <dpe_type>G</dpe_type>
+                    <dpe_value>0</dpe_value>
+                    <ges_type>G</ges_type>
+                    <ges_value>0</ges_value>
+                    <rooms_number>0</rooms_number>
+                    <bedrooms_number>0</bedrooms_number>
+                    <baths_number>0</baths_number>
+                    <showers_number>0</showers_number>
+                    <floor>0</floor>
+                    <has_terrace>0</has_terrace>
+                    <balconies_number>0</balconies_number>
+                    <has_closets>0</has_closets>
+                                        <charges></charges>
+                                        <furnished>0</furnished>
+                    <heating></heating>
+                    <pics>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-120944-1/hHQbpUAXQyeXH5meYS5DOg.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-120944-1/20230703-180330.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-120944-1/vLYDE8D2RG2r-QdTei87KA.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -418,18 +362,18 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-061303-1A/20240611-180103.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0013.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0021.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0018.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0011.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0010.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-061303-1A/1put06xc53la8e1bja2rdc6f6m0ijnqsben1lv8gw.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0014.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0003.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0015.jpg</pic>
-                        <pic order="11">http://127.0.0.1:8001/properties/2024-061303-1A/IMG-20240612-WA0002.jpg</pic>
-                        <pic order="12">http://127.0.0.1:8001/properties/2024-061303-1A/2000x2000-orientation-0deg.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-061303-1A/20240611-180103.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0013.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0021.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0018.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0011.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0010.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-061303-1A/1put06xc53la8e1bja2rdc6f6m0ijnqsben1lv8gw.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0014.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0003.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0015.jpg</pic>
+                        <pic order="11">https://www.papsimmo.fr/properties/2024-061303-1A/IMG-20240612-WA0002.jpg</pic>
+                        <pic order="12">https://www.papsimmo.fr/properties/2024-061303-1A/2000x2000-orientation-0deg.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -468,72 +412,24 @@
                                         <furnished>0</furnished>
                     <heating>Electrique sol</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-090509-1/7b3ce7771a2d354b9fe3e2553041ed1f95501885.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-090509-1/e126a7035b31541bea6ce0c440c7201105c380e8.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-090509-1/feef798ed1bf623103eed57d791ad7361e65d2c8.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-090509-1/46d647dd3e0603386006ca4b758760d48b70419d.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-090509-1/4196006c01510cb0bc3ac91c81af9cf6d1b8f997.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-090509-1/c5c4d0c96f4dd2a622e483059b2c48552a32bca6.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-090509-1/fa8d9a7223fe1c7baef7957862d0edfe91d91644.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-090509-1/fb2a8222758e08370f62b5f3388afeb4bcfbc549.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-090509-1/WhatsApp-Image-2024-10-28-a-11-42-11-8e46be3d.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-090509-1/5d7049b90cbff758fbdfbde5dd3f8fd3327897d0.jpg</pic>
-                        <pic order="11">http://127.0.0.1:8001/properties/2024-090509-1/529906e1e98b80c4cb1c9a00f04c562c79ab675b.jpg</pic>
-                        <pic order="12">http://127.0.0.1:8001/properties/2024-090509-1/70b96b3bda10fa4ae35678f4e6d7e360daa9651d.jpg</pic>
-                        <pic order="13">http://127.0.0.1:8001/properties/2024-090509-1/963bf5178f66ff98928aafb6d9548e9141fcc495.jpg</pic>
-                        <pic order="14">http://127.0.0.1:8001/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-18-38-5e275f26.jpg</pic>
-                        <pic order="15">http://127.0.0.1:8001/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-16-51-67c6dbe0.jpg</pic>
-                        <pic order="16">http://127.0.0.1:8001/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-19-40-24ddf907.jpg</pic>
-                        <pic order="17">http://127.0.0.1:8001/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-22-05-3d09d480.jpg</pic>
-                        <pic order="18">http://127.0.0.1:8001/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-23-16-d712efbe.jpg</pic>
-                    </pics>
-                    <publications>
-                        <greenacres>1</greenacres>
-                    </publications>
-                </advert>
-                                                                                                                                            <advert>
-                    <account_id>892318a</account_id>
-                    <reference>892318a-2024/110755-1</reference>
-                    <price>175000</price>
-                    <currency>EUR</currency>
-                    <has_included_fees>0</has_included_fees>
-                    <agency_rates_type>0</agency_rates_type>
-                    <fees>9000</fees>
-                    <postal_code>40200</postal_code>
-                    <city>MIMIZAN</city>
-                    <advert_type>properties</advert_type>
-                    <title_fr>Charmant Appartement T2 à Mimizan Plage - À 300 m de l’Océan</title_fr>
-                    <summary_fr>Venez découvrir ce bel appartement lumineux de 44 m², idéalement situé au premier étage d&#039;une résidence de seulement 8 lots, dans un quartier calme et prisé de Mimizan Plage. À deux pas de l&#039;océan (300 m seulement !), ce bien est parfait pour les amateurs de bord de mer et de tranquillité.Caractéristiques de l’appartement :Superficie : 44 m² avec une belle optimisation de l&#039;espaceSéjour spacieux et lumineux de 22 m², exposé plein sud, donnant sur un balcon ensoleillé pour profiter de la vue dégagéeCuisine ouverte sur le séjour, offrant un espace convivialChambre confortable avec accès à un deuxième balcon, parfait pour des moments de détenteSalle d&#039;eau contemporaine et WC indépendantLes atouts supplémentaires :Place de parking privé incluse, pour plus de praticitéLocal à vélo commun, idéal pour les balades en bord de merTravaux d’isolation extérieure récents (réalisés en 2024) : un gage de confort thermique et d’économies d’énergieCet appartement est parfait pour une résidence principale, secondaire, ou même un investissement locatif. Ne manquez pas cette opportunité rare de vivre à quelques pas de l&#039;océan tout en bénéficiant du confort d&#039;une résidence intimiste et bien entretenue.&lt;br&gt;Taxe Foncière : 502 €Prix : 175000 € </summary_fr>
-                    <country_code>fr</country_code>
-                    <property_type></property_type>
-                    <habitable_surface>44</habitable_surface>
-                    <land_surface>803</land_surface>
-                    <dpe_type>D</dpe_type>
-                    <dpe_value>240</dpe_value>
-                    <ges_type>B</ges_type>
-                    <ges_value>7</ges_value>
-                    <rooms_number>2</rooms_number>
-                    <bedrooms_number>1</bedrooms_number>
-                    <baths_number>0</baths_number>
-                    <showers_number>1</showers_number>
-                    <floor>1</floor>
-                    <has_terrace>0</has_terrace>
-                    <balconies_number>2</balconies_number>
-                    <has_closets>1</has_closets>
-                                        <charges></charges>
-                                        <furnished>0</furnished>
-                    <heating></heating>
-                    <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-11-02-4b4f7f14.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-11-01-30d34a71.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-11-01-04feaad4.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-11-03-7ade4644-Copie.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-11-02-25bf5fed.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-11-02-dba33ea8.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-11-01-c25d1fd6.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-10-44-4e76da7a.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-10-43-48c68f50.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-110755-1/WhatsApp-Image-2024-11-07-a-21-29-53-8e79803e.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-090509-1/7b3ce7771a2d354b9fe3e2553041ed1f95501885.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-090509-1/e126a7035b31541bea6ce0c440c7201105c380e8.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-090509-1/feef798ed1bf623103eed57d791ad7361e65d2c8.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-090509-1/46d647dd3e0603386006ca4b758760d48b70419d.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-090509-1/4196006c01510cb0bc3ac91c81af9cf6d1b8f997.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-090509-1/c5c4d0c96f4dd2a622e483059b2c48552a32bca6.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-090509-1/fa8d9a7223fe1c7baef7957862d0edfe91d91644.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-090509-1/fb2a8222758e08370f62b5f3388afeb4bcfbc549.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-090509-1/WhatsApp-Image-2024-10-28-a-11-42-11-8e46be3d.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-090509-1/5d7049b90cbff758fbdfbde5dd3f8fd3327897d0.jpg</pic>
+                        <pic order="11">https://www.papsimmo.fr/properties/2024-090509-1/529906e1e98b80c4cb1c9a00f04c562c79ab675b.jpg</pic>
+                        <pic order="12">https://www.papsimmo.fr/properties/2024-090509-1/70b96b3bda10fa4ae35678f4e6d7e360daa9651d.jpg</pic>
+                        <pic order="13">https://www.papsimmo.fr/properties/2024-090509-1/963bf5178f66ff98928aafb6d9548e9141fcc495.jpg</pic>
+                        <pic order="14">https://www.papsimmo.fr/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-18-38-5e275f26.jpg</pic>
+                        <pic order="15">https://www.papsimmo.fr/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-16-51-67c6dbe0.jpg</pic>
+                        <pic order="16">https://www.papsimmo.fr/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-19-40-24ddf907.jpg</pic>
+                        <pic order="17">https://www.papsimmo.fr/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-22-05-3d09d480.jpg</pic>
+                        <pic order="18">https://www.papsimmo.fr/properties/2024-090509-1/WhatsApp-Image-2024-10-25-a-11-23-16-d712efbe.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -572,22 +468,22 @@
                                         <furnished>0</furnished>
                     <heating></heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241108-WA0024.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241108-WA0019.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241108-WA0018.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241108-WA0023.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0025.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0024.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0017.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0016.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0013.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0002.jpg</pic>
-                        <pic order="11">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0010.jpg</pic>
-                        <pic order="12">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0008.jpg</pic>
-                        <pic order="13">http://127.0.0.1:8001/properties/2024-110909-1/WhatsApp-Image-2024-11-08-a-12-27-27-412262b6.jpg</pic>
-                        <pic order="14">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0006.jpg</pic>
-                        <pic order="15">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241109-WA0005.jpg</pic>
-                        <pic order="16">http://127.0.0.1:8001/properties/2024-110909-1/IMG-20241108-WA0011.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241108-WA0024.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241108-WA0019.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241108-WA0018.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241108-WA0023.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0025.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0024.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0017.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0016.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0013.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0002.jpg</pic>
+                        <pic order="11">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0010.jpg</pic>
+                        <pic order="12">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0008.jpg</pic>
+                        <pic order="13">https://www.papsimmo.fr/properties/2024-110909-1/WhatsApp-Image-2024-11-08-a-12-27-27-412262b6.jpg</pic>
+                        <pic order="14">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0006.jpg</pic>
+                        <pic order="15">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241109-WA0005.jpg</pic>
+                        <pic order="16">https://www.papsimmo.fr/properties/2024-110909-1/IMG-20241108-WA0011.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -595,43 +491,128 @@
                 </advert>
                                                                                                                                             <advert>
                     <account_id>892318a</account_id>
-                    <reference>892318a-2024/111928-1</reference>
-                    <price>108000</price>
+                    <reference>892318a-2024/120343-1</reference>
+                    <price>535000</price>
                     <currency>EUR</currency>
                     <has_included_fees>0</has_included_fees>
                     <agency_rates_type>0</agency_rates_type>
-                    <fees>6000</fees>
-                    <postal_code>40800</postal_code>
-                    <city>AIRE-SUR-L&#039;ADOUR</city>
+                    <fees>25000</fees>
+                    <postal_code>40200</postal_code>
+                    <city>MIMIZAN</city>
                     <advert_type>properties</advert_type>
-                    <title_fr>Local Commercial de 88 m² au Cœur d’Aire-sur-l’Adour - Rue Gambetta</title_fr>
-                    <summary_fr>Situé dans l’artère principale commerçante d’Aire-sur-l’Adour, rue Gambetta, ce local commercial de 88 m² offre une opportunité rare pour les entrepreneurs et investisseurs. Avec sa localisation de choix et ses caractéristiques fonctionnelles, ce bien est parfait pour accueillir une grande variété d’activités.Descriptif du local :Commerce de 73 m², un espace spacieux et modulable pour aménager votre activité selon vos besoins.Réserve de 12 m², idéale pour le stockage.WC intégré, offrant un espace fonctionnel pour le personnel et les clients.Façade et sécurité :Une façade entièrement vitrée, offrant une visibilité exceptionnelle et idéale pour attirer les regards des passants.Équipé de grilles sécurisées, garantissant une protection optimale en dehors des heures d’ouverture.Idées d’exploitation : Ce local est parfaitement adapté pour une multitude de projets :Boutique de prêt-à-porter ou accessoires : profitez de l&#039;emplacement stratégique pour attirer une clientèle variée.Salon de beauté, coiffure ou esthétique : un lieu accueillant avec un fort potentiel pour fidéliser une clientèle locale.Agence de services : bureau professionnel, agence immobilière ou espace de coworking.Petite épicerie fine ou concept store : mettez en avant des produits locaux dans cet emplacement prisé.Les atouts du bien :Emplacement premium sur la rue la plus commerçante et dynamique d’Aire-sur-l’Adour.Surface optimisée, offrant un espace de travail polyvalent.Visibilité maximale, renforcée par une façade vitrée et une situation en plein centre-ville.Prix : 108 000 €    Taxe Foncière : 729 €N’attendez plus pour concrétiser votre projet dans cet espace au potentiel exceptionnel.</summary_fr>
+                    <title_fr>Très rare : Maison à deux pas de l&#039;océan à Mimizan Plage</title_fr>
+                    <summary_fr>Emplacement d&#039;exception ! Située à moins de 50 mètres de l&#039;océan, cette maison entièrement rénovée est un véritable havre de paix, idéal pour les amoureux de la mer et des grands espaces. Nichée au sein d&#039;une copropriété de 3 lots, elle allie charme, confort et praticité dans un cadre enchanteur.Caractéristiques principales :Surface habitable optimisée : Une cuisine moderne équipée ouverte sur un spacieux salon-séjour avec cheminée, parfait pour vos soirées conviviales.3 chambres lumineuses et élégantes : Espaces conçus pour votre bien-être et celui de votre famille ou invités.Salle de bain contemporaine : Prestations modernes et matériaux de qualité.Extérieur et atouts supplémentaires :Un patio exposé plein sud : Accessible directement depuis la cuisine, idéal pour vos repas en plein air ou vos moments de détente.Un garage privé : Pratique pour stationner ou ranger vos équipements de plage et de loisirs.Les plus de ce bien :Rénovation récente et soignée.Situation exceptionnelle, traduit à quelques pas de l&#039;océan.Copropriété intime et calmePrix ​​: 535 000 € Taxe Foncière : 1172 €Ne manquez pas cette opportunité unique de vivre ou d&#039;investir dans une maison de caractère à Mimizan Plage, où l&#039;ocean et le confort se rencontrent.</summary_fr>
                     <country_code>fr</country_code>
                     <property_type></property_type>
-                    <habitable_surface>88</habitable_surface>
-                    <land_surface>315</land_surface>
-                    <dpe_type>G</dpe_type>
-                    <dpe_value>0</dpe_value>
-                    <ges_type>G</ges_type>
-                    <ges_value>0</ges_value>
-                    <rooms_number>2</rooms_number>
-                    <bedrooms_number>0</bedrooms_number>
+                    <habitable_surface>106</habitable_surface>
+                    <land_surface>669</land_surface>
+                    <dpe_type>E</dpe_type>
+                    <dpe_value>308</dpe_value>
+                    <ges_type>B</ges_type>
+                    <ges_value>10</ges_value>
+                    <rooms_number>4</rooms_number>
+                    <bedrooms_number>3</bedrooms_number>
                     <baths_number>0</baths_number>
-                    <showers_number>0</showers_number>
+                    <showers_number>1</showers_number>
                     <floor>0</floor>
-                    <has_terrace>0</has_terrace>
+                    <has_terrace>1</has_terrace>
                     <balconies_number>0</balconies_number>
                     <has_closets>1</has_closets>
                                         <charges></charges>
                                         <furnished>0</furnished>
                     <heating></heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-111928-1/p2.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-111928-1/20241030-150528.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-111928-1/20241030-150450.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-111928-1/20241030-150634.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-111928-1/20241030-150658.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-111928-1/20241030-150327.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-120343-1/p3-Copie.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-120343-1/p2-Copie.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-120343-1/p5.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-120343-1/p6.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-120343-1/p4-Copie.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-120343-1/p1-Copie.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-120343-1/p8.jpg</pic>
+                    </pics>
+                    <publications>
+                        <greenacres>1</greenacres>
+                    </publications>
+                </advert>
+                                                                                                                                            <advert>
+                    <account_id>892318a</account_id>
+                    <reference>892318a-2024/120641-1</reference>
+                    <price>190000</price>
+                    <currency>EUR</currency>
+                    <has_included_fees>0</has_included_fees>
+                    <agency_rates_type>0</agency_rates_type>
+                    <fees>10000</fees>
+                    <postal_code>33114</postal_code>
+                    <city>LE</city>
+                    <advert_type>properties</advert_type>
+                    <title_fr>Terrains constructibles à Le Barp, entre Bordeaux et le Bassin d&#039;Arcachon</title_fr>
+                    <summary_fr>Découvrez ces terrains d’exception situés dans la commune de Le Barp, à seulement 40 km de Bordeaux et du bassin d’Arcachon. Idéalement situés dans un quartier paisible, ces parcelles offrent un cadre de vie unique, alliant tranquillité et proximité avec les grandes villes.Caractéristiques des terrains :Superficies disponibles :Terrain 1 : Parcelle de 900 m²Terrain 2 : Deux autres parcelles disponibles : 900 m² et 1200 m², idéales pour des projets résidentiels ou d&#039;investissement.Terrain constructible : parfait pour réaliser votre projet immobilier.Viabilisation complète : raccordé aux réseaux (eau, électricité, etc.).Clôturé et arboré : offrant un environnement agréable et prêt à accueillir votre maison.Connexion internet : réseau fibre disponible pour un confort moderne.Accès : facilité grâce à un chemin de servitude privé.Localisation :Le Barp est une commune prisée pour sa qualité de vie, située entre Bordeaux, la métropole dynamique, et Arcachon, célèbre pour ses plages et son bassin. Vous profitez ainsi du meilleur des deux mondes : le calme d’un village et l’accès rapide aux pôles urbains et touristiques.Ces terrains sont parfaits pour des projets de résidence principale, secondaire ou d’investissement locatif dans une région en plein essor.Ne manquez pas cette opportunité !Prix: 190 000 €</summary_fr>
+                    <country_code>fr</country_code>
+                    <property_type></property_type>
+                    <habitable_surface>0</habitable_surface>
+                    <land_surface>900</land_surface>
+                    <dpe_type>G</dpe_type>
+                    <dpe_value>0</dpe_value>
+                    <ges_type>G</ges_type>
+                    <ges_value>0</ges_value>
+                    <rooms_number>0</rooms_number>
+                    <bedrooms_number>0</bedrooms_number>
+                    <baths_number>0</baths_number>
+                    <showers_number>0</showers_number>
+                    <floor>0</floor>
+                    <has_terrace>0</has_terrace>
+                    <balconies_number>0</balconies_number>
+                    <has_closets>0</has_closets>
+                                        <charges></charges>
+                                        <furnished>0</furnished>
+                    <heating></heating>
+                    <pics>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-120641-1/20241204-103528.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-120641-1/20241204-103606.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-120641-1/20241204-111504.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-120641-1/20241204-111514.jpg</pic>
+                    </pics>
+                    <publications>
+                        <greenacres>1</greenacres>
+                    </publications>
+                </advert>
+                                                                                                                                            <advert>
+                    <account_id>892318a</account_id>
+                    <reference>892318a-2024/120951-1</reference>
+                    <price>210000</price>
+                    <currency>EUR</currency>
+                    <has_included_fees>0</has_included_fees>
+                    <agency_rates_type>0</agency_rates_type>
+                    <fees>10000</fees>
+                    <postal_code>33114</postal_code>
+                    <city>LE</city>
+                    <advert_type>properties</advert_type>
+                    <title_fr>Terrains constructibles à Le Barp, entre Bordeaux et le Bassin d&#039;Arcachon</title_fr>
+                    <summary_fr>Découvrez ces terrains d’exception situés dans la commune de Le Barp, à seulement 40 km de Bordeaux et du bassin d’Arcachon. Idéalement situés dans un quartier paisible, ces parcelles offrent un cadre de vie unique, alliant tranquillité et proximité avec les grandes villes.Caractéristiques des terrains :Superficies disponibles :Terrain 1 : Parcelle de 1200 m²Terrain 2 : Deux autres parcelles disponibles de 900 m², idéales pour des projets résidentiels ou d&#039;investissement.Terrain constructible : parfait pour réaliser votre projet immobilier.Viabilisation complète : raccordé aux réseaux (eau, électricité, etc.).Clôturé et arboré : offrant un environnement agréable et prêt à accueillir votre maison.Connexion internet : réseau fibre disponible pour un confort moderne.Accès : facilité grâce à un chemin de servitude privé.Localisation :Le Barp est une commune prisée pour sa qualité de vie, située entre Bordeaux, la métropole dynamique, et Arcachon, célèbre pour ses plages et son bassin. Vous profitez ainsi du meilleur des deux mondes : le calme d’un village et l’accès rapide aux pôles urbains et touristiques.Ces terrains sont parfaits pour des projets de résidence principale, secondaire ou d’investissement locatif dans une région en plein essor.Ne manquez pas cette opportunité !Prix: 210 000 €</summary_fr>
+                    <country_code>fr</country_code>
+                    <property_type></property_type>
+                    <habitable_surface>0</habitable_surface>
+                    <land_surface>1200</land_surface>
+                    <dpe_type>G</dpe_type>
+                    <dpe_value>0</dpe_value>
+                    <ges_type>G</ges_type>
+                    <ges_value>0</ges_value>
+                    <rooms_number>0</rooms_number>
+                    <bedrooms_number>0</bedrooms_number>
+                    <baths_number>0</baths_number>
+                    <showers_number>0</showers_number>
+                    <floor>0</floor>
+                    <has_terrace>0</has_terrace>
+                    <balconies_number>0</balconies_number>
+                    <has_closets>0</has_closets>
+                                        <charges></charges>
+                                        <furnished>0</furnished>
+                    <heating></heating>
+                    <pics>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-120951-1/20241204-103606.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-120951-1/20241204-103528.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-120951-1/20241204-111504.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-120951-1/20241204-111514.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -648,8 +629,8 @@
                     <postal_code>40000</postal_code>
                     <city>MONT-DE-MARSAN</city>
                     <advert_type>properties</advert_type>
-                    <title_fr>Maison de ville à rénover</title_fr>
-                    <summary_fr>Découvrez cette superbe bâtisse de 210 m², nichée au cœur du quartier historique de Saint-Jean-d’Août à Mont de Marsan. Construite dans les années 1900, cette maison au charme intemporel est une rare opportunité pour les amateurs de biens de caractère, offrant un potentiel immense après rénovation.&lt;br&gt;Dès l’entrée, vous serez séduit par les carreaux de ciment, les hauts plafonds, les magnifiques parquets et les murs en pierre, qui témoignent de l’authenticité de cette demeure. Le rez-de-chaussée comprend deux salons chaleureux avec cheminées, une salle à manger attenante à la cuisine, une chambre, une salle de bain, et des toilettes. Une terrasse couverte et vitrée complète cet espace de vie.&lt;br&gt;L&#039;escalier d’époque vous conduit au premier étage, où vous trouverez quatre chambres spacieuses, une salle d&#039;eau, et des toilettes supplémentaires. Enfin, le deuxième étage abrite un immense plateau sous les combles, prêt à être aménagé selon vos envies.&lt;br&gt;La maison est située sur un terrain avec un jardin privé, offrant un espace extérieur agréable. La toiture est en cours de réfection, assurant la sécurité et la pérennité de cette belle demeure.&lt;br&gt;Ce bien exceptionnel conviendrait parfaitement à une grande famille en quête de volume et de caractère, ou à un investisseur désireux de créer plusieurs appartements dans un cadre unique.&lt;br&gt;Ne laissez pas passer cette opportunité rare dans un quartier prisé.Prix 266 750 € </summary_fr>
+                    <title_fr>Maison de caractère à Saint-Jean-d’Août</title_fr>
+                    <summary_fr>Maison de caractère à Saint-Jean-d’Août, Mont-de-Marsan&lt;br&gt;210 m² de charme et d&#039;authenticité dans le quartier historique, une opportunité rare à ne pas manquer !Les points forts :Authenticité préservée : carreaux de ciment, parquets, hauts plafonds, murs en pierre, cheminées… Une demeure qui raconte une histoire.Volumes exceptionnels : 6 chambres, 2 salons, salle à manger, cuisine, et un plateau sous combles prêt à être aménagé.Extérieur agréable : jardin privé et terrasse vitrée pour profiter de moments de détente.Toiture neuve : tranquillité d’esprit pour de nombreuses années.Potentiel immense : idéale pour une grande famille ou un projet d’investissement (division en appartements possible).Points à prévoir :Rénovations nécessaires : modernisation de certains espaces pour révéler tout le potentiel de cette bâtisse d’exception.Située dans un quartier recherché, proche de toutes les commodités, cette maison est une toile vierge pour vos projets.Prix : 266 750 €&lt;br&gt; Une occasion unique de s’offrir un bien de caractère dans un emplacement idéal !Contactez-nous dès maintenant pour une visite et laissez-vous séduire !&lt;br&gt;06 85 65 10 63. Lucie Lafitte </summary_fr>
                     <country_code>fr</country_code>
                     <property_type></property_type>
                     <habitable_surface>210</habitable_surface>
@@ -670,16 +651,16 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-ad5d4a25.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-6b503dc1.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-4f09f6d4.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-e0e8af6e.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-599f96a5.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-0a475fc8.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-c69a25c7.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-96d90796.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-a2e1f880.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-4ff0b398.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-599f96a5.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-ad5d4a25.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-6b503dc1.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-4f09f6d4.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-e0e8af6e.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-0a475fc8.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-c69a25c7.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-96d90796.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-a2e1f880.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-030514-1/WhatsApp-Image-2024-04-02-a-07-06-27-4ff0b398.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -718,8 +699,8 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-030537-1/WhatsApp-Image-2024-06-24-a-11-24-32-270d7e75.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-030537-1/WhatsApp-Image-2024-06-24-a-11-24-32-f6dab696.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-030537-1/WhatsApp-Image-2024-06-24-a-11-24-32-270d7e75.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-030537-1/WhatsApp-Image-2024-06-24-a-11-24-32-f6dab696.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -758,18 +739,18 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-100719-1/358334147-228022896870757-829261548031997283-n.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-100719-1/358324308-2391126221066543-7861005962890919559-n.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-100719-1/358328321-1638057480018027-740406401225796840-n.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-100719-1/358326969-222153287467262-5928160267580269192-n.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-100719-1/358325267-636867864871830-6171483147595718194-n.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-100719-1/358332169-789850229592386-2195408255889092255-n.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-100719-1/358822591-284967927480030-1633269032071372827-n.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-100719-1/358321440-200576699370160-8024340341975090912-n.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-100719-1/358329919-191381467065240-2818936800946580261-n.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-100719-1/358332193-1013327540082866-4271696477659227315-n.jpg</pic>
-                        <pic order="11">http://127.0.0.1:8001/properties/2024-100719-1/358333652-1083484775957418-1170099141593812412-n.jpg</pic>
-                        <pic order="12">http://127.0.0.1:8001/properties/2024-100719-1/358339078-959537548438395-4162910302439887085-n.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-100719-1/358334147-228022896870757-829261548031997283-n.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-100719-1/358324308-2391126221066543-7861005962890919559-n.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-100719-1/358328321-1638057480018027-740406401225796840-n.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-100719-1/358326969-222153287467262-5928160267580269192-n.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-100719-1/358325267-636867864871830-6171483147595718194-n.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-100719-1/358332169-789850229592386-2195408255889092255-n.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-100719-1/358822591-284967927480030-1633269032071372827-n.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-100719-1/358321440-200576699370160-8024340341975090912-n.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-100719-1/358329919-191381467065240-2818936800946580261-n.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-100719-1/358332193-1013327540082866-4271696477659227315-n.jpg</pic>
+                        <pic order="11">https://www.papsimmo.fr/properties/2024-100719-1/358333652-1083484775957418-1170099141593812412-n.jpg</pic>
+                        <pic order="12">https://www.papsimmo.fr/properties/2024-100719-1/358339078-959537548438395-4162910302439887085-n.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -777,40 +758,43 @@
                 </advert>
                                                                                                                                             <advert>
                     <account_id>892318a</account_id>
-                    <reference>892318a-2024/031203-1</reference>
-                    <price>88000</price>
+                    <reference>892318a-2024/052329-1A</reference>
+                    <price>1100000</price>
                     <currency>EUR</currency>
                     <has_included_fees>0</has_included_fees>
                     <agency_rates_type>0</agency_rates_type>
-                    <fees>8000</fees>
-                    <postal_code>40100</postal_code>
-                    <city>DAX</city>
+                    <fees>50000</fees>
+                    <postal_code>40510</postal_code>
+                    <city>SEIGNOSSE</city>
                     <advert_type>properties</advert_type>
-                    <title_fr>T1BIS 30m² balcon parking centre ville Dax</title_fr>
-                    <summary_fr>Appartement très bien situé à Dax, tout à proximité et le centre ville à 2min à pieds.&lt;br&gt;&lt;br&gt;Idéal investisseur locatif&lt;br&gt;&lt;br&gt;Locataire déjà en place depuis des années, bail en cours jusqu&#039;en juillet 2025&lt;br&gt;&lt;br&gt;T1 Bis, pièce de vie de 18.82m² avec kitchenette, 1 chambre, 1 salle de bain et un wc indépendant + un balcon de 6.41m² + 1 place de parking&lt;br&gt;&lt;br&gt;Charge de copro (129 lots): 600€ / an&lt;br&gt;&lt;br&gt;Taxe foncière : 760€&lt;br&gt;&lt;br&gt;Prix 88000€ HAIcontact: Aline Lateulère PAP&#039;S Immo 0641598385 ou alateulere@papsimmo.frLes informations sur les risques naturels auxquels ce bien est exposé, sont disponibles sur le site géorisques: www.georisques.gouv.fr </summary_fr>
+                    <title_fr>VILLA 220M² PLEIN PIED 3CH 2SDD 1SDB 4WC HOSSEGOR</title_fr>
+                    <summary_fr>Située dans un quartier résidentiel, recherché, proche du centre-ville et du lac d&#039;Hossegor, cette villa d&#039;environ 220m² et de plain-pied présente de beaux matériaux.&lt;br&gt;Elle vous propose :&lt;br&gt;Un hall d&#039;entrée spacieux avec WC et son lave-mains, un vaste séjour inondé de lumière avec un accès direct sur la terrasse par la présence de quatre grandes baies vitrées, une salle à manger attenante, une cuisine équipée aménagée avec accès direct sur la terrasse, une arrière-cuisine, un cellier et une lingerie avec de nombreux rangements, une suite parentale avec accès direct sur la terrasse composée d&#039;une chambre munie d&#039;un parquet, d&#039;une salle de bain avec double vasque, bidet, Wc et sèche serviettes, puis d&#039;un espace rangement équipé d&#039;un immense placard aux portes miroir coulissantes, deux autres chambres avec parquet dont une munie d&#039;un grand placard, une salle d&#039;eau avec simple vasque et sèche serviettes, un Wc séparé.&lt;br&gt;Le tout est complété par :&lt;br&gt;une pièce d&#039;eau dédiée au retour de plage comprenant une douche, un lavabo et un Wc séparé, un double garage, un atelier, une cave à vin, un sauna, un grenier d&#039;environ 35m² qui peut servir de dortoir pour les petits enfants.&lt;br&gt;Côté confort, vous trouverez :&lt;br&gt;Une très belle cheminée dans le séjour. Ce bien est équipé du chauffage au sol et de la climatisation réversible (neuve 2023). La chaudière à gaz a sept ans. La maison possède la VMC. Chaque ouverture possède le double vitrage, les volets roulants et deux stores bannes côté séjour. La toiture est en bon état, elle est balayée et traitée régulièrement. Pour votre sécurité, la villa est dotée d&#039;une alarme. Le terrain d&#039;environ 1500m², entièrement clos, paysagé et arboré et sans vis-à-vis et très bien entretenu, vous offre un bel espace de détente.Prix : 1 100 000€ HAI </summary_fr>
                     <country_code>fr</country_code>
                     <property_type></property_type>
-                    <habitable_surface>30</habitable_surface>
-                    <land_surface>0</land_surface>
-                    <dpe_type>D</dpe_type>
-                    <dpe_value>236</dpe_value>
-                    <ges_type>B</ges_type>
-                    <ges_value>7</ges_value>
-                    <rooms_number>2</rooms_number>
-                    <bedrooms_number>1</bedrooms_number>
+                    <habitable_surface>220</habitable_surface>
+                    <land_surface>1507</land_surface>
+                    <dpe_type>C</dpe_type>
+                    <dpe_value>133</dpe_value>
+                    <ges_type>C</ges_type>
+                    <ges_value>27</ges_value>
+                    <rooms_number>7</rooms_number>
+                    <bedrooms_number>3</bedrooms_number>
                     <baths_number>1</baths_number>
-                    <showers_number>0</showers_number>
+                    <showers_number>2</showers_number>
                     <floor>0</floor>
-                    <has_terrace>0</has_terrace>
-                    <balconies_number>1</balconies_number>
+                    <has_terrace>1</has_terrace>
+                    <balconies_number>0</balconies_number>
                     <has_closets>1</has_closets>
                                         <charges></charges>
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-031203-1/PHOTO-2024-03-12-21-18-29.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-031203-1/PHOTO-2024-03-12-21-21-50.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-031203-1/PHOTO-2024-03-12-21-22-00.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-052329-1A/IMG-7689.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-052329-1A/IMG-7681.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-052329-1A/IMG-7694.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-052329-1A/IMG-7698.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-052329-1A/IMG-7700.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-052329-1A/IMG-7697.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -849,14 +833,14 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-031432-1/20231011-145254.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-031432-1/20231011-145319.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-031432-1/20231011-151040.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-031432-1/20231011-151118.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-031432-1/20231011-145052.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-031432-1/20231011-145201.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-031432-1/20231011-142727.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-031432-1/20231011-142915.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-031432-1/20231011-145254.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-031432-1/20231011-145319.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-031432-1/20231011-151040.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-031432-1/20231011-151118.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-031432-1/20231011-145052.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-031432-1/20231011-145201.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-031432-1/20231011-142727.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-031432-1/20231011-142915.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -895,16 +879,16 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7391b.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7390a.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7393a.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7359a.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7372a.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7380.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7384.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7414a.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7418a.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-032243-1/IMG-7396a.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7391b.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7390a.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7393a.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7359a.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7372a.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7380.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7384.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7414a.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7418a.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-032243-1/IMG-7396a.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -943,16 +927,16 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-052329-1/IMG-7679.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-052329-1/20240517-151411.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-052329-1/20240517-150753.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-052329-1/20240517-150706.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-052329-1/20240517-151722.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-052329-1/20240517-151356.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-052329-1/20240517-151758.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-052329-1/20240517-151500.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-052329-1/20240517-151533.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-052329-1/20240517-151442.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-052329-1/IMG-7679.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-052329-1/20240517-151411.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-052329-1/20240517-150753.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-052329-1/20240517-150706.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-052329-1/20240517-151722.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-052329-1/20240517-151356.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-052329-1/20240517-151758.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-052329-1/20240517-151500.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-052329-1/20240517-151533.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-052329-1/20240517-151442.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -991,61 +975,15 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-061855-1/1000033589copie.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-061855-1/1000033591copie.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-061855-1/IMG-8114copie.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-061855-1/1000033577copie.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-061855-1/1000033583copie.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-061855-1/IMG-8100-copie.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-061855-1/IMG-8101copie.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-061855-1/1000033586copie.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-061855-1/1000033582copie.jpg</pic>
-                    </pics>
-                    <publications>
-                        <greenacres>1</greenacres>
-                    </publications>
-                </advert>
-                                                                                                                                            <advert>
-                    <account_id>892318a</account_id>
-                    <reference>892318a-2024/061912-1</reference>
-                    <price>169000</price>
-                    <currency>EUR</currency>
-                    <has_included_fees>0</has_included_fees>
-                    <agency_rates_type>0</agency_rates_type>
-                    <fees>9000</fees>
-                    <postal_code>40100</postal_code>
-                    <city>DAX</city>
-                    <advert_type>properties</advert_type>
-                    <title_fr>APPARTEMENT T2 58m²  VUE EXCEPTIONNELLE</title_fr>
-                    <summary_fr>Cet appartement T2 de 58 m²(Carrez) est proche du centre-ville et des commodités : supermarché, pharmacie, transports etc... et vous pouvez tout faire à pied. Il se trouve au 5ᵉ et dernier étage d&#039;une résidence (233 lots) avec ascenseur et sécurisée : porte ouverture avec badge. Il offre une vue exceptionnelle, il est très lumineux et il se compose d&#039;une entrée avec placard, d&#039;une cuisine séparée, d&#039;une pièce de vie, d&#039;une chambre, d&#039;un SDB avec WC. Il possède deux balcons, l&#039;un de 4.07 m² et l&#039;autre de 5.92 m² permettant d&#039;installer entre autres une table et deux chaises et de pouvoir admirer et profiter de la vue. Une place de parking et une cave complètent ce bien.Son prix de vente est de 169 000€. </summary_fr>
-                    <country_code>fr</country_code>
-                    <property_type></property_type>
-                    <habitable_surface>58</habitable_surface>
-                    <land_surface>4493</land_surface>
-                    <dpe_type>E</dpe_type>
-                    <dpe_value>276</dpe_value>
-                    <ges_type>E</ges_type>
-                    <ges_value>56</ges_value>
-                    <rooms_number>3</rooms_number>
-                    <bedrooms_number>1</bedrooms_number>
-                    <baths_number>1</baths_number>
-                    <showers_number>0</showers_number>
-                    <floor>5</floor>
-                    <has_terrace>1</has_terrace>
-                    <balconies_number>0</balconies_number>
-                    <has_closets>1</has_closets>
-                                        <charges></charges>
-                                        <furnished>0</furnished>
-                    <heating>A définir</heating>
-                    <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-061912-1/IMG-0319.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-061912-1/IMG-0320.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-061912-1/IMG-0315-9.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-061912-1/IMG-0316.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-061912-1/IMG-0318.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-061912-1/IMG-0450-2.png</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-061912-1/IMG-0307-Copie.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-061912-1/IMG-0313-Copie.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-061855-1/1000033589copie.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-061855-1/1000033591copie.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-061855-1/IMG-8114copie.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-061855-1/1000033577copie.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-061855-1/1000033583copie.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-061855-1/IMG-8100-copie.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-061855-1/IMG-8101copie.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-061855-1/1000033586copie.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-061855-1/1000033582copie.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -1084,12 +1022,12 @@
                                         <furnished>0</furnished>
                     <heating></heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-092704-1/4895dfc6-9224-4ca3-961b-b9baeee710b5.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-092704-1/fcef1db5-4891-4746-8d66-7919c152483c.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-092704-1/2c60058a-897d-41b1-8e46-ccfab7e8ca29.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-092704-1/386d1323-1ab1-4051-ae42-4719c916777f.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-092704-1/013d488d-66ef-42ff-a8d0-4e762a639975.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-092704-1/25df235d-61ee-46be-96c3-1f1cdecef9da.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-092704-1/4895dfc6-9224-4ca3-961b-b9baeee710b5.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-092704-1/fcef1db5-4891-4746-8d66-7919c152483c.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-092704-1/2c60058a-897d-41b1-8e46-ccfab7e8ca29.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-092704-1/386d1323-1ab1-4051-ae42-4719c916777f.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-092704-1/013d488d-66ef-42ff-a8d0-4e762a639975.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-092704-1/25df235d-61ee-46be-96c3-1f1cdecef9da.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -1128,17 +1066,17 @@
                                         <furnished>0</furnished>
                     <heating>A définir</heating>
                     <pics>
-                        <pic order="1">http://127.0.0.1:8001/properties/2024-100309-1/1000009940.jpg</pic>
-                        <pic order="2">http://127.0.0.1:8001/properties/2024-100309-1/1000009923.jpg</pic>
-                        <pic order="3">http://127.0.0.1:8001/properties/2024-100309-1/1000009961.jpg</pic>
-                        <pic order="4">http://127.0.0.1:8001/properties/2024-100309-1/1000009902.jpg</pic>
-                        <pic order="5">http://127.0.0.1:8001/properties/2024-100309-1/1000009913.jpg</pic>
-                        <pic order="6">http://127.0.0.1:8001/properties/2024-100309-1/1000009916.jpg</pic>
-                        <pic order="7">http://127.0.0.1:8001/properties/2024-100309-1/1000009973.jpg</pic>
-                        <pic order="8">http://127.0.0.1:8001/properties/2024-100309-1/1000009943.jpg</pic>
-                        <pic order="9">http://127.0.0.1:8001/properties/2024-100309-1/1000009946.jpg</pic>
-                        <pic order="10">http://127.0.0.1:8001/properties/2024-100309-1/1000009949.jpg</pic>
-                        <pic order="11">http://127.0.0.1:8001/properties/2024-100309-1/1000009954.jpg</pic>
+                        <pic order="1">https://www.papsimmo.fr/properties/2024-100309-1/1000009940.jpg</pic>
+                        <pic order="2">https://www.papsimmo.fr/properties/2024-100309-1/1000009923.jpg</pic>
+                        <pic order="3">https://www.papsimmo.fr/properties/2024-100309-1/1000009961.jpg</pic>
+                        <pic order="4">https://www.papsimmo.fr/properties/2024-100309-1/1000009902.jpg</pic>
+                        <pic order="5">https://www.papsimmo.fr/properties/2024-100309-1/1000009913.jpg</pic>
+                        <pic order="6">https://www.papsimmo.fr/properties/2024-100309-1/1000009916.jpg</pic>
+                        <pic order="7">https://www.papsimmo.fr/properties/2024-100309-1/1000009973.jpg</pic>
+                        <pic order="8">https://www.papsimmo.fr/properties/2024-100309-1/1000009943.jpg</pic>
+                        <pic order="9">https://www.papsimmo.fr/properties/2024-100309-1/1000009946.jpg</pic>
+                        <pic order="10">https://www.papsimmo.fr/properties/2024-100309-1/1000009949.jpg</pic>
+                        <pic order="11">https://www.papsimmo.fr/properties/2024-100309-1/1000009954.jpg</pic>
                     </pics>
                     <publications>
                         <greenacres>1</greenacres>
