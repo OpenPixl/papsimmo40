@@ -1493,6 +1493,8 @@ class PropertyRepository extends ServiceEntityRepository
             $query->where('pu.isPublishhtlouer = 1');
         }elseif($partenaire == "HT"){
             $query->where('pu.isPublishalentoor = 1');
+        }elseif($partenaire == "CM"){
+            $query->where('pu.isPublishClefsmoi = 1');
         }
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
