@@ -427,7 +427,7 @@
             })
             SelectCity.addEventListener('change', function (event){
                 zipcode.value = cp
-                commune.value = ville.toUpperCase()
+                commune.value = SelectCity.value.toUpperCase();
             })
 
             // PARTIE Codepostal sur création & modification du client

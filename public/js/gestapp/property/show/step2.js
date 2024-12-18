@@ -123,14 +123,14 @@ function showModalCustomer(event){
                                     commune2.value = ville.toUpperCase();
                                 }else{
                                     zipcode2.value = cp;
-                                    commune2.value = ville.toUpperCase();
+                                    commune2.value = ville.value().toUpperCase();
                                 }
                             });
                     }
                 });
                 SelectCity.addEventListener('change', function (event){
                     zipcode2.value = cp;
-                    commune2.value = ville.toUpperCase();
+                    commune2.value = SelectCity.value.toUpperCase();
                 });
             });
     }
@@ -210,8 +210,9 @@ function showModalCustomer(event){
                     }
                 });
                 SelectCity.addEventListener('change', function (event){
+
                     zipcode2.value = cp;
-                    commune2.value = ville.toUpperCase();
+                    commune2.value = SelectCity.value.toUpperCase();
                 });
             });
     }
