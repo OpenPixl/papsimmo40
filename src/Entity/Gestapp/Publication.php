@@ -55,6 +55,9 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishClefsmoi = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishMonbien = false;
+
 
     public function getId(): ?int
     {
@@ -225,6 +228,18 @@ class Publication
     public function setIsPublishClefsmoi(bool $isPublishClefsmoi): static
     {
         $this->isPublishClefsmoi = $isPublishClefsmoi;
+
+        return $this;
+    }
+
+    public function isIsPublishMonbien(): ?bool
+    {
+        return $this->isPublishMonbien;
+    }
+
+    public function setIsPublishMonbien(bool $isPublishMonbien): static
+    {
+        $this->isPublishMonbien = $isPublishMonbien;
 
         return $this;
     }

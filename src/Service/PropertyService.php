@@ -156,6 +156,7 @@ class PropertyService
             $commerceSurfaceDivisibleMin = $property->getCommerceSurfaceDivisibleMin();
             $commerceSurfaceDivisibleMax = $property->getCommerceSurfaceDivisibleMax();
         }
+
         return array(
             'destination' => $destination, 'typeBien' => $typeBien,
             'price' => $price, 'priceFai' => $priceFai,

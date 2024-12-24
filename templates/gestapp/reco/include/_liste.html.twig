@@ -59,6 +59,7 @@
                     <a id="btnCommission" href="{{ path('op_gestapp_reco_edit_comm', {'id': reco.id}) }}" class="btn btn-sm btn-outline-warning btnCommission" data-bs-whatever="EDIT-Ajout / Edition d'une commission">{% if reco.commission > 0 %}Modifier les gains{% else %}Déclarer les gains{% endif %}</a>
                 {% endif %}
                 <a id="btnEditReco" href="{{ path('op_gestapp_reco_edit', {'id': reco.id}) }}" class="btn btn-sm btn-outline-primary btnEditReco" data-bs-whatever="EDIT-Edition d'une recommandation">Modifier</a>
+                <a id="btnModalRecoDel" href="{{ path('op_gestapp_reco_del', {'id': reco.id}) }}" class="btnModalRecoDel" data-bs-whatever="DEL-Suppression d'une recommandation"><i class="fa-duotone fa-light fa-trash"></i></a>
             </td>
         </tr>
     {% else %}

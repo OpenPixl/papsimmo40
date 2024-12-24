@@ -947,4 +947,99 @@ class ReportController extends AbstractController
         return $response;
 
     }
+
+    // Génération du Fichiers CSV pour monbien
+    #[Route('/report/report_properties_csv4', name: 'app_gestapp_report_propertycsv4')]
+    public function PropertyCSV4(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+        PropertyService $propertyService,
+    ): Response
+    {
+        $partenaire = 'MB';
+        $properties = $propertyRepository->reportpropertycsv4($partenaire);            // On récupère les biens à publier sur SeLoger
+        //dd($properties);
+        $rows = array();
+        foreach ($properties as $property){
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $propertyService->getDestination($propriete);
+            // Description de l'annonce
+            $annonce = $propertyService->getAnnonce($propriete);
+            //dd($annonce);
+
+            $dates = $propertyService->getDates($property);
+
+            // Calcul des honoraires en %
+            //$honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
+            //dd($property['price'], $property['priceFai'], $honoraires);
+
+            // Récupération des images liées au bien
+            $url = $propertyService->getUrlPhotos($property);
+            $titrephoto = $propertyService->getTitrePhotos($property);
+
+            // Orientation
+            if($property['orientation'] = 'nord'){
+                $nord = 1;
+                $est = 0;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'est'){
+                $nord = 0;
+                $est = 1;
+                $sud = 0;
+                $ouest = 0;
+            }elseif($property['orientation'] = 'sud'){
+                $nord = 0;
+                $est = 0;
+                $sud = 1;
+                $ouest = 0;
+            }else{
+                $nord = 0;
+                $est = 0;
+                $sud = 0;
+                $ouest = 1;
+            }
+
+            // publication sur les réseaux
+            $publications = 'SI';
+            // version du document
+            $version = '4.11';
+
+            // Transformation terrace en booléen
+            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+
+            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+
+            // Equipements
+            $idcomplement = $property['idComplement'];
+            $equipments = $complementRepository->findBy(['id'=> $idcomplement]);
+            //dd($equipments);
+
+            // Récupération DPE & GES
+            $bilanDpe = $propertyService->getClasseDpe($propriete);
+            $bilanGes = $propertyService->getClasseGes($propriete);
+
+            // Création d'une ligne du tableau
+            $data = $propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $row = [];
+            for ($i = 0; $i < count($data); $i++) {
+                //dd($data[$i+1]);
+                array_push($row, $data[$i+1]);
+            }
+            $rows[] = implode('!#', $row);
+        }
+
+        $content = implode("\n", $rows);
+
+
+        //dd($rows);
+
+        $response = new Response($content);
+        $response->headers->set('Content-Type', 'text/csv');
+        //dd($response);
+
+        return $response;
+    }
 }

@@ -7,7 +7,7 @@ const btnStatusReco = document.getElementById('openReco');
 const btnSubmitReco = document.getElementById('btnModalSubmit');
 const btnCommission = document.getElementById('btnCommission');
 const btnModalPrescriber = document.getElementById('btnModalPrescriber');
-
+const btnModalRecoDel = document.getElementById('btnModalRecoDel');
 
 // Ajout d'une recommandation
 btnAddReco.addEventListener('click', showReco);
@@ -16,6 +16,9 @@ if(btnModalPrescriber !== null){
 }
 
 document.querySelectorAll('a.btnEditReco').forEach(function(link){
+    link.addEventListener('click', showReco);
+});
+document.querySelectorAll('a.btnModalRecoDel').forEach(function(link){
     link.addEventListener('click', showReco);
 });
 document.querySelectorAll('a.btnCommission').forEach(function(link){
@@ -55,62 +58,70 @@ function showReco(event) {
         document.getElementById('modalReco').querySelector('#btnModalSubmit').textContent = "Modifier la recommandation";
         document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
         document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', submitReco);
-    }
-    axios
-        .post(url)
-        .then(function(response){
-            document.getElementById('modalReco').querySelector('.modal-body').innerHTML = response.data.formView;
-            // -- visuel sur le nom de jeune fille de l'annonceur--
-            let valannounceCivility = document.querySelector('input[name=reco\\[announceCivility\\]]:checked').value;
-            const radioBtnsannounceCivility = document.querySelectorAll('input[name=reco\\[announceCivility\\]]');
-            // -- visuel sur le nom de jeune fille de l'annonceur--
-            let valcustomerCivility = document.querySelector('input[name=reco\\[customerCivility\\]]:checked').value;
-            const radioBtnscustomerCivility = document.querySelectorAll('input[name=reco\\[customerCivility\\]]');
-            const cardComm = document.getElementById('cardComm');
-            let selectRecoStatut = document.getElementById('reco_statutReco');
-            // -- Déclencheurs --
-            if(selectRecoStatut.value > 5){
-                cardComm.classList.remove('d-none');
-                cardComm.classList.add('animate__animated', 'animate__fadeIn');
-            }
-            selectRecoStatut.addEventListener('change', function(){
+        axios
+            .post(url)
+            .then(function(response){
+                document.getElementById('modalReco').querySelector('.modal-body').innerHTML = response.data.formView;
+                // -- visuel sur le nom de jeune fille de l'annonceur--
+                let valannounceCivility = document.querySelector('input[name=reco\\[announceCivility\\]]:checked').value;
+                const radioBtnsannounceCivility = document.querySelectorAll('input[name=reco\\[announceCivility\\]]');
+                // -- visuel sur le nom de jeune fille de l'annonceur--
+                let valcustomerCivility = document.querySelector('input[name=reco\\[customerCivility\\]]:checked').value;
+                const radioBtnscustomerCivility = document.querySelectorAll('input[name=reco\\[customerCivility\\]]');
+                const cardComm = document.getElementById('cardComm');
+                let selectRecoStatut = document.getElementById('reco_statutReco');
+                // -- Déclencheurs --
                 if(selectRecoStatut.value > 5){
-                    cardComm.classList.remove('animate__animated','animate__fadeOut', 'd-none');
+                    cardComm.classList.remove('d-none');
                     cardComm.classList.add('animate__animated', 'animate__fadeIn');
-                }else if(selectRecoStatut.value < 6){
-                    cardComm.classList.remove('animate__animated','animate__fadeIn');
-                    cardComm.classList.add('animate__animated','animate__fadeOut', 'd-none');
                 }
-            });
-            if (valannounceCivility > 1){
-                document.getElementById('reco_announceMaiden').classList.remove('d-none');
-            }
-            radioBtnsannounceCivility.forEach(function(radio) {
-                radio.addEventListener("change", function() {
-                    if (parseInt(this.value) === 2) {
-                        document.getElementById('reco_announceMaiden').classList.remove('d-none');
-                    } else if (parseInt(this.value) === 1){
-                        document.getElementById('reco_announceMaiden').classList.add('d-none');
+                selectRecoStatut.addEventListener('change', function(){
+                    if(selectRecoStatut.value > 5){
+                        cardComm.classList.remove('animate__animated','animate__fadeOut', 'd-none');
+                        cardComm.classList.add('animate__animated', 'animate__fadeIn');
+                    }else if(selectRecoStatut.value < 6){
+                        cardComm.classList.remove('animate__animated','animate__fadeIn');
+                        cardComm.classList.add('animate__animated','animate__fadeOut', 'd-none');
                     }
                 });
-            });
-            if (valcustomerCivility > 1){
-                document.getElementById('reco_customerMaiden').classList.remove('d-none');
-            }
-            radioBtnscustomerCivility.forEach(function(radio) {
-                radio.addEventListener("change", function() {
-                    if (parseInt(this.value) === 2) {
-                        document.getElementById('reco_customerMaiden').classList.remove('d-none');
-                    } else if (parseInt(this.value) === 1){
-                        document.getElementById('reco_customerMaiden').classList.add('d-none');
-                    }
+                if (valannounceCivility > 1){
+                    document.getElementById('reco_announceMaiden').classList.remove('d-none');
+                }
+                radioBtnsannounceCivility.forEach(function(radio) {
+                    radio.addEventListener("change", function() {
+                        if (parseInt(this.value) === 2) {
+                            document.getElementById('reco_announceMaiden').classList.remove('d-none');
+                        } else if (parseInt(this.value) === 1){
+                            document.getElementById('reco_announceMaiden').classList.add('d-none');
+                        }
+                    });
                 });
+                if (valcustomerCivility > 1){
+                    document.getElementById('reco_customerMaiden').classList.remove('d-none');
+                }
+                radioBtnscustomerCivility.forEach(function(radio) {
+                    radio.addEventListener("change", function() {
+                        if (parseInt(this.value) === 2) {
+                            document.getElementById('reco_customerMaiden').classList.remove('d-none');
+                        } else if (parseInt(this.value) === 1){
+                            document.getElementById('reco_customerMaiden').classList.add('d-none');
+                        }
+                    });
+                });
+            })
+            .catch(function(error){
+                console.log(error);
             });
-        })
-        .catch(function(error){
-            console.log(error);
-        });
-    document.getElementById('modalReco').querySelector('.modal-body').innerHTML = "";
+    }else if(crud === 'DEL'){
+        document.getElementById('modalReco').querySelector('.modal-dialog').classList.remove('modal-xl');
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').textContent = "Supprimer la recommandation";
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
+        document.getElementById('modalReco').querySelector('.modal-body').innerHTML = "Vous êtes sur le point de supprimmer la recommandation et ses éléments reliés.";
+
+        //document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', submitReco);
+    }
+
+
 }
 
 function showPrescriber(event){
@@ -222,6 +233,9 @@ function reloadEvent(){
     });
     document.querySelectorAll('a.btnCommission').forEach(function(link){
         link.addEventListener('click', showComm);
+    });
+    document.querySelectorAll('a.btnModalRecoDel').forEach(function(link){
+        link.addEventListener('click', showReco);
     });
 }
 

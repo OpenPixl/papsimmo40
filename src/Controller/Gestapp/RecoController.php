@@ -414,4 +414,16 @@ class RecoController extends AbstractController
 
         return $this->redirectToRoute('op_gestapp_reco_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/gestapp/reco/{id}/del', name: 'op_gestapp_reco_del', methods: ['POST'])]
+    public function del(Request $request, Reco $reco, EntityManagerInterface $entityManager): Response
+    {
+        if ($this->isCsrfTokenValid('delete'.$reco->getId(), $request->request->get('_token'))) {
+            $entityManager->remove($reco);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('op_gestapp_reco_index', [], Response::HTTP_SEE_OTHER);
+    }
+
 }
