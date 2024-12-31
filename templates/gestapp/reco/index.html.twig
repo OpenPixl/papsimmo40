@@ -34,8 +34,11 @@
             {% if is_granted('ROLE_PRESCRIBER') %}
                 <a id="btnModalPrescriber" class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_edit_ci', {'id': app.user.id}) }}">Modifier mes informations personnel et ma carte d'identité</a>
             {% endif %}
+            {% if is_granted('ROLE_EMPLOYED') %}
+            <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_index', {'refemployed': app.user.id}) }}">Liste de mes prescripteurs</a>
+            {% endif %}
             {% if is_granted('ROLE_SUPER_ADMIN') %}
-            <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_index', {'refemployed': app.user.id}) }}">Liste des prescripteurs</a>
+                <a class="btn btn-sm btn-outline-info" href="{{ path('op_admin_prescriber_all') }}">Liste des prescripteurs</a>
             {% endif %}
         </div>
     </div>

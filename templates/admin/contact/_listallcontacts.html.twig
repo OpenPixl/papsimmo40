@@ -29,7 +29,12 @@
                         <div class="modal-content">
                             <div class="modal-body">
                                 <div class="row mb-4">
-                                    <div class="col-6"><h5 >Message de : {{ contact.email }}</h5></div>
+                                    <div class="col-6">
+                                        <h5>Message de : {{ contact.email }}</h5>
+                                        {% if contact.forEmployed is not null %}
+                                        <h5>A l'attention de : {{ contact.forEmployed.firstName }} {{ contact.forEmployed.lastName }}</h5>
+                                        {% endif %}
+                                    </div>
                                     <div class="col-6"><h5 class="text-end">Envoyé le : {{ contact.createdAt|date('Y-m-d') }}</h5></div>
                                 </div>
                                 <div>

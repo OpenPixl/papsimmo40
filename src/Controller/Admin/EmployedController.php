@@ -57,7 +57,7 @@ class EmployedController extends AbstractController
         }
         //dd($listeEmployeds);
         return $this->render('admin/employed/index.html.twig', [
-            'employeds' => $employedRepository->findAll(),
+            'employeds' => $listeEmployeds
         ]);
     }
 

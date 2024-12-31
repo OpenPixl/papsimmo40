@@ -214,7 +214,6 @@ class PropertyRepository extends ServiceEntityRepository
                 pd.name as propertyDefinition,
                 b.name AS banner,
                 b.bannerFilename AS bannerFilename
-
             ')
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 1')

@@ -26,9 +26,10 @@ use Symfony\Component\Validator\Constraints\File;
 
 class PrescriberController extends AbstractController
 {
-    #[Route('/admin/prescriber/{refemployed}', name: 'op_admin_prescriber_index', methods: ['GET'])]
+    #[Route('/admin/prescriber/{refemployed}', name: 'op_admin_prescriber_index', requirements:['id' => '\d+'], methods: ['GET'])]
     public function index(EmployedRepository $employedRepository, $refemployed): Response
     {
+        $this->denyAccessUnlessGranted('ROLE_EMPLOYED');
         $employed = $employedRepository->find($refemployed);
         $prescribers = $employedRepository->listPrescriber('["ROLE_PRESCRIBER"]', $employed);
 
@@ -36,6 +37,19 @@ class PrescriberController extends AbstractController
             'prescribers' => $prescribers,
         ]);
     }
+
+    #[Route('/admin/prescribers/all', name: 'op_admin_prescriber_all', methods: ['GET'])]
+    public function all(EmployedRepository $employedRepository): Response
+    {
+        $this->denyAccessUnlessGranted('ROLE_EMPLOYED');
+
+        $prescribers = $employedRepository->listRole('["ROLE_PRESCRIBER"]');
+
+        return $this->render('admin/employed/prescriber.html.twig', [
+            'prescribers' => $prescribers,
+        ]);
+    }
+
 
     #[Route('/admin/prescriber/{id}/edit/ci', name: 'op_admin_prescriber_edit_ci', methods: ['GET', 'POST'])]
     public function addCi(

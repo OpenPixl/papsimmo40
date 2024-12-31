@@ -133,7 +133,7 @@ class ContactController extends AbstractController
             return $this->redirectToRoute('app_admin_contact_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/contact/edit.html.twig', [
+        return $this->render('admin/contact/edit.html.twig', [
             'contact' => $contact,
             'form' => $form,
         ]);
@@ -224,7 +224,7 @@ Cordialement");
             ], 200);
         }
 
-        return $this->renderForm('admin/contact/askpropertyinfo.html.twig', [
+        return $this->render('admin/contact/askpropertyinfo.html.twig', [
             'contact' => $contact,
             'form' => $form,
         ]);

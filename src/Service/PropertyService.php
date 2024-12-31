@@ -2,7 +2,13 @@
 
 namespace App\Service;
 
+use App\Entity\Gestapp\Complement;
+use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Property;
+use App\Entity\Gestapp\Publication;
+use App\Repository\Gestapp\choice\OtherOptionRepository;
+use App\Repository\Gestapp\choice\PropertyEnergyRepository;
+use App\Repository\Gestapp\choice\PropertyEquipementRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
@@ -17,6 +23,9 @@ class PropertyService
         public  EntityManagerInterface $em,
         public PropertyRepository $propertyRepository,
         public PhotoRepository $photoRepository,
+        public PropertyEquipementRepository $propertyEquipementRepository,
+        public PropertyEnergyRepository $propertyEnergyRepository,
+        public OtherOptionRepository $otherOptionRepository,
         protected RequestStack $request,
         protected UrlGeneratorInterface $urlGenerator
     )
@@ -504,6 +513,55 @@ class PropertyService
             }
             return $titrephoto;
         }
+    }
+
+    public function getNewComplement(){
+        $complement = new Complement();
+        $complement->setTerrace(0);
+        $complement->setWashroom(0);
+        $complement->setBathroom(0);
+        $complement->setWc(0);
+        $complement->setBalcony(0);
+        $complement->setPropertyTax(0);
+        $complement->setCoproprietyTaxe(0);
+        $complement->setLevel(0);
+        $complement->addEnergy($this->propertyEnergyRepository->findOneBy([], ['id'=>'ASC']));
+        $complement->addPropertyEquipment($this->propertyEquipementRepository->findOneBy([], ['id'=>'ASC']));
+        $complement->addPropertyOtheroption($this->otherOptionRepository->findOneBy([], ['id'=>'ASC']));
+        $this->em->persist($complement);
+
+        return $complement;
+    }
+
+    public function getPublication(){
+        $publication = new Publication();
+        $publication->setIsPublishleboncoin(0);
+        $publication->setIsPublishgreenacres(0);
+        $publication->setIsPublishfigaro(0);
+        $publication->setIsPublishMeilleur(0);
+        $publication->setIsPublishParven(0);
+        $publication->setIsPublishsuperimmo(0);
+        $publication->setIsPublishseloger(0);
+        $this->em->persist($publication);
+
+        return $publication;
+    }
+
+    public function addCustomer($reco){
+        $client = new Customer();
+        $client->setTypeClient('particulier');
+        $client->setCivility($reco->getCustomerCivility());
+        $client->setFirstName($reco->getCustomerFirstName());
+        $client->setLastName($reco->getCustomerLastName());
+        if($reco->getCustomerCivility() === 2){
+            $client->setMaidenName($reco->getCustomerLastName());
+        }
+        $client->setOtherEmail($reco->getCustomerEmail());
+        $client->setGsm($reco->getCustomerPhone());
+        $client->setRefEmployed($reco->getRefEmployed());
+        $this->em->persist($client);
+
+        return $client;
     }
 
     // Génération des lignes du tableau au format POLIRIS 4.11

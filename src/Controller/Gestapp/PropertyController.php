@@ -14,6 +14,7 @@ use App\Form\Gestapp\PropertyStep1Type;
 use App\Form\Gestapp\PropertyStep2Type;
 use App\Form\Gestapp\PropertyType;
 use App\Form\Gestapp\PublicationType;
+use App\Repository\Admin\ContactRepository;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\CadasterRepository;
 use App\Repository\Gestapp\choice\OtherOptionRepository;
@@ -213,12 +214,14 @@ class PropertyController extends AbstractController
         ComplementRepository $complementRepository,
         TransactionRepository $transactionRepository,
         ArchivePropertyService $archivePropertyService,
+        ContactRepository $contactRepository,
         PaginatorInterface $paginator,
         Request $request)
     {
         // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
         $properties = $propertyRepository->listAllPropertiesArchived();
         $countArchivedAtExpired = 0;
+
         foreach($properties as $p)
         {
             $now = new \DateTime('now');
@@ -227,7 +230,8 @@ class PropertyController extends AbstractController
             $archivedAtExpired = [];
             if($now >= $dateArchivedAt){
                 array_push($archivedAtExpired, $property->getId());
-                $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository, $transactionRepository);
+                //dd($archivedAtExpired);
+                $archivePropertyService->DelArchived($property, $photoRepository, $cadasterRepository, $publicationRepository, $complementRepository, $transactionRepository,  $contactRepository);
             }
             if(count($archivedAtExpired) > 0){
                 $countArchivedAtExpired = count($archivedAtExpired);
@@ -460,26 +464,16 @@ class PropertyController extends AbstractController
         $refMandat,
         $destination,
         EntityManagerInterface $em,
-        QrcodeService $qrcodeService
+        QrcodeService $qrcodeService,
+        PropertyService $propertyService
         )
     {
         // Récupération du collaborateur
         $user = $this->getUser();
         $employed = $employedRepository->find($user->getId());
+
         // préparation des complements au bien
-        $complement = new Complement();
-        $complement->setTerrace(0);
-        $complement->setWashroom(0);
-        $complement->setBathroom(0);
-        $complement->setWc(0);
-        $complement->setBalcony(0);
-        $complement->setPropertyTax(0);
-        $complement->setCoproprietyTaxe(0);
-        $complement->setLevel(0);
-        $complement->addEnergy($propertyEnergyRepository->findOneBy([], ['id'=>'ASC']));
-        $complement->addPropertyEquipment($propertyEquipementRepository->findOneBy([], ['id'=>'ASC']));
-        $complement->addPropertyOtheroption($otherOptionRepository->findOneBy([], ['id'=>'ASC']));
-        $complementRepository->add($complement);
+        $complement = $propertyService->getNewComplement();
 
         // création d'une fiche Publication
         $publication = new Publication();

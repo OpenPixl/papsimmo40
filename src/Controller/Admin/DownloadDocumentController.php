@@ -19,6 +19,7 @@ class DownloadDocumentController extends AbstractController
         $properties = $propertyRepository->findAll();
         $contents = [];
 
+        //dd($contents);
         foreach ($scans as $scan) {
             $refscan = explode('-', $scan['name']);
             $ref = $refscan[0].'/'.$refscan[1].'-'.$refscan[2];

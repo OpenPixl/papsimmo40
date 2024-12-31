@@ -117,11 +117,34 @@ function showReco(event) {
         document.getElementById('modalReco').querySelector('#btnModalSubmit').textContent = "Supprimer la recommandation";
         document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
         document.getElementById('modalReco').querySelector('.modal-body').innerHTML = "Vous êtes sur le point de supprimmer la recommandation et ses éléments reliés.";
-
-        //document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', submitReco);
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', delReco);
+    }else if(crud === 'ADD2'){
+        document.getElementById('modalReco').querySelector('.modal-dialog').classList.remove('modal-xl');
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').textContent = "Ajouter la recommandation";
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').href = url;
+        document.getElementById('modalReco').querySelector('.modal-body').innerHTML = "Vous êtes sur le point d'ajouter les informations de la recommandation (client et bien) dans le circuit de vente.";
+        document.getElementById('modalReco').querySelector('#btnModalSubmit').addEventListener('click', addProperty);
     }
+}
 
+function delReco(event){
+    event.preventDefault;
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            document.getElementById('liste').innerHTML = response.data.liste;
+            reloadEvent();
+            toasterMessage(response.data.message);
+        })
+        .catch(function (error){
+            console.log(error);
+        });
+}
 
+function addProperty(){
+    let url = this.href;
+    console.log(url);
 }
 
 function showPrescriber(event){
