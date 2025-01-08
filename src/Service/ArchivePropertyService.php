@@ -53,42 +53,44 @@ class ArchivePropertyService{
         ContactRepository $contactRepository
     )
     {
-        // Suppression des entités liées à la propriété
-        $publication = $property->getPublication();
-        $complement = $property->getOptions();
-        // 1.Supression des images liées à la propriété
-        $photos = $this->photoRepository->findBy(['property' => $property]);
-        //dd($photos);
-        if(count($photos) > 0){
-            foreach($photos as $photo){
-                $photoRepository->remove($photo);
+        $isFolderClosed = $property->isClosedFolder();
+        if($isFolderClosed === false){
+            // Suppression des entités liées à la propriété
+            $publication = $property->getPublication();
+            $complement = $property->getOptions();
+            // 1.Supression des images liées à la propriété
+            $photos = $this->photoRepository->findBy(['property' => $property]);
+
+            if(count($photos) > 0){
+                foreach($photos as $photo){
+                    $photoRepository->remove($photo);
+                }
             }
-        }
-        // 2.supression des zones de cadastres liées à la propriété
-        $cadasters = $this->cadasterRepository->findBy(['property' => $property]);
-        //dd('cadasters' , $cadasters);
-        if(count($cadasters) > 0){
-            foreach($cadasters as $cadaster){
-                $cadasterRepository->remove($cadaster);
+            // 2.supression des zones de cadastres liées à la propriété
+            $cadasters = $this->cadasterRepository->findBy(['property' => $property]);
+            if(count($cadasters) > 0){
+                foreach($cadasters as $cadaster){
+                    $cadasterRepository->remove($cadaster);
+                }
             }
-        }
-        $transactions = $this->transactionRepository->findBy(['property' => $property]);
-        //dd('transaction' , $transactions);
-        if(count($transactions) > 0){
-            foreach($transactions as $t){
-                $property->removeTransaction($t);
+            $transactions = $this->transactionRepository->findBy(['property' => $property]);
+            //dd('transaction' , $transactions);
+            if(count($transactions) > 0){
+                foreach($transactions as $t){
+                    $property->removeTransaction($t);
+                }
             }
-        }
-        $contacts = $this->contactRepository->findBy(['property' => $property]);
-        //dd('contacts' , $contacts);
-        if(count($contacts) > 0){
-            foreach($contacts as $c){
-                $this->contactRepository->remove($c);
+            $contacts = $this->contactRepository->findBy(['property' => $property]);
+            //dd('contacts' , $contacts);
+            if(count($contacts) > 0){
+                foreach($contacts as $c){
+                    $this->contactRepository->remove($c);
+                }
             }
+            // 3. Finalisation des suppression
+            $this->propertyRepository->remove($property);
+            $publicationRepository->remove($publication);
+            $complementRepository->remove($complement);
         }
-        // 3. Finalisation des suppression
-        $this->propertyRepository->remove($property);
-        $publicationRepository->remove($publication);
-        $complementRepository->remove($complement);
-        }
+    }
 }

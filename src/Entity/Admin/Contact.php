@@ -43,6 +43,12 @@ class Contact
     #[ORM\ManyToOne(inversedBy: 'contacts')]
     private ?Employed $forEmployed = null;
 
+    #[ORM\ManyToOne(inversedBy: 'fromEmployeds')]
+    private ?Employed $FromEmployed = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $fromApp = null;
+
     #[ORM\ManyToOne(inversedBy: 'contacts')]
     private ?Property $property = null;
 
@@ -156,6 +162,30 @@ class Contact
     public function setForEmployed(?Employed $forEmployed): self
     {
         $this->forEmployed = $forEmployed;
+
+        return $this;
+    }
+
+    public function getFromEmployed(): ?Employed
+    {
+        return $this->FromEmployed;
+    }
+
+    public function setFromEmployed(?Employed $FromEmployed): static
+    {
+        $this->FromEmployed = $FromEmployed;
+
+        return $this;
+    }
+
+    public function getFromApp(): ?string
+    {
+        return $this->fromApp;
+    }
+
+    public function setFromApp(?string $fromApp): static
+    {
+        $this->fromApp = $fromApp;
 
         return $this;
     }

@@ -168,6 +168,7 @@ class PropertyRepository extends ServiceEntityRepository
             ')
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 0')
+            ->andWhere('p.isClosedFolder = 0')
             ->addOrderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
@@ -217,6 +218,7 @@ class PropertyRepository extends ServiceEntityRepository
             ')
             ->where('p.isIncreating = 0')
             ->andWhere('p.isArchived = 1')
+            ->andWhere('p.isClosedFolder = 0')
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
@@ -355,6 +357,7 @@ class PropertyRepository extends ServiceEntityRepository
                 ')
             ->where('p.isIncreating = 0')
             ->where('p.isArchived = 0')
+            ->andWhere('p.isClosedFolder = 0')
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
             ->getResult()
@@ -405,6 +408,7 @@ class PropertyRepository extends ServiceEntityRepository
                 ')
             ->where('p.isIncreating = 0')
             ->where('p.isArchived = 0')
+            ->andWhere('p.isClosedFolder = 0')
             ->where('e.id = :employed')
             ->setParameter('employed', $user)
             ->orderBy('p.RefMandat', 'DESC')
@@ -496,6 +500,7 @@ class PropertyRepository extends ServiceEntityRepository
             ')
             ->where('e.id = :user')
             ->andWhere('p.isArchived = 0')
+            ->andWhere('p.isClosedFolder = 0')
             ->setParameter('user', $user)
             ->orderBy('p.RefMandat', 'DESC')
             ->getQuery()
@@ -619,6 +624,7 @@ class PropertyRepository extends ServiceEntityRepository
                 v.path as videoPath,
                 p.qrcode_url as qrcodeUrl,
                 f.name as family,
+                p.addLinkAuction as addLinkAuction,
                 p.eeaYear as anneeRefNRJ,
                 p.dupMandat as dupMandat,
                 p.isArchived as isArchived,

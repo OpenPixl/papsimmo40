@@ -22,8 +22,7 @@
                 const urlAskProperty = this.href
                 // Déclaration de la modal
                 let AskPropertyModal = document.getElementById('AskPropertyModal')
-
-
+                
                 ModalAskProperty.show()
                 console.log("prêt pour executer du code")
             }
@@ -194,6 +193,14 @@
                                     </div>
                                 </div>
                             </div>
+                            {% if property.addLinkAuction is not null %}
+                            <div class="card mt-1">
+                                <div class="card-body">
+                                    <p class="mb-1">Ce bien est proposé au système d'enchères immobilières au près de notre partenaire.</p>
+                                    <a class="btn btn-primary w-100" href="{{ property.addLinkAuction }}"> Accèder aux enchères</a>
+                                </div>
+                            </div>
+                            {% endif %}
                         </div>
                     </div>
                 </div>

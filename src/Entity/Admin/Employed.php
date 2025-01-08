@@ -382,6 +382,12 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?bool $agreeTerms = null;
 
+    /**
+     * @var Collection<int, Contact>
+     */
+    #[ORM\OneToMany(mappedBy: 'FromEmployed', targetEntity: Contact::class)]
+    private Collection $fromEmployeds;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -397,6 +403,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->addCollTransacs = new ArrayCollection();
         $this->accounts = new ArrayCollection();
         $this->recosPrescripteur = new ArrayCollection();
+        $this->fromEmployeds = new ArrayCollection();
     }
 
     // Permet d'initialiser le slug !
@@ -1274,6 +1281,36 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAgreeTerms(bool $agreeTerms): static
     {
         $this->agreeTerms = $agreeTerms;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Contact>
+     */
+    public function getFromEmployeds(): Collection
+    {
+        return $this->fromEmployeds;
+    }
+
+    public function addFromEmployed(Contact $fromEmployed): static
+    {
+        if (!$this->fromEmployeds->contains($fromEmployed)) {
+            $this->fromEmployeds->add($fromEmployed);
+            $fromEmployed->setFromEmployed($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFromEmployed(Contact $fromEmployed): static
+    {
+        if ($this->fromEmployeds->removeElement($fromEmployed)) {
+            // set the owning side to null (unless already changed)
+            if ($fromEmployed->getFromEmployed() === $this) {
+                $fromEmployed->setFromEmployed(null);
+            }
+        }
 
         return $this;
     }

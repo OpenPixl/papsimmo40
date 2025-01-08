@@ -21,10 +21,10 @@
             <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d') : '' }}</td>
             <td>
                 {# boutons d'actions #}
-                <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#showContactMessageAll">Voir</button>
+                <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#showContactMessageAll-{{ contact.id }}">Voir</button>
                 <a href="" class="btn btn-sm btn-outline-danger delContact" type="button" data-bs-toggle="modal" data-bs-target="#SupprAllContacts" data-bs-whatever="{{ contact.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
                 {# Modal de lecture du message #}
-                <div class="modal fade " id="showContactMessageAll" tabindex="-1" aria-labelledby="showContactMessage" aria-hidden="true">
+                <div class="modal fade " id="showContactMessageAll-{{ contact.id }}" tabindex="-1" aria-labelledby="showContactMessage" aria-hidden="true">
                     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-body">
@@ -47,7 +47,7 @@
                                 <button type="button" class="btn btn-sm btn-outline-dark">Répondre au client</button>
                                 <button type="button" class="btn btn-sm btn-outline-dark">Transférer à collaborateur</button>
                                 <button type="button" class="btn btn-sm btn-outline-danger">Supprimer</button>&nbsp;|&nbsp;
-                                <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal">Fermer</button>
+                                <button type="button" class="btn btn-sm btn-outline-dark" data-bs-dismiss="modal" data-bs-whatever="{{ contact.id }}">Fermer</button>
                             </div>
                         </div>
                     </div>

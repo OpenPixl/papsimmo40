@@ -94,6 +94,10 @@ class PropertyStep1Type extends AbstractType
                 'label' => 'Avec exclusivité',
                 'required' => false,
             ])
+            ->add('addLinkAuction', TextType::class, [
+                'label' => 'Ajouter le lien généré par le partenaire d\'enchère',
+                'required' => false,
+            ])
 
             // ->add('projet', ChoiceType::class, [
             //    'label' => 'Destination',

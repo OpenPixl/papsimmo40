@@ -25,30 +25,42 @@ class DashboardController extends AbstractController
         $year = date("Y");
 
         $properties = $propertyRepository->StatsGraph($year);
+        $properties_old = $propertyRepository->StatsGraph($year-1);
 
         $months = [];
         for ($i = 1; $i <= 12; $i++) {
             $month = isset($properties[$i-1]['month']);
 
-            if($month == true){
-                array_push($months, ['month' => $i, 'c_properties' => $properties[$i-1]['c_properties']] );
-            }else{
-                array_push($months, ['month' => $i, 'c_properties' => 0] );
-            }
+            $c_properties = isset($properties[$i-1]['c_properties']) ? $properties[$i-1]['c_properties'] : 0;
+            $c_properties_old = isset($properties_old[$i-1]['c_properties']) ? $properties_old[$i-1]['c_properties'] : 0;
+            //dd($c_properties);
+
+            array_push($months, [
+                'month' => $i,
+                'c_properties' => $c_properties,
+                'c_properties_old' => $c_properties_old
+            ]);
         }
 
         $months_label = array_column($months, 'month');
         $months_cproperties = array_column($months, 'c_properties');
-        //dd($months_cproperties);
+        $months_cpropertiesold = array_column($months, 'c_properties_old');
+        //dd($months);
 
         $chart->setData([
             'labels' => $months_label,
             'datasets' => [
                 [
-                    'label' => 'Nombre de biens enregistrés sur l\'année '. $year,
-                    'backgroundColor' => 'rgb(42, 86, 95)',
-                    'borderColor' => 'rgb(rgb(42, 86, 95)',
+                    'label' => 'Nombre de biens enregistrés en '. $year,
+                    'backgroundColor' => 'rgb(40, 116, 166)',
+                    'borderColor' => 'rgb(rgb(27, 79, 114)',
                     'data' => $months_cproperties,
+                ],
+                [
+                    'label' => 'Nombre de biens enregistrés en '. $year-1,
+                    'backgroundColor' => 'rgb(52, 152, 219)',
+                    'borderColor' => 'rgb(rgb(40, 116, 166)',
+                    'data' => $months_cpropertiesold,
                 ],
             ],
         ]);

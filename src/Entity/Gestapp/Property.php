@@ -367,6 +367,9 @@ class Property
     #[ORM\OneToOne(inversedBy: 'property', cascade: ['persist', 'remove'])]
     private ?Video $video = null;
 
+    #[ORM\Column(length: 150, nullable: true)]
+    private ?string $addLinkAuction = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1544,6 +1547,18 @@ class Property
     public function setVideo(?Video $video): static
     {
         $this->video = $video;
+
+        return $this;
+    }
+
+    public function getAddLinkAuction(): ?string
+    {
+        return $this->addLinkAuction;
+    }
+
+    public function setAddLinkAuction(?string $addLinkAuction): static
+    {
+        $this->addLinkAuction = $addLinkAuction;
 
         return $this;
     }
