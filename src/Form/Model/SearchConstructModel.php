@@ -2,13 +2,16 @@
 
 namespace App\Form\Model;
 
-class SearchPropertyModel
+class SearchConstructModel
 {
     public function __construct(
         public ?int $refmandat = null,
+        public ?string $name = null,
         public ?string $zipcode = null,
-        public ?int $minPrice = null,
-        public ?int $maxPrice = null
+        public ?string $city = null,
+        public ?bool $isNomandat = null
     )
-    {}
+    {
+
+    }
 }

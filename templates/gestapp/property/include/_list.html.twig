@@ -1,0 +1,111 @@
+<div class="row mt-1 justify-content-between mb-1 animate__animated animate__fadeIn">
+    <div class="col-3">
+        <p><b>Nombre de biens filtré : </b>{{ properties.totalItemCount }}</p>
+    </div>
+    <div class="col-6"></div>
+    <div class="col-3 d-flex justify-content-end" id="blockPagination">
+        {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
+    </div>
+</div>
+<div class="row animate__animated animate__fadeIn">
+    <div class="col-12">
+        <table class="table table-sm">
+            <thead>
+            <tr>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
+                    <th>Ref</th>
+                    <th>Collaborateur</th>
+                {% else %}
+                    <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
+                    <th>Ref</th>
+                {% endif %}
+                <th>Mandat</th>
+                <th>Type de bien</th>
+                <th>Prix</th>
+                <th>Titre annonce</th>
+                <th>Piece</th>
+                <th>chambre</th>
+                <th>Adresse</th>
+                <th>Modifié le</th>
+                <th>actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% set user = app.user.id %}
+            {% for property in properties %}
+                {% set projet = '' %}
+                {% if property.projet == 'IP' %}{% set projet = 'Immobilier Professionnel' %}
+                {% elseif  property.projet == 'LH' %}{% set projet = 'Location immobiler' %}
+                {% elseif  property.projet == 'RC' %}{% set projet = 'Vente commerce,reprise' %}
+                {% elseif  property.projet == 'RC' %}{% set projet = 'Commerce' %}
+                {% elseif  property.projet == 'VH' %}{% set projet = 'Vente immobilier' %}
+                {% endif %}
+                <tr class="align-middle">
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <td>
+                            <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
+                        </td>
+                        <td>
+                            {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
+                        </td>
+                        <td>
+                            {% if property.refEmployed.avatarName is not null %}
+                                <img class="rounded-circle" src="{{ asset('images/avatar/' ~ property.refEmployed.avatarName) }}" alt="{{ property.refEmployed.avatarName }}" style="height:50px;width:50px">
+                            {% else %}
+                                <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+                            {% endif %}
+                            {{ property.refEmployed.firstName }} {{ property.refEmployed.lastName }}
+                        </td>
+
+                    {% else %}
+                        <td>
+                            <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
+                        </td>
+                        <td>
+                            {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
+                        </td>
+                    {% endif %}
+
+                    {# boucle si la propriété est indexé avec un mandat #}
+                    {% if property.isNomandat == 0 %}
+                        {% if property.dupMandat is not empty %}
+                            <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
+                        {% else %}
+                            <td><b>{{ property.refMandat }}{{ property.dupMandat }}</b><br>{{ property.ref }}</td>
+                        {% endif %}
+                    {% else %}
+                        <td><span class="badge bg-secondary">Sans mandat</span></td>
+                    {% endif %}
+
+                    <td>
+                        <span class="badge bg-secondary mb-0">{{ property.family.code }}</span> <span class="badge bg-primary mb-0">{{ property.rubric.name }}</span>
+                    </td>
+                    <td>{{ property.priceFai }}€</td>
+                    <td>
+                        {{ property.name|u.truncate(60, ' ...') }}
+                        {% if property.dateEndmandat is not null %}
+                            <br><span class="text-danger"><i class="fa-duotone fa-triangle-exclamation"></i> Expiration du mandat le : {{ property.dateEndmandat ? property.dateEndmandat|format_datetime('medium', 'none', locale='fr') : '' }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ property.piece }}</td>
+                    <td>{{ property.room }}</td>
+                    {% if property.adress =="" %}
+                        <td>à complèter</td>
+                    {% else %}
+                        <td>{{ property.adress }}{% if property.complement is empty %}{% else %}<br>{{ property.complement }}{% endif %}<br>{{ property.zipcode }} {{ property.city }}</td>
+                    {% endif %}
+                    <td>{{ property.updatedAt ? property.updatedAt|format_datetime('medium', 'none', locale='fr') : '' }}</td>
+                    <td>
+                        {% include('gestapp/property/include/_btnchoice.html.twig') %}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="30">Aucun collaborateur ou vous même avez enregistré de biens immobiliers pour l'instant.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>

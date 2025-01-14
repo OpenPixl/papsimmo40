@@ -12,22 +12,26 @@ use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class SearchPropertyType extends AbstractType
+class SearchConstructType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('name', SearchType::class, [
+                'required' => false
+            ])
             ->add('refmandat', SearchType::class, [
-                'required' => false,
+                'required' => false
             ])
             ->add('zipcode', SearchType::class, [
-                'required' => false,
+                'required' => false
             ])
-            ->add('minPrice', SearchType::class, [
-                'required' => false,
+            ->add('city', SearchType::class, [
+                'required' => false
             ])
-            ->add('maxPrice', SearchType::class, [
+            ->add('isNomandat', CheckboxType::class, [
                 'required' => false,
+                'empty_data' => false,
             ])
         ;
     }
@@ -37,7 +41,12 @@ class SearchPropertyType extends AbstractType
         $resolver->setDefaults([
             'allow_extra_fields' => true,
             'data_class' => SearchPropertyModel::class,
-            'csrf_protection' => true
+            'csrf_protection' => false
         ]);
+    }
+
+    public function getBlockPrefix()
+    {
+        return '';
     }
 }

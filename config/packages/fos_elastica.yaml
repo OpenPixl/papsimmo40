@@ -9,9 +9,23 @@ fos_elastica:
                 model: App\Entity\Gestapp\Property
                 provider: ~
                 finder: ~
-            properties :
-                name: ~
+            properties:
+                name:
+                    type: text
+                city:
+                    type: text
+                zipcode:
+                    type: text
+                refmandat:
+                    type: integer
+                isNomandat:
+                    type: boolean
+                isArchived:
+                    type: boolean
+                price:
+                    type: integer
                 refEmployed:
                     type: object
                     properties:
-                        id:~
+                        id: ~
+

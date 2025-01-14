@@ -4,6 +4,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="module" src="{{ asset('js/gestapp/property/index/stepone.js') }}"></script>
     <script type="module" src="{{ asset('js/gestapp/property/index/onload.js') }}"></script>
     <script type="module" src="{{ asset('js/gestapp/property/index/endMandat.js') }}"></script>
     <script type="module" src="{{ asset('js/gestapp/property/index/closedProperty.js') }}"></script>
@@ -419,6 +420,9 @@
                 <p class="alert alert-success">Prenez note que {{ expireAtOut }} biens dont le mandat a expiré, ont été automatiquement archivés.</p>
             {% endif %}
         {% endif %}
+    </div>
+    <div class="col-sm-12">
+        {{ render(controller('App\\Controller\\Admin\\SearchController::propertyAdmin')) }}
     </div>
     <div id="list" class="col-sm-12">
         {% include('gestapp/property/_list.html.twig') %}

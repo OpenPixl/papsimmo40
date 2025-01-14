@@ -1,0 +1,23 @@
+<div class="row">
+    <div class="col-12">
+        <h3>Search Property</h3>
+        {{ form_start(form) }}
+        {{ form_row(form) }}
+        <button type="submit">Rechercher</button>
+        {{ form_end(form) }}
+    </div>
+</div>
+<div class="row">
+    <div class="col-12">
+        {% if properties is not empty %}
+            <h3>Nombre de résultats : {{ properties.totalItemCount }}</h3>
+            <hr>
+            <ul class="list-group my-4">
+
+                {% for item in properties %}
+                    <li class="list-group-item list-group-item-action">{{ item.name }} | {{ item.zipcode }} {{ item.city }} | {{ item.refEmployed.firstName }} {{ item.refEmployed.lastName }}{{ item.refEmployed.avatarName }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+</div>
