@@ -96,8 +96,11 @@ class CustomerRepository extends ServiceEntityRepository
                 c.complement AS complement,
                 c.adress AS adress,
                 c.RefCustomer AS RefCustomer,
+                c.maidenName AS maidenName,
+                c.civility AS civility,
                 c.firstName AS firstName,
                 c.lastName AS lastName,
+                c.typeClient as typeClient,
                 c.id
                 '
             )

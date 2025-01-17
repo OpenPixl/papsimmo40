@@ -30,14 +30,29 @@ class CustomerController extends AbstractController
     #[Route('/', name: 'op_gestapp_customer_index', methods: ['GET'])]
     public function index(CustomerRepository $customerRepository,PaginatorInterface $paginator, Request  $request): Response
     {
-        // on liste tous les clients quelques soit les utilisateurs
-        $data = $customerRepository->findAllCustomer();
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
 
-        $customers = $paginator->paginate(
-            $data,
-            $request->query->getInt('page', 1),
-            10
-        );
+        if($hasAccess == true){
+            // on liste tous les clients quelques soit les utilisateurs
+            $data = $customerRepository->findAllCustomer();
+
+            $customers = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+        }else{
+            // on liste tous les clients quelques soit les utilisateurs
+            $data = $customerRepository->findAllCustomerByEmployed($user);
+
+            $customers = $paginator->paginate(
+                $data,
+                $request->query->getInt('page', 1),
+                10
+            );
+        }
+
         return $this->render('gestapp/customer/index.html.twig', [
             'customers' => $customers,
         ]);
