@@ -89,6 +89,9 @@ function removeOptions(selectElement) {
 let commune2 = document.getElementById('customer2_city');
 let zipcode2 = document.getElementById('customer2_zipcode');
 let SelectCity2 = document.getElementById('selectcity2');
+let addresseInput = document.getElementById('customer2_adress');
+let cp = '';
+let ville = '';
 if(zipcode2 !== null) {
     zipcode2.addEventListener('input', zipcodeGen);
     SelectCity2.addEventListener('change', function (event){
@@ -107,18 +110,19 @@ function zipcodeGen(event){
                 let features = response.data;
                 removeOptions(SelectCity2);
                 features.forEach((element) => {
-                    let name = element.codePostal + " - " + element.nomCommune;
-                    let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
+                    cp = element['codePostal'];
+                    ville = element['nomCommune'];
+                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
                     SelectCity2.options.add(OptSelectCity);
                 });
                 if (SelectCity2.options.length === 1) {
                     let value = SelectCity2.value.split(' ');
-                    zipcode2.value = value[0];
-                    commune2.value = value[2].toUpperCase();
+                    zipcode2.value = cp;
+                    commune2.value = ville.toUpperCase();
                 } else {
-                    let value = SelectCity2.value.split(' ');
-                    zipcode2.value = value[0];
-                    commune2.value = value[2].toUpperCase();
+                    let value = SelectCity.value.split(' ');
+                    zipcode2.value = cp;
+                    commune2.value = ville.toUpperCase();
                 }
             });
     }
@@ -217,6 +221,8 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
                 let SelectCity2 = document.getElementById('selectcity');
+                let cp = '';
+                let ville = '';
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -226,26 +232,26 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                                 let features = response.data;
                                 removeOptions(SelectCity2);
                                 features.forEach((element) => {
-                                    let name = element.codePostal + " - " + element.nomCommune;
-                                    let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
+                                    cp = element['codePostal'];
+                                    ville = element['nomCommune'];
+                                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
                                     SelectCity2.options.add(OptSelectCity);
                                 });
                                 if (SelectCity2.options.length === 1) {
-                                    let value = SelectCity2.value.split(' ');
-                                    zipcode2.value = value[0];
-                                    commune2.value = value[2].toUpperCase();
+                                    let value = SelectCity.value.split(' ');
+                                    zipcode.value = cp;
+                                    commune.value = ville.toUpperCase();
                                 } else {
-                                    let value = SelectCity2.value.split(' ');
-                                    zipcode2.value = value[0];
-                                    commune2.value = value[2].toUpperCase();
+                                    let value = SelectCity.value.split(' ');
+                                    zipcode.value = cp;
+                                    commune.value = ville.toUpperCase();
                                 }
                             });
                     }
                 });
                 SelectCity2.addEventListener('change', function (event){
-                    let value = this.value.split(' ');
-                    zipcode2.value = value[0];
-                    commune2.value = value[2].toUpperCase();
+                    zipcode2.value = cp;
+                    commune2.value = SelectCity2.value.toUpperCase();
                 });
             })
             .catch(function(error){
@@ -296,6 +302,8 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 let commune2 = document.getElementById('customer2_city');
                 let zipcode2 = document.getElementById('customer2_zipcode');
                 let SelectCity2 = document.getElementById('selectcity');
+                let cp = '';
+                let ville = '';
                 zipcode2.addEventListener('input', function (event) {
                     if (zipcode2.value.length === 5) {
                         let coord = this.value;
@@ -305,26 +313,26 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                                 let features = response.data;
                                 removeOptions(SelectCity2);
                                 features.forEach((element) => {
-                                    let name = element.codePostal + " - " + element.nomCommune;
-                                    let OptSelectCity = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
+                                    cp = element['codePostal'];
+                                    ville = element['nomCommune'];
+                                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
                                     SelectCity2.options.add(OptSelectCity);
                                 });
                                 if (SelectCity2.options.length === 1) {
                                     let value = SelectCity2.value.split(' ');
-                                    zipcode2.value = value[0];
-                                    commune2.value = value[2].toUpperCase();
+                                    zipcode2.value = cp;
+                                    commune2.value = ville.toUpperCase();
                                 } else {
                                     let value = SelectCity2.value.split(' ');
-                                    zipcode2.value = value[0];
-                                    commune2.value = value[2].toUpperCase();
+                                    zipcode2.value = cp;
+                                    commune2.value = ville.toUpperCase();
                                 }
                             });
                     }
                 });
                 SelectCity2.addEventListener('change', function (event){
-                    let value = this.value.split(' ');
-                    zipcode2.value = value[0];
-                    commune2.value = value[2].toUpperCase();
+                    zipcode2.value = cp;
+                    commune2.value = SelectCity2.value.toUpperCase();
                 });
             });
     }
