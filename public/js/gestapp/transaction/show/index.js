@@ -425,7 +425,6 @@ function submitCustomer(event){
     axios
         .post(action, data)
         .then(function(response){
-            console.log(response.data);
             if(response.data.type === 1){
                 document.getElementById('blockSailers').innerHTML = response.data.liste;
                 document.getElementById('transactionstep2_dateAtPromise').classList.remove('d-none');

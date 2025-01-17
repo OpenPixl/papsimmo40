@@ -2026,6 +2026,53 @@ class TransactionController extends AbstractController
             $customer->setCustomerChoice($customerChoice);
             $customer->addTransaction($transac);
 
+            // Ajouter le code d'insertion du fichier PDF
+            // partie ajout CI
+            $ci = $form->get('cifilename')->getData();
+            $ciFilename = $customer->getCifilename();
+            if($ci) {
+                if ($ciFilename) {
+                    $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                try {
+                    $ci->move(
+                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $customer->setCifilename($newFilename);
+            }
+
+            // partie Ajout Kbis
+            $kbis = $form->get('kbisfilename')->getData();
+            $kbisFilename = $customer->getKbisfilename();
+            if($kbis) {
+                if ($kbisFilename) {
+                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
+                try {
+                    $kbis->move(
+                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $customer->setKbisfilename($newFilename);
+            }
+
             // Ajout en BDD du nouveau client
             $customerRepository->add($customer);
 
@@ -2086,6 +2133,54 @@ class TransactionController extends AbstractController
         if($type == 1) {
             $property = $propertyRepository->find($option);
             if ($form->isSubmitted() && $form->isValid()) {
+
+                // Ajouter le code d'insertion du fichier PDF
+                // partie ajout CI
+                $ci = $form->get('cifilename')->getData();
+                $ciFilename = $customer->getCifilename();
+                if($ci) {
+                    if ($ciFilename) {
+                        $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                    try {
+                        $ci->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setCifilename($newFilename);
+                }
+
+                // partie Ajout Kbis
+                $kbis = $form->get('kbisfilename')->getData();
+                $kbisFilename = $customer->getKbisfilename();
+                if($kbis) {
+                    if ($kbisFilename) {
+                        $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
+                    try {
+                        $kbis->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setKbisfilename($newFilename);
+                }
+
                 $customerRepository->add($customer);
                 return $this->json([
                     'code'=> 200,
@@ -2113,6 +2208,54 @@ class TransactionController extends AbstractController
             ],200);
         }else{
             if ($form->isSubmitted() && $form->isValid()) {
+
+                // Ajouter le code d'insertion du fichier PDF
+                // partie ajout CI
+                $ci = $form->get('cifilename')->getData();
+                $ciFilename = $customer->getCifilename();
+                if($ci) {
+                    if ($ciFilename) {
+                        $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                    try {
+                        $ci->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setCifilename($newFilename);
+                }
+
+                // partie Ajout Kbis
+                $kbis = $form->get('kbisfilename')->getData();
+                $kbisFilename = $customer->getKbisfilename();
+                if($kbis) {
+                    if ($kbisFilename) {
+                        $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
+                    try {
+                        $kbis->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setKbisfilename($newFilename);
+                }
+
                 $customerRepository->add($customer);
                 return $this->json([
                     'code'=> 200,

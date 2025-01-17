@@ -129,7 +129,7 @@
             </div>
             {% if customer.cifilename is not empty %}
                 <div class="col-12 mt-1">
-                    <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/ci/'~customer.cifilename) }}" download>Télécharger la pièce d'identité</a>
+                    <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/'~customer.lastName~'_'~customer.firstName~'/'~customer.cifilename) }}" download>Télécharger la pièce d'identité</a>
                 </div>
             {% endif %}
         </div>
@@ -142,7 +142,7 @@
             </div>
             {% if customer.kbisfilename is not empty %}
                 <div class="col-12">
-                    <a href="{{ asset('customer/ci/' ~ customer.kbisfilename) }}" download>sdfsdfsdfds</a>
+                    <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/'~customer.lastName~'_'~customer.firstName~'/'~customer.kbisfilename) }}" download>Télécharger la pièce d'identité</a>
                 </div>
             {% endif %}
         </div>
