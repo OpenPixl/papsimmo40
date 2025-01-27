@@ -18,14 +18,21 @@ class DashboardController extends AbstractController
     #[Route('/opadmin/dashboard', name: 'op_admin_dashboard_index')]
     public function index(Request $request, SessionService $sessionService, ChartBuilderInterface $chartBuilder, PropertyRepository $propertyRepository): Response
     {
-        $this->denyAccessUnlessGranted('ROLE_EMPLOYED');
+        $user = $this->getUser();
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
 
+        $this->denyAccessUnlessGranted('ROLE_EMPLOYED');
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);
 
         $year = date("Y");
 
-        $properties = $propertyRepository->StatsGraph($year);
-        $properties_old = $propertyRepository->StatsGraph($year-1);
+        if($hasAccess == 'true'){
+            $properties = $propertyRepository->StatsGraph($year);
+            $properties_old = $propertyRepository->StatsGraph($year-1);
+        }else{
+            $properties = $propertyRepository->StatsGraphUser($year,$user);
+            $properties_old = $propertyRepository->StatsGraphUser($year-1, $user);
+        }
 
         $months = [];
         for ($i = 1; $i <= 12; $i++) {

@@ -21,10 +21,10 @@
             <td>{{ contact.createdAt ? contact.createdAt|date('Y-m-d') : '' }}</td>
             <td>
                 {# boutons d'actions #}
-                <button class="btn btn-sm btn-outline-info" data-bs-toggle="modal" data-bs-target="#showContactMessageAll-{{ contact.id }}">Voir</button>
-                <a href="" class="btn btn-sm btn-outline-danger delContact" type="button" data-bs-toggle="modal" data-bs-target="#SupprAllContacts" data-bs-whatever="{{ contact.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
+                <button class="btn btn-sm btn-outline-info openModal" data-bs-toggle="modal" data-bs-target="#showContactMessageAll-{{ contact.id }}">Voir</button>
+                <a href="" class="btn btn-sm btn-outline-danger openModal" type="button" data-bs-whatever="DEL-Suppression du message-{{ contact.id }}"><i class="fa-duotone fa-trash-can"></i> Supprimer</a>
                 {# Modal de lecture du message #}
-                <div class="modal fade " id="showContactMessageAll-{{ contact.id }}" tabindex="-1" aria-labelledby="showContactMessage" aria-hidden="true">
+                <div class="modal fade" id="showContactMessageAll-{{ contact.id }}" tabindex="-1" aria-labelledby="showContactMessage" aria-hidden="true">
                     <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
                         <div class="modal-content">
                             <div class="modal-body">

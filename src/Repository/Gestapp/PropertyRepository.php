@@ -68,6 +68,29 @@ class PropertyRepository extends ServiceEntityRepository
     }
 
     // ----------------------------------------------
+    // Requête : statistiques pour Graph Dashboard
+    // ----------------------------------------------
+    public function StatsGraphUser($year, $user)
+    {
+        return $this->createQueryBuilder('p')
+            ->leftjoin('p.refEmployed', 'e')
+            ->leftjoin('p.publication', 'pu')
+            ->select('COUNT(p.createdAt) as c_properties, SUBSTRING(p.createdAt, 1, 4) as year, SUBSTRING(p.createdAt, 6, 2) as month, CONCAT(SUBSTRING(p.createdAt, 6, 2), SUBSTRING(p.createdAt, 1, 4)) as concat, p.isArchived, pu.isWebpublish, e.id as employed')
+            ->GroupBy('year')
+            ->GroupBy('month')
+            ->orderBy('year', 'DESC')
+            ->andWhere('p.isArchived = 0')
+            ->andWhere('SUBSTRING(p.createdAt, 1, 4) = :year')
+            ->andWhere('pu.isWebpublish = 1')
+            ->andWhere('p.refEmployed = :user')
+            ->setParameter('year', $year)
+            ->setParameter('user', $user)
+            ->getQuery()
+            ->getResult()
+            ;
+    }
+
+    // ----------------------------------------------
     // Requête : liste les derniers biens entrés - partie accueil
     // ----------------------------------------------
     public function fivelastproperties()
