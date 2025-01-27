@@ -82,7 +82,7 @@ class PropertyController extends AbstractController
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
-                100
+                20
             );
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $properties,
@@ -96,7 +96,7 @@ class PropertyController extends AbstractController
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
-                100
+                20
             );
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $properties,

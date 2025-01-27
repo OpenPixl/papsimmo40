@@ -156,11 +156,10 @@
         <div class="col-sm-3">
             <div class="row mb-1">
                 <div class="col-12">
-                    <div class="card text-dark bg-light">
+                    <div class="card text-dark bg-light mb-1">
                         <div class="card-body">
-                            DESTINATION DU BIEN
-                            <hr>
-                            <p>Compléter ces informations pour garantir la publication du bien sur les plateformes de diffusion.</p>
+                            <p><b>DESTINATION DU BIEN</b></p>
+                            <p class="mb-2">Compléter ces informations pour garantir la publication du bien sur les plateformes de diffusion.</p>
                             <table class="table table-sm table-borderless">
 
                                 <tr id="RowFamily" class="align-middle">
@@ -179,12 +178,15 @@
                                     <td></td>
                                 </tr>
                             </table>
-                            <hr>
-                            Si bien en mode enchère <br>
-                            <div class="row mb-3">
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-body">
+                            <p><b>MISE EN ENCHERE</b></p>
+                            <div class="row">
                                 {{ form_label(form.addLinkAuction) }}
-                                <div class="col-sm-10">
-                                    {{ form_widget(form.addLinkAuction, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                <div class="col-sm-12">
+                                    {{ form_widget(form.addLinkAuction, {'attr': {'class': 'form-control form-control-sm w-100', 'placeholder':'https://example.com'}}) }}
                                 </div>
                             </div>
                         </div>
