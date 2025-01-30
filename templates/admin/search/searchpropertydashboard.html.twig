@@ -1,0 +1,31 @@
+<div class="border bg-light rounded p-3 mb-2">
+    {{ form_start(form) }}
+    <div class="row d-flex align-items-center g-1">
+        <div class="col-12 border-bottom mb-1">
+            <p class="text-uppercase"><b><i class="fa-duotone fa-solid fa-magnifying-glass"></i> Rechercher un bien :</b></p>
+        </div>
+        <div class="col-2">
+            <p class="m-0">Le budget : </p>
+        </div>
+        <div class="col-3">
+            {{ form_widget(form.minPrice, {'attr': {'class':'form-control form-control-sm w-100', 'placeholder':'prix min'}}) }}
+        </div>
+        <div class="col-3">
+            {{ form_widget(form.maxPrice, {'attr': {'class':'form-control form-control-sm w-100', 'placeholder':'prix max'}}) }}
+        </div>
+        <div class="col-4"></div>
+        <div class="col-2">
+            <p class="m-0">Où :</p>
+        </div>
+        <div class="col-3">
+            {{ form_widget(form.zipcode, {'attr': {'class':'form-control form-control-sm w-100', 'placeholder':'Code postal'}}) }}
+        </div>
+    </div>
+    {{ form_end(form) }}
+    <div class="row d-flex align-items-center mt-1 g-1">
+        <div class="col-12 d-flex justify-content-end">
+            <button id="submitFormSearch" type="submit" class="btn btn-sm btn-primary submitFormSearch w-100">Lancer la recherche du bien</button>
+        </div>
+    </div>
+</div>
+

@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Form\Gestapp\SearchConstructType;
+use App\Form\Gestapp\SearchPropertyDashboardType;
 use App\Form\Gestapp\SearchPropertyType;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
@@ -172,6 +173,68 @@ class SearchController extends AbstractController
         }
 
         return $this->render('admin/search/searchproperty.html.twig', [
+            'form' => $form,
+        ]);
+    }
+
+    #[Route('/admin/search/propertydashboard/', name: 'app_admin_search_propertydashboard', methods: ['POST', 'GET'])]
+    public function propertyDashboard(Request $request): Response
+    {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+        $form = $this->createForm(SearchPropertyDashboardType::class, null, [
+            'action' => $this->generateUrl('app_admin_search_propertydashboard'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'SearchFormProperty'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $data = $form->getData();
+            $minPrice = $data->minPrice;
+            $maxPrice = $data->maxPrice;
+            $page = $request->query->getInt('page', 1);
+
+            $boolQuery = new BoolQuery();
+
+            if ($minPrice !== null || $maxPrice !== null) {
+                $rangeFilter = [];
+                if ($minPrice !== null) {
+                    $rangeFilter['gte'] = (float) $minPrice; // 'gte' = greater than or equal
+                }
+                if ($maxPrice !== null) {
+                    $rangeFilter['lte'] = (float) $maxPrice; // 'lte' = less than or equal
+                }
+                //dd($rangeFilter);
+                $boolQuery->addFilter(new Range('price', $rangeFilter));
+            }
+
+            if (!empty($data->zipcode)){
+                $termQuery = new \Elastica\Query\Term();
+                $termQuery->setTerm('zipcode', $data->zipcode);
+                $boolQuery->addMust($termQuery);
+            }
+
+            $query = new Query($boolQuery);
+            $query->setSort([
+                'refmandat' => ['order' => 'desc'],
+            ]);
+
+            $results = $this->finder->createPaginatorAdapter($query);
+            $properties = $this->paginator->paginate($results, $page);
+
+            return $this->json([
+                'list' => $this->renderView('gestapp/property/include/_list-dashboard.html.twig', [
+                    'properties' => $properties,
+                ]),
+            ], 200);
+        }
+
+        return $this->render('admin/search/searchpropertydashboard.html.twig', [
             'form' => $form,
         ]);
     }

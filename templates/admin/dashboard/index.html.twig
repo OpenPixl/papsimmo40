@@ -8,6 +8,7 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="module" src="{{ asset('js/Admin/dashboard/index.js') }}"></script>
 {% endblock %}
 
 {% block content %}
@@ -22,6 +23,12 @@
             <div class="col-8">
                 {# {{ dump(chart) }} #}
                 {{ render_chart(chart) }}
+            </div>
+            <div class="col-4">
+                {{ render(controller('App\\Controller\\Admin\\SearchController::propertyDashboard')) }}
+                <div id="resultsSearch" class="row">
+
+                </div>
             </div>
         </div>
     </section>

@@ -29,8 +29,8 @@ class CustomerType extends AbstractType
                     'Professionnel' => 'professionnel',
                 ],
                 'choice_attr' => [
-                    'Particulier' => ['data-data' => 'Particulier'],
-                    'Société' => ['data-data' => 'Société'],
+                    'Particulier' => ['data-data' => 'particulier'],
+                    'Professionnel' => ['data-data' => 'professionnel'],
                 ],
             ])
             ->add('nameStructure', TextType::class, [

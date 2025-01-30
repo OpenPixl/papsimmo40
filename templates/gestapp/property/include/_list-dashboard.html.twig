@@ -1,0 +1,37 @@
+<div class="col-12">
+    <p class="text-uppercase border-bottom mb-1"><b>Résultats : {{ properties.totalItemCount }}</b></p>
+</div>
+<div class="col-12 d-flex justify-content-end" id="blockPagination">
+    {{ knp_pagination_render(properties, 'include/admin/pagination.html.twig') }}
+</div>
+<div class="col-12">
+    {% set user = app.user.id %}
+    {% for property in properties %}
+        {% set projet = '' %}
+        {% if property.projet == 'IP' %}{% set projet = 'Immobilier Professionnel' %}
+        {% elseif  property.projet == 'LH' %}{% set projet = 'Location immobiler' %}
+        {% elseif  property.projet == 'RC' %}{% set projet = 'Vente commerce,reprise' %}
+        {% elseif  property.projet == 'RC' %}{% set projet = 'Commerce' %}
+        {% elseif  property.projet == 'VH' %}{% set projet = 'Vente immobilier' %}
+        {% endif %}
+        <div class="row g-2 animate__animated animate__fadeIn my-1 border align-items-center">
+            <div class="col-2 mt-0 ps-0 d-flex justify-content-start">
+                {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
+            </div>
+            <div class="col-6 mt-0 d-flex align-items-center">
+                <p class="text-sm m-0">{{ property.rubricss }}<br>{{ property.zipcode }} {{ property.city }}</p>
+            </div>
+            <div class="col-2 mt-0 d-flex align-items-center">
+                <p class="text-sm m-0">{{ property.priceFAI }}€</p>
+            </div>
+            <div class="col-1 mt-0 d-flex align-items-center">
+
+            </div>
+            <div class="col-1 mt-0 d-flex align-items-center">
+                <p class="text-sm m-0"><a href="" ><i class="fa-duotone fa-solid fa-eye"></i></a></p>
+            </div>
+        </div>
+    {% endfor %}
+</div>
+
+
