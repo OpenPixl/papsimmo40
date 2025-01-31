@@ -1,13 +1,10 @@
 <?php
 
-namespace App\Form\Gestapp;
+namespace App\Form\Admin\Search;
 
-use App\Entity\Admin\Employed;
 use App\Form\Model\SearchPropertyModel;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
-use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -17,6 +14,19 @@ class SearchPropertyDashboardType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('projet', ChoiceType::class, [
+                'label' => 'Projet',
+                'attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices'  => [
+                    'Appartement' => 38,
+                    'Maison' => 48,
+                    'Terrain' => 58,
+                ],
+                'expanded' => true,
+                'multiple' => false
+            ])
             ->add('zipcode', SearchType::class, [
                 'required' => false,
             ])

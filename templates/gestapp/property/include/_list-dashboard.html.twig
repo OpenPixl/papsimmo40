@@ -14,12 +14,12 @@
         {% elseif  property.projet == 'RC' %}{% set projet = 'Commerce' %}
         {% elseif  property.projet == 'VH' %}{% set projet = 'Vente immobilier' %}
         {% endif %}
-        <div class="row g-2 animate__animated animate__fadeIn my-1 border align-items-center">
+        <div class="row g-2 animate__animated animate__fadeIn my-1 border">
             <div class="col-2 mt-0 ps-0 d-flex justify-content-start">
                 {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': property.id})) }}
             </div>
             <div class="col-6 mt-0 d-flex align-items-center">
-                <p class="text-sm m-0">{{ property.rubricss }}<br>{{ property.zipcode }} {{ property.city }}</p>
+                <p class="text-sm m-0"><span class="text-capitalize">{{ property.rubricss }}</span><br>{{ property.zipcode }} {{ property.city }}</p>
             </div>
             <div class="col-2 mt-0 d-flex align-items-center">
                 <p class="text-sm m-0">{{ property.priceFAI }}€</p>

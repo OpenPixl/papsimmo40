@@ -2,19 +2,15 @@
 
 namespace App\Controller\Admin;
 
-use App\Form\Gestapp\SearchConstructType;
-use App\Form\Gestapp\SearchPropertyDashboardType;
-use App\Form\Gestapp\SearchPropertyType;
+use App\Form\Admin\Search\SearchConstructType;
+use App\Form\Admin\Search\SearchPropertyDashboardType;
+use App\Form\Admin\Search\SearchPropertyType;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
-use Elastica\Query\MatchPhrase;
-use Elastica\Query\MatchPhrasePrefix;
-use Elastica\Query\MatchQuery;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 use Knp\Component\Pager\PaginatorInterface;
-use phpDocumentor\Reflection\DocBlock\Tags\Method;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -32,7 +28,6 @@ class SearchController extends AbstractController
     #[Route('/test/search/construct', name: 'app_admin_search_construct')]
     public function construct(Request $request): Response
     {
-
         $form = $this->createForm(SearchConstructType::class, null, [
             'action' => $this->generateUrl('app_admin_search_construct')
         ]);
@@ -99,6 +94,8 @@ class SearchController extends AbstractController
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
+
+
 
         $form = $this->createForm(SearchPropertyType::class, null, [
             'action' => $this->generateUrl('app_admin_search_property'),
@@ -194,6 +191,7 @@ class SearchController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid())
         {
+
             $data = $form->getData();
             $minPrice = $data->minPrice;
             $maxPrice = $data->maxPrice;
@@ -209,8 +207,13 @@ class SearchController extends AbstractController
                 if ($maxPrice !== null) {
                     $rangeFilter['lte'] = (float) $maxPrice; // 'lte' = less than or equal
                 }
-                //dd($rangeFilter);
                 $boolQuery->addFilter(new Range('price', $rangeFilter));
+            }
+
+            if (!empty($data->projet)){
+                $termQuery = new \Elastica\Query\Term();
+                $termQuery->setTerm('rubric.id', $data->projet);
+                $boolQuery->addMust($termQuery);
             }
 
             if (!empty($data->zipcode)){

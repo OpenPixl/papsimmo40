@@ -4,8 +4,23 @@
         <div class="col-12 border-bottom mb-1">
             <p class="text-uppercase"><b><i class="fa-duotone fa-solid fa-magnifying-glass"></i> Rechercher un bien :</b></p>
         </div>
+
         <div class="col-2">
-            <p class="m-0">Le budget : </p>
+            {{ form_label(form.projet, null, {'label_attr': {'class': 'block text-sm font-medium text-gray-700', 'for': form.projet.vars.label}}) }}
+        </div>
+        <div class="col-10">
+            <div class="form-check form-check-inline">
+                {% for label, value, choice in field_choices(form.projet) %}
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="{{ field_name(form.projet) }}" id="inlineRadio1" value="{{ value }}">
+                        <label class="form-check-label" for="{{ field_name(form.projet) }}">{{ label }}</label>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+
+        <div class="col-2">
+            <p class="m-0">Le budget :</p>
         </div>
         <div class="col-3">
             {{ form_widget(form.minPrice, {'attr': {'class':'form-control form-control-sm w-100', 'placeholder':'prix min'}}) }}

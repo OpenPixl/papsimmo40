@@ -14,15 +14,15 @@
 {% block content %}
     <section class="container-fluid">
         <div class="row">
-            <div class="col-12">
-                <h1>Tableau de bord</h1>
-                <p>{{ app.user.firstName|capitalize }}, bienvenue sur votre espace de travail.</p>
-            </div>
-        </div>
-        <div class="row">
             <div class="col-8">
-                {# {{ dump(chart) }} #}
-                {{ render_chart(chart) }}
+                <div>
+                    <h1>Tableau de bord</h1>
+                    <p>{{ app.user.firstName|capitalize }}, bienvenue sur votre espace de travail.</p>
+                </div>
+                <div>
+                    {# {{ dump(chart) }} #}
+                    {{ render_chart(chart) }}
+                </div>
             </div>
             <div class="col-4">
                 {{ render(controller('App\\Controller\\Admin\\SearchController::propertyDashboard')) }}

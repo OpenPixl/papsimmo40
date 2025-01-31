@@ -24,6 +24,10 @@ fos_elastica:
                     type: boolean
                 price:
                     type: integer
+                rubric:
+                    type: object
+                    properties:
+                        id: ~
                 refEmployed:
                     type: object
                     properties:
