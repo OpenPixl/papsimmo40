@@ -99,11 +99,6 @@ class Complement
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $propertyState;
 
-    #[ORM\ManyToOne(targetEntity: PropertyEnergy::class)]
-    #[Groups(['property:list', 'property:item', 'property:write:patch'])]
-    private $propertyEnergy;
-
-
     #[ORM\ManyToMany(targetEntity: PropertyEquipement::class, inversedBy: 'complements')]
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $propertyEquipment;
@@ -368,18 +363,6 @@ class Complement
     public function setPropertyState(?PropertyState $propertyState): self
     {
         $this->propertyState = $propertyState;
-
-        return $this;
-    }
-
-    public function getPropertyEnergy(): ?PropertyEnergy
-    {
-        return $this->propertyEnergy;
-    }
-
-    public function setPropertyEnergy(?PropertyEnergy $propertyEnergy): self
-    {
-        $this->propertyEnergy = $propertyEnergy;
 
         return $this;
     }

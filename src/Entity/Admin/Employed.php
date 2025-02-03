@@ -388,6 +388,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'FromEmployed', targetEntity: Contact::class)]
     private Collection $fromEmployeds;
 
+    #[ORM\Column(length: 255)]
+    private ?string $qrcode_pwa = null;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -1311,6 +1314,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $fromEmployed->setFromEmployed(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getQrcodePwa(): ?string
+    {
+        return $this->qrcode_pwa;
+    }
+
+    public function setQrcodePwa(string $qrcode_pwa): static
+    {
+        $this->qrcode_pwa = $qrcode_pwa;
 
         return $this;
     }
