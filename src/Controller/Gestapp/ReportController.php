@@ -55,6 +55,18 @@ class ReportController extends AbstractController
             } else {
                 $dpeAt = "";
             }
+
+            if($property['diagChoice'] == 'non_obligatoire'){
+                $dpe = -2;
+                $ges = -2;
+            }elseif($property['diagChoice'] == 'vierge'){
+                $dpe = -1;
+                $ges = -1;
+            }else{
+                $dpe = $property['diagDpe'];
+                $ges = $property['diagGes'];
+            }
+
             // Clé de détermination PARUVENDU - FAMILLE
             if ($property['projet']) {
                 $famille = $property['familyCode'];
@@ -168,8 +180,8 @@ class ReportController extends AbstractController
                 '"' . $property['bathroom'] . '"',                          // 43 - Nombre de salles de bain
                 '""',                                                       // 44 - Nombre de parking extérieur
                 '""',                                                       // 45 - Nombre de parking intérieur
-                '"' . $property['diagDpe'] . '"',                           // 46 - DPE
-                '"' . $property['diagGes'] . '"',                           // 47 - GES
+                '"' . $dpe . '"',                                           // 46 - DPE
+                '"' . $ges . '"',                                           // 47 - GES
                 '"' . $property['isWithExclusivity'] . '"',                 // 48 - Exclusivité
                 '"0"',                                                      // 49 - Honoraire à la charge de l'acquéreur
                 '""',                                                       // 50 - Pourcentage de honoraires à la charge de l'acquéreur

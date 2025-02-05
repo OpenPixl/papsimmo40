@@ -103,18 +103,7 @@ class ComplementType extends AbstractType
                     return ['data-data' => $product->getName() ];
                 }
             ])
-            ->add('propertyEnergy', EntityType::class, [
-                'class' => PropertyEnergy::class,
-                'query_builder' => function (EntityRepository $er) {
-                    return $er->createQueryBuilder('p')
-                        ->orderBy('p.name', 'ASC');
-                },
-                'choice_label' => 'name',
-                'label' => 'Energie',
-                'choice_attr' => function (PropertyEnergy $product, $key, $index) {
-                    return ['data-data' => $product->getName() ];
-                }
-            ])
+
             ->add('energies', EntityType::class, [
                 'class' => PropertyEnergy::class,
                 'help' => 'Seule la première source d\'énérgie sera publiée sur les diffuseurs',

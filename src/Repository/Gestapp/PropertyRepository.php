@@ -1086,7 +1086,6 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.propertyEnergy', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1102,8 +1101,6 @@ class PropertyRepository extends ServiceEntityRepository
                 c.sanitation as sanitation,                
                 c.coproprietyTaxe as chargeCopro,
                 c.coproperty as copro,
-                pe.name AS energy,
-                pe.slCode AS slCode,
                 c.disponibilityAt as disponibilityAt,
                 po.name AS orientation,               
                 pd.code as propertyCode,

@@ -109,13 +109,7 @@
                                 </div>
                             {% endif %}
                         </div>
-                        {# Energie du bien #}
-                        <div class="row mb-1 g-1 d-none">
-                            {{ form_label(form.propertyEnergy, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
-                            <div class="col-6">
-                                {{ form_widget(form.propertyEnergy, {'attr' : {'disabled':'disabled'}}) }}
-                            </div>
-                        </div>
+
                         {# Energie du bien #}
                         <div class="row mb-1 g-1">
                             {{ form_label(form.energies, '', {'label_attr': {'class':'col-sm-4  form-label'}}) }}
