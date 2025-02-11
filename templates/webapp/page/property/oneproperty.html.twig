@@ -6,9 +6,9 @@
 
 {% block javascripts %}
     {{ parent() }}
+    <script type="module" src="{{ asset('js/webapp/property/one_property.js') }}"></script>
     <script>
         window.onload = function(){
-
             // Ouverture de la modal
             const ModalAskProperty = new bootstrap.Modal(AskPropertyModal, {
                 backdrop:true,

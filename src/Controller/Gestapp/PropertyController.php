@@ -64,11 +64,9 @@ class PropertyController extends AbstractController
         $user = $this->getUser();
 
         if($hasAccess == true){
-            // dans ce cas, nous listons toutes les propriétés de chaque utilisateurs
             $data = $propertyRepository->listAllProperties();
-            //dd($data);
+            
             $expireAtOut = [];
-            // tri des bien avec date de fin de mandat inférieur à aujourd'hui
             foreach ($data as $d){
                 $dateEndMandat = $d['dateEndmandat'];
                 $idpro = $propertyRepository->find($d['id']);
@@ -78,26 +76,63 @@ class PropertyController extends AbstractController
                     array_push($expireAtOut, $d['id']);
                 }
             }
-            //dd($expireAtOut);
+
+            $page = $request->get("page");
+            if($page) {
+                $properties = $paginator->paginate(
+                    $data,
+                    $request->query->getInt('page', $page),
+                    20
+                );
+
+                return $this->json([
+                    'code'      => 200,
+                    'message'   => "Ok",
+                    'list' => $this->renderView('gestapp/property/_list.html.twig', [
+                        'properties' => $properties,
+                    ])
+                ], 200);
+            }
+
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
                 20
             );
+
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $properties,
                 'user' => $user,
                 'expireAtOut' => count($expireAtOut)
             ]);
+
         }else{
-            // dans ce cas, nous listons les propriétés de l'utilisateurs courant
+
             $data = $propertyRepository->listPropertiesByemployed($user);
-            // tri des bien avec date de fin de mandat inférérieur à aujourd'hui
+
+            $page = $request->get("page");
+            if($page) {
+                $properties = $paginator->paginate(
+                    $data,
+                    $request->query->getInt('page', $page),
+                    20
+                );
+
+                return $this->json([
+                    'code'      => 200,
+                    'message'   => "Ok",
+                    'list' => $this->renderView('gestapp/property/_list.html.twig', [
+                        'properties' => $properties,
+                    ])
+                ], 200);
+            }
+
             $properties = $paginator->paginate(
                 $data,
                 $request->query->getInt('page', 1),
                 20
             );
+
             return $this->render('gestapp/property/index.html.twig', [
                 'properties' => $properties,
                 'user' => $user

@@ -19,6 +19,9 @@ class SearchPropertyType extends AbstractType
             ->add('zipcode', SearchType::class, [
                 'required' => false,
             ])
+            ->add('city', SearchType::class, [
+                'required' => false,
+            ])
             ->add('minPrice', SearchType::class, [
                 'required' => false,
             ])

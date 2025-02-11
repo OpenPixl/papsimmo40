@@ -15,12 +15,12 @@ class PhotoType extends AbstractType
     {
         $builder
             ->add('galeryFrontFile', FileType::class,[
-                'label' => "La photo ne doit pas dépasser 10Mo de taille",
+                'label' => "La photo ne doit pas dépasser 20Mo de taille",
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [
                     new File([
-                        'maxSize' => '10000k',
+                        'maxSize' => '20000k',
                         'mimeTypes' => [
                             'image/png',
                             'image/jpg',

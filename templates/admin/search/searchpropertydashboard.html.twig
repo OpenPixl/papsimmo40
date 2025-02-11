@@ -30,10 +30,16 @@
         </div>
         <div class="col-4"></div>
         <div class="col-2">
-            <p class="m-0">Où :</p>
+            <p class="m-0">Localité :</p>
         </div>
         <div class="col-3">
             {{ form_widget(form.zipcode, {'attr': {'class':'form-control form-control-sm w-100', 'placeholder':'Code postal'}}) }}
+        </div>
+        <div class="col-1">
+            <p class="mb-0 text-center">Ou</p>
+        </div>
+        <div class="col-3">
+            {{ form_widget(form.city, {'attr': {'class':'form-control form-control-sm w-100', 'placeholder':'Commune'}}) }}
         </div>
     </div>
     {{ form_end(form) }}

@@ -43,8 +43,6 @@ class SearchController extends AbstractController
                 $fieldQuery = new \Elastica\Query\MatchPhrasePrefix();
                 $fieldQuery->setField('name', $data->name);
                 $boolQuery->addMust($fieldQuery);
-                //$boolQuery->addMust(new MatchPhrasePrefix('name', $data->name));
-                //dd($boolQuery);
             }
 
             if (!empty($data->refmandat)) {
@@ -57,8 +55,6 @@ class SearchController extends AbstractController
                 $termQuery = new \Elastica\Query\Term();
                 $termQuery->setTerm('zipcode', $data->zipcode);
                 $boolQuery->addMust($termQuery);
-                //$boolQuery->addMust(new MatchPhrasePrefix('name', $data->name));
-                //dd($boolQuery);
             }
 
             if (!empty($data->city)) {
@@ -75,12 +71,8 @@ class SearchController extends AbstractController
                 $boolQuery->addMust($termQuery);
             }
 
-            //dd($boolQuery);
-
             $results = $this->finder->createPaginatorAdapter($boolQuery);
-            //dd($results);
             $properties = $this->paginator->paginate($results, $page);
-            //dd(properties);
         }
 
         return $this->render('admin/search/searchconstruct.html.twig', [
@@ -94,8 +86,6 @@ class SearchController extends AbstractController
     {
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
-
-
 
         $form = $this->createForm(SearchPropertyType::class, null, [
             'action' => $this->generateUrl('app_admin_search_property'),
@@ -119,6 +109,12 @@ class SearchController extends AbstractController
                 $termQuery = new \Elastica\Query\Term();
                 $termQuery->setTerm('refmandat', $data->refmandat);
                 $boolQuery->addMust($termQuery);
+            }
+
+            if (!empty($data->city)){
+                $fieldQuery = new \Elastica\Query\MatchPhrase();
+                $fieldQuery->setField('city', $data->city);
+                $boolQuery->addMust($fieldQuery);
             }
 
             if (!empty($data->zipcode)){
@@ -152,15 +148,8 @@ class SearchController extends AbstractController
                 'refmandat' => ['order' => 'desc'],
             ]);
 
-
-
-
-            //$boolQuery->addMust(new Term('refEmployed'));
-
             $results = $this->finder->createPaginatorAdapter($query);
-            //dd($results);
             $properties = $this->paginator->paginate($results, $page);
-            //dd($properties);
 
             return $this->json([
                 'list' => $this->renderView('gestapp/property/include/_list.html.twig', [
@@ -220,6 +209,12 @@ class SearchController extends AbstractController
                 $termQuery = new \Elastica\Query\Term();
                 $termQuery->setTerm('zipcode', $data->zipcode);
                 $boolQuery->addMust($termQuery);
+            }
+
+            if (!empty($data->city)){
+                $fieldQuery = new \Elastica\Query\MatchPhrase();
+                $fieldQuery->setField('city', $data->city);
+                $boolQuery->addMust($fieldQuery);
             }
 
             $query = new Query($boolQuery);

@@ -19,16 +19,35 @@ function SubmitFormSearch(event){
 
 function paginatorPage(event, link){
     event.preventDefault();
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            document.getElementById('list').innerHTML = response.data.list;
-            reloadEvent();
-        })
-        .catch(function(error){
-            console.log();
-        });
+    let fullUrl = this.href;  // URL complète récupérée
+    let newUrl = new URL(fullUrl);
+    let url = newUrl.pathname;  // "/gestapp/property"
+
+    if ( url === '/admin/search/property/'){
+        let form = document.getElementById('SearchFormProperty');
+        let url = this.href;
+        let data = new FormData(form);
+        axios
+            .post(fullUrl, data)
+            .then(function(response){
+                document.getElementById('list').innerHTML = response.data.list;
+                reloadEvent();
+            })
+            .catch(function(error){
+                console.log();
+            })
+        ;
+    }else if(url === '/gestapp/property/'){
+        axios
+            .get(fullUrl)
+            .then(function(response){
+                document.getElementById('list').innerHTML = response.data.list;
+                reloadEvent();
+            })
+            .catch(function(error){
+                console.log();
+            });
+    }
 }
 
 function reloadEvent(){

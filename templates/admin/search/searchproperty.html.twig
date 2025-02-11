@@ -1,6 +1,6 @@
 {{ form_start(form) }}
 <div class="row mt-2 d-flex align-items-center g-1">
-    <div class="col-1 offset-6">
+    <div class="col-1 offset-5">
         <p><b>Filtres :</b></p>
     </div>
     <div class="col-1">
@@ -14,6 +14,9 @@
     </div>
     <div class="col-1">
         {{ form_widget(form.zipcode, {'attr': {'class':'form-control form-control-sm w-100', 'placeholder':'Code postal'}}) }}
+    </div>
+    <div class="col-1">
+        {{ form_widget(form.city, {'attr': {'class':'form-control form-control-sm w-100', 'placeholder':'Commune'}}) }}
     </div>
     <div class="col-1 d-flex justify-content-end">
         <button type="submit" class="btn btn-sm btn-primary submitFormSearch">Filtrer</button>
