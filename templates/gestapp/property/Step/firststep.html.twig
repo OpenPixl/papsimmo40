@@ -1,155 +1,144 @@
 <section class="property-edit">
     {{ form_start(form, {'attr': {'id': 'FormAddInformation'}}) }}
-    <div class="row g-2 mt-2">
+    <div class="row g-1 mt-1">
         <div class="col-sm-12">
-            {% if property.refMandat is empty %}
-            <div class="row" id="FormMandat">
-                <div class="col">
-                    <p class="text-danger">
-                        Ce bien ne possède pas de numéro de mandat.
-                        Vous ne pourrez pas continuer sa création tant que ce champ est vide.
-                    </p>
-                </div>
-            </div>
-            {% endif %}
-            <div class="row">
-                <div class="col">
-                    {# STEP 1 : Ligne du titre de l'annonce du bien #}
-                    <table class="table table-sm">
-                        <thead>
-                            <tr>
-                                <td colspan="9"></td>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr class="align-middle table-light">
-                                {% if property.dupMandat is not empty %}
-                                <td class="col-md-2">Numéro de Mandat : <b>{{ property.refMandat }}{{ property.dupMandat }}</b></td>
+            <div class="card ext-dark bg-light mb-1">
+                <div class="card-body p-1">
+                    {% if property.refMandat is empty %}
+                        <div class="row" id="FormMandat">
+                            <div class="col">
+                                <p class="text-danger">
+                                    Ce bien ne possède pas de numéro de mandat.
+                                    Vous ne pourrez pas continuer sa création tant que ce champ est vide.
+                                </p>
+                            </div>
+                        </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-2">
+                            {% if property.dupMandat is not empty %}
+                                <p class="mb-0"><b>NUMERO DE MANDAT : </b>{{ property.refMandat }}{{ property.dupMandat }}</p>
+                            {% else %}
+                                {# controle si le mandat porte le numéro 0 #}
+                                {% if property.refMandat == 0 %}
+                                    <p class="mb-0"><b>NUMERO DE MANDAT :</b> <a id="AddMandat" class="text-info"><i class="fa-sharp fa-solid fa-circle-plus"></i> Ajouter le mandat</a></p>
                                 {% else %}
-                                    {# controle si le mandat porte le numéro 0 #}
-                                    {% if property.refMandat == 0 %}
-                                    <td class="col-md-2" id="colRefMandat"><button class="btn btn-sm btn-light" id="AddMandat">Ajouter le mandat</button></td>
-                                    {% else %}
-                                    <td class="col-md-2">Numéro de Mandat : <b>&nbsp;{{ property.refMandat }}</b></td>
-                                    {% endif %}
+                                    <p class="mb-0"><b>NUMERO DE MANDAT : </b>{{ property.refMandat }}</p>
                                 {% endif %}
-                                <td class="col-md-1">Mandat créer le :</td>
-                                <td class="col-md-1">{{ property.mandatAt|format_datetime('medium','none', locale='fr') }}</td>
-                                <td class="col-md-1">Ref : {{ property.ref }}</td>
-                                <td class="col-md-1"></td>
-                                <td class="col-md-1"></td>
-                                <td class="col-md-1">
-                                    <div class="form-check">
-                                        {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                        {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                    </div>
-                                </td>
-                                <td class="col-md-1">
-                                    <div class="form-check">
-                                        {{ form_widget(form.isSemiExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                        {{ form_label(form.isSemiExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                    </div>
-                                </td>
-                                <td class="col-md-1">
-                                    <div class="form-check">
-                                        {{ form_widget(form.isWithExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                        {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                                    </div>
-                                </td>
-                                <td class="col-sm-1"></td>
-                            </tr>
-                        </tbody>
-                    </table>
+                            {% endif %}
+                        </div>
+                        <div class="col-2">
+                            <p class="mb-0"><span class="text-secondary">Mandat créer le :</span> {{ property.mandatAt|format_datetime('medium','none', locale='fr') }}</p>
+                        </div>
+                        <div class="col-2">
+                            <p class="mb-0"><span class="text-secondary">Ref</span> : {{ property.ref }}</p>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-check mb-0">
+                                {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-check mb-0">
+                                {{ form_widget(form.isSemiExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                {{ form_label(form.isSemiExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                            </div>
+                        </div>
+                        <div class="col-2">
+                            <div class="form-check mb-0">
+                                {{ form_widget(form.isWithExclusivity, {'attr': {'class': 'form-check-input'}}) }}
+                                {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="col-sm-9">
-            <table class="table table-sm">
-                <tbody>
-                <tr class="align-middle">
-                    <td class="col-1" colspan="3">
-                        INFORMATIONS DU BIEN
-                    </td>
-                    <td class="col-1"></td>
-                    <td class="col-1"></td>
-                    <td class="col-1"></td>
-                    <td class="col-1"></td>
-                    <td class="col-1"></td>
-                    <td class="col-1"></td>
-                    <td class="col-1"></td>
-                    <td class="col-1"></td>
-                    <td class="col-1"></td>
-                    <td class="col-1" colspan="6">
-                        <input id="property_id" type="hidden" value="{{ property.id }}">
-                    </td>
-                </tr>
-                <tr class="align-middle">
-                    <td class="table-light" colspan="2">{{ form_label(form.name, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                    <td colspan="10">{{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                    </td>
-                </tr>
-                <tr class="align-middle">
-                    <td class="table-light" colspan="2">{{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                    <td colspan="4">{{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                    </td>
-                </tr>
-                <tr class="align-middle">
-                    <td class="table-light" colspan="2">{{ form_label(form.complement, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                    <td colspan="4">{{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                    </td>
-                </tr>
-                <tr class="align-middle">
-                    <td class="table-light" colspan="2">{{ form_label(form.zipcode, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                    <td colspan="1">{{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
-                    <td colspan="3">
-                        {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
-                        <select id="selectcity" class="form-select form-select-sm">
-                            <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
-                        </select>
-                    </td>
-                    <td colspan="6">
-                        {% if property.coordLong is not null and property.coordLat is not null%}
-                            <div class="d-flex flex-row-reverse">
-                                <p>Latitude : {{ property.coordLat }}, Longitude : {{ property.coordLong }} <a id="findGeoCoord" class=""><i class="fa-duotone fa-repeat"></i></a></p>
-                                <input id="coordLong" type="hidden" value="{{ property.coordLong }}">
-                                <input id="coordLat" type="hidden" value="{{ property.coordLat }}">
+            <div class="card">
+                <div class="card-body p-2">
+                    <p class="border-bottom"><b>INFORMATIONS DU BIENS</b></p>
+                    <div class="row mt-1">
+                        <div class="col-8">
+                            <div class="row align-items-center mb-1">
+                                <div class="col-2 mb-1">
+                                    <input id="property_id" type="hidden" value="{{ property.id }}">
+                                    {{ form_label(form.name, '', {'label_attr': {'class':'form-label mb-0 text-secondary'}}) }}
+                                </div>
+                                <div class="col-10 mb-1">
+                                    {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
                             </div>
-                        {% else %}
-                            <div class="d-flex flex-row-reverse">
-                                <a id="findGeoCoord" class="btn btn-sm btn-outline-info">Ajouter les coordonnées GPS</a>
+                            <div class="row align-items-center ">
+                                <div class="col-2">
+                                    {{ form_label(form.adress, '', {'label_attr': {'class':'form-label mb-0 text-secondary'}}) }}
+                                </div>
+                                <div class="col-5">
+                                    {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm mb-1', 'placeholder': 'Adresse'}}) }}
+                                    {{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm mb-1', 'placeholder': 'complement d\'adresse'}}) }}
+                                    <div class="row g-1">
+                                        <div class="col-2">
+                                            {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'CP'}}) }}
+                                        </div>
+                                        <div class="col-10">
+                                            {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
+                                            <select id="selectcity" class="form-select form-select-sm">
+                                                <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        {% endif %}
-                    </td>
-                </tr>
-                <tr class="align-middle">
-                    <td class="table-light" colspan="2">{{ form_label(form.annonce, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                    <td colspan="10">{{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce"}}) }}</td>
-                </tr>
-                </tbody>
-            </table>
-
-            <div class="row mb-1 mt-1 g-1">
-                <div class="col-2">
-                    {{ form_label(form.piece, '', {'label_attr': {'class':'form-label'}}) }}
-                </div>
-                <div class="col-2">
-                    {{ form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-                <div class="col-1"></div>
-                <div class="col-2">
-                    {{ form_label(form.room, '', {'label_attr': {'class':'form-label'}}) }}
-                </div>
-                <div class="col-2">
-                    {{ form_widget(form.room, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-            </div>
-            <div class="row mb-1 mt-1 g-1">
-                {{ form_label(form.constructionAt, '', {'label_attr': {'class':'col-sm-3  form-label'}}) }}
-                <div class="col-sm-3">
-                    <div class="input-group">
-                        <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-calendar-days"></i></span>
-                        {{ form_widget(form.constructionAt, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        </div>
+                        <div class="col-4">
+                            <div class="row align-items-center mb-1">
+                                <div class="col-6 mb-1">
+                                    {{ form_label(form.piece, '', {'label_attr': {'class':'form-label mb-0 text-secondary'}}) }}
+                                </div>
+                                <div class="col-6 mb-1">
+                                    {{ form_widget(form.piece, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-1">
+                                <div class="col-6 mb-1">
+                                    {{ form_label(form.room, '', {'label_attr': {'class':'form-label mb-0 text-secondary'}}) }}
+                                </div>
+                                <div class="col-6 mb-1">
+                                    {{ form_widget(form.room, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
+                            </div>
+                            <div class="row align-items-center mb-1">
+                                <div class="col-6 mb-1">
+                                    {{ form_label(form.constructionAt, '', {'label_attr': {'class':'form-label mb-0 text-secondary'}}) }}
+                                </div>
+                                <div class="col-6 mb-1">
+                                    {{ form_widget(form.constructionAt, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
+                            </div>
+                            {% if property.coordLong is not null and property.coordLat is not null%}
+                                <div class="d-flex flex-row-reverse">
+                                    <p>Latitude : {{ property.coordLat }}, Longitude : {{ property.coordLong }} <a id="findGeoCoord" class=""><i class="fa-duotone fa-repeat"></i></a></p>
+                                    <input id="coordLong" type="hidden" value="{{ property.coordLong }}">
+                                    <input id="coordLat" type="hidden" value="{{ property.coordLat }}">
+                                </div>
+                            {% else %}
+                                <div class="d-flex flex-row-reverse">
+                                    <a id="findGeoCoord" class="btn btn-sm btn-outline-info">Ajouter les coordonnées GPS</a>
+                                </div>
+                            {% endif %}
+                        </div>
                     </div>
+                    <p class="mt-2 border-bottom">ANNONCE</p>
+                    <div class="row g-1 mt-1">
+                        <div class="col-2">
+                            <p class="text-secondary">Le contenu inscrit dans ce texte sera completé, selon le type de vente, par un texte spécifique</p>
+                        </div>
+                        <div class="col-10">
+                            {{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce"}}) }}
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </div>
@@ -182,7 +171,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <p><b>MISE EN ENCHERE</b></p>
+                            <p><b>VENTE INTERACTIVE</b></p>
                             <div class="row">
                                 {{ form_label(form.addLinkAuction) }}
                                 <div class="col-sm-12">

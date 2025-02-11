@@ -95,7 +95,7 @@ class PropertyStep1Type extends AbstractType
                 'required' => false,
             ])
             ->add('addLinkAuction', TextType::class, [
-                'label' => 'Ajouter le lien généré par le partenaire d\'enchère',
+                'label' => 'Ajouter le lien généré par le partenaire de la vente interactive',
                 'required' => false,
                 'label_attr' => [
                     'class' => 'mb-1'

@@ -65,7 +65,7 @@ class PropertyController extends AbstractController
 
         if($hasAccess == true){
             $data = $propertyRepository->listAllProperties();
-            
+
             $expireAtOut = [];
             foreach ($data as $d){
                 $dateEndMandat = $d['dateEndmandat'];

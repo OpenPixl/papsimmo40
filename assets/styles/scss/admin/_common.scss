@@ -4,6 +4,19 @@ $width-side-large: 12rem;
 $width-content-small : calc(100% - 4rem);
 $width-content-large: calc(100% - 12rem);
 
+.tox-tinymce {
+  border: 1px solid #ccc;
+  /* border-radius: 10px; */
+  box-shadow: none;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  font-family: -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Oxygen-Sans,Ubuntu,Cantarell,"Helvetica Neue",sans-serif;
+  overflow: hidden;
+  position: relative;
+  visibility: inherit !important;
+}
+
 main{
   margin-top: 66px;
   #content{

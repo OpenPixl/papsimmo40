@@ -4,6 +4,7 @@ import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 import flatpickr from "flatpickr";
 import { french } from "flatpickr/dist/l10n/fr.js";
+
 // mise en place du datapicker flatpickr sur les champs de date
 flatpickr(".flatpickr", {
     "locale": "fr",
@@ -12,6 +13,7 @@ flatpickr(".flatpickr", {
     altFormat: "j F Y",
     dateFormat: "d/m/Y",
 });
+
 // mise en place du datapicker flatpickr sur les champs de date
 flatpickr(".flatpickrtime", {
     "locale": "fr",

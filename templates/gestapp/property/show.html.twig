@@ -1700,9 +1700,9 @@
 {% block content %}
 <section class="mb-5">
     {% if property.isIncreating == 0 %}
-        <h1>Edition du bien : {{ property.name }}</h1>
+        <h1 class="fs-3">Edition du bien : {{ property.name }}</h1>
     {% else %}
-        <h1>Créer un nouveau bien</h1>
+        <h1 class="fs-3">Créer un nouveau bien</h1>
     {% endif %}
 
     {# read and display several types of flash messages #}
@@ -1718,44 +1718,44 @@
         {# Etiquettes du panel #}
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a id="navInformations" class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
+                <a id="navInformations" class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navCustomers" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
+                <a id="navCustomers" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navEstimate" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimate" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h5>Chiffres</h5></a>
+                <a id="navEstimate" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimate" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h5 class="mb-0">Chiffres</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navOptions" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Options" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h5>Complements</h5></a>
+                <a id="navOptions" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Options" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h5 class="mb-0">Complements</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navGallery" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
+                <a id="navGallery" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navPublication" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5><i class="fa-duotone fa-browser"></i> Publication</h5></a>
+                <a id="navPublication" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-browser"></i> Publication</h5></a>
             </li>
         </ul>
     {% else %}
         {# Etiquettes du panel si le bien est entièrement enregistré #}
         <ul class="nav nav-tabs">
             <li class="nav-item">
-                <a id="navInformations2" class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
+                <a id="navInformations2" class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navCustomers2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
+                <a id="navCustomers2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navEstimate2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimate" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h5>Chiffres</h5></a>
+                <a id="navEstimate2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimate" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h5 class="mb-0">Chiffres</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navOptions2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Options" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h5>Complements</h5></a>
+                <a id="navOptions2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Options" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h5 class="mb-0">Complements</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navGallery2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
+                <a id="navGallery2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navPublication2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5><i class="fa-duotone fa-browser"></i> Publication</h5></a>
+                <a id="navPublication2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-browser"></i> Publication</h5></a>
             </li>
         </ul>
     {% endif %}
