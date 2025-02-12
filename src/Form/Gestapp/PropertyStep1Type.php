@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\HiddenType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
+use Symfony\Component\Form\Extension\Core\Type\RadioType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -82,17 +83,19 @@ class PropertyStep1Type extends AbstractType
                 'required' => false,
                 'empty_data' =>''
             ])
-            ->add('isWithoutExclusivity', CheckboxType::class, [
-                'label' => 'Sans exclusivité',
-                'required' => false,
-            ])
-            ->add("isSemiExclusivity", CheckboxType::class, [
-                'label' => 'Semi-exclusivité',
-                'required' => false,
-            ])
-            ->add('isWithExclusivity', CheckboxType::class, [
-                'label' => 'Avec exclusivité',
-                'required' => false,
+            ->add('typeMandat', ChoiceType::class, [
+                'label' => 'Civilité',
+                'attr' => [
+                    'class' => 'radio-inline'
+                ],
+                'choices'  => [
+                    'Sans exclusivité' => 'sans_exclusivité',
+                    'Avec semi-exclusivité' => 'avec_semi-exclusivité',
+                    'Avec exclusivité' => 'avec_exclusivité',
+                    'Avec exclusivité - Vente interactive' => 'avec_exclusivité_vente_interactive',
+                ],
+                'expanded' => true,
+                'multiple' => false
             ])
             ->add('addLinkAuction', TextType::class, [
                 'label' => 'Ajouter le lien généré par le partenaire de la vente interactive',

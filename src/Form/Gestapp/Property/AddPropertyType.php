@@ -39,7 +39,7 @@ class AddPropertyType extends AbstractType
                     'Sans exclusivité' => ['data-data' => 'sans_exclusivité'],
                     'Avec semi-exclusivité' => ['data-data' => 'avec_semi-exclusivité'],
                     'Avec exclusivité' => ['data-data' => 'avec_exclusivité'],
-                    'Avec exclusivité vente interactive' => ['data-data' => 'avec_exclusivité_vente_interactive'],
+                    'Avec exclusivité - Vente interactive' => ['data-data' => 'avec_exclusivité_vente_interactive'],
                     ]
             ])
             ->add('destination', ChoiceType::class, options: [
