@@ -3,7 +3,7 @@
     <div class="row g-1 mt-1">
         <div class="col-sm-12">
             <div class="card ext-dark bg-light mb-1">
-                <div class="card-body p-1">
+                <div class="card-body p-2">
                     {% if property.refMandat is empty %}
                         <div class="row" id="FormMandat">
                             <div class="col">
@@ -14,43 +14,37 @@
                             </div>
                         </div>
                     {% endif %}
-                    <div class="row">
-                        <div class="col-2">
+                    <div class="row align-items-center">
+                        <div class="col-1">
+                            <p class="fw-bold mb-0">LE MANDAT</p>
+                        </div>
+                        <div class="col-1">
                             {% if property.dupMandat is not empty %}
-                                <p class="mb-0"><b>NUMERO DE MANDAT : </b>{{ property.refMandat }}{{ property.dupMandat }}</p>
+                                <p class="mb-0"><span class="text-secondary">Numéro :</span> {{ property.refMandat }}{{ property.dupMandat }}</p>
                             {% else %}
                                 {# controle si le mandat porte le numéro 0 #}
                                 {% if property.refMandat == 0 %}
-                                    <p class="mb-0"><b>NUMERO DE MANDAT :</b> <a id="AddMandat" class="text-info"><i class="fa-sharp fa-solid fa-circle-plus"></i> Ajouter le mandat</a></p>
+                                    <p class="mb-0"><span class="text-secondary">Numéro :</span> <a id="AddMandat" class="text-info"><i class="fa-sharp fa-solid fa-circle-plus"></i> Ajouter le mandat</a></p>
                                 {% else %}
-                                    <p class="mb-0"><b>NUMERO DE MANDAT : </b>{{ property.refMandat }}</p>
+                                    <p class="mb-0"><span class="text-secondary">Numéro :</span> {{ property.refMandat }}</p>
                                 {% endif %}
                             {% endif %}
                         </div>
                         <div class="col-2">
-                            <p class="mb-0"><span class="text-secondary">Mandat créer le :</span> {{ property.mandatAt|format_datetime('medium','none', locale='fr') }}</p>
+                            <p class="mb-0"><span class="text-secondary">créer le :</span> {{ property.mandatAt|format_datetime('medium','none', locale='fr') }}</p>
                         </div>
                         <div class="col-2">
                             <p class="mb-0"><span class="text-secondary">Ref</span> : {{ property.ref }}</p>
                         </div>
-                        <div class="col-2">
-                            <div class="form-check mb-0">
-                                {{ form_widget(form.isWithoutExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                {{ form_label(form.isWithoutExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                            </div>
+                        <div class="col-6">
+                            {% for label, value, choice in field_choices(form.typeMandat) %}
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="radio" name="{{ field_name(form.typeMandat) }}" id="inlineRadio1" value="{{ value }}" {% if value is same as property.typeMandat %}checked="checked"{% endif %}>
+                                    <label class="form-check-label" for="inlineRadio1">{{ label }}</label>
+                                </div>
+                            {% endfor %}
                         </div>
-                        <div class="col-2">
-                            <div class="form-check mb-0">
-                                {{ form_widget(form.isSemiExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                {{ form_label(form.isSemiExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                            </div>
-                        </div>
-                        <div class="col-2">
-                            <div class="form-check mb-0">
-                                {{ form_widget(form.isWithExclusivity, {'attr': {'class': 'form-check-input'}}) }}
-                                {{ form_label(form.isWithExclusivity, '', {'label_attr': {'class':'form-check-label'}}) }}
-                            </div>
-                        </div>
+
                     </div>
                 </div>
             </div>
@@ -78,10 +72,10 @@
                                     {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm mb-1', 'placeholder': 'Adresse'}}) }}
                                     {{ form_widget(form.complement, {'attr': {'class': 'form-control form-control-sm mb-1', 'placeholder': 'complement d\'adresse'}}) }}
                                     <div class="row g-1">
-                                        <div class="col-2">
+                                        <div class="col-3">
                                             {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder': 'CP'}}) }}
                                         </div>
-                                        <div class="col-10">
+                                        <div class="col-9">
                                             {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
                                             <select id="selectcity" class="form-select form-select-sm">
                                                 <option>{{ form.zipcode.vars.data }} - {{ form.city.vars.data }}</option>
@@ -169,6 +163,7 @@
                             </table>
                         </div>
                     </div>
+                    {% if property.typeMandat == 'avec_exclusivité_vente_interactive' %}
                     <div class="card">
                         <div class="card-body">
                             <p><b>VENTE INTERACTIVE</b></p>
@@ -180,6 +175,19 @@
                             </div>
                         </div>
                     </div>
+                    {% else %}
+                    <div class="card d-none">
+                        <div class="card-body">
+                            <p><b>VENTE INTERACTIVE</b></p>
+                            <div class="row">
+                                {{ form_label(form.addLinkAuction) }}
+                                <div class="col-sm-12">
+                                    {{ form_widget(form.addLinkAuction, {'attr': {'class': 'form-control form-control-sm w-100', 'placeholder':'https://example.com'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
                 </div>
             </div>
             <div class="row">

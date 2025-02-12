@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Photo;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
 use App\Form\Gestapp\Property\AddMandatType;
+use App\Form\Gestapp\Property\AddPropertyType;
 use App\Form\Gestapp\PropertyAvenantType;
 use App\Form\Gestapp\PropertyEndMandatType;
 use App\Form\Gestapp\PropertyImageType;
@@ -46,6 +47,27 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/gestapp/property')]
 class PropertyController extends AbstractController
 {
+    #[Route('/changetypemandat/', name: 'op_gestapp_properties_changetypemandat', methods: ['GET'])]
+    public function changeStatutMandat(PropertyRepository $propertyRepository, Request $request, EntityManagerInterface $em){
+        $properties = $propertyRepository->findAll();
+        foreach ($properties as $p){
+            $isWithE = $p->isIsWithExclusivity();
+            $isSemE = $p->isIsSemiExclusivity();
+            $isWithoutE= $p->isIsWithoutExclusivity();
+            if($isWithE == 1){
+                $p->setTypeMandat('avec_exclusivité');
+            }
+            if($isSemE == 1){
+                $p->setTypeMandat('avec_semi-exclusivité');
+            }
+            if($isWithoutE == 1){
+                $p->setTypeMandat('sans_exclusivité');
+            }
+            $em->flush();
+        }
+        return $this->json(['message'=>'Ok'], 200);
+    }
+
     #[Route('/', name: 'op_gestapp_property_index', methods: ['GET'])]
     public function index(
         PropertyRepository $propertyRepository,
@@ -482,8 +504,9 @@ class PropertyController extends AbstractController
         return $this->redirectToRoute('op_gestapp_property_index');
     }
 
-    #[Route('/add/{isNomandat}/{refMandat}/{destination}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
+    #[Route('/add', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
     public function add(
+        Request $request,
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
         ComplementRepository $complementRepository,
@@ -495,9 +518,6 @@ class PropertyController extends AbstractController
         propertyFamilyRepository $familyRepository,
         propertyRubricRepository $rubricRepository,
         propertyRubricssRepository $rubricssRepository,
-        $isNomandat,
-        $refMandat,
-        $destination,
         EntityManagerInterface $em,
         QrcodeService $qrcodeService,
         PropertyService $propertyService
@@ -507,94 +527,58 @@ class PropertyController extends AbstractController
         $user = $this->getUser();
         $employed = $employedRepository->find($user->getId());
 
-        // préparation des complements au bien
-        $complement = $propertyService->getNewComplement();
+        $form = $this->createForm(AddPropertyType::class, null, [
+            'action' => $this->generateUrl('op_gestapp_property_add'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'AddProperty'
+            ]
+        ]);
+        $form->handleRequest($request);
 
-        // création d'une fiche Publication
-        $publication = new Publication();
-        $publicationRepository->add($publication);
-        $publication->setIsPublishleboncoin(0);
-        $publication->setIsPublishgreenacres(0);
-        $publication->setIsPublishfigaro(0);
-        $publication->setIsPublishMeilleur(0);
-        $publication->setIsPublishParven(0);
-        $publication->setIsPublishsuperimmo(0);
-        $publication->setIsPublishseloger(0);
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        // ---
-        // Contruction de la référence pour chaque propriété
-        // ---
-        $date = new \DateTime();
-        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);             // Récupération de la dernière propriété enregistrée
-        if($lastproperty){
-            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
-            $RefMandat = $refMandat;                           // construction du numéro de mandat obligatoire
-        }else{
-            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
-            $RefMandat = 22;
-        }
+            $refMandat = $form->get('refMandat')->getData();
+            $isNomandat = $form->get('isNomandat')->getData();
+            $destination = $form->get('destination')->getData();
+            $typeMandat = $form->get('type_mandat')->getData();
 
-        $family = $familyRepository->find(substr($destination, 0,-1));
-        $rubric = $rubricRepository->find(substr($destination, -1,1));
-        $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
-
-        $property = new Property();
-        $property->setAnnonceDown('<p class="mb-0">Contact : '.$user->getGsm().' ou '. $user->getEmail() .'</p><p>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');
-        $property->setFamily($family);
-        $property->setRubric($rubric);
-        $property->setRubricss($rubricss);
-        $property->setPiece(0);
-        $property->setRoom(0);
-        $property->setName('Nouveau bien');
-        if(!$lastproperty){
-            $lastRefNum = 1;
-            $property->setRefnumdate($refNumDate);
-            $property->setReflastnumber($lastRefNum);
-        }else{
-            $lastRefDate = $lastproperty->getRefnumdate();
-            if($lastRefDate == $refNumDate){
-                $lastRefNum = $lastproperty->getReflastnumber()+1;
-                $property->setRefnumdate($refNumDate);
-                $property->setReflastnumber($lastRefNum);
+            // ---
+            // Contruction de la référence pour chaque propriété
+            // ---
+            $date = new \DateTime();
+            $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);
+            if($lastproperty){
+                $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
+                $RefMandat = $refMandat;
             }else{
-                $lastRefNum = 1;
-                $property->setRefnumdate($refNumDate);
-                $property->setReflastnumber($lastRefNum);
+                $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
+                $RefMandat = 22;
             }
+
+            $family = $familyRepository->find(substr($destination, 0,-1));
+            $rubric = $rubricRepository->find(substr($destination, -1,1));
+            $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
+
+            $property = $propertyService->add_NewProperty($employed, $family, $rubric, $rubricss, $lastproperty, $refNumDate, $isNomandat, $RefMandat, $typeMandat);
+
+            $qrCode = $qrcodeService->qrcodeOneProperty($property);
+            $property->setQrcodeUrl($qrCode);
+            $em->persist($property);
+            $em->flush();
+
+            return $this->json([
+                'code' => 200,
+                'url' => $this->generateUrl('op_gestapp_property_show', ['id' => $property->getId()])
+            ], 200);
+
+            return $this->redirectToRoute('op_gestapp_property_show', [
+                'id' => $property->getId()
+            ]);
         }
-        $property->setRef($refNumDate.'-'.$lastRefNum);
-        $property->setSurfaceHome(0);
-        $property->setSurfaceLand(0);
-        $property->setPrice(0);
-        $property->setHonoraires(0);
-        $property->setPriceFai(0);
-        $property->setRent(0);
-        $property->setRentCharge(0);
-        $property->setRentChargeModsPayment(1);
-        $property->setWarrantyDeposit(0);
-        $property->setDiagChoice('obligatoire');
-        $property->setDiagDpe(0);
-        $property->setDiagGes(0);
-        $property->setDpeEstimateEnergyUp(0);
-        $property->setDpeEstimateEnergyDown(0);
-        $property->setRefEmployed($employed);
-        $property->setOptions($complement);
-        $property->setPublication($publication);
-        $property->setIsIncreating(1);
-        $property->setRefMandat($RefMandat);
-        $property->setIsNomandat($isNomandat);
-        $property->setMandatAt(new \DateTime('now'));
-        $property->setIsWithoutExclusivity(1);
-        $property->setProjet('VH');
-        $propertyRepository->add($property);
 
-        $qrCode = $qrcodeService->qrcodeOneProperty($property);
-        $property->setQrcodeUrl($qrCode);
-        $em->persist($property);
-        $em->flush();
-
-        return $this->redirectToRoute('op_gestapp_property_show', [
-            'id' => $property->getId()
+        return $this->render('gestapp/property/include/_addproperty.html.twig', [
+            'form' => $form,
         ]);
     }
 
@@ -1255,7 +1239,6 @@ class PropertyController extends AbstractController
         ]);
     }
 
-
     /**
      * Mettre en place l'archivage d'un bien selon une date de fin de mandat
      */
@@ -1369,5 +1352,4 @@ class PropertyController extends AbstractController
             ], 200);
         }
     }
-
 }
