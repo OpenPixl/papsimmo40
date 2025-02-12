@@ -509,12 +509,6 @@ class PropertyController extends AbstractController
         Request $request,
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
-        ComplementRepository $complementRepository,
-        PublicationRepository $publicationRepository,
-        PropertyEquipementRepository $propertyEquipementRepository,
-        PropertyEnergyRepository $propertyEnergyRepository,
-        OtherOptionRepository $otherOptionRepository,
-        PropertyDefinitionRepository $propertyDefinitionRepository,
         propertyFamilyRepository $familyRepository,
         propertyRubricRepository $rubricRepository,
         propertyRubricssRepository $rubricssRepository,
@@ -539,6 +533,9 @@ class PropertyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $refMandat = $form->get('refMandat')->getData();
+            if($refMandat == null){
+                $refMandat = 0;
+            }
             $isNomandat = $form->get('isNomandat')->getData();
             $destination = $form->get('destination')->getData();
             $typeMandat = $form->get('type_mandat')->getData();
