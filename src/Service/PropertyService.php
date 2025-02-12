@@ -547,6 +547,61 @@ class PropertyService
         return $publication;
     }
 
+    public function add_NewProperty($employed, $family, $rubric, $rubricss, $lastproperty, $refNumDate, $isNomandat, $RefMandat){
+
+        $property = new Property();
+        $property->setAnnonceDown('<p class="mb-0">Contact : '.$employed->getGsm().' ou '. $employed->getEmail() .'</p><p>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');
+        $property->setFamily($family);
+        $property->setRubric($rubric);
+        $property->setRubricss($rubricss);
+        $property->setPiece(0);
+        $property->setRoom(0);
+        $property->setName('Nouveau bien');
+        if(!$lastproperty){
+            $lastRefNum = 1;
+            $property->setRefnumdate($refNumDate);
+            $property->setReflastnumber($lastRefNum);
+        }else{
+            $lastRefDate = $lastproperty->getRefnumdate();
+            if($lastRefDate == $refNumDate){
+                $lastRefNum = $lastproperty->getReflastnumber()+1;
+                $property->setRefnumdate($refNumDate);
+                $property->setReflastnumber($lastRefNum);
+            }else{
+                $lastRefNum = 1;
+                $property->setRefnumdate($refNumDate);
+                $property->setReflastnumber($lastRefNum);
+            }
+        }
+        $property->setRef($refNumDate.'-'.$lastRefNum);
+        $property->setSurfaceHome(0);
+        $property->setSurfaceLand(0);
+        $property->setPrice(0);
+        $property->setHonoraires(0);
+        $property->setPriceFai(0);
+        $property->setRent(0);
+        $property->setRentCharge(0);
+        $property->setRentChargeModsPayment(1);
+        $property->setWarrantyDeposit(0);
+        $property->setDiagChoice('obligatoire');
+        $property->setDiagDpe(0);
+        $property->setDiagGes(0);
+        $property->setDpeEstimateEnergyUp(0);
+        $property->setDpeEstimateEnergyDown(0);
+        $property->setRefEmployed($employed);
+        $property->setOptions($this->getNewComplement());
+        $property->setPublication($this->getPublication());
+        $property->setIsIncreating(1);
+        $property->setRefMandat($RefMandat);
+        $property->setIsNomandat($isNomandat);
+        $property->setMandatAt(new \DateTime('now'));
+        $property->setIsWithoutExclusivity(1);
+        $property->setProjet('VH');
+        $this->em->persist($property);
+
+        return $property;
+    }
+
     public function addCustomer($reco){
         $client = new Customer();
         $client->setTypeClient('particulier');

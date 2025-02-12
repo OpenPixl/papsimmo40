@@ -370,6 +370,9 @@ class Property
     #[ORM\Column(length: 150, nullable: true)]
     private ?string $addLinkAuction = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $typeMandat = null;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -1559,6 +1562,18 @@ class Property
     public function setAddLinkAuction(?string $addLinkAuction): static
     {
         $this->addLinkAuction = $addLinkAuction;
+
+        return $this;
+    }
+
+    public function getTypeMandat(): ?string
+    {
+        return $this->typeMandat;
+    }
+
+    public function setTypeMandat(?string $typeMandat): static
+    {
+        $this->typeMandat = $typeMandat;
 
         return $this;
     }
