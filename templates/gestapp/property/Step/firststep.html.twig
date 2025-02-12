@@ -24,7 +24,7 @@
                             {% else %}
                                 {# controle si le mandat porte le numéro 0 #}
                                 {% if property.refMandat == 0 %}
-                                    <p class="mb-0"><span class="text-secondary">Numéro :</span> <a id="AddMandat" class="text-info"><i class="fa-sharp fa-solid fa-circle-plus"></i> Ajouter le mandat</a></p>
+                                    <p class="mb-0"><a id="AddMandat" class="text-info"><i class="fa-sharp fa-solid fa-circle-plus"></i> Ajouter le mandat</a></p>
                                 {% else %}
                                     <p class="mb-0"><span class="text-secondary">Numéro :</span> {{ property.refMandat }}</p>
                                 {% endif %}
