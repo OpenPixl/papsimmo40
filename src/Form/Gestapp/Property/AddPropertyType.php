@@ -8,6 +8,7 @@ use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,14 +19,14 @@ class AddPropertyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('nomandat', CheckboxType::class, [
+            ->add('isNomandat', CheckboxType::class, [
                 'label' => 'Est-ce un bien sans mandat ?'
             ])
-            ->add('mandat', IntegerType::class, [
-                'label' => 'Mandat'
+            ->add('refMandat', TextType::class, [
+                'label' => 'Numéro : '
             ])
-            ->add('mandat', IntegerType::class, [
-                'label' => 'Mandat'
+            ->add('destination', IntegerType::class, [
+                'label' => 'Destination du bien'
             ])
             ->add('type_mandat', ChoiceType::class, [
                 'label' => 'Type de mandat',

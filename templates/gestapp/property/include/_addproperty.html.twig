@@ -1,0 +1,69 @@
+{{ form_start(form) }}
+<div class="row">
+    <div class="col-12">
+
+        <div class="card bg-light">
+            <div class="card-body p-2">
+
+                <div class="row">
+                    <div class="col-10 d-flex align-items-center">
+                        <p>
+                            <b>Attention :</b><br>
+                            Dans le cas où vous souhaiteriez créer un bien sans numéro de mandat, veuillez cliquez dans la case suivante.
+                        </p>
+                    </div>
+                    <div class="col-2 d-flex align-items-center justify-content-center">
+                        {{ form_widget(form.isNomandat) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div id="tabMandat" class="row mt-2">
+    <div class="col-12">
+        <p class="fw-semibold mb-0 border-bottom">
+            <i class="fa-regular fa-circle-1"></i> Veuillez inscrire un numéro de mandat pour la création d'un bien.
+        </p>
+        <div class="row align-self-center mt-1">
+            <div class="col-2">{{ form_label(form.refMandat, '', {'label_attr': {'class' : 'text-secondary'}}) }}</div>
+            <div class="col-2">{{ form_widget(form.refMandat, {'attr':{'class': 'form-control form-control-sm'}}) }}</div>
+            <div class="col-8">
+                <p id="refmandat_error" class="text-secondary italic mn-0">
+
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-2">
+        <p class="fw-semibold mb-0 border-bottom">
+            <i class="fa-regular fa-circle-2"></i> Choisissez le type de mandat pour le nouveau bien.
+        </p>
+        <div class="row align-self-center mt-1">
+            <div class="col-2">{{ form_label(form.type_mandat, '', {'label_attr': {'class' : 'text-secondary'}}) }}</div>
+            <div class="col-5">{{ form_widget(form.type_mandat, {'attr':{'class': 'form-select form-select-sm'}}) }}</div>
+            <div class="col-5">
+                <p id="refmandat_error" class="text-secondary italic mn-0">
+
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12 mt-2">
+        <p class="fw-semibold mb-0 border-bottom">
+            <i class="fa-regular fa-circle-2"></i> Choisissez le type de mandat pour le nouveau bien.
+        </p>
+        <div class="row align-self-center mt-1">
+            <div class="col-2">{{ form_label(form.destination, '', {'label_attr': {'class' : 'text-secondary'}}) }}</div>
+            <div class="col-4">{{ form_widget(form.destination, {'attr':{'class': 'form-select form-select-sm'}}) }}</div>
+            <div class="col-6">
+                <p id="refmandat_error" class="text-secondary italic mn-0">
+
+                </p>
+            </div>
+        </div>
+    </div>
+    {{ form_rest(form) }}
+</div>
+{{ form_end(form) }}

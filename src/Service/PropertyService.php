@@ -547,7 +547,7 @@ class PropertyService
         return $publication;
     }
 
-    public function add_NewProperty($employed, $family, $rubric, $rubricss, $lastproperty, $refNumDate, $isNomandat, $RefMandat){
+    public function add_NewProperty($employed, $family, $rubric, $rubricss, $lastproperty, $refNumDate, $isNomandat, $RefMandat, $typeMandat){
 
         $property = new Property();
         $property->setAnnonceDown('<p class="mb-0">Contact : '.$employed->getGsm().' ou '. $employed->getEmail() .'</p><p>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');
@@ -593,6 +593,7 @@ class PropertyService
         $property->setPublication($this->getPublication());
         $property->setIsIncreating(1);
         $property->setRefMandat($RefMandat);
+        $property->setTypeMandat($typeMandat);
         $property->setIsNomandat($isNomandat);
         $property->setMandatAt(new \DateTime('now'));
         $property->setIsWithoutExclusivity(1);

@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Photo;
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Publication;
 use App\Form\Gestapp\Property\AddMandatType;
+use App\Form\Gestapp\Property\AddPropertyType;
 use App\Form\Gestapp\PropertyAvenantType;
 use App\Form\Gestapp\PropertyEndMandatType;
 use App\Form\Gestapp\PropertyImageType;
@@ -503,8 +504,9 @@ class PropertyController extends AbstractController
         return $this->redirectToRoute('op_gestapp_property_index');
     }
 
-    #[Route('/add/{isNomandat}/{refMandat}/{destination}', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
+    #[Route('/add', name:'op_gestapp_property_add', methods: ['GET', 'POST'])]
     public function add(
+        Request $request,
         PropertyRepository $propertyRepository,
         EmployedRepository $employedRepository,
         ComplementRepository $complementRepository,
@@ -516,9 +518,6 @@ class PropertyController extends AbstractController
         propertyFamilyRepository $familyRepository,
         propertyRubricRepository $rubricRepository,
         propertyRubricssRepository $rubricssRepository,
-        $isNomandat,
-        $refMandat,
-        $destination,
         EntityManagerInterface $em,
         QrcodeService $qrcodeService,
         PropertyService $propertyService
@@ -528,38 +527,58 @@ class PropertyController extends AbstractController
         $user = $this->getUser();
         $employed = $employedRepository->find($user->getId());
 
-        // préparation des complements au bien
-        $complement = $propertyService->getNewComplement();
+        $form = $this->createForm(AddPropertyType::class, null, [
+            'action' => $this->generateUrl('op_gestapp_property_add'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'AddProperty'
+            ]
+        ]);
+        $form->handleRequest($request);
 
-        // création d'une fiche Publication
-        $publication = $propertyService->getPublication();
+        if ($form->isSubmitted() && $form->isValid()) {
 
-        // ---
-        // Contruction de la référence pour chaque propriété
-        // ---
-        $date = new \DateTime();
-        $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);
-        if($lastproperty){
-            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
-            $RefMandat = $refMandat;
-        }else{
-            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
-            $RefMandat = 22;
+            $refMandat = $form->get('refMandat')->getData();
+            $isNomandat = $form->get('isNomandat')->getData();
+            $destination = $form->get('destination')->getData();
+            $typeMandat = $form->get('type_mandat')->getData();
+
+            // ---
+            // Contruction de la référence pour chaque propriété
+            // ---
+            $date = new \DateTime();
+            $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);
+            if($lastproperty){
+                $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
+                $RefMandat = $refMandat;
+            }else{
+                $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
+                $RefMandat = 22;
+            }
+
+            $family = $familyRepository->find(substr($destination, 0,-1));
+            $rubric = $rubricRepository->find(substr($destination, -1,1));
+            $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
+
+            $property = $propertyService->add_NewProperty($employed, $family, $rubric, $rubricss, $lastproperty, $refNumDate, $isNomandat, $RefMandat, $typeMandat);
+
+            $qrCode = $qrcodeService->qrcodeOneProperty($property);
+            $property->setQrcodeUrl($qrCode);
+            $em->persist($property);
+            $em->flush();
+
+            return $this->json([
+                'code' => 200,
+                'url' => $this->generateUrl('op_gestapp_property_show', ['id' => $property->getId()])
+            ], 200);
+
+            return $this->redirectToRoute('op_gestapp_property_show', [
+                'id' => $property->getId()
+            ]);
         }
 
-        $family = $familyRepository->find(substr($destination, 0,-1));
-        $rubric = $rubricRepository->find(substr($destination, -1,1));
-        $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
-
-        $property = $propertyService->add_NewProperty($employed, $family, $rubric, $rubricss, $lastproperty, $refNumDate, $isNomandat, $RefMandat);
-
-        $qrCode = $qrcodeService->qrcodeOneProperty($property);
-        $property->setQrcodeUrl($qrCode);
-        $em->persist($property);
-        $em->flush();
-
-        return $this->redirectToRoute('op_gestapp_property_show', [
-            'id' => $property->getId()
+        return $this->render('gestapp/property/include/_addproperty.html.twig', [
+            'form' => $form,
         ]);
     }
 
