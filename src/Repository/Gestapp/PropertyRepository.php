@@ -687,7 +687,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.diagDpe as diagDpe,
                 p.diagGes as diagGes,
                 ps.name as propertyState,
-                pe.name as propertyEnergy,
+                pe.name as energies,
                 po.name as propertyOrientation,
                 pt.name as propertyTypology,
                 pr.name as propertyRubric,
@@ -1168,7 +1168,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1254,7 +1254,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1338,7 +1338,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1422,7 +1422,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1508,7 +1508,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1601,7 +1601,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.propertyEnergy', 'pe');
+        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');

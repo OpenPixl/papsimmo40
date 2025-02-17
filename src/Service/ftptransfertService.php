@@ -75,6 +75,7 @@ class ftptransfertService
         $rows = array();
         foreach ($properties as $property){
             $propriete = $propertyRepository->find($property['id']);
+            dd($propriete);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
             // Description de l'annonce
@@ -301,7 +302,6 @@ class ftptransfertService
         $request = $this->requestStack->getCurrentRequest();
         // PARTIE I
         $properties = $propertyRepository->reportpropertyGreenacresFTP();            // On récupère les biens à publier sur SeLoger
-
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
         $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
@@ -489,7 +489,7 @@ class ftptransfertService
                 'country' => 'fr',
                 'status' => $publication->isIsPublishgreenacres(),
                 'annonce' => $annonce,
-                'type' => $rubric->getEn(),
+                'type' => $rubric->getName(),
                 'surfaceLand' => $property->getSurfaceLand(),
                 'surfaceHome' => $property->getSurfaceHome(),
                 'rooms' => $property->getPiece(),
@@ -505,7 +505,7 @@ class ftptransfertService
                 'balcony' => $options->getBalcony(),
                 'level' => $options->getLevel(),
                 'isFurnished' => $options->getIsFurnished(),
-                'heating' => $options->getPropertyEnergy(),
+                'heating' => $options->getEnergies(),
                 'pics' => $pics,
                 'charge' => $charge
             ];
@@ -513,8 +513,6 @@ class ftptransfertService
 
 
         }
-        $content = implode("\n", $adverts2);
-        //dd($content);
         $xmlContent = $this->twig->render('gestapp/report/greenacrees.html.twig', [
             'adverts' => $adverts
         ]);
