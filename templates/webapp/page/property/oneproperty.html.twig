@@ -217,7 +217,6 @@
                                 <tr>
                                     <td>Type</td>
                                     <td>
-                                        <span class="color">{{ property.propertyDefinition }}</span> -
                                         {% if property.denomination == 'A définir' %}
                                         {% else %}
                                             <span class="color">{{ property.denomination }}</span>
@@ -230,10 +229,10 @@
                                         <td><span class="color">{{ property.propertyState }}</span></td>
                                     </tr>
                                 {% endif %}
-                                {% if property.propertyEnergy != 'A définir' %}
+                                {% if property.energies!= 'A définir' %}
                                     <tr>
                                         <td>Energie principal</td>
-                                        <td><span class="color">{{ property.propertyEnergy }}</span></td>
+                                        <td><span class="color">{{ property.energies }}</span></td>
                                     </tr>
                                 {% endif %}
                                 {% if property.propertyTax > 0 %}

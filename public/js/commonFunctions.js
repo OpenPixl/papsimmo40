@@ -52,3 +52,23 @@ export function findCommunes(City, Zipcode, Select) {
         xhr.send();
     }
 }
+
+export function validate_mandat(input, array, error_message){
+    let newmandat = parseInt(input.value);
+    let flag = 0;
+    for(let i=0; i<array.length; i++) {
+        if(newmandat === array[i]) {
+            flag = 1;
+        }
+    }
+    if(flag === 1){
+        input.classList.remove("is-valid");
+        input.classList.add("is-invalid");
+        error_message.innerHTML = 'Corrigez ce numéro, il est présent dans la liste des biens <b>Paps immo</b>.';
+
+    }else{
+        input.classList.remove("is-invalid");
+        input.classList.add("is-valid");
+        error_message.textContent = "Numéro de mandat valide.";
+    }
+}
