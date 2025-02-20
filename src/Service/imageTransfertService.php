@@ -40,9 +40,9 @@ class imageTransfertService
         $host = $this->pathService->getHost();
 
         if(!$port){
-            $imageUrl = $scheme.'://'.$host.'/prescriptors/'.$user->getSlug().'/'.$name;
+            $imageUrl = $scheme.'://applipaps.openpixl.fr/prescriptors/'.$user->getSlug().'/'.$name;
         }else{
-            $imageUrl = $scheme.'://'.$host.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$name;
+            $imageUrl = $scheme.'://applipaps.openpixl.fr:'.$port.'/prescriptors/'.$user->getSlug().'/'.$name;
         }
 
         if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {
