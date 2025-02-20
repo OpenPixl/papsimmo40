@@ -8,8 +8,10 @@ use App\Form\Admin\EmployedType;
 use App\Form\Admin\ResettingPasswordType;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use App\Service\imageTransfertService;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -20,6 +22,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class EmployedController extends AbstractController
 {
+
+    private $imageTransfertService;
+
+    public function __construct(ImageTransfertService $imageTransfertService)
+    {
+        $this->imageTransfertService = $imageTransfertService;
+    }
 
     #[Route('/opadmin/employed/api/users', name: 'op_admin_employeds')]
     public function employeds(Request $request, EmployedRepository $repository)
@@ -41,6 +50,36 @@ class EmployedController extends AbstractController
         return $this->render('webapp/page/employed/allemployed.html.twig', [
             'employeds' => $employedRepository->publishEmployedOnApp(),
         ]);
+    }
+
+    #[Route('/opadmin/employed/avatarTransfertApp', name: 'op_admin_employeds_avatarTransfertApp', methods: ['GET'])]
+    public function avatarTransfertApp(Request $request): Response
+    {
+        $imageUrl = $request->get('url');
+
+        try {
+            $this->imageTransfertService->transfertAvatarImage($imageUrl, $request);
+            return $this->json([
+                'message' => "Image transférée",
+            ]);
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Accès non autorisé'], 401);
+        }
+    }
+
+    #[Route('/opadmin/employed/ciTransfertApp', name: 'op_admin_employeds_ciTransfertApp', methods: ['GET'])]
+    public function ciTransfertApp(Request $request): Response
+    {
+        $imageUrl = $request->get('url');
+
+        try {
+            $this->imageTransfertService->transfertAvatarImage($imageUrl, $request);
+            return $this->json([
+                'message' => "Document transférée",
+            ]);
+        } catch (\Exception $e) {
+            return $this->json(['error' => 'Accès non autorisé'], 401);
+        }
     }
 
     #[Route('/opadmin/employed/', name: 'op_admin_employed_index', methods: ['GET'])]

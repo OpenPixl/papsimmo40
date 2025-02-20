@@ -48,6 +48,11 @@ services:
             - '@knp_paginator'
             - '@fos_elastica.finder.property'
 
+    App\Service\imageTransfertService:
+        arguments:
+            $targetDirectoryAvatar: '%kernel.project_dir%/public/images/avatar/'
+            $targetDirectoryCi: '%kernel.project_dir%/public/images/employed/'
+
     App\Service\ftptransfertService:
         arguments:
             # SE LOGER
