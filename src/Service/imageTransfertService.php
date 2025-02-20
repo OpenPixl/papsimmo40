@@ -4,17 +4,21 @@ namespace App\Service;
 
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\Admin\EmployedRepository;
+use App\Service\PathService;
 
 class imageTransfertService
 {
 
     public function __construct(
+        public PathService $pathService,
         private HttpClientInterface $httpClient,
         private string $targetDirectoryAvatar,
         private string $targetDirectoryCi,
+        public EmployedRepository $employedRepository
     ){}
 
-    public function transfertAvatarImage(string $imageUrl, Request $request): void
+    public function transfertAvatarImage(string $name, Request $request): void
     {
         $authorizationHeader = $request->headers->get('Authorization');
 
@@ -28,15 +32,36 @@ class imageTransfertService
         $tokenPayload = base64_decode($tokenParts[1]);
         $jwtPayload = json_decode($tokenPayload);
 
-        if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {
-            $response = $this->httpClient->request('GET', $imageUrl);
+        $email = $jwtPayload->email;
+        $user = $this->employedRepository->findOneBy(['email' => $email]);
 
+        $scheme = $this->pathService->getScheme();
+        $port = $this->pathService->getPort();
+        $host = $this->pathService->getHost();
+
+        if(!$port){
+            $imageUrl = $scheme.'://'.$host.'/prescriptors/'.$user->getSlug().'/'.$name;
+        }else{
+            $imageUrl = $scheme.'://'.$host.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$name;
+        }
+
+        if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {
+            $path = $this->targetDirectoryAvatar.$user->getSlug();
+            $response = $this->httpClient->request('GET', $imageUrl);
+            //dd($response->getStatusCode());
             if ($response->getStatusCode() === 200) {
                 $imageContent = $response->getContent();
                 $filename = basename(parse_url($imageUrl, PHP_URL_PATH));
-                file_put_contents($this->targetDirectoryAvatar . '/' . $filename, $imageContent);
+                if(is_dir($path)) {
+                    //throw new \Exception('le dossier existe.');
+                    file_put_contents($path . '/' . $filename, $imageContent);
+                }else{
+                    //throw new \Exception('Pas de dossier.');
+                    mkdir($path, 0775, true);
+                    file_put_contents($path . '/' . $filename, $imageContent);
+                }
             } else {
-                throw new \Exception('Impossible de charger  l\'image.');
+                throw new \Exception('Impossible de charger  le document.');
             }
         }else{
             throw new \Exception('Vous n\'ếtes pas autoriser par l\'application à charger l\'image');
@@ -45,7 +70,7 @@ class imageTransfertService
 
     }
 
-    public function transfertCiImage(string $imageUrl, Request $request): void
+    public function transfertCiImage(string $name, Request $request): void
     {
         $authorizationHeader = $request->headers->get('Authorization');
 
@@ -59,17 +84,38 @@ class imageTransfertService
         $tokenPayload = base64_decode($tokenParts[1]);
         $jwtPayload = json_decode($tokenPayload);
 
-        if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {
-            $response = $this->httpClient->request('GET', $imageUrl);
+        $email = $jwtPayload->email;
+        $user = $this->employedRepository->findOneBy(['email' => $email]);
 
+        $scheme = $this->pathService->getScheme();
+        $port = $this->pathService->getPort();
+        $host = $this->pathService->getHost();
+
+        if(!$port){
+            $imageUrl = $scheme.'://'.$host.'/prescriptors/'.$user->getSlug().'/'.$name;
+        }else{
+            $imageUrl = $scheme.'://'.$host.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$name;
+        }
+
+        if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {
+            $path = $this->targetDirectoryCi.$user->getSlug();
+            $response = $this->httpClient->request('GET', $imageUrl);
             if ($response->getStatusCode() === 200) {
                 $imageContent = $response->getContent();
                 $filename = basename(parse_url($imageUrl, PHP_URL_PATH));
-                file_put_contents($this->targetDirectoryCi . '/' . $filename, $imageContent);
+                if(is_dir($path)) {
+                    //throw new \Exception('le dossier existe.');
+                    file_put_contents($path . '/' . $filename, $imageContent);
+                }else{
+                    //throw new \Exception('Pas de dossier.');
+                    mkdir($path, 0775, true);
+                    file_put_contents($path . '/' . $filename, $imageContent);
+                }
             } else {
                 throw new \Exception('Impossible de charger  le document.');
             }
         }else{
+            dd('false');
             throw new \Exception('Vous n\'ếtes pas autoriser par l\'application à charger le document');
         }
 

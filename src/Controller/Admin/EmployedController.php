@@ -52,13 +52,13 @@ class EmployedController extends AbstractController
         ]);
     }
 
-    #[Route('/opadmin/employed/avatarTransfertApp', name: 'op_admin_employeds_avatarTransfertApp', methods: ['GET'])]
-    public function avatarTransfertApp(Request $request): Response
+    #[Route('/opadmin/employed/avatarTransfertApp/{name}', name: 'op_admin_employeds_avatarTransfertApp', methods: ['GET'])]
+    public function avatarTransfertApp(Request $request, $name): Response
     {
         $imageUrl = $request->get('url');
 
         try {
-            $this->imageTransfertService->transfertAvatarImage($imageUrl, $request);
+            $this->imageTransfertService->transfertAvatarImage($name, $request);
             return $this->json([
                 'message' => "Image transférée",
             ]);
@@ -67,18 +67,20 @@ class EmployedController extends AbstractController
         }
     }
 
-    #[Route('/opadmin/employed/ciTransfertApp', name: 'op_admin_employeds_ciTransfertApp', methods: ['POST'])]
-    public function ciTransfertApp(Request $request): Response
+    #[Route('/opadmin/employed/ciTransfertApp/{name}', name: 'op_admin_employeds_ciTransfertApp', methods: ['GET'])]
+    public function ciTransfertApp(Request $request, $name): Response
     {
-        $imageUrl = $request->get('url');
+        //dd($name);
+        //$imageUrl = 'http://127.0.0.1:8002/prescriptors/'.$name;
+        //dd($imageUrl);
 
         try {
-            $this->imageTransfertService->transfertAvatarImage($imageUrl, $request);
+            $this->imageTransfertService->transfertCiImage($name, $request);
             return $this->json([
                 'message' => "Document transférée",
             ]);
         } catch (\Exception $e) {
-            return $this->json(['error' => 'Accès non autorisé'], 401);
+            return $this->json(['error' => 'Erreur lors du transfert sur le document : ' .$e->getMessage()], 401);
         }
     }
 

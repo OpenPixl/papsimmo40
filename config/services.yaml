@@ -50,8 +50,8 @@ services:
 
     App\Service\imageTransfertService:
         arguments:
-            $targetDirectoryAvatar: '%kernel.project_dir%/public/images/avatar/'
-            $targetDirectoryCi: '%kernel.project_dir%/public/images/employed/'
+            $targetDirectoryAvatar: '%kernel.project_dir%/public/employed/'
+            $targetDirectoryCi: '%kernel.project_dir%/public/employed/'
 
     App\Service\ftptransfertService:
         arguments:

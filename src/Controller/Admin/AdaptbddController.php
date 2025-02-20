@@ -2,7 +2,9 @@
 
 namespace App\Controller\Admin;
 
+use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\choice\PropertyEnergy;
+use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\choice\PropertyEnergyRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -21,15 +23,12 @@ class AdaptbddController extends AbstractController
     }
 
     #[Route('/admin/adaptbdd/entity', name: 'app_admin_adaptbdd_entity')]
-    public function AdaptEntity(ComplementRepository $complementRepository, EntityManagerInterface $em)
+    public function AdaptEntity(EmployedRepository $employedRepository, EntityManagerInterface $em)
     {
-        $complements = $complementRepository->findAll();
+        $complements = $employedRepository->findAll();
         foreach($complements as $c){
-            $propertyEnergy = $c->getPropertyEnergy();
-            //$propertyEnergy = $em->getRepository(PropertyEnergy::class)->find($idpropertyEnergy);
-            if($propertyEnergy){
-                $c->addEnergy($propertyEnergy);
-            }
+            $name = $c->getFirstName();
+            $c->setFirstName($name);
             $em->flush();
         }
 

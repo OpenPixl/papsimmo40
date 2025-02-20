@@ -415,7 +415,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\PreUpdate]
     public function initializeSlug() {
         $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->firstName."_".$this->lastName);
+        $this->slug = $slugify->slugify(substr(bin2hex(random_bytes(12)), 0, 12));
     }
 
     public function getId(): ?int

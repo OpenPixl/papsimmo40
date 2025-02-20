@@ -23,7 +23,6 @@ if (valcivility > 1){
     document.getElementById('employed_maidenName').classList.remove('d-none');
 }
 
-
 radioButtons.forEach(function(radio) {
     radio.addEventListener("change", function() {
         if (parseInt(this.value) === 2) {
