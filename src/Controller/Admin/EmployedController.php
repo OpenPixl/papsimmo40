@@ -67,7 +67,7 @@ class EmployedController extends AbstractController
         }
     }
 
-    #[Route('/opadmin/employed/ciTransfertApp', name: 'op_admin_employeds_ciTransfertApp', methods: ['GET'])]
+    #[Route('/opadmin/employed/ciTransfertApp', name: 'op_admin_employeds_ciTransfertApp', methods: ['POST'])]
     public function ciTransfertApp(Request $request): Response
     {
         $imageUrl = $request->get('url');
