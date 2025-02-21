@@ -115,7 +115,6 @@ class imageTransfertService
                 throw new \Exception('Impossible de charger  le document.');
             }
         }else{
-            dd('false');
             throw new \Exception('Vous n\'ếtes pas autoriser par l\'application à charger le document');
         }
 
