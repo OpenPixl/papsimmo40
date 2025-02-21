@@ -32,4 +32,23 @@ fos_elastica:
                     type: object
                     properties:
                         id: ~
+        customer:
+            persistence:
+                driver: orm
+                model: App\Entity\Gestapp\Property
+                provider: ~
+                finder: ~
+            properties:
+                refCustomer:
+                    type: text
+                firstName:
+                    type: text
+                lastName:
+                    type: text
+                city:
+                    type: text
+                zipcode:
+                    type: text
+                typeClient:
+                    type: text
 
