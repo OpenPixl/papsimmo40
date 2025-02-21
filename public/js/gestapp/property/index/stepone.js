@@ -1,4 +1,3 @@
-import {validate_mandat} from '../../../commonFunctions';
 const ulPagination = document.getElementsByClassName('pagination');
 
 function SubmitFormSearch(event){
