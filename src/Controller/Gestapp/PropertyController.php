@@ -37,6 +37,7 @@ use App\Service\PropertyService;
 use App\Service\QrcodeService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -48,22 +49,16 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class PropertyController extends AbstractController
 {
     #[Route('/changetypemandat/', name: 'op_gestapp_properties_changetypemandat', methods: ['GET'])]
-    public function changeStatutMandat(PropertyRepository $propertyRepository, Request $request, EntityManagerInterface $em){
+    public function changeStatutMandat(PropertyRepository $propertyRepository, Request $request, EntityManagerInterface $em, HtmlSanitizerInterface $sanitizer): Response{
         $properties = $propertyRepository->findAll();
         foreach ($properties as $p){
-            $isWithE = $p->isIsWithExclusivity();
-            $isSemE = $p->isIsSemiExclusivity();
-            $isWithoutE= $p->isIsWithoutExclusivity();
-            if($isWithE == 1){
-                $p->setTypeMandat('avec_exclusivité');
-            }
-            if($isSemE == 1){
-                $p->setTypeMandat('avec_semi-exclusivité');
-            }
-            if($isWithoutE == 1){
-                $p->setTypeMandat('sans_exclusivité');
-            }
-            $em->flush();
+            $annonce = $sanitizer->sanitize($p->getAnnonce());
+            $annonce = preg_replace('/<span[^>]*>/', '', $annonce);
+            $annonce = preg_replace('/<\/span>/', '', $annonce);
+            $annonce = preg_replace('/<div[^>]*>/', '', $annonce);
+            $annonce = preg_replace('/<\/div>/', '', $annonce);
+            $p->setAnnonce($annonce);
+            $em->flush($p);
         }
         return $this->json(['message'=>'Ok'], 200);
     }
@@ -732,7 +727,7 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/{id}/firstedit', name: 'op_gestapp_property_firstedit', methods: ['GET', 'POST'])]
-    public function firstedit(Request $request, Property $property, PropertyRepository $propertyRepository): Response
+    public function firstedit(Request $request, Property $property, PropertyRepository $propertyRepository, ): Response
     {
 
         $complement = $property->getOptions();
@@ -757,7 +752,7 @@ class PropertyController extends AbstractController
 
 
     #[Route('/firststep/{id}', name: 'op_gestapp_property_firststep', methods: ['GET', 'POST'])]
-    public function firstStep(Request $request, Property $property, PropertyRepository $propertyRepository)
+    public function firstStep(Request $request, Property $property, PropertyRepository $propertyRepository, HtmlSanitizerInterface  $htmlSanitizer): Response
     {
         //dd($property);
         $form = $this->createForm(PropertyStep1Type::class, $property, [
@@ -768,8 +763,8 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             // traitement du contenu de l'annonce
-            $annonce = str_replace(array("\u{A0}"), array(' '),$property->getAnnonce());;
-            //dd($annonce);
+            $annonce = $htmlSanitizer->sanitize($property->getAnnonce());
+
             $property->setAnnonce($annonce);
             if(empty($property->getAnnonceDown()) || is_null($property->getAnnonceDown())){
                 $property->setAnnonceDown('<p class="mb-0">Contact : '.$property->getRefEmployed()->getGsm().' ou '. $property->getRefEmployed()->getEmail() .'</p><p>Les informations sur les risques auxquels, ce bien est exposé sont disponibles sur le site Géorisques : www.georisques.gouv.fr</p>');

@@ -55,5 +55,8 @@ tinymce.init({
     language: 'fr_FR',
     language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
     entity_encoding: "raw",
-    encoding: "html"
+    encoding: "html",
+    valid_elements: 'p,br,b,i,u,strong,em,ul,ol,li', // Exemple : limiter les balises autorisées
+    valid_children: '+body[p,br,b,i,u,strong,em,ul,ol,li]', // Exemple : limiter les enfants autorisés
+    paste_as_text: true,
 });

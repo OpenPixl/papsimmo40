@@ -22,6 +22,7 @@ use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\TransactionRepository;
+use App\Service\NotificationService;
 use App\Service\transactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -42,7 +43,10 @@ class TransactionController extends AbstractController
     private bool $submit;
     private Application $application;
 
-    public function __construct(EntityManagerInterface $entityManager)
+    public function __construct(
+        EntityManagerInterface $entityManager,
+        public NotificationService $notificationService
+    )
     {
         $this->submit = true; // Initialisation de la variable $public
         $this->application = $entityManager->getRepository(Application::class)->find(1);
@@ -735,7 +739,7 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/{id}/addDateActe/{roleEditor}', name: 'op_gestapp_transaction_adddateacte', methods: ['GET', 'POST'])]
-    public function addDateActe(Transaction $transaction, transactionService $transactionService, $roleEditor, Request $request, EntityManagerInterface $em) : response
+    public function addDateActe(Transaction $transaction, transactionService $transactionService, $roleEditor, Request $request, EntityManagerInterface $em, MailerInterface $mailer) : response
     {
         $form = $this->createForm(TransactionActedateType::class, $transaction, [
             'attr' => ['id'=>'addDateActeForm'],
@@ -755,6 +759,33 @@ class TransactionController extends AbstractController
             $project = $transactionService->calculateProject($transaction);
             $transaction->setProject($project);
             $em->flush();
+
+            if($this->submit){
+                $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+                if($hasAccess == false) {
+                    $email = (new TemplatedEmail())
+                        ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'))
+                        ->to($this->application->getAdminEmail())
+                        //->cc('cc@example.com')
+                        //->bcc('bcc@example.com')
+                        //->replyTo('fabien@example.com')
+                        //->priority(Email::PRIORITY_HIGH)
+                        ->subject('[PAPs immo] : TRANSACTION | Acte de vente signé sur la transaction :  '.$transaction->getId())
+                        ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                        ->context([
+                            'transaction' => $transaction,
+                            'url' => $request->server->get('HTTP_HOST')
+                        ]);
+                    try {
+                        $mailer->send($email);
+                        $this->notificationService->setDocumentTransaction('SoftPAPs', 'Transaction', $transaction);
+                    } catch (TransportExceptionInterface $e) {
+                        // some error prevented the email sending; display an
+                        // error message or try to resend the message
+                        dd($e);
+                    }
+                }
+            }
 
             return $this->json([
                 'code' => 200,

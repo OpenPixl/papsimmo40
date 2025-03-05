@@ -19,7 +19,12 @@ class AddRecoByIdCollaborator extends AbstractController
         //dd($data);
         if($data){
             $employed = $data->getRefEmployed();
-            $log = array($data);
+            $log = [
+                'Support' => 'Applipaps - API-Platform',
+                'Service' => 'Recommandation',
+                'infos' => $data->getTitle() .' | ' . $data->getTypeReco().' | '.$data->getTypeProperty(),
+                'Etat' => 200
+            ];
             $request = Request::createFromGlobals();
             $notification = new Notification();
             $notification->setRefEmployed($employed);

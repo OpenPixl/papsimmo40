@@ -21,7 +21,12 @@ class getRecoPrescriberEmail extends AbstractController
         if($data){
             $email = $data->getRefEmployed()->getEmail();
 
-            $log = array($data);
+            $log = [
+                'Support' => 'Applipaps - API-Platform',
+                'Service' => 'Recommandation',
+                'infos' => $data->getTitle() .' | ' . $data->getTypeReco().' | '.$data->getTypeProperty(),
+                'Etat' => 200
+            ];
             $request = Request::createFromGlobals();
             $notification = new Notification();
             $notification->setRefEmployed($employed);

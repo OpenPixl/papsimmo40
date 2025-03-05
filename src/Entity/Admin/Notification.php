@@ -33,6 +33,9 @@ class Notification
     #[ORM\Column(length: 25, nullable: true)]
     private ?string $clientHost = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $session = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -107,6 +110,18 @@ class Notification
     public function setClientHost(string $clientHost): static
     {
         $this->clientHost = $clientHost;
+
+        return $this;
+    }
+
+    public function getSession(): ?string
+    {
+        return $this->session;
+    }
+
+    public function setSession(?string $session): static
+    {
+        $this->session = $session;
 
         return $this;
     }

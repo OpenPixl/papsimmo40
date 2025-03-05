@@ -1,4 +1,4 @@
-<article id="onearticle">
+<div id="onearticle">
     {% if article.isShowtitle == 1 %}
     <div id="title_article">
         <h3>{{ article.name }}</h3>
@@ -13,7 +13,9 @@
                         <img src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
                     </div>
                     <div class="col-sm-12">
-                        {{ article.content|markdown_to_html }}
+                        <article>
+                            {{ article.content|markdown_to_html }}
+                        </article>
                     </div>
                 </div>
             </div>
@@ -24,7 +26,9 @@
                         <img src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
                     </div>
                     <div class="col-sm-12">
-                        {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                        <article>
+                            {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                        </article>
                     </div>
                 </div>
                 <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
@@ -35,7 +39,9 @@
                 <div id="content_article">
                     <div class="row">
                         <div class="col-sm-9">
-                            {{ article.content|markdown_to_html }}
+                            <article>
+                                {{ article.content|markdown_to_html }}
+                            </article>
                         </div>
                         <div class="col-sm-3">
                             <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
@@ -46,7 +52,9 @@
                 <div id="content_article">
                     <div class="row g-1 mb-1">
                         <div class="col-sm-9">
-                            {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                            <article>
+                                {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                            </article>
                         </div>
                         <div class="col-sm-3">
                             <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
@@ -60,7 +68,9 @@
                 <div id="content_article">
                     <div class="row">
                         <div class="col-sm-12">
-                            {{ article.content|markdown_to_html }}
+                            <article>
+                                {{ article.content|markdown_to_html }}
+                            </article>
                         </div>
                         <div class="col-sm-12">
                             <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
@@ -71,7 +81,9 @@
                 <div id="content_article">
                     <div class="row g-1 mb-1">
                         <div class="col-sm-12">
-                            {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                            <article>
+                                {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                            </article>
                         </div>
                         <div class="col-sm-12">
                             <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
@@ -88,7 +100,9 @@
                             <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
                         </div>
                         <div class="col-sm-9">
-                            {{ article.content|markdown_to_html }}
+                            <article>
+                                {{ article.content|markdown_to_html }}
+                            </article>
                         </div>
                     </div>
                 </div>
@@ -99,7 +113,9 @@
                             <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
                         </div>
                         <div class="col-sm-9">
-                            {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                            <article>
+                                {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                            </article>
                         </div>
                     </div>
                     <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
@@ -112,7 +128,9 @@
             <div id="content_article">
                 <div class="row">
                     <div class="col-sm-12">
-                        {{ article.content|markdown_to_html }}
+                        <article>
+                            {{ article.content|markdown_to_html }}
+                        </article>
                     </div>
                 </div>
             </div>
@@ -120,7 +138,9 @@
             <div id="content_article">
                 <div class="row g-1 mb-1">
                     <div class="col-sm-12">
-                        {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                        <article>
+                            {{ article.content|u.truncate(450, ' ...')|markdown_to_html }}
+                        </article>
                     </div>
                 </div>
                 <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
@@ -128,4 +148,4 @@
         {% endif %}
     {% endif %}
 
-</article>
+</div>

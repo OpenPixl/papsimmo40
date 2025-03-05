@@ -25,11 +25,14 @@ tinymce.init({
             }
         });
     },
-    plugins: 'image table lists visualchars wordcount',
+    plugins: 'image table lists visualchars wordcount pastes',
     toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image',
     images_file_types: 'jpg,svg,webp',
     language: 'fr_FR',
     language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
     entity_encoding: "raw",
-    encoding: "html"
+    encoding: "html",
+    paste_as_text: true,
+    valid_elements: 'p,br,b,i,u,strong,em,ul,ol,li', // Exemple : limiter les balises autorisées
+    valid_children: '+body[p,br,b,i,u,strong,em,ul,ol,li]', // Exemple : limiter les enfants autorisés
 });
