@@ -434,8 +434,25 @@
                 })
             }
 
+            const inputElement = document.getElementById('property_step1_name');
+            const maxLength = 100;
+            const charCountElement = document.getElementById('charCount');
+            const remainingChars = maxLength - inputElement.value.length;
 
+            charCountElement.textContent = `${remainingChars} caractères restants`;
 
+            inputElement.addEventListener('input', function() {
+                const remainingChars = maxLength - this.value.length;
+                charCountElement.textContent = `${remainingChars} caractères restants`;
+
+                if (this.value.length > maxLength) {
+                    this.value = this.value.slice(0, maxLength);
+                    alert('Le texte est limité à 100 caractères.')
+                    document.getElementById('message').textContent = `Le texte est limité à ${maxLength} caractères.`;
+                } else {
+                    document.getElementById('message').textContent = '';
+                }
+            });
 
 
         // ---------------------------------------

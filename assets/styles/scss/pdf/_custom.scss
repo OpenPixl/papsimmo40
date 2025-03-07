@@ -17,6 +17,9 @@
       color: $secondary-color;
       margin-bottom: 0.5rem;
     }
+    #description{
+      .annonce_down{}
+    }
   }
   .page{
     border: $secondary-color solid 1px;
@@ -140,6 +143,7 @@
         font-size: 1.2rem;
         border: 0 solid;
         border-radius: .5rem;
+        overflow: visible;
       }
 
       .diag_ener .dpe-A {
@@ -202,6 +206,7 @@
         font-size: 1rem;
         line-height: 1rem;
         transform: translateX(-50%);
+        white-space: nowrap;
       }
       .diag_ener .dpe_l::before {
         content: "";
@@ -223,8 +228,7 @@
   }
 }
 
-.landscape
-{
+.landscape {
   width: 1450px;
   /* to centre page on screen*/
   margin-left: auto;
@@ -260,10 +264,10 @@
     .title-h2 {
       background-image: $pdf-puceH3;
       background-repeat: no-repeat;
-      padding-left: 2rem;
+      padding-left: 1rem;
       line-height: 1.5rem;
-      height: 1.4rem;
-      font-size: 1.4rem;
+      height: 1.2rem;
+      font-size: 1rem;
       text-transform: uppercase;
       text-align: left;
     }
@@ -298,6 +302,20 @@
       font-size: 13px;
       text-align: left;
       text-transform: lowercase;
+    }
+    #descriptions{
+      position: relative;
+      height:100%;
+      h5{}
+      .annonce{}
+      .annonce_down{
+        position: absolute;
+        bottom: 0;
+        left:0;
+        p{
+          margin-bottom:0;
+        }
+      }
     }
   }
   /*** Bloc Diags ***/
@@ -335,6 +353,7 @@
       font-size: 1rem;
       border: 0 solid;
       border-radius: 0.2rem;
+      overflow: visible;
     }
 
     .diag_ener .dpe-A {
@@ -397,6 +416,7 @@
       font-size: 13px;
       line-height: 13px;
       transform: translateX(-50%);
+      white-space: nowrap;
     }
     .diag_ener .dpe_l::before {
       content: "";
@@ -458,10 +478,10 @@
     .title-h2 {
       background-image: $pdf-puceH3;
       background-repeat: no-repeat;
-      padding-left: 2rem;
+      padding-left: 1rem;
       line-height: 1.5rem;
-      height: 1.4rem;
-      font-size: 1.4rem;
+      height: 1.2rem;
+      font-size: 1.2rem;
       text-transform: uppercase;
       text-align: left;
     }
@@ -533,6 +553,7 @@
       font-size: 1rem;
       border: 0 solid;
       border-radius: 0.2rem;
+      overflow: visible;
     }
 
     .diag_ener .dpe-A {
@@ -595,6 +616,7 @@
       font-size: 13px;
       line-height: 13px;
       transform: translateX(-50%);
+      white-space: nowrap;
     }
     .diag_ener .dpe_l::before {
       content: "";

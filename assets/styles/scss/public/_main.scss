@@ -499,6 +499,7 @@ body{
         font-size: 1.2rem;
         border: 0 solid;
         border-radius: .5rem;
+        overflow: visible;
       }
       .dpe-A {
         background-color: $dpe-A;
@@ -558,6 +559,7 @@ body{
         font-size: 1rem;
         line-height: 1rem;
         transform: translateX(-50%);
+        white-space: nowrap;
       }
       .dpe_l::before {
         content: "";
@@ -953,6 +955,7 @@ form{
           font-size: 1.2rem;
           border: 0 solid;
           border-radius: .5rem;
+          overflow: visible;
         }
         .dpe-A {
           background-color: $dpe-A;
@@ -1012,6 +1015,7 @@ form{
           font-size: 1rem;
           line-height: 1rem;
           transform: translateX(-50%);
+          white-space: nowrap;
         }
         .dpe_l::before {
           content: "";

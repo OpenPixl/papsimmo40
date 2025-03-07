@@ -168,7 +168,6 @@ class TransactionController extends AbstractController
     #[Route('/2/{id}', name: 'op_gestapp_transaction_show2', methods: ['GET'])]
     public function show2(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
     {
-
         $property = $transaction->getProperty();
         $customers = $transaction->getCustomer();
         $photo = $photoRepository->firstphoto($property->getId());

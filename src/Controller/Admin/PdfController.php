@@ -22,6 +22,7 @@ use Knp\Snappy\Pdf;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Form\Extension\Core\Type\SearchType;
+use Symfony\Component\HtmlSanitizer\HtmlSanitizerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -32,42 +33,23 @@ class PdfController extends AbstractController
     private Environment $twig;
     private Pdf $pdf;
     private bool $html;
+    private HtmlSanitizerInterface $sanitizer;
 
-    public function __construct(Environment $twig, Pdf $pdf)
+    public function __construct(Environment $twig, Pdf $pdf, HtmlSanitizerInterface $sanitizer)
     {
         $this->twig = $twig;
         $this->pdf = $pdf;
-        $this->html = false;
+        $this->html = true;
+        $this->sanitizer = $sanitizer;
     }
 
     public function cleanText(string $text): string
     {
-        // Autoriser uniquement les balises <p> et <strong>
-        $text = strip_tags($text, '<p><strong>');
-
-        // Insérer le contenu des listes (<ul> et <ol>) dans le <p> parent
-        $text = preg_replace_callback('/<p>(.*?)<\/p>/is', function ($matches) {
-            $content = $matches[1];
-
-            // Supprimer les balises <ul> et <ol>, mais conserver leur contenu
-            $content = preg_replace('/<ul.*?>|<ol.*?>|<\/ul>|<\/ol>/i', '', $content);
-
-            // Remplacer les <li> par une virgule suivie d'un saut de ligne
-            $content = preg_replace('/<li.*?>/i', '', $content); // Supprime les balises <li> ouvrantes
-            $content = preg_replace('/<\/li>/i', ',<br>', $content); // Ajoute une virgule et un saut après chaque élément
-
-            // Supprimer la dernière virgule ajoutée avant la fermeture d'un <p>
-            $content = preg_replace('/,<br>$/', '<br>', $content);
-
-            return "<p>$content</p>";
-        }, $text);
-
-        // Nettoyer les <p> vides créés accidentellement
-        $text = preg_replace('/<p>\s*<\/p>/', '', $text);
-
-        // Ajouter des espaces visuels entre les paragraphes
-        $text = preg_replace('/<\/p>(?!\s*<\/p>)/', "</p>\n<p>&nbsp;</p>", $text);
-
+        $text = $this->sanitizer->sanitize($text);
+        $text = preg_replace('/<span[^>]*>/', '', $text);
+        $text = preg_replace('/<\/span>/', '', $text);
+        $text = preg_replace('/<div[^>]*>/', '', $text);
+        $text = preg_replace('/<\/div>/', '', $text);
         return $text;
     }
 

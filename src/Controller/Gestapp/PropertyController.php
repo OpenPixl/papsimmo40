@@ -764,6 +764,10 @@ class PropertyController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // traitement du contenu de l'annonce
             $annonce = $htmlSanitizer->sanitize($property->getAnnonce());
+            $annonce = preg_replace('/<span[^>]*>/', '', $annonce);
+            $annonce = preg_replace('/<\/span>/', '', $annonce);
+            $annonce = preg_replace('/<div[^>]*>/', '', $annonce);
+            $annonce = preg_replace('/<\/div>/', '', $annonce);
 
             $property->setAnnonce($annonce);
             if(empty($property->getAnnonceDown()) || is_null($property->getAnnonceDown())){
