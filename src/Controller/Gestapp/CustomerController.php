@@ -196,6 +196,9 @@ class CustomerController extends AbstractController
     )
     {
         $user = $this->getUser()->getId();
+        $url = $request->headers->get('url');
+        dd($url);
+
         $employed = $employedRepository->find($user);
         $property = $propertyRepository->find($idproperty);
         $customerChoice = $customerChoiceRepository->find(1);
@@ -208,8 +211,6 @@ class CustomerController extends AbstractController
             'method'=>'POST'
         ]);
         $form->handleRequest($request);
-
-
 
         if ($form->isSubmitted() && $form->isValid()) {
             //dd($form->isSubmitted(), $form->isValid());
@@ -254,7 +255,6 @@ class CustomerController extends AbstractController
     #[Route('/addcustomerjson/{idproperty}', name: 'op_gestapp_customer_addcustomerjson',  methods: ['GET', 'POST'])]
     public function addProspectJson(
         Request $request,
-
 
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
