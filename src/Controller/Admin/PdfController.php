@@ -137,6 +137,7 @@ class PdfController extends AbstractController
                 $knpSnappyPdf
                     ->setOption("enable-local-file-access",true)
                     ->setOption("orientation", 'Landscape')
+                    ->setOption("page-size", 'A4')
                     ->getOutputFromHtml($html),
                 'Fiche'.$property->getRefMandat().'-A4Paysage.pdf'
             );

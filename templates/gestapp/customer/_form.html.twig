@@ -2,12 +2,35 @@
 {{ form_start(form, {'attr': {'id': 'FormEditCustomer'}}) }}
 
 <div class="row g-1">
+    <div class="col-12">
+        <div class="card ext-dark bg-light mb-1">
+            <div class="card-body p-2">
+                <div class="row align-items-center">
+                    <div class="col-3">
+                        <p class="mb-0">
+                            <b>RELATION COMMERCIALE AVEC LE CLIENT :</b>
+                        </p>
+                    </div>
+                    <div class="col-2">
+                        {{ form_widget(form.customerChoice, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                    </div>
+                    <div class="col-7">
+                        {{ form_label(form.isArchived, '', {'label_attr': {'class':'form-label mb-0'}}) }}
+                        {{ form_widget(form.isArchived) }}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
     <div class="col-8">
         <div class="card border-dark">
-            <div class="card-header">
-                <h4 class="card-title">Informations du client</h4>
-            </div>
             <div class="card-body">
+                <div class="row">
+                    <div class="col-12">
+                        <p class="border-bottom mb-1"><b>INFORMATIONS DU CLIENT</b></p>
+                    </div>
+                </div>
                 <div class="row align-items-center g-1 mb-1">
                     <div class="col-2">
                         {{ form_label(form.typeClient, '', {'label_attr': {'class':'form-label'}}) }}
@@ -181,29 +204,7 @@
                 </div>
             </div>
         </div>
-        <div class="card border-dark">
-            <div class="card-header">
-                <h4 class="card-title">Autres</h4>
-            </div>
-            <div class="card-body">
-                <div class="row g-1">
-                    <div class="col-12">
-                        {{ form_label(form.customerChoice, '', {'label_attr': {'class':'form-label'}}) }}
-                    </div>
-                    <div class="col-12">
-                        {{ form_widget(form.customerChoice, {'attr': {'class': 'form-select form-select-sm'}}) }}
-                    </div>
-                </div>
-                <div class="row g-1">
-                    <div class="col-12">
-                        {{ form_label(form.isArchived, '', {'label_attr': {'class':'form-label'}}) }}
-                    </div>
-                    <div class="col-12">
-                        {{ form_widget(form.isArchived, {'attr': {'class': 'form-check-input'}}) }}
-                    </div>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 <div class="mt-3">
