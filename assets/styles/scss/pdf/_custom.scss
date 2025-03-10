@@ -60,24 +60,26 @@ p{
   text-align: left;
   margin-bottom: 0.5rem;
 }
-.table{
-  .head{
+table{
+  thead{
     background-color: $secondary-color;
     color: #ffffff;
   }
-  th {
-    font-family: "comfortaa-light", sans-serif;
-    font-weight: bold;
-    font-size: 0.9rem;
-    text-transform: uppercase;
-    text-align: left;
-    color: $secondary-color;
-  }
-  td {
-    font-family: "comfortaa-light", sans-serif;
-    font-size: 0.9rem;
-    text-align: left;
-    text-transform: lowercase;
+  tr{
+    th{
+      font-family: "comfortaa-light", sans-serif;
+      font-weight: bold;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      text-align: left;
+      color: $secondary-color;
+    }
+    td{
+      font-family: "comfortaa-light", sans-serif;
+      font-size: 0.9rem;
+      text-align: left;
+      text-transform: lowercase;
+    }
   }
 }
 
