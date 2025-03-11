@@ -22,11 +22,19 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Routing\RouterInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/gestapp/customer')]
 class CustomerController extends AbstractController
 {
+    private $router;
+
+    public function __construct(RouterInterface $router)
+    {
+        $this->router = $router;
+    }
+
     #[Route('/', name: 'op_gestapp_customer_index', methods: ['GET'])]
     public function index(CustomerRepository $customerRepository,PaginatorInterface $paginator, Request  $request): Response
     {
@@ -196,12 +204,10 @@ class CustomerController extends AbstractController
     )
     {
         $user = $this->getUser()->getId();
-        $url = $request->headers->get('url');
-        dd($url);
+
 
         $employed = $employedRepository->find($user);
         $property = $propertyRepository->find($idproperty);
-        $customerChoice = $customerChoiceRepository->find(1);
 
         $customer = new Customer();
         $form = $this->createForm(Customer2Type::class, $customer, [
@@ -213,13 +219,25 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //dd($form->isSubmitted(), $form->isValid());
+
+            $url = $request->headers->get('referer');
+
             // Contruction de la référence pour chaque propriété
             $date = new \DateTime();
             $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
             $customer->setRefCustomer($refCustomer);
             $customer->setRefEmployed($employed);
-            $customer->setCustomerChoice($customerChoice);
+            if($url){
+            $path = parse_url($url, PHP_URL_PATH);
+                $PathShowProperty = $this->router->generate('op_gestapp_property_show', ['id' => $idproperty]);
+                if($path === $PathShowProperty){
+                    $customerChoice = $customerChoiceRepository->find(1);
+                    $customer->setCustomerChoice($customerChoice);
+                }else{
+                    $customerChoice = $customerChoiceRepository->find(2);
+                    $customer->setCustomerChoice($customerChoice);
+                }
+            }
             $customer->addProperty($property);
 
             // Ajout en BDD du nouveau client
@@ -252,7 +270,7 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/addcustomerjson/{idproperty}', name: 'op_gestapp_customer_addcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/addprospectjson/{idproperty}', name: 'op_gestapp_customer_addprospectjson',  methods: ['GET', 'POST'])]
     public function addProspectJson(
         Request $request,
 
