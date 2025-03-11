@@ -13,6 +13,7 @@ use App\Repository\Gestapp\choice\CustomerChoiceRepository;
 use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\TransactionRepository;
+use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -140,8 +141,19 @@ class CustomerController extends AbstractController
     }
 
     #[Route('/byproperty/addsearchcustomer/{id}/{idproperty}', name: 'op_gestapp_customer_addsearchcustomer', methods: ['POST'])]
-    public function addSearchCustomer(Customer $customer, CustomerRepository $customerRepository, $idproperty, PropertyRepository $propertyRepository)
+    public function addSearchCustomer(
+        Customer $customer,
+        CustomerRepository $customerRepository,
+        $idproperty,
+        PropertyRepository $propertyRepository,
+        CustomerChoiceRepository $customerChoiceRepository,
+        EntityManagerInterface $em,
+    )
     {
+        $customerChoice = $customerChoiceRepository->find(1);
+        $customer->setCustomerChoice($customerChoice);
+        $em->flush();
+
         $property = $propertyRepository->find($idproperty);
         $property->addCustomer($customer);
         $propertyRepository->add($property);

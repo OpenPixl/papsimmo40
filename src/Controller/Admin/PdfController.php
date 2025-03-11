@@ -39,7 +39,7 @@ class PdfController extends AbstractController
     {
         $this->twig = $twig;
         $this->pdf = $pdf;
-        $this->html = false;
+        $this->html = true;
         $this->sanitizer = $sanitizer;
     }
 
