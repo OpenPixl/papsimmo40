@@ -109,19 +109,19 @@ table{
       height:846px;
       overflow: hidden;
       #imgs{
-        min-height: 260px;
-        max-height: 260px;
+        min-height: 280px;
+        max-height: 280px;
         //display: block; /* Supprime l'espace en dessous de l'image */
         margin: auto; /* Centre l'image si elle est plus petite que le conteneur */
       }
       .contents{
-        height: 586px;
+        height: 566px;
         .property_annonce{
-          height: 586px;
+          height: 566px;
           position: relative;
           .annonce_down{
             position: absolute;
-            bottom: 1rem;
+            bottom: 1.4rem;
           }
         }
         .property_equipment{
@@ -131,7 +131,7 @@ table{
           }
           #DiagnosticCard {
             position: absolute;
-            bottom: 1.5rem;
+            bottom: 1.8rem;
             border: 1px solid $primary-color;
             border-radius: .2rem;
             h4,h5{
