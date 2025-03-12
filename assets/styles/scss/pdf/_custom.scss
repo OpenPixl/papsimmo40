@@ -83,6 +83,254 @@ table{
   }
 }
 
+#client{
+  width:980px;
+  height:1200px;
+  .page{
+    border: $secondary-color solid 1px;
+    border-radius: 0.5rem;
+    .fiche{
+
+      #DiagnosticCard {
+        border: 1px solid $primary-color;
+        border-radius: .2rem;
+        h4,h5{
+          margin-top: 0;
+          margin-bottom:0.5rem;
+        }
+        p{
+          margin-top:0.5rem;
+          margin-bottom: 0.5rem;
+        }
+        .diag_ener{
+          display: flex;
+          align-items: center;
+          list-style: none;
+          padding-left:0;
+        }
+        .c-dpe__index {
+          display: flex;
+          position: relative;
+          align-items: center;
+          justify-content: center;
+          width: 2.5rem;
+          height: 2.5rem;
+          margin-right: .2rem;
+          color: #fff;
+          font-weight: 400;
+          font-size: 1.5rem;
+          border: 0 solid;
+          border-radius: .2rem;
+          overflow: visible;
+        }
+
+        .diag_ener .dpe-A {
+          background-color: #029163;
+        }
+        .diag_ener .dpe-B {
+          background-color: #46a64a;
+        }
+        .diag_ener .dpe-C {
+          background-color: #6db56b;
+        }
+        .diag_ener .dpe-D {
+          background-color: #f2e314;
+        }
+        .diag_ener .dpe-E {
+          background-color: #edab0f;
+        }
+        .diag_ener .dpe-F {
+          background-color: #e8782f;
+        }
+        .diag_ener .dpe-G {
+          background-color: #d1201e;
+        }
+
+        .diag_ener .dpe-A1 {
+          background-color: #99d5f7;
+        }
+        .diag_ener .dpe-B1 {
+          background-color: #80abcd;
+        }
+        .diag_ener .dpe-C1 {
+          background-color: #6d87a8;
+        }
+        .diag_ener .dpe-D1 {
+          background-color: #546384;
+        }
+        .diag_ener .dpe-E1 {
+          background-color: #434665;
+        }
+        .diag_ener .dpe-F1 {
+          background-color: #332d47;
+        }
+        .diag_ener .dpe-G1 {
+          background-color: #231a2f;
+        }
+
+        .diag_ener .dpe-active {
+          width: 2.9rem;
+          height: 2.9rem;
+          font-weight: 500;
+          border-radius: 0.2rem;
+        }
+        .diag_ener .dpe_l {
+          position: absolute;
+          top: calc(100% + 1.2rem);
+          left: 50%;
+          z-index: 10;
+          color: #2f2f2f;
+          font-size: 0.7rem;
+          line-height: 0.8rem;
+          transform: translateX(-50%);
+          white-space: nowrap;
+        }
+        .diag_ener .dpe_l::before {
+          content: "";
+          position: absolute;
+          bottom: calc(100% + .4rem);
+          left: calc(50% - .3rem);
+          border-right: .3rem solid transparent;
+          border-bottom: .3rem solid;
+          border-left: .3rem solid transparent;
+        }
+        .diag_ener.dpe_u {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          font-weight: 400;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
+#portrait{
+  width:980px;
+  height:1200px;
+  .page{
+    border: $secondary-color solid 1px;
+    border-radius: 0.5rem;
+    .fiche{
+
+      #DiagnosticCard {
+        position: absolute;
+        bottom: 1.8rem;
+        border: 1px solid $primary-color;
+        border-radius: .2rem;
+        h4,h5{
+          margin-top: 0;
+          margin-bottom:0.5rem;
+        }
+        p{
+          margin-top:0.5rem;
+          margin-bottom: 0.5rem;
+        }
+        .diag_ener{
+          display: flex;
+          align-items: center;
+          list-style: none;
+          padding-left:0;
+        }
+        .c-dpe__index {
+          display: flex;
+          position: relative;
+          align-items: center;
+          justify-content: center;
+          width: 1.5rem;
+          height: 1.5rem;
+          margin-right: .2rem;
+          color: #fff;
+          font-weight: 400;
+          font-size: 0.9rem;
+          border: 0 solid;
+          border-radius: .2rem;
+          overflow: visible;
+        }
+
+        .diag_ener .dpe-A {
+          background-color: #029163;
+        }
+        .diag_ener .dpe-B {
+          background-color: #46a64a;
+        }
+        .diag_ener .dpe-C {
+          background-color: #6db56b;
+        }
+        .diag_ener .dpe-D {
+          background-color: #f2e314;
+        }
+        .diag_ener .dpe-E {
+          background-color: #edab0f;
+        }
+        .diag_ener .dpe-F {
+          background-color: #e8782f;
+        }
+        .diag_ener .dpe-G {
+          background-color: #d1201e;
+        }
+
+        .diag_ener .dpe-A1 {
+          background-color: #99d5f7;
+        }
+        .diag_ener .dpe-B1 {
+          background-color: #80abcd;
+        }
+        .diag_ener .dpe-C1 {
+          background-color: #6d87a8;
+        }
+        .diag_ener .dpe-D1 {
+          background-color: #546384;
+        }
+        .diag_ener .dpe-E1 {
+          background-color: #434665;
+        }
+        .diag_ener .dpe-F1 {
+          background-color: #332d47;
+        }
+        .diag_ener .dpe-G1 {
+          background-color: #231a2f;
+        }
+
+        .diag_ener .dpe-active {
+          width: 1.7rem;
+          height: 1.7rem;
+          font-weight: 500;
+          border-radius: 0.2rem;
+        }
+        .diag_ener .dpe_l {
+          position: absolute;
+          top: calc(100% + 1.2rem);
+          left: 50%;
+          z-index: 10;
+          color: #2f2f2f;
+          font-size: 0.7rem;
+          line-height: 0.8rem;
+          transform: translateX(-50%);
+          white-space: nowrap;
+        }
+        .diag_ener .dpe_l::before {
+          content: "";
+          position: absolute;
+          bottom: calc(100% + .4rem);
+          left: calc(50% - .3rem);
+          border-right: .3rem solid transparent;
+          border-bottom: .3rem solid;
+          border-left: .3rem solid transparent;
+        }
+        .diag_ener.dpe_u {
+          position: absolute;
+          top: 100%;
+          left: 0;
+          font-weight: 400;
+          font-size: 1rem;
+        }
+      }
+    }
+  }
+}
+
 .landscape {
   width:1200px;
   height:980px;

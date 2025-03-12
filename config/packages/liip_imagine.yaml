@@ -72,6 +72,7 @@ liip_imagine:
         oneproperty_imagelandscape:
             quality: 150
             filters:
+                auto_rotate: ~
                 thumbnail:
                     size: [ 500, 375 ]
                     mode: inset
@@ -84,7 +85,6 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
-                auto_rotate: ~
         oneproperty3_image:
             quality: 150
             filters:
