@@ -36,8 +36,6 @@
                     <heating>
                         Electriquepoêle à granulés                    </heating>
                     <pics>
-                                            <pic order="1">http://127.0.0.1:8001/properties/2025-012338-1A/align-fingers-71282-960-720.jpg</pic>
-                                            <pic order="2">http://127.0.0.1:8001/properties/2025-012338-1A/portrait-Copie-Copie-6649d347ad4d1.jpg</pic>
                                         </pics>
                     <publications>
                         <greenacres>1</greenacres>
@@ -46,86 +44,6 @@
                                                                                                                                             <advert>
                     <account_id>892318a</account_id>
                     <reference>892318a-2025/012338-1A</reference>
-                    <price>189000</price>
-                    <currency>EUR</currency>
-                    <has_included_fees>0</has_included_fees>
-                    <agency_rates_type>0</agency_rates_type>
-                    <fees>9000</fees>
-                    <postal_code>40240</postal_code>
-                    <city>SAINT-JUSTIN</city>
-                    <advert_type>properties</advert_type>
-                    <title_fr>MAISON 3 Pièces sur 981m² de terrain avec piscine</title_fr>
-                    <summary_fr>Découvrez cette maison contemporaine pleine de charme, située dans un lotissement calme et agréable à Saint-Justin. &lt;br /&gt;Construite en 2011, cette maison de 75 m² habitables est portée sur un terrain de 891 m², offrant confort, praticité et sérénité.&lt;br /&gt;Un intérieur chaleureux et fonctionnel :&lt;br /&gt;Un grand séjour lumineux de 40 m², équipé d&#039;un poêle à pellets, parfait pour créer une ambiance chaleureuse, avec une cuisine ouverte entièrement équipée,&lt;br /&gt;Une partie nuit comprenant 2 chambres confortables,&lt;br /&gt;Une salle de bain complète avec douche, baignoire, meuble vasque et sèche-serviette,&lt;br /&gt;Un WC séparé et un cellier/buanderie.&lt;br /&gt;Un extérieur convivial et sécurisé :&lt;br /&gt;Une piscine clôturée de 6,5 x 3 m, chauffée par pompe à chaleur, idéale pour des moments de détente en toute sécurité,&lt;br /&gt;Une terrasse extérieure offrant la possibilité de créer un bel espace convivial, parfait pour vos repas en famille ou entre amis,&lt;br /&gt;Un abri de jardin pratique pour vos outils ou équipements extérieurs,&lt;br /&gt;Un terrain complètement clôturé avec portail électrique, complété par un portillon donnant un accès direct au stade de football situé derrière.&lt;br /&gt;Un potentiel d&#039;évolution :&lt;br /&gt;Avec une possibilité d&#039;agrandissement jusqu&#039;à 25 % de la surface du terrain (soit environ 222 m²), cette maison peut s&#039;adapter à vos projets futurs.&lt;br /&gt;Il y fait bon vivre, avec son cadre paisible et son agencement optimisé pour le confort quotidien. &lt;br /&gt;Vous serez séduit par son emplacement, ses équipements et son environnement propice à la détente.&lt;br /&gt;Taxe foncière : 479€Prix : 189 000€</summary_fr>
-                    <country_code>fr</country_code>
-                    <property_type>Maison</property_type>
-                    <habitable_surface>75</habitable_surface>
-                    <land_surface>891</land_surface>
-                    <dpe_type>C</dpe_type>
-                    <dpe_value>164</dpe_value>
-                    <ges_type>A</ges_type>
-                    <ges_value>5</ges_value>
-                    <rooms_number>3</rooms_number>
-                    <bedrooms_number>2</bedrooms_number>
-                    <baths_number>1</baths_number>
-                    <showers_number>0</showers_number>
-                    <floor>0</floor>
-                    <has_terrace>1</has_terrace>
-                    <balconies_number>0</balconies_number>
-                    <has_closets>1</has_closets>
-                                        <charges></charges>
-                                        <furnished>0</furnished>
-                    <heating>
-                        Electriquepoêle à granulés                    </heating>
-                    <pics>
-                                            <pic order="1">http://127.0.0.1:8001/properties/2025-012338-1A/align-fingers-71282-960-720.jpg</pic>
-                                            <pic order="2">http://127.0.0.1:8001/properties/2025-012338-1A/portrait-Copie-Copie-6649d347ad4d1.jpg</pic>
-                                        </pics>
-                    <publications>
-                        <greenacres>1</greenacres>
-                    </publications>
-                </advert>
-                                                                                                                                            <advert>
-                    <account_id>892318a</account_id>
-                    <reference>892318a-2025/012338-1B</reference>
-                    <price>189000</price>
-                    <currency>EUR</currency>
-                    <has_included_fees>0</has_included_fees>
-                    <agency_rates_type>0</agency_rates_type>
-                    <fees>9000</fees>
-                    <postal_code>40240</postal_code>
-                    <city>SAINT-JUSTIN</city>
-                    <advert_type>properties</advert_type>
-                    <title_fr>MAISON 3 Pièces sur 981m² de terrain avec piscine</title_fr>
-                    <summary_fr>Découvrez cette maison contemporaine pleine de charme, située dans un lotissement calme et agréable à Saint-Justin. &lt;br /&gt;Construite en 2011, cette maison de 75 m² habitables est portée sur un terrain de 891 m², offrant confort, praticité et sérénité.&lt;br /&gt;Un intérieur chaleureux et fonctionnel :&lt;br /&gt;Un grand séjour lumineux de 40 m², équipé d&#039;un poêle à pellets, parfait pour créer une ambiance chaleureuse, avec une cuisine ouverte entièrement équipée,&lt;br /&gt;Une partie nuit comprenant 2 chambres confortables,&lt;br /&gt;Une salle de bain complète avec douche, baignoire, meuble vasque et sèche-serviette,&lt;br /&gt;Un WC séparé et un cellier/buanderie.&lt;br /&gt;Un extérieur convivial et sécurisé :&lt;br /&gt;Une piscine clôturée de 6,5 x 3 m, chauffée par pompe à chaleur, idéale pour des moments de détente en toute sécurité,&lt;br /&gt;Une terrasse extérieure offrant la possibilité de créer un bel espace convivial, parfait pour vos repas en famille ou entre amis,&lt;br /&gt;Un abri de jardin pratique pour vos outils ou équipements extérieurs,&lt;br /&gt;Un terrain complètement clôturé avec portail électrique, complété par un portillon donnant un accès direct au stade de football situé derrière.&lt;br /&gt;Un potentiel d&#039;évolution :&lt;br /&gt;Avec une possibilité d&#039;agrandissement jusqu&#039;à 25 % de la surface du terrain (soit environ 222 m²), cette maison peut s&#039;adapter à vos projets futurs.&lt;br /&gt;Il y fait bon vivre, avec son cadre paisible et son agencement optimisé pour le confort quotidien. &lt;br /&gt;Vous serez séduit par son emplacement, ses équipements et son environnement propice à la détente.&lt;br /&gt;Taxe foncière : 479€Prix : 189 000€</summary_fr>
-                    <country_code>fr</country_code>
-                    <property_type>Maison</property_type>
-                    <habitable_surface>75</habitable_surface>
-                    <land_surface>891</land_surface>
-                    <dpe_type>C</dpe_type>
-                    <dpe_value>164</dpe_value>
-                    <ges_type>A</ges_type>
-                    <ges_value>5</ges_value>
-                    <rooms_number>3</rooms_number>
-                    <bedrooms_number>2</bedrooms_number>
-                    <baths_number>1</baths_number>
-                    <showers_number>0</showers_number>
-                    <floor>0</floor>
-                    <has_terrace>1</has_terrace>
-                    <balconies_number>0</balconies_number>
-                    <has_closets>1</has_closets>
-                                        <charges></charges>
-                                        <furnished>0</furnished>
-                    <heating>
-                        Electriquepoêle à granulés                    </heating>
-                    <pics>
-                                        </pics>
-                    <publications>
-                        <greenacres>1</greenacres>
-                    </publications>
-                </advert>
-                                                                                                                                            <advert>
-                    <account_id>892318a</account_id>
-                    <reference>892318a-2025/012338-1B</reference>
                     <price>189000</price>
                     <currency>EUR</currency>
                     <has_included_fees>0</has_included_fees>

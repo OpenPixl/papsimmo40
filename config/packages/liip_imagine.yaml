@@ -74,7 +74,8 @@ liip_imagine:
             filters:
                 thumbnail:
                     size: [ 500, 375 ]
-                    mode: outbond
+                    mode: inset
+                    allow_upscale: true
                     # use and setup the "watermark_image" filter
                 watermark_image:
                     # path to the watermark file (prepended with "%kernel.project_dir%")
