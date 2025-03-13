@@ -132,7 +132,6 @@ class CustomerType extends AbstractType
                 'class' => CustomerChoice::class,
                 'required' => false,
                 'label' => 'Type de client',
-
             ])
             ->add('isArchived', CheckboxType::class, [
                 'required' => false,

@@ -55,35 +55,35 @@
                             <div class="col-9">
                                 <table class="table">
                                     <tr>
-                                        <th>Référence :</th>
+                                        <th class="head-second">Référence :</th>
                                         <td colspan="3">{{ property.ref }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Transaction :</th>
+                                        <th class="head-second">Transaction :</th>
                                         <td colspan="3">{{ property.family }}</td>
                                     </tr>
                                     {% if property.propertyRubric is not empty %}
                                         <tr>
-                                            <th>Type :</th>
+                                            <th class="head-second">Type :</th>
                                             <td colspan="3">{% if property.propertyRubric is not null%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
                                         </tr>
                                     {% endif %}
                                     {% if property.constructionAt is not empty %}
                                         <tr>
-                                            <th>Année de construction :</th>
+                                            <th class="head-second">Année de construction :</th>
                                             <td colspan="3">{{ property.constructionAt }}</td>
                                         </tr>
                                     {% endif %}
                                     <tr>
-                                        <th>Surfaces : </th>
+                                        <th class="head-second">Surfaces : </th>
                                         <td><b>Habitable : </b> {{ property.surfaceHome }} m2 / <b>Terrain : </b>{{ property.surfaceLand }} m2</td>
                                     </tr>
                                     <tr>
-                                        <th>Nombre de pièces : </th>
+                                        <th class="head-second">Nombre de pièces : </th>
                                         <td>{{ property.piece }} {{ piece }} dont {{ property.room }} {{ room }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Prix FAI : </th>
+                                        <th class="head-second">Prix FAI : </th>
                                         <td colspan="3">{{property.priceFai}} €</td>
                                     </tr>
                                 </table>
@@ -243,7 +243,7 @@
         <div style="page-break-before:always;"></div>
         <div id="thirdPage" class="page p-2">
             {{ include('pdf/include/_headerpdf.html.twig') }}
-            <div id="technique">
+            <div class="technique">
                 <div class="row" id="tech_title">
                     <div id="Title" class="col-12 mt-0 mb-2">
                         <h2 class="title-h2">INFO - {{ property.name }}</h2>
@@ -256,15 +256,15 @@
                                 <th class="head" colspan="2">ESTIMATION DU COUT ANNUEL ENERGETIQUE DU BIEN</th>
                             </tr>
                             <tr>
-                                <th class="col-3">Estimation énergie basse : </th>
+                                <th class="col-3 head-second">Estimation énergie basse : </th>
                                 <td>{% if property.dpeEstimateEnergyDown is not empty %}{{ property.dpeEstimateEnergyDown }} €{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Estimation énergie élevée : </th>
+                                <th class="col-3 head-second">Estimation énergie élevée : </th>
                                 <td>{% if property.dpeEstimateEnergyUp is not empty %}{{property.dpeEstimateEnergyUp}} €{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Année de référence : </th>
+                                <th class="col-3 head-second">Année de référence : </th>
                                 <td>{% if property.anneeref is not empty %}{{ property.anneeref|date("Y") }}{% else %}non communiqué{% endif %}</td>
                             </tr>
                         </table>
@@ -275,23 +275,23 @@
                                 <th class="head" colspan="2">PIECES</th>
                             </tr>
                             <tr>
-                                <th class="col-3">Terrasse : </th>
+                                <th class="col-3 head-second">Terrasse : </th>
                                 <td>{% if property.terrace is not empty%}{{property.terrace}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Salle d'eau : </th>
+                                <th class="col-3 head-second">Salle d'eau : </th>
                                 <td>{% if property.washroom is not empty%}{{property.washroom}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Salle de bain : </th>
+                                <th class="col-3 head-second">Salle de bain : </th>
                                 <td>{% if property.bathroom is not empty%}{{property.bathroom}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">WC : </th>
+                                <th class="col-3 head-second">WC : </th>
                                 <td>{% if property.wc is not empty%}{{property.wc}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Balcon : </th>
+                                <th class="col-3 head-second">Balcon : </th>
                                 <td>{% if property.balcony is not empty%}{{property.balcony}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                         </table>
@@ -302,15 +302,15 @@
                                 <th class="head" colspan="2">EQUIPEMENTS</th>
                             </tr>
                             <tr>
-                                <th class="col-3">Meublé : </th>
+                                <th class="col-3 head-second">Meublé : </th>
                                 <td>{% if property.isFurnished == 1 %}Oui{% else %}Non{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Bien en copropriété : </th>
+                                <th class="col-3 head-second">Bien en copropriété : </th>
                                 <td>{% if property.coproperty == 1 %}Oui | <span class="subtitle">Estimation des charges par an : </span>{{ property.coproprietyTaxe }}€{% else %}Non{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Equipements du bien : </th>
+                                <th class="col-3 head-second">Equipements du bien : </th>
                                 <td>
                                     {% for equipment in equipments %}
                                         {% if loop.first %}{{ equipment.name }} - {% elseif loop.last%}{{ equipment.name }}{% else %} {{ equipment.name }} - {% endif %}
@@ -318,15 +318,15 @@
                                 </td>
                             </tr>
                             <tr>
-                                <th class="col-3">Typologie du bien : </th>
+                                <th class="col-3 head-second">Typologie du bien : </th>
                                 <td>{% if property.propertyRubric is not empty%}{{property.propertyRubric}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Etage : </th>
+                                <th class="col-3 head-second">Etage : </th>
                                 <td>{% if property.level is not empty%}{{property.level}}{% else %}non communiqué{% endif %}</td>
                             </tr>
                             <tr>
-                                <th class="col-3">Autres options du bien : </th>
+                                <th class="col-3 head-second">Autres options du bien : </th>
                                 <td>
                                     {% for otheroption in otheroptions %}
                                         {% if loop.first %}{{ otheroption.name }} {% elseif loop.last%}{{ otheroption.name }}{% else %}{{ otheroption.name }} - {% endif %}
@@ -344,7 +344,7 @@
 
                             {% if property.propertyTax > 0 %}
                                 <tr>
-                                    <th class="col-3">Taxe Foncière : </th>
+                                    <th class="col-3 head-second">Taxe Foncière : </th>
                                     <td><span class="color">{{ property.propertyTax }} €</span></td>
                                 </tr>
                             {% endif %}

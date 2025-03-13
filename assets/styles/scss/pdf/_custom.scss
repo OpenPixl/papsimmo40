@@ -90,7 +90,17 @@ table{
     border: $secondary-color solid 1px;
     border-radius: 0.5rem;
     .fiche{
-
+      .table{
+        .head{
+          background-color: #c4c4c4;
+        }
+        .head-second{
+          font-size: 0.8rem;
+        }
+        td{
+          font-size: 0.8rem;
+        }
+      }
       #DiagnosticCard {
         border: 1px solid $primary-color;
         border-radius: .2rem;
@@ -200,6 +210,19 @@ table{
           left: 0;
           font-weight: 400;
           font-size: 1rem;
+        }
+      }
+    }
+    .technique{
+      .table{
+        .head{
+          background-color: #97c3b6;
+        }
+        .head-second{
+          font-size: 0.8rem;
+        }
+        td{
+          font-size: 0.8rem;
         }
       }
     }
