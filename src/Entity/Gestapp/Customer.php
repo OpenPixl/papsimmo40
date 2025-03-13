@@ -130,18 +130,6 @@ class Customer
     #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
     private ?string $ddnIn = null;
 
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
-    private $facebook;
-
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
-    private $instagram;
-
-    #[ORM\Column(type: 'string', length: 100, nullable: true)]
-    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
-    private $linkedin;
-
     #[ORM\Column(type: 'boolean')]
     private $isArchived = false;
 
@@ -373,42 +361,6 @@ class Customer
     public function setOtherEmail(?string $otherEmail): self
     {
         $this->otherEmail = $otherEmail;
-
-        return $this;
-    }
-
-    public function getFacebook(): ?string
-    {
-        return $this->facebook;
-    }
-
-    public function setFacebook(?string $facebook): self
-    {
-        $this->facebook = $facebook;
-
-        return $this;
-    }
-
-    public function getInstagram(): ?string
-    {
-        return $this->instagram;
-    }
-
-    public function setInstagram(?string $instagram): self
-    {
-        $this->instagram = $instagram;
-
-        return $this;
-    }
-
-    public function getLinkedin(): ?string
-    {
-        return $this->linkedin;
-    }
-
-    public function setLinkedin(?string $linkedin): self
-    {
-        $this->linkedin = $linkedin;
 
         return $this;
     }

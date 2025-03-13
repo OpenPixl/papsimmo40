@@ -1284,7 +1284,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setAgreeTerms(bool $agreeTerms): static
     {
         $this->agreeTerms = $agreeTerms;
-
         return $this;
     }
 
