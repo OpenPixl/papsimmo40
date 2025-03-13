@@ -24,7 +24,7 @@
                     {% endif %}
                 </td>
                 <td class="align-left">
-                    <b>{{ transaction.name }}</b>
+                    <b>{{ transaction.property.refMandat }}{% if transaction.property.dupMandat is not null %}{{ transaction.property.dupMandat }}{% endif %}</b> <small>({{ transaction.name }})</small>
                     {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>La promesse de vente doit être controlée.</span>{% endif %}<br>
                     {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>L'attestation de l'acte de vente doit être controlée.</span>{% endif %}
                 </td>

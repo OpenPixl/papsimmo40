@@ -16,7 +16,9 @@
                 <td>
                     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': transaction.property.id})) }}
                 </td>
-                <td class="align-left">{{ transaction.name }}</td>
+                <td class="align-left">
+                    <b>{{ transaction.property.refMandat }}{% if transaction.property.dupMandat is not null %}{{ transaction.property.dupMandat }}{% endif %}</b> <small>({{ transaction.name }})</small>
+                </td>
                 <td>
                     {% if transaction.refEmployed.avatarName is defined %}
                         <img class="rounded-circle" src="{{ asset('images/avatar/' ~ transaction.refEmployed.avatarName) }}" alt="{{ transaction.refEmployed.avatarName }}" style="height:50px;width:50px">

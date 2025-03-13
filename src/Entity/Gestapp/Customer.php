@@ -186,6 +186,25 @@ class Customer
     #[ORM\Column]
     private ?bool $isSupprKbis = false;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $proAdress = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $proComplement = null;
+
+    #[ORM\Column(length: 14, nullable: true)]
+    private ?string $proZipcode = null;
+
+    #[ORM\Column(type: 'string', length: 255, nullable: true)]
+    #[Groups(['client:list', 'client:write:edit' ,'client:item', 'transaction:item'])]
+    private $proCity;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $RespFirstname = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $respLastname = null;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -639,6 +658,78 @@ class Customer
     public function setSupprKbis(bool $isSupprKbis): static
     {
         $this->isSupprKbis = $isSupprKbis;
+
+        return $this;
+    }
+
+    public function getProAdress(): ?string
+    {
+        return $this->proAdress;
+    }
+
+    public function setProAdress(?string $proAdress): static
+    {
+        $this->proAdress = $proAdress;
+
+        return $this;
+    }
+
+    public function getProComplement(): ?string
+    {
+        return $this->proComplement;
+    }
+
+    public function setProComplement(?string $proComplement): static
+    {
+        $this->proComplement = $proComplement;
+
+        return $this;
+    }
+
+    public function getProZipcode(): ?string
+    {
+        return $this->proZipcode;
+    }
+
+    public function setProZipcode(?string $proZipcode): static
+    {
+        $this->proZipcode = $proZipcode;
+
+        return $this;
+    }
+
+    public function getProCity(): ?string
+    {
+        return $this->proCity;
+    }
+
+    public function setProCity(?string $proCity): self
+    {
+        $this->proCity = $proCity;
+
+        return $this;
+    }
+
+    public function getRespFirstname(): ?string
+    {
+        return $this->RespFirstname;
+    }
+
+    public function setRespFirstname(?string $RespFirstname): static
+    {
+        $this->RespFirstname = $RespFirstname;
+
+        return $this;
+    }
+
+    public function getRespLastname(): ?string
+    {
+        return $this->respLastname;
+    }
+
+    public function setRespLastname(?string $respLastname): static
+    {
+        $this->respLastname = $respLastname;
 
         return $this;
     }
