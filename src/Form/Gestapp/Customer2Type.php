@@ -23,7 +23,7 @@ class Customer2Type extends AbstractType
     {
         $builder
             ->add('typeClient', ChoiceType::class,[
-                'label' => 'Type de client',
+                'label' => 'La structure est : ',
                 'choices'  => [
                     'Un particulier' => "particulier",
                     'Un professionnel' => 'professionnel',

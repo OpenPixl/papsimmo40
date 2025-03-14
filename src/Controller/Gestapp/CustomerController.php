@@ -6,6 +6,7 @@ use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Property;
 use App\Form\Gestapp\Customer2Type;
+use App\Form\Gestapp\CustomerRespType;
 use App\Form\Gestapp\CustomerType;
 use App\Form\SearchCustomersType;
 use App\Repository\Admin\EmployedRepository;
@@ -350,6 +351,53 @@ class CustomerController extends AbstractController
             'code' => 200,
             'message' => 'formulaire présenté',
             'formView' => $view->getContent()
+        ]);
+    }
+
+    #[Route('/addRespStructjson/', name: 'op_gestapp_customer_addrespjson',  methods: ['GET', 'POST'])]
+    public function addRespStructjson(
+        Request $request,
+        CustomerRepository $customerRepository,
+        EmployedRepository $employedRepository,
+        PropertyRepository $propertyRepository,
+        TransactionRepository $transactionRepository,
+        CustomerChoiceRepository $customerChoiceRepository,
+    )
+    {
+        $user = $this->getUser()->getId();
+
+        $customer = new Customer();
+        $form = $this->createForm(CustomerRespType::class, $customer, [
+            'action'=> $this->generateUrl('op_gestapp_customer_addrespjson'),
+            'method'=>'POST',
+            'attr' => [
+                'id' => 'AddRespStructure'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $customerChoice = $customerChoiceRepository->find(4);
+            // Contruction de la référence pour chaque propriété
+            $date = new \DateTime();
+            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
+            $customer->setRefCustomer($refCustomer);
+            $customer->setRefEmployed($user);
+            $customer->setCustomerChoice($customerChoice);
+
+            // Ajout en BDD du nouveau client
+            $customerRepository->add($customer);
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le vendeur a été correctement ajouté.",
+                'listeResp' => 0
+            ], 200);
+        }
+
+        return $this->render('gestapp/customer/include/addresp.html.twig', [
+            'customer' => $customer,
+            'form' => $form,
         ]);
     }
 

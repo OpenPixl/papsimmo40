@@ -33,6 +33,19 @@ class CustomerType extends AbstractType
                     'Un professionnel' => ['data-data' => 'professionnel'],
                 ],
             ])
+            ->add('typeStructure', ChoiceType::class,[
+                'label' => 'Type de client',
+                'choices'  => [
+                    'Une SCI' => 'sci',
+                    'Une Société' => 'societe',
+                    'Un entreprise Individuel' => 'professionnel',
+                ],
+                'choice_attr' => [
+                    'Une SCI' => ['data-data' => 'sci'],
+                    'Une Société' => ['data-data' => 'societe'],
+                    'Une entreprise Individuel' => ['data-data' => 'ei']
+                ],
+            ])
             ->add('nameStructure', TextType::class, [
                 'label' => 'Nom de la structure',
                 'empty_data' => '',
@@ -60,14 +73,6 @@ class CustomerType extends AbstractType
             ])
             ->add('maidenName', TextType::class, [
                 'label' => 'Nom de jeune fille',
-                'required' => false
-            ])
-            ->add('respFirstname', TextType::class, [
-                'label' => 'Nom & Prénom',
-                'required' => false
-            ])
-            ->add('respLastname', TextType::class, [
-                'label' => 'Nom',
                 'required' => false
             ])
             ->add('ddn', DateType::class, [

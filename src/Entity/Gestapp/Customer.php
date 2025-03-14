@@ -205,6 +205,15 @@ class Customer
     #[ORM\Column(length: 100, nullable: true)]
     private ?string $respLastname = null;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $typeStructure = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'customers')]
+    private Collection $responsables;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -221,6 +230,8 @@ class Customer
         $this->contacts = new ArrayCollection();
         $this->properties = new ArrayCollection();
         $this->transactions = new ArrayCollection();
+        $this->responsables = new ArrayCollection();
+        $this->customers = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -730,6 +741,42 @@ class Customer
     public function setRespLastname(?string $respLastname): static
     {
         $this->respLastname = $respLastname;
+
+        return $this;
+    }
+
+    public function getTypeStructure(): ?string
+    {
+        return $this->typeStructure;
+    }
+
+    public function setTypeStructure(?string $typeStructure): static
+    {
+        $this->typeStructure = $typeStructure;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getResponsables(): Collection
+    {
+        return $this->responsables;
+    }
+
+    public function addResponsable(self $responsable): static
+    {
+        if (!$this->responsables->contains($responsable)) {
+            $this->responsables->add($responsable);
+        }
+
+        return $this;
+    }
+
+    public function removeResponsable(self $responsable): static
+    {
+        $this->responsables->removeElement($responsable);
 
         return $this;
     }

@@ -1,0 +1,30 @@
+
+<form action="{{ path('op_gestapp_customer_addrespjson') }}" method="post" enctype="multipart/form-data">
+    <table class="table table-sm mb-0">
+        <tr class="align-middle " style="border-top: 1px solid #ffffff; 	border-bottom: 1px solid #ffffff;">
+        <td class="col-2">
+            {% for label, value, choice in field_choices(form.civility) %}
+                <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="{{ field_name(form.civility) }}" id="{{ field_name(form.civility) }}{{ value }}" value="{{ value }}" {% if value is same as customer.civility %}checked="checked"{% endif %}>
+                    <label class="form-check-label" for="{{ field_name(form.civility) }}{{ value }}">{{ label }}</label>
+                </div>
+            {% endfor %}
+        </td>
+        <td class="col-2">
+            {{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom complet ...'}}) }}
+        </td>
+        <td class="col-2 d-none">
+            {{ form_widget(form.maidenName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+        </td>
+        <td class="col-2">
+            {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+        </td>
+        <td class="col-3">
+            {{ form_widget(form.cifilename) }}
+        </td>
+        <td class="col-1">
+            <button id="btnAddResp" type="submit" class="btn btn-sm btn-outline-primary"><i class="fa-solid fa-user-plus"></i></button>
+        </td>
+    </tr>
+    </table>
+</form>
