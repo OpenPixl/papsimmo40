@@ -354,21 +354,26 @@ class CustomerController extends AbstractController
         ]);
     }
 
-    #[Route('/addRespStructjson/', name: 'op_gestapp_customer_addrespjson',  methods: ['GET', 'POST'])]
+    #[Route('/addRespStructjson/{id}', name: 'op_gestapp_customer_addrespjson',  methods: ['GET', 'POST'])]
     public function addRespStructjson(
         Request $request,
+        Customer $customer,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
         TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
+        EntityManagerInterface $em,
     )
     {
         $user = $this->getUser()->getId();
+        $employed = $employedRepository->find($user);
 
-        $customer = new Customer();
-        $form = $this->createForm(CustomerRespType::class, $customer, [
-            'action'=> $this->generateUrl('op_gestapp_customer_addrespjson'),
+        $customer_resp = new Customer();
+        $form = $this->createForm(CustomerRespType::class, $customer_resp, [
+            'action'=> $this->generateUrl('op_gestapp_customer_addrespjson', [
+                'id' =>  $customer->getId()
+            ]),
             'method'=>'POST',
             'attr' => [
                 'id' => 'AddRespStructure'
@@ -377,26 +382,31 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $customerChoice = $customerChoiceRepository->find(4);
+            $customerChoice = $customerChoiceRepository->find(1);
             // Contruction de la référence pour chaque propriété
             $date = new \DateTime();
             $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-            $customer->setRefCustomer($refCustomer);
-            $customer->setRefEmployed($user);
-            $customer->setCustomerChoice($customerChoice);
-
+            $customer_resp->setRefCustomer($refCustomer);
+            $customer_resp->setTypeClient('responsable_structure');
+            $customer_resp->setRefEmployed($employed);
+            $customer_resp->setCustomerChoice($customerChoice);
             // Ajout en BDD du nouveau client
-            $customerRepository->add($customer);
+            $customerRepository->add($customer_resp);
+            // incrémentation du repsonsable dans la fiche société
+            $customer->addResponsable($customer_resp);
+            $em->flush();
 
             return $this->json([
                 'code'=> 200,
-                'message' => "Le vendeur a été correctement ajouté.",
-                'listeResp' => 0
+                'message' => "Le responsable a été correctement à la fiche.",
+                'listeResp' => $this->renderView('gestapp/customer/include/liste_respcustomer.html.twig', [
+                    'customer' =>  $customer,
+                ])
             ], 200);
         }
 
         return $this->render('gestapp/customer/include/addresp.html.twig', [
-            'customer' => $customer,
+            'customer' => $customer_resp,
             'form' => $form,
         ]);
     }
@@ -724,6 +734,23 @@ class CustomerController extends AbstractController
             'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
                 'customers' => $customers,
                 'idproperty' => $idproperty,
+            ])
+        ], 200);
+
+    }
+
+    #[Route('/{id}/delresponsable/{idFiche}', name: 'op_gestapp_customer_delresponsable', methods: ['POST'])]
+    public function delResponsable(Customer $customer, $idFiche, CustomerRepository $customerRepository, EntityManagerInterface $em)
+    {
+        $fiche = $customerRepository->find($idFiche);
+        $fiche->removeResponsable($customer);
+        $em->flush();
+
+        return $this->json([
+            'code'=> 200,
+            'message' => 'Suppression d\'un responsable',
+            'listeResp' => $this->renderView('gestapp/customer/include/liste_respcustomer.html.twig', [
+                'customer' => $fiche,
             ])
         ], 200);
 

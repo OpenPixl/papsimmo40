@@ -1,0 +1,31 @@
+{% set count = customer.responsables|length %}
+{% if count == 0 %}
+    <table class="table table-sm">
+        <tr style="border-top: 1px solid #ffffff; 	border-bottom: 1px solid #ffffff;border-left: 4px solid #0c7c90;">
+            <td>Il n'y a pas de responsable renseigné pour {{ customer.nameStructure }}</td>
+        </tr>
+    </table>
+{% else %}
+    <table class="table table-sm table-striped">
+        <caption>Nombre de repsonsable : {{ customer.responsables|length }}</caption>
+        {% for c in customer.responsables %}
+            <tr class="align-middle" style="border-top: 1px solid #ffffff; 	border-bottom: 1px solid #ffffff; border-left: 4px solid #900C3F ">
+                <td class="col-2">
+                    {% if c.civility == 1 %}M.{% else %}Mme{% endif %} {{ c.firstName }} {{ c.lastName }}
+                </td>
+                <td class="col-2">
+                </td>
+                <td class="col-2 d-none">
+                </td>
+                <td class="col-2">
+                </td>
+                <td class="col-3">
+                    <a href="">{{ c.cifilename }}</a>
+                </td>
+                <td class="col-1">
+                    <a href="{{ path('op_gestapp_customer_delresponsable', {'id' : c.id, 'idFiche': customer.id}) }}" class="btn btn-sm btn-outline-warning btnSupprResp"><i class="fa-solid fa-user-minus"></i></a>
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
+{% endif %}
