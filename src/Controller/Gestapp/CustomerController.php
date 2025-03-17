@@ -178,12 +178,19 @@ class CustomerController extends AbstractController
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
-        CustomerChoiceRepository $customerChoiceRepository,): Response
+        CustomerChoiceRepository $customerChoiceRepository,
+        EntityManagerInterface $em,
+    ): Response
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
 
         $customer = new Customer();
+        $customer->setRefEmployed($employed);
+        $customer->setCustomerChoice($customerChoiceRepository->find(1));
+        $customer->setTypeClient('particulier');
+        $em->persist($customer);
+        $em->flush();
         $form = $this->createForm(CustomerType::class, $customer);
         $form->handleRequest($request);
 

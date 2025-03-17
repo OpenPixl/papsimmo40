@@ -214,6 +214,18 @@ class Customer
     #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'customers')]
     private Collection $responsables;
 
+    #[ORM\Column(length: 14, nullable: true)]
+    private ?string $deskStructure = null;
+
+    #[ORM\Column(length: 14, nullable: true)]
+    private ?string $gsmStructure = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $EmailStructure = null;
+
+    #[ORM\Column]
+    private ?bool $isFinished = false;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -777,6 +789,66 @@ class Customer
     public function removeResponsable(self $responsable): static
     {
         $this->responsables->removeElement($responsable);
+
+        return $this;
+    }
+
+    public function getHomeStructure(): ?string
+    {
+        return $this->homeStructure;
+    }
+
+    public function setHomeStructure(string $homeStructure): static
+    {
+        $this->homeStructure = $homeStructure;
+
+        return $this;
+    }
+
+    public function getDeskStructure(): ?string
+    {
+        return $this->deskStructure;
+    }
+
+    public function setDeskStructure(?string $deskStructure): static
+    {
+        $this->deskStructure = $deskStructure;
+
+        return $this;
+    }
+
+    public function getGsmStructure(): ?string
+    {
+        return $this->gsmStructure;
+    }
+
+    public function setGsmStructure(string $gsmStructure): static
+    {
+        $this->gsmStructure = $gsmStructure;
+
+        return $this;
+    }
+
+    public function getEmailStructure(): ?string
+    {
+        return $this->EmailStructure;
+    }
+
+    public function setEmailStructure(?string $EmailStructure): static
+    {
+        $this->EmailStructure = $EmailStructure;
+
+        return $this;
+    }
+
+    public function isFinished(): ?bool
+    {
+        return $this->isFinished;
+    }
+
+    public function setFinished(bool $isFinished): static
+    {
+        $this->isFinished = $isFinished;
 
         return $this;
     }

@@ -142,7 +142,20 @@ class CustomerType extends AbstractType
                 'label' => 'Tel Portable',
                 'required' => false
             ])
+            ->add('deskStructure', TextType::class, [
+                'label' => 'Tel Bureau',
+                'required' => false,
+                'empty_data' =>''
+            ])
+            ->add('gsmStructure', TextType::class, [
+                'label' => 'Tel Portable',
+                'required' => true
+            ])
             ->add('otherEmail', TextType::class, [
+                'label' => 'Email',
+                'required' => false
+            ])
+            ->add('EmailStructure', TextType::class, [
                 'label' => 'Email',
                 'required' => false
             ])

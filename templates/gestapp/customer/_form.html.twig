@@ -189,6 +189,31 @@
                                 </select>
                             </div>
                         </div>
+                        <div class="row align-items-center g-1 mb-1">
+                            <div class="col-2">
+                                Contacts
+                            </div>
+                            <div class="col-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
+                                    {{ form_widget(form.gsmStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Portable ...'}}) }}
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="input-group">
+                                    <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-phone-office"></i></span>
+                                    {{ form_widget(form.deskStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Bureau ...'}}) }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row align-items-center g-1 mb-1">
+                            <div class="col-2">
+                                {{ form_label(form.EmailStructure, '', {'label_attr': {'class':'form-label'}}) }}
+                            </div>
+                            <div class="col-6">
+                                {{ form_widget(form.EmailStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email de la structure...'}}) }}
+                            </div>
+                        </div>
                     </div>
                     <div class="col-4">
                         <p class="border-bottom mb-1"><b>PIECES A FOURNIR</b></p>

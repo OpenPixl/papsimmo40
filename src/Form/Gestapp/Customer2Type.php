@@ -95,6 +95,7 @@ class Customer2Type extends AbstractType
                 'label' => 'Tel Portable',
                 'required' => true
             ])
+
             ->add('otherEmail', TextType::class, [
                 'label' => 'Email',
                 'required' => true
