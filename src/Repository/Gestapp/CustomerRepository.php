@@ -70,9 +70,10 @@ class CustomerRepository extends ServiceEntityRepository
                 c.id,
                 c.typeClient as typeClient,
                 ch.name as customerChoice
-                                '
+                '
             )
-            ->orderBy('c.id', 'ASC')
+            ->orderBy('c.isFinished', 'DESC')
+            ->orderBy('c.id', 'DESC')
             ->getQuery()
             ->getResult()
             ;
@@ -106,7 +107,8 @@ class CustomerRepository extends ServiceEntityRepository
             )
             ->where('e.id = :user')
             ->setParameter('user', $user)
-            ->orderBy('c.id', 'ASC')
+            ->orderBy('c.isFinished', 'DESC')
+            ->orderBy('c.id', 'DESC')
             ->getQuery()
             ->getResult()
             ;

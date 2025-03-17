@@ -202,7 +202,7 @@ class CustomerController extends AbstractController
             $customer->setRefCustomer($refCustomer);
             $customer->setRefEmployed($employed);
             // Ajout en BDD du nouveau client
-            $customerRepository->add($customer);
+            $em->flush();
             return $this->redirectToRoute('op_gestapp_customer_index', [], Response::HTTP_SEE_OTHER);
         }
 
