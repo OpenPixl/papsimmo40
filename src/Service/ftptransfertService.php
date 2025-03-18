@@ -75,7 +75,6 @@ class ftptransfertService
         $rows = array();
         foreach ($properties as $property){
             $propriete = $propertyRepository->find($property['id']);
-            dd($propriete);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
             // Description de l'annonce
@@ -223,6 +222,9 @@ class ftptransfertService
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
             $bilanGes = $this->propertyService->getClasseGes($propriete);
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
 
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
@@ -473,6 +475,10 @@ class ftptransfertService
                 $diagGESChoice = "NS";
             }
 
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
+
             //dd($property['rubric_en']);
 
             $xml = [
@@ -598,6 +604,9 @@ class ftptransfertService
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
             $bilanGes = $this->propertyService->getClasseGes($propriete);
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
 
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
@@ -698,6 +707,10 @@ class ftptransfertService
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
             $bilanGes = $this->propertyService->getClasseGes($propriete);
 
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
+
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
@@ -793,6 +806,9 @@ class ftptransfertService
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
             $bilanGes = $this->propertyService->getClasseGes($propriete);
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
 
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
@@ -893,6 +909,9 @@ class ftptransfertService
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
             $bilanGes = $this->propertyService->getClasseGes($propriete);
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
 
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
@@ -991,6 +1010,9 @@ class ftptransfertService
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
             $bilanGes = $this->propertyService->getClasseGes($propriete);
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
 
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
@@ -1090,6 +1112,9 @@ class ftptransfertService
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
             $bilanGes = $this->propertyService->getClasseGes($propriete);
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
 
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
@@ -1184,11 +1209,13 @@ class ftptransfertService
 
             // Equipements
             $complement = $propriete->getComplement();
-            dd($complement);
 
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
             $bilanGes = $this->propertyService->getClasseGes($propriete);
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
 
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
