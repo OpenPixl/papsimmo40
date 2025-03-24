@@ -241,7 +241,7 @@ class PropertyService
     public function getClasseDpe(Property $property){
         if($property->getDiagChoice() == "obligatoire"){
             if($property->getDpeAt() <= new DateTime('2021-07-01')){
-                // Bilan GES
+                // Bilan DPE
                 if($property->getDiagDpe() > 0 and $property->getDiagDpe() <= 50 ){
                     $bilanDpe = 'A';
                 }elseif($property->getDiagDpe() > 50 and $property->getDiagDpe() <= 90 ){

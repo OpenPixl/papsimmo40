@@ -127,7 +127,7 @@
                                     {% endif %}
                                     <div>
                                         <h5 class="subtitle" style="text-align: center">Consommation énergétique</h5>
-                                        {% if property.diagDpe > 0  %}
+                                        {% if property.diagDpe > 0 and property.diagChoice == 'obligatoire' %}
                                             <ul class="diag_ener">
                                                 <li class="c-dpe__index dpe-A {% if dpe == 'A' %}dpe-active{% endif %}">A{% if dpe == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
                                                 <li class="c-dpe__index dpe-B {% if dpe == 'B' %}dpe-active{% endif %}">B{% if dpe == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
@@ -137,7 +137,7 @@
                                                 <li class="c-dpe__index dpe-F {% if dpe == 'F' %}dpe-active{% endif %}">F{% if dpe == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
                                                 <li class="c-dpe__index dpe-G {% if dpe == 'G' %}dpe-active{% endif %}">G{% if dpe == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
                                             </ul>
-                                        {% elseif property.diagDpe == 0  %}
+                                        {% else  %}
                                             <ul class="diag_ener">
                                                 <li class="c-dpe__index dpe-A">A</li>
                                                 <li class="c-dpe__index dpe-B">B</li>
@@ -148,15 +148,15 @@
                                                 <li class="c-dpe__index dpe-G">G</li>
                                             </ul>
                                         {% endif %}
-                                        {% if reclassementDpe == 1  %}
-                                            <p class="mb-0">Classement en {{ dpe }} dû au GES.</p>
+                                        {% if reclassementDpe == 1 and property.diagChoice == 'obligatoire' %}
+                                            <p class="mt-2 pt-3 mb-0">Classement en {{ dpe }} dû au GES.</p>
                                         {% endif %}
                                     </div>
                                 </div>
                                 <div class="col-6" style="display:flex;justify-content: space-around;align-items: center;">
                                     <div>
                                         <h5 class="subtitle" style="text-align: center">Emission de gaz</h5>
-                                        {% if property.diagGes > 0  %}
+                                        {% if property.diagGes > 0 and property.diagChoice == 'obligatoire' %}
                                             <ul class="diag_ener">
                                                 <li class="c-dpe__index dpe-A1 {% if ges == 'A' %}dpe-active{% endif %}">A{% if ges == 'A' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
                                                 <li class="c-dpe__index dpe-B1 {% if ges == 'B' %}dpe-active{% endif %}">B{% if ges == 'B' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
@@ -189,8 +189,7 @@
                                     </p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>                    </div>
                 </div>
             </div>
         </div>
