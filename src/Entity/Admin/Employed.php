@@ -388,7 +388,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'FromEmployed', targetEntity: Contact::class)]
     private Collection $fromEmployeds;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(length: 255, nullable: true)]
     private ?string $qrcode_pwa = null;
 
     public function __construct()
