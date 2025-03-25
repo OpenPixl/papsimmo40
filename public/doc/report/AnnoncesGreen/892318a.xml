@@ -217,8 +217,8 @@
                     <postal_code>40000</postal_code>
                     <city>MONT-DE-MARSAN</city>
                     <advert_type>properties</advert_type>
-                    <title_fr>Maison rénové, 3 chambres, suite parentale, séjour, cuisine, cellier, terrain clos 1760 m².</title_fr>
-                    <summary_fr>À 25 minutes de Mont-de-Marsan, découvrez cette belle maison familiale entièrement rénovée, offrant confort et modernité.&lt;br /&gt;L’ensemble de la maison est en parfait état et bénéficie d’un classement énergétique C, garantissant un excellent confort thermique et des économies d’énergie.&lt;br /&gt;Seule la façade est à revoir.&lt;br /&gt;Le rez-de-chaussée se compose d’une entrée, d’une cuisine aménagée, d’un vaste séjour lumineux doté d’une cheminée insert, ainsi qu&#039;une suite parentale comprenant un dressing, une salle d’eau et wc.&lt;br /&gt;À l’étage, vous trouverez couloir avec placard pour desservir trois chambres spacieuses, une salle de bain avec douche, un wc séparé.&lt;br /&gt;À l&#039;extérieur, vous profiterez d&#039;une agréable terrasse idéale pour des moments de détente, une grange, divisée en trois ateliers modulables, offre de nombreuses possibilités d&#039;aménagement. &lt;br /&gt;Le tout est situé sur un terrain entièrement clos de 1 750 m², garantissant une tranquillité.&lt;br /&gt;Cette maison est idéale pour une famille à la recherche d’un cadre de vie paisible, tout en restant à proximité des commodités.&lt;br /&gt;N’attendez plus pour venir la visiter !Prix : 272 000 €&lt;br /&gt;Taxe foncière : 443 euros</summary_fr>
+                    <title_fr>Pavillon, cuisine, séjour, 3 chambres, salle d&#039;eau, garage, abri de jardin, terrain clos 1050 m²</title_fr>
+                    <summary_fr>Venez découvrir ce charmant pavillon situé cinq minutes de Mont-de-Marsan, offrant confort et praticité dans un cadre agréable, proche de tous commerces et écoles.&lt;br /&gt;Ce pavillon se compose d&#039;un cellier, une cuisine aménagée et équipée, ouverte sur un séjour/salon lumineux avec climatisation, trois chambres, dont un avec placard, une salle d’eau avec double vasque, 1 WC séparé.&lt;br /&gt;Confort : Double vitrage, climatisation réversible, isolation des combles récent, des moustiquaires installées aux ouvertures.&lt;br /&gt;Extérieur : 1 belle terrasse couverte avec store électrique, idéale pour profiter des beaux jours.&lt;br /&gt;Garage spacieux de 32 m².&lt;br /&gt;Abri de jardin pour rangement supplémentaire.&lt;br /&gt;Le tout Terrain de 1050 m² arboré et entièrement clos, avec portail motorisé pour plus de sécurité.&lt;br /&gt;Un bien dans lequel il fait bon vivre, alliant praticité et confort à seulement quelques minutes de la ville !!Prix : 230 000 €&lt;br /&gt;Taxe foncière : 650 €</summary_fr>
                     <country_code>fr</country_code>
                     <property_type>Maison</property_type>
                     <habitable_surface>179</habitable_surface>
@@ -232,6 +232,54 @@
                     <baths_number>2</baths_number>
                     <showers_number>1</showers_number>
                     <floor>1</floor>
+                    <has_terrace>1</has_terrace>
+                    <balconies_number>0</balconies_number>
+                    <has_closets>1</has_closets>
+                                        <charges></charges>
+                                        <furnished>0</furnished>
+                    <heating>
+                        A définir                    </heating>
+                    <pics>
+                                            <pic order="1">https://www.papsimmo.fr/properties/2025-012315-1/telechargement-9.jpg</pic>
+                                            <pic order="2">https://www.papsimmo.fr/properties/2025-012315-1/telechargement-10.jpg</pic>
+                                            <pic order="3">https://www.papsimmo.fr/properties/2025-012315-1/telechargement-11.jpg</pic>
+                                            <pic order="4">https://www.papsimmo.fr/properties/2025-012315-1/telechargement.jpg</pic>
+                                            <pic order="5">https://www.papsimmo.fr/properties/2025-012315-1/telechargement-7.jpg</pic>
+                                            <pic order="6">https://www.papsimmo.fr/properties/2025-012315-1/telechargement-8.jpg</pic>
+                                            <pic order="7">https://www.papsimmo.fr/properties/2025-012315-1/telechargement-3.jpg</pic>
+                                            <pic order="8">https://www.papsimmo.fr/properties/2025-012315-1/telechargement-4.jpg</pic>
+                                            <pic order="9">https://www.papsimmo.fr/properties/2025-012315-1/telechargement-5.jpg</pic>
+                                        </pics>
+                    <publications>
+                        <greenacres>1</greenacres>
+                    </publications>
+                </advert>
+                                                                                                                                            <advert>
+                    <account_id>892318a</account_id>
+                    <reference>892318a-2025/021221-1</reference>
+                    <price>194900</price>
+                    <currency>EUR</currency>
+                    <has_included_fees>0</has_included_fees>
+                    <agency_rates_type>0</agency_rates_type>
+                    <fees>9000</fees>
+                    <postal_code>40000</postal_code>
+                    <city>MONT-DE-MARSAN</city>
+                    <advert_type>properties</advert_type>
+                    <title_fr>Maison rénové, 3 chambres, suite parentale, séjour, cuisine, cellier, terrain clos 1760 m².</title_fr>
+                    <summary_fr>À 25 minutes de Mont-de-Marsan, découvrez cette belle maison familiale entièrement rénovée, offrant confort et modernité.&lt;br /&gt;L’ensemble de la maison est en parfait état et bénéficie d’un classement énergétique C, garantissant un excellent confort thermique et des économies d’énergie.&lt;br /&gt;Seule la façade est à revoir.&lt;br /&gt;Le rez-de-chaussée se compose d’une entrée, d’une cuisine aménagée, d’un vaste séjour lumineux doté d’une cheminée insert, ainsi qu&#039;une suite parentale comprenant un dressing, une salle d’eau et wc.&lt;br /&gt;À l’étage, vous trouverez couloir avec placard pour desservir trois chambres spacieuses, une salle de bain avec douche, un wc séparé.&lt;br /&gt;À l&#039;extérieur, vous profiterez d&#039;une agréable terrasse idéale pour des moments de détente, une grange, divisée en trois ateliers modulables, offre de nombreuses possibilités d&#039;aménagement. &lt;br /&gt;Le tout est situé sur un terrain entièrement clos de 1 750 m², garantissant une tranquillité.&lt;br /&gt;Cette maison est idéale pour une famille à la recherche d’un cadre de vie paisible, tout en restant à proximité des commodités.&lt;br /&gt;N’attendez plus pour venir la visiter !Prix : 272 000 €&lt;br /&gt;Taxe foncière : 443 euros</summary_fr>
+                    <country_code>fr</country_code>
+                    <property_type>Maison</property_type>
+                    <habitable_surface>115</habitable_surface>
+                    <land_surface>1882</land_surface>
+                    <dpe_type>D</dpe_type>
+                    <dpe_value>187</dpe_value>
+                    <ges_type>A</ges_type>
+                    <ges_value>5</ges_value>
+                    <rooms_number>4</rooms_number>
+                    <bedrooms_number>3</bedrooms_number>
+                    <baths_number>1</baths_number>
+                    <showers_number>0</showers_number>
+                    <floor>0</floor>
                     <has_terrace>1</has_terrace>
                     <balconies_number>0</balconies_number>
                     <has_closets>1</has_closets>
@@ -622,7 +670,7 @@
                     <city>MIMIZAN</city>
                     <advert_type>properties</advert_type>
                     <title_fr>Magnifique maison rénové au cœur de Mimizan, à deux pas des plages</title_fr>
-                    <summary_fr>🏡Située au cœur de Mimizan Bourg, cette maison entièrement rénovée offre un cadre de vie moderne et chaleureux. Idéale en résidence principale, investissement locatif saisonnier ou projet commercial grâce à son emplacement stratégique et son fort potentiel.✨ Intérieur optimisé – 100 m² : Séjour lumineux 56 m², plafond cathédrale, poutres apparentes, cuisine ouverte équipée avec îlot central, 3 chambres, salle de bain élégante (double vasque, baignoire îlot), buanderie, WC indépendant, entrée avec placards intégrés.🌿 Extérieur fonctionnel – 551 m² : Terrain piscinable, possibilité d’extension 200 m², 2 terrasses, barbecue maçonné, garage 15 m², allée pavée (4 véhicules), portail coulissant électrique.📍 Emplacement &amp; Potentiel commercial : Centre-bourg, commerces et restaurants à pied, 10 min des plages, 5 min du lac de Mimizan. Zone dynamique, possibilité de transformer en local professionnel ou commerce (bureaux, boutique, cabinet…).📈 Rentabilité locative saisonnière : Haute saison : 180-220 €/nuit, Moyenne : 120-160 €/nuit, Basse : 90-120 €/nuit. Revenus estimés : 15 000 - 20 000 €/an, rentabilité nette 5 à 7 %.🏡 Taxe foncière : 704 € | 💰 Prix : 339 000 €🔑 Un bien rare et polyvalent ! À visiter sans tarder.</summary_fr>
+                    <summary_fr>Charmante Maison Landaise Rénovée en Centre-Bourg de Mimizan&lt;br /&gt;Découvrez cette belle maison landaise, entièrement rénovée et modernisée,située au cœur de Mimizan Bourg. Profitez d’un style architectural authentique allié à des aménagements modernes,dans un environnement lumineux et proche de toutes les commodités.&lt;br /&gt;Caractéristiques Intérieures&lt;br /&gt;• Surface habitable : environ 100 m², offrant des espaces optimisés pour le confort et la fonctionnalité.&lt;br /&gt;• Superbe pièce de vie : un espace de 56 m² avec plafond cathédrale et poutres apparentes, baigné de&lt;br /&gt;lumière naturelle, idéal pour des moments de convivialité.&lt;br /&gt;o Cuisine ouverte et équipée, dotée d’un grand îlot central, parfaite pour les repas en famille ou amis &lt;br /&gt;• Chambres : 3 chambres confortables pour toute la famille.&lt;br /&gt;• Salle de bain moderne : équipée d’une double vasque et d’une élégante baignoire îlot.&lt;br /&gt;• Espace buanderie : pratique et discret, ainsi qu’un WC suspendu indépendant.&lt;br /&gt;• Entrée fonctionnelle : placards intégrés avec penderie et rangements pour chaussures.&lt;br /&gt;Espaces Extérieurs&lt;br /&gt;• Parcelle de 551 m², piscinable et offrant des possibilités d’agrandissement ou de construction jusqu’à&lt;br /&gt;200 m² supplémentaires.&lt;br /&gt;• Deux terrasses : idéales pour se détendre ou recevoir en plein air.&lt;br /&gt;• Barbecue maçonné pour des soirées grillades.&lt;br /&gt;• Garage de 15 m²: garage accolé et un large portail coulissant électrique pour un accès pratique.&lt;br /&gt;• Allée pavée pouvant accueillir jusqu’à 4 véhicules.&lt;br /&gt;Localisation Idéale et Proximité&lt;br /&gt;• En plein centre de Mimizan Bourg : tous les commerces, restaurants, et services essentiels sont&lt;br /&gt;à moins de 5 minutes à pied.&lt;br /&gt;• À quelques minutes de la plage : 10 minutes en voiture, ou laissez la voiture l’été grâce à une&lt;br /&gt;navette gratuite en face de la maison qui facilite l’accès aux plages.&lt;br /&gt;• À proximité du lac de Mimizan : seulement 5 minutes pour profiter des activités nautiques et&lt;br /&gt;des promenades en pleine nature.&lt;br /&gt;Un bien rare sur le secteur ! À visiter sans tarder pour apprécier tout le potentiel de cette propriété d&#039;exception.&lt;br /&gt;Prix : 339 000 € Taxe foncière : 704 €</summary_fr>
                     <country_code>fr</country_code>
                     <property_type>Maison</property_type>
                     <habitable_surface>101</habitable_surface>
@@ -644,22 +692,22 @@
                     <heating>
                         Climatisation réversible                    </heating>
                     <pics>
-                                            <pic order="1">https://www.papsimmo.fr/properties/2024-101621-1/20250114-115246.jpg</pic>
-                                            <pic order="2">https://www.papsimmo.fr/properties/2024-101621-1/104-4046-290224082334.jpg</pic>
-                                            <pic order="3">https://www.papsimmo.fr/properties/2024-101621-1/IMG-20250114-WA0013.jpg</pic>
-                                            <pic order="4">https://www.papsimmo.fr/properties/2024-101621-1/IMG-20250114-WA0016.jpg</pic>
-                                            <pic order="5">https://www.papsimmo.fr/properties/2024-101621-1/20250114-115356.jpg</pic>
-                                            <pic order="6">https://www.papsimmo.fr/properties/2024-101621-1/IMG-20250114-WA0023.jpg</pic>
-                                            <pic order="7">https://www.papsimmo.fr/properties/2024-101621-1/IMG-20250114-WA0025.jpg</pic>
-                                            <pic order="8">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-27-12-e6e5e806.jpg</pic>
-                                            <pic order="9">https://www.papsimmo.fr/properties/2024-101621-1/20250114-115456.jpg</pic>
-                                            <pic order="10">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-25-35-543a7a9f.jpg</pic>
-                                            <pic order="11">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-24-57-7198439f-12.jpg</pic>
-                                            <pic order="12">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-26-24-68b6966a.jpg</pic>
-                                            <pic order="13">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-36-50-24a62420.jpg</pic>
-                                            <pic order="14">https://www.papsimmo.fr/properties/2024-101621-1/maison-Baquet-jonathan.jpg</pic>
-                                            <pic order="15">https://www.papsimmo.fr/properties/2024-101621-1/20250114-120254.jpg</pic>
-                                            <pic order="16">https://www.papsimmo.fr/properties/2024-101621-1/104-4046-300724101623.jpg</pic>
+                                            <pic order="1">https://www.papsimmo.fr/properties/2024-101621-1/20250114-120254.jpg</pic>
+                                            <pic order="2">https://www.papsimmo.fr/properties/2024-101621-1/104-4046-300724101623.jpg</pic>
+                                            <pic order="3">https://www.papsimmo.fr/properties/2024-101621-1/20250114-115246.jpg</pic>
+                                            <pic order="4">https://www.papsimmo.fr/properties/2024-101621-1/104-4046-290224082334.jpg</pic>
+                                            <pic order="5">https://www.papsimmo.fr/properties/2024-101621-1/IMG-20250114-WA0016.jpg</pic>
+                                            <pic order="6">https://www.papsimmo.fr/properties/2024-101621-1/IMG-20250114-WA0013.jpg</pic>
+                                            <pic order="7">https://www.papsimmo.fr/properties/2024-101621-1/20250114-115356.jpg</pic>
+                                            <pic order="8">https://www.papsimmo.fr/properties/2024-101621-1/IMG-20250114-WA0023.jpg</pic>
+                                            <pic order="9">https://www.papsimmo.fr/properties/2024-101621-1/IMG-20250114-WA0025.jpg</pic>
+                                            <pic order="10">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-27-12-e6e5e806.jpg</pic>
+                                            <pic order="11">https://www.papsimmo.fr/properties/2024-101621-1/20250114-115456.jpg</pic>
+                                            <pic order="12">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-25-35-543a7a9f.jpg</pic>
+                                            <pic order="13">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-24-57-7198439f-12.jpg</pic>
+                                            <pic order="14">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-26-24-68b6966a.jpg</pic>
+                                            <pic order="15">https://www.papsimmo.fr/properties/2024-101621-1/WhatsApp-Image-2025-01-14-a-17-36-50-24a62420.jpg</pic>
+                                            <pic order="16">https://www.papsimmo.fr/properties/2024-101621-1/maison-Baquet-jonathan.jpg</pic>
                                         </pics>
                     <publications>
                         <greenacres>1</greenacres>

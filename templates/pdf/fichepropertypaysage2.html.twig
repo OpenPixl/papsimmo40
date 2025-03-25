@@ -191,7 +191,19 @@
                         {% endfor %}
                         <div class="annonce_content">
                             <h5 class="title-h2">{{ nouveau_texte|raw }}</h5>
-                            {{ annonce|markdown_to_html }}
+                            {% set contenuModifie = annonce|replace({'<p>': '\n', '</p>': ''}) %}
+                            {% set lignes = contenuModifie|split('\n')|reduce((carry, line) => carry|merge(line|split('<br />')), []) %}
+                            {% if lignes|length > 18 %}
+                                {% for ligne in lignes[:16] %}
+                                    {{ ligne|markdown_to_html }}
+                                {% endfor %}
+                                Découvrez plus en scannant le QRCode
+                                {{ lignes[17] }}
+                            {% else %}
+                                {% for ligne in lignes %}
+                                    {{ ligne|markdown_to_html }}
+                                {% endfor %}
+                            {% endif %}
                         </div>
                         {% if property.annonceDown is not null %}
                             <div class="annonce_down">

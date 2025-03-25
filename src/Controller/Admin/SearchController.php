@@ -236,4 +236,14 @@ class SearchController extends AbstractController
             'form' => $form,
         ]);
     }
+
+    #[Route('/admin/search/customer_index/', name: 'app_admin_search_customer_index', methods: ['POST', 'GET'])]
+    public function customerIndex(Request $request): Response
+    {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $user = $this->getUser();
+
+
+    }
+
 }

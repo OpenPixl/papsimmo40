@@ -15,6 +15,7 @@
 ###> symfony/webpack-encore-bundle ###
 /node_modules/
 /public/build/
+/public/doc/report/
 /public/doc/report/*.*
 /public/doc/pdf/*.*
 /public/doc/mp4/*.*

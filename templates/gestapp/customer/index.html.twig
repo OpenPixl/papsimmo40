@@ -19,47 +19,41 @@
 {% block content %}
     <div class="row">
         <div id="list" class="col-sm-12">
-            <div class="navigation d-flex justify-content-between">
-                <div class="mb-1">
-                    <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
-                </div>
+            <div class="navigation d-flex justify-content-end mb-1">
+                <form id="searchCustomerform" action="{{ path('op_gestapp_customer_search') }}">
+                    <input id="searchCustomerInput" type="text" class="form-control form-control-sm" name="word" placeholder="&#x1F50D; Rechercher le client">
+                </form>
             </div>
         </div>
     </div>
-    {% include('gestapp/customer/_list.html.twig') %}
+    <div class="row">
+        <div class="col-12" id="liste">
+            {% include('gestapp/customer/include/_list.html.twig') %}
+        </div>
+    </div>
 {% endblock %}
 
-{% block footer %}
+{% block modal %}
     {{ parent() }}
     <section>
-        <div class="modal fade" id="SupprCustomer" tabindex="-1" aria-labelledby="SupprCustomer" aria-hidden="true">
-            <div class="modal-dialog">
+        {# Modal de suppression #}
+        <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="modalStatus" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title text-danger" id="exampleModalLabel">New message</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Modal Customer</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
-                        <p class="modal-text">Vous êtes sur le point de supprimer l'évènement.</p>
+                        <div class="d-flex justify-content-center">
+                            <div class="spinner-border text-primary" role="status">
+                                <span class="visually-hidden">Loading...</span>
+                            </div>
+                        </div>
                     </div>
                     <div class="modal-footer">
-                        <a id="BtnSupprCustomer" href="#" type="button" class="btn btn-danger data-supprcustomer" data-bs-dismiss="modal">Supprimer</a>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        {# annonce toaster #}
-        <div aria-live="polite" aria-atomic="true" class="position-relative">
-            <div class="toast-container position-absolute top-50 end-0 p-3">
-                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                    <div class="toast-header">
-                        <strong class="me-auto">Bootstrap</strong>
-                        <small>à l'instant</small>
-                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                        Hello, world! This is a toast message.
+                        <a id="btnModalSubmit" href="#" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                        <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
                     </div>
                 </div>
             </div>

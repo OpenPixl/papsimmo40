@@ -134,8 +134,10 @@ class CustomerController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $customers = $customerRepository->SearchCustomers($data['word']);
 
+        dd($customers);
+
         return $this->json([
-            'liste' => $this->renderView('gestapp/customer/search/_listeTr.html.twig', [
+            'liste' => $this->renderView('gestapp/customer/include/_list.html.twig', [
                 'customers' => $customers,
             ])
         ], 200);
@@ -718,7 +720,7 @@ class CustomerController extends AbstractController
         return $this->json([
             'code'=> 200,
             'message' => "Le client a été correctement supprimée de l'application.",
-            'liste' => $this->renderView('gestapp/customer/_list.html.twig', [
+            'liste' => $this->renderView('gestapp/customer/include/_list.html.twig', [
                 'customers' => $customers
             ])
         ], 200);

@@ -1,0 +1,61 @@
+<div class="row justify-content-end mb-1">
+    <div class="col-3">
+        <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
+    </div>
+    <div class="col-9 d-flex justify-content-end" id="blockPagination">
+        {{ knp_pagination_render(customers, 'include/admin/pagination.html.twig') }}
+    </div>
+</div>
+
+<table class="table">
+        <thead>
+        <tr>
+            <th>Collaborateur</th>
+            <th>Référence</th>
+            <th>Nom & Prénom / Société</th>
+            <th>Adresse</th>
+            <th>Type</th>
+            <th>Fiche crée</th>
+            <th>Mise à jour</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        {% for customer in customers%}
+            <tr class="align-middle" {% if customer.isFinished == 0 %}style="border-left: 2px solid #e99002"{% endif %}>
+                <td>
+                    {% if customer.avatarName is not null %}
+                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ customer.avatarName) }}" alt="" style="height:50px;width:50px" alt="{{ customer.avatarName }}">
+                    {% else %}
+                        <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+                    {% endif %}
+                    {{ customer.firstNameEmpl }} {{ customer.lastNameEmpl }}
+                </td>
+                <td>{% if customer.isFinished == 0 %}<p class="mb-0 text-warning">En cours de création</p>{% else %}{{ customer.RefCustomer }}{% endif %}</td>
+                <td>
+                    {% if customer.typeClient == "professionnel" %}
+                        <strong>{{ customer.NameStructure }}</strong>  <span class="badge rounded-pill bg-success text-dark">Pro</span>
+                    {% else %}
+                        <strong>{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-info text-dark">Par</span>
+                    {% endif %}
+                </td>
+                <td>{% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}</td>
+
+                <td>
+                    {% if customer.customerChoice == 'Prospect' %}<span class="badge rounded-pill bg-danger text-dark">{{ customer.customerChoice }}</span>{% else %}<span class="badge rounded-pill bg-success text-dark">{{ customer.customerChoice }}</span>{% endif %}
+                </td>
+                <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d') : '' }}</td>
+                <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('op_gestapp_customer_edit', {'id': customer.id}) }}" class="btn btn-sm btn-outline-dark" data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Voir"><i class="fa-duotone fa-eye"></i></a>
+                    <a href="{{ path('op_gestapp_customer_del', {'id': customer.id}) }}" class="btn btn-sm btn-outline-danger suppr_customer" data-bs-whatever="DEL-Suppression d'une recommandation-{{ customer.id }}">suppr</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="13">Vous n'avez pas de client actuellement enregistré sur la plateforme.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+

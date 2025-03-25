@@ -50,6 +50,7 @@ class CustomerRepository extends ServiceEntityRepository
             ->join('c.refEmployed', 'e')
             ->join('c.customerChoice', 'ch')
             ->select('
+                c.isFinished as isFinished,
                 c.NameStructure as NameStructure,
                 e.id as refEmployed,
                 e.firstName as firstNameEmpl,
@@ -84,6 +85,7 @@ class CustomerRepository extends ServiceEntityRepository
             ->join('c.customerChoice', 't' )
             ->join('c.refEmployed', 'e')
             ->select('
+                c.isFinished as isFinished,
                 t.name as customerChoice,
                 e.id as refEmployed,
                 e.firstName as firstNameEmpl,

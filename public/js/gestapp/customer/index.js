@@ -1,38 +1,65 @@
 // Code d'ouverture de la modale de suppression d'une ligne
-const SupprCustomer = document.getElementById('SupprCustomer');
+const modalCustomer = new bootstrap.Modal(document.getElementById('modalCustomer'));
+const modalCustomerBs = document.getElementById('modalCustomer');
 
-SupprCustomer.addEventListener('show.bs.modal', function (event) {
-    var a = event.relatedTarget;
-    var recipient = a.getAttribute('data-bs-whatever');
-    var modalTitle = SupprCustomer.querySelector('.modal-title');
-    var modalText = SupprCustomer.querySelector('.modal-text');
-    var modalBodyInput = SupprCustomer.querySelector('.modal-body input');
-    var modalFootera = SupprCustomer.querySelector('.modal-footer .data-supprcustomer');
-    modalTitle.textContent = "Suppression d'un article";
-    modalText.innerHTML = "Vous êtes sur le point de supprimer le client sélectionné.<br><b>Etes-vous sur de vouloir continuer ?</b>";
-    modalFootera.href = '/gestapp/customer/del/' + recipient;
-});
+function showModalCustomer(event){
+    event.preventDefault();
+    let opt = this.getAttribute('data-bs-whatever');
+    let crud = opt.split('-')[0];
+    let contentTitle = opt.split('-')[1];
+    let id = opt.split('-')[2];
+    let url = this.href;
+    console.log(url);
+    modalCustomer.show();
+    document.getElementById('modalCustomer').querySelector('.modal-dialog').classList.add('modal-xl');
+    document.getElementById('modalCustomer').querySelector('.modal-title').textContent = contentTitle;
+    if(crud === 'ADD'){
+    }else if(crud === 'EDIT'){
+    }else if(crud === 'DEL'){
+        //reloadEvent();
+        document.getElementById('modalCustomer').querySelector('.modal-dialog').classList.remove('modal-xl');
+        document.getElementById('modalCustomer').querySelector('#btnModalSubmit').textContent = "Supprimer la fiche client";
+        document.getElementById('modalCustomer').querySelector('#btnModalSubmit').href = url;
+        document.getElementById('modalCustomer').querySelector('.modal-body').innerHTML = "Vous êtes sur le point de supprimmer une fiche client.";
+        document.getElementById('modalCustomer').querySelector('#btnModalSubmit').addEventListener('click', submitLinkModal);
+    }
+}
 
 // Code de suppression lors du clic sur le bouton de la modal "Suppr"
-function onClickDelEvent(event){
+function submitLinkModal(event){
     event.preventDefault();
-    const url = document.getElementById('BtnSupprCustomer').href;
+    const url = this.href;
     axios
         .post(url)
         .then(function(response)
         {
-            // rafraichissement du tableau
-            const liste = document.getElementById('list').innerHTML = response.data.liste;
+            const liste = document.getElementById('liste').innerHTML = response.data.liste;
             toasterMessage(response.data.message);
+            reloadEvent();
         })
         .catch(function(error){
             console.log(error);
         });
 }
 
+modalCustomerBs.addEventListener('hidden.bs.modal', function(){
+    if(modalCustomerBs.querySelector('.modal-dialog').classList.contains('modal-xl')){
+        modalCustomerBs.querySelector('.modal-dialog').classList.remove('modal-xl');
+    }
+    if(modalCustomerBs.querySelector('.modal-dialog #btnEditPrescriber')){
+        modalCustomerBs.querySelector('.modal-dialog #btnEditPrescriber').id = "btnModalSubmit";
+    }
+    modalCustomerBs.querySelector('.modal-body').innerHTML =
+        "<div class=\"d-flex justify-content-center\">"+
+        "<div class=\"spinner-border text-primary\" role=\"status\">"+
+        "<span class=\"visually-hidden\">Loading...</span>"+
+        "</div>"+
+        "</div>"
+    ;
+});
+
 const searchCustomerform = document.getElementById('searchCustomerform');
 const searchCustomerInput = document.getElementById('searchCustomerInput');
-let liste = document.getElementById('liste');
 
 searchCustomerInput.addEventListener('input', function(event){
     if(searchCustomerInput.value.length >= 2){
@@ -63,9 +90,10 @@ function toasterMessage(message){
 }
 
 function reloadEvent(){
+    let link_suppr_customer = document.querySelectorAll('a.suppr_customer');
     // Ajout d'un event sur Bouton de suppression dans la fenêtre modale
-    document.querySelectorAll('a.data-supprcustomer').forEach(function(link){
-        link.addEventListener('click', onClickDelEvent);
+    link_suppr_customer.forEach(function(link){
+        link.addEventListener('click', showModalCustomer);
     });
 }
 
