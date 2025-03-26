@@ -11,12 +11,7 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(carte);
 
 if(document.getElementById('coordLat') !== null && document.getElementById('coordLong') !== null){
-    if (marker) {
-        marker.setLatLng([document.getElementById('coordLat').value, document.getElementById('coordLong').value]);
-    } else {
-        marker = L.marker([document.getElementById('coordLat').value, document.getElementById('coordLong').value]).addTo(carte);
-    }
-    carte.setView([document.getElementById('coordLat').value, document.getElementById('coordLong').value], 13);
+    getCoordinates();
 }
 
 

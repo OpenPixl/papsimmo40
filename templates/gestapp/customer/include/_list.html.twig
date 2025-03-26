@@ -22,7 +22,12 @@
         </thead>
         <tbody>
         {% for customer in customers%}
-            <tr class="align-middle" {% if customer.isFinished == 0 %}style="border-left: 2px solid #e99002"{% endif %}>
+            <tr class="align-middle"
+                {% if customer.isFinished == 0 %}
+                    style="border-left: 2px solid #e99002"
+                {% else %}
+                    style="border-left: 2px solid #43ac6a"
+                {% endif %}>
                 <td>
                     {% if customer.avatarName is not null %}
                         <img class="rounded-circle" src="{{ asset('images/avatar/' ~ customer.avatarName) }}" alt="" style="height:50px;width:50px" alt="{{ customer.avatarName }}">

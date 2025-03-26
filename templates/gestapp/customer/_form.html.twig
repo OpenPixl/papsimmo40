@@ -3,9 +3,11 @@
 
 <div class="row g-1">
     <div class="col-12">
-        <p class="alert alert-warning">
-            Cette fiche client est en cours de création.<br>Si vous ne finalisez pas cette dernière d'ici une semaine elle sera automatiquement supprimée.
+        {% if customer.finished == 0 %}
+        <p class="alert alert-warning p-2">
+            Cette fiche client est en cours de création.
         </p>
+        {% endif %}
         <div class="card ext-dark bg-light mb-1">
             <div class="card-body p-2">
                 <div class="row align-items-center">

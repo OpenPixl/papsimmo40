@@ -544,6 +544,7 @@ class CustomerController extends AbstractController
                 }
                 $customer->setKbisfilename($newFilename);
             }
+            $customer->setFinished(1);
             $customerRepository->add($customer);
             return $this->redirectToRoute('op_gestapp_customer_edit', ['id'=>$customer->getId()], Response::HTTP_SEE_OTHER);
         }
@@ -648,7 +649,7 @@ class CustomerController extends AbstractController
                 }
                 $customer->setKbisfilename($newFilename);
             }
-
+            $customer->setFinished(1);
             $customerRepository->add($customer);
 
             return $this->json([

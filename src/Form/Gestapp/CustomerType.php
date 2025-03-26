@@ -64,7 +64,7 @@ class CustomerType extends AbstractType
                 'multiple' => false
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'Nom & Prénom',
+                'label' => 'Prénom & Nom',
                 'required' => false
             ])
             ->add('lastName', TextType::class, [

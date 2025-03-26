@@ -10,9 +10,9 @@ const customer_proCity = document.getElementById('customer_proCity');
 const customer_proZipcode = document.getElementById('customer_proZipcode');
 const customer_proSelectcity = document.getElementById('customer_proSelectcity');
 
-let civiCustomer = document.querySelector('input[name=customer\\[civility\\]]:checked').value;
-if (civiCustomer > 1){
-    document.getElementById('customer_maidenName').classList.remove('d-none');
+if(document.querySelector('input[name=customer\\[civility\\]]:checked').value > 1){
+    console.log("ok");
+    document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
 }
 
 const radioCustomerButtons = document.querySelectorAll('input[name=customer\\[civility\\]]');
@@ -26,9 +26,8 @@ radioCustomerButtons.forEach(function(radio) {
     });
 });
 
-let civiResponsable = document.querySelector('input[name=customer_resp\\[civility\\]]:checked').value;
-if (civiResponsable > 1){
-    document.getElementById('customer_maidenName').classList.remove('d-none');
+if (document.querySelector('input[name=customer_resp\\[civility\\]]:checked').value > 1){
+    document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
 }
 
 const radioRespButtons = document.querySelectorAll('input[name=customer_resp\\[civility\\]]');
@@ -90,7 +89,6 @@ typeClient.addEventListener('change', function(event){
 
 function submitCustomer(event){
     event.preventDefault();
-    console.log('submit customer');
     let form = document.getElementById('FormEditCustomer');
     let action = form.action;
     let data = new FormData(form);
@@ -106,7 +104,7 @@ function submitCustomer(event){
     ;
 }
 
-function addRepsonsable(event){
+function addResponsable(event){
     event.preventDefault();
     let form = document.getElementById('AddRespStructure');
     let action = form.action;
@@ -117,6 +115,7 @@ function addRepsonsable(event){
         .then(function(response){
             document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
             toasterMessage(response.data.message);
+            form.reset();
             reloadEvent();
         })
         .catch(function(error){
@@ -133,6 +132,7 @@ function dellResponsable(event){
         .then(function(response){
             document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
             toasterMessage(response.data.message);
+            console.log(response.data);
             reloadEvent();
         })
         .catch(function(error){
@@ -187,7 +187,7 @@ function toasterMessage(message){
 
 function reloadEvent(){
     btnAddCustomer.addEventListener('click', submitCustomer);
-    btnAddResp.addEventListener('click', addRepsonsable);
+    btnAddResp.addEventListener('click', addResponsable);
     let btnSupprResps = document.querySelectorAll('.btnSupprResp');
     btnSupprResps.forEach(function(click){
         click.addEventListener('click', dellResponsable);

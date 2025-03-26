@@ -4,8 +4,6 @@ const btndelVideo = document.querySelector('.delVideo');
 const btnaddVideo = document.getElementById('btnAddVideo');
 const input_image = document.getElementById('property_image_images');
 
-
-
 function loadEvent(){
     if (btnaddVideo !== null) {
         btnaddVideo.addEventListener('click', event => {

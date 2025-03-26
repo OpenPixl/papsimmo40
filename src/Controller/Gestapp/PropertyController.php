@@ -1229,7 +1229,7 @@ class PropertyController extends AbstractController
 
         //dd($form->getErrors());
 
-        return $this->renderForm('gestapp/property/Step/PriceAvenant.html.twig', [
+        return $this->render('gestapp/property/Step/PriceAvenant.html.twig', [
             'property' => $property,
             'avenant' => $form
         ]);

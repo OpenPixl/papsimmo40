@@ -90,7 +90,7 @@
                     </div>
                     {% if property.isIncreating == 0 %}
                     <div id="AddAvenant">
-                        {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AddAvenant', {'id':property.id})) }}
+                        {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AddAvenant', {'id' : property.id})) }}
                     </div>
                     {% endif %}
                 </div>
