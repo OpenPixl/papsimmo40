@@ -56,13 +56,15 @@ async function getCoordinates(event) {
                 marker = L.marker([latitude, longitude]).addTo(carte);
             }
             carte.setView([latitude, longitude], 13);
+            setTimeout(() => {
+                carte.invalidateSize();
+            }, 300);
 
             // persistance des coordonnées en bdd
             let url = '/gestapp/property/' + id + '/updateCoordonnees/' + latitude +'&'+ longitude;
             axios
                 .post(url)
                 .then(function(response){
-
                 })
                 .catch(function(error){
                     console.log(error);

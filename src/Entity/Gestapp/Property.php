@@ -6,6 +6,8 @@ use ApiPlatform\Metadata\Link;
 use App\Controller\Api\Admin\Employed\AddEmployed;
 use App\Entity\Admin\Contact;
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\Property\Avenant;
+use App\Entity\Gestapp\Property\PropertyDocument;
 use App\Entity\Gestapp\choice\PropertyDefinition;
 use App\Entity\Gestapp\choice\PropertySscategory;
 use App\Entity\Gestapp\choice\propertyFamily;
@@ -373,6 +375,18 @@ class Property
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $typeMandat = null;
 
+    /**
+     * @var Collection<int, Avenant>
+     */
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Avenant::class)]
+    private Collection $avenants;
+
+    /**
+     * @var Collection<int, PropertyDocument>
+     */
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: PropertyDocument::class)]
+    private Collection $propertyDocuments;
+
     public function __construct()
     {
         $this->Galery = new ArrayCollection();
@@ -382,6 +396,8 @@ class Property
         $this->contacts = new ArrayCollection();
         $this->transactions = new ArrayCollection();
         $this->recos = new ArrayCollection();
+        $this->avenants = new ArrayCollection();
+        $this->propertyDocuments = new ArrayCollection();
     }
 
     /**
@@ -1574,6 +1590,66 @@ class Property
     public function setTypeMandat(?string $typeMandat): static
     {
         $this->typeMandat = $typeMandat;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Avenant>
+     */
+    public function getAvenants(): Collection
+    {
+        return $this->avenants;
+    }
+
+    public function addAvenant(Avenant $avenant): static
+    {
+        if (!$this->avenants->contains($avenant)) {
+            $this->avenants->add($avenant);
+            $avenant->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAvenant(Avenant $avenant): static
+    {
+        if ($this->avenants->removeElement($avenant)) {
+            // set the owning side to null (unless already changed)
+            if ($avenant->getProperty() === $this) {
+                $avenant->setProperty(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PropertyDocument>
+     */
+    public function getPropertyDocuments(): Collection
+    {
+        return $this->propertyDocuments;
+    }
+
+    public function addPropertyDocument(PropertyDocument $propertyDocument): static
+    {
+        if (!$this->propertyDocuments->contains($propertyDocument)) {
+            $this->propertyDocuments->add($propertyDocument);
+            $propertyDocument->setProperty($this);
+        }
+
+        return $this;
+    }
+
+    public function removePropertyDocument(PropertyDocument $propertyDocument): static
+    {
+        if ($this->propertyDocuments->removeElement($propertyDocument)) {
+            // set the owning side to null (unless already changed)
+            if ($propertyDocument->getProperty() === $this) {
+                $propertyDocument->setProperty(null);
+            }
+        }
 
         return $this;
     }

@@ -53,28 +53,7 @@ services:
             $targetDirectoryAvatar: '%kernel.project_dir%/public/employed/'
             $targetDirectoryCi: '%kernel.project_dir%/public/employed/'
 
-    App\Service\ftptransfertService:
-        arguments:
-            # SE LOGER
-            $urlftpseloger: '%env(URL_FTP_SELOGER)%'
-            $portftpseloger: '%env(PORT_FTP_SELOGER)%'
-            $loginftpseloger: '%env(LOGIN_FTP_SELOGER)%'
-            $passwordftpseloger: '%env(PASSWORD_FTP_SELOGER)%'
-            # FIGARO
-            $urlftpfigaro: '%env(URL_FTP_FIGARO)%'
-            $portftpfigaro: '%env(PORT_FTP_FIGARO)%'
-            $loginftpfigaro: '%env(LOGIN_FTP_FIGARO)%'
-            $passwordftpfigaro: '%env(PASSWORD_FTP_FIGARO)%'
-            # GREEN ACRES
-            $urlftpga: '%env(URL_FTP_GA)%'
-            $portftpga: '%env(PORT_FTP_GA)%'
-            $loginftpga: '%env(LOGIN_FTP_GA)%'
-            $passwordftpga: '%env(PASSWORD_FTP_GA)%'
-            # VIZZIT
-            $urlftpvi: '%env(URL_FTP_VI)%'
-            $portftpvi: '%env(PORT_FTP_VI)%'
-            $loginftpvi: '%env(LOGIN_FTP_VI)%'
-            $passwordftpvi: '%env(PASSWORD_FTP_VI)%'
+
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'

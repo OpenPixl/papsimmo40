@@ -111,17 +111,6 @@
                                     {{ form_widget(form.constructionAt, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
                             </div>
-                            {% if property.coordLong is not null and property.coordLat is not null%}
-                                <div class="d-flex flex-row-reverse">
-                                    <p>Latitude : {{ property.coordLat }}, Longitude : {{ property.coordLong }} <a id="findGeoCoord" class=""><i class="fa-duotone fa-repeat"></i></a></p>
-                                    <input id="coordLong" type="hidden" value="{{ property.coordLong }}">
-                                    <input id="coordLat" type="hidden" value="{{ property.coordLat }}">
-                                </div>
-                            {% else %}
-                                <div class="d-flex flex-row-reverse">
-                                    <a id="findGeoCoord" class="btn btn-sm btn-outline-info">Ajouter les coordonnées GPS</a>
-                                </div>
-                            {% endif %}
                         </div>
                     </div>
                     <p class="mt-2 border-bottom">ANNONCE</p>
@@ -188,17 +177,6 @@
                             </div>
                         </div>
                     </div>
-                    {% endif %}
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-12">
-                    {% if property.coordLong is null and property.coordLat is null %}
-                        <div id="carte"></div>
-                        <p id="result"></p>
-                    {% else %}
-                        <div id="carte"></div>
-                        <p id="result"></p>
                     {% endif %}
                 </div>
             </div>

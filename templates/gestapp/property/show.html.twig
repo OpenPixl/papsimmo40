@@ -1722,6 +1722,12 @@
             <li class="nav-item">
                 <a id="navPublication" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-browser"></i> Publication</h5></a>
             </li>
+            <li class="nav-item">
+                <a id="navDocuments" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Documents" type="button" role="tab" aria-controls="Documents" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-solid fa-file-pdf"></i> Documents</h5></a>
+            </li>
+            <li class="nav-item">
+                <a id="navMap" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Map" type="button" role="tab" aria-controls="Map" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-solid fa-file-pdf"></i> Carte</h5></a>
+            </li>
         </ul>
     {% else %}
         {# Etiquettes du panel si le bien est entièrement enregistré #}
@@ -1743,6 +1749,12 @@
             </li>
             <li class="nav-item">
                 <a id="navPublication2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-browser"></i> Publication</h5></a>
+            </li>
+            <li class="nav-item">
+                <a id="navDocuments2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Documents" type="button" role="tab" aria-controls="Documents" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-solid fa-file-pdf"></i> Documents</h5></a>
+            </li>
+            <li class="nav-item">
+                <a id="navMap2" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Map" type="button" role="tab" aria-controls="Map" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-solid fa-file-pdf"></i> Carte</h5></a>
             </li>
         </ul>
     {% endif %}
@@ -1772,6 +1784,12 @@
         {# STEP 6 : PUBLICATIONS #}
         <div class="tab-pane" id="Publication" role="tabpanel" aria-labelledby="profile-tab">
             {{ render(controller('App\\Controller\\Gestapp\\PublicationController::showByProperty', {'id' : publication})) }}
+        </div>
+        <div class="tab-pane" id="Documents" role="tabpanel" aria-labelledby="profile-tab">
+            {{ include('gestapp/property/include/_list_documents.html.twig') }}
+        </div>
+        <div class="tab-pane" id="Map" role="tabpanel" aria-labelledby="profile-tab">
+            {{ include('gestapp/property/include/_map.html.twig') }}
         </div>
     </div>
 </section>

@@ -22,10 +22,6 @@ class ftptransfertService
         RequestStack $requestStack,
         private Environment $twig,
         public PropertyService $propertyService,
-        public string $urlftpseloger, public string $portftpseloger, public string $loginftpseloger, public string $passwordftpseloger,
-        public string $urlftpfigaro, public string $portftpfigaro, public string $loginftpfigaro, public string $passwordftpfigaro,
-        public string $urlftpga, public string $portftpga, public string $loginftpga, public string $passwordftpga,
-        public string $urlftpvi, public string $portftpvi, public string $loginftpvi, public string $passwordftpvi,
     )
     {
         $this->requestStack = $requestStack;

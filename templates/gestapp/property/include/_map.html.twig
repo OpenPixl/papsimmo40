@@ -1,0 +1,24 @@
+<div class="row mt-2">
+    {% if property.coordLong is not null and property.coordLat is not null%}
+        <div class="d-flex flex-row-reverse">
+            <p>Latitude : {{ property.coordLat }}, Longitude : {{ property.coordLong }} <a id="findGeoCoord" class=""><i class="fa-duotone fa-repeat"></i></a></p>
+            <input id="coordLong" type="hidden" value="{{ property.coordLong }}">
+            <input id="coordLat" type="hidden" value="{{ property.coordLat }}">
+        </div>
+    {% else %}
+        <div class="d-flex flex-row-reverse">
+            <a id="findGeoCoord" class="btn btn-sm btn-outline-info">Ajouter les coordonnées GPS</a>
+        </div>
+    {% endif %}
+</div>
+<div class="row mt-2" id="map">
+    <div class="col-12">
+        {% if property.coordLong is null and property.coordLat is null %}
+            <div id="carte" style="width:100%; height:400px;"></div>
+            <p id="result"></p>
+        {% else %}
+            <div id="carte"></div>
+            <p id="result"></p>
+        {% endif %}
+    </div>
+</div>
