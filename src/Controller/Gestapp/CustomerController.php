@@ -261,7 +261,7 @@ class CustomerController extends AbstractController
                 }
             }
             $customer->addProperty($property);
-
+            $customer->setFinished(1);
             // Ajout en BDD du nouveau client
             $customerRepository->add($customer);
 

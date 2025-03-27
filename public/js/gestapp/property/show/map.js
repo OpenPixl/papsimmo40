@@ -3,6 +3,7 @@ let carte = L.map('carte').setView([43.8909, -0.5009], 14);
 let btnGetCoord = document.getElementById('findGeoCoord');
 let map;
 let marker;
+let navMap2 = document.getElementById('navMap2');
 
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '&copy; OpenStreetMap France | &copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributeurs',
@@ -11,9 +12,8 @@ L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
 }).addTo(carte);
 
 if(document.getElementById('coordLat') !== null && document.getElementById('coordLong') !== null){
-    getCoordinates();
+    navMap2.addEventListener('click', getCoordinates);
 }
-
 
 btnGetCoord.addEventListener('click', getCoordinates);
 

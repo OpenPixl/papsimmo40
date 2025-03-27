@@ -123,7 +123,7 @@ function showModalCustomer(event){
                                     commune2.value = ville.toUpperCase();
                                 }else{
                                     zipcode2.value = cp;
-                                    commune2.value = ville.value().toUpperCase();
+                                    commune2.value = ville.toUpperCase();
                                 }
                             });
                     }
