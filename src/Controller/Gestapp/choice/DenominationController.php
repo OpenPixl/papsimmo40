@@ -33,7 +33,7 @@ class DenominationController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_denomination_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/denomination/new.html.twig', [
+        return $this->render('gestapp/choice/denomination/new.html.twig', [
             'denomination' => $denomination,
             'form' => $form,
         ]);
@@ -56,7 +56,7 @@ class DenominationController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/denomination/new.html.twig', [
+        return $this->render('gestapp/choice/denomination/new.html.twig', [
             'denomination' => $denomination,
             'form' => $form,
         ]);
@@ -82,7 +82,7 @@ class DenominationController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_denomination_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/denomination/edit.html.twig', [
+        return $this->render('gestapp/choice/denomination/edit.html.twig', [
             'denomination' => $denomination,
             'form' => $form,
         ]);

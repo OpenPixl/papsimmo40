@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: VideoRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
 class Video
 {
     #[ORM\Id]

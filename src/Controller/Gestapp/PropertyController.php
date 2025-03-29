@@ -395,7 +395,7 @@ class PropertyController extends AbstractController
             return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/property/new.html.twig', [
+        return $this->render('gestapp/property/new.html.twig', [
             'property' => $property,
             'form' => $form,
         ]);
@@ -1292,7 +1292,7 @@ class PropertyController extends AbstractController
         }
         //dd($form);
         return $this->json([
-            'form' => $this->renderForm('gestapp/property/_formdateendmandat.html.twig', [
+            'form' => $this->render('gestapp/property/_formdateendmandat.html.twig', [
                 'form' => $form,
                 'property' => $property
             ])

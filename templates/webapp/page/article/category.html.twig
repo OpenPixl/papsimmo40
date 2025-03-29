@@ -5,7 +5,7 @@
             {% if article.articleFrontName is null %}
             {% else %}
             <div class="card">
-                <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
+                <img class="card-img-top" src="{{ asset('images/article/'~article.articleFrontName)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
                 <div class="border_actu"></div>
                 <div class="actu_overlay">
                 </div>
@@ -30,7 +30,7 @@
             {% if article.articleFrontName is null %}
             {% else %}
                 <div class="card">
-                    <img class="card-img-top" src="{{ vich_uploader_asset(article)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
+                    <img class="card-img-top" src="{{ asset('images/article/'~article.articleFrontName)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
                     <div class="border_actu"></div>
                     <div class="actu_overlay">
                     </div>

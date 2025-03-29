@@ -33,7 +33,7 @@ class PropertyOrientationController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_orientation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_orientation/new.html.twig', [
+        return $this->render('gestapp/choice/property_orientation/new.html.twig', [
             'property_orientation' => $propertyOrientation,
             'form' => $form,
         ]);
@@ -59,7 +59,7 @@ class PropertyOrientationController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/property_orientation/new.html.twig', [
+        return $this->render('gestapp/choice/property_orientation/new.html.twig', [
             'property_orientation' => $propertyOrientation,
             'form' => $form,
         ]);
@@ -84,7 +84,7 @@ class PropertyOrientationController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_orientation_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_orientation/edit.html.twig', [
+        return $this->render('gestapp/choice/property_orientation/edit.html.twig', [
             'property_orientation' => $propertyOrientation,
             'form' => $form,
         ]);

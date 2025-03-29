@@ -33,7 +33,7 @@ class OtherOptionController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_other_option_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/other_option/new.html.twig', [
+        return $this->render('gestapp/choice/other_option/new.html.twig', [
             'other_option' => $otherOption,
             'form' => $form,
         ]);
@@ -59,7 +59,7 @@ class OtherOptionController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/other_option/new.html.twig', [
+        return $this->render('gestapp/choice/other_option/new.html.twig', [
             'other_option' => $otherOption,
             'form' => $form,
         ]);
@@ -84,7 +84,7 @@ class OtherOptionController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_other_option_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/other_option/edit.html.twig', [
+        return $this->render('gestapp/choice/other_option/edit.html.twig', [
             'other_option' => $otherOption,
             'form' => $form,
         ]);

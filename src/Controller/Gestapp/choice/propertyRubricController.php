@@ -38,7 +38,7 @@ class propertyRubricController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_rubric_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_rubric/new.html.twig', [
+        return $this->render('gestapp/choice/property_rubric/new.html.twig', [
             'property_rubric' => $propertyRubric,
             'form' => $form,
         ]);
@@ -64,7 +64,7 @@ class propertyRubricController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_rubric_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_rubric/edit.html.twig', [
+        return $this->render('gestapp/choice/property_rubric/edit.html.twig', [
             'property_rubric' => $propertyRubric,
             'form' => $form,
         ]);

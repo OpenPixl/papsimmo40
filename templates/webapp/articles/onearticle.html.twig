@@ -10,7 +10,7 @@
             <div id="content_article">
                 <div class="row">
                     <div class="col-sm-12">
-                        <img src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                        <img class="img-fluid" src="{{ asset('images/article' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
                     </div>
                     <div class="col-sm-12">
                         <article>
@@ -23,7 +23,7 @@
             <div id="content_article">
                 <div class="row g-1 mb-1">
                     <div class="col-sm-12">
-                        <img src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                        <img class="img-fluid" src="{{ asset('images/article' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
                     </div>
                     <div class="col-sm-12">
                         <article>
@@ -44,7 +44,7 @@
                             </article>
                         </div>
                         <div class="col-sm-3">
-                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                            <img class="img-fluid" src="{{ asset('images/article' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
                         </div>
                     </div>
                 </div>
@@ -57,7 +57,7 @@
                             </article>
                         </div>
                         <div class="col-sm-3">
-                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                            <img class="img-fluid" src="{{ asset('images/article' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
                         </div>
                     </div>
                     <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
@@ -73,7 +73,7 @@
                             </article>
                         </div>
                         <div class="col-sm-12">
-                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                            <img class="img-fluid" src="{{ asset('images/article' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
                         </div>
                     </div>
                 </div>
@@ -86,7 +86,7 @@
                             </article>
                         </div>
                         <div class="col-sm-12">
-                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                            <img class="img-fluid" src="{{ asset('images/article' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
                         </div>
                     </div>
                     <a href="{{ path('op_webapp_articles_show', {'id': article.id}) }}" class="btn btn-sm btn-outline-primary">Lire la suite...</a>
@@ -97,7 +97,7 @@
                 <div id="content_article">
                     <div class="row">
                         <div class="col-sm-3">
-                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                            <img class="img-fluid" src="{{ asset('images/article' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
                         </div>
                         <div class="col-sm-9">
                             <article>
@@ -110,7 +110,7 @@
                 <div id="content_article">
                     <div class="row g-1 mb-1">
                         <div class="col-sm-3">
-                            <img class="img-fluid" src="{{ vich_uploader_asset(article) }}" alt="{{ article.articleFrontName }}">
+                            <img class="img-fluid" src="{{ asset('images/article' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
                         </div>
                         <div class="col-sm-9">
                             <article>

@@ -58,7 +58,7 @@ class SectionController extends AbstractController
             ], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('webapp/section/new.html.twig', [
+        return $this->render('webapp/section/new.html.twig', [
             'section' => $section,
             'form' => $form,
         ]);
@@ -94,7 +94,7 @@ class SectionController extends AbstractController
             ], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('webapp/section/new.html.twig', [
+        return $this->render('webapp/section/new.html.twig', [
             'section' => $section,
             'page' => $page,
             'form' => $form,
@@ -155,7 +155,7 @@ class SectionController extends AbstractController
             return $this->redirectToRoute('op_webapp_page_edit', ['id'=> $idpage], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('webapp/section/edit.html.twig', [
+        return $this->render('webapp/section/edit.html.twig', [
             'section' => $section,
             'form' => $form,
         ]);

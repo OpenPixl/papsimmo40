@@ -9,10 +9,12 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\File;
 use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ArticlesType extends AbstractType
@@ -64,11 +66,21 @@ class ArticlesType extends AbstractType
                 'required' => false,
                 'class' => Category::class
             ])
-            ->add('articleFrontFile', VichImageType::class, [
+            ->add('articleFrontFile', FileType::class,[
+                'label' => "La photo ne doit pas dépasser 10Mo de taille",
+                'mapped' => false,
                 'required' => false,
-                'allow_delete' => true,
-                'delete_label' => 'Supprimer',
-                'download_label' => 'Télecharger',
+                'constraints' => [
+                    new File([
+                        'maxSize' => '10000k',
+                        'mimeTypes' => [
+                            'image/png',
+                            'image/jpg',
+                            'image/jpeg',
+                        ],
+                        'mimeTypesMessage' => 'Attention, veuillez charger un fichier au format jpg ou png',
+                    ])
+                ],
             ])
             ->add('imgPosition', ChoiceType::class, [
                 'label' => "Position de l'image",

@@ -110,7 +110,7 @@ class propertyFamilyController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_family_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_family/edit.html.twig', [
+        return $this->render('gestapp/choice/property_family/edit.html.twig', [
             'property_family' => $propertyFamily,
             'form' => $form,
         ]);

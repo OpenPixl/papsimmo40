@@ -12,7 +12,6 @@ use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ArticlesRepository::class)]
-#[Vich\Uploadable]
 #[ORM\HasLifecycleCallbacks]
 class Articles
 {
@@ -54,11 +53,7 @@ class Articles
     #[ORM\Column(type: 'string', length: 25, nullable: true)]
     private $state;
 
-    /**
-     * Insertion de l'image mise en avant liée à un article
-     * NOTE : Il ne s'agit pas d'un champ mappé des métadonnées de l'entité, mais d'une simple propriété.
-     **/
-    #[UploadableField(mapping: "article_front", fileNameProperty: 'articleFrontName', size: 'articleFrontSize')]
+    #[ORM\Column(type: 'string', nullable: true)]
     private $articleFrontFile;
 
     /**

@@ -42,7 +42,7 @@ class PageController extends AbstractController
             return $this->redirectToRoute('op_webapp_page_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('webapp/page/new.html.twig', [
+        return $this->render('webapp/page/new.html.twig', [
             'page' => $page,
             'form' => $form,
         ]);
@@ -67,7 +67,7 @@ class PageController extends AbstractController
             return $this->redirectToRoute('op_webapp_page_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('webapp/page/edit.html.twig', [
+        return $this->render('webapp/page/edit.html.twig', [
             'page' => $page,
             'form' => $form,
         ]);
@@ -140,7 +140,7 @@ class PageController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('webapp/page/property/include/formSearchpropertyhome.html.twig', [
+        return $this->render('webapp/page/property/include/formSearchpropertyhome.html.twig', [
             'form' => $form,
         ]);
 
@@ -164,7 +164,7 @@ class PageController extends AbstractController
                 'properties' => $properties
             ]);
         }
-        return $this->renderForm('webapp/page/property/include/formSearchpropertyhomecomplete.html.twig', [
+        return $this->render('webapp/page/property/include/formSearchpropertyhomecomplete.html.twig', [
             'form' => $form,
         ]);
     }

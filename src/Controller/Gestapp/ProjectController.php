@@ -33,7 +33,7 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('op_gestapp_project_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/project/new.html.twig', [
+        return $this->render('gestapp/project/new.html.twig', [
             'project' => $project,
             'form' => $form,
         ]);
@@ -58,7 +58,7 @@ class ProjectController extends AbstractController
             return $this->redirectToRoute('op_gestapp_project_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/project/edit.html.twig', [
+        return $this->render('gestapp/project/edit.html.twig', [
             'project' => $project,
             'form' => $form,
         ]);

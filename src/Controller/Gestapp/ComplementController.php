@@ -51,7 +51,7 @@ class ComplementController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/complement/new.html.twig', [
+        return $this->render('gestapp/complement/new.html.twig', [
             'complement' => $complement,
             'form' => $form,
         ]);
@@ -161,7 +161,7 @@ class ComplementController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/complement/edit.html.twig', [
+        return $this->render('gestapp/complement/edit.html.twig', [
             'complement' => $complement,
             'form' => $form,
             'property' => $property
