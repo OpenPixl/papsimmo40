@@ -10,9 +10,11 @@ use App\Repository\Webapp\choice\CategoryRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use phpDocumentor\Reflection\Types\This;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/webapp/articles')]
 class ArticlesController extends AbstractController
@@ -115,7 +117,12 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/edit/{id}', name: 'op_webapp_articles_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Articles $article, ArticlesRepository $articlesRepository): Response
+    public function edit(
+        Request $request,
+        Articles $article,
+        ArticlesRepository $articlesRepository,
+        SluggerInterface $slugger,
+    ): Response
     {
         $form = $this->createForm(ArticlesType::class, $article, [
             'action' => $this->generateUrl('op_webapp_articles_edit', ['id'=> $article->getId()]),
@@ -127,11 +134,44 @@ class ArticlesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // intégration du code du logo du client
+            $articleFrontFile = $form->get('articleFrontFile')->getData();
+            if ($articleFrontFile) {
+                $originalFilename = pathinfo($articleFrontFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safearticleFrontFileName = $slugger->slug($originalFilename);
+                $newarticleFrontFileName = $safearticleFrontFileName. '.' . $articleFrontFile->guessExtension();
+                $pathdir = $this->getParameter('articles_directory');
+                // Move the file to the directory where brochures are stored
+                try {
+                    if (is_dir($pathdir)){
+                        $articleFrontFile->move(
+                            $this->getParameter('articles_directory'),
+                            $newarticleFrontFileName
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $articleFrontFile->move(
+                            $this->getParameter('articles_directory'),
+                            $newarticleFrontFileName
+                        );
+                    }
+
+
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $article->setArticleFrontName($newarticleFrontFileName);
+                //$article->setLogoSize($logoFile->getSize());;
+            }
+
             $articlesRepository->add($article);
             return $this->redirectToRoute('op_webapp_articles_edit', ['id'=>$article->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('webapp/articles/edit.html.twig', [
+        return $this->render('webapp/articles/edit.html.twig', [
             'article' => $article,
             'form' => $form,
         ]);
@@ -194,7 +234,7 @@ class ArticlesController extends AbstractController
     {
         $articles = $articlesRepository->fivelastproperty();
 
-        return $this->renderForm('webapp/articles/edit.html.twig', [
+        return $this->render('webapp/articles/edit.html.twig', [
             'articles' => $articles,
         ]);
 

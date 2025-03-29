@@ -105,8 +105,9 @@ class ApplicationType extends AbstractType
                             'image/png',
                             'image/jpg',
                             'image/jpeg',
+                            'image/svg+xml',
                         ],
-                        'mimeTypesMessage' => 'Attention, veuillez charger un fichier au format jpg ou png',
+                        'mimeTypesMessage' => 'Attention, veuillez charger un fichier au format jpg, png ou svg',
                     ])
                 ],
             ])

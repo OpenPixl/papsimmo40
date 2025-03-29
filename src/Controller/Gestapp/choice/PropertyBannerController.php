@@ -76,7 +76,7 @@ class PropertyBannerController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/property_banner/new.html.twig', [
+        return $this->render('gestapp/choice/property_banner/new.html.twig', [
             'property_banner' => $propertyBanner,
             'form' => $form,
         ]);
@@ -102,7 +102,7 @@ class PropertyBannerController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_banner_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_banner/edit.html.twig', [
+        return $this->render('gestapp/choice/property_banner/edit.html.twig', [
             'property_banner' => $propertyBanner,
             'form' => $form,
         ]);

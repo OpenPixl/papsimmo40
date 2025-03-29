@@ -33,7 +33,7 @@ class PropertyTypologyController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_typology_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_typology/new.html.twig', [
+        return $this->render('gestapp/choice/property_typology/new.html.twig', [
             'property_typology' => $propertyTypology,
             'form' => $form,
         ]);
@@ -59,7 +59,7 @@ class PropertyTypologyController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/property_typology/new.html.twig', [
+        return $this->render('gestapp/choice/property_typology/new.html.twig', [
             'property_typology' => $propertyTypology,
             'form' => $form,
         ]);
@@ -84,7 +84,7 @@ class PropertyTypologyController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_typology_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_typology/edit.html.twig', [
+        return $this->render('gestapp/choice/property_typology/edit.html.twig', [
             'property_typology' => $propertyTypology,
             'form' => $form,
         ]);

@@ -33,7 +33,7 @@ class PropertyEnergyController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_energy_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_energy/new.html.twig', [
+        return $this->render('gestapp/choice/property_energy/new.html.twig', [
             'property_energy' => $propertyEnergy,
             'form' => $form,
         ]);
@@ -58,7 +58,7 @@ class PropertyEnergyController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/property_energy/new.html.twig', [
+        return $this->render('gestapp/choice/property_energy/new.html.twig', [
             'property_energy' => $propertyEnergy,
             'form' => $form,
         ]);
@@ -83,7 +83,7 @@ class PropertyEnergyController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_energy_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_energy/edit.html.twig', [
+        return $this->render('gestapp/choice/property_energy/edit.html.twig', [
             'property_energy' => $propertyEnergy,
             'form' => $form,
         ]);

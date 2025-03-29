@@ -1,6 +1,6 @@
 {{ form_start(form) }}
 <div class="row g-1">
-    <div class="col-8">
+    <div class="col-9">
         <div class="row g-0">
             <div class="col-sm-12">
                 <div class="card text-dark bg-light">
@@ -41,7 +41,7 @@
             </div>
         </div>
     </div>
-    <div class="col-4">
+    <div class="col-3">
         <div class="card text-dark bg-light">
             <div class="card-body">
                 <div class="row g-0">
@@ -125,6 +125,11 @@
                 MEDIA
                 <hr>
                 <div class="row mb-1 mt-1 g-1">
+                    <div class="col-12">
+                        {% if article.articleFrontName is not null %}
+                            <img class="img-fluid" src="{{ asset('images/article/' ~ article.articleFrontName) }}" alt="{{ article.articleFrontName }}">
+                        {% endif %}
+                    </div>
                     <div class="col-12">
                         {{ form_widget(form.articleFrontFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
                     </div>

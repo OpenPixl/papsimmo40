@@ -33,7 +33,7 @@ class PropertyStateController extends AbstractController
             return $this->redirectToRoute('op_gestapp_choice_property_state_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_state/new.html.twig', [
+        return $this->render('gestapp/choice/property_state/new.html.twig', [
             'property_state' => $propertyState,
             'form' => $form,
         ]);
@@ -59,7 +59,7 @@ class PropertyStateController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/property_state/new.html.twig', [
+        return $this->render('gestapp/choice/property_state/new.html.twig', [
             'property_state' => $propertyState,
             'form' => $form,
         ]);
@@ -85,7 +85,7 @@ class PropertyStateController extends AbstractController
             return $this->redirectToRoute('op_gestapp_choice_property_state_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_state/edit.html.twig', [
+        return $this->render('gestapp/choice/property_state/edit.html.twig', [
             'property_state' => $propertyState,
             'form' => $form,
         ]);

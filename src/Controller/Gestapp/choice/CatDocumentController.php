@@ -43,7 +43,7 @@ class CatDocumentController extends AbstractController
             ]);
         }
 
-        return $this->renderForm('gestapp/choice/cat_document/new.html.twig', [
+        return $this->render('gestapp/choice/cat_document/new.html.twig', [
             'cat_document' => $catDocument,
             'form' => $form,
         ]);
@@ -89,7 +89,7 @@ class CatDocumentController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_cat_document_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/cat_document/edit.html.twig', [
+        return $this->render('gestapp/choice/cat_document/edit.html.twig', [
             'cat_document' => $catDocument,
             'form' => $form,
         ]);

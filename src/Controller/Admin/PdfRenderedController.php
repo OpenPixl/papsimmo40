@@ -59,7 +59,7 @@ class PdfRenderedController extends AbstractController
             return $this->redirectToRoute('app_admin_pdf_rendered_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/pdf_rendered/new.html.twig', [
+        return $this->render('admin/pdf_rendered/new.html.twig', [
             'pdf_rendered' => $pdfRendered,
             'form' => $form,
         ]);
@@ -85,7 +85,7 @@ class PdfRenderedController extends AbstractController
             return $this->redirectToRoute('app_admin_pdf_rendered_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/pdf_rendered/edit.html.twig', [
+        return $this->render('admin/pdf_rendered/edit.html.twig', [
             'pdf_rendered' => $pdfRendered,
             'form' => $form,
         ]);

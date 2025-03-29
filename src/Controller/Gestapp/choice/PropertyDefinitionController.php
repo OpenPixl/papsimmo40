@@ -33,7 +33,7 @@ class PropertyDefinitionController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_definition_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_definition/new.html.twig', [
+        return $this->render('gestapp/choice/property_definition/new.html.twig', [
             'property_definition' => $propertyDefinition,
             'form' => $form,
         ]);
@@ -61,7 +61,7 @@ class PropertyDefinitionController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/property_definition/new.html.twig', [
+        return $this->render('gestapp/choice/property_definition/new.html.twig', [
             'property_definition' => $propertyDefinition,
             'form' => $form,
         ]);
@@ -86,7 +86,7 @@ class PropertyDefinitionController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_definition_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_definition/edit.html.twig', [
+        return $this->render('gestapp/choice/property_definition/edit.html.twig', [
             'property_definition' => $propertyDefinition,
             'form' => $form,
         ]);

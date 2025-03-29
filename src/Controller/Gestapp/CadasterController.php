@@ -96,7 +96,7 @@ class CadasterController extends AbstractController
             return $this->redirectToRoute('op_gestapp_cadaster_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/cadaster/edit.html.twig', [
+        return $this->render('gestapp/cadaster/edit.html.twig', [
             'cadaster' => $cadaster,
             'form' => $form,
         ]);

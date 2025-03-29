@@ -264,7 +264,7 @@ Cordialement");
             return $this->redirectToRoute('op_admin_contact_offline', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('admin/contact/postcontactoffline.html.twig', [
+        return $this->render('admin/contact/postcontactoffline.html.twig', [
             'contact' => $contact,
             'form' => $form,
         ]);

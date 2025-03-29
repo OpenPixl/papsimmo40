@@ -189,7 +189,7 @@ class PropertypublicController extends AbstractController
         }
         //dd($form);
         return $this->json([
-            'form' => $this->renderForm('gestapp/property/_formdateendmandat.html.twig', [
+            'form' => $this->render('gestapp/property/_formdateendmandat.html.twig', [
                 'form' => $form,
                 'property' => $property
             ])

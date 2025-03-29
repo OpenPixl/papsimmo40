@@ -37,7 +37,7 @@ class PropertyEquipementController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_equipement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_equipement/new.html.twig', [
+        return $this->render('gestapp/choice/property_equipement/new.html.twig', [
             'property_equipement' => $propertyEquipement,
             'form' => $form,
         ]);
@@ -63,7 +63,7 @@ class PropertyEquipementController extends AbstractController
             ], 200);
         }
 
-        return $this->renderForm('gestapp/choice/property_equipement/new.html.twig', [
+        return $this->render('gestapp/choice/property_equipement/new.html.twig', [
             'property_equipement' => $propertyEquipement,
             'form' => $form,
         ]);
@@ -88,7 +88,7 @@ class PropertyEquipementController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_equipement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->renderForm('gestapp/choice/property_equipement/edit.html.twig', [
+        return $this->render('gestapp/choice/property_equipement/edit.html.twig', [
             'property_equipement' => $propertyEquipement,
             'form' => $form,
         ]);

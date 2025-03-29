@@ -11,7 +11,6 @@ use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: PhotoRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
 class Photo
 {
     #[ORM\Id]

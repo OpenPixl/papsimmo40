@@ -20,7 +20,7 @@
             <div class="row">
                 <div class="offset-3 col-6">
                     {% if application.logoName %}
-                        <img class="img-fluid" src="{{ vich_uploader_asset(application, 'logoFile') }}" alt="{{ application.logoName }}">
+                        <img class="img-fluid" src="{{ asset('images/application/'~ application.logoName) }}" alt="{{ application.logoName }}">
                     {% else %}
                         <img class="img-fluid" src="{{ asset('images/png/LogoPAPSimmo.png') }}" alt="{{ application.nameSite }}" height="100px">
                     {% endif %}

@@ -10,7 +10,6 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
-#[Vich\Uploadable]
 class Application
 {
     #[ORM\Id]
@@ -64,7 +63,7 @@ class Application
     private $urlGooglebusiness;
 
 
-    #[Vich\UploadableField(mapping: 'logosite_front', fileNameProperty:"logoName", size:"logoSize")]
+    #[ORM\Column(type: 'string', nullable: true)]
     #[Ignore]
     private $logoFile;
 
@@ -75,7 +74,7 @@ class Application
     private $logoSize;
 
 
-    #[Vich\UploadableField(mapping: 'favicon_front', fileNameProperty:"faviconName", size:"faviconSize")]
+    #[ORM\Column(type: 'string', nullable: true)]
     #[Ignore]
     private $faviconFile;
 
