@@ -491,6 +491,24 @@ function initializeTinyMCE() {
         valid_elements: 'p,br,b,i,u,strong,em,ul,ol,li', // Exemple : limiter les balises autorisées
         valid_children: '+body[p,br,b,i,u,strong,em,ul,ol,li]', // Exemple : limiter les enfants autorisés
     });
+
+    // mise en place du datapicker flatpickr sur les champs de date
+    flatpickr(".flatpickr", {
+        "locale": "fr",
+        enableTime: false,
+        allowInput: true,
+        altFormat: "j F Y",
+        dateFormat: "d/m/Y",
+    });
+
+// mise en place du datapicker flatpickr sur les champs de date
+    flatpickr(".flatpickrtime", {
+        "locale": "fr",
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
+    });
 }
 
 function submitSearchCustomer(event){
@@ -923,7 +941,7 @@ function reloadEventOnModal(){
             click.addEventListener('click', delResponsable);
         });
     }
-};
+}
 
 // Initialisation après le chargement du DOM
 document.addEventListener('DOMContentLoaded', initializeNavLinks);

@@ -41,7 +41,7 @@
     </div>
     <div class="col-12">
         <div id="box_particulier" class="card border-dark">
-            <div class="card-body">
+             $<div class="card-body">
                 <div class="row">
                     <div class="col-8">
                         <p class="border-bottom mb-1"><b>INFORMATIONS DU CLIENT</b></p>
@@ -77,10 +77,10 @@
                                 {{ form_label(form.ddn, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-2">
-                                {{ form_widget(form.ddn, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                {{ form_widget(form.ddn, {'attr': {'class': 'form-control form-control-sm flatpickr', 'placeholder': '01/01/1900'}}) }}
                             </div>
                             <div class="col-3">
-                                {{ form_widget(form.ddnIn, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                {{ form_widget(form.ddnIn, {'attr': {'class': 'form-control form-control-sm ', 'placeholder': 'lieu de naissance'}}) }}
                             </div>
                         </div>
                         <div class="row align-items-center g-1 mb-1 pb-1 border-bottom">
