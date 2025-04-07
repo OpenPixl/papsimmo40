@@ -1,6 +1,6 @@
 <section class="property-edit">
     {{ form_start(form, {'attr': {'id': 'FormAddInformation'}}) }}
-    <div class="row g-1 mt-1">
+    <div class="row g-1">
         <div class="col-sm-12">
             <div class="card ext-dark bg-light mb-1">
                 <div class="card-body p-2">
@@ -179,19 +179,6 @@
                     </div>
                     {% endif %}
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12">
-            <div class="mt-1">
-                {% if property.isIncreating == 1 %}
-                <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark disabled"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button type="submit" id="stepInformations" class="btn btn-sm btn-outline-primary" onclick="tinyMCE.triggerSave(true,true);">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
-                {% else %}
-                <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button id="stepInformations2" class="btn btn-sm btn-outline-primary" onclick="tinyMCE.triggerSave(true,true);">{{ button_label|default("Valider") }}</button>
-                {% endif %}
             </div>
         </div>
     </div>

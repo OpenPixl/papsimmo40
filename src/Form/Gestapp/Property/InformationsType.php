@@ -41,11 +41,6 @@ class PropertyStep1Type extends AbstractType
                 'required' => false,
                 'empty_data' => ''
             ])
-            ->add('annonce', TextareaType::class, [
-                'label' => 'Annonce',
-                'required' => false,
-                'empty_data' =>''
-            ])
             ->add('piece', IntegerType::class,[
                 'label' => 'Nombre de pièce',
                 'empty_data' => 0,
