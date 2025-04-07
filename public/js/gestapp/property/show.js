@@ -425,7 +425,6 @@ function initializeNavLinks() {
                     nextItem.querySelector('a').classList.add('active');
                     currentActiveItem.querySelector('a').classList.remove('active');
 
-
                     const currentPaneId = currentActiveItem.querySelector('a').getAttribute('data-bs-target');
                     const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
 
