@@ -32,6 +32,11 @@ function openModalXL(event){
             .get(url)
             .then(response => {
                 modal.querySelector('.modal-body').innerHTML = response.data.form;
+                let btnAddResp = modal.querySelector('.modal-body #btnAddResp');
+                if(btnAddResp){
+                    btnAddResp.addEventListener('click', addResponsable);
+                }
+
                 const typeClient = document.getElementById('customer_typeClient');
                 if(typeClient.value === "professionnel"){
                     document.getElementById("box_professionnel").classList.remove('d-none');
@@ -445,7 +450,6 @@ function initializeNavLinks() {
     btnModalSubmit.addEventListener('click', submitModalForm);
 }
 
-
 // Fonction pour initialiser TinyMCE
 function initializeTinyMCE() {
     const maxChars = 2000;
@@ -800,6 +804,24 @@ function submitVideos(event){
             .catch()
         ;
     }
+}
+
+function addResponsable(event){
+    event.preventDefault();
+    let form = document.getElementById('AddRespStructure');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+            toasterMessage(response.data.message);
+            form.reset();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
 }
 
 function delVideo(event){
