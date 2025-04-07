@@ -35,6 +35,11 @@ class AvenantType extends AbstractType
             ])
             ->add('dateAvenant', DateTimeType::class, [
                 'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => true,
+                'by_reference' => true,
             ])
             ->add('price', IntegerType::class, [
                 'label' => 'Prix net vendeur'

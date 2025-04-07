@@ -5,7 +5,7 @@
             {# Bloc des Estimations #}
             <div id="sale" class="card text-dark border-dark">
                 <div class="card-body p-2">
-                    <div class="row">
+                    <div class="row mb-1">
                         <div class="col-12">
                             <p class="border-bottom"><b>VENTE IMMOBILIERE</b></p>
                         </div>
@@ -336,10 +336,11 @@
             {# Bloc des diagnostiques #}
             <div class="card text-dark border-dark">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>DPE & GES</div>
+                    <div class="row mb-1">
+                        <div class="col-12">
+                            <p class="border-bottom"><b>DPE & GES</b></p>
+                        </div>
                     </div>
-                    <hr>
                     <div class="row mb-1">
                         <div class="col-5">
                             {{ form_label(form.diagChoice, '', {'label_attr': {'class':'form-label'}}) }}

@@ -185,6 +185,7 @@ function openModalXL(event){
             .then(function(response){
                 modal.querySelector('.modal-body').innerHTML = response.data.form;
                 calculatePrices(document.getElementById('avenant_price'),document.getElementById('avenant_honoraires'), document.getElementById('avenant_priceFai'));
+                initializeTinyMCE();
             })
             .catch(function(error){
                 console.log('Erreur lors du chargement de la modal', error);
@@ -325,6 +326,8 @@ function loadFormContent(navLink) {
                         }
                     };
                     tsdiagChoice.on('change', changeTsDiag );
+                    calculatePrices(document.getElementById('property_step2_price'),document.getElementById('property_step2_honoraires'), document.getElementById('property_step2_priceFai'));
+
                 }
                 if(nodeFormName === 'Options'){
                     initializeTomSelect('.oneChoice', TsSimple);
@@ -435,6 +438,7 @@ function initializeNavLinks() {
                     nextItem.querySelector('a').classList.remove('disabled');
                     nextItem.querySelector('a').classList.add('active');
                     currentActiveItem.querySelector('a').classList.remove('active');
+                    currentActiveItem.querySelector('a').classList.add('disabled');
 
                     const currentPaneId = currentActiveItem.querySelector('a').getAttribute('data-bs-target');
                     const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
@@ -458,7 +462,7 @@ function initializeNavLinks() {
 
 // Fonction pour initialiser TinyMCE
 function initializeTinyMCE() {
-    const maxChars = 2000;
+    const maxChars = 200;
     tinymce.remove(); // Supprime les instances existantes
     tinymce.init({
         selector: 'textarea.tinymce',
