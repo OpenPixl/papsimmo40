@@ -22,8 +22,8 @@
             <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
             <script type="application/javascript" src="https://cdn.jsdelivr.net/npm/tom-select/dist/js/tom-select.complete.min.js"></script>
             <script type="application/javascript" src="{{ asset('js/ckeditor5/build/ckeditor.js') }}"></script>
-            <script type="application/javascript" src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
             <script type="application/javascript" src="https://kit.fontawesome.com/3904e9974b.js" crossorigin="anonymous"></script>
+            <script src="{{ asset('js/tinymce/js/tinymce/tinymce.min.js') }}" referrerpolicy="origin"></script>
             <script type="application/javascript" src="{{ asset('js/sortableJS/Sortable.min.js') }}"></script>
             <script type="application/javascript" src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
             <script type="module" src="{{ asset('js/Admin/dashboard/statutsession.js') }}"></script>
@@ -41,29 +41,25 @@
                 {% include('include/admin/side.html.twig') %}
             {% endblock %}
 
-            <section id="content" class="float-end">
-                <div class="container-fluid">
-                    <section id="content_breadcumb" class="mt-2">
-                        {% block breadcrumb %}
-                        <ol class="breadcrumb">
-                            <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
-                        </ol>
-                        {% endblock %}
-                    </section>
-                    <section id="content_header">
-                        {% block contentTitle %}{% endblock %}
-                    </section>
-                    <section id="content_main">
-                        {% block content %}
-                        {% endblock %}
-                    </section>
-                    <section id="content_footer">
-                        {% block contentFooter %}
-                        {% endblock %}
-                    </section>
-                </div>
-            </section>
-            <section id="modals">
+            <div id="content" class="container-fluid float-end">
+                <section id="content_breadcrumb" class="mt-2">
+                {% block breadcrumb %}
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
+                    </ol>
+                {% endblock %}
+                </section>
+                <section id="content_title" class="mt-2">
+                {% block contentTitle %}{% endblock %}
+                </section>
+                <section id="content_main" class="mt-2">
+                    {% block content %}{% endblock %}
+                </section>
+                <section id="content_footer" class="mt-2">
+                {% block contentFooter %}{% endblock %}
+                </section>
+            </div>
+            <div id="modals">
                 {% block modal %}
                     {# annonce toaster #}
                     <div aria-live="polite" aria-atomic="true" class="position-relative">
@@ -80,7 +76,29 @@
                             </div>
                         </div>
                     </div>
-                    {# Modal #}
+                    {# Modal primary #}
+                    <div class="modal fade border-dark" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header bg-secondary">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal d'apparition</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="d-flex justify-content-center">
+                                        <div class="spinner-border text-primary" role="status">
+                                            <span class="visually-hidden">Loading...</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer bg-secondary">
+                                    <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                                    <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {# Modal Alert #}
                     <div class="modal fade border-dark" id="alertSession" tabindex="-1" aria-labelledby="alertSession" aria-hidden="true">
                         <div class="modal-dialog modal-dialog-centered">
                             <div class="modal-content">
@@ -103,7 +121,7 @@
                         </div>
                     </div>
                 {% endblock %}
-            </section>
+            </div>
         </main>
         <footer class="fixed-bottom">
             {% block footer %}

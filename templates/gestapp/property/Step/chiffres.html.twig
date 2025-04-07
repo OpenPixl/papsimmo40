@@ -1,17 +1,18 @@
 <section class="property-edit">
-    {{ form_start(form, {'attr': {'id': 'FormAddEstimate'}}) }}
+    {{ form_start(form) }}
     <div class="row g-1 mt-2">
         <div class="col-4">
             {# Bloc des Estimations #}
             <div id="sale" class="card text-dark border-dark">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>VENTE IMMOBILIERE</div>
+                <div class="card-body p-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="border-bottom"><b>VENTE IMMOBILIERE</b></p>
+                        </div>
                     </div>
-                    <hr>
                     <div id="detailPrice">
                         {% if property.isIncreating > 0 %}
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col-5">
                                     <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
                                 </div>
@@ -19,7 +20,7 @@
                                     {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col-5">
                                     {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
@@ -28,7 +29,7 @@
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col-5">
                                     {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
@@ -37,7 +38,7 @@
                                 </div>
                             </div>
                         {% else %}
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col-12">
                                     <p>
                                         <small>Le prix de vente et les honoraires ont été fixés à la création du bien. <br>
@@ -46,13 +47,13 @@
                                     </p>
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col">
-                                    <a id="addAvenant" class="btn btn-sm btn-outline-dark w-100">Créer un avenant</a>
+                                    <a id="addAvenant" href="{{ path('op_gestapp_property_avenant_new', {'idproperty':property.id}) }}" class="btn btn-sm btn-outline-dark w-100 openModal" data-bs-data="ADDAVENANT-Ajouter un Avenant sur le prix du bien-{{ property.id }}">Créer un avenant</a>
                                 </div>
                             </div>
                             <hr>
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col-5">
                                     <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
                                 </div>
@@ -60,7 +61,7 @@
                                     {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col-5">
                                     {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
@@ -68,7 +69,7 @@
                                     {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
                                 </div>
                             </div>
-                            <div class="row">
+                            <div class="row mb-1">
                                 <div class="col-5">
                                     {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
@@ -77,7 +78,7 @@
                                 </div>
                             </div>
                             {% if property.family.id == 8 %}
-                            <div class="row d-none" id="warrantyDeposit">
+                            <div class="row mb-1 d-none" id="warrantyDeposit">
                                 <div class="col-5">
                                     <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
                                 </div>
@@ -88,21 +89,17 @@
                             {% endif %}
                         {% endif %}
                     </div>
-                    {% if property.isIncreating == 0 %}
-                    <div id="AddAvenant">
-                        {{ render(controller('App\\Controller\\Gestapp\\PropertyController::AddAvenant', {'id' : property.id})) }}
-                    </div>
-                    {% endif %}
                 </div>
             </div>
             <div id="rent" class="card text-dark border-dark">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>LOCATION IMMOBILIERE</div>
+                    <div class="row mb-1">
+                        <div class="col-12">
+                            <p class="border-bottom"><b>LOCATION IMMOBILIERE</b></p>
+                        </div>
                     </div>
-                    <hr>
                     <div id="detailPrice">
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-5">
                                 <span class="align-middle">{{ form_label(form.rent, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -110,7 +107,7 @@
                                 {{ form_widget(form.rent, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-5">
                                 {{ form_label(form.rentCharge, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
@@ -118,7 +115,7 @@
                                 {{ form_widget(form.rentCharge, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-5">
                                 <span class="align-middle">{{ form_label(form.rentChargeModsPayment, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -126,7 +123,7 @@
                                 {{ form_widget(form.rentChargeModsPayment, {'attr': {'class': 'form-select form-select-sm'}}) }}
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-5">
                                 <span class="align-middle">{{ form_label(form.rentChargeHonoraire, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -135,7 +132,7 @@
                             </div>
                         </div>
                         {% if property.family.id == 5 %}
-                        <div class="row" id="warrantyDeposit">
+                        <div class="row mb-1" id="warrantyDeposit">
                             <div class="col-5">
                                 <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -144,7 +141,7 @@
                             </div>
                         </div>
                         {% endif %}
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 {{ form_label(form.rentCC) }}
                             </div>
@@ -152,7 +149,7 @@
                                 {{ form_widget(form.rentCC) }}
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 {{ form_label(form.rentHT) }}
                             </div>
@@ -165,15 +162,14 @@
             </div>
             <div id="rentCommerce" class="card text-dark border-dark">
                 <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <div>
-                            <p>LOCATIONS COMMERCIALES</p>
+                    <div class="row mb-1">
+                        <div class="col-12">
+                            <p class="border-bottom"><b>LOCATIONS COMMERCIALES</b></p>
                             <p>Uniquement pour les bureaux, commerces, bâtiments, boutiques, local et entreprises.</p>
                         </div>
                     </div>
-                    <hr>
                     <div id="detailPrice">
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-12">
                                     <div class="form-check form-switch form-check-reverse">
                                         {{ form_label(form.commerceRentalAnnual, '', {'label_attr': {'class':'form-check-label'}}) }}
@@ -181,7 +177,7 @@
                                     </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6 bg-light">
                                 <span class="align-middle">{{ form_label(form.commerceAnnualRentGlobal, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -193,7 +189,7 @@
                             </div>
                             <div class="col-2 bg-light"></div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 {{ form_label(form.commerceAnnualChargeRentGlobal, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
@@ -204,7 +200,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6 bg-light">
                                 <span class="align-middle">{{ form_label(form.commerceAnnualRentMeter, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -216,7 +212,7 @@
                             </div>
                             <div class="col-2 bg-light"></div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 <span class="align-middle">{{ form_label(form.commerceAnnualChargeRentMeter, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -228,7 +224,7 @@
                             </div>
                         </div>
                         {% if property.family.id == 4 and property.rubric.id == 8 %}
-                        <div class="row" id="warrantyDepositCommerce">
+                        <div class="row mb-1" id="warrantyDepositCommerce">
                             <div class="col-6 bg-light">
                                 <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -241,7 +237,7 @@
                             <div class="col-2 bg-light"></div>
                         </div>
                         {% endif %}
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 {{ form_label(form.commerceChargeRentMonthHt) }}
                             </div>
@@ -249,7 +245,7 @@
                                 {{ form_widget(form.commerceChargeRentMonthHt) }}
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6 bg-light">
                                 {{ form_label(form.commerceRentAnnualCc) }}
                             </div>
@@ -258,7 +254,7 @@
                             </div>
                             <div class="col-2 bg-light"></div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 {{ form_label(form.commerceRentAnnualHt) }}
                             </div>
@@ -266,7 +262,7 @@
                                 {{ form_widget(form.commerceRentAnnualHt) }}
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6 bg-light">
                                 {{ form_label(form.commerceChargeRentAnnualHt) }}
                             </div>
@@ -275,7 +271,7 @@
                             </div>
                             <div class="col-2 bg-light"></div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 {{ form_label(form.commerceRentAnnualMeterCc) }}
                             </div>
@@ -283,7 +279,7 @@
                                 {{ form_widget(form.commerceRentAnnualMeterCc) }}
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6 bg-light">
                                 {{ form_label(form.commerceRentAnnualMeterHt) }}
                             </div>
@@ -292,7 +288,7 @@
                             </div>
                             <div class="col-2 bg-light"></div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 {{ form_label(form.commerceChargeRentAnnualMeterHt) }}
                             </div>
@@ -301,7 +297,7 @@
                             </div>
                         </div>
                         <hr>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6 bg-light">
                                 {{ form_label(form.commerceSurfaceDivisible) }}
                             </div>
@@ -310,7 +306,7 @@
                             </div>
                             <div class="col-2 bg-light"></div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 <span class="align-middle">{{ form_label(form.commerceSurfaceDivisibleMin, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -321,7 +317,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
+                        <div class="row mb-1">
                             <div class="col-6">
                                 <span class="align-middle">{{ form_label(form.commerceSurfaceDivisibleMax, '', {'label_attr': {'class':'form-label'}}) }}</span>
                             </div>
@@ -344,7 +340,7 @@
                         <div>DPE & GES</div>
                     </div>
                     <hr>
-                    <div class="row g-1">
+                    <div class="row mb-1">
                         <div class="col-5">
                             {{ form_label(form.diagChoice, '', {'label_attr': {'class':'form-label'}}) }}
                         </div>
@@ -352,7 +348,7 @@
                             {{ form_widget(form.diagChoice) }}
                         </div>
                     </div>
-                    <div id="block_dpeAt" class="row g-1">
+                    <div id="block_dpeAt" class="row mb-1">
                         {{ form_label(form.dpeAt, "Date d'expertise", {'label_attr': {'class':'col-sm-6  form-label'}}) }}
                         <div class="col-sm-6">
                             <div class="input-group">
@@ -361,7 +357,7 @@
                             </div>
                         </div>
                     </div>
-                    <div id="block_diagDpeResult" class="row g-1">
+                    <div id="block_diagDpeResult" class="row mb-1">
                         <div class="col-6">
                             <span class="align-middle">{{ form_label(form.diagDpe, 'DPE', {'label_attr': {'class':'form-label'}}) }}</span>
                         </div>
@@ -369,7 +365,7 @@
                             {{ form_widget(form.diagDpe, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                     </div>
-                    <div id="block_diagGesResult"  class="row g-1">
+                    <div id="block_diagGesResult"  class="row mb-1">
                         <div class="col-6">
                             {{ form_label(form.diagGes, 'GES', {'label_attr': {'class':'form-label'}}) }}
                         </div>
@@ -377,9 +373,9 @@
                             {{ form_widget(form.diagGes, {'attr': {'class': 'form-control form-control-sm'}}) }}
                         </div>
                     </div>
-                    <div id="block_estimation" class="row g-1">
+                    <div id="block_estimation" class="row mb-1">
                         <div class="col-12"><p><b>Estimation énergétique annuelle</b></p></div>
-                        <div class="row mb-1 mt-1 g-1">
+                        <div class="row mb-1">
                             {{ form_label(form.eeaYear, '', {'label_attr': {'class':'col-sm-6  form-label'}}) }}
                             <div class="col-sm-6">
                                 <div class="input-group">
@@ -407,13 +403,13 @@
         <div class="col-4">
             {# Bloc des cadastres #}
             <div class="card text-dark mb-1 border-dark">
-                <div class="card-body">
+                <div class="card-body p-2">
                     <div class="d-flex justify-content-between">
-                        <div>CADASTRE - <a href="https://cadastre.data.gouv.fr/map?style=ortho#5/46.9/1.7" target="_blank"><i class="fa-regular fa-earth-europe"></i></a></div>
+                        <p><b>CADASTRE</b> - <a href="https://cadastre.data.gouv.fr/map?style=ortho#5/46.9/1.7" target="_blank"><i class="fa-regular fa-earth-europe"></i></a></p>
                         <div>
-                            <button id="openAddCadaster" type="button" class="btn btn-default btn-sm" data-bs-toggle="modal" data-bs-target="#addCadaster" data-bs-whatever="{{ property.id }}">
+                            <a id="openAddCadaster" type="button" class="openModal" data-bs-whatever="ADDCADASTRE-Ajouter une zone cadastrale-{{ property.id }}">
                                 <i class="fa-solid fa-plus"></i>
-                            </button>
+                            </a>
                         </div>
                     </div>
                     <hr>
@@ -425,7 +421,7 @@
             </div>
             {# Bloc des surfaces #}
             <div class="card text-dark border-dark">
-                <div class="card-body">
+                <div class="card-body p-2">
                     <div class="d-flex justify-content-between">
                         <div>SURFACES</div>
                     </div>
@@ -445,19 +441,6 @@
                         </div>
                     </div>
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12">
-            <div class="mt-1">
-                {% if property.isIncreating == 1 %}
-                <a id="previousEstimate" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <a id="stepEstimate" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape options") }}</a>
-                {% else %}
-                <a id="previousEstimate" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <a id="stepEstimate2" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider") }}</a>
-                {% endif %}
             </div>
         </div>
     </div>

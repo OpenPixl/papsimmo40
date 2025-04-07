@@ -21,7 +21,7 @@ class PropertyTypologyController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_choice_property_typology_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_choice_property_typology_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PropertyTypologyRepository $propertyTypologyRepository): Response
     {
         $propertyTypology = new PropertyTypology();
@@ -33,10 +33,13 @@ class PropertyTypologyController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_typology_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/choice/property_typology/new.html.twig', [
-            'property_typology' => $propertyTypology,
-            'form' => $form,
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/property_typology/new.html.twig', [
+                'property_typology' => $propertyTypology,
+                'form' => $form,
+            ])
+        ],200);
     }
 
     #[Route('/new2', name: 'app_gestapp_choice_property_typology_new2', methods: ['GET', 'POST'])]

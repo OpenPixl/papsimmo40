@@ -38,7 +38,7 @@ class VideoController extends AbstractController
             'action' => $this->generateUrl('app_gestapp_video_new', ['idproperty' => $idproperty]),
             'method' => 'POST',
             'attr' => [
-                'id' => 'addVideo'
+                'id' => 'formProperty_Video'
             ]
         ]);
         $form->handleRequest($request);

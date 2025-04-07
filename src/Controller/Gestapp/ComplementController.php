@@ -148,24 +148,40 @@ class ComplementController extends AbstractController
         $property = $propertyRepository->findOneBy(['options'=> $complement->getId()]);
         $form = $this->createForm(ComplementType::class, $complement, [
             'action' => $this->generateUrl('op_gestapp_complement_edit', ['id'=>$complement->getId()]),
-            'method' => 'POST'
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formProperty_complements',
+            ]
         ]);
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
             $complementRepository->add($complement);
+
+            $view = $this->render('gestapp/complement/edit.html.twig', [
+                'complement' => $complement,
+                'form' => $form,
+                'property' => $property
+            ]);
+
             return $this->json([
                 'code' => 200,
-                'message' => "Le bien a été correctement ajoutée/modifiée."
+                'message' => "Les modifications apportées ont été correctement inscrites dans la base de données.",
+                'form' => $view->getContent(),
             ], 200);
         }
 
-        return $this->render('gestapp/complement/edit.html.twig', [
+        $view = $this->render('gestapp/complement/edit.html.twig', [
             'complement' => $complement,
             'form' => $form,
             'property' => $property
         ]);
+
+        return $this->json([
+            'code'=> 200,
+            'form' => $view->getContent(),
+        ], 200);
     }
 
     #[Route('/{id}', name: 'op_gestapp_complement_delete', methods: ['POST'])]

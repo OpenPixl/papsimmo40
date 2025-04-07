@@ -87,29 +87,34 @@ class CustomerController extends AbstractController
     #[Route('/byproperty/{id}', name: 'op_gestapp_customer_listbyproperty', methods: ['GET'])]
     public function listByProperty(CustomerRepository $customerRepository, Property $property, Request $request): Response
     {
-        // intégration dans ce controller du formulaire de recherche des clients
-        return $this->render('gestapp/customer/listByProperty.html.twig', [
+        $view = $this->render('gestapp/customer/listByProperty.html.twig', [
             'customers' => $customerRepository->listByProperty($property),
             'property' => $property,
         ]);
+
+        return $this->json([
+            'code'=> 200,
+            'form' => $view->getContent(),
+        ], 200);
     }
 
     #[Route('/byproperty/searchcustomer/{idproperty}', name: 'op_gestapp_customer_searchcustomer', methods: ['GET', 'POST'])]
     public function listsearchcustomer(CustomerRepository $customerRepository, Request $request, $idproperty): Response
     {
-
         $form = $this->createForm(SearchCustomersType::class, [
             'action' => $this->generateUrl('op_gestapp_customer_searchcustomer', [
                 'idproperty' => $idproperty
             ]),
-            'method' => 'POST'
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formProperty_searchCustomer'
+            ]
         ]);
         $search = $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid())
         {
             $customers = $customerRepository->SearchCustomers($search->get('word')->getData());
-            //dd($customers);
 
             return $this->json([
                 'code'=> 200,
@@ -222,26 +227,36 @@ class CustomerController extends AbstractController
         PropertyRepository $propertyRepository,
         TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
+        EntityManagerInterface $em,
         $idproperty
     )
     {
         $user = $this->getUser()->getId();
 
-
         $employed = $employedRepository->find($user);
         $property = $propertyRepository->find($idproperty);
 
         $customer = new Customer();
-        $form = $this->createForm(Customer2Type::class, $customer, [
-            'action'=> $this->generateUrl('op_gestapp_customer_addcustomerjson', [
+        $customer->setRefEmployed($employed);
+        $customer->setCustomerChoice($customerChoiceRepository->find(1));
+        $customer->setTypeClient('particulier');
+        $customer->addProperty($property);
+        $em->persist($customer);
+        $em->flush();
+
+        $form = $this->createForm(CustomerType::class, $customer, [
+            'action'=> $this->generateUrl('op_gestapp_customer_editcustomerjson', [
+                'id' => $customer->getId(),
                 'idproperty' => $idproperty
             ]),
-            'method'=>'POST'
+            'method'=>'POST',
+            'attr'=> [
+                'id' => 'formCustomer_edit'
+            ]
         ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-
             $url = $request->headers->get('referer');
 
             // Contruction de la référence pour chaque propriété
@@ -288,7 +303,7 @@ class CustomerController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => 'formulaire présenté',
-            'formView' => $view->getContent()
+            'form' => $view->getContent()
         ]);
     }
 
@@ -591,12 +606,15 @@ class CustomerController extends AbstractController
         SluggerInterface $slugger
     )
     {
-        $form = $this->createForm(Customer2Type::class, $customer, [
+        $form = $this->createForm(CustomerType::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_customer_editcustomerjson', [
                 'id'=> $customer->getId(),
                 'idproperty' => $idproperty
             ]),
-            'method'=>'POST'
+            'method'=>'POST',
+            'attr'=> [
+                'id' => 'formCustomer_edit'
+            ]
         ]);
         $form->handleRequest($request);
 
@@ -655,7 +673,7 @@ class CustomerController extends AbstractController
             return $this->json([
                 'code'=> 200,
                 'message' => "Le vendeur a été correctement modifié.",
-                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                'liste' => $this->renderView('gestapp/customer/include/_listecustomers.html.twig', [
                     'customers' => $customers,
                     'idproperty' => $idproperty
                 ])
@@ -671,7 +689,7 @@ class CustomerController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => 'Modifier les informations du Client',
-            'formView' => $view->getContent()
+            'form' => $view->getContent()
         ],200);
     }
 
@@ -741,7 +759,7 @@ class CustomerController extends AbstractController
         return $this->json([
             'code'=> 200,
             'message' => "Le vendeurs a été correctement retiré de ce bien.",
-            'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+            'liste' => $this->renderView('gestapp/customer/include/_listecustomers.html.twig', [
                 'customers' => $customers,
                 'idproperty' => $idproperty,
             ])

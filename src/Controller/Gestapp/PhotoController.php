@@ -24,17 +24,23 @@ class PhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/{idproperty}', name: 'op_gestapp_photo_byproperty', methods: ['GET'])]
+    #[Route('/{idproperty}', name: 'op_gestapp_photo_byproperty', methods: ['GET','POST'])]
     public function byProperty(PhotoRepository $photoRepository, PropertyRepository $propertyRepository, $idproperty): Response
     {
         $property = $propertyRepository->find($idproperty);
-        //dd($idproperty);
         $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
-        //dd($photos);
-        return $this->render('gestapp/photo/byproperty.html.twig', [
+
+
+
+        $view = $this->render('gestapp/photo/byproperty.html.twig', [
             'photos' => $photos,
             'property' => $property
         ]);
+
+        return $this->json([
+            'code'=> 200,
+            'form' => $view->getContent(),
+        ], 200);
     }
 
     #[Route('/public/{idproperty}', name: 'op_gestapp_photo_bypropertypublic', methods: ['GET'])]

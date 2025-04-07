@@ -1,5 +1,9 @@
-{{ form_start(form, {'attr' : {'id':'FormAddMandat'}}) }}
+{{ form_start(form) }}
 <div class="row h-100">
+    <div class="col-12">
+        <p class="mb-0"></p>
+        <p id="refmandat_error" class=""></p>
+    </div>
     <div class="col-4">
         {{ form_label(form.refMandat) }}
     </div>

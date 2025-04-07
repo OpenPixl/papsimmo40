@@ -1,21 +1,18 @@
 {% for customer in customers %}
 <div class="col-sm-3">
     <div class="card">
-        <div class="card-body">
-            <h4 class="card-title">{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.firstName }} {{ customer.lastName }}</h4>
-            <h6 class="card-subtitle mb-2 text-muted">{{ customer.customerChoice }}</h6>
-            <p class="card-text">
-                {{ customer.RefCustomer }}<br>
+        <div class="card-body p-3">
+            <h4 class="card-title fs-5">{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.firstName }} {{ customer.lastName }}</h4>
+            <h6 class="card-subtitle mb-2 text-muted fs-6">{{ customer.RefCustomer }} | {{ customer.customerChoice }}</h6>
+            <p class="fw-lighter mb-2">
                 <i class="fa-duotone fa-location-dot"></i> Adresse : <br>
-                {{ customer.adress }}<br>
-                {% if customer.complement is not empty %}
-                {{ customer.complement }}<br>
-                {% endif %}
-                {{ customer.zipcode }} {{ customer.city }}
+                {% if customer.adress is not empty %}{{ customer.adress }}<br>{% else %}<br>{% endif %}
+                {% if customer.complement is not empty %}{{ customer.complement }}<br>{% else %}<br>{% endif %}
+                {% if customer.zipcode is not empty %}{{ customer.zipcode }} {{ customer.city }}{% else %}CP Commune{% endif %}
             </p>
             {% if customer.customerChoice == 'Vendeur' %}
-            <a id="btnEditCustomer" href="{{ path('op_gestapp_customer_editcustomerjson', {'id':customer.id, 'idproperty': idproperty}) }}" class="btn btn-sm btn-default openModal" data-bs-data="EDIT-Modification de la fiche client-{{ customer.id }}"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
-            <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="btn btn-sm btn-default btnShownCustomer" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-data="DEL-Suppression du propriétaire-{{ customer.id }}"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
+            <a id="btnEditCustomer" href="{{ path('op_gestapp_customer_editcustomerjson', {'id':customer.id, 'idproperty': idproperty}) }}" class="openModal" data-bs-data="EDITCUSTOMER-Modification de la fiche client-{{ customer.id }}"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
+            <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="openModal" data-bs-data="DELCUSTOMER-Suppression d'un vendeur-{{ customer.id }}"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
             {% endif %}
         </div>
     </div>

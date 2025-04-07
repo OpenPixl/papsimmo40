@@ -67,7 +67,10 @@ class PublicationController extends AbstractController
 
         $form = $this->createForm(PublicationType::class, $publication,[
             'action' => $this->generateUrl('op_admin_contact_showbyproperty', ['id' => $publication->getId()]),
-            'method' => 'POST'
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formProperty_Publication',
+            ]
         ]);
         $form->handleRequest($request);
 
@@ -127,15 +130,30 @@ class PublicationController extends AbstractController
                 $complementRepository
             );
 
+            $view = $this->render('gestapp/publication/showbyproperty.html.twig', [
+                'publication' => $publication,
+                'property' => $property,
+                'form' => $form,
+            ]);
 
-            return $this->redirectToRoute('op_gestapp_property_index', [], Response::HTTP_SEE_OTHER);
+            return $this->json([
+                'code'=> 200,
+                'message' => 'Les modifications de publications ont été intégrées dans la base de données.',
+                'form' => $view->getContent(),
+            ], 200);
+
         }
 
-        return $this->render('gestapp/publication/showbyproperty.html.twig', [
+        $view = $this->render('gestapp/publication/showbyproperty.html.twig', [
             'publication' => $publication,
             'property' => $property,
             'form' => $form,
         ]);
+
+        return $this->json([
+            'code'=> 200,
+            'form' => $view->getContent(),
+        ], 200);
     }
 
     #[Route('/{id}/edit', name: 'app_gestapp_publication_edit', methods: ['GET', 'POST'])]

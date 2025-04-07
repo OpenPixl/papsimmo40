@@ -2,7 +2,7 @@
     {% set refyear = property.ref|split('/',2)|first %}
     {% set refnumber = property.ref|split('/',2)|last %}
     <div class="card mt-2">
-        <img src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl) }}" class="card-img-top w-50" alt="{{ property.qrcodeUrl }}">
+        <img src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl) }}" class="card-img-top w-25" alt="{{ property.qrcodeUrl }}">
         <div class="card-body">
             <p class="card-text">Qrcode vers l'url de la page Web</p>
         </div>

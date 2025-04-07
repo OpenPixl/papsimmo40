@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/gestapp/choice/property/energy')]
 class PropertyEnergyController extends AbstractController
 {
-    #[Route('/', name: 'app_gestapp_choice_property_energy_index', methods: ['GET'])]
+    #[Route('/', name: 'op_gestapp_choice_property_energy_index', methods: ['GET'])]
     public function index(PropertyEnergyRepository $propertyEnergyRepository): Response
     {
         return $this->render('gestapp/choice/property_energy/index.html.twig', [
@@ -21,7 +21,7 @@ class PropertyEnergyController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_choice_property_energy_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_choice_property_energy_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PropertyEnergyRepository $propertyEnergyRepository): Response
     {
         $propertyEnergy = new PropertyEnergy();
@@ -33,10 +33,13 @@ class PropertyEnergyController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_energy_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/choice/property_energy/new.html.twig', [
-            'property_energy' => $propertyEnergy,
-            'form' => $form,
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/property_energy/new.html.twig', [
+                'property_energy' => $propertyEnergy,
+                'form' => $form,
+            ])
+        ],200);
     }
     #[Route('/new2', name: 'app_gestapp_choice_property_energy_new2', methods: ['GET', 'POST'])]
     public function new2(Request $request, PropertyEnergyRepository $propertyEnergyRepository): Response

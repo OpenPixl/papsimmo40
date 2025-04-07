@@ -21,7 +21,7 @@ class DenominationController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_choice_denomination_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_choice_denomination_new', methods: ['GET', 'POST'])]
     public function new(Request $request, DenominationRepository $denominationRepository): Response
     {
         $denomination = new Denomination();
@@ -33,10 +33,13 @@ class DenominationController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_denomination_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/choice/denomination/new.html.twig', [
-            'denomination' => $denomination,
-            'form' => $form,
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/denomination/new.html.twig', [
+                'denomination' => $denomination,
+                'form' => $form,
+            ])
+        ],200);
     }
 
     #[Route('/new2', name: 'app_gestapp_choice_denomination_new2', methods: ['GET', 'POST'])]

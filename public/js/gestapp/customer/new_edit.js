@@ -14,7 +14,6 @@ if(document.querySelector('input[name=customer\\[civility\\]]:checked').value > 
     console.log("ok");
     document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
 }
-
 const radioCustomerButtons = document.querySelectorAll('input[name=customer\\[civility\\]]');
 radioCustomerButtons.forEach(function(radio) {
     radio.addEventListener("change", function() {
@@ -25,11 +24,9 @@ radioCustomerButtons.forEach(function(radio) {
         }
     });
 });
-
 if (document.querySelector('input[name=customer_resp\\[civility\\]]:checked').value > 1){
     document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
 }
-
 const radioRespButtons = document.querySelectorAll('input[name=customer_resp\\[civility\\]]');
 radioRespButtons.forEach(function(radio) {
     radio.addEventListener("change", function() {
