@@ -3,14 +3,13 @@
 {% if property.isNomandat == 1 %}
     {% set display = 'd-none' %}
 {% endif %}
-{{ form_start(form, {'attr': {'id':'FormPublication'}}) }}
+{{ form_start(form) }}
 <div class="row {{ display }}">
     <div class="col-12">
         <table class="table table-sm mt-2">
             <thead>
                 <tr class="align-bottom">
-                    <td class="col-md-4"><h3>PUBLICATION</h3></td>
-                    <td class="col-md-8">
+                    <td colspan="2">
                         <div class="form-check form-switch form-check-reverse">
                             <input class="form-check-input" type="checkbox" id="AllPublications">
                             <label class="form-check-label" for="flexSwitchCheckReverse">Valider toutes les publications</label>
@@ -148,17 +147,4 @@
         </div>
     </div>
 {% endif %}
-<div class="row mt-2">
-    <div class="col-12">
-        <div class="mt-1">
-            {% if property.isIncreating == 1 %}
-            <a id="previousPublication" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-            <button type="submit" id="stepPublication" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et finaliser la modification d'un bien") }}</button>
-            {% else %}
-            <a id="returnList" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour </a>
-            <button type="submit" id="stepPublication2" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider") }}</button>
-            {% endif %}
-        </div>
-    </div>
-</div>
 {{ form_end(form) }}

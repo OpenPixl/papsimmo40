@@ -21,7 +21,7 @@ class PropertyOrientationController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_choice_property_orientation_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_choice_property_orientation_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PropertyOrientationRepository $propertyOrientationRepository): Response
     {
         $propertyOrientation = new PropertyOrientation();

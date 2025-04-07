@@ -1,4 +1,4 @@
-{{ form_start(form, {'attr': {'id': 'addPhoto'}}) }}
+{{ form_start(form) }}
 <div class="row">
     <div class="col-12">
         <p class="alert alert-info p-2 mb-1">
@@ -8,13 +8,10 @@
     <div class="col-12">
     {{ form_widget(form.images, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
     </div>
-    <div class="col-12" id="liste_nom_photos">
-
-    </div>
 </div>
 <div class="row mt-1">
     <div class="col-12">
-        <button type="submit" id="btnAddPhoto" class="btn btn-sm btn-outline-primary w-100">{{ button_label|default('Ajouter le(s) photo(s)') }}</button>
+        <button id="btnPhotos" type="submit" class="btn btn-sm btn-outline-primary w-100">{{ button_label|default('Ajouter le(s) photo(s)') }}</button>
     </div>
 </div>
 {{ form_end(form) }}

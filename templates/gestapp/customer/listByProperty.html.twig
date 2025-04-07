@@ -1,32 +1,23 @@
 <section class="property-edit">
-    <div class="row mt-2">
+    <div class="row g-2 mt-1">
         <div class="col-sm-3">
-            <a id="btnAddCustomer" type="button" href="{{ path('op_gestapp_customer_addcustomerjson', {'idproperty': property.id}) }}" class="btn btn-sm btn-outline-warning w-100" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-data="ADD-Ajouter une nouvelle fiche client">
-                Ajouter un vendeur<br>
-                sur ce bien.
-            </a>
-            <hr>
-            <div class="card text-dark bg-light">
-                <div class="card-body">
-                    <p>
-                        <b>Rechercher </b>un vendeur
-                    </p>
-                    {{ render(controller('App\\Controller\\Gestapp\\CustomerController::listsearchcustomer', {'idproperty': property.id })) }}
-                </div>
+            <div class="mb-1">
+                <a id="btnAddCustomer" href="{{ path('op_gestapp_customer_addcustomerjson', {'idproperty': property.id}) }}" class="btn btn-sm btn-outline-warning w-100 openModal" data-bs-data="ADDCUSTOMER-Ajouter une nouvelle fiche client">
+                    Ajouter un vendeur<br>
+                    sur ce bien.
+                </a>
+            </div>
+            <div class="card text-dark border-dark">
+                {{ render(controller('App\\Controller\\Admin\\SearchController::customerProperty', {'idproperty': property.id })) }}
             </div>
 
         </div>
         <div class="col-sm-9">
             <div id="listeCustomers" class="row g-1">
-                {% include 'gestapp/customer/_listecustomers.html.twig' with {'idproperty': property.id } %}
+                {% include 'gestapp/customer/include/_listecustomers.html.twig' with {'idproperty': property.id } %}
             </div>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12">
-            <div class="mt-1">
-                <a id="previousCustomer" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button type="submit" id="stepCustomers" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape chiffres") }}</button>
+            <div class="row" id="listeSearchCustomers">
+
             </div>
         </div>
     </div>

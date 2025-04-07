@@ -22,12 +22,12 @@ class PropertyEquipementController extends AbstractController
         ]);
     }
 
-    #[Route('/new/{id}', name: 'app_gestapp_choice_property_equipement_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_choice_property_equipement_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PropertyEquipementRepository $propertyEquipementRepository, ComplementRepository $complementRepository): Response
     {
         $propertyEquipement = new PropertyEquipement();
         $form = $this->createForm(PropertyEquipementType::class, $propertyEquipement, [
-            'action' => $this->generateUrl('app_gestapp_choice_property_equipement_new2'),
+            'action' => $this->generateUrl('op_gestapp_choice_property_equipement_new'),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -37,10 +37,13 @@ class PropertyEquipementController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_property_equipement_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/choice/property_equipement/new.html.twig', [
-            'property_equipement' => $propertyEquipement,
-            'form' => $form,
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/property_equipement/new.html.twig', [
+                'property_equipement' => $propertyEquipement,
+                'form' => $form,
+            ])
+        ],200);
     }
 
     #[Route('/new2', name: 'app_gestapp_choice_property_equipement_new2', methods: ['GET', 'POST'])]

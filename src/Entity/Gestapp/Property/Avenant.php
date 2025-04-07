@@ -8,12 +8,16 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: AvenantRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Avenant
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
     private ?int $id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'avenants')]
+    private ?Property $property = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateAvenant = null;
@@ -27,14 +31,23 @@ class Avenant
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $priceFai = null;
 
-    #[ORM\Column]
-    private ?\DateTimeImmutable $createdAt = null;
+    #[ORM\Column(type: 'datetime')]
+    private $createdAt = null;
+
+    #[ORM\Column(type: 'datetime')]
+    private $updatedAt = null;
 
     #[ORM\Column]
-    private ?\DateTimeImmutable $updatedAt = null;
+    private ?bool $isFirstAvenant = true;
 
-    #[ORM\ManyToOne(inversedBy: 'avenants')]
-    private ?Property $property = null;
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $avenantName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $avenantSize = null;
+
+    #[ORM\Column(length: 5, nullable: true)]
+    private ?string $avenantExt = null;
 
     public function getId(): ?int
     {
@@ -89,14 +102,16 @@ class Avenant
         return $this;
     }
 
+
     public function getCreatedAt(): ?\DateTimeImmutable
     {
         return $this->createdAt;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $createdAt): static
+    #[ORM\PrePersist]
+    public function setCreatedAt(): self
     {
-        $this->createdAt = $createdAt;
+        $this->createdAt = new \DateTime('now');
 
         return $this;
     }
@@ -106,9 +121,11 @@ class Avenant
         return $this->updatedAt;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updatedAt): static
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function setUpdatedAt(): self
     {
-        $this->updatedAt = $updatedAt;
+        $this->updatedAt = new \DateTime('now');
 
         return $this;
     }
@@ -121,6 +138,54 @@ class Avenant
     public function setProperty(?Property $property): static
     {
         $this->property = $property;
+
+        return $this;
+    }
+
+    public function isFirstAvenant(): ?bool
+    {
+        return $this->isFirstAvenant;
+    }
+
+    public function setIsFirstAvenant(bool $isFirstAvenant): static
+    {
+        $this->isFirstAvenant = $isFirstAvenant;
+
+        return $this;
+    }
+
+    public function getAvenantName(): ?string
+    {
+        return $this->avenantName;
+    }
+
+    public function setAvenantName(?string $avenantName): static
+    {
+        $this->avenantName = $avenantName;
+
+        return $this;
+    }
+
+    public function getAvenantSize(): ?int
+    {
+        return $this->avenantSize;
+    }
+
+    public function setAvenantSize(?int $avenantSize): static
+    {
+        $this->avenantSize = $avenantSize;
+
+        return $this;
+    }
+
+    public function getAvenantExt(): ?string
+    {
+        return $this->avenantExt;
+    }
+
+    public function setAvenantExt(?string $avenantExt): static
+    {
+        $this->avenantExt = $avenantExt;
 
         return $this;
     }

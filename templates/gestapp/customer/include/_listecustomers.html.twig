@@ -1,0 +1,32 @@
+{% for customer in customers %}
+<div class="col-sm-3">
+    <div class="card">
+        <div class="card-body p-3">
+            <h4 class="card-title fs-5">{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.firstName }} {{ customer.lastName }}</h4>
+            <h6 class="card-subtitle mb-2 text-muted fs-6">{{ customer.RefCustomer }} | {{ customer.customerChoice }}</h6>
+            <p class="fw-lighter mb-2">
+                <i class="fa-duotone fa-location-dot"></i> Adresse : <br>
+                {% if customer.adress is not empty %}{{ customer.adress }}<br>{% else %}<br>{% endif %}
+                {% if customer.complement is not empty %}{{ customer.complement }}<br>{% else %}<br>{% endif %}
+                {% if customer.zipcode is not empty %}{{ customer.zipcode }} {{ customer.city }}{% else %}CP Commune{% endif %}
+            </p>
+            {% if customer.customerChoice == 'Vendeur' %}
+            <a id="btnEditCustomer" href="{{ path('op_gestapp_customer_editcustomerjson', {'id':customer.id, 'idproperty': idproperty}) }}" class="openModal" data-bs-data="EDITCUSTOMER-Modification de la fiche client-{{ customer.id }}"><i class="fa-duotone fa-user-pen"></i> Voir la fiche</a>
+            <a href="{{ path('op_gestapp_customer_del_onproperty', {'id':customer.id, 'idproperty': idproperty}) }}" class="openModal" data-bs-data="DELCUSTOMER-Suppression d'un vendeur-{{ customer.id }}"><i class="fa-duotone fa-user-slash"></i> Supprimer la fiche</a>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% else %}
+<div class="col-sm-3">
+    <div class="card">
+        <div class="card-body">
+            <h4 class="card-title">Nom Prénom</h4>
+            <h6 class="card-subtitle mb-2 text-muted">Futur vendeur</h6>
+            <p class="card-text">Adresse<br>Complément<br>CP Ville</p>
+            <a href="#" class="btn btn-sm btn-default disabled"><i class="fa-duotone fa-id-card-clip fa-2x"></i></a>
+            <a href="#" class="btn btn-sm btn-default disabled"><i class="fa-duotone fa-user-xmark fa-2x"></i></a>
+        </div>
+    </div>
+</div>
+{% endfor %}

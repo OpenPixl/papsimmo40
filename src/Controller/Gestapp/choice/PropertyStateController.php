@@ -33,10 +33,13 @@ class PropertyStateController extends AbstractController
             return $this->redirectToRoute('op_gestapp_choice_property_state_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/choice/property_state/new.html.twig', [
-            'property_state' => $propertyState,
-            'form' => $form,
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/property_state/new.html.twig', [
+                'property_state' => $propertyState,
+                'form' => $form,
+            ])
+        ],200);
     }
 
     #[Route('/new2', name: 'op_gestapp_choice_property_state_new2', methods: ['GET', 'POST'])]

@@ -21,7 +21,7 @@ class OtherOptionController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_choice_other_option_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_choice_other_option_new', methods: ['GET', 'POST'])]
     public function new(Request $request, OtherOptionRepository $otherOptionRepository): Response
     {
         $otherOption = new OtherOption();
@@ -33,10 +33,13 @@ class OtherOptionController extends AbstractController
             return $this->redirectToRoute('app_gestapp_choice_other_option_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/choice/other_option/new.html.twig', [
-            'other_option' => $otherOption,
-            'form' => $form,
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/other_option/new.html.twig', [
+                'other_option' => $otherOption,
+                'form' => $form,
+            ])
+        ],200);
     }
 
     #[Route('/new2', name: 'app_gestapp_choice_other_option_new2', methods: ['GET', 'POST'])]

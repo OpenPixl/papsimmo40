@@ -2,39 +2,16 @@
 
 namespace App\Controller\Gestapp;
 
-use App\Entity\Gestapp\Complement;
-use App\Entity\Gestapp\Photo;
 use App\Entity\Gestapp\Property;
-use App\Entity\Gestapp\Publication;
-use App\Form\Gestapp\Property\AddMandatType;
-use App\Form\Gestapp\PropertyAvenantType;
 use App\Form\Gestapp\PropertyEndMandatType;
-use App\Form\Gestapp\PropertyImageType;
-use App\Form\Gestapp\PropertyStep1Type;
-use App\Form\Gestapp\PropertyStep2Type;
-use App\Form\Gestapp\PropertyType;
 use App\Repository\Admin\EmployedRepository;
-use App\Repository\Gestapp\CadasterRepository;
-use App\Repository\Gestapp\choice\OtherOptionRepository;
-use App\Repository\Gestapp\choice\PropertyDefinitionRepository;
-use App\Repository\Gestapp\choice\PropertyEquipementRepository;
-use App\Repository\Gestapp\choice\propertyFamilyRepository;
-use App\Repository\Gestapp\choice\propertyRubricRepository;
-use App\Repository\Gestapp\choice\propertyRubricssRepository;
-use App\Repository\Gestapp\ComplementRepository;
-use App\Repository\Gestapp\PropertyRepository;
-use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
-use App\Service\ArchivePropertyService;
-use App\Service\PropertyService;
-use Doctrine\ORM\EntityManagerInterface;
+use App\Repository\Gestapp\PropertyRepository;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
-use Knp\Component\Pager\PaginatorInterface;
-use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/gestapp/propertypublic')]
 class PropertypublicController extends AbstractController

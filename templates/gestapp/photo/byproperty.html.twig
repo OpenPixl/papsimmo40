@@ -1,6 +1,3 @@
-<section class="mt-3">
-    <h3>Les médias du bien</h3>
-</section>
 <section>
     <div class="row">
         <div class="col-3">
@@ -30,18 +27,6 @@
         </div>
     </div>
 </section>
-<div class="row mt-2">
-    <div class="col-12">
-        <div class="mt-1">
-            {% if property.isIncreating == 1 %}
-            <a id="previousGallery" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-            <button type="submit" id="stepGallery" class="btn btn-sm btn-outline-primary">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
-            {% else %}
-            <a id="previousGallery" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-            {% endif %}
-        </div>
-    </div>
-</div>
 
 
 

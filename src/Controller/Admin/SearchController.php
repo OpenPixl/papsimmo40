@@ -3,6 +3,7 @@
 namespace App\Controller\Admin;
 
 use App\Form\Admin\Search\SearchConstructType;
+use App\Form\Admin\Search\SearchCustomerPropertyType;
 use App\Form\Admin\Search\SearchPropertyDashboardType;
 use App\Form\Admin\Search\SearchPropertyType;
 use Elastica\Query;
@@ -243,7 +244,57 @@ class SearchController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
 
+        return $this->render('admin/search/searchpropertydashboard.html.twig', [
+            // form' => $form,
+        ]);
+    }
 
+    #[Route('/admin/search/customer_property/{idproperty}', name: 'op_admin_search_customer_property', methods: ['POST', 'GET'])]
+    public function customerProperty(Request $request, $idproperty): Response
+    {
+        $form = $this->createForm(SearchCustomerPropertyType::class, null, [
+            'action' => $this->generateUrl('op_admin_search_customer_property',[
+                'idproperty' => $idproperty,
+            ]),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formProperty_searchCustomer'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $data = $form->getData();
+            $boolQuery = new BoolQuery();
+
+            if (!empty($data->name)){
+                $fieldQuery = new \Elastica\Query\MatchPhrasePrefix();
+                $fieldQuery->setField('name', $data->name);
+                $boolQuery->addMust($fieldQuery);
+            }
+
+            $query = new Query($boolQuery);
+            $query->setSort([
+                'name' => ['order' => 'desc'],
+            ]);
+
+            $customers =  $this->finder->find($query);
+            dd($customers);
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "La recherche à aboutie",
+                'liste' => $this->renderView('gestapp/customer/search/_liste.html.twig', [
+                    'customers' => $customers,
+                    'idproperty' => $idproperty
+                ])
+            ]);
+        }
+
+        return $this->render('gestapp/customer/search/_listsearch.html.twig', [
+            'form' => $form,
+            'idproperty' => $idproperty,
+        ]);
     }
 
 }

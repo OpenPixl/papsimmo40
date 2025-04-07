@@ -55,7 +55,7 @@ class propertyFamilyController extends AbstractController
 
         return $this->json([
             'code' => 200,
-            'rubrics' => $rubrics,
+            'values' => $rubrics,
         ], 200);
     }
 
@@ -67,7 +67,7 @@ class propertyFamilyController extends AbstractController
 
         return $this->json([
             'code' => 200,
-            'rubricss' => $rubricss,
+            'values' => $rubricss,
         ], 200);
     }
 

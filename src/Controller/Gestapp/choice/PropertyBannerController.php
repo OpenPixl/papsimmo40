@@ -16,12 +16,15 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/gestapp/choice/property/banner')]
 class PropertyBannerController extends AbstractController
 {
-    #[Route('/', name: 'app_gestapp_choice_property_banner_index', methods: ['GET'])]
+    #[Route('/', name: 'op_gestapp_choice_property_banner_index', methods: ['GET'])]
     public function index(PropertyBannerRepository $propertyBannerRepository): Response
     {
-        return $this->render('gestapp/choice/property_banner/index.html.twig', [
-            'property_banners' => $propertyBannerRepository->findAll(),
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/property_banner/index.html.twig', [
+                'property_banners' => $propertyBannerRepository->findAll(),
+            ])
+        ], 200);
     }
 
     #[Route('/list', name: 'app_gestapp_choice_property_banner_list', methods: ['GET'])]
@@ -32,7 +35,7 @@ class PropertyBannerController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_gestapp_choice_property_banner_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'op_gestapp_choice_property_banner_new', methods: ['GET', 'POST'])]
     public function new(Request $request, PropertyBannerRepository $propertyBannerRepository, SluggerInterface $slugger): Response
     {
         $propertyBanner = new PropertyBanner();
@@ -67,19 +70,17 @@ class PropertyBannerController extends AbstractController
 
             return $this->json([
                 'code' => 200,
-                'banner' => $propertyBanner->getName(),
-                'valuebanner'=> $propertyBanner->getId(),
-                'listbanners' => $this->renderView('gestapp/choice/property_banner/_listbanner.html.twig', [
-                    'property_banners' => $listbanners
-                ]),
                 'message' => "Une nouvelle bannière a été ajoutée à la BDD."
             ], 200);
         }
 
-        return $this->render('gestapp/choice/property_banner/new.html.twig', [
-            'property_banner' => $propertyBanner,
-            'form' => $form,
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/property_banner/new.html.twig', [
+                'property_banner' => $propertyBanner,
+                'form' => $form,
+            ])
+        ], 200);
     }
 
     #[Route('/{id}', name: 'app_gestapp_choice_property_banner_show', methods: ['GET'])]

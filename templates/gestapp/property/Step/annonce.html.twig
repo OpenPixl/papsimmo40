@@ -1,0 +1,26 @@
+<section class="property-edit">
+    {{ form_start(form) }}
+    <div class="row g-1">
+        <div class="col-sm-12">
+            <div class="card">
+                <div class="card-body p-2">
+                    <p class="border-bottom"><b>TEXTE D'ANNONCE</b></p>
+                    <div class="row mt-1">
+                        <div class="col-12">
+                            <div class="row g-1 mt-1">
+                                <div class="col-2">
+                                    <p class="text-secondary">Le contenu inscrit dans ce texte sera completé, selon le type de vente, par un texte spécifique</p>
+                                </div>
+                                <div class="col-10">
+                                    {{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce"}}) }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{ form_rest(form) }}
+    {{ form_end(form) }}
+</section>

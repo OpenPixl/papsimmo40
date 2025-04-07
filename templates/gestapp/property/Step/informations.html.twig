@@ -1,6 +1,6 @@
 <section class="property-edit">
-    {{ form_start(form, {'attr': {'id': 'FormAddInformation'}}) }}
-    <div class="row g-1 mt-1">
+    {{ form_start(form) }}
+    <div class="row g-1">
         <div class="col-sm-12">
             <div class="card ext-dark bg-light mb-1">
                 <div class="card-body p-2">
@@ -24,7 +24,7 @@
                             {% else %}
                                 {# controle si le mandat porte le numéro 0 #}
                                 {% if property.refMandat == 0 %}
-                                    <p class="mb-0"><a id="AddMandat" class="text-info"><i class="fa-sharp fa-solid fa-circle-plus"></i> Ajouter le mandat</a></p>
+                                    <p class="mb-0"><a id="AddMandat" href="{{ path('op_gestapp_property_addmandat', {'id':property.id}) }}" class="text-info openModal" data-bs-data="ADDMANDAT-Ajouter un numéro de mandat au bien-{{ property.id }}"><i class="fa-sharp fa-solid fa-circle-plus"></i> Ajouter le mandat</a></p>
                                 {% else %}
                                     <p class="mb-0"><span class="text-secondary">Numéro :</span> {{ property.refMandat }}</p>
                                 {% endif %}
@@ -50,7 +50,7 @@
             </div>
         </div>
         <div class="col-sm-9">
-            <div class="card">
+            <div class="card mb-1">
                 <div class="card-body p-2">
                     <p class="border-bottom"><b>INFORMATIONS DU BIENS</b></p>
                     <div class="row mt-1">
@@ -62,7 +62,7 @@
                                 </div>
                                 <div class="col-10 mb-1">
                                     {{ form_widget(form.name, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                    <p id="charCount" class="small">100 caractères restants</p>
+                                    <p id="charCount" class="small text-secondary">100 caractères restants</p>
                                 </div>
                             </div>
                             <div class="row align-items-center ">
@@ -113,18 +113,33 @@
                             </div>
                         </div>
                     </div>
-                    <p class="mt-2 border-bottom">ANNONCE</p>
-                    <div class="row g-1 mt-1">
-                        <div class="col-2">
-                            <p class="text-secondary">Le contenu inscrit dans ce texte sera completé, selon le type de vente, par un texte spécifique</p>
-                        </div>
-                        <div class="col-10">
-                            {{ form_widget(form.annonce, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce"}}) }}
-                        </div>
-                    </div>
-
                 </div>
             </div>
+            {% if property.typeMandat == 'avec_exclusivité_vente_interactive' %}
+                <div id="block_ExcluVI" class="card">
+                    <div class="card-body p-2">
+                        <p><b>VENTE INTERACTIVE</b></p>
+                        <div class="row">
+                            {{ form_label(form.addLinkAuction) }}
+                            <div class="col-sm-12">
+                                {{ form_widget(form.addLinkAuction, {'attr': {'class': 'form-control form-control-sm w-100', 'placeholder':'https://example.com'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% else %}
+                <div class="card d-none">
+                    <div class="card-body">
+                        <p><b>VENTE INTERACTIVE</b></p>
+                        <div class="row">
+                            {{ form_label(form.addLinkAuction) }}
+                            <div class="col-sm-12">
+                                {{ form_widget(form.addLinkAuction, {'attr': {'class': 'form-control form-control-sm w-100', 'placeholder':'https://example.com'}}) }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
         </div>
         <div class="col-sm-3">
             <div class="row mb-1">
@@ -153,45 +168,7 @@
                             </table>
                         </div>
                     </div>
-                    {% if property.typeMandat == 'avec_exclusivité_vente_interactive' %}
-                    <div class="card">
-                        <div class="card-body">
-                            <p><b>VENTE INTERACTIVE</b></p>
-                            <div class="row">
-                                {{ form_label(form.addLinkAuction) }}
-                                <div class="col-sm-12">
-                                    {{ form_widget(form.addLinkAuction, {'attr': {'class': 'form-control form-control-sm w-100', 'placeholder':'https://example.com'}}) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% else %}
-                    <div class="card d-none">
-                        <div class="card-body">
-                            <p><b>VENTE INTERACTIVE</b></p>
-                            <div class="row">
-                                {{ form_label(form.addLinkAuction) }}
-                                <div class="col-sm-12">
-                                    {{ form_widget(form.addLinkAuction, {'attr': {'class': 'form-control form-control-sm w-100', 'placeholder':'https://example.com'}}) }}
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {% endif %}
                 </div>
-            </div>
-        </div>
-    </div>
-    <div class="row mt-2">
-        <div class="col-12">
-            <div class="mt-1">
-                {% if property.isIncreating == 1 %}
-                <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark disabled"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button type="submit" id="stepInformations" class="btn btn-sm btn-outline-primary" onclick="tinyMCE.triggerSave(true,true);">{{ button_label|default("Valider et passer à l'étape vendeurs") }}</button>
-                {% else %}
-                <a id="stepBack" href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-solid fa-backward-step"></i> Retour</a>
-                <button id="stepInformations2" class="btn btn-sm btn-outline-primary" onclick="tinyMCE.triggerSave(true,true);">{{ button_label|default("Valider") }}</button>
-                {% endif %}
             </div>
         </div>
     </div>

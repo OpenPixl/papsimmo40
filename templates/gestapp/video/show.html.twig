@@ -11,10 +11,12 @@
 <div class="row">
     <div class="col-12">
         <div class="ratio ratio-16x9">
-            <video controls class="w-100">
+            {% if video.videoName is null or not exist %}
+            <video controls class="w-100">bb
                 <source src="{{ asset('/properties/'~ video.path ~'/'~ video.videoName) }}" type="video/mp4">
                 Ton navigateur ne supporte pas la vidéo HTML5.
             </video>
+            {% endif %}
         </div>
     </div>
 </div>

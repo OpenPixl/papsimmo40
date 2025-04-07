@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avenant index{% endblock %}
+
+{% block body %}
+    <h1>Avenant index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>DateAvenant</th>
+                <th>Price</th>
+                <th>Honoraires</th>
+                <th>PriceFai</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>IsFirstAvenant</th>
+                <th>AvenantName</th>
+                <th>AvenantSize</th>
+                <th>AvenantExt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for avenant in avenants %}
+            <tr>
+                <td>{{ avenant.id }}</td>
+                <td>{{ avenant.dateAvenant ? avenant.dateAvenant|date('Y-m-d') : '' }}</td>
+                <td>{{ avenant.price }}</td>
+                <td>{{ avenant.honoraires }}</td>
+                <td>{{ avenant.priceFai }}</td>
+                <td>{{ avenant.createdAt ? avenant.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ avenant.updatedAt ? avenant.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ avenant.isFirstAvenant ? 'Yes' : 'No' }}</td>
+                <td>{{ avenant.avenantName }}</td>
+                <td>{{ avenant.avenantSize }}</td>
+                <td>{{ avenant.avenantExt }}</td>
+                <td>
+                    <a href="{{ path('app_gestapp_property_avenant_show', {'id': avenant.id}) }}">show</a>
+                    <a href="{{ path('app_gestapp_property_avenant_edit', {'id': avenant.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="12">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_property_avenant_new') }}">Create new</a>
+{% endblock %}

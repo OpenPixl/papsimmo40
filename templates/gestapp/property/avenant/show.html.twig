@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Avenant{% endblock %}
+
+{% block body %}
+    <h1>Avenant</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ avenant.id }}</td>
+            </tr>
+            <tr>
+                <th>DateAvenant</th>
+                <td>{{ avenant.dateAvenant ? avenant.dateAvenant|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ avenant.price }}</td>
+            </tr>
+            <tr>
+                <th>Honoraires</th>
+                <td>{{ avenant.honoraires }}</td>
+            </tr>
+            <tr>
+                <th>PriceFai</th>
+                <td>{{ avenant.priceFai }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ avenant.createdAt ? avenant.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ avenant.updatedAt ? avenant.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>IsFirstAvenant</th>
+                <td>{{ avenant.isFirstAvenant ? 'Yes' : 'No' }}</td>
+            </tr>
+            <tr>
+                <th>AvenantName</th>
+                <td>{{ avenant.avenantName }}</td>
+            </tr>
+            <tr>
+                <th>AvenantSize</th>
+                <td>{{ avenant.avenantSize }}</td>
+            </tr>
+            <tr>
+                <th>AvenantExt</th>
+                <td>{{ avenant.avenantExt }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_gestapp_property_avenant_index') }}">back to list</a>
+
+    <a href="{{ path('app_gestapp_property_avenant_edit', {'id': avenant.id}) }}">edit</a>
+
+    {{ include('gestapp/property/avenant/_delete_form.html.twig') }}
+{% endblock %}

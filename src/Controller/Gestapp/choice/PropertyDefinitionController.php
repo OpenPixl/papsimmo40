@@ -30,13 +30,16 @@ class PropertyDefinitionController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $propertyDefinitionRepository->add($propertyDefinition);
-            return $this->redirectToRoute('app_gestapp_choice_property_definition_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('op_gestapp_choice_property_definition_index', [], Response::HTTP_SEE_OTHER);
         }
 
-        return $this->render('gestapp/choice/property_definition/new.html.twig', [
-            'property_definition' => $propertyDefinition,
-            'form' => $form,
-        ]);
+        return $this->json([
+            'code' => 200,
+            'form' => $this->renderView('gestapp/choice/property_definition/new.html.twig', [
+                'property_definition' => $propertyDefinition,
+                'form' => $form,
+            ])
+        ],200);
     }
 
     #[Route('/new2', name: 'op_gestapp_choice_property_definition_new2', methods: ['GET', 'POST'])]
