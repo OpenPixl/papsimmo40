@@ -36,6 +36,12 @@ function openModalXL(event){
                 if(btnAddResp){
                     btnAddResp.addEventListener('click', addResponsable);
                 }
+                let btnSupprResps = document.querySelectorAll('.btnSupprResp');
+                if(btnSupprResps){
+                    btnSupprResps.forEach(function(click){
+                        click.addEventListener('click', delResponsable);
+                    });
+                }
 
                 const typeClient = document.getElementById('customer_typeClient');
                 if(typeClient.value === "professionnel"){
@@ -816,7 +822,24 @@ function addResponsable(event){
         .then(function(response){
             document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
             toasterMessage(response.data.message);
+            reloadEventOnModal();
             form.reset();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
+}
+
+function delResponsable(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+            toasterMessage(response.data.message);
+            reloadEventOnModal();
         })
         .catch(function(error){
             console.log(error);
@@ -888,6 +911,19 @@ function initializeTomSelect(selector, options = {}) {
         new TomSelect(selectElement, options);
     });
 }
+
+function reloadEventOnModal(){
+    let btnAddResp = modal.querySelector('.modal-body #btnAddResp');
+    if(btnAddResp){
+        btnAddResp.addEventListener('click', addResponsable);
+    }
+    let btnSupprResps = document.querySelectorAll('.btnSupprResp');
+    if(btnSupprResps){
+        btnSupprResps.forEach(function(click){
+            click.addEventListener('click', delResponsable);
+        });
+    }
+};
 
 // Initialisation après le chargement du DOM
 document.addEventListener('DOMContentLoaded', initializeNavLinks);
