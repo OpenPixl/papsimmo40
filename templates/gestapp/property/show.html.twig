@@ -199,7 +199,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="Documents" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane d-none" id="Documents" role="tabpanel" aria-labelledby="profile-tab">
             <div class="row mt-2">
                 <div class="col-12">
                     <h2 class="fs-5 border-bottom">SECTION DOCUMENTS</h2>
@@ -213,7 +213,7 @@
                 </div>
             </div>
         </div>
-        <div class="tab-pane" id="Map" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane d-none" id="Map" role="tabpanel" aria-labelledby="profile-tab">
             <div class="row mt-2">
                 <div class="col-12">
                     <h2 class="fs-5 border-bottom">SECTION CARTE</h2>
@@ -235,7 +235,7 @@
         <div class="col-12">
             {% if property.isIncreating == 1 %}
                 <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"> <i class="fa-solid fa-backward-step"></i> Retour sur la liste des biens</a>
-                <button id="btnAddProperty" type="button" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape suivante</button>
+                <button id="btnNewProperty" type="button" class="btn btn-sm btn-outline-primary">Valider et passer à l'étape suivante</button>
             {% else %}
                 <a href="{{ path('op_gestapp_property_index') }}" class="btn btn-sm btn-outline-dark"> <i class="fa-solid fa-backward-step"></i> Retour sur la liste des biens</a>
                 <button id="btnUpdateProperty" type="button" class="btn btn-sm btn-outline-primary">Valider les modifications</button>

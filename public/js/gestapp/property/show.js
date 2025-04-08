@@ -412,10 +412,10 @@ function initializeNavLinks() {
         btnUpdateProperty.addEventListener('click', submitNodeForm);
     }
 
-    const btnAddProperty = document.getElementById('btnAddProperty');
-    if (btnAddProperty) {
-        btnAddProperty.addEventListener('click', function () {
-            submitNodeForm(event);
+    const btnNewProperty = document.getElementById('btnNewProperty');
+    if (btnNewProperty) {
+        btnNewProperty.addEventListener('click', function () {
+            submitNodeForm;
             // Sélectionne tous les éléments <li> dans la barre de navigation
             const navItems = document.querySelectorAll('.nav-tabs li');
 
@@ -731,6 +731,12 @@ function AllCheckedPublication(){
 
 function submitNodeForm(event){
     event.preventDefault();
+    nodeForm.innerHTML =
+        "                        <div class=\"text-center p-5\">\n" +
+        "                            <div class=\"spinner-border\" role=\"status\">\n" +
+        "                                <span class=\"visually-hidden\">Loading...</span>\n" +
+        "                            </div>\n" +
+        "                        </div>";
     const listForm = ['formProperty_informations', 'formProperty_annonce', 'formProperty_chiffres', 'formProperty_complements', 'formProperty_Publication'];
     let form = nodeForm.querySelector('form');
     let nameForm = form.id;
