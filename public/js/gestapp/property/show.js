@@ -221,7 +221,6 @@ function loadFormContent(navLink) {
     let activeDataTarget = navLink.getAttribute('data-bs-target');
     nodeForm = document.querySelector(activeDataTarget + ' #content-form');
     let nodeFormName = nodeForm.closest('.tab-pane').id;
-    console.log(nodeFormName);
     // Charge le nouveau contenu
     if (activeUrl && nodeForm) {
         axios
@@ -370,7 +369,6 @@ function loadFormContent(navLink) {
                     switchAllPublication.addEventListener('change', AllCheckedPublication);
                 }
                 let linkOpenModal = document.querySelectorAll('a.openModal');
-                console.log(linkOpenModal);
                 linkOpenModal.forEach(function(link){
                     link.addEventListener('click', openModalXL);
                 });
@@ -415,7 +413,7 @@ function initializeNavLinks() {
     const btnNewProperty = document.getElementById('btnNewProperty');
     if (btnNewProperty) {
         btnNewProperty.addEventListener('click', function () {
-            submitNodeForm;
+            submitNodeForm(event);
             // Sélectionne tous les éléments <li> dans la barre de navigation
             const navItems = document.querySelectorAll('.nav-tabs li');
 
@@ -424,7 +422,6 @@ function initializeNavLinks() {
             for (let item of navItems) {
                 if (!item.classList.contains('notActive')) {
                     currentActiveItem = item;
-                    console.log(currentActiveItem);
                     break;
                 }
             }
@@ -444,8 +441,11 @@ function initializeNavLinks() {
                     const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
 
                     document.querySelector(currentPaneId).classList.remove('active', 'show');
+                    document.querySelector(currentPaneId).querySelector('#content-form').innerHTML = "<div class=\"text-center p-5\"><div class=\"spinner-border\" role=\"status\"><span class=\"visually-hidden\">Loading...</span></div></div>";
                     document.querySelector(nextPaneId).classList.add('active', 'show');
                     loadFormContent(nextItem.querySelector('a'));
+                }else{
+                    console.log('il n\'existe pas');
                 }
             }
         });
@@ -731,15 +731,10 @@ function AllCheckedPublication(){
 
 function submitNodeForm(event){
     event.preventDefault();
-    nodeForm.innerHTML =
-        "                        <div class=\"text-center p-5\">\n" +
-        "                            <div class=\"spinner-border\" role=\"status\">\n" +
-        "                                <span class=\"visually-hidden\">Loading...</span>\n" +
-        "                            </div>\n" +
-        "                        </div>";
     const listForm = ['formProperty_informations', 'formProperty_annonce', 'formProperty_chiffres', 'formProperty_complements', 'formProperty_Publication'];
     let form = nodeForm.querySelector('form');
     let nameForm = form.id;
+    console.log(listForm.includes(nameForm) === 'formProperty_Publication');
     if(listForm.includes(nameForm)){
         tinymce.triggerSave();
         let action = form.action;
