@@ -790,6 +790,7 @@ function submitModalForm(event){
                 console.log(error);
             })
         ;
+        initializeNavLinks();
     }
 }
 
