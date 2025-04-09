@@ -4,7 +4,11 @@
         <span class="align-middle"><b>{{ form_label(form.dateAvenant, '', {'label_attr': {'class':'form-label'}}) }}</b></span>
     </div>
     <div class="col-4">
-        {{ form_widget(form.dateAvenant, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        {% if app.request.attributes.get('_route') == 'op_gestapp_property_avenant_new' %}
+            {{ form_widget(form.dateAvenant, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}
+        {% else %}
+            {{ form_widget(form.dateAvenant, {'attr': {'class': 'form-control form-control-sm', 'disabled': 'disabled'}}) }}
+        {% endif %}
     </div>
 </div>
 <div class="row mb-1">
@@ -12,7 +16,11 @@
         <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
     </div>
     <div class="col-7">
-        {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        {% if app.request.attributes.get('_route') == 'op_gestapp_property_avenant_new' %}
+            {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        {% else %}
+            {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm', 'disabled': 'disabled'}}) }}
+        {% endif %}
     </div>
 </div>
 <div class="row mb-1">
@@ -20,7 +28,11 @@
         {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
     </div>
     <div class="col-7">
-        {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        {% if app.request.attributes.get('_route') == 'op_gestapp_property_avenant_new' %}
+            {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        {% else %}
+            {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm', 'disabled': 'disabled'}}) }}
+        {% endif %}
     </div>
 </div>
 <div class="row mb-1">
@@ -28,18 +40,42 @@
         {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
     </div>
     <div class="col-7">
-        {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        {% if app.request.attributes.get('_route') == 'op_gestapp_property_avenant_new' %}
+            {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        {% else %}
+            {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm', 'disabled': 'disabled'}}) }}
+        {% endif %}
     </div>
 </div>
-<h6 class="fs-6 border-bottom mt-3">DOCUMENT A DEPOSER</h6>
-<div class="row">
-    <div class="col-12">
-        <p class="alert alert-info p-2">
-            {{ form_label(form.avenantName) }}
-        </p>
+
+{% if avenant.avenantName is not null %}
+    <h6 class="fs-6 border-bottom mt-3 text-uppercase">Document déposé</h6>
+    <div class="row">
+        <div class="col-12">
+            <p class="mb-0"><a href="{{ asset('properties/'~avenant.pathDir~avenant.avenantName) }}">{{ avenant.avenantName }}</a></p>
+        </div>
     </div>
-    <div class="col-12">
-        {{ form_widget(form.avenantName, {'attr': {'class':'form-control form-control-sm'}}) }}
+    <div class="row d-none">
+        <div class="col-12">
+            <p class="alert alert-info p-2">
+                {{ form_label(form.avenantName) }}
+            </p>
+        </div>
+        <div class="col-12">
+            {{ form_widget(form.avenantName, {'attr': {'class':'form-control form-control-sm'}}) }}
+        </div>
     </div>
-</div>
+{% else %}
+    <h6 class="fs-6 border-bottom mt-3">DOCUMENT A DEPOSER</h6>
+    <div class="row">
+        <div class="col-12">
+            <p class="alert alert-info p-2">
+                {{ form_label(form.avenantName) }}
+            </p>
+        </div>
+        <div class="col-12">
+            {{ form_widget(form.avenantName, {'attr': {'class':'form-control form-control-sm'}}) }}
+        </div>
+    </div>
+{% endif %}
 {{ form_end(form) }}

@@ -6,6 +6,7 @@ use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Property\Avenant;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -32,8 +33,13 @@ class AvenantType extends AbstractType
                     ])
                 ],
             ])
-            ->add('dateAvenant', null, [
+            ->add('dateAvenant', DateTimeType::class, [
                 'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => true,
+                'by_reference' => true,
             ])
             ->add('price', IntegerType::class, [
                 'label' => 'Prix net vendeur'

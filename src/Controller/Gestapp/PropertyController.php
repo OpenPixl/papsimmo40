@@ -21,6 +21,7 @@ use App\Repository\Gestapp\choice\propertyRubricRepository;
 use App\Repository\Gestapp\choice\propertyRubricssRepository;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PhotoRepository;
+use App\Repository\Gestapp\Property\AvenantRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\PublicationRepository;
 use App\Repository\Gestapp\TransactionRepository;
@@ -811,13 +812,20 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/chiffres/{id}', name: 'op_gestapp_property_chiffres', methods: ['GET', 'POST'])]
-    public function chiffres(Request $request, Property $property, PropertyRepository $propertyRepository)
+    public function chiffres(
+        Request $request,
+        Property $property,
+        PropertyRepository $propertyRepository,
+        AvenantRepository $avenantRepository
+    )
     {
         $form = $this->createForm(PropertyStep2Type::class, $property, [
             'action' => $this->generateUrl('op_gestapp_property_chiffres',['id'=>$property->getId()]),
             'method' => 'POST',
             'attr' => ['id' => 'formProperty_chiffres']
         ]);
+
+        $avenants = $avenantRepository->getAvenantsByProperty($property);
 
         $form->handleRequest($request);
 
@@ -838,6 +846,7 @@ class PropertyController extends AbstractController
             $view = $this->render('gestapp/property/Step/chiffres.html.twig', [
                 'form' => $form,
                 'property'=>$property,
+                'avenants' => $avenants,
             ]);
 
             return $this->json([
@@ -850,7 +859,8 @@ class PropertyController extends AbstractController
 
         $view = $this->render('gestapp/property/Step/chiffres.html.twig', [
             'form' => $form,
-            'property'=>$property,
+            'property' => $property,
+            'avenants' => $avenants,
         ]);
 
         return $this->json([

@@ -32,6 +32,17 @@ function openModalXL(event){
             .get(url)
             .then(response => {
                 modal.querySelector('.modal-body').innerHTML = response.data.form;
+                let btnAddResp = modal.querySelector('.modal-body #btnAddResp');
+                if(btnAddResp){
+                    btnAddResp.addEventListener('click', addResponsable);
+                }
+                let btnSupprResps = document.querySelectorAll('.btnSupprResp');
+                if(btnSupprResps){
+                    btnSupprResps.forEach(function(click){
+                        click.addEventListener('click', delResponsable);
+                    });
+                }
+
                 const typeClient = document.getElementById('customer_typeClient');
                 if(typeClient.value === "professionnel"){
                     document.getElementById("box_professionnel").classList.remove('d-none');
@@ -174,6 +185,7 @@ function openModalXL(event){
             .then(function(response){
                 modal.querySelector('.modal-body').innerHTML = response.data.form;
                 calculatePrices(document.getElementById('avenant_price'),document.getElementById('avenant_honoraires'), document.getElementById('avenant_priceFai'));
+                initializeTinyMCE();
             })
             .catch(function(error){
                 console.log('Erreur lors du chargement de la modal', error);
@@ -209,7 +221,6 @@ function loadFormContent(navLink) {
     let activeDataTarget = navLink.getAttribute('data-bs-target');
     nodeForm = document.querySelector(activeDataTarget + ' #content-form');
     let nodeFormName = nodeForm.closest('.tab-pane').id;
-    console.log(nodeFormName);
     // Charge le nouveau contenu
     if (activeUrl && nodeForm) {
         axios
@@ -314,6 +325,8 @@ function loadFormContent(navLink) {
                         }
                     };
                     tsdiagChoice.on('change', changeTsDiag );
+                    calculatePrices(document.getElementById('property_step2_price'),document.getElementById('property_step2_honoraires'), document.getElementById('property_step2_priceFai'));
+
                 }
                 if(nodeFormName === 'Options'){
                     initializeTomSelect('.oneChoice', TsSimple);
@@ -356,7 +369,6 @@ function loadFormContent(navLink) {
                     switchAllPublication.addEventListener('change', AllCheckedPublication);
                 }
                 let linkOpenModal = document.querySelectorAll('a.openModal');
-                console.log(linkOpenModal);
                 linkOpenModal.forEach(function(link){
                     link.addEventListener('click', openModalXL);
                 });
@@ -398,9 +410,9 @@ function initializeNavLinks() {
         btnUpdateProperty.addEventListener('click', submitNodeForm);
     }
 
-    const btnAddProperty = document.getElementById('btnAddProperty');
-    if (btnAddProperty) {
-        btnAddProperty.addEventListener('click', function () {
+    const btnNewProperty = document.getElementById('btnNewProperty');
+    if (btnNewProperty) {
+        btnNewProperty.addEventListener('click', function () {
             submitNodeForm(event);
             // Sélectionne tous les éléments <li> dans la barre de navigation
             const navItems = document.querySelectorAll('.nav-tabs li');
@@ -410,7 +422,6 @@ function initializeNavLinks() {
             for (let item of navItems) {
                 if (!item.classList.contains('notActive')) {
                     currentActiveItem = item;
-                    console.log(currentActiveItem);
                     break;
                 }
             }
@@ -424,14 +435,17 @@ function initializeNavLinks() {
                     nextItem.querySelector('a').classList.remove('disabled');
                     nextItem.querySelector('a').classList.add('active');
                     currentActiveItem.querySelector('a').classList.remove('active');
-
+                    currentActiveItem.querySelector('a').classList.add('disabled');
 
                     const currentPaneId = currentActiveItem.querySelector('a').getAttribute('data-bs-target');
                     const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
 
                     document.querySelector(currentPaneId).classList.remove('active', 'show');
+                    document.querySelector(currentPaneId).querySelector('#content-form').innerHTML = "<div class=\"text-center p-5\"><div class=\"spinner-border\" role=\"status\"><span class=\"visually-hidden\">Loading...</span></div></div>";
                     document.querySelector(nextPaneId).classList.add('active', 'show');
                     loadFormContent(nextItem.querySelector('a'));
+                }else{
+                    console.log('il n\'existe pas');
                 }
             }
         });
@@ -446,10 +460,9 @@ function initializeNavLinks() {
     btnModalSubmit.addEventListener('click', submitModalForm);
 }
 
-
 // Fonction pour initialiser TinyMCE
 function initializeTinyMCE() {
-    const maxChars = 2000;
+    const maxChars = 200;
     tinymce.remove(); // Supprime les instances existantes
     tinymce.init({
         selector: 'textarea.tinymce',
@@ -481,6 +494,24 @@ function initializeTinyMCE() {
         paste_as_text: true,
         valid_elements: 'p,br,b,i,u,strong,em,ul,ol,li', // Exemple : limiter les balises autorisées
         valid_children: '+body[p,br,b,i,u,strong,em,ul,ol,li]', // Exemple : limiter les enfants autorisés
+    });
+
+    // mise en place du datapicker flatpickr sur les champs de date
+    flatpickr(".flatpickr", {
+        "locale": "fr",
+        enableTime: false,
+        allowInput: true,
+        altFormat: "j F Y",
+        dateFormat: "d/m/Y",
+    });
+
+// mise en place du datapicker flatpickr sur les champs de date
+    flatpickr(".flatpickrtime", {
+        "locale": "fr",
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
     });
 }
 
@@ -703,6 +734,7 @@ function submitNodeForm(event){
     const listForm = ['formProperty_informations', 'formProperty_annonce', 'formProperty_chiffres', 'formProperty_complements', 'formProperty_Publication'];
     let form = nodeForm.querySelector('form');
     let nameForm = form.id;
+    console.log(listForm.includes(nameForm) === 'formProperty_Publication');
     if(listForm.includes(nameForm)){
         tinymce.triggerSave();
         let action = form.action;
@@ -759,6 +791,7 @@ function submitModalForm(event){
                 console.log(error);
             })
         ;
+        initializeNavLinks();
     }
 }
 
@@ -801,6 +834,41 @@ function submitVideos(event){
             .catch()
         ;
     }
+}
+
+function addResponsable(event){
+    event.preventDefault();
+    let form = document.getElementById('AddRespStructure');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+            toasterMessage(response.data.message);
+            reloadEventOnModal();
+            form.reset();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
+}
+
+function delResponsable(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+            toasterMessage(response.data.message);
+            reloadEventOnModal();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
 }
 
 function delVideo(event){
@@ -866,6 +934,19 @@ function initializeTomSelect(selector, options = {}) {
     document.querySelectorAll(selector).forEach(selectElement => {
         new TomSelect(selectElement, options);
     });
+}
+
+function reloadEventOnModal(){
+    let btnAddResp = modal.querySelector('.modal-body #btnAddResp');
+    if(btnAddResp){
+        btnAddResp.addEventListener('click', addResponsable);
+    }
+    let btnSupprResps = document.querySelectorAll('.btnSupprResp');
+    if(btnSupprResps){
+        btnSupprResps.forEach(function(click){
+            click.addEventListener('click', delResponsable);
+        });
+    }
 }
 
 // Initialisation après le chargement du DOM

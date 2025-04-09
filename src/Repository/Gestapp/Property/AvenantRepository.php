@@ -16,6 +16,16 @@ class AvenantRepository extends ServiceEntityRepository
         parent::__construct($registry, Avenant::class);
     }
 
+public function getAvenantsByProperty($property)
+{
+    return $this->createQueryBuilder('a')
+        ->andWhere('a.property = :property')
+        ->setParameter('property', $property)
+        ->getQuery()
+        ->getResult()
+        ;
+}
+
     //    /**
     //     * @return Avenant[] Returns an array of Avenant objects
     //     */

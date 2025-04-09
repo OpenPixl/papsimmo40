@@ -406,18 +406,19 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $customerChoice = $customerChoiceRepository->find(1);
+            $customerChoice = $customerChoiceRepository->find(3);
             // Contruction de la référence pour chaque propriété
             $date = new \DateTime();
             $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
             $customer_resp->setRefCustomer($refCustomer);
-            $customer_resp->setTypeClient('responsable_structure');
+            $customer_resp->setTypeClient('dirigeant');
             $customer_resp->setRefEmployed($employed);
             $customer_resp->setCustomerChoice($customerChoice);
             // Ajout en BDD du nouveau client
             $customerRepository->add($customer_resp);
             // incrémentation du repsonsable dans la fiche société
             $customer->addResponsable($customer_resp);
+            $customer->setFinished(true);
             $em->flush();
 
             return $this->json([

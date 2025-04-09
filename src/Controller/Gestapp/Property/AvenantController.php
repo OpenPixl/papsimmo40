@@ -53,20 +53,21 @@ final class AvenantController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-
-
         $date = new \DateTime();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $avenant->isFirstAvenant(0);
+            $avenant->isFirstAvenant(false);
             $avenant->setProperty($property);
             $avenantPdf = $form->get('avenantName')->getData();
             if($avenantPdf){
                 $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
 
-                $originalFilename = pathinfo($avenantPdf->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = 'av'.$date->format('m/Y').'-'.$safeFilename.'.'.$avenantPdf->guessExtension();
+                if($property->getDupMandat()){
+                    $refMandat = $property->getRefMandat().$property->getDupMandat();
+                }else{
+                    $refMandat = $property->getRefMandat();
+                }
+                $newFilename = 'av-m'.$refMandat.'-'.$date->format('dmY').'.'.$avenantPdf->guessExtension();
                 try {
                     if (is_dir($pathdir)){
                         $avenantPdf->move(
@@ -85,7 +86,11 @@ final class AvenantController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
+                $avenant->setPathdir($newref."/documents/");
+                $avenant->setAvenantName($newFilename);
             }
+
+
 
             $property->setPrice($form->get('price')->getData());
             $property->setHonoraires($form->get('honoraires')->getData());
@@ -119,22 +124,77 @@ final class AvenantController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_gestapp_property_avenant_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Avenant $avenant, EntityManagerInterface $entityManager): Response
+    #[Route('/{id}/edit', name: 'op_gestapp_property_avenant_edit', methods: ['GET', 'POST'])]
+    public function edit(
+        Request $request,
+        Avenant $avenant,
+        PropertyRepository $propertyRepository,
+        EntityManagerInterface $em,
+        SluggerInterface $slugger,
+    ): Response
     {
         $form = $this->createForm(AvenantType::class, $avenant);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        $idproperty = $avenant->getProperty()->getId();
+        $property = $propertyRepository->find($idproperty);
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+        $date = new \DateTime();
 
-            return $this->redirectToRoute('app_gestapp_property_avenant_index', [], Response::HTTP_SEE_OTHER);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $avenantName = $avenant->getAvenantName();
+
+            $avenantPdf = $form->get('avenantName')->getData();
+            if($avenantPdf) {
+
+                $pathdir = $this->getParameter('property_doc_directory') . "/" . $newref . "/documents/";
+                $pathfile = $pathdir . $avenantName;
+                if ($avenantName) {
+                    // On vérifie si l'image existe
+                    if (file_exists($pathfile)) {
+                        unlink($pathfile);
+                    }
+                }
+                if($property->getDupMandat()){
+                    $refMandat = $property->getRefMandat().$property->getDupMandat();
+                }else{
+                    $refMandat = $property->getRefMandat();
+                }
+                $newFilename = 'av-m'.$refMandat.'-'.$date->format('dmY').'.'.$avenantPdf->guessExtension();
+                try {
+                    if (is_dir($pathdir)) {
+                        $avenantPdf->move(
+                            $this->getParameter('property_doc_directory') . "/" . $newref . "/documents/",
+                            $newFilename
+                        );
+                    } else {
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir . "/", 0775, true);
+                        // Déplacement de la photo
+                        $avenantPdf->move(
+                            $this->getParameter('property_doc_directory') . "/" . $newref . "/documents/",
+                            $newFilename
+                        );
+                    }
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                $avenant->setAvenantName($newFilename);
+                $em->flush();
+            }
         }
 
-        return $this->render('gestapp/property/avenant/edit.html.twig', [
+        $view = $this->render('gestapp/property/avenant/new.html.twig', [
             'avenant' => $avenant,
             'form' => $form,
         ]);
+
+        return  $this->json([
+            'code'=> 200,
+            'form' => $view->getContent(),
+        ], 200);
     }
 
     #[Route('/{id}', name: 'app_gestapp_property_avenant_delete', methods: ['POST'])]
