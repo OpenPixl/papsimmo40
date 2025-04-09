@@ -27,10 +27,12 @@ class CustomerType extends AbstractType
                 'choices'  => [
                     'Un particulier' => "particulier",
                     'Un professionnel' => 'professionnel',
+                    'Un dirigeant' => 'dirigeant',
                 ],
                 'choice_attr' => [
                     'Un particulier' => ['data-data' => 'particulier'],
                     'Un professionnel' => ['data-data' => 'professionnel'],
+                    'Un dirigeant' => ['data-data' => 'dirigeant'],
                 ],
             ])
             ->add('typeStructure', ChoiceType::class,[

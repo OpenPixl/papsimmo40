@@ -50,6 +50,10 @@ class CustomerRepository extends ServiceEntityRepository
             ->join('c.refEmployed', 'e')
             ->join('c.customerChoice', 'ch')
             ->select('
+                c.proAdress as proAdress,
+                c.proComplement as proComplement,
+                c.proZipcode as proZipcode,
+                c.proCity as proCity,
                 c.isFinished as isFinished,
                 c.NameStructure as NameStructure,
                 e.id as refEmployed,

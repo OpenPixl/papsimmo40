@@ -39,15 +39,25 @@
                 <td>{% if customer.isFinished == 0 %}<p class="mb-0 text-warning">En cours de création</p>{% else %}{{ customer.RefCustomer }}{% endif %}</td>
                 <td>
                     {% if customer.typeClient == "professionnel" %}
-                        <strong>{{ customer.NameStructure }}</strong>  <span class="badge rounded-pill bg-success text-dark">Pro</span>
+                        <p class="mb-0"><strong>{{ customer.NameStructure }}</strong>  <span class="badge rounded-pill bg-success text-dark">Pro</span><p>
+                    {% elseif customer.typeClient == "dirigeant" %}
+                        <p class="mb-0"><strong>{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-danger text-dark">Dir</span><p>
                     {% else %}
-                        <strong>{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-info text-dark">Par</span>
+                        <p class="mb-0"><strong>{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-info text-dark">Par</span>
+                        </p>
                     {% endif %}
                 </td>
-                <td>{% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}</td>
+                <td>
+                    {% if customer.typeClient == "professionnel" %}
+                        {% if customer.proAdress is not empty %}{{ customer.proAdress }}<br>{% endif %}{% if customer.proComplement is not empty %}{{ customer.proComplement }}<br>{% endif %}{{ customer.proZipcode }} {{ customer.proCity }}
+
+                    {% else %}
+                        {% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}
+                    {% endif %}
+                    </td>
 
                 <td>
-                    {% if customer.customerChoice == 'Prospect' %}<span class="badge rounded-pill bg-danger text-dark">{{ customer.customerChoice }}</span>{% elseif customer.customerChoice == 'Dirigeant' %}<span class="badge rounded-pill bg-info text-dark">{{ customer.customerChoice }}</span>{% else %}<span class="badge rounded-pill bg-success text-dark">{{ customer.customerChoice }}</span>{% endif %}
+                    {% if customer.customerChoice == 'Prospect' %}<span class="badge rounded-pill bg-danger text-dark">{{ customer.customerChoice }}</span>{% else %}<span class="badge rounded-pill bg-success text-dark">{{ customer.customerChoice }}</span>{% endif %}
                 </td>
                 <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d') : '' }}</td>
                 <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d') : '' }}</td>
