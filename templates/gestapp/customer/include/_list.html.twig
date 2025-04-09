@@ -47,7 +47,7 @@
                 <td>{% if customer.adress is not empty %}{{ customer.adress }}<br>{% endif %}{% if customer.complement is not empty %}{{ customer.complement }}<br>{% endif %}{{ customer.zipcode }} {{ customer.city }}</td>
 
                 <td>
-                    {% if customer.customerChoice == 'Prospect' %}<span class="badge rounded-pill bg-danger text-dark">{{ customer.customerChoice }}</span>{% else %}<span class="badge rounded-pill bg-success text-dark">{{ customer.customerChoice }}</span>{% endif %}
+                    {% if customer.customerChoice == 'Prospect' %}<span class="badge rounded-pill bg-danger text-dark">{{ customer.customerChoice }}</span>{% elseif customer.customerChoice == 'Dirigeant' %}<span class="badge rounded-pill bg-info text-dark">{{ customer.customerChoice }}</span>{% else %}<span class="badge rounded-pill bg-success text-dark">{{ customer.customerChoice }}</span>{% endif %}
                 </td>
                 <td>{{ customer.CreatedAt ? customer.CreatedAt|date('Y-m-d') : '' }}</td>
                 <td>{{ customer.updatedAt ? customer.updatedAt|date('Y-m-d') : '' }}</td>
