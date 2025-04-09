@@ -208,12 +208,6 @@ class Customer
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $typeStructure = null;
 
-    /**
-     * @var Collection<int, self>
-     */
-    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'customers')]
-    private Collection $responsables;
-
     #[ORM\Column(length: 14, nullable: true)]
     private ?string $deskStructure = null;
 
@@ -225,6 +219,18 @@ class Customer
 
     #[ORM\Column]
     private ?bool $isFinished = false;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, inversedBy: 'customers')]
+    private Collection $responsables;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'responsables')]
+    private Collection $customers;
 
     /**
      * Permet d'initialiser le slug !
@@ -769,30 +775,6 @@ class Customer
         return $this;
     }
 
-    /**
-     * @return Collection<int, self>
-     */
-    public function getResponsables(): Collection
-    {
-        return $this->responsables;
-    }
-
-    public function addResponsable(self $responsable): static
-    {
-        if (!$this->responsables->contains($responsable)) {
-            $this->responsables->add($responsable);
-        }
-
-        return $this;
-    }
-
-    public function removeResponsable(self $responsable): static
-    {
-        $this->responsables->removeElement($responsable);
-
-        return $this;
-    }
-
     public function getHomeStructure(): ?string
     {
         return $this->homeStructure;
@@ -849,6 +831,57 @@ class Customer
     public function setFinished(bool $isFinished): static
     {
         $this->isFinished = $isFinished;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getResponsables(): Collection
+    {
+        return $this->responsables;
+    }
+
+    public function addResponsable(self $responsable): static
+    {
+        if (!$this->responsables->contains($responsable)) {
+            $this->responsables->add($responsable);
+        }
+
+        return $this;
+    }
+
+    public function removeResponsable(self $responsable): static
+    {
+        $this->responsables->removeElement($responsable);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getCustomers(): Collection
+    {
+        return $this->customers;
+    }
+
+    public function addCustomer(self $customer): static
+    {
+        if (!$this->customers->contains($customer)) {
+            $this->customers->add($customer);
+            $customer->addResponsable($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCustomer(self $customer): static
+    {
+        if ($this->customers->removeElement($customer)) {
+            $customer->removeResponsable($this);
+        }
 
         return $this;
     }
