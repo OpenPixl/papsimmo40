@@ -47,12 +47,25 @@
                                     </p>
                                 </div>
                             </div>
+
                             <div class="row mb-1">
                                 <div class="col">
                                     <a id="addAvenant" href="{{ path('op_gestapp_property_avenant_new', {'idproperty':property.id}) }}" class="btn btn-sm btn-outline-dark w-100 openModal" data-bs-data="ADDAVENANT-Ajouter un Avenant sur le prix du bien-{{ property.id }}">Créer un avenant</a>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col">
+                                    <p class="mb-0 text-center">
+                                    {% for avenant in avenants %}
+                                        <a href="{{ path('op_gestapp_property_avenant_edit', {'id': avenant.id}) }}" class="openModal" data-bs-data="EDITAVENANT-Ajout d'un PDF sur l'avenant-{{ avenant.id }}"><span class="badge rounded-pill text-bg-dark">{{ loop.index }}</span>&nbsp;Avenant du {{ avenant.dateAvenant|format_datetime('short', 'none', locale='fr') }}</a> {% if loop.last %}{% else %} | {% endif %}
+                                    {% else %}
+                                        <small>Vous n'avez pas généré d'avenant</small>
+                                    {% endfor %}
+                                    </p>
+                                </div>
+                            </div>
                             <hr>
+
                             <div class="row mb-1">
                                 <div class="col-5">
                                     <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
@@ -77,16 +90,6 @@
                                     {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
                                 </div>
                             </div>
-                            {% if property.family.id == 8 %}
-                            <div class="row mb-1 d-none" id="warrantyDeposit">
-                                <div class="col-5">
-                                    <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
-                                </div>
-                                <div class="col-7">
-                                    {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
-                            </div>
-                            {% endif %}
                         {% endif %}
                     </div>
                 </div>
@@ -132,14 +135,23 @@
                             </div>
                         </div>
                         {% if property.family.id == 5 %}
-                        <div class="row mb-1" id="warrantyDeposit">
-                            <div class="col-5">
-                                <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                            <div class="row mb-1" id="warrantyDeposit">
+                                <div class="col-5">
+                                    <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                </div>
+                                <div class="col-7">
+                                    {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
                             </div>
-                            <div class="col-7">
-                                {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                        {% else %}
+                            <div class="row mb-1 d-none" id="warrantyDeposit">
+                                <div class="col-5">
+                                    <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                </div>
+                                <div class="col-7">
+                                    {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
                             </div>
-                        </div>
                         {% endif %}
                         <div class="row mb-1">
                             <div class="col-6">
@@ -224,18 +236,18 @@
                             </div>
                         </div>
                         {% if property.family.id == 4 and property.rubric.id == 8 %}
-                        <div class="row mb-1" id="warrantyDepositCommerce">
-                            <div class="col-6 bg-light">
-                                <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
-                            </div>
-                            <div class="col-4 bg-light d-flex align-items-center">
-                                <div class="input-group input-group-sm">
-                                    {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                    <span class="input-group-text">€</span>
+                            <div class="row mb-1" id="warrantyDepositCommerce">
+                                <div class="col-6 bg-light">
+                                    <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
                                 </div>
+                                <div class="col-4 bg-light d-flex align-items-center">
+                                    <div class="input-group input-group-sm">
+                                        {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        <span class="input-group-text">€</span>
+                                    </div>
+                                </div>
+                                <div class="col-2 bg-light"></div>
                             </div>
-                            <div class="col-2 bg-light"></div>
-                        </div>
                         {% endif %}
                         <div class="row mb-1">
                             <div class="col-6">

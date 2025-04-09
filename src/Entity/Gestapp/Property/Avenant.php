@@ -49,6 +49,9 @@ class Avenant
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $avenantExt = null;
 
+    #[ORM\Column(length: 100)]
+    private ?string $pathDir = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -186,6 +189,18 @@ class Avenant
     public function setAvenantExt(?string $avenantExt): static
     {
         $this->avenantExt = $avenantExt;
+
+        return $this;
+    }
+
+    public function getPathDir(): ?string
+    {
+        return $this->pathDir;
+    }
+
+    public function setPathDir(string $pathDir): static
+    {
+        $this->pathDir = $pathDir;
 
         return $this;
     }
