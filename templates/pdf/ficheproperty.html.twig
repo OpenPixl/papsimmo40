@@ -294,6 +294,12 @@
                                 <th class="col-3 head-second">Balcon : </th>
                                 <td>{% if property.balcony is not empty%}{{property.balcony}}{% else %}non communiqué{% endif %}</td>
                             </tr>
+                            {% if property.otherPieces %}
+                                <tr>
+                                    <td>Autres pièces</td>
+                                    <td><span class="color">{{property.otherPieces}}</span></td>
+                                </tr>
+                            {% endif %}
                         </table>
                     </div>
                     <div class="col-12">

@@ -643,6 +643,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->leftJoin('p.rubric', 'pr')
             ->leftJoin('c.denomination', 'd')
             ->addSelect('
+                c.otherPieces as otherPieces,
                 v.videoName as videoName,
                 v.path as videoPath,
                 p.qrcode_url as qrcodeUrl,

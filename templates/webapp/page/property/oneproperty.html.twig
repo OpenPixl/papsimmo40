@@ -295,8 +295,14 @@
                                             {% endif %}
                                             {% if property.terrace >0 %}
                                                 <tr>
-                                                    <td>terrasse</td>
+                                                    <td>Terrasse</td>
                                                     <td><span class="color">{{property.terrace}}</span></td>
+                                                </tr>
+                                            {% endif %}
+                                            {% if property.otherPieces %}
+                                                <tr>
+                                                    <td>Autres pièces</td>
+                                                    <td><span class="color">{{property.otherPieces}}</span></td>
                                                 </tr>
                                             {% endif %}
                                         </table>
