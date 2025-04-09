@@ -34,6 +34,9 @@
             <div class="col-sm-12">
                 {{ include('gestapp/customer/_form.html.twig', {'button_label': 'Mettre à jour la fiche du client'}) }}
             </div>
+            {% for resp in customer.customers %}
+                {{ dump(resp) }}
+            {% endfor %}
         </div>
     </div>
 </section>

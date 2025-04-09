@@ -418,7 +418,7 @@ class CustomerController extends AbstractController
             $customerRepository->add($customer_resp);
             // incrémentation du repsonsable dans la fiche société
             $customer->addResponsable($customer_resp);
-            $customer->setFinished(true);
+            $customer->setFinished(1);
             $em->flush();
 
             return $this->json([

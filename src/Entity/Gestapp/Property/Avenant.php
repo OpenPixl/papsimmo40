@@ -49,7 +49,7 @@ class Avenant
     #[ORM\Column(length: 5, nullable: true)]
     private ?string $avenantExt = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 100, nullable: true)]
     private ?string $pathDir = null;
 
     public function getId(): ?int
