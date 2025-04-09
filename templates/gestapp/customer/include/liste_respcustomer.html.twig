@@ -11,7 +11,7 @@
         {% for c in customer.responsables %}
             <tr class="align-middle" style="border-top: 1px solid #ffffff; 	border-bottom: 1px solid #ffffff; border-left: 4px solid #900C3F ">
                 <td class="col-2">
-                    <p class="mb-0"><a href="{{ path('op_gestapp_customer_show', {'id':c.id}) }}">{% if c.civility == 1 %}M.{% else %}Mme{% endif %} {{ c.firstName }} {{ c.lastName }}</a></p>
+                    <p class="mb-0"><a href="{{ path('op_gestapp_customer_edit', {'id':c.id}) }}">{% if c.civility == 1 %}M.{% else %}Mme{% endif %} {{ c.firstName }} {{ c.lastName }}</a></p>
                 </td>
                 <td class="col-2">
                 </td>
