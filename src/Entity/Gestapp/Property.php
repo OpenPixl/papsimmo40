@@ -378,7 +378,7 @@ class Property
     /**
      * @var Collection<int, Avenant>
      */
-    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Avenant::class)]
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: Avenant::class, cascade: ['persist', 'remove'])]
     private Collection $avenants;
 
     /**

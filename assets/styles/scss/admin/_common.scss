@@ -52,15 +52,25 @@ footer{
 a {
   color: $primary-color;
   font-size: 0.8rem;
-  text-decoration: none;
-  font-weight: bold;
 }
-a:hover {
-  color: $secondary-color;
-  font-size: 0.8rem;
-  text-decoration: none;
-  font-weight: bold;
+
+#content_main{
+  p{
+    a {
+      color: $primary-color;
+      font-size: 0.8rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+    a:hover {
+      color: $secondary-color;
+      font-size: 0.8rem;
+      text-decoration: none;
+      font-weight: bold;
+    }
+  }
 }
+
 
 .ck {
   p{

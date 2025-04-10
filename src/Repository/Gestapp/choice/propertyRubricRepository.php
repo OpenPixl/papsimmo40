@@ -63,6 +63,31 @@ class propertyRubricRepository extends ServiceEntityRepository
             ;
     }
 
+    public function firstbyfamily($family)
+    {
+        return $this->createQueryBuilder('r')
+            ->leftjoin('r.propertyFamily', 'f')
+            ->select('r.id AS id, r.name AS name')
+            ->andWhere('f.id = :family')
+            ->setParameter('family', $family)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult();
+    }
+
+    public function firstbyfamily2($family): array
+    {
+        return $this->createQueryBuilder('r')
+            ->leftjoin('r.propertyFamily', 'f')
+            ->select('r.id AS id, r.name AS name')
+            ->andWhere('f.id = :family')
+            ->setParameter('family', $family)
+            ->setMaxResults(1)
+            ->getQuery()
+            ->getOneOrNullResult()
+            ;
+    }
+
 //    /**
 //     * @return propertyRubric[] Returns an array of propertyRubric objects
 //     */

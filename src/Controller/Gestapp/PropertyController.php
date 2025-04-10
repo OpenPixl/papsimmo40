@@ -544,8 +544,10 @@ class PropertyController extends AbstractController
             }
 
             $family = $familyRepository->find(substr($destination, 0,-1));
-            $rubric = $rubricRepository->find(substr($destination, -1,1));
-            $rubricss = $rubricssRepository->find(69);       // Création de l'entité Property
+            $data = $rubricRepository->firstbyfamily($family);
+            $rubric =  $rubricRepository->find($data['id']);
+            $data= $rubricssRepository->firstbyrubric($rubric);       // Création de l'entité Property
+            $rubricss = $rubricssRepository->find($data['id']);
 
             $property = $propertyService->add_NewProperty($employed, $family, $rubric, $rubricss, $lastproperty, $refNumDate, $isNomandat, $RefMandat, $typeMandat);
 
