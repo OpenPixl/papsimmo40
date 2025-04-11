@@ -39,7 +39,7 @@ class PdfController extends AbstractController
     {
         $this->twig = $twig;
         $this->pdf = $pdf;
-        $this->html = true;
+        $this->html = false;
         $this->sanitizer = $sanitizer;
     }
 
@@ -66,7 +66,6 @@ class PdfController extends AbstractController
         $otheroptions = $options->getPropertyOtheroption();
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
-
         if($this->html == 1){
             return $this->render(
                 'pdf/ficheproperty.html.twig', array(
@@ -78,7 +77,6 @@ class PdfController extends AbstractController
                 'photos' => $photos
             ));
         }else{
-
             $html = $this->twig->render('pdf/ficheproperty.html.twig', array(
                 'property'  => $oneproperty,
                 'equipments' => $equipments,
@@ -86,7 +84,6 @@ class PdfController extends AbstractController
                 'application' =>$application,
                 'firstphoto' => $firstphoto,
                 'photos' => $photos,
-
             ));
 
             return new PdfResponse(
@@ -117,7 +114,7 @@ class PdfController extends AbstractController
             return $this->render(
                 'pdf/fichepropertypaysage2.html.twig', array(
                 'property'  => $oneproperty,
-                'annonce' => $annonce,
+                'annonce' => $property->getAnnonce(),
                 'equipments' => $equipments,
                 'otheroptions' => $otheroptions,
                 'application' =>$application,

@@ -367,7 +367,9 @@
                                                             {% endif %}
                                                         </td>
                                                     </tr>
-                                                {% endif %}{% endfor %}{% endif %}
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
                                     </table>
                                 </div>
                             </div>
@@ -381,6 +383,8 @@
                 <h4>Bilan énergétique</h4>
                 <div class="col-12 col-lg-4">
                     <h5>Consommation énergétique</h5>
+                    {% set ges = 0 %}
+                    {% set dpe = 0 %}
                     {% if property.diagGes > 0  %}
                         {% if property.diagGes > 0 and property.diagGes <= 5 %}
                             {% set ges = 'A'%}

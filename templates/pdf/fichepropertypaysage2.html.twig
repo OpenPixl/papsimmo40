@@ -69,6 +69,8 @@
                         <div id="DiagnosticCard">
                             <div id="DiagnosticCard-diag" class="row mt-0 mb-3 p-2">
                                 <div class="col-6" style="display:flex;justify-content: space-around;align-items: center;">
+                                    {% set ges = 0 %}
+                                    {% set dpe = 0 %}
                                     {% if property.diagGes > 0  %}
                                         {% if property.diagGes > 0 and property.diagGes <= 5 %}
                                             {% set ges = 'A'%}
@@ -191,19 +193,9 @@
                         {% endfor %}
                         <div class="annonce_content">
                             <h5 class="title-h2">{{ nouveau_texte|raw }}</h5>
-                            {% set contenuModifie = annonce|replace({'<p>': '\n', '</p>': ''}) %}
-                            {% set lignes = contenuModifie|split('\n')|reduce((carry, line) => carry|merge(line|split('<br />')), []) %}
-                            {% if lignes|length > 18 %}
-                                {% for ligne in lignes[:16] %}
-                                    {{ ligne|markdown_to_html }}
-                                {% endfor %}
-                                Découvrez plus en scannant le QRCode
-                                {{ lignes[17] }}
-                            {% else %}
-                                {% for ligne in lignes %}
-                                    {{ ligne|markdown_to_html }}
-                                {% endfor %}
-                            {% endif %}
+                            <div class="limited-p">
+                                {{ property.annonce|markdown_to_html }}
+                            </div>
                         </div>
                         {% if property.annonceDown is not null %}
                             <div class="annonce_down">
