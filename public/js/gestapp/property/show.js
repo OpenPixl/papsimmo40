@@ -462,7 +462,7 @@ function initializeNavLinks() {
 
 // Fonction pour initialiser TinyMCE
 function initializeTinyMCE() {
-    const maxChars = 1600;
+    const maxChars = 1500;
     tinymce.remove(); // Supprime les instances existantes
     tinymce.init({
         selector: 'textarea.tinymce',
