@@ -21,7 +21,6 @@ function openModalXL(event){
     let a = event.currentTarget;
     let recipient = a.getAttribute('data-bs-data');
     let url = a.href;
-    console.log(url);
     let [crud, contentTitle, id] = recipient.split('-');
     modalBs.show();
     modal.querySelector('.modal-title').textContent = contentTitle;

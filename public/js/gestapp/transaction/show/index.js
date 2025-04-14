@@ -76,6 +76,21 @@ if(btnEditInvoicePdf !== null){btnEditInvoicePdf.addEventListener('click', editI
 if(btnDocumentPdfError !== null){btnDocumentPdfError.addEventListener('click', errorDocument);}
 if(btnHonorairePdf !== null){btnHonorairePdf.addEventListener('click', submitHonoraires);}
 
+// PARTIE Codepostal sur création & modification du client
+// ---------------------------------------
+let commune2 = document.getElementById('customer_city');
+let zipcode2 = document.getElementById('customer_zipcode');
+let SelectCity2 = document.getElementById('customer_selectcity');
+let cp = '';
+let ville = '';
+if(zipcode2 !== null) {
+    zipcode2.addEventListener('input', function(event){
+        zipcode_api(zipcode2, commune2, SelectCity2);
+    });
+    SelectCity2.addEventListener('change', function (event){
+        change_selectcity(SelectCity2);
+    });
+}
 
 function removeOptions(selectElement) {
     var i, L = selectElement.options.length - 1;
@@ -84,49 +99,39 @@ function removeOptions(selectElement) {
     }
 }
 
-// PARTIE Codepostal sur création & modification du client
-// ---------------------------------------
-let commune2 = document.getElementById('customer2_city');
-let zipcode2 = document.getElementById('customer2_zipcode');
-let SelectCity2 = document.getElementById('selectcity2');
-let addresseInput = document.getElementById('customer2_adress');
-let cp = '';
-let ville = '';
-if(zipcode2 !== null) {
-    zipcode2.addEventListener('input', zipcodeGen);
-    SelectCity2.addEventListener('change', function (event){
-        let value = this.value.split(' ');
-        zipcode2.value = value[0];
-        commune2.value = value[2].toUpperCase();
-    });
-}
-
-function zipcodeGen(event){
-    if (zipcode2.value.length === 5) {
-        let coord = this.value;
+function zipcode_api(zipcode, commune, select_city){
+    if(zipcode.value.length === 5)
+    {
+        let coord = zipcode.value;
         axios
-            .get('https://apicarto.ign.fr/api/codes-postaux/communes/' + coord)
-            .then(function (response) {
+            .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
+            .then(function(response){
                 let features = response.data;
-                removeOptions(SelectCity2);
+                removeOptions(select_city);
                 features.forEach((element) => {
-                    cp = element['codePostal'];
-                    ville = element['nomCommune'];
-                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
-                    SelectCity2.options.add(OptSelectCity);
+                    let name = element['codePostal']+" - "+element['nomCommune'];
+                    let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
+                    select_city.options.add(OptSelectCity);
                 });
-                if (SelectCity2.options.length === 1) {
-                    let value = SelectCity2.value.split(' ');
-                    zipcode2.value = cp;
-                    commune2.value = ville.toUpperCase();
-                } else {
-                    let value = SelectCity.value.split(' ');
-                    zipcode2.value = cp;
-                    commune2.value = ville.toUpperCase();
+                if (select_city.options.length === 1){
+                    let value = select_city.value.split(' ');
+                    zipcode.value = value[0];
+                    commune.value = value[2].toUpperCase();
+                }else{
+                    let value = select_city.value.split(' ');
+                    zipcode.value = value[0];
+                    commune.value = value[2].toUpperCase();
                 }
             });
     }
 }
+
+function change_selectcity(selectCity){
+    let value = selectCity.value.split(' ');
+    zipcode.value = value[0];
+    commune.value = value[2].toUpperCase();
+}
+
 
 function tomSelect(selectId){
     new TomSelect(selectId,{
@@ -186,7 +191,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
                 // -- visuel sur le nom de jeune fille --
-                let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
+                let valcivility = document.querySelector('input[name=customer\\[civility\\]]:checked').value;
                 if (valcivility > 1){
                     document.getElementById('customer2_maidenName').classList.remove('d-none');
                 }
@@ -267,7 +272,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
                 // -- visuel sur le nom de jeune fille --
-                let valcivility = document.querySelector('input[name=customer2\\[civility\\]]:checked').value;
+                let valcivility = document.querySelector('input[name=customer\\[civility\\]]:checked').value;
                 if (valcivility > 1){
                     document.getElementById('customer2_maidenName').classList.remove('d-none');
                 }

@@ -5,7 +5,7 @@ namespace App\Controller\Gestapp;
 use App\Entity\Admin\Application;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Transaction;
-use App\Form\Gestapp\Customer2Type;
+use App\Form\Gestapp\CustomerType;
 use App\Form\Gestapp\TransactionActedateType;
 use App\Form\Gestapp\TransactionActepdfType;
 use App\Form\Gestapp\TransactionHonorairesType;
@@ -2035,7 +2035,7 @@ class TransactionController extends AbstractController
         $transac = $transactionRepository->find($option);
         $customer = new Customer();
 
-        $form = $this->createForm(Customer2Type::class, $customer, [
+        $form = $this->createForm(CustomerType::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_transaction_addcustomerjson', [
                 'id'=> $customer->getId(),
                 'type' => $type,
@@ -2149,7 +2149,7 @@ class TransactionController extends AbstractController
     {
         $transac = $transactionRepository->find($option);
         $idproperty = $transac->getProperty()->getId();
-        $form = $this->createForm(Customer2Type::class, $customer, [
+        $form = $this->createForm(CustomerType::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
                 'id'=> $customer->getId(),
                 'type' => $type,

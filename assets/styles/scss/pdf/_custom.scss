@@ -10,7 +10,7 @@
 .limited-p {
   width: 100%; /* Largeur de la div */
   line-height: 1.3em; /* Hauteur de ligne */
-  height: 22.1em; /* Hauteur pour 3 lignes (1.5em * 3) */
+  height: 100%; /* Hauteur pour 3 lignes (1.5em * 3) */
   overflow: hidden; /* Cache le contenu débordant */
   text-overflow: ellipsis; /* Ajoute des points de suspension */
   display: -webkit-box;
