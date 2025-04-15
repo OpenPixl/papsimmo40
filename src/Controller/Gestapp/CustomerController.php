@@ -759,7 +759,7 @@ class CustomerController extends AbstractController
 
         return $this->json([
             'code'=> 200,
-            'message' => "Le vendeurs a été correctement retiré de ce bien.",
+            'message' => "Le vendeur a été correctement retiré de ce bien.",
             'liste' => $this->renderView('gestapp/customer/include/_listecustomers.html.twig', [
                 'customers' => $customers,
                 'idproperty' => $idproperty,
@@ -782,7 +782,23 @@ class CustomerController extends AbstractController
                 'customer' => $fiche,
             ])
         ], 200);
+    }
 
+    #[Route('/{id}/delontransaction', name: 'op_gestapp_customer_delontransaction', methods: ['POST'])]
+    public function delOnTransaction(Customer $customer, CustomerRepository $customerRepository, EntityManagerInterface $em)
+    {
+        $transactions = $customer->getTransactions();
+        if($transactions){
+            foreach ($transactions as $transaction){
+                $transaction->removeCustomer($customer);
+            }
+        }
+        $customerRepository->remove($customer);
+
+        return $this->json([
+            'code' => 200,
+            'message' => "L'acheteur a été retiré de ce dossier d'affaire.",
+        ], 200);
     }
 
 }

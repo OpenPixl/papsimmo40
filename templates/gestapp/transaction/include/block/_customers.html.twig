@@ -5,7 +5,7 @@
     {% set customers = transaction.customer %}
 {% endif %}
 {% for customer in customers %}
-    <div class="alert alert-light mb-1">
+    <div class="alert alert-light mb-1 p-2">
         <div class="d-flex justify-content-between">
             <div>
                 <p class="mb-0">{{ loop.index }} | {% if customer.civility ==2 %}Mme. {% else %}M. {% endif %}{{ customer.firstname }} {{ customer.lastName }} |
@@ -36,7 +36,7 @@
         </div>
     </div>
 {% else %}
-    <div class="alert alert-light mb-1">
-        <p>Aucun {% if type == 1 %}vendeur{% elseif type == 2 %}acheteur{% endif %} n'est lié à cette vente.</p>
+    <div class="alert alert-light mb-1 p-2">
+        <p class="mb-0">Aucun {% if type == 1 %}vendeur{% elseif type == 2 %}acheteur{% endif %} n'est lié à cette vente.</p>
     </div>
 {% endfor %}

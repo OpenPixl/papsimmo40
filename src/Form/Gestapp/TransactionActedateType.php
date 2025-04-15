@@ -19,7 +19,7 @@ class TransactionActedateType extends AbstractType
     {
         $builder
             ->add('dateAtSale', DateType::class, [
-                'label' => 'Inscrivez la date signature de promesse de vente',
+                'label' => 'Inscrivez la date signature de l\'acte de vente' ,
                 'widget' => 'single_text',
                 'format' => 'dd/MM/yyyy',
                 // prevents rendering it as type="date", to avoid HTML5 date pickers

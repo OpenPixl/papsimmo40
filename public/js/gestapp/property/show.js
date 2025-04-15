@@ -7,6 +7,13 @@ const modalBs = new bootstrap.Modal(document.getElementById('modal'));
 
 // comportement à adopter à la fermeture de la modal des customers
 modal.addEventListener('hidden.bs.modal', event => {
+    let form = modalCustomer.querySelector('#formCustomer_add');
+    let btnSubmit = modalCustomer.querySelector('.modal-footer #btnSubmitCustomer');
+    console.log(form);
+    if(form && !btnSubmit){
+        let idCustomer = document.getElementById('idCustomer').value;
+        //axios.post('/gestapp/customer/'+ idCustomer +'/delontransaction');
+    }
     modal.querySelector('.modal-dialog').classList.remove('modal-lg');
     modal.querySelector('.modal-body').innerHTML =
         "<div class=\"d-flex justify-content-center\">\n" +

@@ -165,6 +165,22 @@ class TransactionController extends AbstractController
         ]);
     }
 
+    #[Route('/2/{id}/show', name: 'op_gestapp_transaction_show', methods: ['GET'])]
+    public function show(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
+    {
+        $property = $transaction->getProperty();
+        $customers = $transaction->getCustomer();
+        $photo = $photoRepository->firstphoto($property->getId());
+
+        return $this->render('gestapp/transaction/show.html.twig', [
+        'transaction' => $transaction,
+        'property' => $property,
+        'customers' => $customers,
+        'photo' => $photo
+    ]);
+    }
+
+
     #[Route('/2/{id}', name: 'op_gestapp_transaction_show2', methods: ['GET'])]
     public function show2(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
     {
@@ -2025,6 +2041,7 @@ class TransactionController extends AbstractController
         PropertyRepository $propertyRepository,
         TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
+        EntityManagerInterface $em,
         $type,
         $option,
         $roleEditor
@@ -2034,15 +2051,24 @@ class TransactionController extends AbstractController
         $employed = $employedRepository->find($user);
         $transac = $transactionRepository->find($option);
         $customer = new Customer();
+        $customer->setRefEmployed($employed);
+        $customer->setCustomerChoice($customerChoiceRepository->find(1));
+        $customer->setTypeClient('particulier');
+        $customer->addTransaction($transac);
+        $em->persist($customer);
+        $em->flush();
 
         $form = $this->createForm(CustomerType::class, $customer, [
-            'action'=> $this->generateUrl('op_gestapp_transaction_addcustomerjson', [
+            'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
                 'id'=> $customer->getId(),
                 'type' => $type,
                 'option' => $option,
                 'roleEditor' => $roleEditor
             ]),
-            'method'=>'POST'
+            'method'=>'POST',
+            'attr' => [
+                'id' => 'formCustomer_add'
+            ]
         ]);
         $form->handleRequest($request);
 
@@ -2156,7 +2182,10 @@ class TransactionController extends AbstractController
                 'option' => $option,
                 'roleEditor' => $roleEditor
             ]),
-            'method'=>'POST'
+            'method'=>'POST',
+            'attr' => [
+                'id' => 'formCustomer_edit'
+            ]
         ]);
         $form->handleRequest($request);
 

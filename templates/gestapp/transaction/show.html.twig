@@ -1,0 +1,56 @@
+{% extends 'admin.html.twig' %}
+
+{% block javascripts %}
+    {{ parent() }}
+    <script type="module" src="{{ asset('js/gestapp/transaction/show/index.js') }}"></script>
+{% endblock %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
+    </ol>
+{% endblock %}
+
+{% block contentTitle %}
+    <div class="row d-flex justify-content-between">
+    <div class="col-sm-12">
+        <h1 class="fs-3">TRANSACTION - Ref : {{ transaction.name }}</h1>
+        <input id="valueProperty" type="hidden" value="{{ transaction.id }}">
+    </div>
+    </div>
+{% endblock %}
+
+{% block content %}
+<div class="row mb-5 align-items-top">
+    <div class="col-3">
+        <div class="card border-dark">
+            {% if photo is not null %}
+                <img class="card-img-top" src="{{ asset('properties/' ~ photo.path) ~ '/' ~ photo.galeryFrontName }}" alt="">
+            {% else %}
+                <img class="card-img-top" src="{{ asset('images/jpeg/mod_maison.jpg') }}" alt="">
+            {% endif %}
+            <div class="card-body p-2">
+                <h5 class="card-title">{{ transaction.property.name }}</h5>
+                <p class="card-text">
+                    Bien sous mandat numéro : <b>{{ transaction.property.refMandat }}{% if transaction.property.dupMandat %}{{ transaction.property.dupMandat }}{% endif %}</b>
+                    <br>
+                    {% if transaction.refEmployed.id == app.user.id %}
+                        Porté par : <b>Moi même</b>
+                    {% else %}
+                        Porté par : <b>{% if transaction.refEmployed.civility == 2 %}Mme {% else %}M. {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}</b>
+                    {% endif %}
+                </p>
+                <div class="progress" role="progressbar" aria-label="Default striped example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
+                    <div class="progress-bar progress-bar-striped" style="width: 10%"></div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="col-9">
+
+    </div>
+</div>
+{% endblock %}
+
+{% block contentFooter %}{% endblock %}

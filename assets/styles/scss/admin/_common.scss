@@ -20,11 +20,6 @@ $width-content-large: calc(100% - 12rem);
 main{
   margin-top: 66px;
   #content{
-
-    .scrollable-block {
-      height: 600px;
-      overflow-y: scroll; /* Ajoute une scrollbar verticale */
-    }
     #listeIncreating{
       .card{
         .card-body{
@@ -359,6 +354,10 @@ ol, ul, dl {
     height: 800px;
     grid-template-rows: auto auto 1fr auto ;
     display: grid;
+    #content_main{
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
   }
   #listephoto{
     .card-img-overlay {

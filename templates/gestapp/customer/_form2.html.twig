@@ -32,7 +32,7 @@
                             {{ form_label(form.isArchived, '', {'label_attr': {'class':'d-none'}}) }}
                             {{ form_widget(form.isArchived, {'attr': {'class': 'd-none'}}) }}
                         {% endif %}
-
+                        <input id="idCustomer" type="hidden" value="{{ customer.id }}">
                     </div>
                 </div>
 
