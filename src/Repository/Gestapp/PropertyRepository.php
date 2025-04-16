@@ -1094,6 +1094,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->where('pu.isPublishParven = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
+        $query->orderBy('p.RefMandat', "desc");
         $query->select('
                 f.code as familyCode,
                 ru.code as rubricCode,
@@ -1166,17 +1167,18 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.refEmployed', 'e');
         $query->leftjoin('p.options', 'c');                     // p.options correspond à la table "Complement" d'où l'alias "c"
         $query->leftjoin('c.denomination', 'd');
-        $query->leftjoin('p.propertyDefinition', 'pd');
+        //$query->leftjoin('p.propertyDefinition', 'pd');
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.energies', 'pe');
+        //$query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
         $query->where('pu.isPublishMeilleur = 1 OR pu.isPublishleboncoin = 1 OR pu.isPublishBienici = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
+        $query->orderBy('p.RefMandat', "desc");
         $query->select('
                 f.code as familyCode,
                 f.name as family,
@@ -1194,14 +1196,10 @@ class PropertyRepository extends ServiceEntityRepository
                 p.diagChoice AS diagChoice,                
                 c.coproprietyTaxe as chargeCopro,
                 c.coproperty as copro,
-                pe.name AS energy,
-                pe.slCode AS slCode,
                 c.disponibilityAt as disponibilityAt,
                 po.name AS orientation,
                 p.mandatAt as mandatAt,
                 p.isArchived as isArchived,
-                pd.code as propertyCode,
-                pd.name as propertyDefinition,
                 ss.code as ssCategory,
                 c.id AS idComplement,
                 c.bathroom as bathroom,
@@ -1256,7 +1254,6 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1278,8 +1275,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.diagChoice AS diagChoice,                
                 c.coproprietyTaxe as chargeCopro,
                 c.coproperty as copro,
-                pe.name AS energy,
-                pe.slCode AS slCode,
                 c.disponibilityAt as disponibilityAt,
                 po.name AS orientation,
                 p.mandatAt as mandatAt,
@@ -1340,7 +1335,6 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1362,8 +1356,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.diagChoice AS diagChoice,                
                 c.coproprietyTaxe as chargeCopro,
                 c.coproperty as copro,
-                pe.name AS energy,
-                pe.slCode AS slCode,
                 c.disponibilityAt as disponibilityAt,
                 po.name AS orientation,
                 p.mandatAt as mandatAt,
@@ -1424,7 +1416,6 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1447,8 +1438,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.diagChoice AS diagChoice,                
                 c.coproprietyTaxe as chargeCopro,
                 c.coproperty as copro,
-                pe.name AS energy,
-                pe.slCode AS slCode,
                 c.disponibilityAt as disponibilityAt,
                 po.name AS orientation,
                 p.mandatAt as mandatAt,
@@ -1510,7 +1499,6 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
@@ -1541,8 +1529,6 @@ class PropertyRepository extends ServiceEntityRepository
                 p.diagChoice AS diagChoice,                
                 c.coproprietyTaxe as chargeCopro,
                 c.coproperty as copro,
-                pe.name AS energy,
-                pe.slCode AS slCode,
                 c.disponibilityAt as disponibilityAt,
                 po.name AS orientation,
                 p.mandatAt as mandatAt,
@@ -1603,7 +1589,6 @@ class PropertyRepository extends ServiceEntityRepository
         $query->join('p.publication', 'pu');
         $query->leftjoin('p.sscategory', 'ss');
         $query->leftjoin('c.propertyOrientation', 'po');
-        $query->leftjoin('c.energies', 'pe');
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');

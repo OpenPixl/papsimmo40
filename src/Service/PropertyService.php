@@ -328,6 +328,12 @@ class PropertyService
         return $bilanGes;
     }
 
+    public function getEnergies(Property $property){
+        $energiesArray = $property->getOptions()->getEnergies()->toArray();
+        $energies = implode(" - ", $energiesArray);
+        return $energies;
+    }
+
     // Archivage des biens en expiration de mandat
     public function expireAtOut(Property $property, PublicationRepository $publicationRepository, EntityManagerInterface $em)
     {
@@ -621,7 +627,7 @@ class PropertyService
     }
 
     // Génération des lignes du tableau au format POLIRIS 4.11
-    public function arrayRow(Property $propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version){
+    public function arrayRow(Property $propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version){
         $data = array(
             1 => '"' . $infos['refDossier'] . '"',                                  // 1 - Identifiant Agence
             2 => '"' . $property['ref'] . '"',                                      // 2 - Référence agence du bien
@@ -655,7 +661,7 @@ class PropertyService
             30 => '"' . $property['sanitation'] . '"',                              // 30 - NB de salles d’eau
             31 => '"' . $property['wc'] . '"',                                      // 31 - NB de WC
             32 => '"0"',                                                            // 32 - WC séparés
-            33 => '"' . $property['slCode'] . '"',                                  // 33 - Type de chauffage
+            33 => '"' . $energies . '"',                                            // 33 - Type de chauffage
             34 => '""',                                                             // 34 - Type de cuisine
             35 => '"' . $infos['sud'] . '"',                                        // 35 - Orientation sud
             36 => '"' . $infos['est'] . '"',                                        // 36 - Orientation est

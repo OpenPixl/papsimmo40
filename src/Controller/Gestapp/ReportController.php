@@ -30,6 +30,8 @@ class ReportController extends AbstractController
     {
         $properties = $propertyRepository->reportpropertycsv();
 
+        //dd($properties);
+
         $app = $this->container->get('router')->getContext()->getHost();
 
         $rows = array();
@@ -229,16 +231,14 @@ class ReportController extends AbstractController
     ): Response
     {
         $properties = $propertyRepository->reportpropertycsv2();
-        //dd($properties);
-
         $app = $this->container->get('router')->getContext()->getHost();
-        //dd($properties);
 
         $rows = array();
         foreach ($properties as $property) {
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $propertyService->getDestination($propriete);
+            $energies = $propertyService->getEnergies($propriete);
             // Description de l'annonce
             $data = str_replace(array("\n", "\r"), array('', ''), html_entity_decode($property['annonce']));
             $annonce = strip_tags($data, '<br>');
@@ -409,7 +409,7 @@ class ReportController extends AbstractController
                 '"' . $property['sanitation'] . '"',                            // 30 - NB de salles d’eau
                 '"' . $property['wc'] . '"',                                    // 31 - NB de WC
                 '"0"',                                                          // 32 - WC séparés
-                '"' . $property['slCode'] . '"',                                // 33 - Type de chauffage
+                '"' . $energies . '"',                                          // 33 - Type de chauffage
                 '""',                                                           // 34 - Type de cuisine
                 '"' . $sud . '"',                                               // 35 - Orientation sud
                 '"' . $est . '"',                                               // 36 - Orientation est
@@ -715,8 +715,6 @@ class ReportController extends AbstractController
         }
 
         $content = implode("\n", $rows);
-
-        //dd($rows);
 
         $response = new Response($content);
         $response->headers->set('Content-Type', 'text/csv');

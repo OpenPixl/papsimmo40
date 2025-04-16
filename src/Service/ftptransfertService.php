@@ -164,6 +164,7 @@ class ftptransfertService
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
             // Description de l'annonce
             $annonce = $this->propertyService->getAnnonce($propriete);
             //dd($annonce);
@@ -223,7 +224,7 @@ class ftptransfertService
             }
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
@@ -475,7 +476,7 @@ class ftptransfertService
                 $bilanDpe = $bilanGes;
             }
 
-            //dd($property['rubric_en']);
+            $energies = $this->propertyService->getEnergies($propriete);
 
             $xml = [
                 'equipments' => $equipment ,
@@ -507,7 +508,7 @@ class ftptransfertService
                 'balcony' => $options->getBalcony(),
                 'level' => $options->getLevel(),
                 'isFurnished' => $options->getIsFurnished(),
-                'heating' => $options->getEnergies(),
+                'heating' => $energies,
                 'pics' => $pics,
                 'charge' => $charge
             ];
@@ -545,6 +546,7 @@ class ftptransfertService
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
             // Description de l'annonce
             $annonce = $this->propertyService->getAnnonce($propriete);
             //dd($annonce);
@@ -605,7 +607,7 @@ class ftptransfertService
             }
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
@@ -647,6 +649,7 @@ class ftptransfertService
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
             // Description de l'annonce
             $annonce = $this->propertyService->getAnnonce($propriete);
             //dd($annonce);
@@ -708,7 +711,7 @@ class ftptransfertService
             }
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
@@ -749,6 +752,7 @@ class ftptransfertService
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
             // Description de l'annonce
             $annonce = $this->propertyService->getAnnonce($propriete);
             //dd($annonce);
@@ -807,7 +811,7 @@ class ftptransfertService
             }
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
@@ -846,6 +850,7 @@ class ftptransfertService
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
             // Description de l'annonce
             $annonce = $this->propertyService->getAnnonce($propriete);
 
@@ -910,7 +915,7 @@ class ftptransfertService
             }
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
@@ -951,6 +956,7 @@ class ftptransfertService
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
             // Description de l'annonce
             $annonce = $this->propertyService->getAnnonce($propriete);
             //dd($annonce);
@@ -1011,7 +1017,7 @@ class ftptransfertService
             }
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
@@ -1053,6 +1059,7 @@ class ftptransfertService
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
             // Description de l'annonce
             $annonce = $this->propertyService->getAnnonce($propriete);
             //dd($annonce);
@@ -1113,7 +1120,7 @@ class ftptransfertService
             }
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
@@ -1156,6 +1163,7 @@ class ftptransfertService
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
             $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
             // Description de l'annonce
             $annonce = $this->propertyService->getAnnonce($propriete);
             //dd($annonce);
@@ -1214,7 +1222,7 @@ class ftptransfertService
             }
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);

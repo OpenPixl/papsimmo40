@@ -256,6 +256,26 @@
         </div>
     </div>
 </div>
+
+{% if customer.properties|length > 0 %}
+    <div class="row mt-1">
+        <div class="col-12">
+            <div class="card border-dark">
+                <div class="card-body p-2">
+                    <p class="border-bottom mb-1 text-uppercase"><b>Listes des propriétés rattachées au client</b></p>
+                    <div class="row">
+                        <div class="col">
+                            {% for properties in customer.properties %}
+                                <p>{{ loop.index }} <i class="fa-sharp-duotone fa-solid fa-building"></i> | <a href="{{ path('op_gestapp_property_show', {'id':properties.id}) }}" class="linkContent">{{ properties.refMandat }}</a> | sur la commune de : {{ properties.city  }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endif %}
+
 {% if customer.customers|length > 0 %}
 <div class="row mt-1">
     <div class="col-12">
@@ -274,6 +294,7 @@
     </div>
 </div>
 {% endif %}
+
 <div class="mt-3">
     <a class="btn btn-sm btn-outline-dark" href="{{ path('op_gestapp_customer_index') }}">
         <i class="fa-solid fa-backward-step"></i> Retour à la liste de clients
