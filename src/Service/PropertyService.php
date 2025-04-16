@@ -330,7 +330,11 @@ class PropertyService
 
     public function getEnergies(Property $property){
         $energiesArray = $property->getOptions()->getEnergies()->toArray();
-        $energies = implode(" - ", $energiesArray);
+        if($energiesArray){
+            $energies = implode(" - ", $energiesArray);
+        }else{
+            $energies = "";
+        }
         return $energies;
     }
 

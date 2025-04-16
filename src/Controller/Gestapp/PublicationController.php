@@ -91,6 +91,7 @@ class PublicationController extends AbstractController
                 $photoRepository,
                 $complementRepository,
             );
+
             // Service de dépot sur serveur le serveur FTP "GreenAcres"
             $ftptransfertService->greenacresFTP(
                 $propertyRepository,
@@ -103,27 +104,27 @@ class PublicationController extends AbstractController
                 $photoRepository,
                 $complementRepository
             );
-            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            // Service de dépot sur serveur le serveur FTP "ht_louer"
             $ftptransfertService->ht_louer(
                 $propertyRepository,
                 $photoRepository,
                 $complementRepository
             );
-            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            // Service de dépot sur serveur le serveur FTP "alentoor"
             $ftptransfertService->alentoor(
                 $propertyRepository,
                 $photoRepository,
                 $complementRepository
             );
 
-            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            // Service de dépot sur serveur le serveur FTP "ubiflow"
             $ftptransfertService->ubiflow(
                 $propertyRepository,
                 $photoRepository,
                 $complementRepository
             );
 
-            // Service de dépot sur serveur le serveur FTP "figaroImmo"
+            // Service de dépot sur serveur le serveur FTP "clefsmoi"
             $ftptransfertService->clefsmoi(
                 $propertyRepository,
                 $photoRepository,

@@ -67,7 +67,6 @@ class ftptransfertService
     {
         $request = $this->requestStack->getCurrentRequest();
         $properties = $propertyRepository->reportpropertycsv3();            // On récupère les biens à publier sur SeLoger
-
         $rows = array();
         foreach ($properties as $property){
             $propriete = $propertyRepository->find($property['id']);
@@ -124,7 +123,7 @@ class ftptransfertService
             $bilanGes = $this->propertyService->getClasseGes($propriete);
 
             // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $dates, $infos, $url, $titrephoto, $property, $version);
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
@@ -301,6 +300,7 @@ class ftptransfertService
         $request = $this->requestStack->getCurrentRequest();
         // PARTIE I
         $properties = $propertyRepository->reportpropertyGreenacresFTP();            // On récupère les biens à publier sur SeLoger
+
         // Création de l'url pour les photos
         $fullHttp = $request->getUri();
         $scheme = parse_url($fullHttp, PHP_URL_SCHEME);
@@ -905,7 +905,6 @@ class ftptransfertService
 
             // Complements du bien
             $complement = $propriete->getOptions();
-            $energies = $complement->getEnergies();
 
             // Récupération DPE & GES
             $bilanDpe = $this->propertyService->getClasseDpe($propriete);
@@ -1157,7 +1156,6 @@ class ftptransfertService
         $request = $this->requestStack->getCurrentRequest();
         $properties = $propertyRepository->reportpropertycsv4($diffuseur);            // On récupère les biens à publier sur SeLoger
 
-        dd($properties);
         $rows = array();
         foreach ($properties as $property){
             $propriete = $propertyRepository->find($property['id']);
