@@ -57,6 +57,7 @@ liip_imagine:
         oneproperty_image_public:
             quality: 150
             filters:
+                auto_rotate: ~
                 thumbnail:
                     size: [ 526, 466 ]
                     mode: outbond
@@ -68,7 +69,6 @@ liip_imagine:
                     size: 0.5
                     # set the position of the watermark
                     position: center
-                auto_rotate: ~
         oneproperty_imagelandscape:
             quality: 150
             filters:
@@ -170,6 +170,7 @@ liip_imagine:
         oneproperty_galleryAdmin:
             quality: 150
             filters:
+                auto_rotate: ~
                 thumbnail:
                     size: [ 313, 210 ]
                     mode: outbond

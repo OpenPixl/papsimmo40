@@ -30,8 +30,6 @@ class PhotoController extends AbstractController
         $property = $propertyRepository->find($idproperty);
         $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
 
-
-
         $view = $this->render('gestapp/photo/byproperty.html.twig', [
             'photos' => $photos,
             'property' => $property
@@ -250,13 +248,13 @@ class PhotoController extends AbstractController
         ]);
     }
 
-    #[Route('/updatepositionphoto/{idcol}/{key}', name: 'op_gestapp_photo_updatepositionphoto', methods: ['POST'])]
-    public function updatepositionphoto($idcol, PhotoRepository $photoRepository, $key)
+    #[Route('/updatepositionphoto/{idphoto}/{key}', name: 'op_gestapp_photo_updatepositionphoto', methods: ['POST'])]
+    public function updatepositionphoto($idphoto, PhotoRepository $photoRepository, $key)
     {
         // récupérer la photo correspondant à l'id
-        $photo = $photoRepository->find($idcol);
+        $photo = $photoRepository->find($idphoto);
         // mettre à jour le positionnnement
-        $photo->setPosition($key+1);
+        $photo->setPosition($key);
         // mettre à jour la bdd
         $photoRepository->add($photo);
 

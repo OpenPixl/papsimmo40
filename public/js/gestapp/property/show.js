@@ -677,35 +677,39 @@ function delPhoto(event){
 function onSortPhoto(sortablePhoto){
     let cols = sortablePhoto.children;
     for(let i = 0; i < cols.length; i++){
-        let idcol = cols[i].id;
-        let key = i;
-        let url = "/gestapp/photo/updatepositionphoto/"+ idcol + "/" + key;
-        axios
-            .post(url)
-            .then(function(response){
-                toasterMessage(response.data.message);
-            })
-            .catch(function(error){
-                alert(error);
-            })
-        ;
-        //récupération du premier enfant
-        let firstChild = cols[0];
-        let card = firstChild.childNodes[1];
-        card.className = "card text-white bg-primary mb-1";
+        let key = i + 1;
+        let idphoto = cols[i].id;
+        fixedPosition(idphoto, key);
+    }
+    //récupération du premier enfant
+    let firstChild = cols[0];
+    let card = firstChild.childNodes[1];
+    card.className = "card text-white bg-primary mb-1";
+    let cardBody = card.childNodes[5];
+    cardBody.childNodes[1].textContent = 'Image de profil';
+    // Récupération des autres enfants
+    for(let i=1; i < cols.length; i++){
+        let otherChild = cols[i];
+        let card = otherChild.childNodes[1];
+        card.className = "card text-dark bg-light mb-1";
         let cardBody = card.childNodes[5];
-        cardBody.childNodes[1].textContent = 'Image de profil';
-        // Récupération des autres enfants
-        for(i=1; i < cols.length; i++){
-            let otherChild = cols[i];
-            let card = otherChild.childNodes[1];
-            card.className = "card text-dark bg-light mb-1";
-            let cardBody = card.childNodes[5];
-            cardBody.childNodes[1].textContent = 'Image de galerie';
-        }
+        cardBody.childNodes[1].textContent = 'Image de galerie';
     }
 
 }
+function fixedPosition(idphoto, key){
+    let url = "/gestapp/photo/updatepositionphoto/"+ idphoto + "/" + key;
+    axios
+        .post(url)
+        .then(function(response){
+            toasterMessage(response.data.message);
+        })
+        .catch(function(error){
+            alert(error);
+        })
+    ;
+}
+
 
 function genQrcode(event){
     event.preventDefault();
