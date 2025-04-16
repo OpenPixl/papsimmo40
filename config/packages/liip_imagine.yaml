@@ -8,6 +8,7 @@ liip_imagine:
         lastproperty_card:
             quality: 150
             filters:
+                auto_rotate: ~
                 thumbnail:
                     size: [ 414, 305 ]
                     mode: outbond

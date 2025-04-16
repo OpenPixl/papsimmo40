@@ -17,13 +17,14 @@ services:
 
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.16
-    container_name: elasticsearch
+    container_name: papsimmo_search
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms2g -Xmx2g
     ports:
       - "9200:9200"
       - "9300:9300"
+    restart: always
 
 ###>volumes:
 ###> doctrine/doctrine-bundle ###
