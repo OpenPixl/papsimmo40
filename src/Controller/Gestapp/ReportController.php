@@ -75,15 +75,17 @@ class ReportController extends AbstractController
             } else {
                 $famille = "";
             }
+
             // Clé de détermination PARUVENDU - RUBRIQUE
             if ($property['familyCode']) {
                 $rubrique = $property['rubricCode'];
             } else {
                 $rubrique = "00";
             }
+
             // Clé de détermination PARUVENDU - SSRUBRIQUE
             if ($property['rubricCode']) {
-                $array = ['STU', 'VI'];
+                $array = ['STU', 'VI', 'IMM', 'IMB', 'IMC'];
                 if(in_array($property['rubricCode'], $array)){
                     $ssrubrique = "000";
                 }else{
@@ -92,6 +94,7 @@ class ReportController extends AbstractController
             } else {
                 $ssrubrique = "000";
             }
+            
             // Récupération des images liées au bien
             $photos = $photoRepository->findNameBy(['property' => $property['id']]);
             if (!$photos) {
