@@ -817,6 +817,10 @@ function submitAddSearchCustomer(event){
         .post(url)
         .then(function (response){
             document.getElementById('listeCustomers').innerHTML = response.data.liste;
+            let linkOpenModal = document.querySelectorAll('a.openModal');
+            linkOpenModal.forEach(function(link){
+                link.addEventListener('click', openModalXL);
+            });
         })
         .catch(function (error){
             alert(error);
@@ -976,6 +980,10 @@ function reloadEventOnModal(){
             click.addEventListener('click', delResponsable);
         });
     }
+    let linkOpenModal = document.querySelectorAll('a.openModal');
+    linkOpenModal.forEach(function(link){
+        link.addEventListener('click', openModalXL);
+    });
 }
 
 // Initialisation après le chargement du DOM
