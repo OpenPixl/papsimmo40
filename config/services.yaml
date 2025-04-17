@@ -49,6 +49,7 @@ services:
         arguments:
             - '@knp_paginator'
             - '@fos_elastica.finder.property'
+            - '@fos_elastica.finder.customer'
 
     App\Service\imageTransfertService:
         arguments:

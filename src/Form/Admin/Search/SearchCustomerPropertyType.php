@@ -13,7 +13,7 @@ class SearchCustomerPropertyType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
-            ->add('name', SearchType::class, [
+            ->add('firstName', SearchType::class, [
                 'attr' => [
                     'class' => 'form-control',
                 ],

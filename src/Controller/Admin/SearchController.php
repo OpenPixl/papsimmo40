@@ -10,7 +10,9 @@ use Elastica\Query;
 use Elastica\Query\BoolQuery;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
+use Elastica\Query\MultiMatch;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
+use FOS\ElasticaBundle\Finder\FinderInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -21,7 +23,8 @@ class SearchController extends AbstractController
 {
     public function __construct(
         private readonly PaginatorInterface $paginator,
-        private readonly PaginatedFinderInterface $finder
+        private readonly PaginatedFinderInterface $finder,
+        private FinderInterface $customerFinder
     )
     {
     }
@@ -265,21 +268,23 @@ class SearchController extends AbstractController
 
         if($form->isSubmitted() && $form->isValid()){
             $data = $form->getData();
-            $boolQuery = new BoolQuery();
 
-            if (!empty($data->name)){
-                $fieldQuery = new \Elastica\Query\MatchPhrasePrefix();
-                $fieldQuery->setField('name', $data->name);
-                $boolQuery->addMust($fieldQuery);
+
+            if (!empty($data->firstName)){
+
+                $elasticaQuery = new Query();
+                $multiMatchQuery = new MultiMatch();
+                $multiMatchQuery->setFields(['firstName', 'lastName']);
+                $multiMatchQuery->setQuery($data->firstName);
+                $elasticaQuery->setQuery($multiMatchQuery);
+
+                //dd($elasticaQuery);
+
             }
 
-            $query = new Query($boolQuery);
-            $query->setSort([
-                'name' => ['order' => 'desc'],
-            ]);
+            $customers = $this->customerFinder->find($elasticaQuery);
 
-            $customers =  $this->finder->find($query);
-            dd($customers);
+            //dd($customers);
 
             return $this->json([
                 'code'=> 200,

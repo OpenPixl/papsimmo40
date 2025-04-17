@@ -8,7 +8,10 @@
                 </a>
             </div>
             <div class="card text-dark border-dark">
-                {{ render(controller('App\\Controller\\Admin\\SearchController::customerProperty', {'idproperty': property.id })) }}
+                <div class="card-body p-2">
+                    {{ render(controller('App\\Controller\\Admin\\SearchController::customerProperty', {'idproperty': property.id })) }}
+                    <div class="row g-1" id="listeSearchCustomers"></div>
+                </div>
             </div>
 
         </div>
@@ -16,7 +19,7 @@
             <div id="listeCustomers" class="row g-1">
                 {% include 'gestapp/customer/include/_listecustomers.html.twig' with {'idproperty': property.id } %}
             </div>
-            <div class="row" id="listeSearchCustomers">
+            <div class="mt-2 row align-items-center" id="listeSearchCustomers">
 
             </div>
         </div>

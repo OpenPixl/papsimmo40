@@ -1,8 +1,9 @@
-<div class="col-12">
-    <ul>
-        {% for customer in customers %}
-            <li>{{ customer.lastName }} {{ customer.firstName }} | {{ customer.zipcode }} | <a id="addCustomerSearch" class="addcustomersearch btn btn-sm btn-light openModal" href="{{path('op_gestapp_customer_addsearchcustomer', {'id': customer.id, 'idproperty': idproperty})}}"><i class="fa-light fa-user-check"></i></a></li>
-        {% else %}
-        {% endfor %}
-    </ul>
-</div>
+{% for customer in customers %}
+    <div class="col-11">
+        <p class="mb-0" style="font-size:0.8rem;">{{ customer.lastName }} {{ customer.firstName }} | {{ customer.zipcode }} {{ customer.city }}</p>
+    </div>
+    <div class="col-1">
+        <p class="mb-0"><a id="addCustomerSearch" class="addcustomersearch" href="{{path('op_gestapp_customer_addsearchcustomer', {'id': customer.id, 'idproperty': idproperty})}}"><i class="fa-light fa-user-check"></i></a></p>
+    </div>
+{% else %}
+{% endfor %}

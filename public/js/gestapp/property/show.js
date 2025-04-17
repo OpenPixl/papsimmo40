@@ -203,7 +203,7 @@ function openModalXL(event){
                 modal.querySelector('.modal-body').innerHTML = response.data.form;
             })
             .catch(function(error){
-                alert(error);
+                alert(error.detail);
             })
         ;
     }
@@ -279,7 +279,9 @@ function loadFormContent(navLink) {
                 }
                 if(nodeFormName === 'Customers'){
                     let searchCustomersRechercher = document.getElementById('search_customers_rechercher');
+                    let inputSearchCustomer = document.getElementById('search_customer_property_firstName');
                     searchCustomersRechercher.addEventListener('click', submitSearchCustomer);
+                    inputSearchCustomer.addEventListener('input', submitSearchCustomer);
                 }
                 if(nodeFormName === 'Estimate'){
                     const sales = document.getElementById('sale');
@@ -531,7 +533,10 @@ function submitSearchCustomer(event){
         .then(function(response){
             document.getElementById('listeSearchCustomers').innerHTML = response.data.liste;
             toasterMessage(response.data.message);
-            initializeNavLinks();
+            let linkAddCustomer = document.querySelectorAll('a.addcustomersearch');
+            linkAddCustomer.forEach(function(link){
+                link.addEventListener('click', submitAddSearchCustomer);
+            });
         })
         .catch(function(error){
             alert(error);
@@ -697,6 +702,7 @@ function onSortPhoto(sortablePhoto){
     }
 
 }
+
 function fixedPosition(idphoto, key){
     let url = "/gestapp/photo/updatepositionphoto/"+ idphoto + "/" + key;
     axios
@@ -709,7 +715,6 @@ function fixedPosition(idphoto, key){
         })
     ;
 }
-
 
 function genQrcode(event){
     event.preventDefault();
@@ -803,6 +808,20 @@ function submitModalForm(event){
         ;
         initializeNavLinks();
     }
+}
+
+function submitAddSearchCustomer(event){
+    event.preventDefault();
+    let url = event.currentTarget.href;
+    axios
+        .post(url)
+        .then(function (response){
+            document.getElementById('listeCustomers').innerHTML = response.data.liste;
+        })
+        .catch(function (error){
+            alert(error);
+        })
+    ;
 }
 
 function submitPhotos(event){

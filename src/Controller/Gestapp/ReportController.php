@@ -94,7 +94,7 @@ class ReportController extends AbstractController
             } else {
                 $ssrubrique = "000";
             }
-            
+
             // Récupération des images liées au bien
             $photos = $photoRepository->findNameBy(['property' => $property['id']]);
             if (!$photos) {

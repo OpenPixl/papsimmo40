@@ -5,7 +5,7 @@ namespace App\Form\Model;
 class SearchCustomerPropertyModel
 {
     public function __construct(
-        public ?string $name = null,
+        public ?string $firstName = null,
     )
     {}
 }

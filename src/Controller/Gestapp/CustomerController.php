@@ -139,8 +139,6 @@ class CustomerController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $customers = $customerRepository->SearchCustomers($data['word']);
 
-        dd($customers);
-
         return $this->json([
             'liste' => $this->renderView('gestapp/customer/include/_list.html.twig', [
                 'customers' => $customers,
@@ -172,7 +170,7 @@ class CustomerController extends AbstractController
         return $this->json([
             'code'=> 200,
             'message' => "Le vendeur a été ajouté",
-            'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+            'liste' => $this->renderView('gestapp/customer/include/_listecustomers.html.twig', [
                 'customers' => $customers,
                 'idproperty' => $idproperty,
             ])
