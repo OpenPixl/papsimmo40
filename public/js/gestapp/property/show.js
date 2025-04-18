@@ -489,7 +489,7 @@ function initializeTinyMCE() {
                 }
             });
         },
-        plugins: 'image table lists visualchars wordcount paste',
+        plugins: 'image table lists visualchars wordcount',
         toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image',
         images_file_types: 'jpg,svg,webp',
         language: 'fr_FR',
