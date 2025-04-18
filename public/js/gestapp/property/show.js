@@ -111,13 +111,13 @@ function openModalXL(event){
                         zipcode_api(customer_zipcode, customer_commune, customer_selectcity);
                     });
                     customer_selectcity.addEventListener('change', function (event){
-                        change_selectcity(customer_selectcity);
+                        change_selectcity(customer_zipcode, customer_commune, customer_selectcity);
                     });
                     customer_proZipcode.addEventListener('input', function(event){
                         zipcode_api(customer_proZipcode, customer_proCity, customer_proSelectcity);
                     });
                     customer_proSelectcity.addEventListener('change', function (event){
-                        change_selectcity(customer_proSelectcity);
+                        change_selectcity(customer_proZipcode, customer_proCity, customer_proSelectcity);
                     });
                 }
                 initializeTinyMCE(); // Réinitialiser TinyMCE si nécessaire
@@ -263,7 +263,7 @@ function loadFormContent(navLink) {
                         zipcode_api(informations_zipcode, informations_commune, informations_selectcity);
                     });
                     informations_selectcity.addEventListener('change', function (event){
-                        change_selectcity(informations_selectcity);
+                        change_selectcity(informations_zipcode, informations_commune, informations_selectcity);
                     });
                     SelectChoice(rubric,FamValue,RubUrl,RubValue);
                     SelectChoice(rubricss,RubValue,RubcssUrl,RubcssValue);
@@ -430,7 +430,7 @@ function initializeNavLinks() {
 }
 
 function newPro_submitNodeForm(event){
-    submitNodeForm;
+    submitNodeForm();
     // Sélectionne tous les éléments <li> dans la barre de navigation
     const navItems = document.querySelectorAll('.nav-tabs li');
 
@@ -639,9 +639,9 @@ function zipcode_api(zipcode, commune, select){
 }
 
 function change_selectcity(zipcode, commune, select){
-    console.log(zipcode, commune, select);
     let regex = /^(.+) \((\d+)\)$/;
-    const match = select.value.match(regex);
+    let select_value = select.options[select.selectedIndex].text;
+    const match = select_value.match(regex);
     zipcode.value = match[2];
     commune.value = match[1].toUpperCase();
 }
@@ -753,8 +753,7 @@ function AllCheckedPublication(){
     //console.log(switches);
 }
 
-function submitNodeForm(event){
-    event.preventDefault();
+function submitNodeForm(){
     const listForm = ['formProperty_informations', 'formProperty_annonce', 'formProperty_chiffres', 'formProperty_complements', 'formProperty_Publication'];
     let form = nodeForm.querySelector('form');
     let nameForm = form.id;
