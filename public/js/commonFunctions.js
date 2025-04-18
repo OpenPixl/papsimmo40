@@ -16,40 +16,31 @@ function removeOptions(selectElement) {
     }
 }
 // Fonction pour trouver les communes à partir du code postal
-export function findCommunes(City, Zipcode, Select) {
+export function zipcode_api(zipcode, commune, select_city, ville, cp) {
     if (Zipcode.value.length === 5) {
-        let coord = Zipcode.value;
-        let xhr = new XMLHttpRequest();
+        let coord = zipcode.value;
+        axios
+            .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
+            .then(function(response){
+                let features = response.data;
+                removeOptions(select_city);
+                features.forEach((element) => {
+                    cp = element['codePostal'];
+                    ville = element['nomCommune'];
+                    console.log(cp, ville);
+                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
+                    select_city.options.add(OptSelectCity);
+                });
 
-        xhr.open('GET', 'https://apicarto.ign.fr/api/codes-postaux/communes/' + coord, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-                if (xhr.status === 200) {
-                    let features = JSON.parse(xhr.responseText);
-                    removeOptions(Select);
-
-                    features.forEach((element) => {
-                        let name = element['codePostal'] + " - " + element['nomCommune'];
-                        let OptSelect = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
-                        Select.options.add(OptSelect);
-                    });
-
-                    if (Select.options.length === 1) {
-                        let value = Select.value.split(' ');
-                        Zipcode.value = value[0];
-                        City.value = value[2].toUpperCase();
-                    } else {
-                        let value = Select.value.split(' ');
-                        Zipcode.value = value[0];
-                        City.value = value[2].toUpperCase();
-                    }
-                } else {
-                    console.error('Erreur lors de la requête AJAX :', xhr.statusText);
+                if (select_city.options.length === 1){
+                    zipcode.value = cp;
+                    commune.value = ville.toUpperCase();
+                }else{
+                    zipcode.value = cp;
+                    commune.value = ville.toUpperCase();
                 }
-            }
-        };
-
-        xhr.send();
+            })
+        ;
     }
 }
 

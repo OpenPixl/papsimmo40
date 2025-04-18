@@ -88,7 +88,7 @@ if(zipcode2 !== null) {
         zipcode_api(zipcode2, commune2, SelectCity2, ville, cp);
     });
     SelectCity2.addEventListener('change', function (event){
-        change_selectcity(SelectCity2, cp);
+        change_selectcity(zipcode2, commune2, SelectCity2, ville, cp);
     });
 }
 
@@ -126,7 +126,7 @@ function zipcode_api(zipcode, commune, select_city, ville, cp){
     }
 }
 
-function change_selectcity(select_city, cp){
+function change_selectcity(zipcode, commune, select_city, ville, cp){
     zipcode.value = cp;
     commune.value = select_city.value.toUpperCase();
 }
@@ -246,17 +246,18 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 let proZipcode = document.getElementById('customer_proZipcode');
                 let proSelectcity = document.getElementById('customer_proSelectcity');
                 let ville = "";
+                let cp = '';
                 zipcode.addEventListener('input', function(event){
-                    zipcode_api(zipcode, commune, selectcity);
+                    zipcode_api(zipcode, commune, selectcity, ville, cp);
                 });
                 selectcity.addEventListener('change', function (event){
-                    change_selectcity(selectcity);
+                    change_selectcity(zipcode, commune, selectcity, ville, cp);
                 });
                 proZipcode.addEventListener('input', function(event){
-                    zipcode_api(proZipcode, proCity, proSelectcity);
+                    zipcode_api(zipcode, commune, selectcity, ville, cp);
                 });
                 proSelectcity.addEventListener('change', function (event){
-                    change_selectcity(proSelectcity);
+                    change_selectcity(zipcode, commune, selectcity, ville, cp);
                 });
             })
             .catch(function(error){

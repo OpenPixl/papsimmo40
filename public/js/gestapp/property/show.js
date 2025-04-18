@@ -7,11 +7,10 @@ const modalBs = new bootstrap.Modal(document.getElementById('modal'));
 
 // comportement à adopter à la fermeture de la modal des customers
 modal.addEventListener('hidden.bs.modal', event => {
-    let form = modalCustomer.querySelector('#formCustomer_add');
-    let btnSubmit = modalCustomer.querySelector('.modal-footer #btnSubmitCustomer');
-    console.log(form);
+    let form = modal.querySelector('#formCustomer_add');
+    let btnSubmit = modal.querySelector('.modal-footer #btnSubmitCustomer');
     if(form && !btnSubmit){
-        let idCustomer = document.getElementById('idCustomer').value;
+        //let idCustomer = document.getElementById('idCustomer').value;
         //axios.post('/gestapp/customer/'+ idCustomer +'/delontransaction');
     }
     modal.querySelector('.modal-dialog').classList.remove('modal-lg');
@@ -107,18 +106,20 @@ function openModalXL(event){
                 let customer_proCity = document.getElementById('customer_proCity');
                 let customer_proZipcode = document.getElementById('customer_proZipcode');
                 let customer_proSelectcity = document.getElementById('customer_proSelectcity');
+                let cp = '';
+                let ville = '';
                 if(customer_commune && customer_addresseInput){
                     customer_zipcode.addEventListener('input', function(event){
-                        zipcode_api(customer_zipcode, customer_commune, customer_selectcity);
+                        zipcode_api(customer_zipcode, customer_commune, customer_selectcity, ville, cp);
                     });
                     customer_selectcity.addEventListener('change', function (event){
-                        change_selectcity(customer_selectcity);
+                        change_selectcity(customer_selectcity, cp);
                     });
                     customer_proZipcode.addEventListener('input', function(event){
-                        zipcode_api(customer_proZipcode, customer_proCity, customer_proSelectcity);
+                        zipcode_api(customer_proZipcode, customer_proCity, customer_proSelectcity, ville, cp);
                     });
                     customer_proSelectcity.addEventListener('change', function (event){
-                        change_selectcity(customer_proSelectcity);
+                        change_selectcity(customer_proSelectcity, cp);
                     });
                 }
                 initializeTinyMCE(); // Réinitialiser TinyMCE si nécessaire
@@ -145,7 +146,6 @@ function openModalXL(event){
             .get(url)
             .then(function(response){
                 modal.querySelector('.modal-body').innerHTML = response.data.form;
-
                 // Mettre en place la logique de validation de numéro de Mandat
                 let addMandat = document.getElementById('add_mandat_refMandat');
                 let ArrayMandats = [];
@@ -248,6 +248,8 @@ function loadFormContent(navLink) {
                     let informations_commune = document.getElementById('informations_city');
                     let informations_zipcode = document.getElementById('informations_zipcode');
                     let informations_selectcity = document.getElementById('selectcity');
+                    let ville = "";
+                    let cp = "";
 
                     // Liste de choix sur la destination du bien
                     let family = document.getElementById('informations_family');
@@ -262,10 +264,10 @@ function loadFormContent(navLink) {
                     calculateChars(document.getElementById('informations_name'),100,document.getElementById('charCount'));
 
                     informations_zipcode.addEventListener('input', function(event){
-                        zipcode_api(informations_zipcode, informations_commune, informations_selectcity);
+                        zipcode_api(informations_zipcode, informations_commune, informations_selectcity, ville, cp);
                     });
                     informations_selectcity.addEventListener('change', function (event){
-                        change_selectcity(informations_selectcity);
+                        change_selectcity(informations_zipcode, informations_commune, informations_selectcity, ville, cp);
                     });
                     SelectChoice(rubric,FamValue,RubUrl,RubValue);
                     SelectChoice(rubricss,RubValue,RubcssUrl,RubcssValue);
@@ -603,7 +605,7 @@ function removeOptions(selectElement) {
     }
 }
 
-function zipcode_api(zipcode, commune, select_city){
+function zipcode_api(zipcode, commune, select_city, ville, cp){
     if(zipcode.value.length === 5)
     {
         let coord = zipcode.value;
@@ -613,27 +615,27 @@ function zipcode_api(zipcode, commune, select_city){
                 let features = response.data;
                 removeOptions(select_city);
                 features.forEach((element) => {
-                    let name = element['codePostal']+" - "+element['nomCommune'];
-                    let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
+                    cp = element['codePostal'];
+                    ville = element['nomCommune'];
+                    console.log(cp, ville);
+                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
                     select_city.options.add(OptSelectCity);
                 });
+
                 if (select_city.options.length === 1){
-                    let value = select_city.value.split(' ');
-                    zipcode.value = value[0];
-                    commune.value = value[2].toUpperCase();
+                    zipcode.value = cp;
+                    commune.value = ville.toUpperCase();
                 }else{
-                    let value = select_city.value.split(' ');
-                    zipcode.value = value[0];
-                    commune.value = value[2].toUpperCase();
+                    zipcode.value = cp;
+                    commune.value = ville.toUpperCase();
                 }
             });
     }
 }
 
-function change_selectcity(selectCity){
-    let value = selectCity.value.split(' ');
-    zipcode.value = value[0];
-    commune.value = value[2].toUpperCase();
+function change_selectcity(zipcode, commune, select_city, ville, cp){
+    zipcode.value = cp;
+    commune.value = select_city.toUpperCase();
 }
 
 function calculatePrices(price, honoraires, priceFAI){
