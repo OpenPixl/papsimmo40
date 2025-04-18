@@ -37,25 +37,25 @@
         {# Etiquettes du panel #}
         <ul id="admin-tab" class="nav nav-tabs">
             <li class="nav-item">
-                <a id="navInformations" href="{{ path('op_gestapp_property_informations', {'id':property.id}) }}" class="nav-link active" aria-current="page" data-bs-toggle="tab" data-bs-target="#Informations" type="button" role="tab" aria-controls="Informations" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
+                <a id="navInformations" href="{{ path('op_gestapp_property_informations', {'id':property.id}) }}" class="nav-link active" data-bs-target="#Informations" ><h5 class="mb-0"><i class="fa-duotone fa-memo-circle-info"></i> Informations</h5></a>
             </li>
             <li class="nav-item notActive">
-                <a id="navAnnonce" href="{{ path('op_gestapp_property_annonce', {'id':property.id}) }}" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Annonce" type="button" role="tab" aria-controls="Annonce" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-solid fa-file-lines"></i> Annonce</h5></a>
+                <a id="navAnnonce" href="{{ path('op_gestapp_property_annonce', {'id':property.id}) }}" class="nav-link disabled" data-bs-target="#Annonce" ><h5 class="mb-0"><i class="fa-duotone fa-solid fa-file-lines"></i> Annonce</h5></a>
             </li>
             <li class="nav-item notActive">
-                <a id="navCustomers notActive" href="{{ path('op_gestapp_customer_listbyproperty', {'id':property.id}) }}" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Customers" type="button" role="tab" aria-controls="Vendeurs" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
+                <a id="navCustomers notActive" href="{{ path('op_gestapp_customer_listbyproperty', {'id':property.id}) }}" class="nav-link disabled" data-bs-target="#Customers" ><h5 class="mb-0"><i class="fa-duotone fa-user-tie-hair"></i> Vendeurs</h5></a>
             </li>
             <li class="nav-item notActive">
-                <a id="navEstimate" href="{{ path('op_gestapp_property_chiffres', {'id':property.id}) }}" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Estimate" type="button" role="tab" aria-controls="Estimations" aria-selected="true"><h5 class="mb-0">Chiffres</h5></a>
+                <a id="navEstimate" href="{{ path('op_gestapp_property_chiffres', {'id':property.id}) }}" class="nav-link disabled" data-bs-target="#Estimate" ><h5 class="mb-0">Chiffres</h5></a>
             </li>
             <li class="nav-item notActive">
-                <a id="navOptions" href="{{ path('op_gestapp_complement_edit', {'id':complement}) }}" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Options" type="button" role="tab" aria-controls="Complements" aria-selected="true"><h5 class="mb-0">Complements</h5></a>
+                <a id="navOptions" href="{{ path('op_gestapp_complement_edit', {'id':complement}) }}" class="nav-link disabled" data-bs-target="#Options" ><h5 class="mb-0">Complements</h5></a>
             </li>
             <li class="nav-item notActive">
-                <a id="navGallery" href="{{ path('op_gestapp_photo_byproperty', {'idproperty':property.id}) }}" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
+                <a id="navGallery" href="{{ path('op_gestapp_photo_byproperty', {'idproperty':property.id}) }}" class="nav-link disabled" data-bs-target="#Gallery" ><h5 class="mb-0"><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
             </li>
             <li class="nav-item notActive">
-                <a id="navPublication" href="{{ path('op_admin_contact_showbyproperty', {'id': publication }) }}" class="nav-link disabled" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-browser"></i> Publication</h5></a>
+                <a id="navPublication" href="{{ path('op_admin_contact_showbyproperty', {'id': publication }) }}" class="nav-link disabled" data-bs-target="#Publications" ><h5 class="mb-0"><i class="fa-duotone fa-browser"></i> Publication</h5></a>
             </li>
         </ul>
     {% else %}

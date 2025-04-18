@@ -417,43 +417,7 @@ function initializeNavLinks() {
 
     const btnNewProperty = document.getElementById('btnNewProperty');
     if (btnNewProperty) {
-        btnNewProperty.addEventListener('click', function () {
-            submitNodeForm(event);
-            // Sélectionne tous les éléments <li> dans la barre de navigation
-            const navItems = document.querySelectorAll('.nav-tabs li');
-
-            // Trouve l'élément <li> actuellement actif (qui n'a pas la classe 'disabled')
-            let currentActiveItem = null;
-            for (let item of navItems) {
-                if (!item.classList.contains('notActive')) {
-                    currentActiveItem = item;
-                    break;
-                }
-            }
-
-            // Si un élément actif est trouvé, passe au suivant
-            if (currentActiveItem) {
-                const nextItem = currentActiveItem.nextElementSibling;
-                if (nextItem) {
-                    nextItem.classList.remove('notActive');
-                    currentActiveItem.classList.add('notActive');
-                    nextItem.querySelector('a').classList.remove('disabled');
-                    nextItem.querySelector('a').classList.add('active');
-                    currentActiveItem.querySelector('a').classList.remove('active');
-                    currentActiveItem.querySelector('a').classList.add('disabled');
-
-                    const currentPaneId = currentActiveItem.querySelector('a').getAttribute('data-bs-target');
-                    const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
-
-                    document.querySelector(currentPaneId).classList.remove('active', 'show');
-                    document.querySelector(currentPaneId).querySelector('#content-form').innerHTML = "<div class=\"text-center p-5\"><div class=\"spinner-border\" role=\"status\"><span class=\"visually-hidden\">Loading...</span></div></div>";
-                    document.querySelector(nextPaneId).classList.add('active', 'show');
-                    loadFormContent(nextItem.querySelector('a'));
-                }else{
-                    console.log('il n\'existe pas');
-                }
-            }
-        });
+        btnNewProperty.addEventListener('click', newPro_submitNodeForm);
     }
 
     const btndellPhotos = document.querySelectorAll('a.delphoto');
@@ -463,6 +427,45 @@ function initializeNavLinks() {
 
     const btnModalSubmit = document.getElementById('btnModalSubmit');
     btnModalSubmit.addEventListener('click', submitModalForm);
+}
+
+function newPro_submitNodeForm(event){
+    submitNodeForm();
+    // Sélectionne tous les éléments <li> dans la barre de navigation
+    const navItems = document.querySelectorAll('.nav-tabs li');
+
+    // Trouve l'élément <li> actuellement actif (qui n'a pas la classe 'disabled')
+    let currentActiveItem = null;
+    for (let item of navItems) {
+        if (!item.classList.contains('notActive')) {
+            currentActiveItem = item;
+            break;
+        }
+    }
+
+    // Si un élément actif est trouvé, on passe au suivant
+    if (currentActiveItem) {
+        const nextItem = currentActiveItem.nextElementSibling;
+        console.log(nextItem);
+        if (nextItem) {
+            nextItem.classList.remove('notActive');
+            currentActiveItem.classList.add('notActive');
+            nextItem.querySelector('a').classList.remove('disabled');
+            nextItem.querySelector('a').classList.add('active');
+            currentActiveItem.querySelector('a').classList.remove('active');
+            currentActiveItem.querySelector('a').classList.add('disabled');
+
+            const currentPaneId = currentActiveItem.querySelector('a').getAttribute('data-bs-target');
+            const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
+
+            document.querySelector(currentPaneId).classList.remove('active', 'show');
+            document.querySelector(currentPaneId).querySelector('#content-form').innerHTML = "<div class=\"text-center p-5\"><div class=\"spinner-border\" role=\"status\"><span class=\"visually-hidden\">Loading...</span></div></div>";
+            document.querySelector(nextPaneId).classList.add('active', 'show');
+            loadFormContent(nextItem.querySelector('a'));
+        }else{
+            console.log('il n\'existe pas');
+        }
+    }
 }
 
 // Fonction pour initialiser TinyMCE
