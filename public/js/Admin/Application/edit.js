@@ -1,6 +1,7 @@
 const modal = new bootstrap.Modal(document.getElementById('modal'), {keyboard: false});
 const modalSuppr = new bootstrap.Modal(document.getElementById('modalSuppr'), {keyboard: false});
 const strechedlinks = document.querySelectorAll(".stretched-link");
+const modalBanner = document.getElementById('modalBanner');
 
 strechedlinks.forEach(function(link){
     link.addEventListener('click', openModal);
@@ -136,6 +137,7 @@ function loadEvents(){
 
 document.getElementById('modal').addEventListener('hidden.bs.modal', function(){
     document.getElementById('modal').querySelector('.modal-dialog').classList.remove('modal-xl');
+    document.getElementById('modal').querySelector('.modal-dialog').classList.remove('modal-lg');
     document.getElementById('modal').querySelector('.modal-title').textContent = "Adhésions";
     document.getElementById('modal').querySelector('.modal-body').innerHTML =
         "<div class=\"d-flex justify-content-center\">"+
@@ -145,3 +147,21 @@ document.getElementById('modal').addEventListener('hidden.bs.modal', function(){
         "</div>"
     ;
 });
+
+// Modal Banner
+if (modalBanner) {
+    modalBanner.addEventListener('show.bs.modal', event => {
+        // Button that triggered the modal
+        const button = event.relatedTarget;
+        const recipient = button.getAttribute('data-bs-whatever');
+        let crud = recipient.split('-')[0];
+        let contentTitle = recipient.split('-')[1];
+        let id = recipient.split('-')[2];
+        // If necessary, you could initiate an Ajax request here
+        // and then do the updating in a callback.
+
+        // Update the modal's content.
+        const modalTitle = modalBanner.querySelector('.modal-title');
+        modalTitle.textContent = contentTitle;
+    });
+}

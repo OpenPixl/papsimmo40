@@ -561,9 +561,6 @@ class PropertyController extends AbstractController
                 'url' => $this->generateUrl('op_gestapp_property_show', ['id' => $property->getId()])
             ], 200);
 
-            return $this->redirectToRoute('op_gestapp_property_show', [
-                'id' => $property->getId()
-            ]);
         }
 
         return $this->render('gestapp/property/include/_addproperty.html.twig', [
@@ -824,14 +821,17 @@ class PropertyController extends AbstractController
         $form = $this->createForm(PropertyStep2Type::class, $property, [
             'action' => $this->generateUrl('op_gestapp_property_chiffres',['id'=>$property->getId()]),
             'method' => 'POST',
-            'attr' => ['id' => 'formProperty_chiffres']
+            'attr' => ['id' => 'formProperty_chiffres'],
         ]);
 
         $avenants = $avenantRepository->getAvenantsByProperty($property);
 
         $form->handleRequest($request);
 
+        //dd($form);
+
         if ($form->isSubmitted() && $form->isValid()) {
+
             $rentalAnnual = $form->get('commerceRentalAnnual')->getData();
             if($rentalAnnual == 0){
                 $commerceAnnualRentGlobal = ($form->get('commerceAnnualRentGlobal')->getData())*12;

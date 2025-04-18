@@ -68,9 +68,12 @@
 
                             <div class="row mb-1">
                                 <div class="col-5">
-                                    <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                    <span class="align-middle">Prix net vendeur</span>
                                 </div>
                                 <div class="col-7">
+                                    <input type="integer" value="{{ property.price }}" class="form-control form-control-sm" disabled>
+                                </div>
+                                <div class="col-7 d-none">
                                     {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
                                 </div>
                             </div>
@@ -79,7 +82,10 @@
                                     {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
                                 <div class="col-7">
-                                    {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
+                                    <input type="integer" value="{{ property.honoraires }}" class="form-control form-control-sm" disabled>
+                                </div>
+                                <div class="col-7 d-none">
+                                    {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -87,6 +93,9 @@
                                     {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
                                 <div class="col-7">
+                                    <input type="integer" value="{{ property.priceFai }}" class="form-control form-control-sm" disabled>
+                                </div>
+                                <div class="col-7 d-none">
                                     {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
                                 </div>
                             </div>
@@ -94,6 +103,7 @@
                     </div>
                 </div>
             </div>
+
             <div id="rent" class="card text-dark border-dark">
                 <div class="card-body">
                     <div class="row mb-1">

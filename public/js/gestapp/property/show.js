@@ -395,8 +395,7 @@ function handleNavLinkClick(event) {
     const clickedNavLink = event.target.closest('.nav-link');
     if (clickedNavLink) {
         clickedNavLink.classList.add('active');
-        loadFormContent(clickedNavLink);
-    }
+        loadFormContent(clickedNavLink);}
 }
 
 // Fonction pour initialiser les écouteurs d'événements
@@ -749,7 +748,6 @@ function submitNodeForm(event){
     const listForm = ['formProperty_informations', 'formProperty_annonce', 'formProperty_chiffres', 'formProperty_complements', 'formProperty_Publication'];
     let form = nodeForm.querySelector('form');
     let nameForm = form.id;
-    console.log(listForm.includes(nameForm) === 'formProperty_Publication');
     if(listForm.includes(nameForm)){
         tinymce.triggerSave();
         let action = form.action;
@@ -759,6 +757,8 @@ function submitNodeForm(event){
             .then(function(response){
                 nodeForm.innerHTML = response.data.form;
                 initializeTinyMCE();
+                initializeTomSelect('.oneChoice', TsSimple);
+                initializeTomSelect('.multiChoice', TsMulti);
                 toasterMessage(response.data.message);
             })
             .catch(function(error){
@@ -984,6 +984,8 @@ function reloadEventOnModal(){
     linkOpenModal.forEach(function(link){
         link.addEventListener('click', openModalXL);
     });
+    initializeTomSelect('.oneChoice', TsSimple);
+    initializeTomSelect('.multiChoice', TsMulti);
 }
 
 // Initialisation après le chargement du DOM

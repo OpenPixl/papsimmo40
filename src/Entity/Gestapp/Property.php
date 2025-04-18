@@ -189,12 +189,14 @@ class Property
     private $photos;
 
     #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $price;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: '0')]
+    #[ORM\Column(type: 'integer', nullable: true)]
+    #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $honoraires;
 
-    #[ORM\Column(type: 'decimal', precision: 10, scale: '0', nullable: true)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     #[Groups(['property:list', 'property:item', 'property:write:patch', 'reco:item'])]
     private $priceFai;
 
@@ -335,7 +337,7 @@ class Property
     private ?bool $rentHT = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2, nullable: true)]
-    private ?string $honoraire = null;
+    private ?string $rentHonoraire = null;
 
     #[ORM\Column(nullable: true)]
     private ?bool $commerceRentalAnnual = null;
@@ -1414,14 +1416,14 @@ class Property
         return $this;
     }
 
-    public function getHonoraire(): ?string
+    public function getRentHonoraire(): ?string
     {
-        return $this->honoraire;
+        return $this->rentHonoraire;
     }
 
-    public function setHonoraire(?string $honoraire): static
+    public function setRentHonoraire(?string $rentHonoraire): static
     {
-        $this->honoraire = $honoraire;
+        $this->rentHonoraire = $rentHonoraire;
 
         return $this;
     }

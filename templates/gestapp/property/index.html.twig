@@ -393,7 +393,7 @@
 {% endblock %}
 
 {% block breadcrumb %}
-    <ol class="breadcrumb">
+    <ol class="breadcrumb mb-0">
         <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
         <li class="breadcrumb-item active">Transaction</li>
         <li class="breadcrumb-item active"><a href="{{ path('op_gestapp_property_index') }}">Biens immobilier</a></li>
@@ -401,11 +401,20 @@
 {% endblock %}
 
 {% block content %}
+    <div class="row">
+        <div class="col-12">
+            <h1 class="fs-4 border-bottom border-dark fw-semibold">TRANSACTIONS - Liste des biens</h1>
+        </div>
+        <div class="col-12">
+            {% include ('gestapp/property/include/_navproperty.html.twig')%}
+        </div>
+    </div>
+
 <div id="listeIncreating" class="row mb-2">
     {{ render(controller('App\\Controller\\Gestapp\\PropertyController::inCreating')) }}
 </div>
 <div class="row mb-5">
-    {% include ('gestapp/property/include/_navproperty.html.twig')%}
+
     <div class="col-12">
         {% if expireAtOut is defined and expireAtOut > 0 %}
             {% if expireAtOut == 1 %}

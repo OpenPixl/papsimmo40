@@ -19,7 +19,6 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PropertyStep2Type extends AbstractType
 {
@@ -161,7 +160,6 @@ class PropertyStep2Type extends AbstractType
             ])
             ->add('commerceSurfaceDivisibleMin')
             ->add('commerceSurfaceDivisibleMax')
-
             ->add('dpeAt', DateType::class, [
                 'label'=> 'Date du DPE',
                 'widget' => 'single_text',
