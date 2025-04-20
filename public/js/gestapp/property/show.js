@@ -210,6 +210,8 @@ function openModalXL(event){
 
 // Fonction pour activer le lien de navigation et charger le formulaire au chargement du DOM
 function loadFormContent(navLink) {
+    console.log(navLink);
+
     // Réinitialise le contenu actuel du nodeForm
     if (nodeForm) {
         nodeForm.innerHTML =
@@ -446,7 +448,7 @@ function newPro_submitNodeForm(event){
     // Si un élément actif est trouvé, on passe au suivant
     if (currentActiveItem) {
         const nextItem = currentActiveItem.nextElementSibling;
-        console.log(nextItem);
+
         if (nextItem) {
             nextItem.classList.remove('notActive');
             currentActiveItem.classList.add('notActive');
@@ -457,6 +459,8 @@ function newPro_submitNodeForm(event){
 
             const currentPaneId = currentActiveItem.querySelector('a').getAttribute('data-bs-target');
             const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
+
+            console.log(currentPaneId, nextPaneId);
 
             document.querySelector(currentPaneId).classList.remove('active', 'show');
             document.querySelector(currentPaneId).querySelector('#content-form').innerHTML = "<div class=\"text-center p-5\"><div class=\"spinner-border\" role=\"status\"><span class=\"visually-hidden\">Loading...</span></div></div>";
