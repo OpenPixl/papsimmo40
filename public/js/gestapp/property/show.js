@@ -431,7 +431,7 @@ function initializeNavLinks() {
     btnModalSubmit.addEventListener('click', submitModalForm);
 }
 
-function newPro_submitNodeForm(event){
+function newPro_submitNodeForm(){
     submitNodeForm();
     // Sélectionne tous les éléments <li> dans la barre de navigation
     const navItems = document.querySelectorAll('.nav-tabs li');
