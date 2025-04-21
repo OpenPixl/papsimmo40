@@ -224,6 +224,7 @@ function loadFormContent(navLink) {
     }
     // Récupère l'URL de l'élément actif
     activeUrl = navLink.getAttribute('href');
+    console.log(activeUrl);
     let activeDataTarget = navLink.getAttribute('data-bs-target');
     nodeForm = document.querySelector(activeDataTarget + ' #content-form');
     let nodeFormName = nodeForm.closest('.tab-pane').id;
@@ -459,8 +460,6 @@ function newPro_submitNodeForm(){
 
             const currentPaneId = currentActiveItem.querySelector('a').getAttribute('data-bs-target');
             const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
-
-            console.log(currentPaneId, nextPaneId);
 
             document.querySelector(currentPaneId).classList.remove('active', 'show');
             document.querySelector(currentPaneId).querySelector('#content-form').innerHTML = "<div class=\"text-center p-5\"><div class=\"spinner-border\" role=\"status\"><span class=\"visually-hidden\">Loading...</span></div></div>";
