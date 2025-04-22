@@ -430,7 +430,7 @@ function initializeNavLinks() {
 function newPro_submitNodeForm(){
     submitNodeForm();
     // Sélectionne tous les éléments <li> dans la barre de navigation
-    const navItems = document.querySelectorAll('.nav-tabs li');
+    let navItems = document.querySelectorAll('.nav-tabs li');
 
     // Trouve l'élément <li> actuellement actif (qui n'a pas la classe 'disabled')
     let currentActiveItem = null;
@@ -754,6 +754,8 @@ function AllCheckedPublication(){
 
 function submitNodeForm(){
     const listForm = ['formProperty_informations', 'formProperty_annonce', 'formProperty_chiffres', 'formProperty_complements', 'formProperty_Publication'];
+    let activePanel = document.querySelectorAll('.tab-content .active #content-form');
+    let nodeForm = activePanel[0];
     let form = nodeForm.querySelector('form');
     let nameForm = form.id;
     if(listForm.includes(nameForm)){
