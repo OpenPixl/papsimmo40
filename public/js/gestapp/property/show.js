@@ -216,19 +216,17 @@ function loadFormContent(navLink) {
     nodeForm = document.querySelector(activeDataTarget + ' #content-form');
     let nodeFormName = nodeForm.closest('.tab-pane').id;
     // Réinitialise le contenu actuel du nodeForm
-    if (nodeForm) {
-        nodeForm.innerHTML =
-            '<div class="text-center p-5">' +
-            '<div class="spinner-border" role="status">' +
-            '<span class="visually-hidden">Loading...</span>' +
-            '</div>' +
-            '</div>'
-        ;
-    }
+    nodeForm = null;
     // Charge le nouveau contenu
     if (activeUrl && nodeForm) {
         axios
-            .get(activeUrl)
+            .get(activeUrlnodeForm , {
+                // Ajouter des paramètres pour éviter la mise en cache
+                headers: {
+                    'Cache-Control': 'no-cache',
+                    'Pragma': 'no-cache'
+                }
+            })
             .then(function(response) {
                 nodeForm.innerHTML = response.data.form;
                 if(nodeFormName === 'Informations'){
