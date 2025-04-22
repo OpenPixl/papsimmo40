@@ -210,24 +210,21 @@ function openModalXL(event){
 
 // Fonction pour activer le lien de navigation et charger le formulaire au chargement du DOM
 function loadFormContent(navLink) {
-    console.log(navLink);
-
+    // Récupère l'URL de l'élément actif
+    activeUrl = navLink.getAttribute('href');
+    let activeDataTarget = navLink.getAttribute('data-bs-target');
+    nodeForm = document.querySelector(activeDataTarget + ' #content-form');
+    let nodeFormName = nodeForm.closest('.tab-pane').id;
     // Réinitialise le contenu actuel du nodeForm
     if (nodeForm) {
         nodeForm.innerHTML =
             '<div class="text-center p-5">' +
-                '<div class="spinner-border" role="status">' +
-                    '<span class="visually-hidden">Loading...</span>' +
-                '</div>' +
+            '<div class="spinner-border" role="status">' +
+            '<span class="visually-hidden">Loading...</span>' +
+            '</div>' +
             '</div>'
         ;
     }
-    // Récupère l'URL de l'élément actif
-    activeUrl = navLink.getAttribute('href');
-    console.log(activeUrl);
-    let activeDataTarget = navLink.getAttribute('data-bs-target');
-    nodeForm = document.querySelector(activeDataTarget + ' #content-form');
-    let nodeFormName = nodeForm.closest('.tab-pane').id;
     // Charge le nouveau contenu
     if (activeUrl && nodeForm) {
         axios
@@ -451,6 +448,7 @@ function newPro_submitNodeForm(){
         const nextItem = currentActiveItem.nextElementSibling;
 
         if (nextItem) {
+            console.log(nextItem);
             nextItem.classList.remove('notActive');
             currentActiveItem.classList.add('notActive');
             nextItem.querySelector('a').classList.remove('disabled');
