@@ -284,9 +284,17 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
 modalCustomer.addEventListener('hidden.bs.modal', event => {
     let form = modalCustomer.querySelector('#formCustomer_add');
     let btnSubmit = modalCustomer.querySelector('.modal-footer #btnSubmitCustomer');
-    if(form && !btnSubmit){
-        let idCustomer = document.getElementById('idCustomer').value;
-        axios.post('/gestapp/customer/'+ idCustomer +'/delontransaction');
+    if(form){
+        if (event.target !== btnSubmit){
+            let idCustomer = document.getElementById('idCustomer').value;
+            axios
+                .post('/gestapp/customer/'+ idCustomer +'/delontransaction')
+                .then(function(response){
+                    toasterMessage(response.data.message);
+                })
+            ;
+        }
+        
     }
     modalCustomer.querySelector('.modal-dialog').classList.remove('modal-lg');
     modalCustomer.querySelector('.modal-body').innerHTML =
