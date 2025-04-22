@@ -1,7 +1,5 @@
 // Déclaration des variables globales
 let btnUpdateForm = document.getElementById('btnUpdateProperty');
-let activeUrl;
-let nodeForm;
 const modal = document.getElementById('modal');
 const modalBs = new bootstrap.Modal(document.getElementById('modal'));
 
@@ -211,9 +209,9 @@ function openModalXL(event){
 // Fonction pour activer le lien de navigation et charger le formulaire au chargement du DOM
 function loadFormContent(navLink) {
     // Récupère l'URL de l'élément actif
-    activeUrl = navLink.getAttribute('href');
+    let activeUrl = navLink.getAttribute('href');
     let activeDataTarget = navLink.getAttribute('data-bs-target');
-    nodeForm = document.querySelector(activeDataTarget + ' #content-form');
+    let nodeForm = document.querySelector(activeDataTarget + ' #content-form');
     let nodeFormName = nodeForm.closest('.tab-pane').id;
     // Réinitialise le contenu actuel du nodeForm
     if (nodeForm) {
