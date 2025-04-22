@@ -80,7 +80,7 @@
                 <a id="navGallery2" href="{{ path('op_gestapp_photo_byproperty', {'idproperty':property.id}) }}" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Gallery" type="button" role="tab" aria-controls="Galerie" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-gallery-thumbnails"></i> Galerie</h5></a>
             </li>
             <li class="nav-item">
-                <a id="navPublication2" href="{{ path('op_admin_contact_showbyproperty', {'id': publication }) }}" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publication" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-browser"></i> Publication</h5></a>
+                <a id="navPublication2" href="{{ path('op_admin_contact_showbyproperty', {'id': publication }) }}" class="nav-link" aria-current="page" data-bs-toggle="tab" data-bs-target="#Publications" type="button" role="tab" aria-controls="Publication" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-browser"></i> Publication</h5></a>
             </li>
             <li class="nav-item">
                 <a id="navDocuments2" class="nav-link d-none" aria-current="page" data-bs-toggle="tab" data-bs-target="#Documents" type="button" role="tab" aria-controls="Documents" aria-selected="true"><h5 class="mb-0"><i class="fa-duotone fa-solid fa-file-pdf"></i> Documents</h5></a>
@@ -186,38 +186,10 @@
             </div>
         </div>
         {# STEP 6 : PUBLICATIONS #}
-        <div class="tab-pane" id="Publications" role="tabpanel" aria-labelledby="profile-tab">
+        <div class="tab-pane" id="Publications" role="tabpanel" aria-labelledby="publications-tab">
             <div class="row mt-2">
                 <div class="col-12">
                     <h2 class="fs-5 border-bottom">SECTION PUBLICATION</h2>
-                    <div id="content-form">
-                        <div class="text-center p-5">
-                            <div class="spinner-border" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane d-none" id="Documents" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="row mt-2">
-                <div class="col-12">
-                    <h2 class="fs-5 border-bottom">SECTION DOCUMENTS</h2>
-                    <div id="content-form">
-                        <div class="text-center p-5">
-                            <div class="spinner-border" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="tab-pane d-none" id="Map" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="row mt-2">
-                <div class="col-12">
-                    <h2 class="fs-5 border-bottom">SECTION CARTE</h2>
                     <div id="content-form">
                         <div class="text-center p-5">
                             <div class="spinner-border" role="status">
