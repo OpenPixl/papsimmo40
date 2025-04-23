@@ -4,6 +4,7 @@ const modalAddcollaborateur = document.getElementById('modalAddColl');
 
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
 let btnDelCustommer = document.getElementById('btnDellCustomer');
+
 const selectCustomer = "selectCustomer";
 
 let btnAddDatePromise = document.getElementById('btnAddDatePromise');
@@ -203,6 +204,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
         axios
             .get(url)
             .then(function(response){
+                let btnAddResp = document.getElementById('btnAddResp');
                 modalBody.innerHTML = response.data.formView;
                 // block pour interagir sur la civilité
                 if(document.querySelector('input[name=customer\\[civility\\]]:checked').value > 1){
@@ -273,6 +275,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 proSelectcity.addEventListener('change', function (event){
                     change_selectcity(proZipcode, proCity, proSelectcity);
                 });
+                reloadEvent();
             })
             .catch(function(error){
                 console.log(error);
@@ -294,7 +297,6 @@ modalCustomer.addEventListener('hidden.bs.modal', event => {
                 })
             ;
         }
-        
     }
     modalCustomer.querySelector('.modal-dialog').classList.remove('modal-lg');
     modalCustomer.querySelector('.modal-body').innerHTML =
@@ -303,7 +305,6 @@ modalCustomer.addEventListener('hidden.bs.modal', event => {
         "<span class=\"visually-hidden\">Loading...</span>\n" +
         "</div>\n" +
         "</div>";
-
 });
 // ------------------------------------------------------------------------------------------
 // Actions sur le modal de suppression des clients
@@ -341,6 +342,10 @@ modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
+                let btnAddResp = document.getElementById('btnAddResp');
+                if(btnaddResp !== null){
+                    btnAddResp.addEventListener('click', addResponsable);
+                }
             })
             .catch(function(error){
                 console.log(error);
@@ -408,7 +413,6 @@ function submitCustomer(event){
                         document.getElementById('btnAddDatePromise').classList.remove('d-none');
                         document.getElementById('rowEmptyPromiseDate').remove();
                     }
-
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -430,6 +434,43 @@ function dellCustomer(event){
         .catch(function(error){
             console.log(error);
         });
+}
+
+function addResponsable(event){
+    event.preventDefault();
+    let form = document.getElementById('AddRespStructure');
+    let action = form.action;
+    let data = new FormData(form);
+    console.log(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+            toasterMessage(response.data.message);
+            form.reset();
+            reloadEvent();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
+}
+
+function dellResponsable(event){
+    event.preventDefault();
+    let url = this.href;
+    axios
+        .post(url)
+        .then(function(response){
+            document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+            toasterMessage(response.data.message);
+            console.log(response.data);
+            reloadEvent();
+        })
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
 }
 
 // ------------------------------------------------------------------------------------------
@@ -1021,7 +1062,7 @@ function submitHonoraires(event){
 function allAddEvent(){
     // Customer
     btnSubmitCustomer.addEventListener('click', submitCustomer);
-// Promise
+    // Promise
     if(btnAddDatePromise !== null){btnAddDatePromise.addEventListener('click', submitDatePromise);}
     if(btnAddPromisePdf !== null){btnAddPromisePdf.addEventListener('click', submitPromisePdf);}
     if(btnAddPromisePdfbyColl !== null){btnAddPromisePdfbyColl.addEventListener('click', submitPromisePdfbyColl);}
