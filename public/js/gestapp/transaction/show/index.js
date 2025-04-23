@@ -442,7 +442,6 @@ function addResponsable(event){
     let form = document.getElementById('AddRespStructure');
     let action = form.action;
     let data = new FormData(form);
-    console.log(form);
     axios
         .post(action, data)
         .then(function(response){

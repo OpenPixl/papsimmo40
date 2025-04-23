@@ -6,7 +6,10 @@ const modalBs = new bootstrap.Modal(document.getElementById('modal'));
 // comportement à adopter à la fermeture de la modal des customers
 modal.addEventListener('hidden.bs.modal', event => {
     let form = modal.querySelector('#formCustomer_add');
-    let btnSubmit = modal.querySelector('.modal-footer #btnSubmitCustomer');
+    let btnSubmit = modal.querySelector('.modal-footer #btnModalSubmit');
+    if (btnSubmit.classList.contains('d-none')){
+        btnSubmit.classList.remove('d-none');
+    }
     if(form && !btnSubmit){
         //let idCustomer = document.getElementById('idCustomer').value;
         //axios.post('/gestapp/customer/'+ idCustomer +'/delontransaction');
@@ -123,7 +126,8 @@ function openModalXL(event){
             .catch(function(error){
                 console.log('Erreur lors du chargement de la modal', error);
             });
-    }else if(crud === "DELCUSTOMER"){
+    }
+    else if(crud === "DELCUSTOMER"){
         let cardBody = a.closest('.card-body');
         if (cardBody) {
             // Sélectionner le <h4> dans cet élément parent
@@ -136,8 +140,8 @@ function openModalXL(event){
                 modal.querySelector('.modal-footer a').href = url;
             }
         }
-
-    }else if(crud === 'ADDMANDAT'){
+    }
+    else if(crud === 'ADDMANDAT'){
         axios
             .get(url)
             .then(function(response){
@@ -166,14 +170,16 @@ function openModalXL(event){
                     if(flag === 1){
                         addMandat.classList.remove("is-valid");
                         addMandat.classList.add("is-invalid");
-                        document.getElementById('refmandat_error').classList.add('alert alert-warning');
-                        document.getElementById('refmandat_error').innerHTML = 'Corrigez ce numéro, il est présent dans la liste des biens <b>Paps immo</b>.';
-
+                        document.getElementById('refmandatError').parentElement.classList.remove('d-none');
+                        document.getElementById('refmandatError').classList.add('text-warning');
+                        document.getElementById('refmandatError').innerHTML = "Corrigez ce numéro, il est présent dans la liste des biens <b>Paps immo</b>.";
+                        document.getElementById('btnModalSubmit').classList.add('d-none');
                     }else{
                         addMandat.classList.remove("is-invalid");
                         addMandat.classList.add("is-valid");
-                        document.getElementById('refmandat_error').classList.add('alert alert-success');
-                        document.getElementById('refmandat_error').textContent = "Numéro de mandat valide.";
+                        document.getElementById('refmandatError').parentElement.classList.remove('d-none');
+                        document.getElementById('refmandatError').classList.add('text-success');
+                        document.getElementById('refmandatError').innerHTML = "Numéro de mandat valide.";
                     }
                 });
                 initializeTinyMCE();
@@ -181,7 +187,8 @@ function openModalXL(event){
             .catch(function(error){
                 console.log('Erreur lors du chargement de la modal', error);
             });
-    }else if(crud === 'ADDAVENANT'){
+    }
+    else if(crud === 'ADDAVENANT'){
         axios
             .get(url)
             .then(function(response){
@@ -192,7 +199,8 @@ function openModalXL(event){
             .catch(function(error){
                 console.log('Erreur lors du chargement de la modal', error);
             });
-    }else{
+    }
+    else{
         axios
             .get(url)
             .then(function(response){
