@@ -204,7 +204,6 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
         axios
             .get(url)
             .then(function(response){
-                let btnAddResp = document.getElementById('btnAddResp');
                 modalBody.innerHTML = response.data.formView;
                 // block pour interagir sur la civilité
                 if(document.querySelector('input[name=customer\\[civility\\]]:checked').value > 1){
@@ -235,7 +234,6 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                     });
                 });
                 // Variables liés aux modifications des champs du bloc adresse.
-
                 let typeClient = modalCustomer.querySelector('.modal-body #customer_typeClient');
                 if(typeClient.value === "professionnel"){
                     document.getElementById("box_professionnel").classList.remove('d-none');
@@ -275,7 +273,14 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 proSelectcity.addEventListener('change', function (event){
                     change_selectcity(proZipcode, proCity, proSelectcity);
                 });
-                reloadEvent();
+                let btnAddResp = document.getElementById('btnAddResp');
+                if(btnAddResp !== null){
+                    btnAddResp.addEventListener('click', addResponsable);
+                }
+                let btnSupprResps = document.querySelectorAll('.btnSupprResp');
+                btnSupprResps.forEach(function(click){
+                    click.addEventListener('click', dellResponsable);
+                });
             })
             .catch(function(error){
                 console.log(error);
@@ -342,10 +347,6 @@ modalAddcollaborateur.addEventListener('show.bs.modal', function (event) {
             .get(url)
             .then(function(response){
                 modalBody.innerHTML = response.data.formView;
-                let btnAddResp = document.getElementById('btnAddResp');
-                if(btnaddResp !== null){
-                    btnAddResp.addEventListener('click', addResponsable);
-                }
             })
             .catch(function(error){
                 console.log(error);
@@ -446,9 +447,16 @@ function addResponsable(event){
         .post(action, data)
         .then(function(response){
             document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+            let btnAddResp = document.getElementById('btnAddResp');
+            if(btnAddResp !== null){
+                btnAddResp.addEventListener('click', addResponsable);
+            }
+            let btnSupprResps = document.querySelectorAll('.btnSupprResp');
+            btnSupprResps.forEach(function(click){
+                click.addEventListener('click', dellResponsable);
+            });
             toasterMessage(response.data.message);
             form.reset();
-            reloadEvent();
         })
         .catch(function(error){
             console.log(error);
@@ -465,7 +473,10 @@ function dellResponsable(event){
             document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
             toasterMessage(response.data.message);
             console.log(response.data);
-            reloadEvent();
+            let btnSupprResps = document.querySelectorAll('.btnSupprResp');
+            btnSupprResps.forEach(function(click){
+                click.addEventListener('click', dellResponsable);
+            });
         })
         .catch(function(error){
             console.log(error);
