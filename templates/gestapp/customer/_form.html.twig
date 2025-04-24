@@ -229,7 +229,7 @@
                             <div class="col-12">
                                 {{ form_widget(form.kbisfilename, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
-                            {% if customer.kbisfilename is not empty %}
+                            {% if customer.kbisfilename is not null %}
                                 <div class="col-12">
                                     <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/'~customer.slugStructure~'_'~customer.id~'/'~customer.kbisfilename) }}" download>Télécharger l'extrait KBIS.</a>
                                 </div>

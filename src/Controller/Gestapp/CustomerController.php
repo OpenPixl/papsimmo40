@@ -46,7 +46,7 @@ class CustomerController extends AbstractController
                 $customer->setSlugStructure($slugger->slug($name));
                 $em->flush();
             }
-            $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName();
+            $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName().'_'.$customer->getId();
             if(is_dir($pathheader)){
                 rename($pathheader, $this->getParameter('customer_ci_directory') . '/' .$customer->getSlug().'_'.$customer->getId());
             }
@@ -635,7 +635,7 @@ class CustomerController extends AbstractController
                             unlink($pathheader);
                         }
                     }
-                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                    $newFilename = 'ci-'.$customer->getSlug().'.'.$ci->guessExtension();
                     try {
                         if(is_dir($path_part)){
                             $ci->move(
@@ -815,7 +815,7 @@ class CustomerController extends AbstractController
                             unlink($pathheader);
                         }
                     }
-                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                    $newFilename = 'ci-'.$customer->getSlug().'.'.$ci->guessExtension();
                     try {
                         if(is_dir($path_part)){
                             $ci->move(
