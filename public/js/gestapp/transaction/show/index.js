@@ -1,4 +1,5 @@
 const modalCustomer = document.getElementById('modalCustomer');
+const modalBsCustomer = new bootstrap.Modal(document.getElementById('modalCustomer'));
 const modalDelCustomer = document.getElementById('modalDelCustomer');
 const modalAddcollaborateur = document.getElementById('modalAddColl');
 
@@ -414,6 +415,7 @@ function submitCustomer(event){
                         document.getElementById('btnAddDatePromise').classList.remove('d-none');
                         document.getElementById('rowEmptyPromiseDate').remove();
                     }
+                    modalBsCustomer.hide();
                 })
                 .catch(function (error) {
                     console.log(error);
