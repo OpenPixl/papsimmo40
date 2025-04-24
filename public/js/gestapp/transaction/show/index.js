@@ -4,7 +4,6 @@ const modalAddcollaborateur = document.getElementById('modalAddColl');
 
 let btnSubmitCustomer = document.getElementById('btnSubmitCustomer');
 let btnDelCustommer = document.getElementById('btnDellCustomer');
-
 const selectCustomer = "selectCustomer";
 
 let btnAddDatePromise = document.getElementById('btnAddDatePromise');
@@ -79,24 +78,17 @@ if(btnHonorairePdf !== null){btnHonorairePdf.addEventListener('click', submitHon
 
 // PARTIE Codepostal sur création & modification du client
 // ---------------------------------------
-let commune = document.getElementById('customer_city');
-let zipcode = document.getElementById('customer_zipcode');
-let selectcity = document.getElementById('customer_selectcity');
-let proCity = document.getElementById('customer_proCity');
-let proZipcode = document.getElementById('customer_proZipcode');
-let proSelectcity = document.getElementById('customer_proSelectcity');
-if(zipcode !== null) {
-    zipcode.addEventListener('input', function(event){
-        zipcode_api(zipcode, commune, selectcity);
+let commune2 = document.getElementById('customer_city');
+let zipcode2 = document.getElementById('customer_zipcode');
+let SelectCity2 = document.getElementById('customer_selectcity');
+let cp = '';
+let ville = '';
+if(zipcode2 !== null) {
+    zipcode2.addEventListener('input', function(event){
+        zipcode_api(zipcode2, commune2, SelectCity2, ville, cp);
     });
-    selectcity.addEventListener('change', function (event){
-        change_selectcity(zipcode, commune, selectcity);
-    });
-    proZipcode.addEventListener('input', function(event){
-        zipcode_api(proZipcode, proCity, selectcity);
-    });
-    proSelectcity.addEventListener('change', function (event){
-        change_selectcity(proZipcode, proCity, proSelectcity);
+    SelectCity2.addEventListener('change', function (event){
+        change_selectcity(zipcode2, commune2, SelectCity2, ville, cp);
     });
 }
 
@@ -107,7 +99,7 @@ function removeOptions(selectElement) {
     }
 }
 
-function zipcode_api(zipcode, commune, select){
+function zipcode_api(zipcode, commune, select_city, ville, cp){
     if(zipcode.value.length === 5)
     {
         let coord = zipcode.value;
@@ -115,38 +107,28 @@ function zipcode_api(zipcode, commune, select){
             .get('https://apicarto.ign.fr/api/codes-postaux/communes/'+ coord)
             .then(function(response){
                 let features = response.data;
-                removeOptions(select);
-                let ville = '';
-                let cp = '';
+                removeOptions(select_city);
                 features.forEach((element) => {
-                    let name =  element.nomCommune + " (" + element.codePostal + ')';
-                    ville = element.nomCommune;
-                    cp = element.codePostal;
-                    let OptSelect = new Option(name.toUpperCase(), name.toUpperCase(), false, true);
-                    select.options.add(OptSelect);
+                    cp = element['codePostal'];
+                    ville = element['nomCommune'];
+                    let OptSelectCity = new Option (ville.toUpperCase()+" ("+cp+")", ville.toUpperCase(), false, true);
+                    select_city.options.add(OptSelectCity);
                 });
 
-                if (select.options.length === 1) {
+                if (select_city.options.length === 1){
                     zipcode.value = cp;
                     commune.value = ville.toUpperCase();
-                } else {
+                }else{
                     zipcode.value = cp;
-                    commune.value = ville.toUpperCase();
+                    commune.value = ville.value.toUpperCase();
                 }
-            })
-            .catch(function(error){
-                alert('pas de commune sur ce code postal');
-            })
-        ;
+            });
     }
 }
 
-function change_selectcity(zipcode, commune, select){
-    let regex = /^(.+) \((\d+)\)$/;
-    let select_value = select.options[select.selectedIndex].text;
-    const match = select_value.match(regex);
-    zipcode.value = match[2];
-    commune.value = match[1].toUpperCase();
+function change_selectcity(zipcode, commune, select_city, ville, cp){
+    zipcode.value = cp;
+    commune.value = select_city.value.toUpperCase();
 }
 
 function tomSelect(selectId){
@@ -158,6 +140,7 @@ function tomSelect(selectId){
         searchField: 'text',      // Champ utilisé pour la recherche
         load: function(query, callback) {
             var url = "/gestapp/customer/getCustomer";  // URL du contrôleur Symfony
+
             fetch(url)
                 .then(function(response) {
                     if (!response.ok) {
@@ -234,6 +217,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                     });
                 });
                 // Variables liés aux modifications des champs du bloc adresse.
+
                 let typeClient = modalCustomer.querySelector('.modal-body #customer_typeClient');
                 if(typeClient.value === "professionnel"){
                     document.getElementById("box_professionnel").classList.remove('d-none');
@@ -261,25 +245,19 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
                 let proCity = document.getElementById('customer_proCity');
                 let proZipcode = document.getElementById('customer_proZipcode');
                 let proSelectcity = document.getElementById('customer_proSelectcity');
+                let ville = "";
+                let cp = '';
                 zipcode.addEventListener('input', function(event){
-                    zipcode_api(zipcode, commune, selectcity);
+                    zipcode_api(zipcode, commune, selectcity, ville, cp);
                 });
                 selectcity.addEventListener('change', function (event){
-                    change_selectcity(zipcode, commune, selectcity);
+                    change_selectcity(zipcode, commune, selectcity, ville, cp);
                 });
                 proZipcode.addEventListener('input', function(event){
-                    zipcode_api(proZipcode, proCity, proSelectcity);
+                    zipcode_api(zipcode, commune, selectcity, ville, cp);
                 });
                 proSelectcity.addEventListener('change', function (event){
-                    change_selectcity(proZipcode, proCity, proSelectcity);
-                });
-                let btnAddResp = document.getElementById('btnAddResp');
-                if(btnAddResp !== null){
-                    btnAddResp.addEventListener('click', addResponsable);
-                }
-                let btnSupprResps = document.querySelectorAll('.btnSupprResp');
-                btnSupprResps.forEach(function(click){
-                    click.addEventListener('click', dellResponsable);
+                    change_selectcity(zipcode, commune, selectcity, ville, cp);
                 });
             })
             .catch(function(error){
@@ -292,16 +270,10 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
 modalCustomer.addEventListener('hidden.bs.modal', event => {
     let form = modalCustomer.querySelector('#formCustomer_add');
     let btnSubmit = modalCustomer.querySelector('.modal-footer #btnSubmitCustomer');
-    if(form){
-        if (event.target !== btnSubmit){
-            let idCustomer = document.getElementById('idCustomer').value;
-            axios
-                .post('/gestapp/customer/'+ idCustomer +'/delontransaction')
-                .then(function(response){
-                    toasterMessage(response.data.message);
-                })
-            ;
-        }
+    console.log(form);
+    if(form && !btnSubmit){
+        let idCustomer = document.getElementById('idCustomer').value;
+        axios.post('/gestapp/customer/'+ idCustomer +'/delontransaction');
     }
     modalCustomer.querySelector('.modal-dialog').classList.remove('modal-lg');
     modalCustomer.querySelector('.modal-body').innerHTML =
@@ -310,6 +282,7 @@ modalCustomer.addEventListener('hidden.bs.modal', event => {
         "<span class=\"visually-hidden\">Loading...</span>\n" +
         "</div>\n" +
         "</div>";
+
 });
 // ------------------------------------------------------------------------------------------
 // Actions sur le modal de suppression des clients
@@ -414,6 +387,7 @@ function submitCustomer(event){
                         document.getElementById('btnAddDatePromise').classList.remove('d-none');
                         document.getElementById('rowEmptyPromiseDate').remove();
                     }
+
                 })
                 .catch(function (error) {
                     console.log(error);
@@ -435,52 +409,6 @@ function dellCustomer(event){
         .catch(function(error){
             console.log(error);
         });
-}
-
-function addResponsable(event){
-    event.preventDefault();
-    let form = document.getElementById('AddRespStructure');
-    let action = form.action;
-    let data = new FormData(form);
-    axios
-        .post(action, data)
-        .then(function(response){
-            document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
-            let btnAddResp = document.getElementById('btnAddResp');
-            if(btnAddResp !== null){
-                btnAddResp.addEventListener('click', addResponsable);
-            }
-            let btnSupprResps = document.querySelectorAll('.btnSupprResp');
-            btnSupprResps.forEach(function(click){
-                click.addEventListener('click', dellResponsable);
-            });
-            toasterMessage(response.data.message);
-            form.reset();
-        })
-        .catch(function(error){
-            console.log(error);
-        })
-    ;
-}
-
-function dellResponsable(event){
-    event.preventDefault();
-    let url = this.href;
-    axios
-        .post(url)
-        .then(function(response){
-            document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
-            toasterMessage(response.data.message);
-            console.log(response.data);
-            let btnSupprResps = document.querySelectorAll('.btnSupprResp');
-            btnSupprResps.forEach(function(click){
-                click.addEventListener('click', dellResponsable);
-            });
-        })
-        .catch(function(error){
-            console.log(error);
-        })
-    ;
 }
 
 // ------------------------------------------------------------------------------------------
@@ -1072,7 +1000,7 @@ function submitHonoraires(event){
 function allAddEvent(){
     // Customer
     btnSubmitCustomer.addEventListener('click', submitCustomer);
-    // Promise
+// Promise
     if(btnAddDatePromise !== null){btnAddDatePromise.addEventListener('click', submitDatePromise);}
     if(btnAddPromisePdf !== null){btnAddPromisePdf.addEventListener('click', submitPromisePdf);}
     if(btnAddPromisePdfbyColl !== null){btnAddPromisePdfbyColl.addEventListener('click', submitPromisePdfbyColl);}

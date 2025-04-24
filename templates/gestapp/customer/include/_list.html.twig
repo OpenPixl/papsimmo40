@@ -39,7 +39,7 @@
                 <td>{% if customer.isFinished == 0 %}<p class="mb-0 text-warning">En cours de création</p>{% else %}{{ customer.RefCustomer }}{% endif %}</td>
                 <td>
                     {% if customer.typeClient == "professionnel" %}
-                        <p class="mb-0"><strong>{{ customer.NameStructure }}</strong>  <span class="badge rounded-pill bg-success text-dark">Pro</span><p>
+                        <p class="mb-0"><strong>{{ customer.nameStructure }}</strong>  <span class="badge rounded-pill bg-success text-dark">Pro</span><p>
                     {% elseif customer.typeClient == "dirigeant" %}
                         <p class="mb-0"><strong>{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-danger text-dark">Dir</span><p>
                     {% else %}

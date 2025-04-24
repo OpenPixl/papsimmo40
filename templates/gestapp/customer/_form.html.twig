@@ -141,9 +141,9 @@
                             <div class="col-12">
                                 {{ form_widget(form.cifilename, {'attr': {'class': 'form-control form-control-sm'}}) }}
                             </div>
-                            {% if customer.cifilename is not empty %}
+                            {% if customer.cifilename is not null %}
                                 <div class="col-12 mt-1">
-                                    <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/'~customer.lastName~'_'~customer.firstName~'/'~customer.cifilename) }}" download>Télécharger la pièce d'identité</a>
+                                    <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/'~customer.slug~'_'~customer.id~'/'~customer.cifilename) }}" download>Télécharger la pièce d'identité</a>
                                 </div>
                             {% endif %}
                         </div>
@@ -231,7 +231,7 @@
                             </div>
                             {% if customer.kbisfilename is not empty %}
                                 <div class="col-12">
-                                    <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/'~customer.lastName~'_'~customer.firstName~'/'~customer.kbisfilename) }}" download>Télécharger la pièce d'identité</a>
+                                    <a class="btn btn-sm btn-outline-dark" href="{{ asset('customer/'~customer.slugStructure~'_'~customer.id~'/'~customer.kbisfilename) }}" download>Télécharger l'extrait KBIS.</a>
                                 </div>
                             {% endif %}
                         </div>

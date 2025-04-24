@@ -154,7 +154,7 @@ class Customer
     private ?string $typeClient = null;
 
     #[ORM\Column(length: 255, nullable: true)]
-    private ?string $NameStructure = null;
+    private ?string $nameStructure = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $cifilename = null;
@@ -232,6 +232,9 @@ class Customer
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'responsables')]
     private Collection $customers;
 
+    #[ORM\Column(length: 255)]
+    private ?string $slugStructure = null;
+
     /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
@@ -241,6 +244,7 @@ class Customer
     public function initializeSlug() {
         $slugify = new Slugify();
         $this->slug = $slugify->slugify($this->firstName."_".$this->lastName);
+        $this->slugStructure = $slugify->slugify($this->nameStructure);
     }
 
     public function __construct()
@@ -561,12 +565,12 @@ class Customer
 
     public function getNameStructure(): ?string
     {
-        return $this->NameStructure;
+        return $this->nameStructure;
     }
 
-    public function setNameStructure(string $NameStructure = null): static
+    public function setNameStructure(string $nameStructure = null): static
     {
-        $this->NameStructure = $NameStructure;
+        $this->nameStructure = $nameStructure;
 
         return $this;
     }
@@ -882,6 +886,18 @@ class Customer
         if ($this->customers->removeElement($customer)) {
             $customer->removeResponsable($this);
         }
+
+        return $this;
+    }
+
+    public function getSlugStructure(): ?string
+    {
+        return $this->slugStructure;
+    }
+
+    public function setSlugStructure(string $slugStructure): static
+    {
+        $this->slugStructure = $slugStructure;
 
         return $this;
     }

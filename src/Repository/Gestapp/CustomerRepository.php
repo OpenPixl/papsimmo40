@@ -55,7 +55,7 @@ class CustomerRepository extends ServiceEntityRepository
                 c.proZipcode as proZipcode,
                 c.proCity as proCity,
                 c.isFinished as isFinished,
-                c.NameStructure as NameStructure,
+                c.nameStructure as nameStructure,
                 e.id as refEmployed,
                 e.firstName as firstNameEmpl,
                 e.lastName as lastNameEmpl,
@@ -89,8 +89,12 @@ class CustomerRepository extends ServiceEntityRepository
             ->join('c.customerChoice', 't' )
             ->join('c.refEmployed', 'e')
             ->select('
+                c.proAdress as proAdress,
+                c.proComplement as proComplement,
+                c.proZipcode as proZipcode,
+                c.proCity as proCity,
                 c.isFinished as isFinished,
-                t.name as customerChoice,
+                c.nameStructure as nameStructure,
                 e.id as refEmployed,
                 e.firstName as firstNameEmpl,
                 e.lastName as lastNameEmpl,
@@ -107,8 +111,9 @@ class CustomerRepository extends ServiceEntityRepository
                 c.civility AS civility,
                 c.firstName AS firstName,
                 c.lastName AS lastName,
+                c.id,
                 c.typeClient as typeClient,
-                c.id 
+                ch.name as customerChoice
                 '
             )
             ->where('e.id = :user')
