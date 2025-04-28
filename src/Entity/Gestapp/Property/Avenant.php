@@ -22,13 +22,13 @@ class Avenant
     #[ORM\Column(type: Types::DATE_MUTABLE)]
     private ?\DateTimeInterface $dateAvenant = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?string $price = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?string $honoraires = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column(type: 'integer', nullable: true)]
     private ?string $priceFai = null;
 
     #[ORM\Column(type: 'datetime')]
