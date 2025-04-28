@@ -38,9 +38,11 @@ final class AvenantController extends AbstractController
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
 
-        $hasAvenants = $property->getAvenants();
-        if(!$hasAvenants){
+        $hasAvenants = count($property->getAvenants());
+
+        if($hasAvenants == 0){
             $firstAvenant = new Avenant();
+            $firstAvenant->setProperty($property);
             $firstAvenant->setDateAvenant($property->getCreatedAt());
             $firstAvenant->setPrice($property->getPrice());
             $firstAvenant->setHonoraires($property->getHonoraires());
@@ -102,13 +104,12 @@ final class AvenantController extends AbstractController
                 $avenant->setAvenantName($newFilename);
             }
 
-
-
-            $property->setPrice($form->get('price')->getData());
-            $property->setHonoraires($form->get('honoraires')->getData());
-            $property->setPriceFai($form->get('priceFai')->getData());
-
             $entityManager->persist($avenant);
+
+            $property->setPrice($avenant->getPrice());
+            $property->setHonoraires($avenant->getHonoraires());
+            $property->setPriceFai($avenant->getPriceFai());
+
             $entityManager->flush();
 
             return  $this->json([

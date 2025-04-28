@@ -56,11 +56,12 @@
                             <div class="row">
                                 <div class="col">
                                     <p class="mb-0 text-center">
-                                    {% for avenant in avenants %}
-                                        <a href="{{ path('op_gestapp_property_avenant_edit', {'id': avenant.id}) }}" class="openModal" data-bs-data="EDITAVENANT-Ajout d'un PDF sur l'avenant-{{ avenant.id }}"><span class="badge rounded-pill text-bg-dark">{{ loop.index }}</span>&nbsp;Avenant du {{ avenant.dateAvenant|format_datetime('short', 'none', locale='fr') }}</a> {% if loop.last %}{% else %} | {% endif %}
-                                    {% else %}
-                                        <small>Vous n'avez pas généré d'avenant</small>
-                                    {% endfor %}
+                                        {% set filteredAvenants = avenants|filter(avenant => avenant.isFirstAvenant == 0) %}
+                                        {% for avenant in filteredAvenants %}
+                                            <a href="{{ path('op_gestapp_property_avenant_edit', {'id': avenant.id}) }}" class="openModal" data-bs-data="EDITAVENANT-Ajout d'un PDF sur l'avenant-{{ avenant.id }}"><span class="badge rounded-pill text-bg-dark">{{ loop.index }}</span>&nbsp;Avenant du {{ avenant.dateAvenant|format_datetime('short', 'none', locale='fr') }}</a> {% if loop.last %}{% else %} | {% endif %}
+                                        {% else %}
+                                            <small>Vous n'avez pas généré d'avenant</small>
+                                        {% endfor %}
                                     </p>
                                 </div>
                             </div>
