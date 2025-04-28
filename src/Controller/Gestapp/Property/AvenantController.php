@@ -38,6 +38,18 @@ final class AvenantController extends AbstractController
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
 
+        $hasAvenants = $property->getAvenants();
+        if(!$hasAvenants){
+            $firstAvenant = new Avenant();
+            $firstAvenant->setDateAvenant($property->getCreatedAt());
+            $firstAvenant->setPrice($property->getPrice());
+            $firstAvenant->setHonoraires($property->getHonoraires());
+            $firstAvenant->setPriceFai($property->getPriceFai());
+            $firstAvenant->setIsFirstAvenant(1);
+            $entityManager->persist($firstAvenant);
+            $entityManager->flush();
+        }
+
         $avenant = new Avenant();
         $avenant->setDateAvenant(new \DateTime());
         $avenant->setPrice($property->getPrice());
@@ -56,7 +68,7 @@ final class AvenantController extends AbstractController
         $date = new \DateTime();
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $avenant->isFirstAvenant(false);
+            $avenant->setIsFirstAvenant(0);
             $avenant->setProperty($property);
             $avenantPdf = $form->get('avenantName')->getData();
             if($avenantPdf){
