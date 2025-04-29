@@ -84,7 +84,7 @@ class Customer
     #[Groups(['client:list', 'client:write:edit' , 'client:item', 'transaction:item'])]
     private $lastName;
 
-    #[ORM\Column(type: 'string', length: 125)]
+    #[ORM\Column(type: 'string', length: 125, nullable: true)]
     private $slug;
 
     #[ORM\ManyToOne(targetEntity: CustomerChoice::class)]
@@ -232,7 +232,7 @@ class Customer
     #[ORM\ManyToMany(targetEntity: self::class, mappedBy: 'responsables')]
     private Collection $customers;
 
-    #[ORM\Column(length: 255)]
+    #[ORM\Column(type: 'string', length: 125, nullable: true)]
     private ?string $slugStructure = null;
 
     /**
@@ -243,8 +243,15 @@ class Customer
     #[ORM\PreUpdate]
     public function initializeSlug() {
         $slugify = new Slugify();
-        $this->slug = $slugify->slugify($this->firstName."_".$this->lastName);
-        $this->slugStructure = $slugify->slugify($this->nameStructure);
+        // Vérifiez si firstName et lastName ne sont pas vides avant de créer le slug
+        if (!empty($this->firstName) && !empty($this->lastName)) {
+            $this->slug = $slugify->slugify($this->firstName . "_" . $this->lastName);
+        }
+
+        // Vérifiez si nameStructure n'est pas vide avant de créer le slugStructure
+        if (!empty($this->nameStructure)) {
+            $this->slugStructure = $slugify->slugify($this->nameStructure);
+        }
     }
 
     public function __construct()
