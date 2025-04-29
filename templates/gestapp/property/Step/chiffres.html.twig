@@ -75,7 +75,7 @@
                                     <input type="integer" value="{{ property.price }}" class="form-control form-control-sm" disabled>
                                 </div>
                                 <div class="col-7 d-none">
-                                    {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
+                                    {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
                             </div>
                             <div class="row mb-1">
@@ -97,7 +97,7 @@
                                     <input type="integer" value="{{ property.priceFai }}" class="form-control form-control-sm" disabled>
                                 </div>
                                 <div class="col-7 d-none">
-                                    {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm', 'disabled':'true'}}) }}
+                                    {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
                             </div>
                         {% endif %}

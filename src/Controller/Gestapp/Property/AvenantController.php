@@ -104,11 +104,11 @@ final class AvenantController extends AbstractController
             }
 
             $entityManager->persist($avenant);
-
-            $property->setPrice($avenant->getPrice());
-            $property->setHonoraires($avenant->getHonoraires());
-            $property->setPriceFai($avenant->getPriceFai());
-
+            if($avenant){
+                $property->setPrice($avenant->getPrice());
+                $property->setHonoraires($avenant->getHonoraires());
+                $property->setPriceFai($avenant->getPriceFai());
+            }
             $entityManager->flush();
 
             return  $this->json([
