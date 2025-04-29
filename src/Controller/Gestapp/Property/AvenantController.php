@@ -75,13 +75,12 @@ final class AvenantController extends AbstractController
             $avenantPdf = $form->get('avenantName')->getData();
             if($avenantPdf){
                 $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
-
                 if($property->getDupMandat()){
                     $refMandat = $property->getRefMandat().$property->getDupMandat();
                 }else{
                     $refMandat = $property->getRefMandat();
                 }
-                $newFilename = 'av-m'.$refMandat.'-'.$date->format('dmY').'.'.$avenantPdf->guessExtension();
+                $newFilename = 'av-m'.$refMandat.'-'.$date->format('dmYS').'.'.$avenantPdf->guessExtension();
                 try {
                     if (is_dir($pathdir)){
                         $avenantPdf->move(

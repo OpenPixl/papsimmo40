@@ -60,70 +60,71 @@
                 <section id="content_footer" class="mt-2">
                 {% block contentFooter %}{% endblock %}
                 </section>
-            </div>
-            <div id="modals">
-                {% block modal %}
-                    {# annonce toaster #}
-                    <div aria-live="polite" aria-atomic="true" class="position-relative">
-                        <div class="toast-container position-absolute top-50 end-0 p-3">
-                            <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
-                                <div class="toast-header">
-                                    <strong class="me-auto">Notification</strong>
-                                    <small>à l'instant</small>
-                                    <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
-                                </div>
-                                <div class="toast-body">
-                                    Hello, world! This is a toast message.
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {# Modal primary #}
-                    <div class="modal fade border-dark" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header bg-secondary">
-                                    <h5 class="modal-title" id="exampleModalLabel">Modal d'apparition</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="d-flex justify-content-center">
-                                        <div class="spinner-border text-primary" role="status">
-                                            <span class="visually-hidden">Loading...</span>
-                                        </div>
+                <div id="modals">
+                    {% block modal %}
+                        {# annonce toaster #}
+                        <div aria-live="polite" aria-atomic="true" class="position-relative">
+                            <div class="toast-container bottom-0 start-50 translate-middle-x p-3">
+                                <div id="toaster" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+                                    <div class="toast-header">
+                                        <strong class="me-auto">Notification</strong>
+                                        <small>à l'instant</small>
+                                        <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+                                    </div>
+                                    <div class="toast-body">
+                                        Hello, world! This is a toast message.
                                     </div>
                                 </div>
-                                <div class="modal-footer bg-secondary">
-                                    <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
-                                    <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                                </div>
                             </div>
                         </div>
-                    </div>
-                    {# Modal Alert #}
-                    <div class="modal fade border-dark" id="alertSession" tabindex="-1" aria-labelledby="alertSession" aria-hidden="true">
-                        <div class="modal-dialog modal-dialog-centered">
-                            <div class="modal-content">
-                                <div class="modal-header bg-info">
-                                    <h5 class="modal-title" id="exampleModalLabel">Message Système</h5>
-                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                </div>
-                                <div class="modal-body">
-                                    <div class="d-flex justify-content-center">
-                                        <div class="spinner-border text-primary" role="status">
-                                            <span class="visually-hidden">Loading...</span>
+                        {# Modal primary #}
+                        <div class="modal fade border-dark" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-secondary">
+                                        <h5 class="modal-title" id="exampleModalLabel">Modal d'apparition</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
-                                    <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    <div class="modal-footer bg-secondary">
+                                        <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                                        <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endblock %}
+                        {# Modal Alert #}
+                        <div class="modal fade border-dark" id="alertSession" tabindex="-1" aria-labelledby="alertSession" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-info">
+                                        <h5 class="modal-title" id="exampleModalLabel">Message Système</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="d-flex justify-content-center">
+                                            <div class="spinner-border text-primary" role="status">
+                                                <span class="visually-hidden">Loading...</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                                        <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endblock %}
+                </div>
             </div>
+
         </main>
         <footer class="fixed-bottom">
             {% block footer %}
