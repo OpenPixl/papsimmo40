@@ -19,9 +19,9 @@
 
 {% block contentTitle %}
     {% if property.isIncreating == 0 %}
-        <h1 class="fs-4 border-bottom border-dark fw-semibold">Edition du bien : {{ property.name }}</h1>
+        <h1 class="fs-4 border-bottom border-dark fw-normal">Edition du bien : {{ property.name }}</h1>
     {% else %}
-        <h1 class="fs-4 border-bottom border-dark fw-semibold">Création un nouveau bien</h1>
+        <h1 class="fs-4 border-bottom border-dark fw-normal">Création un nouveau bien</h1>
     {% endif %}
 
     {# read and display several types of flash messages #}

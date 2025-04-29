@@ -3,7 +3,7 @@
 {% block title %}New Transaction{% endblock %}
 
 {% block content %}
-    <h1>Engager une vente immobilière sur la référence <b>{{ property.ref }}</b></h1>
+    <h1 class="fs-4 border-bottom border-dark fw-normal">Engager une vente immobilière sur la référence <b>{{ property.ref }}</b></h1>
 
     {{ include('gestapp/transaction/_form.html.twig') }}
 

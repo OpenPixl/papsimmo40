@@ -37,6 +37,26 @@ class CustomerController extends AbstractController
         $this->router = $router;
     }
 
+    #[Route('/renamedir', name: 'op_gestapp_customer_renamedir',  methods: ['GET', 'POST'])]
+    public function renameDir(CustomerRepository $customerRepository, SluggerInterface $slugger, EntityManagerInterface $em){
+        $customers  = $customerRepository->findAll();
+        foreach ($customers as $customer){
+            $name = $customer->getNameStructure();
+            if($name){
+                $customer->setSlugStructure($slugger->slug($name));
+                $em->flush();
+            }
+            $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName().'_'.$customer->getId();
+            if(is_dir($pathheader)){
+                rename($pathheader, $this->getParameter('customer_ci_directory') . '/' .$customer->getSlug().'_'.$customer->getId());
+            }
+        }
+
+        return $this->json([
+            'code'=> 200,
+        ], 200);
+    }
+
     #[Route('/', name: 'op_gestapp_customer_index', methods: ['GET'])]
     public function index(CustomerRepository $customerRepository,PaginatorInterface $paginator, Request  $request): Response
     {
@@ -513,51 +533,130 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // partie ajout CI
-            $ci = $form->get('cifilename')->getData();
-            $ciFilename = $customer->getCifilename();
-            if($ci) {
-                if ($ciFilename) {
-                    $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
-                    // On vérifie si l'image existe
-                    if (file_exists($pathheader)) {
-                        unlink($pathheader);
+
+            $tclient = $customer->getTypeClient();
+
+            if($tclient == 'professionnel'){                    // BOUCLE SUR TypeClient Professionnel
+                $path_pro = $this->getParameter('customer_ci_directory').'/'.$customer->getSlugStructure().'_'.$customer->getId();
+                if(is_dir($path_pro)){                          // On teste le répertoire dossier professionnel
+                    // intégration de l'extrait Kbis puisque Professionnel
+                    $kbis = $form->get('kbisfilename')->getData();
+                    $kbisFilename = $customer->getKbisfilename();
+                    if($kbis) {
+                        if ($kbisFilename) {
+                            $pathheader = $path_pro. '/' .$kbisFilename;
+                            // On vérifie si l'image existe
+                            if (file_exists($pathheader)) {
+                                unlink($pathheader);
+                            }
+                        }
+                        $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                        try {
+                            $kbis->move(
+                                $path_pro. '/',
+                                $newFilename
+                            );
+                        } catch (FileException $e) {
+                            // ... handle exception if something happens during file upload
+                        }
+                        $customer->setKbisfilename($newFilename);
                     }
                 }
-                $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
-                try {
-                    $ci->move(
-                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                else{                                           // Le dossier pro n'existe pas.
+                    $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
+                    if(is_dir($path_part)){                     // Il existe un dossier un nom du client | configuration initiale
+                        rename($path_part, $path_pro);
+                        mkdir($path_pro."/", 0775, true);
+                        $kbis = $form->get('kbisfilename')->getData();
+                        $kbisFilename = $customer->getKbisfilename();
+                        if($kbis) {
+                            if ($kbisFilename) {
+                                $pathheader = $path_pro. '/' .$kbisFilename;
+                                // On vérifie si l'image existe
+                                if (file_exists($pathheader)) {
+                                    unlink($pathheader);
+                                }
+                            }
+                            $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                            try {
+                                $kbis->move(
+                                    $path_pro. '/',
+                                    $newFilename
+                                );
+                            } catch (FileException $e) {
+                                // ... handle exception if something happens during file upload
+                            }
+                            $customer->setKbisfilename($newFilename);
+                        }
+                    }else{                                      // Pas de dossier actuellement créé
+                        $kbis = $form->get('kbisfilename')->getData();
+                        $kbisFilename = $customer->getKbisfilename();
+                        if($kbis) {
+                            if ($kbisFilename) {
+                                $pathheader = $path_pro. '/' .$kbisFilename;
+                                // On vérifie si l'image existe
+                                if (file_exists($pathheader)) {
+                                    unlink($pathheader);
+                                }
+                            }
+                            $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                            try {
+                                if(is_dir($path_pro)){
+                                    $kbis->move(
+                                        $path_pro. '/',
+                                        $newFilename
+                                    );
+                                }else{
+                                    mkdir($path_pro."/", 0775, true);
+                                    $kbis->move(
+                                        $path_pro. '/',
+                                        $newFilename
+                                    );
+                                }
+
+                            } catch (FileException $e) {
+                                // ... handle exception if something happens during file upload
+                            }
+                            $customer->setKbisfilename($newFilename);
+                        }
+                    }
                 }
-                $customer->setCifilename($newFilename);
+            }
+            else{
+                // partie ajout CI
+                $ci = $form->get('cifilename')->getData();
+                $ciFilename = $customer->getCifilename();
+                if($ci) {
+                    $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
+                    if ($ciFilename) {
+                        $pathheader = $path_part. '/' .$ciFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'ci-'.$customer->getSlug().'.'.$ci->guessExtension();
+                    try {
+                        if(is_dir($path_part)){
+                            $ci->move(
+                                $path_part. '/',
+                                $newFilename
+                            );
+                        }else{
+                            mkdir($path_part."/", 0775, true);
+                            $ci->move(
+                                $path_part. '/',
+                                $newFilename
+                            );
+                        }
+
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setCifilename($newFilename);
+                }
             }
 
-            // partie Ajout Kbis
-            $kbis = $form->get('kbisfilename')->getData();
-            $kbisFilename = $customer->getKbisfilename();
-            if($kbis) {
-                if ($kbisFilename) {
-                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
-                    // On vérifie si l'image existe
-                    if (file_exists($pathheader)) {
-                        unlink($pathheader);
-                    }
-                }
-                $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
-                try {
-                    $kbis->move(
-                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $customer->setKbisfilename($newFilename);
-            }
             $customer->setFinished(1);
             $customerRepository->add($customer);
             return $this->redirectToRoute('op_gestapp_customer_edit', ['id'=>$customer->getId()], Response::HTTP_SEE_OTHER);
@@ -597,12 +696,7 @@ class CustomerController extends AbstractController
         Request $request,
         Customer $customer,
         $idproperty,
-        CustomerRepository $customerRepository,
-        EmployedRepository $employedRepository,
-        PropertyRepository $propertyRepository,
-        TransactionRepository $transactionRepository,
-        CustomerChoiceRepository $customerChoiceRepository,
-        SluggerInterface $slugger
+        CustomerRepository $customerRepository
     )
     {
         $form = $this->createForm(CustomerType::class, $customer, [
@@ -618,54 +712,131 @@ class CustomerController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $customerRepository->add($customer);
             $customers = $customerRepository->listbyproperty($idproperty);
 
-            // partie ajout CI
-            $ci = $form->get('cifilename')->getData();
-            $ciFilename = $customer->getCifilename();
-            if($ci) {
-                if ($ciFilename) {
-                    $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
-                    // On vérifie si l'image existe
-                    if (file_exists($pathheader)) {
-                        unlink($pathheader);
+            $tclient = $customer->getTypeClient();
+
+            if($tclient == 'professionnel'){                    // BOUCLE SUR TypeClient Professionnel
+                $path_pro = $this->getParameter('customer_ci_directory').'/'.$customer->getSlugStructure().'_'.$customer->getId();
+                if(is_dir($path_pro)){                          // On teste le répertoire dossier professionnel
+                    // intégration de l'extrait Kbis puisque Professionnel
+                    $kbis = $form->get('kbisfilename')->getData();
+                    $kbisFilename = $customer->getKbisfilename();
+                    if($kbis) {
+                        if ($kbisFilename) {
+                            $pathheader = $path_pro. '/' .$kbisFilename;
+                            // On vérifie si l'image existe
+                            if (file_exists($pathheader)) {
+                                unlink($pathheader);
+                            }
+                        }
+                        $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                        try {
+                            $kbis->move(
+                                $path_pro. '/',
+                                $newFilename
+                            );
+                        } catch (FileException $e) {
+                            // ... handle exception if something happens during file upload
+                        }
+                        $customer->setKbisfilename($newFilename);
                     }
                 }
-                $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
-                try {
-                    $ci->move(
-                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                else{                                           // Le dossier pro n'existe pas.
+                    $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
+                    if(is_dir($path_part)){                     // Il existe un dossier un nom du client | configuration initiale
+                        rename($path_part, $path_pro);
+                        mkdir($path_pro."/", 0775, true);
+                        $kbis = $form->get('kbisfilename')->getData();
+                        $kbisFilename = $customer->getKbisfilename();
+                        if($kbis) {
+                            if ($kbisFilename) {
+                                $pathheader = $path_pro. '/' .$kbisFilename;
+                                // On vérifie si l'image existe
+                                if (file_exists($pathheader)) {
+                                    unlink($pathheader);
+                                }
+                            }
+                            $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                            try {
+                                $kbis->move(
+                                    $path_pro. '/',
+                                    $newFilename
+                                );
+                            } catch (FileException $e) {
+                                // ... handle exception if something happens during file upload
+                            }
+                            $customer->setKbisfilename($newFilename);
+                        }
+                    }else{                                      // Pas de dossier actuellement créé
+                        $kbis = $form->get('kbisfilename')->getData();
+                        $kbisFilename = $customer->getKbisfilename();
+                        if($kbis) {
+                            if ($kbisFilename) {
+                                $pathheader = $path_pro. '/' .$kbisFilename;
+                                // On vérifie si l'image existe
+                                if (file_exists($pathheader)) {
+                                    unlink($pathheader);
+                                }
+                            }
+                            $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                            try {
+                                if(is_dir($path_pro)){
+                                    $kbis->move(
+                                        $path_pro. '/',
+                                        $newFilename
+                                    );
+                                }else{
+                                    mkdir($path_pro."/", 0775, true);
+                                    $kbis->move(
+                                        $path_pro. '/',
+                                        $newFilename
+                                    );
+                                }
+
+                            } catch (FileException $e) {
+                                // ... handle exception if something happens during file upload
+                            }
+                            $customer->setKbisfilename($newFilename);
+                        }
+                    }
                 }
-                $customer->setCifilename($newFilename);
+            }
+            else{
+                // partie ajout CI
+                $ci = $form->get('cifilename')->getData();
+                $ciFilename = $customer->getCifilename();
+                if($ci) {
+                    $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
+                    if ($ciFilename) {
+                        $pathheader = $path_part. '/' .$ciFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'ci-'.$customer->getSlug().'.'.$ci->guessExtension();
+                    try {
+                        if(is_dir($path_part)){
+                            $ci->move(
+                                $path_part. '/',
+                                $newFilename
+                            );
+                        }else{
+                            mkdir($path_part."/", 0775, true);
+                            $ci->move(
+                                $path_part. '/',
+                                $newFilename
+                            );
+                        }
+
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setCifilename($newFilename);
+                }
             }
 
-            // partie Ajout Kbis
-            $kbis = $form->get('kbisfilename')->getData();
-            $kbisFilename = $customer->getKbisfilename();
-            if($kbis) {
-                if ($kbisFilename) {
-                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
-                    // On vérifie si l'image existe
-                    if (file_exists($pathheader)) {
-                        unlink($pathheader);
-                    }
-                }
-                $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
-                try {
-                    $kbis->move(
-                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $customer->setKbisfilename($newFilename);
-            }
             $customer->setFinished(1);
             $customerRepository->add($customer);
 
@@ -678,7 +849,9 @@ class CustomerController extends AbstractController
                 ])
             ], 200);
         }
+
         $customers = $customerRepository->listbyproperty($idproperty);
+
         // Affichage du formulaire de modification du client
         $view = $this->render('gestapp/customer/_form2.html.twig', [
             'customer' => $customer,
