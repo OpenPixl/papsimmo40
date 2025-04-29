@@ -696,7 +696,8 @@ class CustomerController extends AbstractController
         Request $request,
         Customer $customer,
         $idproperty,
-        CustomerRepository $customerRepository
+        CustomerRepository $customerRepository,
+        SluggerInterface $slugger,
     )
     {
         $form = $this->createForm(CustomerType::class, $customer, [
@@ -715,12 +716,18 @@ class CustomerController extends AbstractController
             $customers = $customerRepository->listbyproperty($idproperty);
 
             $tclient = $customer->getTypeClient();
+            $slugStructure = $customer->getSlugStructure();
+            if(!$slugStructure){
+                $nameStructure = $form->get('nameStructure')->getData();
+                $slugStructure = $slugger->slug($nameStructure)->lower();
+            }
 
             if($tclient == 'professionnel'){                    // BOUCLE SUR TypeClient Professionnel
-                $path_pro = $this->getParameter('customer_ci_directory').'/'.$customer->getSlugStructure().'_'.$customer->getId();
+                $path_pro = $this->getParameter('customer_ci_directory').'/'.$slugStructure.'_'.$customer->getId();
                 if(is_dir($path_pro)){                          // On teste le répertoire dossier professionnel
                     // intégration de l'extrait Kbis puisque Professionnel
                     $kbis = $form->get('kbisfilename')->getData();
+
                     $kbisFilename = $customer->getKbisfilename();
                     if($kbis) {
                         if ($kbisFilename) {
@@ -730,7 +737,7 @@ class CustomerController extends AbstractController
                                 unlink($pathheader);
                             }
                         }
-                        $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                        $newFilename = 'kbis-'.$slugStructure.'.'.$kbis->guessExtension();
                         try {
                             $kbis->move(
                                 $path_pro. '/',
@@ -757,7 +764,7 @@ class CustomerController extends AbstractController
                                     unlink($pathheader);
                                 }
                             }
-                            $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                            $newFilename = 'kbis-'.$slugStructure.'.'.$kbis->guessExtension();
                             try {
                                 $kbis->move(
                                     $path_pro. '/',
@@ -779,7 +786,7 @@ class CustomerController extends AbstractController
                                     unlink($pathheader);
                                 }
                             }
-                            $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
+                            $newFilename = 'kbis-'.$slugStructure.'.'.$kbis->guessExtension();
                             try {
                                 if(is_dir($path_pro)){
                                     $kbis->move(
