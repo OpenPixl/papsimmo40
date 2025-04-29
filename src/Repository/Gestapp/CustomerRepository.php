@@ -113,7 +113,7 @@ class CustomerRepository extends ServiceEntityRepository
                 c.lastName AS lastName,
                 c.id,
                 c.typeClient as typeClient,
-                ch.name as customerChoice
+                c.name as customerChoice
                 '
             )
             ->where('e.id = :user')
