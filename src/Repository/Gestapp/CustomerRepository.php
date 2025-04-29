@@ -87,6 +87,7 @@ class CustomerRepository extends ServiceEntityRepository
     public function findAllCustomerByEmployed($user){
         return $this->createQueryBuilder('c')
             ->join('c.customerChoice', 't' )
+            ->join('c.customerChoice', 'ch')
             ->join('c.refEmployed', 'e')
             ->select('
                 c.proAdress as proAdress,
@@ -113,7 +114,7 @@ class CustomerRepository extends ServiceEntityRepository
                 c.lastName AS lastName,
                 c.id,
                 c.typeClient as typeClient,
-                c.name as customerChoice
+                ch.name as customerChoice
                 '
             )
             ->where('e.id = :user')
