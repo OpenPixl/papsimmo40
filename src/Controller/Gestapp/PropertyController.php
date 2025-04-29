@@ -854,6 +854,7 @@ class PropertyController extends AbstractController
             return $this->json([
                 'code'=> 200,
                 'message' => "Les informations du bien ont été correctement ajoutées.",
+                'data'=> [$property->getFamily()->getId(), $property->getRubric()->getId()],
                 'form' => $view->getContent(),
             ], 200);
 
