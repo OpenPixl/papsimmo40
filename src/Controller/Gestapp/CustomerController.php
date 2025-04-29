@@ -46,7 +46,7 @@ class CustomerController extends AbstractController
                 $customer->setSlugStructure($slugger->slug($name));
                 $em->flush();
             }
-            $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName().'_'.$customer->getId();
+            $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName();
             if(is_dir($pathheader)){
                 rename($pathheader, $this->getParameter('customer_ci_directory') . '/' .$customer->getSlug().'_'.$customer->getId());
             }
