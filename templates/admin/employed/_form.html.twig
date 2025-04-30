@@ -119,7 +119,8 @@
             </div>
         </div>
         {% set allowedRoles = ['ROLE_EMPLOYED', 'ROLE_ADMIN'] %}
-        {% if employed.employeds|filter(employed => employed.roles != allowedRoles)|length > 0 %}
+        {% set notallowed = ['ROLE_EMPLOYED', 'ROLE_USER'] %}
+        {% if employed.employeds|filter(employed => employed.roles == allowedRoles)|length > 0 %}
         <div class="card border-dark mb-1">
             <div class="card-body p-2">
                 <p class="fs-5 border-bottom border-dark fw-normal">Vos filleuls</p>
@@ -129,7 +130,7 @@
             </div>
         </div>
         {% endif %}
-        {% if employed.employeds|filter(employed => employed.roles == 'ROLE_PRESCRIBER')|length > 0 %}
+        {% if employed.employeds|filter(employed => employed.roles == notallowed)|length > 0 %}
             <div class="card border-dark mb-1">
                 <div class="card-body p-2">
                     <p class="fs-5 border-bottom border-dark fw-normal">Vos prescripteurs</p>
