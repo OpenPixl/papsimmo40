@@ -10,17 +10,12 @@
 {% block javascripts%}
     {{ parent() }}
     <script type="module" src="{{ asset('js/Admin/employed/edit.js') }}"></script>
-    <script>
-        window.onload = function(){
-
-        }
-    </script>
 {% endblock %}
 {% block content %}
     <section class="mb-5">
         <div class="row">
             <div class="col-12">
-                <h1>Edition d'un collaborateur</h1>
+                <h1 class="fs-4 border-bottom border-dark fw-normal">Edition d'un collaborateur</h1>
             </div>
         </div>
         <div class="row">

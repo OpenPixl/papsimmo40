@@ -11,14 +11,14 @@
 </div>
 <div class="row {% if is_granted('ROLE_SUPER_ADMIN') %}d-block{% else %}d-none{% endif %}">
     <div class="col-12">
-        <div class="alert alert-secondary">
-            <div class="d-flex justify-content-between">
-                <div class="form-check form-switch">
+        <div class="alert alert-secondary p-2 mb-2">
+            <div class="d-flex justify-content-between align-items-center">
+                <div class="form-check form-switch m-1">
                     {{ form_label(form.isVerified, 'Ce collaborateur.trice est activé.e', {'label_attr': {'class':'form-check-label'}}) }}
                     {{ form_widget(form.isVerified, {'attr': {'class': 'form-check-input'}}) }}
                 </div>
                 <div class="">
-                    Code de connexion à l'application : <b>{{ employed.numCollaborator }}</b>
+                    <p class="mb-0">Code de connexion à l'application : <b>{{ employed.numCollaborator }}</b></p>
                 </div>
             </div>
         </div>
@@ -26,12 +26,10 @@
 </div>
 <div class="row g-1">
     <div class="col-8">
-        <div class="card mb-1">
-            <div class="card-body">
-                <table class="table">
-                    <tr class="align-middle">
-                        <td class="align-middle" colspan="4"><h5>INFORMATIONS COLLABORATEUR</h5></td>
-                    </tr>
+        <div class="card border-dark mb-1">
+            <div class="card-body p-2">
+                <p class="fs-5 border-bottom border-dark fw-normal">Informations collaborateur</p>
+                <table class="table table-sm mb-0">
                     <tr class="align-middle">
                         <td class="table-light col-3">
                             {{ form_label(form.civility, '', {'label_attr': {'class':'form-label'}}) }}
@@ -56,7 +54,10 @@
                         <td>{{ form_widget(form.email, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                         <td colspan="2"></td>
                     </tr>
-                    <td class="align-middle" colspan="4"><h5>CONTACTS</h5></td>
+                </table>
+                <p class="fs-5 border-bottom border-dark fw-normal mt-2">Contacts</p>
+                <table class="table table-sm mb-0">
+
                     <tr class="align-middle">
                         <td class="table-light">Télephone</td>
                         <td>
@@ -117,15 +118,20 @@
                 </table>
             </div>
         </div>
+        {% if employed.ref %}
+        <div class="card border-dark mb-1">
+            <div class="card-body p-2">
+
+            </div>
+        </div>
+        {% endif %}
 
     </div>
     <div class="col-4">
         <div class="card">
-            <div class="card-body">
+            <div class="card-body p-2">
+                <p class="fs-5 border-bottom border-dark fw-normal">Paramètres</p>
                 <table class="table table-sm">
-                    <tr>
-                        <td colspan="3"><h5>PARAMETRES</h5></td>
-                    </tr>
                     <tr class="align-middle">
                         <td class="table-light col-md-2">Avatar</td>
                         {% if employed.avatarName is not null %}
