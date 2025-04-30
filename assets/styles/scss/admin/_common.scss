@@ -357,6 +357,11 @@ ol, ul, dl {
     #content_main{
       overflow-y: auto;
       overflow-x: hidden;
+      height: 100%;
+      #list{
+      //  overflow-y: auto;
+      //  overflow-x: hidden;
+      }
       #content-form{
         #listephoto{
           .card-img-overlay {

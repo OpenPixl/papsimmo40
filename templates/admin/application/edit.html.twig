@@ -10,7 +10,7 @@
 {% block content %}
     <div class="row">
         <div class="col-12">
-            <h1 class="fs-4 border-bottom border-dark fw-semibold">APPLICATION - Paramètres</h1>
+            <h1 class="fs-4 border-bottom border-dark fw-normal">APPLICATION - Paramètres</h1>
         </div>
     </div>
 
@@ -37,23 +37,6 @@
 
 {% block modal %}
     {{ parent() }}
-    {# Modal initiale #}
-    <div class="modal fade" id="modal" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-dark">
-                <div class="modal-header bg-light">
-                    <h5 class="modal-title" id="exampleModalLabel">Ouverture</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p>Exemple de contenu</p>
-                </div>
-                <div class="modal-footer bg-light">
-                    <button type="button" class="btn btn-sm btn-secondary" data-bs-dismiss="modal">Fermer</button>
-                </div>
-            </div>
-        </div>
-    </div>
     {# Modal initiale #}
     <div class="modal fade" id="modalSuppr" tabindex="-1" aria-labelledby="modal" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered ">

@@ -25,6 +25,7 @@
                         {{ form_widget(form.customerChoice, {'attr': {'class': 'form-select form-select-sm'}}) }}
                     </div>
                     <div class="col-3">
+                        {{ app.request.attributes.get('_route') }}
                         {% if app.request.attributes.get('_route') == 'op_gestapp_customer_new' or app.request.attributes.get('_route') == 'op_gestapp_customer_edit' %}
                             {{ form_label(form.isArchived, '', {'label_attr': {'class':'form-label mb-0'}}) }}
                             {{ form_widget(form.isArchived) }}

@@ -1,57 +1,49 @@
 <div class="row g-1 py-2">
     <p></p>
     <div class="col-2">
-        <h4>Agences partenaires</h4>
+        <h4 class="fs-5 border-bottom border-dark fw-normal">Agences partenaires</h4>
         <div class="card-group">
-            <div class="card">
-                <img class="card-img-top" src="{{ asset('images/svg/fondCardTransaction_Red.svg') }}" alt="Card image cap">
-                <div class="card-body">
-                    <h6 class="text-lg-center pb-0 mb-0">Agences</h6>
+            <div class="card ">
+                <div class="card-body p-2">
+                    <p class="mb-0 text-lg-center pb-0 mb-0">Agences</p>
                     <a href="{{ path('op_gestapp_agency_new') }}" class="stretched-link" data-bs-whatever="OPEN_Agency-Liste des Agences-"></a>
                 </div>
             </div>
             <div class="card">
-                <img class="card-img-top" src="{{ asset('images/svg/fondCardTransaction_Red.svg') }}" alt="Card image cap">
-                <div class="card-body">
-                    <h6 class="text-lg-center pb-0 mb-0">Mandataire</h6>
+                <div class="card-body p-2">
+                    <p class="mb-0 text-lg-center pb-0 mb-0">Mandataire</p>
                     <a href="{{ path('op_gestapp_agencyemployed_new') }}" class="stretched-link" data-bs-whatever="OPEN_Agent-Liste des agents-"></a>
                 </div>
             </div>
         </div>
     </div>
     <div class="col-3">
-        <h4>Liste des types de biens</h4>
+        <h4 class="fs-5 border-bottom border-dark fw-normal">Liste des types de biens</h4>
         <div class="card-group">
             <div class="card">
-                <img class="card-img-top" src="{{ asset('images/svg/fondCardTransaction_Red.svg') }}" alt="Card image cap">
-                <div class="card-body">
-                    <h6 class="text-lg-center pb-0 mb-0">Transaction</h6>
+                <div class="card-body p-2">
+                    <p class="mb-0 text-lg-center pb-0 mb-0">Transaction</p>
                     <a href="{{ path('op_gestapp_choice_property_family_index') }}" class="stretched-link" data-bs-whatever="OPEN_Transac-Liste des transactions"></a>
                 </div>
             </div>
             <div class="card">
-                <img class="card-img-top" src="{{ asset('images/svg/fondCardTransaction_Red.svg') }}" alt="Card image cap">
-                <div class="card-body">
-                    <h6 class="text-lg-center pb-0 mb-0">Rubriques</h6>
+                <div class="card-body p-2">
+                    <p class="mb-0 text-lg-center pb-0 mb-0">Rubriques</p>
                     <a href="{{ path('op_gestapp_choice_property_rubric_index') }}" class="stretched-link" data-bs-whatever="OPEN_Rubric-Liste des rubriques"></a>
                 </div>
             </div>
             <div class="card">
-                <img class="card-img-top" src="{{ asset('images/svg/fondCardTransaction_Red.svg') }}" alt="Card image cap">
-                <div class="card-body">
-                    <h6 class="text-lg-center pb-0 mb-0">Ss rubriques</h6>
-                    <a href="{{ path('op_gestapp_choice_property_rubricss_index') }}" class="stretched-link" data-bs-whatever="OPEN_Agency-Liste des Agences-gestapp/agency"></a>
+                <div class="card-body p-2">
+                    <p class="mb-0 text-lg-center pb-0 mb-0">Ss rubriques</p>
+                    <a href="{{ path('op_gestapp_choice_property_rubricss_index') }}" class="stretched-link" data-bs-whatever="OPEN_Ssrubric-Liste des Agences-gestapp/agency"></a>
                 </div>
             </div>
         </div>
     </div>
-</div>
-<div class="row g-1 py-2">
-
     <div class="col-3">
+        <h4 class="fs-5 border-bottom border-dark fw-normal">Liste des bannières disponibles</h4>
         <div class="card">
-            <div class="card-body">
-                {{ render(controller('App\\Controller\\Gestapp\\choice\\PropertyBannerController::index')) }}
+            <div class="card-body p-2" id="ListBanner">
             </div>
         </div>
     </div>

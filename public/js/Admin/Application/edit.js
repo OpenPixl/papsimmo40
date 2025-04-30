@@ -2,6 +2,7 @@ const modal = new bootstrap.Modal(document.getElementById('modal'), {keyboard: f
 const modalSuppr = new bootstrap.Modal(document.getElementById('modalSuppr'), {keyboard: false});
 const strechedlinks = document.querySelectorAll(".stretched-link");
 const modalBanner = document.getElementById('modalBanner');
+const cardBodylistBanner = document.getElementById('ListBanner');
 
 strechedlinks.forEach(function(link){
     link.addEventListener('click', openModal);
@@ -15,9 +16,9 @@ function openModal(event){
     let contentTitle = opt.split('-')[1];
     let id = opt.split('-')[2];
     modal.show();
+    document.getElementById('modal').querySelector('.modal-title').textContent = contentTitle;
     if(crud === "OPEN_Agency"){
         document.getElementById('modal').querySelector('.modal-dialog').classList.add('modal-xl');
-        document.getElementById('modal').querySelector('.modal-title').textContent = contentTitle;
         axios
             .get(url)
             .then(function(response){
@@ -28,7 +29,6 @@ function openModal(event){
                 console.log(error);
             });
     }else if(crud === "OPEN_Agent"){
-        document.getElementById('modal').querySelector('.modal-title').textContent = contentTitle;
         document.getElementById('modal').querySelector('.modal-dialog').classList.add('modal-lg');
         loadEvents();
         axios
@@ -41,7 +41,6 @@ function openModal(event){
                 console.log(error);
             });
     }else if(crud === "OPEN_Transac"){
-        document.getElementById('modal').querySelector('.modal-title').textContent = contentTitle;
         axios
             .get(url)
             .then(function(response){
@@ -52,7 +51,6 @@ function openModal(event){
                 console.log(error);
             });
     }else if(crud === "OPEN_Rubric"){
-        document.getElementById('modal').querySelector('.modal-title').textContent = contentTitle;
         axios
             .get(url)
             .then(function(response){
@@ -62,11 +60,20 @@ function openModal(event){
                 console.log(error);
             });
     }else if(crud === "OPEN_Ssrubric"){
-        document.getElementById('modal').querySelector('.modal-title').textContent = contentTitle;
         axios
             .get(url)
             .then(function(response){
                 document.getElementById('modal').querySelector('.modal-body').innerHTML = response.data.view;
+            })
+            .catch(function(error){
+                console.log(error);
+            });
+    }else if(crud === "EDIT_Banner"){
+        axios
+            .get(url)
+            .then(function(response){
+                document.getElementById('modal').querySelector('.modal-body').innerHTML = response.data.view;
+                loadEvents();
             })
             .catch(function(error){
                 console.log(error);
@@ -76,20 +83,25 @@ function openModal(event){
 
 function submitModalForm(event){
     event.preventDefault();
-    let opt = this.getAttribute('data-bs-whatever');
-    let name = opt.split('-')[0];
     // Récupération du formulaire
-    let form = document.getElementById(name);
+    let form = document.querySelector('.modal-body form');
     let action = form.action;
     let data = new FormData(form);
+    let idForm = form.id;
     // Soumission du formulaire
     axios
         .post(action, data)
         .then(function(response){
-            document.getElementById('liste').innerHTML = response.data.liste;
+            if(idForm === 'FormPropertyBanner'){
+                console.log(idForm);
+                cardBodylistBanner.innerHTML = response.data.view;
+            }
             loadEvents();
         })
-        .catch(function(error){console.log(error);});
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
 }
 
 function openModalSuppr(event) {
@@ -125,7 +137,11 @@ function SupprAgency(event){
 }
 
 function loadEvents(){
-    let buttons = document.querySelectorAll('.modalSubmit');
+    let btnOpenModal = document.querySelectorAll('.btnOpenModal');
+    btnOpenModal.forEach(function(link){
+       link.addEventListener('click', openModal);
+    });
+    let buttons = document.querySelectorAll('#btnModalSubmit');
     buttons.forEach(function(btn){
         btn.addEventListener('click', submitModalForm);
     });
@@ -133,6 +149,21 @@ function loadEvents(){
     btnModalSuppr.forEach(function(link){
         link.addEventListener('click', openModalSuppr);
     });
+}
+
+function listeBanner(){
+    axios
+        .get('/gestapp/choice/property/banner')
+        .then(function(response){
+            cardBodylistBanner.innerHTML = response.data.form;
+            loadEvents();
+        })
+        .catch(function(error)
+        {
+            console.log(error);
+        })
+    ;
+
 }
 
 document.getElementById('modal').addEventListener('hidden.bs.modal', function(){
@@ -165,3 +196,5 @@ if (modalBanner) {
         modalTitle.textContent = contentTitle;
     });
 }
+listeBanner();
+loadEvents();

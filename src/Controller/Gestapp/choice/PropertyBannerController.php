@@ -19,11 +19,13 @@ class PropertyBannerController extends AbstractController
     #[Route('/', name: 'op_gestapp_choice_property_banner_index', methods: ['GET'])]
     public function index(PropertyBannerRepository $propertyBannerRepository): Response
     {
+        $view = $this->render('gestapp/choice/property_banner/index.html.twig', [
+            'property_banners' => $propertyBannerRepository->findAll(),
+        ]);
+
         return $this->json([
             'code' => 200,
-            'form' => $this->renderView('gestapp/choice/property_banner/index.html.twig', [
-                'property_banners' => $propertyBannerRepository->findAll(),
-            ])
+            'form' => $view->getContent()
         ], 200);
     }
 
@@ -92,21 +94,72 @@ class PropertyBannerController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_gestapp_choice_property_banner_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, PropertyBanner $propertyBanner, PropertyBannerRepository $propertyBannerRepository): Response
+    public function edit(Request $request, PropertyBanner $propertyBanner, PropertyBannerRepository $propertyBannerRepository, SluggerInterface $slugger): Response
     {
-        $form = $this->createForm(PropertyBannerType::class, $propertyBanner);
+        $form = $this->createForm(PropertyBannerType::class, $propertyBanner, [
+            'action' => $this->generateUrl('app_gestapp_choice_property_banner_edit', [
+                'id' => $propertyBanner->getId()
+            ]),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formPropertyBanner'
+            ]
+        ]);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // on teste la présence d'un fichier sur l'input
+            $banner =  $form->get('banner')->getData();
+            $bannerFilename = $propertyBanner->getBannerFilename();
+            if ($banner) {
+                if($bannerFilename){
+                    $pathheader = $this->getParameter('banners_directory'). '/' .$bannerFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $originalFilename = pathinfo($banner->getClientOriginalName(), PATHINFO_FILENAME);
+                // transformation du nom pour échapper les accents & autres
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = $safeFilename.'.'.$banner->guessExtension();
+
+                // Déplacement du fichier dans le dossier recevant les fichiers SVG
+                try {
+                    $banner->move(
+                        $this->getParameter('banners_directory'),
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                // Ajout dans l'entité le nom remanié
+                $propertyBanner->setBannerFilename($newFilename);
+            }
+
             $propertyBannerRepository->add($propertyBanner, true);
 
-            return $this->redirectToRoute('app_gestapp_choice_property_banner_index', [], Response::HTTP_SEE_OTHER);
+            $listbanners = $propertyBannerRepository->findAll();
+
+            return $this->json([
+                'code' => 200,
+                'message' => "La bannière a été modifiée.",
+                'view' => $this->renderView('gestapp/choice/property_banner/index.html.twig', [
+                    'property_banners' => $listbanners,
+                ])
+            ], 200);
         }
 
-        return $this->render('gestapp/choice/property_banner/edit.html.twig', [
+        $view = $this->render('gestapp/choice/property_banner/edit.html.twig', [
             'property_banner' => $propertyBanner,
             'form' => $form,
         ]);
+
+        return $this->json([
+            'code' => 200,
+            'view' => $view->getContent()
+        ], 200);
     }
 
     #[Route('/{id}', name: 'app_gestapp_choice_property_banner_delete', methods: ['POST'])]

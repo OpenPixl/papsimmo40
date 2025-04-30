@@ -1,8 +1,11 @@
+{% set targetRouteUrl = path('op_admin_application_edit', {'id':1}) %}
 <table class="table table-sm table-hover">
     <thead>
     <tr>
         <th colspan="2">Nom</th>
-        <th>actions</th>
+        {% if path('op_admin_application_edit', {'id':1}) == '/opadmin/application/1/edit' %}
+            <th class="text-center">actions</th>
+        {% endif %}
     </tr>
     </thead>
     <tbody>
@@ -10,11 +13,16 @@
         <tr class="align-middle">
             <td>{{ property_banner.name }}</td>
             <td><img src="{{ asset('images/svg/') ~ property_banner.bannerFilename}}" alt="{{ property_banner.slug }}" height="25px"></td>
-            <td class="text-center"><a href="{{ path('app_gestapp_choice_property_banner_del', {'id': property_banner.id}) }}" id="btnSupprBanner" data-bs-toggle="modal" data-bs-target="#SupprBanner" data-bs-whatever="{{ property_banner.id }}"><i class="fa-duotone fa-square-minus fa-lg"></i></a></td>
+            {% if path('op_admin_application_edit', {'id':1}) == '/opadmin/application/1/edit' %}
+            <td class="text-center">
+                <a href="{{ path('app_gestapp_choice_property_banner_edit', {'id': property_banner.id}) }}" id="btnEditBanner" class="btnOpenModal" data-bs-whatever="EDIT_Banner-Edition d'une bannière"><i class="fa-duotone fa-square-pen fa-lg"></i></a>
+                <a href="{{ path('app_gestapp_choice_property_banner_del', {'id': property_banner.id}) }}" id="btnSupprBanner" class="btnOpenModal" data-bs-whatever="DEL_Banner-Suppression d'une bannière"><i class="fa-duotone fa-square-minus fa-lg"></i></a>
+            </td>
+            {% endif %}
         </tr>
     {% else %}
         <tr>
-            <td colspan="7">no records found</td>
+            <td colspan="7">Aucune bannière présente pour illustrer vos biens</td>
         </tr>
     {% endfor %}
     </tbody>

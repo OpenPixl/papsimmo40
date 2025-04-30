@@ -23,13 +23,13 @@ class Avenant
     private ?\DateTimeInterface $dateAvenant = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?string $price = null;
+    private ?int $price = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?string $honoraires = null;
+    private ?int $honoraires = null;
 
     #[ORM\Column(type: 'integer', nullable: true)]
-    private ?string $priceFai = null;
+    private ?int $priceFai = null;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt = null;
