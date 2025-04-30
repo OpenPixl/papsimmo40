@@ -118,23 +118,29 @@
                 </table>
             </div>
         </div>
+
         {% set allowedRoles = ['ROLE_EMPLOYED', 'ROLE_ADMIN'] %}
-        {% set notallowed = ['ROLE_EMPLOYED', 'ROLE_USER'] %}
-        {% if employed.employeds|filter(employed => employed.roles == allowedRoles)|length > 0 %}
-        <div class="card border-dark mb-1">
-            <div class="card-body p-2">
-                <p class="fs-5 border-bottom border-dark fw-normal">Vos filleuls</p>
-                {% for e in employed.employeds %}
-                    <p><a class="">{{ e.firstName }} {{ e.lastName }}</a> | secteur : {{ e.sector }}</p>
-                {% endfor %}
+        {% set notallowedRoles = ['ROLE_PRESCRIBER', 'ROLE_USER'] %}
+
+        {% set allowedEmployeds = employed.employeds|filter(employed => employed.roles is not empty and employed.roles|first in allowedRoles) %}
+        {% set notallowedEmployeds = employed.employeds|filter(employed => employed.roles is not empty and employed.roles|first in notallowedRoles) %}
+
+        {% if allowedEmployeds|length > 0 %}
+            <div class="card border-dark mb-1">
+                <div class="card-body p-2">
+                    <p class="fs-5 border-bottom border-dark fw-normal">Vos filleuls</p>
+                    {% for e in allowedEmployeds %}
+                        <p><a class="">{{ e.firstName }} {{ e.lastName }}</a> | secteur : {{ e.sector }}</p>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
         {% endif %}
-        {% if employed.employeds|filter(employed => employed.roles == notallowed)|length > 0 %}
+
+        {% if notallowedEmployeds|length > 0 %}
             <div class="card border-dark mb-1">
                 <div class="card-body p-2">
                     <p class="fs-5 border-bottom border-dark fw-normal">Vos prescripteurs</p>
-                    {% for e in employed.employeds %}
+                    {% for e in notallowedEmployeds %}
                         <p><a class="">{{ e.firstName }} {{ e.lastName }}</a> | secteur : {{ e.sector }}</p>
                     {% endfor %}
                 </div>
