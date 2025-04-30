@@ -229,10 +229,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[Groups(['employed:list', 'employed:item', 'employed:write:post','employed:write:patch'])]
     private $sector;
 
-    #[ORM\ManyToOne(targetEntity: self::class)]
-    #[Groups(['employed:list', 'employed:item'])]
-    private $referent;
-
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
@@ -391,6 +387,15 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $qrcode_pwa = null;
 
+    #[ORM\ManyToOne(targetEntity: self::class, inversedBy: 'employeds')]
+    private ?self $referent = null;
+
+    /**
+     * @var Collection<int, self>
+     */
+    #[ORM\OneToMany(mappedBy: 'referent', targetEntity: self::class)]
+    private Collection $employeds;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -407,6 +412,7 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
         $this->accounts = new ArrayCollection();
         $this->recosPrescripteur = new ArrayCollection();
         $this->fromEmployeds = new ArrayCollection();
+        $this->employeds = new ArrayCollection();
     }
 
     // Permet d'initialiser le slug !
@@ -530,18 +536,6 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setSector(?string $sector): self
     {
         $this->sector = $sector;
-
-        return $this;
-    }
-
-    public function getReferent(): ?self
-    {
-        return $this->referent;
-    }
-
-    public function setReferent(?self $referent): self
-    {
-        $this->referent = $referent;
 
         return $this;
     }
@@ -1325,6 +1319,48 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     public function setQrcodePwa(string $qrcode_pwa): static
     {
         $this->qrcode_pwa = $qrcode_pwa;
+
+        return $this;
+    }
+
+    public function getReferent(): ?self
+    {
+        return $this->referent;
+    }
+
+    public function setReferent(?self $referent): static
+    {
+        $this->referent = $referent;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, self>
+     */
+    public function getEmployeds(): Collection
+    {
+        return $this->employeds;
+    }
+
+    public function addEmployed(self $employed): static
+    {
+        if (!$this->employeds->contains($employed)) {
+            $this->employeds->add($employed);
+            $employed->setReferent($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEmployed(self $employed): static
+    {
+        if ($this->employeds->removeElement($employed)) {
+            // set the owning side to null (unless already changed)
+            if ($employed->getReferent() === $this) {
+                $employed->setReferent(null);
+            }
+        }
 
         return $this;
     }

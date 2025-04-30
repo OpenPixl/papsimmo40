@@ -118,10 +118,13 @@
                 </table>
             </div>
         </div>
-        {% if employed.ref %}
+        {% if employed.employeds|length > 0 %}
         <div class="card border-dark mb-1">
             <div class="card-body p-2">
-
+                <p class="fs-5 border-bottom border-dark fw-normal">Les filleuls attachés</p>
+                {% for e in employed.employeds %}
+                    <p><a class="">{{ e.firstName }} {{ e.lastName }}</a> | secteur : {{ e.sector }}</p>
+                {% endfor %}
             </div>
         </div>
         {% endif %}
