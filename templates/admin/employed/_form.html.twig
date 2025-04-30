@@ -118,15 +118,24 @@
                 </table>
             </div>
         </div>
+        {% set allowedRoles = ['ROLE_EMPLOYED', 'ROLE_ADMIN'] %}
         {% if employed.employeds|length > 0 %}
         <div class="card border-dark mb-1">
             <div class="card-body p-2">
                 <p class="fs-5 border-bottom border-dark fw-normal">Les filleuls attachés</p>
-                {% for e in employed.employeds %}
+                {% for e in employed.employeds|filter(employed => employed.roles != allowedRoles) %}
                     <p><a class="">{{ e.firstName }} {{ e.lastName }}</a> | secteur : {{ e.sector }}</p>
                 {% endfor %}
             </div>
         </div>
+            <div class="card border-dark mb-1">
+                <div class="card-body p-2">
+                    <p class="fs-5 border-bottom border-dark fw-normal">Les filleuls attachés</p>
+                    {% for e in employed.employeds|filter(employed => employed.roles == 'ROLE_PRESCRIBEUR') %}
+                        <p><a class="">{{ e.firstName }} {{ e.lastName }}</a> | secteur : {{ e.sector }}</p>
+                    {% endfor %}
+                </div>
+            </div>
         {% endif %}
 
     </div>
