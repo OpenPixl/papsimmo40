@@ -208,6 +208,15 @@ ol, ul, dl {
   }
 }
 
+.ts-wrapper.multi .ts-control > div {
+  cursor: pointer;
+  margin: 0 0 !important;
+  padding: 0 0!important;
+  background: none!important;
+  color: #303030;
+  border: 0 solid #d0d0d0;
+}
+
 /** Diagnostiques **/
 /*** Bloc Diags ***/
 #DiagnosticCard {

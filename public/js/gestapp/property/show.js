@@ -291,11 +291,23 @@ function loadFormContent(navLink) {
                     estimate(response);
                 }
                 if(nodeFormName === 'Options'){
+                    if(document.querySelector('input[name=complement\\[coproperty\\]]:checked').value > 0){
+                        document.getElementById('coproprietyTaxe').classList.remove('d-none');
+                    }
+                    const radioCopropertyButtons = document.querySelectorAll('input[name=complement\\[coproperty\\]]');
+                    radioCopropertyButtons.forEach(function(radio) {
+                        radio.addEventListener("change", function() {
+                            if (parseInt(this.value) === 1) {
+                                document.getElementById('coproprietyTaxe').classList.remove('d-none');
+                            } else if (parseInt(this.value) === 0){
+                                document.getElementById('coproprietyTaxe').classList.add('d-none');
+                            }
+                        });
+                    });
                     initializeTomSelect('.oneChoice', TsSimple);
                     initializeTomSelect('.multiChoice', TsMulti);
                 }
                 if(nodeFormName === 'Gallery'){
-
                     const btnPhotos = document.getElementById('btnPhotos');
                     btnPhotos.addEventListener('click', submitPhotos);
 
@@ -682,7 +694,7 @@ function fixedPosition(idphoto, key){
     ;
 }
 
-function estimate(response, ){
+function estimate(response){
     let sales = document.getElementById('sale');
     let rent = document.getElementById('rent');
     let rentCommerce = document.getElementById('rentCommerce');
