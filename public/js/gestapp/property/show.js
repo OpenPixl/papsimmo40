@@ -338,7 +338,7 @@ function loadFormContent(navLink) {
                         btndelVideo.addEventListener('click', delVideo);
                     }
                 }
-                if(nodeFormName === 'Publication'){
+                if(nodeFormName === 'Publications'){
                     const switchAllPublication = document.getElementById('AllPublications');
                     switchAllPublication.addEventListener('change', AllCheckedPublication);
                 }
