@@ -1,0 +1,61 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Research index{% endblock %}
+
+{% block body %}
+    <h1>Research index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>ResearchFor</th>
+                <th>TypeProject</th>
+                <th>BudgetMin</th>
+                <th>BudgetMax</th>
+                <th>PieceMin</th>
+                <th>PieceMax</th>
+                <th>RoomMin</th>
+                <th>RoomMax</th>
+                <th>SurfaceMin</th>
+                <th>SurfaceMax</th>
+                <th>SurfaceLandMin</th>
+                <th>SurfaceLandMax</th>
+                <th>CreatedAt</th>
+                <th>UpdatedAt</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for research in research %}
+            <tr>
+                <td>{{ research.id }}</td>
+                <td>{{ research.researchFor }}</td>
+                <td>{{ research.typeProject }}</td>
+                <td>{{ research.budgetMin }}</td>
+                <td>{{ research.budgetMax }}</td>
+                <td>{{ research.pieceMin }}</td>
+                <td>{{ research.pieceMax }}</td>
+                <td>{{ research.roomMin }}</td>
+                <td>{{ research.roomMax }}</td>
+                <td>{{ research.surfaceMin }}</td>
+                <td>{{ research.surfaceMax }}</td>
+                <td>{{ research.surfaceLandMin }}</td>
+                <td>{{ research.surfaceLandMax }}</td>
+                <td>{{ research.createdAt ? research.createdAt|date('Y-m-d') : '' }}</td>
+                <td>{{ research.updatedAt ? research.updatedAt|date('Y-m-d') : '' }}</td>
+                <td>
+                    <a href="{{ path('op_gestapp_customer_research_show', {'id': research.id}) }}">show</a>
+                    <a href="{{ path('op_gestapp_customer_research_edit', {'id': research.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="16">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_customer_research_new') }}">Create new</a>
+{% endblock %}

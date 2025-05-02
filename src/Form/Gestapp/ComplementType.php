@@ -103,7 +103,6 @@ class ComplementType extends AbstractType
                     return ['data-data' => $product->getName() ];
                 }
             ])
-
             ->add('energies', EntityType::class, [
                 'class' => PropertyEnergy::class,
                 'help' => 'Seule la première source d\'énérgie sera publiée sur les diffuseurs',

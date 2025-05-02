@@ -3,6 +3,7 @@
 namespace App\Entity\Gestapp\choice;
 
 use App\Entity\Gestapp\Complement;
+use App\Entity\Gestapp\Customer\Research;
 use App\Repository\Gestapp\choice\PropertyEnergyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -30,9 +31,16 @@ class PropertyEnergy
     #[ORM\ManyToMany(targetEntity: Complement::class, mappedBy: 'energies')]
     private Collection $complements;
 
+    /**
+     * @var Collection<int, Research>
+     */
+    #[ORM\ManyToMany(targetEntity: Research::class, mappedBy: 'energies')]
+    private Collection $research;
+
     public function __construct()
     {
         $this->complements = new ArrayCollection();
+        $this->research = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -90,6 +98,33 @@ class PropertyEnergy
     {
         if ($this->complements->removeElement($complement)) {
             $complement->removeEnergy($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Research>
+     */
+    public function getResearch(): Collection
+    {
+        return $this->research;
+    }
+
+    public function addResearch(Research $research): static
+    {
+        if (!$this->research->contains($research)) {
+            $this->research->add($research);
+            $research->addEnergy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResearch(Research $research): static
+    {
+        if ($this->research->removeElement($research)) {
+            $research->removeEnergy($this);
         }
 
         return $this;

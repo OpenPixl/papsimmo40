@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Research{% endblock %}
+
+{% block body %}
+    <h1>Research</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ research.id }}</td>
+            </tr>
+            <tr>
+                <th>ResearchFor</th>
+                <td>{{ research.researchFor }}</td>
+            </tr>
+            <tr>
+                <th>TypeProject</th>
+                <td>{{ research.typeProject }}</td>
+            </tr>
+            <tr>
+                <th>BudgetMin</th>
+                <td>{{ research.budgetMin }}</td>
+            </tr>
+            <tr>
+                <th>BudgetMax</th>
+                <td>{{ research.budgetMax }}</td>
+            </tr>
+            <tr>
+                <th>PieceMin</th>
+                <td>{{ research.pieceMin }}</td>
+            </tr>
+            <tr>
+                <th>PieceMax</th>
+                <td>{{ research.pieceMax }}</td>
+            </tr>
+            <tr>
+                <th>RoomMin</th>
+                <td>{{ research.roomMin }}</td>
+            </tr>
+            <tr>
+                <th>RoomMax</th>
+                <td>{{ research.roomMax }}</td>
+            </tr>
+            <tr>
+                <th>SurfaceMin</th>
+                <td>{{ research.surfaceMin }}</td>
+            </tr>
+            <tr>
+                <th>SurfaceMax</th>
+                <td>{{ research.surfaceMax }}</td>
+            </tr>
+            <tr>
+                <th>SurfaceLandMin</th>
+                <td>{{ research.surfaceLandMin }}</td>
+            </tr>
+            <tr>
+                <th>SurfaceLandMax</th>
+                <td>{{ research.surfaceLandMax }}</td>
+            </tr>
+            <tr>
+                <th>CreatedAt</th>
+                <td>{{ research.createdAt ? research.createdAt|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>UpdatedAt</th>
+                <td>{{ research.updatedAt ? research.updatedAt|date('Y-m-d') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('op_gestapp_customer_research_index') }}">back to list</a>
+
+    <a href="{{ path('op_gestapp_customer_research_edit', {'id': research.id}) }}">edit</a>
+
+    {{ include('gestapp/customer/research/_delete_form.html.twig') }}
+{% endblock %}

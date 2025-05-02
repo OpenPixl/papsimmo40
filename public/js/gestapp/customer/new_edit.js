@@ -1,6 +1,10 @@
 const typeClient = document.getElementById('customer_typeClient');
 const btnAddCustomer = document.getElementById('btnAddCustomer');
 const btnAddResp = document.getElementById('btnAddResp');
+const btnAddResearch = document.getElementById('btnAddResearch');
+const modal = document.getElementById('modal');
+const modalBs = new bootstrap.Modal(document.getElementById('modal'));
+const btnModalSubmit = document.getElementById('btnModalSubmit');
 
 const customer_commune = document.getElementById('customer_city');
 const customer_zipcode = document.getElementById('customer_zipcode');
@@ -84,6 +88,88 @@ typeClient.addEventListener('change', function(event){
     }
 });
 
+const TsSimple = {
+    //plugins: ['remove_button'],
+    create: true,
+    onItemAdd:function(){
+        this.setTextboxValue('');
+        this.refreshOptions();
+    },
+    render:{
+        option:function(data,escape){
+            return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+        },
+        item:function(data,escape){
+            return '<div>' + escape(data.data) + '</div>';
+        }
+    }
+};
+const TsMulti = {
+    plugins: ['remove_button'],
+    create: true,
+    onItemAdd:function(){
+        this.setTextboxValue('');
+        this.refreshOptions();
+    },
+    render:{
+        option:function(data,escape){
+            return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+        },
+        item:function(data,escape){
+            return '<div>' + escape(data.data) + '</div>';
+        }
+    }
+};
+
+function initializeTomSelect(selector, options = {}) {
+    document.querySelectorAll(selector).forEach(selectElement => {
+        new TomSelect(selectElement, options);
+    });
+}
+
+function openModal(event){
+    event.preventDefault();
+    let a = event.currentTarget;
+    let recipient = a.getAttribute('data-bs-data');
+    let url = a.href;
+    let [crud, contentTitle, id] = recipient.split('-');
+    modalBs.show();
+    modal.querySelector('.modal-title').textContent = contentTitle;
+    if(crud === 'NEW_Research' || crud === 'EDIT_Research'){
+        modal.querySelector('.modal-dialog').classList.add('modal-xl');
+        axios
+            .get(url)
+            .then(function(response){
+                modal.querySelector('.modal-body').innerHTML = response.data.form;
+                initializeTomSelect('.oneChoice', TsSimple);
+                initializeTomSelect('.multiChoice', TsMulti);
+                reloadEvent();
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
+    }
+}
+
+function submitModal(event){
+    event.preventDefault();
+    let form = document.getElementById('Form_Customer_Research');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            document.querySelector('#liste_research').innerHTML = response.data.liste;
+            reloadEvent();
+        })
+        .catch(function(error){
+
+            console.log(error);
+        })
+    ;
+}
+
 function submitCustomer(event){
     event.preventDefault();
     let form = document.getElementById('FormEditCustomer');
@@ -148,7 +234,7 @@ function zipcode_api(zipcode, commune, select_city){
                 let features = response.data;
                 removeOptions(select_city);
                 features.forEach((element) => {
-                    let name = element['codePostal']+" - "+element['nomCommune'];
+                    let name = element.codePostal+" - "+element.nomCommune;
                     let OptSelectCity = new Option (name.toUpperCase(), name.toUpperCase(), false, true);
                     select_city.options.add(OptSelectCity);
                 });
@@ -185,9 +271,15 @@ function toasterMessage(message){
 function reloadEvent(){
     btnAddCustomer.addEventListener('click', submitCustomer);
     btnAddResp.addEventListener('click', addResponsable);
+    btnAddResearch.addEventListener('click', openModal);
+    btnModalSubmit.addEventListener('click', submitModal);
+    let btnEditResearch = document.querySelectorAll('.btnOpenModal');
     let btnSupprResps = document.querySelectorAll('.btnSupprResp');
     btnSupprResps.forEach(function(click){
         click.addEventListener('click', dellResponsable);
+    });
+    btnEditResearch.forEach(function(click){
+        click.addEventListener('click', openModal);
     });
 }
 

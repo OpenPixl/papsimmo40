@@ -295,12 +295,29 @@
 </div>
 {% endif %}
 
+{% if customer.research|length > 0 %}
+<div class="row mt-1">
+    <div class="col-12">
+        <div class="card border-info">
+            <div class="card-body p-2">
+                <div class="row">
+                    <div class="col-12" id="liste_research">
+                        {{ include('gestapp/customer/research/include/_liste.html.twig') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+
 <div class="mt-3">
     <a class="btn btn-sm btn-outline-dark" href="{{ path('op_gestapp_customer_index') }}">
         <i class="fa-solid fa-backward-step"></i> Retour à la liste de clients
     </a>
     {% if customer.finished == 1 %}
         <button type="submit" id="btnAddCustomer" class="btn btn-sm btn-outline-primary">{{ button_label|default("Créer la fiche") }}</button>
+        <a id="btnAddResearch" class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_research_new', {'idCustomer': customer.id}) }}" data-bs-data="NEW_Research-Demande de recherche de bien">Créer une fiche de recherche</a>
     {% else %}
         <button type="submit" id="btnAddCustomer" class="btn btn-sm btn-outline-warning">{{ button_label|default("Créer la fiche") }}</button>
     {% endif %}

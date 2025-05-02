@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use ApiPlatform\Metadata\Post;
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\Customer\Research;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Repository\Gestapp\CustomerRepository;
 use Cocur\Slugify\Slugify;
@@ -236,6 +237,12 @@ class Customer
     private ?string $slugStructure = null;
 
     /**
+     * @var Collection<int, Research>
+     */
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Research::class)]
+    private Collection $research;
+
+    /**
      * Permet d'initialiser le slug !
      * Utilisation de slugify pour transformer une chaine de caractères en slug
      */
@@ -261,6 +268,7 @@ class Customer
         $this->transactions = new ArrayCollection();
         $this->responsables = new ArrayCollection();
         $this->customers = new ArrayCollection();
+        $this->research = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -905,6 +913,36 @@ class Customer
     public function setSlugStructure(string $slugStructure): static
     {
         $this->slugStructure = $slugStructure;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Research>
+     */
+    public function getResearch(): Collection
+    {
+        return $this->research;
+    }
+
+    public function addResearch(Research $research): static
+    {
+        if (!$this->research->contains($research)) {
+            $this->research->add($research);
+            $research->setCustomer($this);
+        }
+
+        return $this;
+    }
+
+    public function removeResearch(Research $research): static
+    {
+        if ($this->research->removeElement($research)) {
+            // set the owning side to null (unless already changed)
+            if ($research->getCustomer() === $this) {
+                $research->setCustomer(null);
+            }
+        }
 
         return $this;
     }

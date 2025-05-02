@@ -235,58 +235,18 @@ class ftptransfertService
         $content = implode("\n", $rows);
 
         // PARTIE II : Génération du fichier CSV
-        $file = 'doc/report/Annoncesfigaro/Annonces.csv';                                  // Chemin du fichier
-        if(file_exists($file))
-        {
-            unlink($file);                                                  // Suppression du précédent s'il existe
-            file_put_contents('doc/report/Annoncesfigaro/Annonces.csv', $content); // Génération du fichier dans l'arborescence du fichiers du site
-        }
-        file_put_contents('doc/report/Annoncesfigaro/Annonces.csv', $content);     // Génération du fichier dans l'arborescence du fichiers du site
-
-        // PARTIE III : Constitution du dossier zip
-        $Rep = 'doc/report/Annoncesfigaro/';
-        $zip = new \ZipArchive();                                          // instanciation de la classe Zip
+        // PARTIE II : Génération du dossier et création fichier CSV
+        // ---------------------------------------------------------
+        $nameRep = 'figaro';                     // Nom du dossier
+        $nameFile = '107428';               // Nom du Fichier sans extension
+        $Rep = 'doc/report/figaro/';             // nom du répertoire final
         if(is_dir($Rep))
         {
-            if($zip->open('107428.zip', ZipArchive::CREATE) == TRUE)
-            {
-                $fichiers = scandir($Rep);
-                unset($fichiers[0], $fichiers[1]);
-                foreach($fichiers as $f)
-                {
-                    // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
-                    // Pour ne pas créer de dossier dans l’archive.
-                    if(!$zip->addFile($Rep.$f, $f))
-                    {
-                        dd('erreur');
-                    }
-                }
-                $zip->close();
-                rename('107428.zip', 'doc/report/107428.zip');
-            }else{
-                dd('Erreur');
-            }
+            $this->directoryZip($nameRep, $nameFile, $content);
         }else{
             // Création du répertoire s'il n'existe pas.
             mkdir($Rep."/", 0775, true);
-            if($zip->open('107428.zip', ZipArchive::CREATE) == TRUE)
-            {
-                $fichiers = scandir($Rep);
-                unset($fichiers[0], $fichiers[1]);
-                foreach($fichiers as $f)
-                {
-                    // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
-                    // Pour ne pas créer de dossier dans l’archive.
-                    if(!$zip->addFile($Rep.$f, $f))
-                    {
-                        dd('erreur');
-                    }
-                }
-                $zip->close();
-                rename('107428.zip', 'doc/report/107428.zip');
-            }else{
-                dd('Erreur');
-            }
+            $this->directoryZip($nameRep, $nameFile, $content);
         }
     }
 
