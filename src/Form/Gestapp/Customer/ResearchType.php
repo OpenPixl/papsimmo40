@@ -80,6 +80,7 @@ class ResearchType extends AbstractType
                     return ['data-data' => $product->getName() ];
                 },
             ])
+            ->add('notes')
         ;
     }
 

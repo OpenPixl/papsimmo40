@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </div>
-            <div class="row align-items-center g-2">
+            <div class="row align-items-center justify-content-between g-2">
                 <div class="col-2">
                     {# Budget #}
                     <div class="row align-items-center g-1 mb-1">
@@ -110,50 +110,48 @@
                         <div class="col-12">
                             {{ form_label(form.surfaceLandMin, 'SURFACE DE TERRAIN ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
                         </div>
-                        <div class="col-3">
+                        <div class="col-6">
                             {{ form_widget(form.surfaceLandMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
                         </div>
-                        <div class="col-3">
+                        <div class="col-6">
                             {{ form_widget(form.surfaceLandMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
                         </div>
                     </div>
                 </div>
             </div>
-            {# Energie du bien #}
-            <div class="row align-items-center g-1 mb-1">
-                <div class="col-12">
-                    {{ form_label(form.energies, 'Type de chauffage', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+            <div class="row align-items-center justify-content-between g-2">
+                <div class="col-6">
+                    {# Energie du bien #}
+                    <div class="row align-items-center g-1 mb-1">
+                        <div class="col-12">
+                            {{ form_label(form.energies, 'Type de chauffage', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                        </div>
+                        <div class="col-6">
+                            {{ form_widget(form.energies, {'attr': {'class': 'multiChoice'}}) }}
+                        </div>
+                    </div>
                 </div>
                 <div class="col-6">
-                    {{ form_widget(form.energies, {'attr': {'class': 'multiChoice'}}) }}
+                    {# Options recherchées #}
+                    <div class="row align-items-center g-1 mb-1">
+                        <div class="col-12">
+                            {{ form_label(form.options, 'Options souhaitées', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                        </div>
+                        <div class="col-12">
+                            {{ form_widget(form.options, {'attr': {'class': 'multiChoice'}}) }}
+                        </div>
+                    </div>
                 </div>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <div class="col-1">
-                        <a id="addHouseEnergy" href="{{ path('op_gestapp_choice_property_energy_new') }}" class="btn btn-sm btn-secondary openModal" data-bs-data="ADDBANNER-Ajout d'un type d'énergie-0"><i class="fa-duotone fa-circle-plus"></i></a>
-                    </div>
-                {% else %}
-                    <div class="col-1">
-                        <a id="addHouseEnergy" href="{{ path('op_gestapp_choice_property_energy_new') }}" class="btn btn-sm btn-light openModal" data-bs-data="ADDBANNER-Ajout d'un type d'énergie-0" disabled><i class="fa-duotone fa-circle-plus text-light"></i></a>
-                    </div>
-                {% endif %}
             </div>
+
             {# Energie du bien #}
             <div class="row align-items-center g-1 mb-1">
                 <div class="col-12">
-                    {{ form_label(form.options, 'Type de chauffage', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                    {{ form_label(form.notes, 'notes', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
                 </div>
-                <div class="col-6">
-                    {{ form_widget(form.options, {'attr': {'class': 'multiChoice'}}) }}
+                <div class="col-12">
+                    {{ form_widget(form.notes, {'attr': {'class': 'form-control form-control-sm tinymce', 'placeholder':"Description de l'annonce", 'rows' : 8}}) }}
                 </div>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <div class="col-1">
-                        <a id="addHouseEnergy" href="{{ path('op_gestapp_choice_property_energy_new') }}" class="btn btn-sm btn-secondary openModal" data-bs-data="ADDBANNER-Ajout d'un type d'énergie-0"><i class="fa-duotone fa-circle-plus"></i></a>
-                    </div>
-                {% else %}
-                    <div class="col-1">
-                        <a id="addHouseEnergy" href="{{ path('op_gestapp_choice_property_energy_new') }}" class="btn btn-sm btn-light openModal" data-bs-data="ADDBANNER-Ajout d'un type d'énergie-0" disabled><i class="fa-duotone fa-circle-plus text-light"></i></a>
-                    </div>
-                {% endif %}
             </div>
         </div>
 

@@ -80,6 +80,9 @@ class Research
     #[ORM\ManyToOne(inversedBy: 'research')]
     private ?ResearchBien $researchBien = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $notes = null;
+
     public function __construct()
     {
         $this->energies = new ArrayCollection();
@@ -330,6 +333,18 @@ class Research
     public function setResearchBien(?ResearchBien $researchBien): static
     {
         $this->researchBien = $researchBien;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(string $notes): static
+    {
+        $this->notes = $notes;
 
         return $this;
     }
