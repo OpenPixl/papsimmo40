@@ -50,6 +50,7 @@ class PdfController extends AbstractController
         $text = preg_replace('/<\/span>/', '', $text);
         $text = preg_replace('/<div[^>]*>/', '', $text);
         $text = preg_replace('/<\/div>/', '', $text);
+        //$text = preg_replace('/\u{A0}/', ' ', $text);
         return $text;
     }
 
@@ -109,6 +110,8 @@ class PdfController extends AbstractController
         $application = $applicationRepository->findOneBy([], ['id'=>'DESC']);
 
         $annonce = $this->cleanText($property->getAnnonce());
+
+        dd($annonce);
 
         if($this->html == 1){
             return $this->render(

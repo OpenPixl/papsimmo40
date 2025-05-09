@@ -180,6 +180,21 @@ class PropertyService
         );
     }
 
+    // récupération des infos du mandat
+    public function getMandat(Property $property)
+    {
+        $Mandat = $property->getRefMandat();
+        $dupmandat = $property->getDupMandat();
+
+        if($dupmandat){
+            $numMandat = $Mandat.$dupmandat;
+        }else{
+            $numMandat = $Mandat;
+        }
+
+        return $numMandat;
+    }
+
     // Génération des références pour les diffuseurs
     public function getRefs(Property $property, PropertyRepository $propertyRepository)
     {

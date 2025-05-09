@@ -659,7 +659,12 @@ class CustomerController extends AbstractController
 
             $customer->setFinished(1);
             $customerRepository->add($customer);
-            return $this->redirectToRoute('op_gestapp_customer_edit', ['id'=>$customer->getId()], Response::HTTP_SEE_OTHER);
+
+            return $this->json([
+                'code'=> 200,
+                'message' => 'Mise à jour réussie',
+            ],200);
+//            return $this->redirectToRoute('op_gestapp_customer_edit', ['id'=>$customer->getId()], Response::HTTP_SEE_OTHER);
         }
 
         //dd($form->isSubmitted());

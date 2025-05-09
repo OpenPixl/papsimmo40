@@ -2,7 +2,6 @@
 
 namespace App\Service;
 
-
 use App\Entity\Gestapp\Property;
 use App\Entity\Gestapp\Transaction;
 use App\Repository\Admin\ContactRepository;

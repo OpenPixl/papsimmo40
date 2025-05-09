@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Service; use Symfony\Component\HttpFoundation\RequestStack;
+namespace App\Service;
 
-;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class PathService
 {

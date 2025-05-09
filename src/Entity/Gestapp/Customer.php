@@ -239,7 +239,7 @@ class Customer
     /**
      * @var Collection<int, Research>
      */
-    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Research::class)]
+    #[ORM\OneToMany(mappedBy: 'customer', targetEntity: Research::class, cascade: ['persist', 'remove'])]
     private Collection $research;
 
     /**

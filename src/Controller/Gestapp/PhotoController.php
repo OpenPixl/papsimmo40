@@ -4,8 +4,11 @@ namespace App\Controller\Gestapp;
 
 use App\Entity\Gestapp\Photo;
 use App\Form\Gestapp\PhotoType;
+use App\Repository\Admin\ApplicationRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use App\Service\PropertyService;
+use App\Service\Transfert\TransfertPhotos;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,6 +19,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/gestapp/photo')]
 class PhotoController extends AbstractController
 {
+    public function __construct(
+        private PropertyService $propertyService
+    ){}
+
     #[Route('/', name: 'op_gestapp_photo_index', methods: ['GET'])]
     public function index(PhotoRepository $photoRepository): Response
     {
@@ -66,7 +73,15 @@ class PhotoController extends AbstractController
     }
 
     #[Route('/new/{idproperty}', name: 'op_gestapp_photo_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, PhotoRepository $photoRepository, $idproperty, PropertyRepository $propertyRepository, SluggerInterface $slugger): Response
+    public function new(
+        Request $request,
+        TransfertPhotos $transfertPhotos,
+        PhotoRepository $photoRepository,
+        $idproperty,
+        PropertyRepository $propertyRepository,
+        ApplicationRepository $applicationRepository,
+        SluggerInterface $slugger
+    ): Response
     {
         $property = $propertyRepository->find($idproperty);
         // on récupére si elle existe la dernière photo du bien actuel et son positionnement
@@ -75,20 +90,34 @@ class PhotoController extends AbstractController
         // récupération de la référence
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
-        //dd($newref);
+        $nameApp = $transfertPhotos->getName($property);
+        $numMandat = $this->propertyService->getMandat($property);
+
         $photo = new Photo();
         if($lastphoto){
             $position = $lastphoto->getPosition() + 1;
-            $photo->setPosition($position);
-        }else{
-            $photo->setPosition(1);
-        }
+            $refPhoto = explode('-', $lastphoto->getGaleryFrontName());
 
+            if(isset($refPhoto[2])){
+                $numPhoto = $refPhoto[2];
+                $namePhoto = $nameApp.'-'.$numMandat.'-'.$numPhoto;
+            }else{
+                $namePhoto = $nameApp.'-'.$numMandat.'-1';
+            }
+        }
+        else{
+            $position = 1;
+            $namePhoto = $nameApp.'-'.$numMandat.'-'.'1';
+        }
+        $photo->setPosition($position);
         $photo->setProperty($property);
 
         $form = $this->createForm(PhotoType::class, $photo, [
             'action' => $this->generateUrl('op_gestapp_photo_new', ['idproperty'=>$idproperty]),
-            'method' => 'POST'
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formPhoto_new'
+            ]
         ]);
         $form->handleRequest($request);
 
@@ -96,10 +125,7 @@ class PhotoController extends AbstractController
             // upload de photo
             $photoFile = $form->get('galeryFrontFile')->getData();
             if ($photoFile) {
-                $originalphotoFileName = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                // this is needed to safely include the file name as part of the URL
-                $safephotoFileName = $slugger->slug($originalphotoFileName);
-                $newphotoFileName = $safephotoFileName . '.' . $photoFile->guessExtension();
+                $newphotoFileName = $namePhoto.'.'.$photoFile->guessExtension();
                 $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
                 // Move the file to the directory where brochures are stored
                 try {
@@ -127,6 +153,7 @@ class PhotoController extends AbstractController
 
             $photoRepository->add($photo);
             $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
+
             return $this->json([
                 'code'=> 200,
                 'message' => "La photo du bien a été ajoutée",

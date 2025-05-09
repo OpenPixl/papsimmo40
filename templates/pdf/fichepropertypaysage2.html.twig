@@ -195,6 +195,9 @@
                             <h5 class="title-h2">{{ nouveau_texte|raw }}</h5>
                             <div class="limited-p">
                                 {{ property.annonce|markdown_to_html }}
+                                {% if compteur >= 18  %}
+                                    Pour plus d'information, flashez le QR code.
+                                {% endif %}
                             </div>
                         </div>
                         {% if property.annonceDown is not null %}

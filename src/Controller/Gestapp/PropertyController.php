@@ -30,6 +30,7 @@ use App\Service\DirectoryService;
 use App\Service\ftptransfertService;
 use App\Service\PropertyService;
 use App\Service\QrcodeService;
+use App\Service\Transfert\TransfertPhotos;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -569,7 +570,14 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/property/images/{id}', name: 'op_gestapp_property_images', methods: ['POST','GET'])]
-    public function Images(Property $property, Request $request, PhotoRepository $photoRepository, PropertyRepository $propertyRepository, SluggerInterface $slugger)
+    public function Images(
+        Property $property,
+        Request $request,
+        PhotoRepository $photoRepository,
+        PropertyRepository $propertyRepository,
+        PropertyService $propertyService,
+        transfertPhotos $transfertPhotos,
+        SluggerInterface $slugger)
     {
         $form = $this->createForm(PropertyImageType::class, $property, [
             'action' => $this->generateUrl('op_gestapp_property_images', ['id'=>$property->getId()]),
@@ -584,43 +592,61 @@ class PropertyController extends AbstractController
             $photoFiles = $form->get('images')->getData();
             if ($photoFiles) {
                 foreach($photoFiles as $photoFile){
+
                     $lastphoto = $photoRepository->Lastphoto($property->getId());
+                    // récupération de la référence
                     $ref = explode("/", $property->getRef());
                     $newref = $ref[0].'-'.$ref[1];
+                    $nameApp = $transfertPhotos->getName($property);
+                    $numMandat = $propertyService->getMandat($property);
 
                     $photo = new Photo();
                     if($lastphoto){
                         $position = $lastphoto->getPosition() + 1;
-                        $photo->setPosition($position);
-                    }else{
-                        $photo->setPosition(1);
-                    }
+                        $blocksPhoto = explode('-', $lastphoto->getGaleryFrontName());
 
-                    $originalphotoFileName = pathinfo($photoFile->getClientOriginalName(), PATHINFO_FILENAME);
-                    // this is needed to safely include the file name as part of the URL
-                    $safephotoFileName = $slugger->slug($originalphotoFileName);
-                    $newphotoFileName = $safephotoFileName . '.' . $photoFile->guessExtension();
-                    $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
-                    // Move the file to the directory where brochures are stored
-                    try {
-                        if (is_dir($pathdir)){
-                            $photoFile->move(
-                                $pathdir,
-                                $newphotoFileName
-                            );
+                        if(isset($blocksPhoto[2])){
+                            $refPhoto = explode('.', $blocksPhoto[2]);
+                            $numPhoto = $refPhoto[0];
+                            $numPhoto++;
+                            $namePhoto = $nameApp.'-'.$numMandat.'-'.$numPhoto;
                         }else{
-                            // Création du répertoire s'il n'existe pas.
-                            mkdir($pathdir."/", 0775, true);
-                            // Déplacement de la photo
-                            $photoFile->move(
-                                $pathdir,
-                                $newphotoFileName
-                            );
+                            $namePhoto = $nameApp.'-'.$numMandat.'-1';
                         }
-
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
                     }
+                    else{
+                        $position = 1;
+                        $namePhoto = $nameApp.'-'.$numMandat.'-'.'1';
+                    }
+
+                    if ($photoFile) {
+                        $newphotoFileName = $namePhoto.'.'.$photoFile->guessExtension();
+                        $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
+                        // Move the file to the directory where brochures are stored
+                        try {
+                            if (is_dir($pathdir)){
+                                $photoFile->move(
+                                    $pathdir,
+                                    $newphotoFileName
+                                );
+                            }else{
+                                // Création du répertoire s'il n'existe pas.
+                                mkdir($pathdir."/", 0775, true);
+                                // Déplacement de la photo
+                                $photoFile->move(
+                                    $pathdir,
+                                    $newphotoFileName
+                                );
+                            }
+
+                        } catch (FileException $e) {
+                            // ... handle exception if something happens during file upload
+                        }
+                        $photo->setPath($newref);
+                        $photo->setGaleryFrontName($newphotoFileName);
+                    }
+
+                    $photo->setPosition($position);
                     $photo->setProperty($property);
                     $photo->setPath($newref);
                     $photo->setGaleryFrontName($newphotoFileName);
@@ -875,7 +901,15 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/addmandat/{id}', name: 'op_gestapp_property_addmandat', methods: ['GET', 'POST'])]
-    public function addMandat(Request $request, Property $property, PropertyRepository $propertyRepository, EntityManagerInterface $em)
+    public function addMandat(
+        Request $request,
+        Property $property,
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        EntityManagerInterface $em,
+        PropertyService $propertyService,
+        TransfertPhotos $transfertPhotos,
+    )
     {
         $form = $this->createForm(AddMandatType::class, $property, [
             'action' => $this->generateUrl('op_gestapp_property_addmandat',['id'=>$property->getId()]),
@@ -890,6 +924,25 @@ class PropertyController extends AbstractController
             $property->setIsNomandat(0);
             $em->persist($property);
             $em->flush();
+
+            $photos = $photoRepository->findBy(['property' => $property->getId()], ['position' => 'ASC']);;
+            if($photos){
+                for ($i = 0; $i < count($photos); $i++) {
+                    $photo = $photos[$i];
+                    $filename = $photo->getGaleryFrontName();
+                    $path = $photo->getPath();
+                    $oldPath = $this->getParameter('property_photo_directory')."/".$path.'/'.$filename;
+                    $nameApp = $transfertPhotos->getName($property);
+                    $numMandat = $propertyService->getMandat($property);
+                    $newname = $nameApp.'-'.$numMandat.'-'.$i;
+                    $newPath = $this->getParameter('property_photo_directory')."/".$path.'/'.$newname;
+                    if(file_exists($oldPath)){
+                        rename($oldPath, $newPath);
+                        $photo->setGaleryFrontName($newname);
+                        $em->flush();
+                    }
+                }
+            }
 
             return $this->json([
                 'code' => 200,
