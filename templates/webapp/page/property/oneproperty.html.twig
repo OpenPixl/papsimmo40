@@ -241,6 +241,14 @@
                                         <td><span class="color">{{ property.propertyTax }} €</span></td>
                                     </tr>
                                 {% endif %}
+
+                                {% if property.coproperty == 1 %}
+                                    <tr>
+                                        <td>Charges de copropriété : </td>
+                                        <td><span class="color">{{ property.coproprietyTaxe }} €</span></td>
+                                    </tr>
+                                {% endif %}
+                                
                                 {% if property.propertyOrientation != 'A définir' %}
                                     <tr>
                                         <td>Orientation</td>
