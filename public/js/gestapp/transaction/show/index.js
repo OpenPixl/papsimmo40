@@ -47,6 +47,7 @@ if(document.querySelector('.btnDocumentPdfError') !== null){
 document.querySelectorAll('.supprDocument').forEach(function(link){
     link.addEventListener('click', supprDocument);
 });
+
 btnSubmitColl.addEventListener('click', submitCollaborator);
 
 // Customer
@@ -291,19 +292,7 @@ modalCustomer.addEventListener('show.bs.modal', function (event){
 
 // comportement à adopter à la fermeture de la modal des customers
 modalCustomer.addEventListener('hidden.bs.modal', event => {
-    let form = modalCustomer.querySelector('#formCustomer_add');
-    let btnSubmit = modalCustomer.querySelector('.modal-footer #btnSubmitCustomer');
-    if(form){
-        if (event.target !== btnSubmit){
-            let idCustomer = document.getElementById('idCustomer').value;
-            axios
-                .post('/gestapp/customer/'+ idCustomer +'/delontransaction')
-                .then(function(response){
-                    toasterMessage(response.data.message);
-                })
-            ;
-        }
-    }
+
     modalCustomer.querySelector('.modal-dialog').classList.remove('modal-lg');
     modalCustomer.querySelector('.modal-body').innerHTML =
         "<div class=\"d-flex justify-content-center\">\n" +
@@ -415,13 +404,35 @@ function submitCustomer(event){
                         document.getElementById('btnAddDatePromise').classList.remove('d-none');
                         document.getElementById('rowEmptyPromiseDate').remove();
                     }
-                    modalBsCustomer.hide();
                 })
                 .catch(function (error) {
                     console.log(error);
                 })
             ;
         }
+    }
+}
+
+function modalDismissSuppression(event){
+    event.preventDefault();
+    let listBtn = ['btnSubmitCustomer', 'btnSubmitColl', 'btnSubmitCollInv', 'btnSubmitAgencyEmployed'] ;
+    let form = document.querySelector('.modal-body form').id;
+    let btnSubmit = modalCustomer.querySelector('.modal-footer #btnSubmitCustomer');
+    let targetElement = event.target.id;
+    if(targetElement !== ""){
+        if(form ==="formCustomer_add"){
+            let idCustomer = document.getElementById('idCustomer').value;
+            axios
+                .post('/gestapp/customer/'+ idCustomer +'/delontransaction')
+                .then(function(response){
+                    toasterMessage(response.data.message);
+                })
+            ;
+            modalBsCustomer.hide();
+        }
+        console.log('espace du code pour effacer');
+    }else{
+        console.log('pas d id sur le btn');
     }
 }
 
@@ -1074,6 +1085,9 @@ function submitHonoraires(event){
 function allAddEvent(){
     // Customer
     btnSubmitCustomer.addEventListener('click', submitCustomer);
+    document.querySelectorAll('.closeModal').forEach(function(link){
+        link.addEventListener('click', modalDismissSuppression);
+    });
     // Promise
     if(btnAddDatePromise !== null){btnAddDatePromise.addEventListener('click', submitDatePromise);}
     if(btnAddPromisePdf !== null){btnAddPromisePdf.addEventListener('click', submitPromisePdf);}
