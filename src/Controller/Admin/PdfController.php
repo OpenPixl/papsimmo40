@@ -111,7 +111,7 @@ class PdfController extends AbstractController
 
         $annonce = $this->cleanText($property->getAnnonce());
 
-        dd($annonce);
+        //dd($annonce);
 
         if($this->html == 1){
             return $this->render(
