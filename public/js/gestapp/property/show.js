@@ -882,8 +882,6 @@ function maxSizePhotos(event){
     if (totalSize > maxSizeBytes) {
         alert('La taille totale des fichiers dépasse '+ maxSizeMB +' Mo. Veuillez réduire la sélection.');
         event.target.value = ''; // Réinitialise le champ file
-    } else {
-        alert('La taille totale des fichiers est correcte.');
     }
 
 }
