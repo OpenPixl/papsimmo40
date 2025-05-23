@@ -60,7 +60,7 @@ class AdaptbddController extends AbstractController
                     $oldPath = $this->getParameter('property_photo_directory')."/".$path.'/'.$filename;
                     $nameApp = $transfertPhotos->getName($p);
                     $numMandat = $propertyService->getMandat($p);
-                    $newname = $nameApp.'-'.$numMandat.'-'.$i;
+                    $newname = $nameApp.'-'.$numMandat.'-'.uniqid();
                     $newPath = $this->getParameter('property_photo_directory')."/".$path.'/'.$newname;
                     if(file_exists($oldPath)){
                         rename($oldPath, $newPath);

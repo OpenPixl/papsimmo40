@@ -594,6 +594,11 @@ class PropertyController extends AbstractController
             if ($photoFiles) {
                 foreach($photoFiles as $photoFile){
                     $lastphoto = $photoRepository->Lastphoto($property->getId());
+                    if($lastphoto){
+                        $position = $lastphoto->getPosition() + 1;
+                    }else{
+                        $position = 1;
+                    }
 
                     // récupération de la référence
                     $ref = explode("/", $property->getRef());
@@ -601,26 +606,9 @@ class PropertyController extends AbstractController
                     $nameApp = $transfertPhotos->getName($property);
                     $numMandat = $propertyService->getMandat($property);
 
-                    $photo = new Photo();
-                    if($lastphoto){
-                        $photos = count($photoRepository->findBy(['property'=>$property]));
-                        //dd($photos);
-                        $position = $photos+1;
-                        $blocksPhoto = explode('-', $lastphoto->getGaleryFrontName());
+                    $namePhoto = $nameApp.'-'.$numMandat.'-'.uniqid();
 
-                        if(isset($blocksPhoto[2])){
-                            $refPhoto = explode('.', $blocksPhoto[2]);
-                            $numPhoto = $refPhoto[0];
-                            $numPhoto++;
-                            $namePhoto = $nameApp.'-'.$numMandat.'-'.$numPhoto;
-                        }else{
-                            $namePhoto = $nameApp.'-'.$numMandat.'-1';
-                        }
-                    }
-                    else{
-                        $position = 1;
-                        $namePhoto = $nameApp.'-'.$numMandat.'-'.'1';
-                    }
+                    $photo = new Photo();
 
                     $newphotoFileName = $namePhoto.'.'.$photoFile->guessExtension();
                     $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
