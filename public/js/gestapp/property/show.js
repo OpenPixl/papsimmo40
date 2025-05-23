@@ -329,6 +329,9 @@ function loadFormContent(navLink) {
                         }
                     });
 
+                    document.getElementById('property_image_images').addEventListener('change', maxSizePhotos);
+
+
                     let btnAddVideo = document.getElementById('btnAddVideo');
                     if(btnAddVideo){
                         btnAddVideo.addEventListener('click', submitVideos);
@@ -864,6 +867,25 @@ function submitAddSearchCustomer(event){
             alert(error);
         })
     ;
+}
+
+function maxSizePhotos(event){
+    const maxSizeMB = 20; // Limite en mégaoctets
+    const maxSizeBytes = maxSizeMB * 1024 * 1024;
+    const files = event.target.files;
+    let totalSize = 0;
+
+    for (let i = 0; i < files.length; i++) {
+        totalSize += files[i].size;
+    }
+    console.log(totalSize);
+    if (totalSize > maxSizeBytes) {
+        alert('La taille totale des fichiers dépasse '+ maxSizeMB +' Mo. Veuillez réduire la sélection.');
+        event.target.value = ''; // Réinitialise le champ file
+    } else {
+        alert('La taille totale des fichiers est correcte.');
+    }
+
 }
 
 function submitPhotos(event){
