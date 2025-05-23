@@ -577,6 +577,7 @@ class PropertyController extends AbstractController
         PropertyRepository $propertyRepository,
         PropertyService $propertyService,
         transfertPhotos $transfertPhotos,
+        EntityManagerInterface $em,
         SluggerInterface $slugger)
     {
         $form = $this->createForm(PropertyImageType::class, $property, [
@@ -592,8 +593,8 @@ class PropertyController extends AbstractController
             $photoFiles = $form->get('images')->getData();
             if ($photoFiles) {
                 foreach($photoFiles as $photoFile){
-
                     $lastphoto = $photoRepository->Lastphoto($property->getId());
+
                     // récupération de la référence
                     $ref = explode("/", $property->getRef());
                     $newref = $ref[0].'-'.$ref[1];
@@ -602,7 +603,9 @@ class PropertyController extends AbstractController
 
                     $photo = new Photo();
                     if($lastphoto){
-                        $position = $lastphoto->getPosition() + 1;
+                        $photos = count($photoRepository->findBy(['property'=>$property]));
+                        //dd($photos);
+                        $position = $photos+1;
                         $blocksPhoto = explode('-', $lastphoto->getGaleryFrontName());
 
                         if(isset($blocksPhoto[2])){
@@ -619,42 +622,40 @@ class PropertyController extends AbstractController
                         $namePhoto = $nameApp.'-'.$numMandat.'-'.'1';
                     }
 
-                    if ($photoFile) {
-                        $newphotoFileName = $namePhoto.'.'.$photoFile->guessExtension();
-                        $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
-                        // Move the file to the directory where brochures are stored
-                        try {
-                            if (is_dir($pathdir)){
-                                $photoFile->move(
-                                    $pathdir,
-                                    $newphotoFileName
-                                );
-                            }else{
-                                // Création du répertoire s'il n'existe pas.
-                                mkdir($pathdir."/", 0775, true);
-                                // Déplacement de la photo
-                                $photoFile->move(
-                                    $pathdir,
-                                    $newphotoFileName
-                                );
-                            }
-
-                        } catch (FileException $e) {
-                            // ... handle exception if something happens during file upload
+                    $newphotoFileName = $namePhoto.'.'.$photoFile->guessExtension();
+                    $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        if (is_dir($pathdir)){
+                            $photoFile->move(
+                                $pathdir,
+                                $newphotoFileName
+                            );
+                        }else{
+                            // Création du répertoire s'il n'existe pas.
+                            mkdir($pathdir."/", 0775, true);
+                            // Déplacement de la photo
+                            $photoFile->move(
+                                $pathdir,
+                                $newphotoFileName
+                            );
                         }
-                        $photo->setPath($newref);
-                        $photo->setGaleryFrontName($newphotoFileName);
-                    }
 
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $photo->setPath($newref);
+                    $photo->setGaleryFrontName($newphotoFileName);
                     $photo->setPosition($position);
                     $photo->setProperty($property);
                     $photo->setPath($newref);
                     $photo->setGaleryFrontName($newphotoFileName);
-                    $photoRepository->add($photo);
+                    $em->persist($photo);
+                    $em->flush();
                 }
             }
             $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
-            $propertyRepository->add($property);
+            $em->flush();
             return $this->json([
                 'code'=> 200,
                 'message' => "La photo du bien a été ajoutée",

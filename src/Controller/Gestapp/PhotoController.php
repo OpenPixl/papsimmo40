@@ -87,6 +87,7 @@ class PhotoController extends AbstractController
         // on récupére si elle existe la dernière photo du bien actuel et son positionnement
         $lastphoto = $photoRepository->Lastphoto($idproperty);
 
+
         // récupération de la référence
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
