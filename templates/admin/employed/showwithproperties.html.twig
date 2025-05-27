@@ -24,12 +24,12 @@
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         Agent <strong>{{ employed.firstName }} {{ employed.lastName }}</strong><br>
                     {% else %}
-                        Collaborateur {{ employed.firstName }} {{ employed.lastName }}
+                        {% if employed.civility == 1%}M.{% else %}Mme{% endif%} {{ employed.firstName }} {{ employed.lastName }}
                     {% endif %}
                 </h1>
                 {% if employed.sector is null %}
                 {% else %}
-                    <h2 class="text-start">Sur le secteur : {{ employed.sector }}</h2>
+                    <h2 class="h3 text-start">Opérant sur le secteur : {{ employed.sector }}</h2>
                 {% endif %}
                 {% if employed.employedPrez is null %}
                 <p class="text-start">
@@ -45,12 +45,52 @@
                 </p>
                 {% endif %}
                 <p class="text-start">
-                    <i class="fa-duotone fa-circle-phone"></i> {{ employed.gsm }}<br>
-                    <i class="fa-duotone fa-envelope"></i> {{ employed.email }}
+                    {% set emailUser = employed.email|split("@")[0] %}
+                    {% set emailDomain = employed.email|split("@")[1] %}
+                    <i class="fa-duotone fa-circle-phone"></i> {{ employed.gsm }} | <i class="fa-duotone fa-envelope"></i> {{ emailUser }}<span class="arobase"><span>(arobase)</span></span>{{ emailDomain }}
                 </p>
             </div>
         </div>
     </section>
+    {% if employed.employeds|length >= 0 %}
+    <section id="prez_papsimmo" class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h2 class="fs-4 text-center fw-semibold">
+                        Découvrez mon équipe d'agents partenaires
+                    </h2>
+                    <hr class="border-light">
+                </div>
+            </div>
+            <div class="row justify-content-center">
+            {% for e in employed.employeds %}
+                {% if 'ROLE_PRESCRIBER' not in e.roles %}
+                <div class="col-2">
+                    <div class="row justify-content-center">
+                        <div class="col-8">
+                            <p class="text-center">
+                                {% if employed.avatarName is not null %}
+                                    <img class="img-fluid rounded-circle" src="{{ asset('images/avatar/' ~ e.avatarName)|imagine_filter('noscollaborateursvierge_card') }}" alt="{{ e.firstName }} {{ e.lastName }}">
+                                {% else %}
+                                    <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/LogoPAPSimmo-Blanc.jpg')|imagine_filter('noscollaborateursvierge_card')}}" alt="pas d'avatar">
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="row" id="content_article">
+                        <div class="col-12">
+                            <p class="mb-0 text-center text-light"> {% if employed.civility == 1%}M.{% else %}Mme{% endif%} {{ e.firstName }} {{ e.lastName }}</p>
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+            {% endfor %}
+            </div>
+
+        </div>
+    </section>
+    {% endif %}
     <section id="listpropertiescoll" class="container">
         {#
         <div class="row mb-4">

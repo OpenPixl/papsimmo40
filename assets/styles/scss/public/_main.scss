@@ -23,6 +23,18 @@ body{
   p{
     font-family: 'Montserrat-regular', sans-serif;
   }
+  .arobase::before {
+    content: "\000040";
+    font-size: inherit !important;
+  }
+  .arobase span {
+    font-size: 1px;
+    font-size: 0.1px;
+    text-indent: -999px;
+    width: 1px;
+    overflow: hidden;
+  }
+
   .pagination {
     margin-top: 0;
     margin-bottom: 0 !important;
