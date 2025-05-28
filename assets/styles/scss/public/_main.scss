@@ -23,6 +23,9 @@ body{
   p{
     font-family: 'Montserrat-regular', sans-serif;
   }
+  button{
+    font-family: 'Montserrat-regular', sans-serif !important;
+  }
   .arobase::before {
     content: "\000040";
     font-size: inherit !important;
