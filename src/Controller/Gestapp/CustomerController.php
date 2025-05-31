@@ -41,14 +41,48 @@ class CustomerController extends AbstractController
     public function renameDir(CustomerRepository $customerRepository, SluggerInterface $slugger, EntityManagerInterface $em){
         $customers  = $customerRepository->findAll();
         foreach ($customers as $customer){
-            $name = $customer->getNameStructure();
-            if($name){
-                $customer->setSlugStructure($slugger->slug($name));
+            $tclient = $customer->getTypeClient();
+            if($tclient == 'particulier'){
+                $firstname = $customer->getFirstName();
+                $lastname = $customer->getLastName();
+                $maidenname = $customer->getMaidenName();
+                $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getSlug().'_'.$customer->GetId();
+                if($maidenname){
+                    $slugCustomer = $slugger->slug($firstname.'-'.$maidenname)->lower();
+                }else{
+                    $slugCustomer = $slugger->slug($firstname.'-'.$lastname)->lower();
+                }
+                $customer->setSlug($slugCustomer);
                 $em->flush();
-            }
-            $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName();
-            if(is_dir($pathheader)){
-                rename($pathheader, $this->getParameter('customer_ci_directory') . '/' .$customer->getSlug().'_'.$customer->getId());
+                if(is_dir($pathheader)){
+                    $files = scandir($pathheader);
+                    foreach ($files as $file) {
+                        if (in_array($file, ['.', '..'])) {
+                            continue;
+                        }
+                        if (str_starts_with($file, 'ci-') && is_file($file)) {
+                            $found = true;
+
+                            $newName = substr($file, 3); // Supprime "ci-"
+                            if (file_exists($newName)) {
+                                echo "Le fichier $newName existe déjà. Renommage annulé.\n";
+                                continue;
+                            }
+
+                            if (rename($file, $newName)) {
+                                echo "Fichier '$file' renommé en '$newName'.\n";
+                            } else {
+                                echo "Erreur lors du renommage de '$file'.\n";
+                            }
+                        }
+                    }
+                }
+            }else{
+                $name = $customer->getNameStructure();
+                if($name){
+                    $customer->setSlugStructure($slugger->slug($name));
+                    $em->flush();
+                }
             }
         }
 
@@ -817,9 +851,18 @@ class CustomerController extends AbstractController
             else{
                 // partie ajout CI
                 $ci = $form->get('cifilename')->getData();
+                $firstname = $form->get('firstName')->getData();
+                $lastname = $form->get('lastName')->getData();
+                $maidenname = $form->get('maidenName')->getData();
+                if($maidenname){
+                    $slugCustomer = $slugger->slug($firstname.'-'.$maidenname)->lower();
+                }else{
+                    $slugCustomer = $slugger->slug($firstname.'-'.$lastname)->lower();
+                }
+
                 $ciFilename = $customer->getCifilename();
                 if($ci) {
-                    $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
+                    $path_part = $this->getParameter('customer_ci_directory').'/'.$slugCustomer.'_'.$customer->getId();
                     if ($ciFilename) {
                         $pathheader = $path_part. '/' .$ciFilename;
                         // On vérifie si l'image existe
@@ -827,7 +870,7 @@ class CustomerController extends AbstractController
                             unlink($pathheader);
                         }
                     }
-                    $newFilename = 'ci-'.$customer->getSlug().'.'.$ci->guessExtension();
+                    $newFilename = 'ci-'.$slugCustomer.'.'.$ci->guessExtension();
                     try {
                         if(is_dir($path_part)){
                             $ci->move(

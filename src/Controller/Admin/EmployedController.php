@@ -148,10 +148,12 @@ class EmployedController extends AbstractController
             }
 
             $plainpassword = explode("@", $form->get('email')->getData());
-            $numCollaborator = rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10).rand(0,10);
+            $numCollaborator = rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9).rand(0,9);
+            //dd($numCollaborator);
             $employed->setPassword($userPasswordHasher->hashPassword($employed,$plainpassword[0]));
             $employed->setNumCollaborator($numCollaborator);
             $employed->setRoles(["ROLE_EMPLOYED"]);
+            $employed->setAgreeTerms(1);
             $employedRepository->add($employed);
 
             return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);

@@ -309,9 +309,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 6, nullable: true)]
     #[Groups(['employed:list', 'employed:item'])]
     #[Assert\Length(
-        min: 6,
+        min: 5,
         minMessage: 'Nous attendons 6 caractères, il en manque',
-        max: 6,
+        max: 7,
         maxMessage: 'Nous attendons 6 caractères, il y en a trop',
     )]
     private ?string $numCollaborator = null;
