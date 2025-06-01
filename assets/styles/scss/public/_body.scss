@@ -1,22 +1,36 @@
+/*******************************************************************
+      REGLES GENERALES APPLICABLES SUR LE BODY ET LES BALISES
+*******************************************************************/
+
 body
 {
-  font-family: 'Montserrat';
   display: grid;
   grid-template-rows: auto 1fr auto;
-  #oneproperty_header
-  {
-    position: relative;
-    top: -69px;
-    background: #ffffff90;
+
+  h1, h2, h3, .h1, .h2, .h3  {
+    color: $secondary-color;
+    font-weight: 400;
   }
 
-  h1,h2,h3
-  {
-    font-weight:400;
-    color: $secondary-color;
+  a.nav-link {
+    font-family: 'Montserrat-light', sans-serif;
+    font-size: 15px;
+    color: #707070;
+    text-transform: uppercase;
   }
+
   p{
-    font-family: 'Montserrat';
+    font-family: 'Montserrat-regular', sans-serif;
+  }
+
+  blockquote {
+    color : #d1d1d1;
+    font-style: italic;
+    text-align: right;
+  }
+
+  button{
+    font-family: 'Montserrat-regular', sans-serif !important;
   }
 
 }

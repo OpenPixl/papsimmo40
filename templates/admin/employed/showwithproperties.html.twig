@@ -31,13 +31,13 @@
                     <h2 class="h3 text-start">Opérant sur le secteur : {{ employed.sector }}</h2>
                 {% endif %}
                 {% if employed.employedPrez is null %}
-                <p class="text-start">
-                    <strong>VENDRE</strong> ou <strong>ACHETER</strong> un bien immobilier est un acte important.
-                    L'accompagnement d'un professionnel est nécessaire pour réussir votre projet sereinement et en toute sécurité.
-                    <br>
-                    <strong>PAPs immo</strong> est à votre service pour toute transaction, achat, vente (maison, appartement, immeuble, terrain constructible, terrain forestier, terrain viticole, tous types de commerces). 
-                    Une disponibilité, un suivi, une exigence permanente valorisent la qualité de la relation de confiance que nous établirons pour finaliser vos projets.
-                </p>
+                    <p class="text-start">
+                        <strong>VENDRE</strong> ou <strong>ACHETER</strong> un bien immobilier est un acte important.
+                        L'accompagnement d'un professionnel est nécessaire pour réussir votre projet sereinement et en toute sécurité.
+                        <br>
+                        <strong>PAPs immo</strong> est à votre service pour toute transaction, achat, vente (maison, appartement, immeuble, terrain constructible, terrain forestier, terrain viticole, tous types de commerces). 
+                        Une disponibilité, un suivi, une exigence permanente valorisent la qualité de la relation de confiance que nous établirons pour finaliser vos projets.
+                    </p>
                 {% else %}
                 <p class="text-start mb-3">
                     {{ employed.employedPrez }}
@@ -52,7 +52,7 @@
                         </p>
                     </div>
                     <div class="col-6 justify-content-end d-flex">
-                        {% if employed.employeds|length >= 0 %}
+                        {% if employed.employeds|length > 0 %}
                             <!-- Button trigger modal -->
                             <button type="button" class="btn bnt-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#openModalFilleuls">
                                 Découvrez mon équipe
@@ -60,7 +60,7 @@
 
                             <!-- Modal -->
                             <div class="modal fade" id="openModalFilleuls" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-lg">
+                                <div class="modal-dialog modal-dialog-centered modal-dialog-scrollable modal-xl">
                                     <div class="modal-content border-dark">
                                         <div class="modal-body">
                                             <div class="row align-items-center">
@@ -68,26 +68,29 @@
                                                 <div class="col-1"><button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                 </div>
                                             </div>
-                                            <div class="row justify-content-center">
+                                            <div class="row justify-content-center g-2 mb-2">
                                                 {% for e in employed.employeds %}
                                                     {% if 'ROLE_PRESCRIBER' not in e.roles %}
-                                                        <div class="col-4">
-                                                            <div class="row justify-content-center">
-                                                                <div class="col-6">
-                                                                    <p class="text-center">
-                                                                        {% if employed.avatarName is not null %}
-                                                                            <img class="img-fluid rounded-circle" src="{{ asset('images/avatar/' ~ e.avatarName)|imagine_filter('noscollaborateursvierge_card') }}" alt="{{ e.firstName }} {{ e.lastName }}">
-                                                                        {% else %}
-                                                                            <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/LogoPAPSimmo-Blanc.jpg')|imagine_filter('noscollaborateursvierge_card')}}" alt="pas d'avatar">
-                                                                        {% endif %}
-                                                                    </p>
+                                                        <div class="col-3 rounded-1 mt-3">
+                                                            <div class="bg-light border-dark border rounded-1 p-2">
+                                                                <div class="row justify-content-center">
+                                                                    <div class="col-6">
+                                                                        <p class="text-center">
+                                                                            {% if employed.avatarName is not null %}
+                                                                                <img class="img-fluid rounded-circle" src="{{ asset('images/avatar/' ~ e.avatarName)|imagine_filter('noscollaborateursvierge_card') }}" alt="{{ e.firstName }} {{ e.lastName }}">
+                                                                            {% else %}
+                                                                                <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/LogoPAPSimmo-Blanc.jpg')|imagine_filter('noscollaborateursvierge_card')}}" alt="pas d'avatar">
+                                                                            {% endif %}
+                                                                        </p>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" id="content_article">
+                                                                    <div class="col-12">
+                                                                        <p class="mb-0 text-center"> {% if employed.civility == 1%}M.{% else %}Mme{% endif%} {{ e.firstName }} {{ e.lastName }}</p>
+                                                                    </div>
                                                                 </div>
                                                             </div>
-                                                            <div class="row" id="content_article">
-                                                                <div class="col-12">
-                                                                    <p class="mb-0 text-center"> {% if employed.civility == 1%}M.{% else %}Mme{% endif%} {{ e.firstName }} {{ e.lastName }}</p>
-                                                                </div>
-                                                            </div>
+                                                            <a href="{{ path('op_admin_employed_showwithproperty', {'id': e.id}) }}" class="stretched-link"></a>
                                                         </div>
                                                     {% endif %}
                                                 {% endfor %}
