@@ -89,8 +89,8 @@
                                                                         <p class="mb-0 text-center"> {% if employed.civility == 1%}M.{% else %}Mme{% endif%} {{ e.firstName }} {{ e.lastName }}</p>
                                                                     </div>
                                                                 </div>
+                                                                <a class="btn btn-sm btn-outline-success w-100" href="{{ path('op_admin_employed_showwithproperty', {'id': e.id}) }}">Voir sa page</a>
                                                             </div>
-                                                            <a href="{{ path('op_admin_employed_showwithproperty', {'id': e.id}) }}" class="stretched-link"></a>
                                                         </div>
                                                     {% endif %}
                                                 {% endfor %}
