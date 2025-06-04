@@ -1,0 +1,31 @@
+<div class="card border-dark mt-2" id="blockCollaborator">
+    <div class="card-body p-2">
+        <div class="row">
+            {% if access == 'read' %}
+                <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    <div class="col-3">
+                        <p class="mb-0 text-center">
+                            <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-FormAddcollaborator"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                        </p>
+                    </div>
+                {% endif %}
+            {% else %}
+                {% if access == 'admin' %}
+                    <div class="col-9"><h5>Ajouter un collaborateur</h5></div>
+                    <div class="col-3">
+                        <p class="text-center">
+                            <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-FormAddcollaborator"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                        </p>
+                    </div>
+                {% else %}
+                    <div class="col-9"><h5>Liste des collaborateurs</h5></div>
+                {% endif%}
+            {% endif %}
+
+        </div>
+        <div id="listCollaborator" class="mt-1">
+            {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::listByTransac', {'id': transaction.id})) }}
+        </div>
+    </div>
+</div>

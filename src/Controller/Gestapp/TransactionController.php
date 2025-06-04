@@ -22,6 +22,7 @@ use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\TransactionRepository;
+use App\Service\EmailService;
 use App\Service\NotificationService;
 use App\Service\transactionService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -45,7 +46,8 @@ class TransactionController extends AbstractController
 
     public function __construct(
         EntityManagerInterface $entityManager,
-        public NotificationService $notificationService
+        public NotificationService $notificationService,
+        public EmailService $emailService,
     )
     {
         $this->submit = true; // Initialisation de la variable $public
@@ -168,16 +170,29 @@ class TransactionController extends AbstractController
     #[Route('/2/{id}/show', name: 'op_gestapp_transaction_show', methods: ['GET'])]
     public function show(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
     {
+        $user = $this->getUser();
+        $permission = 'read'; // Valeur par défaut
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $access = 'edit';
+        } elseif ($this->isGranted('ROLE_EMPLOYE')) {
+            if ($transaction->getRefEmployed() === $user) {
+                $access = 'edit';
+            } else {
+                $access = 'read';
+            }
+        }
+
         $property = $transaction->getProperty();
         $customers = $transaction->getCustomer();
         $photo = $photoRepository->firstphoto($property->getId());
 
         return $this->render('gestapp/transaction/show.html.twig', [
-        'transaction' => $transaction,
-        'property' => $property,
-        'customers' => $customers,
-        'photo' => $photo
-    ]);
+            'access' => $access,
+            'transaction' => $transaction,
+            'property' => $property,
+            'customers' => $customers,
+            'photo' => $photo
+        ]);
     }
 
 
@@ -343,7 +358,6 @@ class TransactionController extends AbstractController
                 ]),
                 'method' => 'POST'
             ]);
-
         }else{
             $form = $this->createForm(Transactionstep3Type::class, $transaction, [
                 'attr' => ['id'=>'transactionstep3'],
@@ -421,29 +435,15 @@ class TransactionController extends AbstractController
 
                 if($this->submit == true){
                     if($hasAccess == false) {
-                        $email = (new TemplatedEmail())
-                            ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'))
-                            ->to($this->application->getAdminEmail())
-                            //->cc('cc@example.com')
-                            //->bcc('bcc@example.com')
-                            //->replyTo('fabien@example.com')
-                            //->priority(Email::PRIORITY_HIGH)
-                            ->subject('[PAPs immo] : Une promesse de vente attend votre approbation.')
-                            ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-                            ->context([
-                                'transaction' => $transaction,
-                                'url' => $request->server->get('HTTP_HOST')
-                            ]);
-                        try {
-                            $mailer->send($email);
-                        } catch (TransportExceptionInterface $e) {
-                            // some error prevented the email sending; display an
-                            // error message or try to resend the message
-                            dd($e);
-                        }
+                        $this->emailService->SubmitPdfForTransacAtAdmin(
+                            'contact@papsimmo.fr',
+                            'SoftPAPs',
+                            $this->application->getAdminEmail(),
+                            '[PAPs immo] : Une promesse de vente attend votre approbation.',
+                            $transaction
+                        );
                     }
                 }
-
 
                 return $this->json([
                     'code' => 200,
@@ -508,13 +508,13 @@ class TransactionController extends AbstractController
         if($this->submit == true){
             $email = (new TemplatedEmail())
                 ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'));
-            if($host == '127.0.0.1'){
-                $email
-                    ->to('xavier.burke@openpixl.fr');
-            }else{
-                $email
-                    ->to($employedEmail);
-            }
+                if($host == '127.0.0.1'){
+                    $email
+                        ->to('xavier.burke@openpixl.fr');
+                }else{
+                    $email
+                        ->to($employedEmail);
+                }
             $email
                 //->cc('cc@example.com')
                 //->bcc('bcc@example.com')
@@ -722,6 +722,16 @@ class TransactionController extends AbstractController
                     }
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
+                }
+
+                if($this->submit == true){
+                    $this->emailService->SubmitPdfForTransacAtAdmin(
+                        'contact@papsimmo.fr',
+                        'SoftPAPs',
+                        $this->application->getAdminEmail(),
+                        '[PAPs immo] : Une facture d\'honoraire a été versée au dossier.',
+                        $transaction->getId()
+                    );
                 }
 
                 $transaction->setHonorairesPdfFilename($newFilename);

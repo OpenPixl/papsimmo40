@@ -2,53 +2,57 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="module" src="{{ asset('js/gestapp/transaction/show/index.js') }}"></script>
+    <script type="module" src="{{ asset('js/gestapp/transaction/show.js') }}"></script>
 {% endblock %}
 
 {% block breadcrumb %}
-    <ol class="breadcrumb">
-        <li class="breadcrumb-item active"><a href="{{ path('op_admin_dashboard_index') }}"><i class="fa-duotone fa-house-blank"></i> Tableau de Bord</a></li>
+    <ol class="breadcrumb mb-0">
+        <li class="breadcrumb-item active"><a href="/opadmin/dashboard"><svg class="svg-inline--fa fa-house-blank" aria-hidden="true" focusable="false" data-prefix="fad" data-icon="house-blank" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512" data-fa-i2svg=""><g class="fa-duotone-group"><path class="fa-secondary" fill="currentColor" d="M64 270.5c74.7-65.3 149.3-130.6 224-196L512.1 270.6l.4 177.3c.1 35.4-28.6 64.1-64 64.1l-320.4 0c-35.3 0-64-28.6-64-64L64 270.5z"></path><path class="fa-primary" fill="currentColor" d="M266.9 7.9C279-2.6 297-2.6 309.1 7.9l256 224c13.3 11.6 14.6 31.9 3 45.2s-31.9 14.6-45.2 3L288 74.5 53.1 280.1c-13.3 11.6-33.5 10.3-45.2-3s-10.3-33.5 3-45.2l256-224z"></path></g></svg><!-- <i class="fa-duotone fa-house-blank"></i> --> Tableau de Bord</a></li>
+        <li class="breadcrumb-item active">Transaction</li>
+        <li class="breadcrumb-item active"><a href="{{ path('op_gestapp_transaction_index') }}">Transactions</a></li>
+        <li class="breadcrumb-item active">Fiche {{ transaction.name }}</li>
     </ol>
 {% endblock %}
 
 {% block contentTitle %}
     <div class="row d-flex justify-content-between">
     <div class="col-sm-12">
-        <h1 class="fs-3">TRANSACTION - Ref : {{ transaction.name }}</h1>
+        <h1 class="fs-3 border-bottom border-dark fw-normal">TRANSACTION - Ref : {{ transaction.name }}</h1>
         <input id="valueProperty" type="hidden" value="{{ transaction.id }}">
     </div>
     </div>
 {% endblock %}
 
 {% block content %}
-<div class="row mb-5 align-items-top">
-    <div class="col-3">
-        <div class="card border-dark">
-            {% if photo is not null %}
-                <img class="card-img-top" src="{{ asset('properties/' ~ photo.path) ~ '/' ~ photo.galeryFrontName }}" alt="">
-            {% else %}
-                <img class="card-img-top" src="{{ asset('images/jpeg/mod_maison.jpg') }}" alt="">
-            {% endif %}
-            <div class="card-body p-2">
-                <h5 class="card-title">{{ transaction.property.name }}</h5>
-                <p class="card-text">
-                    Bien sous mandat numéro : <b>{{ transaction.property.refMandat }}{% if transaction.property.dupMandat %}{{ transaction.property.dupMandat }}{% endif %}</b>
-                    <br>
-                    {% if transaction.refEmployed.id == app.user.id %}
-                        Porté par : <b>Moi même</b>
-                    {% else %}
-                        Porté par : <b>{% if transaction.refEmployed.civility == 2 %}Mme {% else %}M. {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}</b>
-                    {% endif %}
-                </p>
-                <div class="progress" role="progressbar" aria-label="Default striped example" aria-valuenow="10" aria-valuemin="0" aria-valuemax="100">
-                    <div class="progress-bar progress-bar-striped" style="width: 10%"></div>
-                </div>
+<div class="row mb-5 align-items-top g-2">
 
+    <div class="col-3">
+        {{ include('gestapp/transaction/show/cardInformations.html.twig') }}
+        {{ include('gestapp/transaction/show/cardCollaborateurs.html.twig') }}
+
+        {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div class="card border-dark mt-2" id="blockAgencyEmployed">
+                <div class="card-body p-2">
+                    {{ include('gestapp/transaction/add_agencyemployed/index.html.twig') }}
+                </div>
             </div>
-        </div>
+        {% endif %}
     </div>
     <div class="col-9">
-
+        <div class="card">
+            <div class="card-body p-2">
+                <p class="border-bottom mb-0"><b>Etat d'avancement du dossier</b></p>
+                <div class="row">
+                    <div class="col-12">
+                        {% if transaction.state == 'finished' %}
+                            <p class="mb-0 text-success">Ce dossier de vente est finalisé.</p>
+                        {% else %}
+                            <p class="mb-0 text-primary">Ce dossier de vente est en cours de construction.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

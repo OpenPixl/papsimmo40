@@ -2,35 +2,46 @@
 
 namespace App\Service;
 
+use App\Entity\Admin\Application;
+use App\Entity\Gestapp\Transaction;
+use App\Repository\Admin\ApplicationRepository;
+use App\Repository\Gestapp\TransactionRepository;
 use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\HttpFoundation\RequestStack;
+use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
+use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
 
 class EmailService
 {
     public function __construct(
-        protected RequestStack $request,
+        public TransactionRepository $transactionRepository,
+        protected MailerInterface    $mailer,
+        protected RequestStack            $request,
+        private readonly ApplicationRepository $applicationRepository,
     ){}
 
-    public function createEmail($email_exp, $email_name, $email_dest)
-    {
-        $request = $this->request->getCurrentRequest();
-
+    public function SubmitPdfForTransacAtAdmin($email_exp, $email_name, $email_dest, $subject, $idtransaction){
+        $transaction = $this->transactionRepository->find($idtransaction);
         $email = (new TemplatedEmail())
             ->from(new Address($email_exp, $email_name))
-            ->to($email_dest)
+            ->to($this->applicationRepository->find(1)->getAdminEmail())
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject("[PAPs Immo] : Erreur sur le document présenté")
-            ->htmlTemplate('admin/mail/messageErrorDocument.html.twig')
+            ->subject($subject)
+            ->htmlTemplate('admin/mail/messageTransaction.html.twig')
             ->context([
                 'transaction' => $transaction,
-                'url' => $request->server->get('HTTP_HOST'),
-                'typedoc' => $typeDoc
+                'url' => $this->request->getCurrentRequest()
             ]);
-
-        return $email;
+        try {
+            $this->mailer->send($email);
+        } catch (TransportExceptionInterface $e) {
+            // some error prevented the email sending; display an
+            // error message or try to resend the message
+            dd($e);
+        }
     }
 }
