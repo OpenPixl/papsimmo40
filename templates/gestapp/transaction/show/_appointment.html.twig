@@ -1,17 +1,54 @@
 <p class="border-bottom mb-1"><b>Dates</b></p>
-<p class="mb-0">Ouverture de dossier : <span class="text-primary">{{ transaction.createdAt|format_datetime('full', 'none', locale='fr') }}</span> <a href="#" class="text-primary"><i class="fa-duotone fa-light fa-check"></i></a></p>
-<p class="mb-0">Signature du compromis :
+<dl class="row g-1 align-items-center mb-1">
+    <dt class="col-sm-3 mb-0">
+        {% if transaction.createdAt %}
+            <span class="text-success"><i class="fa-duotone fa-light fa-shield-check"></i></span>
+        {% else %}
+            <span class="text-warning"><i class="fa-duotone fa-light fa-circle-dashed"></i></span>
+        {% endif %}
+        Ouverture de dossier :
+    </dt>
+    <dd class="col-sm-3 mb-0"><span class="text-primary">{{ transaction.createdAt|format_datetime('full', 'none', locale='fr') }}</span></dd>
+</dl>
+<dl class="row g-1 align-items-center mb-1">
+    <dt class="col-sm-3 mb-0">
+        {% if transaction.dateAtPromise %}
+            <span class="text-success"><i class="fa-duotone fa-light fa-shield-check"></i></span>
+        {% else %}
+            <span class="text-warning"><i class="fa-duotone fa-light fa-circle-dashed"></i></span>
+        {% endif %}
+        Signature du compromis :
+    </dt>
     {% if transaction.dateAtPromise %}
-    <span class="text-primary">{{ transaction.dateAtPromise|format_datetime('full', 'none', locale='fr') }}</span>
-    <a href="#" class="text-primary"><i class="fa-light fa-arrows-rotate"></i></a></p>
-{% else %}
-    <span class="text-primary"><em>Non défini</em></span>
-                    {% endif %}
-<p class="mb-0">Signature de l'acte :
-    {% if transaction.dateAtSale %}
-        <span class="text-primary"> {{ transaction.dateAtSale|format_datetime('full', 'none', locale='fr') }} </span>
-        <a href="#" class="text-primary"><i class="fa-light fa-arrows-rotate"></i></a>
+        <dd class="col-sm-3 mb-0"><span class="text-primary">{{ transaction.dateAtPromise|format_datetime('full', 'none', locale='fr') }}</span></dd>
+        <dd class="col-sm-3 mb-0"><a href="#" class="text-primary"><i class="fa-light fa-arrows-rotate"></i> Actualiser la date</a></dd>
     {% else %}
-        <span class="text-primary"><em>Non défini</em></span>
+        <dd class="col-sm-3 mb-0"><span class="text-primary"><em>Non défini</em></span></dd>
     {% endif %}
-</p>
+    {% if access == 'admin' %}
+        <dd class="col-sm-1 mb-0">
+            <a href="#" class="text-warning text-decoration-none" data-bs-data="DELDATE-Suppresion du rendez-Vous-dateAtPromise"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
+        </dd>
+    {% endif %}
+</dl>
+<dl class="row g-1 align-items-center mb-1">
+    <dt class="col-sm-3 mb-0">
+        {% if transaction.dateAtSale %}
+            <span class="text-success"><i class="fa-duotone fa-light fa-shield-check"></i></span>
+        {% else %}
+            <span class="text-warning"><i class="fa-duotone fa-light fa-circle-dashed"></i></span>
+        {% endif %}
+        Signature de l'acte :
+    </dt>
+    {% if transaction.dateAtSale %}
+    <dd class="col-sm-3 mb-0"><span class="text-primary"> {{ transaction.dateAtSale|format_datetime('full', 'none', locale='fr') }} </span></dd>
+    <dd class="col-sm-3 mb-0"><a href="#" class="text-primary"><i class="fa-light fa-arrows-rotate"></i> Actualiser la date</a></dd>
+    {% else %}
+        <dd class="col-sm-2 mb-0"><span class="text-primary"><em>Non défini</em></span></dd>
+    {% endif %}
+    {% if access == 'admin' %}
+        <dd class="col-sm-1 mb-0">
+            <a href="#" class="text-warning text-decoration-none" data-bs-data="DELDATE-Suppresion du rendez-Vous-dateAtActe"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
+        </dd>
+    {% endif %}
+</dl>
