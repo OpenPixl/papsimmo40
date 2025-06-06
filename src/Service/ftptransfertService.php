@@ -239,7 +239,7 @@ class ftptransfertService
         // ---------------------------------------------------------
         $nameRep = 'figaro';                     // Nom du dossier
         $nameFile = '107428';               // Nom du Fichier sans extension
-        $Rep = 'doc/report/figaro/';             // nom du répertoire final
+        $Rep = 'doc/report/Annoncesfigaro/';             // nom du répertoire final
         if(is_dir($Rep))
         {
             $this->directoryZip($nameRep, $nameFile, $content);
