@@ -31,7 +31,7 @@
             <script type="module" src="{{ asset('js/Admin/dashboard/statutsession.js') }}"></script>
         {% endblock %}
     </head>
-    <body>
+    <body data-page="{{ app.current_route }}">
         <header>
             {% block header %}
                 {{ render(controller('App\\Controller\\Admin\\DashboardController::NavBar')) }}
@@ -93,7 +93,7 @@
                                         </div>
                                     </div>
                                     <div class="modal-footer bg-secondary p-2">
-                                        <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
+                                        <a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary">Ajouter</a>
                                         <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
                                     </div>
                                 </div>

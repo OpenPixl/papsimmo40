@@ -1,0 +1,33 @@
+{% for customer in transaction.property.customer %}
+    <div class="alert alert-light mb-1 p-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="mb-0">
+                    {{ loop.index }} |
+                    {% if customer.typeClient == "professionnel" %}
+                        {{ customer.nameStructure }} | {{ customer.gsmStructure }}
+                    {% else %}
+                        {% if customer.civility ==2 %}Mme. {% else %}M. {% endif %}{{ customer.firstname }} {{ customer.lastName }} |
+                        {% if customer.gsm is defined %}{{ customer.gsm }}{% endif %}
+                        {% if customer.home is defined %}{{ customer.home }}{% endif %}
+                    {% endif %}
+
+                </p>
+            </div>
+            <div>
+                <p class="mb-0">
+                    {% if access == "edit" %}
+                        <a href="#" class="text-info" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="EDIT-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        {% endif %}
+                    {% else %}
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <a href="#" class="text-info" data-bs-toggle="modal" data-bs-target="#modalCustomer" data-bs-whatever="EDIT-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
+                        {% else %}
+                        {% endif %}
+                    {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% endfor %}

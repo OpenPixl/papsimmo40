@@ -14,8 +14,6 @@ use App\Form\Gestapp\TransactionTracfinpdfType;
 use App\Form\Gestapp\TransactionType;
 use App\Form\Gestapp\Transactionstep2Type;
 use App\Form\Gestapp\Transactionstep3Type;
-use App\Form\Gestapp\Transactionstep4Type;
-use App\Form\Gestapp\Transactionstep5Type;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\choice\CustomerChoiceRepository;
 use App\Repository\Gestapp\CustomerRepository;
@@ -27,6 +25,7 @@ use App\Service\NotificationService;
 use App\Service\transactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -167,14 +166,104 @@ class TransactionController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}/add_appointment', name: 'op_gestapp_transaction_addappointment', methods: ['GET', 'POST'])]
+    public function addAppointments(Request $request, Transaction $transaction, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $permission = 'read'; // Valeur par défaut
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $access = 'admin';
+        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
+            if ($transaction->getRefEmployed() === $user) {
+                $access = 'edit';
+            } else {
+                $access = 'read';
+            }
+        }
+
+        $dateAtPromise = $transaction->getDateAtPromise();
+        $dateAtActe = $transaction->getDateAtSale();
+
+        if ($dateAtPromise !== null && $dateAtActe !== null){
+            return $this->json([
+                'code'=> 400,
+                'formView' => 'impossibles d\'ajouter une date à ce dossier.'
+            ], 400);
+        }
+        if ($dateAtPromise == null && $dateAtActe == null){
+            $label = 'Date de la prommesse de vente';
+        } elseif ($dateAtPromise !== null && $dateAtActe == null){
+            $label = 'Date de l\'acte de vente';
+        }
+
+
+        $form = $this->createFormBuilder(null,
+            [
+                'action' => $this->generateUrl('op_gestapp_transaction_addappointment', ['id' => $transaction->getId()]),
+                'method' => 'POST',
+                'attr'   => [
+                    'id' => 'formAppointment_add',
+                ],
+            ])
+            ->add('appointment', DateType::class, [
+                'label' => $label,
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => false,
+                'by_reference' => true,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupération des données sous forme de tableau associatif
+            $date = $form->get('appointment')->getData();
+            if ($transaction->getDateAtPromise() === null) {
+                $transaction->setDateAtPromise($date);
+            } elseif ($transaction->getDateAtSale() === null) {
+                $transaction->setDateAtSale($date);
+            } else {
+                return $this->json([
+                    'code'=> 400,
+                    'message' => "impossibles d'ajouter une date à ce dossier.",
+                ], 400);
+            }
+
+            $em->flush();
+
+            return $this->json([
+                'code'=> 200,
+                'type' => 2,
+                'message' => "Le vendeur a été correctement modifié.",
+                'view' => $this->renderView('gestapp/transaction/show/_appointment.html.twig', [
+                    'transaction' => $transaction,
+                    'access' => $access
+                ])
+            ], 200);
+        }
+
+        $view = $this->render('gestapp/transaction/show/_appointmentForm.html.twig', [
+            'form' => $form
+        ]);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Un RDV à été ajouté.",
+            'formView' => $view->getContent(),
+        ], 200);
+    }
+
     #[Route('/2/{id}/show', name: 'op_gestapp_transaction_show', methods: ['GET'])]
     public function show(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
     {
         $user = $this->getUser();
         $permission = 'read'; // Valeur par défaut
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
-            $access = 'edit';
-        } elseif ($this->isGranted('ROLE_EMPLOYE')) {
+            $access = 'admin';
+        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
             if ($transaction->getRefEmployed() === $user) {
                 $access = 'edit';
             } else {
@@ -2043,37 +2132,43 @@ class TransactionController extends AbstractController
         ]);
     }
 
-    #[Route('/addcustomerjson/{type}/{option}/{roleEditor}', name: 'op_gestapp_transaction_addcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/addcustomerjson/{id}', name: 'op_gestapp_transaction_addcustomerjson',  methods: ['GET', 'POST'])]
     public function addCustomerJson(
+        Transaction $transaction,
         Request $request,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
-        PropertyRepository $propertyRepository,
-        TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
         EntityManagerInterface $em,
-        $type,
-        $option,
-        $roleEditor
     )
     {
         $user = $this->getUser()->getId();
+
+        $permission = 'read'; // Valeur par défaut
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $access = 'admin';
+        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
+            if ($transaction->getRefEmployed() === $user) {
+                $access = 'edit';
+            } else {
+                $access = 'read';
+            }
+        }
+
         $employed = $employedRepository->find($user);
-        $transac = $transactionRepository->find($option);
+
         $customer = new Customer();
         $customer->setRefEmployed($employed);
         $customer->setCustomerChoice($customerChoiceRepository->find(1));
         $customer->setTypeClient('particulier');
-        $customer->addTransaction($transac);
+        $customer->addTransaction($transaction);
         $em->persist($customer);
         $em->flush();
 
         $form = $this->createForm(CustomerType::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
-                'id'=> $customer->getId(),
-                'type' => $type,
-                'option' => $option,
-                'roleEditor' => $roleEditor
+                'id'=> $transaction->getId(),
+                'buyer' => $customer->getId(),
             ]),
             'method'=>'POST',
             'attr' => [
@@ -2090,7 +2185,7 @@ class TransactionController extends AbstractController
             $customer->setRefCustomer($refCustomer);
             $customer->setRefEmployed($employed);
             $customer->setCustomerChoice($customerChoice);
-            $customer->addTransaction($transac);
+            $customer->addTransaction($transaction);
 
             // Ajouter le code d'insertion du fichier PDF
             // partie ajout CI
@@ -2143,15 +2238,14 @@ class TransactionController extends AbstractController
             $customerRepository->add($customer);
 
             // liste tous les clients attachés à leur propriété
-            $customers = $customerRepository->listbytransaction($transac);
+            $customers = $customerRepository->listbytransaction($transaction);
 
             return $this->json([
                 'code'=> 200,
                 'message' => "L'acheteur a été correctement ajouté.",
                 'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
-                    'transaction' => $transac,
-                    'type' => 2,
-                    'roleEditor' => $roleEditor
+                    'transaction' => $transaction,
+                    'access' => $access
                 ]),
                 'type' => 2
             ], 200);
@@ -2165,17 +2259,19 @@ class TransactionController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => 'formulaire présenté',
-            'formView' => $view->getContent()
+            'formView' => $view->getContent(),
+            'deleteUrl' => $this->generateUrl('op_gestapp_transaction_delcustomerjson', [
+                'id' => $transaction->getId(),
+                'idCustomer' => $customer->getId()
+            ])
         ]);
     }
 
-    #[Route('/editcustomerjson/{id}/{type}/{option}/{roleEditor}', name: 'op_gestapp_transaction_editcustomerjson',  methods: ['GET', 'POST'])]
+    #[Route('/editcustomerjson/{id}/{buyer}', name: 'op_gestapp_transaction_editcustomerjson',  methods: ['GET', 'POST'])]
     public function editCustomerJson(
+        Transaction $transaction,
         Request $request,
-        Customer $customer,
-        $type,
-        $option,
-        $roleEditor,
+        $buyer,
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
@@ -2183,14 +2279,25 @@ class TransactionController extends AbstractController
         CustomerChoiceRepository $customerChoiceRepository,
     )
     {
-        $transac = $transactionRepository->find($option);
-        $idproperty = $transac->getProperty()->getId();
+        $user = $this->getUser();
+        $permission = 'read'; // Valeur par défaut
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $access = 'admin';
+        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
+            if ($transaction->getRefEmployed() === $user) {
+                $access = 'edit';
+            } else {
+                $access = 'read';
+            }
+        }
+
+        $customer = $customerRepository->find($buyer);
+
+        $idproperty = $transaction->getProperty()->getId();
         $form = $this->createForm(CustomerType::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
-                'id'=> $customer->getId(),
-                'type' => $type,
-                'option' => $option,
-                'roleEditor' => $roleEditor
+                'id'=> $transaction->getId(),
+                'buyer' => $buyer,
             ]),
             'method'=>'POST',
             'attr' => [
@@ -2199,247 +2306,113 @@ class TransactionController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if($type == 1) {
-            $property = $propertyRepository->find($option);
-            if ($form->isSubmitted() && $form->isValid()) {
+        if ($form->isSubmitted() && $form->isValid()) {
 
-                $tclient = $customer->getTypeClient();
-
-                if($tclient == 'professionnel'){                    // BOUCLE SUR TypeClient Professionnel
-                    $path_pro = $this->getParameter('customer_ci_directory').'/'.$customer->getSlugStructure().'_'.$customer->getId();
-                    if(is_dir($path_pro)){                          // On teste le répertoire dossier professionnel
-                        // intégration de l'extrait Kbis puisque Professionnel
-                        $kbis = $form->get('kbisfilename')->getData();
-                        $kbisFilename = $customer->getKbisfilename();
-                        if($kbis) {
-                            if ($kbisFilename) {
-                                $pathheader = $path_pro. '/' .$kbisFilename;
-                                // On vérifie si l'image existe
-                                if (file_exists($pathheader)) {
-                                    unlink($pathheader);
-                                }
-                            }
-                            $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
-                            try {
-                                $kbis->move(
-                                    $path_pro. '/',
-                                    $newFilename
-                                );
-                            } catch (FileException $e) {
-                                // ... handle exception if something happens during file upload
-                            }
-                            $customer->setKbisfilename($newFilename);
-                        }
-                    }
-                    else{                                           // Le dossier pro n'existe pas.
-                        $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
-                        if(is_dir($path_part)){                     // Il existe un dossier un nom du client | configuration initiale
-                            rename($path_part, $path_pro);
-                            mkdir($path_pro."/", 0775, true);
-                            $kbis = $form->get('kbisfilename')->getData();
-                            $kbisFilename = $customer->getKbisfilename();
-                            if($kbis) {
-                                if ($kbisFilename) {
-                                    $pathheader = $path_pro. '/' .$kbisFilename;
-                                    // On vérifie si l'image existe
-                                    if (file_exists($pathheader)) {
-                                        unlink($pathheader);
-                                    }
-                                }
-                                $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
-                                try {
-                                    $kbis->move(
-                                        $path_pro. '/',
-                                        $newFilename
-                                    );
-                                } catch (FileException $e) {
-                                    // ... handle exception if something happens during file upload
-                                }
-                                $customer->setKbisfilename($newFilename);
-                            }
-                        }else{                                      // Pas de dossier actuellement créé
-                            $kbis = $form->get('kbisfilename')->getData();
-                            $kbisFilename = $customer->getKbisfilename();
-                            if($kbis) {
-                                if ($kbisFilename) {
-                                    $pathheader = $path_pro. '/' .$kbisFilename;
-                                    // On vérifie si l'image existe
-                                    if (file_exists($pathheader)) {
-                                        unlink($pathheader);
-                                    }
-                                }
-                                $newFilename = 'kbis-'.$customer->getSlugStructure().'.'.$kbis->guessExtension();
-                                try {
-                                    if(is_dir($path_pro)){
-                                        $kbis->move(
-                                            $path_pro. '/',
-                                            $newFilename
-                                        );
-                                    }else{
-                                        mkdir($path_pro."/", 0775, true);
-                                        $kbis->move(
-                                            $path_pro. '/',
-                                            $newFilename
-                                        );
-                                    }
-
-                                } catch (FileException $e) {
-                                    // ... handle exception if something happens during file upload
-                                }
-                                $customer->setKbisfilename($newFilename);
-                            }
-                        }
+            // Ajouter le code d'insertion du fichier PDF
+            // partie ajout CI
+            $ci = $form->get('cifilename')->getData();
+            $ciFilename = $customer->getCifilename();
+            if($ci) {
+                if ($ciFilename) {
+                    $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
                     }
                 }
-                else{
-                    // partie ajout CI
-                    $ci = $form->get('cifilename')->getData();
-                    $ciFilename = $customer->getCifilename();
-                    if($ci) {
-                        $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
-                        if ($ciFilename) {
-                            $pathheader = $path_part. '/' .$ciFilename;
-                            // On vérifie si l'image existe
-                            if (file_exists($pathheader)) {
-                                unlink($pathheader);
-                            }
-                        }
-                        $newFilename = 'ci-'.$customer->getSlug().'.'.$ci->guessExtension();
-                        try {
-                            if(is_dir($path_part)){
-                                $ci->move(
-                                    $path_part. '/',
-                                    $newFilename
-                                );
-                            }else{
-                                mkdir($path_part."/", 0775, true);
-                                $ci->move(
-                                    $path_part. '/',
-                                    $newFilename
-                                );
-                            }
-
-                        } catch (FileException $e) {
-                            // ... handle exception if something happens during file upload
-                        }
-                        $customer->setCifilename($newFilename);
-                    }
+                $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                try {
+                    $ci->move(
+                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
                 }
-
-                $customerRepository->add($customer);
-                return $this->json([
-                    'code'=> 200,
-                    'type' => 1,
-                    'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
-                        'transaction' => $transac,
-                        'type' => $type,
-                        'roleEditor' => $roleEditor
-                    ])
-                ], 200);
+                $customer->setCifilename($newFilename);
             }
-            $customers = $customerRepository->listbyproperty($idproperty);
-            // Affichage du formulaire de modification du client
-            $view = $this->render('gestapp/customer/_form2.html.twig', [
-                'customer' => $customer,
-                'form' => $form,
-                'roleEditor' => $roleEditor
-            ]);
+
+            // partie Ajout Kbis
+            $kbis = $form->get('kbisfilename')->getData();
+            $kbisFilename = $customer->getKbisfilename();
+            if($kbis) {
+                if ($kbisFilename) {
+                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
+                    // On vérifie si l'image existe
+                    if (file_exists($pathheader)) {
+                        unlink($pathheader);
+                    }
+                }
+                $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
+                try {
+                    $kbis->move(
+                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                        $newFilename
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $customer->setKbisfilename($newFilename);
+            }
+
+            $customer->setFinished(1);
+            $customerRepository->add($customer);
 
             return $this->json([
-                'code' => 200,
-                'message' => 'Modifier les informations du Client',
-                'formView' => $view->getContent()
-            ],200);
-        }else{
-            if ($form->isSubmitted() && $form->isValid()) {
-
-                // Ajouter le code d'insertion du fichier PDF
-                // partie ajout CI
-                $ci = $form->get('cifilename')->getData();
-                $ciFilename = $customer->getCifilename();
-                if($ci) {
-                    if ($ciFilename) {
-                        $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
-                        // On vérifie si l'image existe
-                        if (file_exists($pathheader)) {
-                            unlink($pathheader);
-                        }
-                    }
-                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
-                    try {
-                        $ci->move(
-                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    $customer->setCifilename($newFilename);
-                }
-
-                // partie Ajout Kbis
-                $kbis = $form->get('kbisfilename')->getData();
-                $kbisFilename = $customer->getKbisfilename();
-                if($kbis) {
-                    if ($kbisFilename) {
-                        $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
-                        // On vérifie si l'image existe
-                        if (file_exists($pathheader)) {
-                            unlink($pathheader);
-                        }
-                    }
-                    $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
-                    try {
-                        $kbis->move(
-                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    $customer->setKbisfilename($newFilename);
-                }
-
-                $customerRepository->add($customer);
-                return $this->json([
-                    'code'=> 200,
-                    'type' => 2,
-                    'message' => "Le vendeur a été correctement modifié.",
-                    'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
-                        'transaction' => $transac,
-                        'type' => $type,
-                        'roleEditor' => $roleEditor
-                    ])
-                ], 200);
-            }
-            // Affichage du formulaire de modification du client
-            $view = $this->render('gestapp/customer/_form2.html.twig', [
-                'customer' => $customer,
-                'form' => $form,
-                'roleEditor' => $roleEditor
-            ]);
-
-            return $this->json([
-                'code' => 200,
-                'message' => 'Modifier les informations du Client',
-                'formView' => $view->getContent()
-            ],200);
+                'code'=> 200,
+                'type' => 2,
+                'message' => "Le vendeur a été correctement modifié.",
+                'view' => $this->renderView('gestapp/transaction/show/buyers.html.twig', [
+                    'transaction' => $transaction,
+                    'access' => $access
+                ])
+            ], 200);
         }
+
+        // Affichage du formulaire de modification du client
+        $view = $this->render('gestapp/customer/_form2.html.twig', [
+            'customer' => $customer,
+            'form' => $form,
+        ]);
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'Modifier les informations du Client',
+            'formView' => $view->getContent(),
+
+        ],200);
     }
 
     #[Route('/delcustomerjson/{id}/{idCustomer}', name: 'op_gestapp_transaction_delcustomerjson',  methods: ['GET', 'POST'])]
     public function delCustomer(Transaction $transaction, $idCustomer, CustomerRepository $customerRepository, EntityManagerInterface $em)
     {
+        $user = $this->getUser();
+        $permission = 'read'; // Valeur par défaut
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $access = 'admin';
+        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
+            if ($transaction->getRefEmployed() === $user) {
+                $access = 'edit';
+            } else {
+                $access = 'read';
+            }
+        }
+
         $customer = $customerRepository->find($idCustomer);
         $transaction->removeCustomer($customer);
         $em->flush();
 
+        if($customer->isFinished() == 0){
+            $em->remove($customer);
+            $em->flush();
+        }
+
         return $this->json([
             'code' => 200,
-            'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
+            'message' => "L'acheteur a été retiré de la vente.",
+            'view' => $this->renderView('gestapp/transaction/show/buyers.html.twig', [
                 'transaction' => $transaction,
-                'type' => 2
+                'access' => $access
             ])
         ], 200);
     }

@@ -50,6 +50,8 @@ class CustomerRepository extends ServiceEntityRepository
             ->join('c.refEmployed', 'e')
             ->join('c.customerChoice', 'ch')
             ->select('
+                c.kbisfilename as kbisfilename,
+                c.cifilename as cifilename,
                 c.proAdress as proAdress,
                 c.proComplement as proComplement,
                 c.proZipcode as proZipcode,
@@ -90,6 +92,8 @@ class CustomerRepository extends ServiceEntityRepository
             ->join('c.customerChoice', 'ch')
             ->join('c.refEmployed', 'e')
             ->select('
+                c.kbisfilename as kbisfilename,
+                c.cifilename as cifilename,
                 c.proAdress as proAdress,
                 c.proComplement as proComplement,
                 c.proZipcode as proZipcode,
