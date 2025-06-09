@@ -6,10 +6,13 @@ namespace App\Service;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use phpseclib3\Net\SSH2;
 use Symfony\Component\HttpFoundation\RequestStack;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Twig\Environment;
 use ZipArchive;
 use App\Service\PropertyService;
@@ -22,9 +25,51 @@ class ftptransfertService
         RequestStack $requestStack,
         private Environment $twig,
         public PropertyService $propertyService,
+        string $projectDir
     )
     {
         $this->requestStack = $requestStack;
+        $this->projectDir = $projectDir;
+    }
+
+    public function generateExcel($data, $Rep, $nameFile)
+    {
+        // 2. Créer le fichier Excel
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // 3. En-têtes
+        $sheet->fromArray(['ID', 'Référence', 'Titre', 'Adresse', 'Prix', 'Mise à jour'], null, 'A1');
+
+        // 4. Données
+        $date = new \DateTime('now');
+        $row = 2;
+        $letter = 'A';
+        foreach ($data as $d) {
+            $sheet->setCellValue("A$row", $d['id']);
+            $sheet->setCellValue("B$row", $d['ref']);
+            $sheet->setCellValue("C$row", $d['name']);
+            $sheet->setCellValue("D$row", $d['city']);
+            $sheet->setCellValue("E$row", $d['priceFai']);
+            $sheet->setCellValue("F$row", $date->format('d/m/Y'));
+            $row++;
+            $letter++;
+        }
+
+        $filePath = $this->projectDir . $Rep .$nameFile.'.xlsx';
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filePath);
+
+        if(file_exists($filePath))
+        {
+            unlink($filePath);                                  // Suppression du précédent s'il existe
+            $writer->save($filePath);                           // Génération du fichier dans l'arborescence du fichiers du site
+        }
+        $writer->save($filePath);
+
+        return $filePath; // pour info, log, ou lien de téléchargement
+
     }
 
     public function directoryZip($Rep, $nameRep, $nameFile, $content ){
@@ -261,6 +306,7 @@ class ftptransfertService
         $nameFile = '107428';               // Nom du Fichier sans extension
         $Rep = 'doc/report/figaro/';             // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
 
     }
 
