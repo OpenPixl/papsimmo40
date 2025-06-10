@@ -256,6 +256,79 @@ class TransactionController extends AbstractController
         ], 200);
     }
 
+    #[Route('/{id}/{appointment}edit_appointment', name: 'op_gestapp_transaction_editappointment', methods: ['GET', 'POST'])]
+    public function editAppointments(Request $request, Transaction $transaction, $appointment,EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $permission = 'read'; // Valeur par défaut
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $access = 'admin';
+        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
+            if ($transaction->getRefEmployed() === $user) {
+                $access = 'edit';
+            } else {
+                $access = 'read';
+            }
+        }
+
+        if($appointment == 'dateAtPromise'){
+            $label = 'Date de la prommesse de vente';
+            $value = $transaction->getDateAtPromise();
+        }else if($appointment == 'dateAtActe') {
+            $label = 'Date de l\acte de vente';
+            $value = $transaction->getDateAtSale();
+        }
+
+        $form = $this->createFormBuilder(null,
+            [
+                'action' => $this->generateUrl('op_gestapp_transaction_editappointment', ['id' => $transaction->getId()]),
+                'method' => 'POST',
+                'attr'   => [
+                    'id' => 'formAppointment_edit',
+                ],
+            ])
+            ->add('appointment', DateType::class, [
+                'label' => $label,
+                'data' => $value, // Valeur initiale issue de l'entité
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => false,
+                'by_reference' => true,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupération des données sous forme de tableau associatif
+            $date = $form->get('appointment')->getData();
+
+            $em->flush();
+
+            return $this->json([
+                'code'=> 200,
+                'type' => 2,
+                'message' => "Le vendeur a été correctement modifié.",
+                'view' => $this->renderView('gestapp/transaction/show/_appointment.html.twig', [
+                    'transaction' => $transaction,
+                    'access' => $access
+                ])
+            ], 200);
+        }
+
+        $view = $this->render('gestapp/transaction/show/_appointmentForm.html.twig', [
+            'form' => $form
+        ]);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Un RDV à été ajouté.",
+            'formView' => $view->getContent(),
+        ], 200);
+    }
+
     #[Route('/2/{id}/show', name: 'op_gestapp_transaction_show', methods: ['GET'])]
     public function show(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
     {
@@ -2411,6 +2484,39 @@ class TransactionController extends AbstractController
             'code' => 200,
             'message' => "L'acheteur a été retiré de la vente.",
             'view' => $this->renderView('gestapp/transaction/show/buyers.html.twig', [
+                'transaction' => $transaction,
+                'access' => $access
+            ])
+        ], 200);
+    }
+
+    #[Route('/delappointment/{id}/{appointment}', name: 'op_gestapp_transaction_delappointment',  methods: ['GET', 'POST'])]
+    public function delAppointment(Transaction $transaction, $appointment, EntityManagerInterface $em)
+    {
+        $user = $this->getUser();
+        $permission = 'read'; // Valeur par défaut
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $access = 'admin';
+        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
+            if ($transaction->getRefEmployed() === $user) {
+                $access = 'edit';
+            } else {
+                $access = 'read';
+            }
+        }
+
+        if ($appointment == 'dataAtPromise'){
+            $transaction->setDateAtPromise(null);
+        }
+        else{
+            $transaction->setDateAtSale(null);
+        }
+        $em->flush();
+
+        return $this->json([
+            'code' => 200,
+            'message' => "L'acheteur a été retiré de la vente.",
+            'view' => $this->renderView('gestapp/transaction/show/_appointment.html.twig', [
                 'transaction' => $transaction,
                 'access' => $access
             ])

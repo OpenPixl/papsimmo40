@@ -43,7 +43,7 @@ export function initShowTransactionPage() {
         e.preventDefault();
         let a = e.currentTarget;
         let url = a.href;
-        const [crud, contentTitle] = a.dataset.bsData.split('-');
+        const [crud, contentTitle, option] = a.dataset.bsData.split('-');
 
         modalEl.querySelector('.modal-title').textContent = contentTitle;
         if (['ADDBUYERS', 'EDITBUYERS'].includes(crud)) {
@@ -134,7 +134,7 @@ export function initShowTransactionPage() {
                     declareEvent();
                 });
         }
-        else if (crud === 'ADDAPPOINTMENT') {
+        else if (crud === 'ADDAPPOINTMENT' || crud === 'EDITAPPOINTMENT') {
             axios
                 .get(url)
                 .then(({data}) => {
@@ -146,6 +146,15 @@ export function initShowTransactionPage() {
                     confirmBtn.href = url;
                 })
             ;
+        }
+        else if (crud === 'DELAPPOINTMENT') {
+            modalEl.querySelector('.modal-body').innerHTML =
+                "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce RDV.</p>";
+            const confirmBtn = modalEl.querySelector('.modal-footer a');
+            confirmBtn.textContent = 'Supprimer le RDV';
+            confirmBtn.href = url;
+            modalEl.dataset.option = option;
+            declareEvent();
         }
         else if (crud === 'Del_Buyers') {
             modalEl.querySelector('.modal-body').innerHTML =
@@ -162,8 +171,9 @@ export function initShowTransactionPage() {
 
     function submitModal(e) {
         e.preventDefault();
-        delete modal.dataset.deleteUrl;
+
         const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_add'];
+        const list = ['dateAtPromise', 'dateAtActe'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
         if (form) {
@@ -179,6 +189,7 @@ export function initShowTransactionPage() {
                             document.getElementById('Block_Appointment').innerHTML = response.data.view;
                         }else{
                             console.log('Acheteurs');
+                            delete modal.dataset.deleteUrl;
                             document.getElementById('Block_Buyers').innerHTML = response.data.view;
                         }
                         toasterMessage(response.data.message);
@@ -188,15 +199,32 @@ export function initShowTransactionPage() {
                         console.log('error', error);
                     })
                 ;
-            } else {
-                axios
-                    .post(btnSubmitModal.href)
-                    .then(({data}) => {
-                        document.getElementById('Block_Buyers').innerHTML = data.view;
-                        toasterMessage(data.message);
-                        declareEvent();
-                    })
-                ;
+            }
+            else {
+                console.log('ok');
+                let option = modalEl.dataset.option;
+                console.log(option);
+                if (option !== null && option.includes(list) ){
+                    axios
+                        .post(btnSubmitModal.href)
+                        .then(({data}) => {
+                            document.getElementById('Block_Appointment').innerHTML = data.view;
+                            toasterMessage(data.message);
+                            declareEvent();
+                            modalBs.hide();
+                        })
+                    ;
+                }else{
+                    axios
+                        .post(btnSubmitModal.href)
+                        .then(({data}) => {
+                            document.getElementById('Block_Buyers').innerHTML = data.view;
+                            toasterMessage(data.message);
+                            declareEvent();
+                        })
+                    ;
+                }
+
             }
             modalBs.hide();
         }
