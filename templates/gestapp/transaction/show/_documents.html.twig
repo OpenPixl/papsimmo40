@@ -1,0 +1,33 @@
+<div class="card-body p-2" id="Block_Documents">
+    {{ transaction.isDocsFinished }} {{ transaction.isClosedfolder }}
+    <p class="border-bottom mb-0"><b>Documents</b></p>
+    {% include 'gestapp/transaction/show/_document.html.twig' with {
+        'documentValid' : transaction.isValidPromisepdf,
+        'typeDocument' : 'Promesse de vente',
+        'nameDocument' : transaction.promisePdfFilename,
+        'url': '',
+        'message' : 'message'
+    } %}
+    {% include 'gestapp/transaction/show/_document.html.twig' with {
+        'documentValid' : '',
+        'typeDocument' : 'Honoraires',
+        'nameDocument' : transaction.honorairesPdfFilename,
+        'url': '',
+        'message' : 'message'
+    } %}
+    {% include 'gestapp/transaction/show/_document.html.twig' with {
+        'documentValid' : transaction.isValidActepdf,
+        'typeDocument' : 'Attestation de l\'acte',
+        'nameDocument' : transaction.actePdfFilename,
+        'url': '',
+        'message' : 'message'
+    } %}
+    {% include 'gestapp/transaction/show/_document.html.twig' with {
+        'documentValid' : transaction.isValidtracfinPdf,
+        'typeDocument' : 'TRACFIN',
+        'nameDocument' : transaction.tracfinPdfFilename,
+        'url': '',
+        'message' : 'message'
+    } %}
+
+</div>

@@ -187,7 +187,7 @@ class TransactionController extends AbstractController
         if ($dateAtPromise !== null && $dateAtActe !== null){
             return $this->json([
                 'code'=> 400,
-                'formView' => 'impossibles d\'ajouter une date à ce dossier.'
+                'formView' => 'impossible d\'ajouter une date à ce dossier.'
             ], 400);
         }
         if ($dateAtPromise == null && $dateAtActe == null){
@@ -256,7 +256,7 @@ class TransactionController extends AbstractController
         ], 200);
     }
 
-    #[Route('/{id}/{appointment}edit_appointment', name: 'op_gestapp_transaction_editappointment', methods: ['GET', 'POST'])]
+    #[Route('/{id}/{appointment}/edit_appointment', name: 'op_gestapp_transaction_editappointment', methods: ['GET', 'POST'])]
     public function editAppointments(Request $request, Transaction $transaction, $appointment,EntityManagerInterface $em): Response
     {
         $user = $this->getUser();
@@ -281,7 +281,10 @@ class TransactionController extends AbstractController
 
         $form = $this->createFormBuilder(null,
             [
-                'action' => $this->generateUrl('op_gestapp_transaction_editappointment', ['id' => $transaction->getId()]),
+                'action' => $this->generateUrl('op_gestapp_transaction_editappointment', [
+                    'id' => $transaction->getId(),
+                    'appointment' => $appointment
+                ]),
                 'method' => 'POST',
                 'attr'   => [
                     'id' => 'formAppointment_edit',
@@ -305,6 +308,12 @@ class TransactionController extends AbstractController
             // Récupération des données sous forme de tableau associatif
             $date = $form->get('appointment')->getData();
 
+            if($appointment === 'dateAtPromise'){
+                $transaction->setDateAtPromise($date);
+            }else if($appointment == 'dateAtActe') {
+                $transaction->setDateAtSale($date);
+            }
+
             $em->flush();
 
             return $this->json([
@@ -327,6 +336,88 @@ class TransactionController extends AbstractController
             'message' => "Un RDV à été ajouté.",
             'formView' => $view->getContent(),
         ], 200);
+    }
+
+    #[Route('/{id}/add_documents', name: 'op_gestapp_transaction_adddocuments', methods: ['GET', 'POST'])]
+    public function addDocuments(Request $request, Transaction $transaction, EntityManagerInterface $em): Response
+    {
+        $user = $this->getUser();
+        $permission = 'read'; // Valeur par défaut
+        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
+            $access = 'admin';
+        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
+            if ($transaction->getRefEmployed() === $user) {
+                $access = 'edit';
+            } else {
+                $access = 'read';
+            }
+        }
+
+        $pdfPromise = $transaction->getPromisePdfFilename();
+        $pdfActe = $transaction->getActePdfFilename();
+        $pdfTracfin = $transaction->getTracfinPdfFilename();
+
+        if ($pdfPromise !== null && $pdfActe !== null && $pdfTracfin !== null){
+            return $this->json([
+                'code'=> 400,
+                'formView' => 'impossible d\'ajouter un documeznt à ce dossier.'
+            ], 400);
+        }
+        if ($pdfPromise == null && $pdfActe == null && $pdfTracfin == null){
+            $label = 'Promesse de vente';
+        }elseif($pdfPromise == null && $pdfActe == null && $pdfTracfin == null){
+            $label = 'Acte de vente';
+        }elseif($pdfPromise == null && $pdfActe == null && $pdfTracfin == null){
+            $label = ' TracFIN';
+        }
+
+        $form = $this->createFormBuilder(null,
+            [
+                'action' => $this->generateUrl('op_gestapp_transaction_adddocuments', ['id' => $transaction->getId()]),
+                'method' => 'POST',
+                'attr'   => [
+                    'id' => 'formDocuments_add',
+                ],
+            ])
+            ->add('document', DateType::class, [
+                'label' => $label,
+                'widget' => 'single_text',
+                'format' => 'dd/MM/yyyy',
+                // prevents rendering it as type="date", to avoid HTML5 date pickers
+                'html5' => false,
+                'required' => false,
+                'by_reference' => true,
+            ])
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // Récupération des données sous forme de tableau associatif
+            $document = $form->get('document')->getData();
+
+            // a completer
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Le document à été déposé sur le serveur.",
+                'view' => $this->renderView('gestapp/transaction/show/_documents.html.twig', [
+                    'transaction' => $transaction,
+                    'access' => $access
+                ])
+            ], 200);
+        }
+
+        $view = $this->render('gestapp/transaction/show/_appointmentForm.html.twig', [
+            'form' => $form
+        ]);
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Un RDV à été ajouté.",
+            'formView' => $view->getContent(),
+        ], 200);
+
     }
 
     #[Route('/2/{id}/show', name: 'op_gestapp_transaction_show', methods: ['GET'])]
@@ -2505,7 +2596,7 @@ class TransactionController extends AbstractController
             }
         }
 
-        if ($appointment == 'dataAtPromise'){
+        if ($appointment === 'dateAtPromise'){
             $transaction->setDateAtPromise(null);
         }
         else{

@@ -172,7 +172,7 @@ export function initShowTransactionPage() {
     function submitModal(e) {
         e.preventDefault();
 
-        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_add'];
+        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit'];
         const list = ['dateAtPromise', 'dateAtActe'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
@@ -181,10 +181,11 @@ export function initShowTransactionPage() {
             let action = form.action;
             let data = new FormData(form);
             if (listForm.includes(nameForm)) {
+                console.log('formulaire présent.');
                 axios
                     .post(action, data)
                     .then(function (response) {
-                        if(nameForm === 'formAppointment_add' || nameForm === 'formAppointment_add'){
+                        if(nameForm === 'formAppointment_add' || nameForm === 'formAppointment_edit'){
                             console.log('Date');
                             document.getElementById('Block_Appointment').innerHTML = response.data.view;
                         }else{
@@ -200,33 +201,33 @@ export function initShowTransactionPage() {
                     })
                 ;
             }
-            else {
-                console.log('ok');
-                let option = modalEl.dataset.option;
-                console.log(option);
-                if (option !== null && option.includes(list) ){
-                    axios
-                        .post(btnSubmitModal.href)
-                        .then(({data}) => {
-                            document.getElementById('Block_Appointment').innerHTML = data.view;
-                            toasterMessage(data.message);
-                            declareEvent();
-                            modalBs.hide();
-                        })
-                    ;
-                }else{
-                    axios
-                        .post(btnSubmitModal.href)
-                        .then(({data}) => {
-                            document.getElementById('Block_Buyers').innerHTML = data.view;
-                            toasterMessage(data.message);
-                            declareEvent();
-                        })
-                    ;
-                }
-
-            }
             modalBs.hide();
+        }
+        else {
+            let option = modalEl.dataset.option;
+            console.log(option);
+            if (option !== null && (option === 'dateAtActe' || option === 'dateAtPromise')){
+                axios
+                    .post(btnSubmitModal.href)
+                    .then(({data}) => {
+                        document.getElementById('Block_Appointment').innerHTML = data.view;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+            }else{
+                axios
+                    .post(btnSubmitModal.href)
+                    .then(({data}) => {
+                        document.getElementById('Block_Buyers').innerHTML = data.view;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+            }
+
         }
     }
 

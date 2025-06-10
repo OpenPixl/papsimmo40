@@ -21,12 +21,12 @@
     </dt>
     {% if transaction.dateAtPromise %}
         <dd class="col-sm-3 mb-0"><span class="text-primary">{{ transaction.dateAtPromise|format_datetime('full', 'none', locale='fr') }}</span></dd>
-        <dd class="col-sm-3 mb-0"><a href="{{ path('op_gestapp_transaction_delappointment', {'id':transaction.id, 'appointment': 'dateAtActe'}) }}" class="text-primary openModal" data-bs-data="EDITAPPOINTMENT-Modifier du RDV-dateAtPromise"><i class="fa-light fa-arrows-rotate"></i> Actualiser la date</a></dd>
+        <dd class="col-sm-3 mb-0"><a href="{{ path('op_gestapp_transaction_editappointment', {'id':transaction.id, 'appointment': 'dateAtPromise'}) }}" class="text-primary openModal" data-bs-data="EDITAPPOINTMENT-Modifier du RDV-dateAtPromise"><i class="fa-light fa-arrows-rotate"></i> Actualiser la date</a></dd>
     {% else %}
         <dd class="col-sm-3 mb-0"><span class="text-primary"><em>Non défini</em></span></dd>
         <dd class="col-sm-3 mb-0"></dd>
     {% endif %}
-    {% if access == 'admin' %}
+    {% if access == 'admin' and transaction.dateAtPromise is not null %}
         <dd class="col-sm-1 mb-0">
             <a href="{{ path('op_gestapp_transaction_delappointment', {'id':transaction.id, 'appointment': 'dateAtPromise'}) }}" class="text-warning text-decoration-none openModal" data-bs-data="DELAPPOINTMENT-Suppression du RDV-dateAtPromise"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
         </dd>
@@ -43,12 +43,12 @@
     </dt>
     {% if transaction.dateAtSale %}
         <dd class="col-sm-3 mb-0"><span class="text-primary"> {{ transaction.dateAtSale|format_datetime('full', 'none', locale='fr') }} </span></dd>
-        <dd class="col-sm-3 mb-0"><a href="{{ path('op_gestapp_transaction_delappointment', {'id':transaction.id, 'appointment': 'dateAtActe'}) }}" class="text-primary openModal" data-bs-data="EDITAPPOINTMENT-Modifier du RDV-dateAtActe"><i class="fa-light fa-arrows-rotate"></i> Actualiser la date</a></dd>
+        <dd class="col-sm-3 mb-0"><a href="{{ path('op_gestapp_transaction_editappointment', {'id':transaction.id, 'appointment': 'dateAtActe'}) }}" class="text-primary openModal" data-bs-data="EDITAPPOINTMENT-Modifier du RDV-dateAtActe"><i class="fa-light fa-arrows-rotate"></i> Actualiser la date</a></dd>
     {% else %}
         <dd class="col-sm-3 mb-0"><span class="text-primary"><em>Non défini</em></span></dd>
         <dd class="col-sm-3 mb-0"></dd>
     {% endif %}
-    {% if access == 'admin' %}
+    {% if access == 'admin' and transaction.dateAtSale is not null %}
         <dd class="col-sm-1 mb-0">
             <a href="{{ path('op_gestapp_transaction_delappointment', {'id':transaction.id, 'appointment': 'dateAtActe'}) }}" class="text-warning text-decoration-none openModal" data-bs-data="DELAPPOINTMENT-Suppresion du RDV-dateAtActe"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
         </dd>
