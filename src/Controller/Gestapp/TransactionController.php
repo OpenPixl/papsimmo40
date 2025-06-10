@@ -26,6 +26,7 @@ use App\Service\transactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -36,6 +37,7 @@ use Symfony\Bridge\Twig\Mime\TemplatedEmail;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Validator\Constraints\File;
 
 #[Route('/gestapp/transaction')]
 class TransactionController extends AbstractController
@@ -51,6 +53,14 @@ class TransactionController extends AbstractController
     {
         $this->submit = true; // Initialisation de la variable $public
         $this->application = $entityManager->getRepository(Application::class)->find(1);
+    }
+
+    public function StateTransaction(Transaction $transaction){
+        if($transaction->getDateAtPromise() == null) {
+            $state = "ouverture du dossier";
+        }
+
+        return $state;
     }
 
     #[Route('/', name: 'op_gestapp_transaction_index', methods: ['GET'])]
@@ -339,10 +349,17 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/{id}/add_documents', name: 'op_gestapp_transaction_adddocuments', methods: ['GET', 'POST'])]
-    public function addDocuments(Request $request, Transaction $transaction, EntityManagerInterface $em): Response
+    public function addDocuments(
+        Request $request,
+        Transaction $transaction,
+        EntityManagerInterface $em,
+        PropertyRepository $propertyRepository,
+        SluggerInterface $slugger,
+        transactionService $transactionService
+    ): Response
     {
         $user = $this->getUser();
-        $permission = 'read'; // Valeur par défaut
+        $access = 'read'; // Valeur par défaut
         if ($this->isGranted('ROLE_SUPER_ADMIN')) {
             $access = 'admin';
         } elseif ($this->isGranted('ROLE_EMPLOYED')) {
@@ -354,21 +371,27 @@ class TransactionController extends AbstractController
         }
 
         $pdfPromise = $transaction->getPromisePdfFilename();
+        $validPromise = $transaction->isIsValidPromisepdf();
         $pdfActe = $transaction->getActePdfFilename();
+        $validActe = $transaction->isIsValidActepdf();
         $pdfTracfin = $transaction->getTracfinPdfFilename();
+        $validTracfin = $transaction->isIsValidtracfinPdf();
 
         if ($pdfPromise !== null && $pdfActe !== null && $pdfTracfin !== null){
             return $this->json([
                 'code'=> 400,
-                'formView' => 'impossible d\'ajouter un documeznt à ce dossier.'
+                'formView' => 'impossible d\'ajouter un document à ce dossier.'
             ], 400);
         }
         if ($pdfPromise == null && $pdfActe == null && $pdfTracfin == null){
             $label = 'Promesse de vente';
+            $state = 1;
         }elseif($pdfPromise == null && $pdfActe == null && $pdfTracfin == null){
             $label = 'Acte de vente';
+            $state = 2;
         }elseif($pdfPromise == null && $pdfActe == null && $pdfTracfin == null){
             $label = ' TracFIN';
+            $state = 3;
         }
 
         $form = $this->createFormBuilder(null,
@@ -379,24 +402,79 @@ class TransactionController extends AbstractController
                     'id' => 'formDocuments_add',
                 ],
             ])
-            ->add('document', DateType::class, [
-                'label' => $label,
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
+            ->add('document', FileType::class,[
+                'label' => "Déposer le dossier PDF du compromis, le fichier ne doit pas dépasser 20Mo de taille",
+                'mapped' => false,
                 'required' => false,
-                'by_reference' => true,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '40952k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => 'Please upload a valid PDF document',
+                    ])
+                ],
             ])
             ->getForm();
 
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+            $property = $propertyRepository->find($transaction->getProperty()->getId());
+            $ref = explode("/", $property->getRef());
+            $newref = $ref[0].'-'.$ref[1];
+            $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
             // Récupération des données sous forme de tableau associatif
             $document = $form->get('document')->getData();
 
-            // a completer
+            if ($document && $state = 1){    // On ajoute la promesse de vente
+                // élément de construction de la méthode : ajout promesse de vente
+                $pathfile = $pathdir.$pdfPromise;
+                if($pdfPromise){
+                    // On vérifie si l'image existe
+                    if(file_exists($pathfile)){
+                        unlink($pathfile);
+                    }
+                }
+                $originalFilename = pathinfo($document->getClientOriginalName(), PATHINFO_FILENAME);
+                $safeFilename = $slugger->slug($originalFilename);
+                $newFilename = 'cv-'.$safeFilename.'.'.$document->guessExtension();
+                try {
+                    if (is_dir($pathdir)){
+                        $document->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $document->move(
+                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $newFilename
+                        );
+                    }
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+
+                if($access === 'edit'){
+                    $transaction->setPromisePdfFilename($newFilename);
+                    $em->flush();
+                }elseif ($access == 'admin'){
+                    $transaction->setPromisePdfFilename($newFilename);
+                    $transaction->setIsValidPromisepdf(1);
+                    $em->flush();
+                }
+                $project = $transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $em->flush();
+            } elseif($pdfPromise === null && $pdfActe === null && $pdfTracfin === null){
+
+            }
 
             return $this->json([
                 'code'=> 200,

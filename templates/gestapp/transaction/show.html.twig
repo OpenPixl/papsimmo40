@@ -59,6 +59,16 @@
                             </div>
                         </div>
 
+                        <div class="row">
+                            <div class="col-12">
+                                {% if transaction.state == 'finished' %}
+                                    <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-check"></i> Ce dossier de vente est finalisé.</p>
+                                {% else %}
+                                    <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-exclamation"></i> Ce dossier de vente est en cours de construction.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
