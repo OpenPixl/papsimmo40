@@ -211,6 +211,7 @@ class ftptransfertService
         $nameFile = 'RC-1860977';               // Nom du Fichier sans extension
         $Rep = 'doc/report/Annonces/';     // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     public function figaroFTP(
@@ -559,7 +560,7 @@ class ftptransfertService
             }
             file_put_contents($repFile, $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
         }
-
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.11
@@ -656,6 +657,8 @@ class ftptransfertService
         $nameFile = 'paps_superimmo';               // Nom du Fichier sans extension
         $Rep = 'doc/report/Superimmo/';             // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
+
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.09
@@ -752,7 +755,7 @@ class ftptransfertService
         $nameFile = 'paps_alentour';               // Nom du Fichier sans extension
         $Rep = 'doc/report/Alentour/';     // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
-
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.12
@@ -853,6 +856,7 @@ class ftptransfertService
             mkdir($Rep."/", 0775, true);
             $this->directoryZip($Rep,$nameRep, $nameFile, $content);
         }
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     public function ubiflow(
@@ -949,7 +953,7 @@ class ftptransfertService
         $nameFile = 'ubiflow';                          // Nom du Fichier sans extension
         $Rep = 'doc/report/ubiflow/';                   // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
-
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.11
@@ -1046,7 +1050,7 @@ class ftptransfertService
         $nameFile = 'paps_lcdcm';               // Nom du Fichier sans extension
         $Rep = 'doc/report/lcdcm/';             // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
-
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.11
@@ -1143,7 +1147,7 @@ class ftptransfertService
         $nameFile = 'paps_monbien';               // Nom du Fichier sans extension
         $Rep = 'doc/report/monbien/';             // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
-
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.12
@@ -1237,6 +1241,7 @@ class ftptransfertService
         $nameFile = 'g46426';               // Nom du Fichier sans extension
         $Rep = 'doc/report/AnnoncesHtlouer/';     // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
 
     }
 }
