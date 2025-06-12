@@ -1,4 +1,4 @@
-<p class="border-bottom mb-1"><b>Acheteurs</b></p>
+<p class="border-bottom mb-1"><b>Acquéreurs</b></p>
 {% for customer in transaction.customer %}
     <div class="alert alert-light mb-1 p-2">
         <div class="d-flex justify-content-between">
@@ -32,6 +32,16 @@
                         {% else %}
                         {% endif %}
                     {% endif %}
+                </p>
+            </div>
+        </div>
+    </div>
+{% else %}
+    <div class="alert alert-light mb-1 p-2">
+        <div class="d-flex justify-content-between">
+            <div>
+                <p class="mb-0">
+                    Le dossier ne fait pas remonter d'acquéreur
                 </p>
             </div>
         </div>

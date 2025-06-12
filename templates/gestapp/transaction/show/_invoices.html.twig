@@ -1,25 +1,22 @@
 <div class="card-body p-2" id="Block_Documents">
-    <p class="border-bottom mb-0"><b>Documents</b></p>
+    <p class="border-bottom mb-0"><b>Facture</b></p>
     {% include 'gestapp/transaction/show/_document.html.twig' with {
         'documentValid' : transaction.isValidPromisepdf,
-        'typeDocument' : 'Promesse de vente',
-        'slugDocument': 'Promesse',
-        'nameDocument' : transaction.promisePdfFilename,
+        'typeDocument' : 'Honoraires',
+        'nameDocument' : transaction.honorairesPdfFilename,
         'url': '',
         'message' : 'message'
     } %}
     {% include 'gestapp/transaction/show/_document.html.twig' with {
         'documentValid' : transaction.isValidActepdf,
-        'typeDocument' : 'Attestation de l\'acte',
-        'slugDocument': 'Promesse',
+        'typeDocument' : 'Facture du dossier',
         'nameDocument' : transaction.actePdfFilename,
         'url': '',
         'message' : 'message'
     } %}
     {% include 'gestapp/transaction/show/_document.html.twig' with {
         'documentValid' : transaction.isValidtracfinPdf,
-        'typeDocument' : 'TRACFIN',
-        'slugDocument': 'Promesse',
+        'typeDocument' : 'Facture complémentaires',
         'nameDocument' : transaction.tracfinPdfFilename,
         'url': '',
         'message' : 'message'

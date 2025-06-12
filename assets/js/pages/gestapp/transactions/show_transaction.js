@@ -147,11 +147,31 @@ export function initShowTransactionPage() {
                 })
             ;
         }
+        else if (crud === 'ADDDOCUMENTS' || crud === 'EDITDOCUMENTS'){
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    const confirmBtn = modalEl.querySelector('.modal-footer a');
+                    confirmBtn.textContent = 'Ajouter le rendez-vous';
+                    confirmBtn.href = url;
+                })
+            ;
+        }
         else if (crud === 'DELAPPOINTMENT') {
             modalEl.querySelector('.modal-body').innerHTML =
                 "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce RDV.</p>";
             const confirmBtn = modalEl.querySelector('.modal-footer a');
             confirmBtn.textContent = 'Supprimer le RDV';
+            confirmBtn.href = url;
+            modalEl.dataset.option = option;
+            declareEvent();
+        }
+        else if (crud === 'DELDOCUMENTS'){
+            modalEl.querySelector('.modal-body').innerHTML =
+                "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce document.</p>";
+            const confirmBtn = modalEl.querySelector('.modal-footer a');
+            confirmBtn.textContent = 'Supprimer le document';
             confirmBtn.href = url;
             modalEl.dataset.option = option;
             declareEvent();
@@ -172,8 +192,8 @@ export function initShowTransactionPage() {
     function submitModal(e) {
         e.preventDefault();
 
-        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit'];
-        const list = ['dateAtPromise', 'dateAtActe'];
+        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit'];
+        const list = ['dateAtPromise', 'dateAtActe', 'Promise'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
         if (form) {
@@ -184,16 +204,22 @@ export function initShowTransactionPage() {
                 console.log('formulaire présent.');
                 axios
                     .post(action, data)
-                    .then(function (response) {
+                    .then(function ({data}) {
                         if(nameForm === 'formAppointment_add' || nameForm === 'formAppointment_edit'){
                             console.log('Date');
-                            document.getElementById('Block_Appointment').innerHTML = response.data.view;
-                        }else{
+                            document.getElementById('Block_Appointment').innerHTML = data.view;
+                            document.getElementById('stateTransaction').innerHTML = data.state;
+                        }else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
                             console.log('Acheteurs');
                             delete modal.dataset.deleteUrl;
-                            document.getElementById('Block_Buyers').innerHTML = response.data.view;
+                            document.getElementById('Block_Buyers').innerHTML = data.view;
+                            document.getElementById('stateTransaction').innerHTML = data.state;
+                        }else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
+                            console.log('Documents');
+                            document.getElementById('Block_Documents').innerHTML = data.view;
+                            document.getElementById('stateTransaction').innerHTML = data.state;
                         }
-                        toasterMessage(response.data.message);
+                        toasterMessage(data.message);
                         declareEvent();
                     })
                     .catch(function (error) {
@@ -211,6 +237,18 @@ export function initShowTransactionPage() {
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
                         document.getElementById('Block_Appointment').innerHTML = data.view;
+                        document.getElementById('stateTransaction').innerHTML = data.state;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+            }else if(option !== null && (option === 'Promesse' || option === 'Acte' || option === 'Tracfin')){
+                axios
+                    .post(btnSubmitModal.href)
+                    .then(({data}) => {
+                        document.getElementById('Block_Documents').innerHTML = data.view;
+                        document.getElementById('stateTransaction').innerHTML = data.state;
                         toasterMessage(data.message);
                         declareEvent();
                     })
@@ -221,6 +259,7 @@ export function initShowTransactionPage() {
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
                         document.getElementById('Block_Buyers').innerHTML = data.view;
+                        document.getElementById('stateTransaction').innerHTML = data.state;
                         toasterMessage(data.message);
                         declareEvent();
                     })

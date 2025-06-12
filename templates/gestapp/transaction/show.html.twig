@@ -37,11 +37,22 @@
         {% endif %}
     </div>
     <div class="col-9">
-        <div class="row  mb-2">
-            <div class="col-4 justify-content-end" id="btnsTransaction">
-                <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal" data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
-                <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal {% if transaction.customer|length == 0 %}disabled{% else %}{% endif %}" data-bs-data="ADDAPPOINTMENT-Ajouter une date"><i class="fa-duotone fa-light fa-plus"></i> Date de RDV</a>
-                <a href="#" class="btn btn-sm btn-outline-dark openModal {% if transaction.customer|length == 0 and transaction.dateAtPromise is null %}disabled{% else %}{% endif %}" data-bs-data="Add_Buyers-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
+        <div class="row justify-content-center mb-2">
+            {% set stepRdvActive = [1,6] %}
+            {% set stepDocActive = [2,7] %}
+            {% set stepInvoiceActive = [4,9,11] %}
+            <div class="col-6 justify-content-end" id="btnsTransaction">
+                <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal " data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
+                <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepRdvActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal" data-bs-data="ADDAPPOINTMENT-Ajouter une date"><i class="fa-duotone fa-light fa-plus"></i> Date de RDV</a>
+                <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal " data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
+                <a href="#" class="btn btn-sm {% if transaction.step in stepInvoiceActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal " data-bs-data="Add_Buyers-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Factures</a>
+            </div>
+            <div class="col-6 d-flex align-items-center justify-content-end">
+                {% if access == 'read' %}
+                    <p class="text-warning mb-0">Vous avez uniquement les droits de lecture sur ce document.</p>
+                {% else %}
+                    <p class="text-primary mb-0">Vous avez les droits sur ce document en tant qu'administrateur.</p>
+                {% endif %}
             </div>
         </div>
         <div class="card border-primary mb-2">
@@ -59,14 +70,9 @@
                             </div>
                         </div>
 
-                        <div class="row">
-                            <div class="col-12">
-                                {% if transaction.state == 'finished' %}
-                                    <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-check"></i> Ce dossier de vente est finalisé.</p>
-                                {% else %}
-                                    <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-exclamation"></i> Ce dossier de vente est en cours de construction.</p>
-                                {% endif %}
-                            </div>
+                        <div class="row" id="stateTransaction">
+                            {{ include('gestapp/transaction/show/_stateTransaction.html.twig') }}
+
                         </div>
 
                     </div>
@@ -87,37 +93,12 @@
         </div>
         <div class="card border-dark mb-2">
             <div class="card-body p-2" id="Block_Documents">
-                {{ transaction.isDocsFinished }} {{ transaction.isClosedfolder }}
-                <p class="border-bottom mb-0"><b>Documents</b></p>
-                {% include 'gestapp/transaction/show/_document.html.twig' with {
-                    'documentValid' : transaction.isValidPromisepdf,
-                    'typeDocument' : 'Promesse de vente',
-                    'nameDocument' : transaction.promisePdfFilename,
-                    'url': '',
-                    'message' : 'message'
-                } %}
-                {% include 'gestapp/transaction/show/_document.html.twig' with {
-                    'documentValid' : '',
-                    'typeDocument' : 'Honoraires',
-                    'nameDocument' : transaction.honorairesPdfFilename,
-                    'url': '',
-                    'message' : 'message'
-                } %}
-                {% include 'gestapp/transaction/show/_document.html.twig' with {
-                    'documentValid' : transaction.isValidActepdf,
-                    'typeDocument' : 'Attestation de l\'acte',
-                    'nameDocument' : transaction.actePdfFilename,
-                    'url': '',
-                    'message' : 'message'
-                } %}
-                {% include 'gestapp/transaction/show/_document.html.twig' with {
-                    'documentValid' : transaction.isValidtracfinPdf,
-                    'typeDocument' : 'TRACFIN',
-                    'nameDocument' : transaction.tracfinPdfFilename,
-                    'url': '',
-                    'message' : 'message'
-                } %}
-
+                {{ include('gestapp/transaction/show/_documents.html.twig') }}
+            </div>
+        </div>
+        <div class="card border-dark mb-2">
+            <div class="card-body p-2" id="Block_Invoices">
+                {{ include('gestapp/transaction/show/_invoices.html.twig') }}
             </div>
         </div>
     </div>

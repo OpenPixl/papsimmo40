@@ -1,3 +1,5 @@
+{% set ref = transaction.property.ref|split('/')|join('-') %}
+
 <dl class="row g-1 align-items-center mb-1" >
     <dt class="col-sm-2 mb-0">
         {% if documentValid == 1 %}
@@ -10,13 +12,13 @@
     <dd class="col-sm-4 mb-0"> {{ nameDocument }}</dd>
     <dd class="col-sm-3 mb-0">
         {% if nameDocument is not null %}
-        <a href="#" class="text-primary text-decoration-none"><i class="fa-duotone fa-light fa-arrow-down-to-line"></i> Télécharger </a>
+        <a href="{{ asset('/properties/'~ref~'/documents/'~nameDocument) }}" class="text-primary text-decoration-none" download><i class="fa-duotone fa-light fa-arrow-down-to-line"></i> Télécharger</a>
             {% if transaction.isDocsFinished == 0 %}
                 {% if access == "read" %}
                     | <a href="#" class="text-primary text-decoration-none"><i class="fa-duotone fa-light fa-eye"></i>
                     Voir </a>
-                {% else %}
-                    | <a href="#" class="text-primary text-decoration-none"><i class="fa-light fa-arrows-rotate"></i>
+                {% elseif access == "edit" or access == "admin" %}
+                    | <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id, 'document': 'promesse' }) }}" class="text-primary text-decoration-none openModal" data-bs-data="EDITDOCUMENTS-Actualiser le document initial-"><i class="fa-light fa-arrows-rotate"></i>
                     Actualiser le document </a>
                 {% endif %}
             {% endif %}
@@ -24,7 +26,7 @@
     </dd>
     {% if access == "admin" and nameDocument is not null %}
     <dd class="col-sm-1 mb-0">
-        <a href="#" class="text-warning text-decoration-none"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
+        <a href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'document': 'Promesse'}) }}" class="text-warning text-decoration-none openModal" data-bs-data="DELDOCUMENTS-Suppression d'un document-{{ slugDocument }}"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
     </dd>
     {% endif %}
 </dl>

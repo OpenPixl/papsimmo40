@@ -12,11 +12,6 @@
     {% endif %}
     <div class="card-body p-2">
         <h5 class="card-title">{{ transaction.property.name }}</h5>
-        {% if access == 'read' %}
-            <p class="alert alert-info p-2 mb-2">Vous avez uniquement les droits de lecture sur ce document.</p>
-        {% else %}
-            <p class="alert alert-info p-2 mb-2">Vous avez les droits sur ce document en tant qu'administrateur.</p>
-        {% endif %}
         <p class="card-text mb-2">
             Bien sous mandat numéro : <b>{{ transaction.property.refMandat }}{% if transaction.property.dupMandat %}{{ transaction.property.dupMandat }}{% endif %}</b>
             <br>
