@@ -56,7 +56,7 @@ class Transaction
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 25)]
+    #[ORM\Column(length: 100)]
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?string $state = null;
 

@@ -24,16 +24,10 @@ class Video
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
-    /**
-     * Nom du fichier
-     */
     #[ORM\Column(type:'string', nullable: true)]
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $videoName;
 
-    /**
-     * Taille du fichier
-     */
     #[ORM\Column(type:'integer', nullable: true)]
     #[Groups(['property:list', 'property:item', 'property:write:patch'])]
     private $videoSize;
