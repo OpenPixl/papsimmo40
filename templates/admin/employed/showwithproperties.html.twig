@@ -44,14 +44,18 @@
                 </p>
                 {% endif %}
                 <div class="row align-items-center">
-                    <div class="col-6">
+                    <div class="col-8">
                         <p class="text-start mb-0">
                             {% set emailUser = employed.email|split("@")[0] %}
                             {% set emailDomain = employed.email|split("@")[1] %}
-                            <i class="fa-duotone fa-circle-phone"></i> {{ employed.gsm }} | <i class="fa-duotone fa-envelope"></i> {{ emailUser }}<span class="arobase"><span>(arobase)</span></span>{{ emailDomain }}
+                            <i class="fa-duotone fa-circle-phone"></i> {{ employed.gsm }}
+                            | <i class="fa-duotone fa-envelope"></i> {{ emailUser }}<span class="arobase"><span>(arobase)</span></span>{{ emailDomain }}
+                            {% if employed.rsacNumber is not null %}
+                                | RSAC : {{ employed.rsacNumber }}
+                            {% endif %}
                         </p>
                     </div>
-                    <div class="col-6 justify-content-end d-flex">
+                    <div class="col-4 justify-content-end d-flex">
                         {% if employed.employeds|length > 0 %}
                             <!-- Button trigger modal -->
                             <button type="button" class="btn bnt-sm btn-outline-dark" data-bs-toggle="modal" data-bs-target="#openModalFilleuls">
@@ -70,7 +74,7 @@
                                             </div>
                                             <div class="row justify-content-center g-2 mb-2">
                                                 {% for e in employed.employeds %}
-                                                    {% if 'ROLE_PRESCRIBER' not in e.roles %}
+                                                    {% if 'ROLE_PRESCRIBER' not in e.roles and e.isVerified is same as(true) %}
                                                         <div class="col-3 rounded-1 mt-3">
                                                             <div class="bg-light border-dark border rounded-1 p-2">
                                                                 <div class="row justify-content-center">

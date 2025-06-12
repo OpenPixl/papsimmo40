@@ -51,6 +51,8 @@ class EmployedType extends AbstractType
             ->add('isVerified')
             ->add('referent', EntityType::class, [
                 'class' => Employed::class,
+                'placeholder' => '',
+                'required' => false,
                 'choice_attr' => ChoiceList::attr($this, function (?Employed $category) {
                     return $category ? ['data-data' => $category->getFirstName()] : [];
                 }),
@@ -111,6 +113,11 @@ class EmployedType extends AbstractType
                 'required' => false,
                 'by_reference' => true,
             ])
+            ->add('rsacNumber', TextType::class, [
+                'label' => 'Numéro RSAC',
+                'required' => false
+            ])
+
         ;
     }
 
