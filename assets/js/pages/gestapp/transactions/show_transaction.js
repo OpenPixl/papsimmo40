@@ -197,10 +197,11 @@ export function initShowTransactionPage() {
         }
         else if (crud === 'SHOWFILE') {
             modalEl.querySelector('.modal-body').innerHTML =
-                "<p class='mb-0'>Attention, vous êtes sur le point de supprimer cet acheteur de la vente.</p>";
+                "";
             const confirmBtn = modalEl.querySelector('.modal-footer a');
-            confirmBtn.textContent = 'Suppression';
+            confirmBtn.textContent = 'Je valide le document';
             confirmBtn.href = url;
+            modalEl.dataset.option = 'validFiles';
             declareEvent();
         }
 
@@ -255,7 +256,6 @@ export function initShowTransactionPage() {
         }
         else {
             let option = modalEl.dataset.option;
-            console.log(option);
             if (option !== null && (option === 'dateAtActe' || option === 'dateAtPromise')){
                 axios
                     .post(btnSubmitModal.href)

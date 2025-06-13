@@ -763,8 +763,11 @@ class TransactionController extends AbstractController
     }
 
     #[Route('/{id}/validFiles/{file}', name: 'op_gestapp_transaction_validfile', methods: ['POST'])]
-    public function validFiles(Transaction $transaction, EntityManagerInterface $em, $file){
+    public function validFiles(Request $request, Transaction $transaction, EntityManagerInterface $em, $file){
         $access = $this->access($transaction);
+
+        $validFiles = $request->get('option');
+        dd($validFiles);
 
         // Suppression en BDD du nom de fichier
         $typeDoc = explode('-', $file)[0];
