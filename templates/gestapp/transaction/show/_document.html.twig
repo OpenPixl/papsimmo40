@@ -30,7 +30,7 @@
     {% if access == "admin" and nameDocument is not null %}
     <dd class="col-sm-3 mb-0">
         {% if valid is null or valid == 0 %}
-            <a href="{{ path('op_gestapp_transaction_validfile', {'id': transaction.id, 'file': nameDocument }) }}" class="text-warning text-decoration-none openModal" data-bs-data="SHOWFILE-Validation du document-{{ nameDocument }}"><i class="fa-light fa-file-check"></i> Voir le fichier pour validation</a>
+            <a href="{{ path('op_gestapp_transaction_validfile', {'id': transaction.id, 'file': nameDocument }) }}" class="text-warning text-decoration-none openModal" data-bs-data="SHOWFILE-Validation du document"><i class="fa-light fa-file-check"></i> Voir le fichier pour validation</a>
         {% endif %}
         <a href="{{ path('op_gestapp_transaction_delfile', {'id': transaction.id, 'document': slugDocument }) }}" class="text-danger text-decoration-none openModal" data-bs-data="DELDOCUMENTS-Suppression d'un document-{{ slugDocument }}"><i class="fa-light fa-trash-xmark"></i> Supprimer </a>
     </dd>

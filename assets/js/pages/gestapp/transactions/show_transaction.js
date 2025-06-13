@@ -196,12 +196,17 @@ export function initShowTransactionPage() {
             declareEvent();
         }
         else if (crud === 'SHOWFILE') {
-            modalEl.querySelector('.modal-body').innerHTML =
-                "";
+            modalEl.querySelector('.modal-dialog').classList.add('modal-xl');
+            modalEl.querySelector('.modal-body').innerHTML = '<iframe src="" width="100%" height="500px"></iframe>';
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body iframe').src = data.path;
+                });
             const confirmBtn = modalEl.querySelector('.modal-footer a');
-            confirmBtn.textContent = 'Je valide le document';
+            modalEl.dataset.option = "validFile";
+            confirmBtn.textContent = 'Je valide ce document';
             confirmBtn.href = url;
-            modalEl.dataset.option = 'validFiles';
             declareEvent();
         }
 
@@ -289,6 +294,15 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
+            }
+            else if(option !== null && option === 'validFile') {
+                let data = { 'option' : option};
+                axios
+                    .post(btnSubmitModal.href, data)
+                    .then((data)=> {
+                        toasterMessage(data.message);
+                        declareEvent();
+                    });
             }
             else{
                 axios

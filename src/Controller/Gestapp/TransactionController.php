@@ -762,31 +762,66 @@ class TransactionController extends AbstractController
 
     }
 
-    #[Route('/{id}/validFiles/{file}', name: 'op_gestapp_transaction_validfile', methods: ['POST'])]
-    public function validFiles(Request $request, Transaction $transaction, EntityManagerInterface $em, $file){
+    #[Route('/{id}/validFiles/{file}', name: 'op_gestapp_transaction_validfile', methods: ['GET','POST'])]
+    public function validFiles(Request $request, Transaction $transaction, transactionService $transactionService, PropertyRepository $propertyRepository, EntityManagerInterface $em, $file){
         $access = $this->access($transaction);
 
-        $validFiles = $request->get('option');
-        dd($validFiles);
-
-        // Suppression en BDD du nom de fichier
+        $data = json_decode($request->getContent(), true);
+        $isValid = $data['option'] ?? null;
         $typeDoc = explode('-', $file)[0];
-        if($typeDoc == 'cv') {
-            $transaction->setIsValidPromisepdf(1);
-            $transaction->setPromiseValidBy($this->getUser());
-        }elseif($typeDoc == 'fh'){
-            $transaction->setIsValidHonoraires(1);
-            $transaction->setHonorairesValidBy($this->getUser());
-        }elseif($typeDoc == 'av'){
-            $transaction->setIsValidActepdf(1);
-            $transaction->setActeValidBy($this->getUser());
-        }elseif($typeDoc == 'tf'){
-            $transaction->setIsValidtracfinPdf(1);
-            $transaction->setTracfinValidBy($this->getUser());
-        }elseif($typeDoc == 'fact'){
-            $transaction->setIsValidInvoicepdf(1);
-            $transaction->setInvoiceValidBy($this->getUser());
+
+        if($isValid == 'validFile'){
+
+            if($typeDoc == 'cv') {
+                $transaction->setIsValidPromisepdf(1);
+                $transaction->setPromiseValidBy($this->getUser());
+            }elseif($typeDoc == 'fh'){
+                $transaction->setIsValidHonoraires(1);
+                $transaction->setHonorairesValidBy($this->getUser());
+            }elseif($typeDoc == 'av'){
+                $transaction->setIsValidActepdf(1);
+                $transaction->setActeValidBy($this->getUser());
+            }elseif($typeDoc == 'tf'){
+                $transaction->setIsValidtracfinPdf(1);
+                $transaction->setTracfinValidBy($this->getUser());
+            }elseif($typeDoc == 'fact'){
+                $transaction->setIsValidInvoicepdf(1);
+                $transaction->setInvoiceValidBy($this->getUser());
+            }
+            $project = $transactionService->calculateProject($transaction);
+            $transaction->setProject($project);
+            $em->flush();
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "Un RDV à été ajouté.",
+            ], 200);
         }
+
+        if($typeDoc == 'cv') {
+            $fileName = $transaction->getPromisePdfFilename();
+        }elseif($typeDoc == 'fh'){
+            $fileName = $transaction->getHonorairesPdfFilename();
+        }elseif($typeDoc == 'av'){
+            $fileName = $transaction->getActePdfFilename();
+        }elseif($typeDoc == 'tf'){
+            $fileName = $transaction->getTracfinPdfFilename();
+        }elseif($typeDoc == 'fact'){
+            $fileName = $transaction->getInvoicePdfFilename();
+        }
+
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+        $pathdir = "/properties/".$newref."/documents/".$fileName;
+
+        return $this->json([
+            'code'=> 200,
+            'message' => "Un RDV à été ajouté.",
+            'path' => $pathdir,
+        ], 200);
+
     }
 
     #[Route('/{id}/addinvoices', name: 'op_gestapp_transaction_addinvoices', methods: ['GET', 'POST'])]
