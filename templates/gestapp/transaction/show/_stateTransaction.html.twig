@@ -1,3 +1,4 @@
+{% set step = [5] %}
 <div class="col-12">
-    <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-check"></i> {{ transaction.state }}</p>
+    <p class="mb-0 {% if transaction.step in step %}text-warning{% else %}text-primary{% endif %}"><i class="fa-duotone fa-light fa-circle-check"></i> {{ transaction.state }}</p>
 </div>

@@ -1,25 +1,20 @@
-<div class="card-body p-2" id="Block_Documents">
-    <p class="border-bottom mb-0"><b>Facture</b></p>
-    {% include 'gestapp/transaction/show/_document.html.twig' with {
-        'documentValid' : transaction.isValidPromisepdf,
-        'typeDocument' : 'Honoraires',
-        'nameDocument' : transaction.honorairesPdfFilename,
-        'url': '',
-        'message' : 'message'
-    } %}
-    {% include 'gestapp/transaction/show/_document.html.twig' with {
-        'documentValid' : transaction.isValidActepdf,
-        'typeDocument' : 'Facture du dossier',
-        'nameDocument' : transaction.actePdfFilename,
-        'url': '',
-        'message' : 'message'
-    } %}
-    {% include 'gestapp/transaction/show/_document.html.twig' with {
-        'documentValid' : transaction.isValidtracfinPdf,
-        'typeDocument' : 'Facture complémentaires',
-        'nameDocument' : transaction.tracfinPdfFilename,
-        'url': '',
-        'message' : 'message'
-    } %}
+<p class="border-bottom mb-0"><b>Factures</b></p>
+{% include 'gestapp/transaction/show/_document.html.twig' with {
+    'documentValid' : transaction.isValidHonoraires,
+    'typeDocument' : 'Honoraires',
+    'slugDocument' : 'Ho',
+    'nameDocument' : transaction.honorairesPdfFilename,
+    'valid' : transaction.isValidHonoraires,
+    'urlEdit': 'op_gestapp_transaction_editinvoices',
+    'message' : 'message'
+} %}
+{% include 'gestapp/transaction/show/_document.html.twig' with {
+    'documentValid' : transaction.isValidInvoicePdf,
+    'typeDocument' : 'Facture du dossier',
+    'slugDocument' : 'Fa',
+    'nameDocument' : transaction.invoicePdfFilename,
+    'valid' : transaction.isValidInvoicePdf,
+    'urlEdit': 'op_gestapp_transaction_editinvoices',
+    'message' : 'message'
+} %}
 
-</div>

@@ -2,31 +2,37 @@
 
 <dl class="row g-1 align-items-center mb-1" >
     <dt class="col-sm-2 mb-0">
-        {% if documentValid == 1 %}
-            <span class="text-success"><i class="fa-duotone fa-light fa-shield-check"></i></span>
-        {% else %}
-            <span class="text-warning"><i class="fa-duotone fa-light fa-circle-dashed"></i></span>
+        {% if nameDocument is null %}
+            <p class="mb-0 text-secondary"><span class="text-warning"><i class="fa-duotone fa-light fa-circle-dashed"></i></span> {{ typeDocument }} :</p>
+        {% elseif nameDocument is not null and documentValid == 0 %}
+            <p class="mb-0"><span class="text-warning"><i class="fa-light fa-circle-exclamation"></i></span> {{ typeDocument }} :</p>
+        {% elseif nameDocument is not null and documentValid == 1 %}
+            <p class="mb-0"><span class="text-success"><i class="fa-duotone fa-light fa-shield-check"></i></span> {{ typeDocument }} :</p>
         {% endif %}
-        {{ typeDocument }} :
     </dt>
-    <dd class="col-sm-4 mb-0"> {{ nameDocument }}</dd>
+    <dd class="col-sm-4 mb-0">
+        <p class="mb-0">{% if nameDocument is not null %}{{ nameDocument }}{% else %}<span class="text-secondary">Non défini</span>{% endif %}</p>
+    </dd>
     <dd class="col-sm-3 mb-0">
         {% if nameDocument is not null %}
-        <a href="{{ asset('/properties/'~ref~'/documents/'~nameDocument) }}" class="text-primary text-decoration-none" download><i class="fa-duotone fa-light fa-arrow-down-to-line"></i> Télécharger</a>
+        <a href="{{ asset('/properties/'~ref~'/documents/'~nameDocument) }}" class="text-primary text-decoration-none" download><i class="fa-light fa-arrow-down-to-line"></i> Télécharger</a>
             {% if transaction.isDocsFinished == 0 %}
                 {% if access == "read" %}
                     | <a href="#" class="text-primary text-decoration-none"><i class="fa-duotone fa-light fa-eye"></i>
                     Voir </a>
                 {% elseif access == "edit" or access == "admin" %}
-                    | <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id, 'document': 'promesse' }) }}" class="text-primary text-decoration-none openModal" data-bs-data="EDITDOCUMENTS-Actualiser le document initial-"><i class="fa-light fa-arrows-rotate"></i>
+                    | <a href="{{ path(urlEdit, {'id': transaction.id, 'typeFile': slugDocument }) }}" class="text-primary text-decoration-none openModal" data-bs-data="EDITDOCUMENTS-Actualiser le document initial-"><i class="fa-light fa-arrows-rotate"></i>
                     Actualiser le document </a>
                 {% endif %}
             {% endif %}
         {% endif %}
     </dd>
     {% if access == "admin" and nameDocument is not null %}
-    <dd class="col-sm-1 mb-0">
-        <a href="{{ path('op_gestapp_transaction_deldocument', {'id': transaction.id, 'document': 'Promesse'}) }}" class="text-warning text-decoration-none openModal" data-bs-data="DELDOCUMENTS-Suppression d'un document-{{ slugDocument }}"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
+    <dd class="col-sm-3 mb-0">
+        {% if valid is null or valid == 0 %}
+            <a href="{{ path('op_gestapp_transaction_validfile', {'id': transaction.id, 'file': nameDocument }) }}" class="text-warning text-decoration-none openModal" data-bs-data="SHOWFILE-Validation du document-{{ nameDocument }}"><i class="fa-light fa-file-check"></i> Voir le fichier pour validation</a>
+        {% endif %}
+        <a href="{{ path('op_gestapp_transaction_delfile', {'id': transaction.id, 'document': slugDocument }) }}" class="text-danger text-decoration-none openModal" data-bs-data="DELDOCUMENTS-Suppression d'un document-{{ slugDocument }}"><i class="fa-light fa-trash-xmark"></i> Supprimer </a>
     </dd>
     {% endif %}
 </dl>

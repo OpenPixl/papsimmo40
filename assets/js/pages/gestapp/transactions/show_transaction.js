@@ -158,11 +158,22 @@ export function initShowTransactionPage() {
                 })
             ;
         }
+        else if (crud === 'ADDINVOICES' || crud === 'EDITINVOICES'){
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    const confirmBtn = modalEl.querySelector('.modal-footer a');
+                    confirmBtn.textContent = 'Ajouter la facture';
+                    confirmBtn.href = url;
+                })
+            ;
+        }
         else if (crud === 'DELAPPOINTMENT') {
             modalEl.querySelector('.modal-body').innerHTML =
                 "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce RDV.</p>";
             const confirmBtn = modalEl.querySelector('.modal-footer a');
-            confirmBtn.textContent = 'Supprimer le RDV';
+            confirmBtn.textContent = 'Valider le document';
             confirmBtn.href = url;
             modalEl.dataset.option = option;
             declareEvent();
@@ -184,6 +195,14 @@ export function initShowTransactionPage() {
             confirmBtn.href = url;
             declareEvent();
         }
+        else if (crud === 'SHOWFILE') {
+            modalEl.querySelector('.modal-body').innerHTML =
+                "<p class='mb-0'>Attention, vous êtes sur le point de supprimer cet acheteur de la vente.</p>";
+            const confirmBtn = modalEl.querySelector('.modal-footer a');
+            confirmBtn.textContent = 'Suppression';
+            confirmBtn.href = url;
+            declareEvent();
+        }
 
         modalBs.show();
         declareEvent();
@@ -192,8 +211,8 @@ export function initShowTransactionPage() {
     function submitModal(e) {
         e.preventDefault();
 
-        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit'];
-        const list = ['dateAtPromise', 'dateAtActe', 'Promise'];
+        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit'];
+        const list = ['dateAtPromise', 'dateAtActe', 'Promise', 'valid'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
         if (form) {
@@ -217,6 +236,11 @@ export function initShowTransactionPage() {
                         }else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
                             console.log('Documents');
                             document.getElementById('Block_Documents').innerHTML = data.view;
+                            document.getElementById('stateTransaction').innerHTML = data.state;
+                        }
+                        else if(nameForm === 'formInvoice_add' || nameForm === 'formInvoice_edit'){
+                            console.log('Invoice');
+                            document.getElementById('Block_Invoices').innerHTML = data.view;
                             document.getElementById('stateTransaction').innerHTML = data.state;
                         }
                         toasterMessage(data.message);
@@ -243,7 +267,7 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
-            }else if(option !== null && (option === 'Promesse' || option === 'Acte' || option === 'Tracfin')){
+            }else if(option !== null && (option === 'Prom' || option === 'Ac' || option === 'Tf')){
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
@@ -254,7 +278,19 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
-            }else{
+            }else if(option !== null && (option === 'Ho' || option === 'Fv' || option === 'Fcoll')){
+                axios
+                    .post(btnSubmitModal.href)
+                    .then(({data}) => {
+                        document.getElementById('Block_Invoices').innerHTML = data.view;
+                        document.getElementById('stateTransaction').innerHTML = data.state;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+            }
+            else{
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {

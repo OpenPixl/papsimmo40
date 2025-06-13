@@ -28,7 +28,7 @@
     {% endif %}
     {% if access == 'admin' and transaction.dateAtPromise is not null %}
         <dd class="col-sm-1 mb-0">
-            <a href="{{ path('op_gestapp_transaction_delappointment', {'id':transaction.id, 'appointment': 'dateAtPromise'}) }}" class="text-warning text-decoration-none openModal" data-bs-data="DELAPPOINTMENT-Suppression du RDV-dateAtPromise"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
+            <a href="{{ path('op_gestapp_transaction_delappointment', {'id':transaction.id, 'appointment': 'dateAtPromise'}) }}" class="text-danger text-decoration-none openModal" data-bs-data="DELAPPOINTMENT-Suppression du RDV-dateAtPromise"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
         </dd>
     {% endif %}
 </dl>
@@ -50,7 +50,7 @@
     {% endif %}
     {% if access == 'admin' and transaction.dateAtSale is not null %}
         <dd class="col-sm-1 mb-0">
-            <a href="{{ path('op_gestapp_transaction_delappointment', {'id':transaction.id, 'appointment': 'dateAtActe'}) }}" class="text-warning text-decoration-none openModal" data-bs-data="DELAPPOINTMENT-Suppresion du RDV-dateAtActe"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
+            <a href="{{ path('op_gestapp_transaction_delappointment', {'id':transaction.id, 'appointment': 'dateAtActe'}) }}" class="text-danger text-decoration-none openModal" data-bs-data="DELAPPOINTMENT-Suppresion du RDV-dateAtActe"><i class="fa-duotone fa-light fa-trash-can-xmark"></i> Supprimer </a>
         </dd>
     {% endif %}
 </dl>

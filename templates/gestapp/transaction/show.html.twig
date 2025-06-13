@@ -45,13 +45,16 @@
                 <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal " data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
                 <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepRdvActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal" data-bs-data="ADDAPPOINTMENT-Ajouter une date"><i class="fa-duotone fa-light fa-plus"></i> Date de RDV</a>
                 <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal " data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
-                <a href="#" class="btn btn-sm {% if transaction.step in stepInvoiceActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal " data-bs-data="Add_Buyers-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Factures</a>
+                <a href="{{ path('op_gestapp_transaction_addinvoices', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepInvoiceActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal " data-bs-data="ADDINVOICES-Ajouter une facture"><i class="fa-duotone fa-light fa-plus"></i> Factures</a>
+                {{ transaction.step }}
             </div>
             <div class="col-6 d-flex align-items-center justify-content-end">
                 {% if access == 'read' %}
-                    <p class="text-warning mb-0">Vous avez uniquement les droits de lecture sur ce document.</p>
+                    <p class="text-dark mb-0">Vous avez uniquement les droits de lecture sur ce document.</p>
+                {% elseif access == 'edit' %}
+                    <p class="text-secondary mb-0">Vous avez les droits sur ce document en tant qu'éditeur.</p>
                 {% else %}
-                    <p class="text-primary mb-0">Vous avez les droits sur ce document en tant qu'administrateur.</p>
+                    <p class="text-secondary mb-0">Vous avez les droits sur ce document en tant qu'administrateur.</p>
                 {% endif %}
             </div>
         </div>

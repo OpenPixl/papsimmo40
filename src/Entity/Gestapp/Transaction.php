@@ -172,6 +172,12 @@ class Transaction
     #[ORM\Column]
     private ?int $step = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $HonorairesValidBy = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $invoiceValidBy = null;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -599,7 +605,7 @@ class Transaction
         return $this;
     }
 
-    public function isValidHonoraires(): ?bool
+    public function isIsValidHonoraires(): ?bool
     {
         return $this->isValidHonoraires;
     }
@@ -619,6 +625,30 @@ class Transaction
     public function setStep(int $step): static
     {
         $this->step = $step;
+
+        return $this;
+    }
+
+    public function getHonorairesValidBy(): ?string
+    {
+        return $this->HonorairesValidBy;
+    }
+
+    public function setHonorairesValidBy(?string $HonorairesValidBy): static
+    {
+        $this->HonorairesValidBy = $HonorairesValidBy;
+
+        return $this;
+    }
+
+    public function getInvoiceValidBy(): ?string
+    {
+        return $this->invoiceValidBy;
+    }
+
+    public function setInvoiceValidBy(?string $invoiceValidBy): static
+    {
+        $this->invoiceValidBy = $invoiceValidBy;
 
         return $this;
     }
