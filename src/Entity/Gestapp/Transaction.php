@@ -56,7 +56,7 @@ class Transaction
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 25)]
+    #[ORM\Column(length: 100)]
     #[Groups(['transaction:list', 'transaction:item', 'transaction:write:patch'])]
     private ?string $state = null;
 
@@ -165,6 +165,18 @@ class Transaction
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     private ?AgencyEmployed $refAgencyemployed = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isValidHonoraires = null;
+
+    #[ORM\Column]
+    private ?int $step = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $HonorairesValidBy = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $invoiceValidBy = null;
 
     public function __construct()
     {
@@ -589,6 +601,54 @@ class Transaction
     public function setRefAgencyemployed(?AgencyEmployed $refAgencyemployed): static
     {
         $this->refAgencyemployed = $refAgencyemployed;
+
+        return $this;
+    }
+
+    public function isIsValidHonoraires(): ?bool
+    {
+        return $this->isValidHonoraires;
+    }
+
+    public function setIsValidHonoraires(?bool $isValidHonoraires): static
+    {
+        $this->isValidHonoraires = $isValidHonoraires;
+
+        return $this;
+    }
+
+    public function getStep(): ?int
+    {
+        return $this->step;
+    }
+
+    public function setStep(int $step): static
+    {
+        $this->step = $step;
+
+        return $this;
+    }
+
+    public function getHonorairesValidBy(): ?string
+    {
+        return $this->HonorairesValidBy;
+    }
+
+    public function setHonorairesValidBy(?string $HonorairesValidBy): static
+    {
+        $this->HonorairesValidBy = $HonorairesValidBy;
+
+        return $this;
+    }
+
+    public function getInvoiceValidBy(): ?string
+    {
+        return $this->invoiceValidBy;
+    }
+
+    public function setInvoiceValidBy(?string $invoiceValidBy): static
+    {
+        $this->invoiceValidBy = $invoiceValidBy;
 
         return $this;
     }

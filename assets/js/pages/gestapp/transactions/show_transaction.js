@@ -147,11 +147,42 @@ export function initShowTransactionPage() {
                 })
             ;
         }
+        else if (crud === 'ADDDOCUMENTS' || crud === 'EDITDOCUMENTS'){
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    const confirmBtn = modalEl.querySelector('.modal-footer a');
+                    confirmBtn.textContent = 'Ajouter le rendez-vous';
+                    confirmBtn.href = url;
+                })
+            ;
+        }
+        else if (crud === 'ADDINVOICES' || crud === 'EDITINVOICES'){
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    const confirmBtn = modalEl.querySelector('.modal-footer a');
+                    confirmBtn.textContent = 'Ajouter la facture';
+                    confirmBtn.href = url;
+                })
+            ;
+        }
         else if (crud === 'DELAPPOINTMENT') {
             modalEl.querySelector('.modal-body').innerHTML =
                 "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce RDV.</p>";
             const confirmBtn = modalEl.querySelector('.modal-footer a');
-            confirmBtn.textContent = 'Supprimer le RDV';
+            confirmBtn.textContent = 'Valider le document';
+            confirmBtn.href = url;
+            modalEl.dataset.option = option;
+            declareEvent();
+        }
+        else if (crud === 'DELDOCUMENTS'){
+            modalEl.querySelector('.modal-body').innerHTML =
+                "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce document.</p>";
+            const confirmBtn = modalEl.querySelector('.modal-footer a');
+            confirmBtn.textContent = 'Supprimer le document';
             confirmBtn.href = url;
             modalEl.dataset.option = option;
             declareEvent();
@@ -164,6 +195,20 @@ export function initShowTransactionPage() {
             confirmBtn.href = url;
             declareEvent();
         }
+        else if (crud === 'SHOWFILE') {
+            modalEl.querySelector('.modal-dialog').classList.add('modal-xl');
+            modalEl.querySelector('.modal-body').innerHTML = '<iframe src="" width="100%" height="500px"></iframe>';
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body iframe').src = data.path;
+                });
+            const confirmBtn = modalEl.querySelector('.modal-footer a');
+            modalEl.dataset.option = "validFile";
+            confirmBtn.textContent = 'Je valide ce document';
+            confirmBtn.href = url;
+            declareEvent();
+        }
 
         modalBs.show();
         declareEvent();
@@ -172,8 +217,8 @@ export function initShowTransactionPage() {
     function submitModal(e) {
         e.preventDefault();
 
-        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_add'];
-        const list = ['dateAtPromise', 'dateAtActe'];
+        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit'];
+        const list = ['dateAtPromise', 'dateAtActe', 'Promise', 'valid'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
         if (form) {
@@ -181,18 +226,30 @@ export function initShowTransactionPage() {
             let action = form.action;
             let data = new FormData(form);
             if (listForm.includes(nameForm)) {
+                console.log('formulaire présent.');
                 axios
                     .post(action, data)
-                    .then(function (response) {
-                        if(nameForm === 'formAppointment_add' || nameForm === 'formAppointment_add'){
+                    .then(function ({data}) {
+                        if(nameForm === 'formAppointment_add' || nameForm === 'formAppointment_edit'){
                             console.log('Date');
-                            document.getElementById('Block_Appointment').innerHTML = response.data.view;
-                        }else{
+                            document.getElementById('Block_Appointment').innerHTML = data.view;
+                            document.getElementById('stateTransaction').innerHTML = data.state;
+                        }else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
                             console.log('Acheteurs');
                             delete modal.dataset.deleteUrl;
-                            document.getElementById('Block_Buyers').innerHTML = response.data.view;
+                            document.getElementById('Block_Buyers').innerHTML = data.view;
+                            document.getElementById('stateTransaction').innerHTML = data.state;
+                        }else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
+                            console.log('Documents');
+                            document.getElementById('Block_Documents').innerHTML = data.view;
+                            document.getElementById('stateTransaction').innerHTML = data.state;
                         }
-                        toasterMessage(response.data.message);
+                        else if(nameForm === 'formInvoice_add' || nameForm === 'formInvoice_edit'){
+                            console.log('Invoice');
+                            document.getElementById('Block_Invoices').innerHTML = data.view;
+                            document.getElementById('stateTransaction').innerHTML = data.state;
+                        }
+                        toasterMessage(data.message);
                         declareEvent();
                     })
                     .catch(function (error) {
@@ -200,33 +257,66 @@ export function initShowTransactionPage() {
                     })
                 ;
             }
-            else {
-                console.log('ok');
-                let option = modalEl.dataset.option;
-                console.log(option);
-                if (option !== null && option.includes(list) ){
-                    axios
-                        .post(btnSubmitModal.href)
-                        .then(({data}) => {
-                            document.getElementById('Block_Appointment').innerHTML = data.view;
-                            toasterMessage(data.message);
-                            declareEvent();
-                            modalBs.hide();
-                        })
-                    ;
-                }else{
-                    axios
-                        .post(btnSubmitModal.href)
-                        .then(({data}) => {
-                            document.getElementById('Block_Buyers').innerHTML = data.view;
-                            toasterMessage(data.message);
-                            declareEvent();
-                        })
-                    ;
-                }
-
-            }
             modalBs.hide();
+        }
+        else {
+            let option = modalEl.dataset.option;
+            if (option !== null && (option === 'dateAtActe' || option === 'dateAtPromise')){
+                axios
+                    .post(btnSubmitModal.href)
+                    .then(({data}) => {
+                        document.getElementById('Block_Appointment').innerHTML = data.view;
+                        document.getElementById('stateTransaction').innerHTML = data.state;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+            }else if(option !== null && (option === 'Prom' || option === 'Ac' || option === 'Tf')){
+                axios
+                    .post(btnSubmitModal.href)
+                    .then(({data}) => {
+                        document.getElementById('Block_Documents').innerHTML = data.view;
+                        document.getElementById('stateTransaction').innerHTML = data.state;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+            }else if(option !== null && (option === 'Ho' || option === 'Fv' || option === 'Fcoll')){
+                axios
+                    .post(btnSubmitModal.href)
+                    .then(({data}) => {
+                        document.getElementById('Block_Invoices').innerHTML = data.view;
+                        document.getElementById('stateTransaction').innerHTML = data.state;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+            }
+            else if(option !== null && option === 'validFile') {
+                let data = { 'option' : option};
+                axios
+                    .post(btnSubmitModal.href, data)
+                    .then((data)=> {
+                        toasterMessage(data.message);
+                        declareEvent();
+                    });
+            }
+            else{
+                axios
+                    .post(btnSubmitModal.href)
+                    .then(({data}) => {
+                        document.getElementById('Block_Buyers').innerHTML = data.view;
+                        document.getElementById('stateTransaction').innerHTML = data.state;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+            }
+
         }
     }
 

@@ -1,0 +1,29 @@
+<p class="border-bottom mb-0"><b>Documents</b></p>
+{% include 'gestapp/transaction/show/_document.html.twig' with {
+    'documentValid' : transaction.isValidPromisepdf,
+    'typeDocument' : 'Promesse de vente',
+    'slugDocument': 'Prom',
+    'nameDocument' : transaction.promisePdfFilename,
+    'valid' : transaction.isValidPromisepdf,
+    'urlEdit': 'op_gestapp_transaction_editdocuments',
+    'message' : 'message'
+} %}
+{% include 'gestapp/transaction/show/_document.html.twig' with {
+    'documentValid' : transaction.isValidActepdf,
+    'typeDocument' : 'Attestation de l\'acte',
+    'slugDocument': 'Ac',
+    'nameDocument' : transaction.actePdfFilename,
+    'valid' : transaction.isValidActepdf,
+    'urlEdit': 'op_gestapp_transaction_editdocuments',
+    'message' : 'message'
+} %}
+{% include 'gestapp/transaction/show/_document.html.twig' with {
+    'documentValid' : transaction.isValidtracfinPdf,
+    'typeDocument' : 'TRACFIN',
+    'slugDocument': 'Tf',
+    'nameDocument' : transaction.tracfinPdfFilename,
+    'valid' : transaction.isValidtracfinPdf,
+    'urlEdit': 'op_gestapp_transaction_editdocuments',
+    'message' : 'message'
+} %}
+

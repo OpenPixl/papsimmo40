@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+<div class="row g-3 align-items-center">
+    <div class="col-12">
+        {{ form_label(form.document) }}
+    </div>
+    <div class="col-12">
+        {{ form_widget(form.document, {'attr': {'class':'form-control form-control-sm w-100'}}) }}
+    </div>
+</div>
+{{ form_end(form) }}

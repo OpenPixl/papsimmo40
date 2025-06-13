@@ -1,0 +1,20 @@
+<p class="border-bottom mb-0"><b>Factures</b></p>
+{% include 'gestapp/transaction/show/_document.html.twig' with {
+    'documentValid' : transaction.isValidHonoraires,
+    'typeDocument' : 'Honoraires',
+    'slugDocument' : 'Ho',
+    'nameDocument' : transaction.honorairesPdfFilename,
+    'valid' : transaction.isValidHonoraires,
+    'urlEdit': 'op_gestapp_transaction_editinvoices',
+    'message' : 'message'
+} %}
+{% include 'gestapp/transaction/show/_document.html.twig' with {
+    'documentValid' : transaction.isValidInvoicePdf,
+    'typeDocument' : 'Facture du dossier',
+    'slugDocument' : 'Fa',
+    'nameDocument' : transaction.invoicePdfFilename,
+    'valid' : transaction.isValidInvoicePdf,
+    'urlEdit': 'op_gestapp_transaction_editinvoices',
+    'message' : 'message'
+} %}
+
