@@ -231,23 +231,44 @@ export function initShowTransactionPage() {
                     .post(action, data)
                     .then(function ({data}) {
                         if(nameForm === 'formAppointment_add' || nameForm === 'formAppointment_edit'){
-                            console.log('Date');
-                            document.getElementById('Block_Appointment').innerHTML = data.view;
-                            document.getElementById('stateTransaction').innerHTML = data.state;
+                            updateTransactionView({
+                                viewTargetId: 'Block_Appointment',
+                                view: data.view,
+                                state: data.state,
+                                progress: data.progress,
+                                actionButtons: data.actionButtons,
+                                message: data.message
+                            });
                         }else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
-                            console.log('Acheteurs');
                             delete modal.dataset.deleteUrl;
-                            document.getElementById('Block_Buyers').innerHTML = data.view;
-                            document.getElementById('stateTransaction').innerHTML = data.state;
+                            updateTransactionView({
+                                viewTargetId: 'Block_Buyers',
+                                view: data.view,
+                                state: data.state,
+                                progress: data.progress,
+                                actionButtons: data.actionButtons,
+                                message: data.message
+                            });
+
                         }else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
-                            console.log('Documents');
-                            document.getElementById('Block_Documents').innerHTML = data.view;
-                            document.getElementById('stateTransaction').innerHTML = data.state;
+                            updateTransactionView({
+                                viewTargetId: 'Block_Documents',
+                                view: data.view,
+                                state: data.state,
+                                progress: data.progress,
+                                actionButtons: data.actionButtons,
+                                message: data.message
+                            });
                         }
                         else if(nameForm === 'formInvoice_add' || nameForm === 'formInvoice_edit'){
-                            console.log('Invoice');
-                            document.getElementById('Block_Invoices').innerHTML = data.view;
-                            document.getElementById('stateTransaction').innerHTML = data.state;
+                            updateTransactionView({
+                                viewTargetId: 'Block_Invoices',
+                                view: data.view,
+                                state: data.state,
+                                progress: data.progress,
+                                actionButtons: data.actionButtons,
+                                message: data.message
+                            });
                         }
                         toasterMessage(data.message);
                         declareEvent();
@@ -265,10 +286,14 @@ export function initShowTransactionPage() {
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
-                        document.getElementById('Block_Appointment').innerHTML = data.view;
-                        document.getElementById('stateTransaction').innerHTML = data.state;
-                        toasterMessage(data.message);
-                        declareEvent();
+                        updateTransactionView({
+                            viewTargetId: 'Block_Appointment',
+                            view: data.view,
+                            state: data.state,
+                            progress: data.progress,
+                            actionButtons: data.actionButtons,
+                            message: data.message
+                        });
                     })
                 ;
                 modalBs.hide();
@@ -276,21 +301,30 @@ export function initShowTransactionPage() {
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
-                        document.getElementById('Block_Documents').innerHTML = data.view;
-                        document.getElementById('stateTransaction').innerHTML = data.state;
-                        toasterMessage(data.message);
-                        declareEvent();
+                        updateTransactionView({
+                            viewTargetId: 'Block_Documents',
+                            view: data.view,
+                            state: data.state,
+                            progress: data.progress,
+                            actionButtons: data.actionButtons,
+                            message: data.message
+                        });
                     })
                 ;
                 modalBs.hide();
-            }else if(option !== null && (option === 'Ho' || option === 'Fv' || option === 'Fcoll')){
+            }else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
+                console.log('dans le vl:ock de suppression d\'une facture');
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
-                        document.getElementById('Block_Invoices').innerHTML = data.view;
-                        document.getElementById('stateTransaction').innerHTML = data.state;
-                        toasterMessage(data.message);
-                        declareEvent();
+                        updateTransactionView({
+                            viewTargetId: 'Block_Invoices',
+                            view: data.view,
+                            state: data.state,
+                            progress: data.progress,
+                            actionButtons: data.actionButtons,
+                            message: data.message
+                        });
                     })
                 ;
                 modalBs.hide();
@@ -302,22 +336,53 @@ export function initShowTransactionPage() {
                     .then((data)=> {
                         toasterMessage(data.message);
                         declareEvent();
-                    });
+                    })
+                ;
+                modalBs.hide();
             }
             else{
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
-                        document.getElementById('Block_Buyers').innerHTML = data.view;
-                        document.getElementById('stateTransaction').innerHTML = data.state;
-                        toasterMessage(data.message);
-                        declareEvent();
+                        updateTransactionView({
+                            viewTargetId: 'Block_Buyers',
+                            view: data.view,
+                            state: data.state,
+                            progress: data.progress,
+                            actionButtons: data.actionButtons,
+                            message: data.message
+                        });
                     })
                 ;
                 modalBs.hide();
             }
 
         }
+    }
+
+    function updateTransactionView({viewTargetId, view, state, message, progress, actionButtons}) {
+        // Bloc principal à modifier
+        if (viewTargetId && view) {
+            document.getElementById(viewTargetId).innerHTML = view;
+        }
+        // Bloc Ligne de suivi des consignes
+        if (state !== undefined) {
+            document.getElementById('stateTransaction').innerHTML = state;
+        }
+        // Bloc des informations de la cardInformation
+        if (progress !== undefined) {
+            document.getElementById('blockInformation').innerHTML = progress;
+        }
+        // Bloc des actions sur la page
+        if (actionButtons !== undefined) {
+            document.getElementById('block_buttons').innerHTML = actionButtons	;
+        }
+        // tosater message
+        if (message) {
+            toasterMessage(message);
+        }
+        declareEvent(); // réappliquer les événements
+        modalBs.hide(); // fermer la modal
     }
 
     function declareEvent() {

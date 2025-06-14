@@ -51,6 +51,7 @@ class TransactionController extends AbstractController
         public TransactionService  $transactionService,
         public SluggerInterface    $slugger,
         private readonly EntityManagerInterface $entityManager,
+        public PhotoRepository $photoRepository,
     )
     {
         $this->submit = true; // Initialisation de la variable $public
@@ -70,6 +71,31 @@ class TransactionController extends AbstractController
             }
         }
         return $access;
+    }
+
+    private function returnView(Transaction $transaction, $access, $path){
+
+        $property = $transaction->getProperty();
+        $photo = $this->photoRepository->firstphoto($property->getId());
+
+        return [
+            'view' => $this->renderView($path, [
+                'transaction' => $transaction,
+                'access' => $access
+            ]),
+            'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
+                'transaction' => $transaction,
+            ]),
+            'progress' => $this->renderView('gestapp/transaction/show/_cardInformations.html.twig', [
+                'transaction' => $transaction,
+                'photo' => $photo,
+                'access' => $access
+            ]),
+            'actionButtons' => $this->renderView('gestapp/transaction/show/_actionButtons.html.twig', [
+                'transaction' => $transaction,
+                'access' => $access
+            ]),
+        ];
     }
 
     #[Route('/{id}/step', name: 'op_gestapp_transaction_step', methods: ['GET'])]
@@ -250,6 +276,26 @@ class TransactionController extends AbstractController
         return $newFilename;
     }
 
+    /**
+     * Adds a new transaction for a given property.
+     *
+     * This method creates a transaction for a specified property, provided
+     * the property is not already part of an ongoing transaction. It updates
+     * the property's transaction status, creates a corresponding transaction
+     * entity, and sends a notification email to administrative contacts.
+     *
+     * If the property is already in a transaction, it redirects the user to
+     * the transaction index without creating another transaction.
+     *
+     * @param Request $request Information about the current HTTP request.
+     * @param int $idproperty The identifier of the property for which the transaction is being created.
+     * @param EntityManagerInterface $entityManager Handles database operations for persisting and managing entities.
+     * @param PropertyRepository $propertyRepository Repository for interacting with the "Property" entity in the database.
+     * @param MailerInterface $mailer Service that facilitates sending emails.
+     *
+     * @return Response Redirects the user to either the transaction index if the property is already in a transaction,
+     *                   or to a page showing details of the newly created transaction.
+     */
     #[Route('/add/{idproperty}', name: 'op_gestapp_transaction_add', methods: ['GET'])]
     public function add(
         Request $request,
@@ -312,17 +358,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/add_appointment', name: 'op_gestapp_transaction_addappointment', methods: ['GET', 'POST'])]
     public function addAppointments(Request $request, Transaction $transaction, EntityManagerInterface $em): Response
     {
-        $user = $this->getUser();
-        $permission = 'read'; // Valeur par défaut
-        if ($this->isGranted('ROLE_SUPER_ADMIN')) {
-            $access = 'admin';
-        } elseif ($this->isGranted('ROLE_EMPLOYED')) {
-            if ($transaction->getRefEmployed() === $user) {
-                $access = 'edit';
-            } else {
-                $access = 'read';
-            }
-        }
+        $access = $this->access($transaction);
 
         $dateAtPromise = $transaction->getDateAtPromise();
         $dateAtActe = $transaction->getDateAtSale();
@@ -338,7 +374,6 @@ class TransactionController extends AbstractController
         } elseif ($dateAtPromise !== null && $dateAtActe == null){
             $label = 'Date de l\'acte de vente';
         }
-
 
         $form = $this->createFormBuilder(null,
             [
@@ -377,24 +412,16 @@ class TransactionController extends AbstractController
 
             $em->flush();
 
-            $this->step($transaction);
-
             $project = $this->transactionService->calculateProject($transaction);
             $transaction->setProject($project);
             $em->flush();
 
-            return $this->json([
+            $this->step($transaction);
+
+            return $this->json(array_merge([
                 'code'=> 200,
-                'type' => 2,
                 'message' => "Le vendeur a été correctement modifié.",
-                'view' => $this->renderView('gestapp/transaction/show/_appointment.html.twig', [
-                    'transaction' => $transaction,
-                    'access' => $access
-                ]),
-                'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                    'transaction' => $transaction,
-                ])
-            ], 200);
+            ], $this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_appointmentForm.html.twig', [
@@ -462,15 +489,10 @@ class TransactionController extends AbstractController
             $transaction->setProject($project);
             $em->flush();
 
-            return $this->json([
+            return $this->json(array_merge([
                 'code'=> 200,
-                'type' => 2,
                 'message' => "Le vendeur a été correctement modifié.",
-                'view' => $this->renderView('gestapp/transaction/show/_appointment.html.twig', [
-                    'transaction' => $transaction,
-                    'access' => $access
-                ])
-            ], 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_appointmentForm.html.twig', [
@@ -569,6 +591,7 @@ class TransactionController extends AbstractController
                 $project = $transactionService->calculateProject($transaction);
                 $transaction->setProject($project);
                 $em->flush();
+                $this->step($transaction);
             } elseif($transaction->getStep() == 7){
                 //dd($transaction->getStep());
                 if(!$transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()){
@@ -599,17 +622,10 @@ class TransactionController extends AbstractController
                 $this->step($transaction);
             }
 
-            return $this->json([
+            return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-                'view' => $this->renderView('gestapp/transaction/show/_documents.html.twig', [
-                    'transaction' => $transaction,
-                    'access' => $access
-                ]),
-                'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                    'transaction' => $transaction,
-                ])
-            ], 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_documents.html.twig')), 200);;
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -737,17 +753,10 @@ class TransactionController extends AbstractController
                 $em->flush();
             }
 
-            return $this->json([
+            return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-                'view' => $this->renderView('gestapp/transaction/show/_documents.html.twig', [
-                    'transaction' => $transaction,
-                    'access' => $access
-                ]),
-                'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                    'transaction' => $transaction,
-                ])
-            ], 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_documents.html.twig')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -903,6 +912,7 @@ class TransactionController extends AbstractController
                 $project = $transactionService->calculateProject($transaction);
                 $transaction->setProject($project);
                 $em->flush();
+                $this->step($transaction);
             } elseif($transaction->getStep() == 9){
                 $newFilename = $this->addFiles($document, 'fact-', $pathdir, $pdfInvoice);
                 if($access === 'edit'){
@@ -918,19 +928,13 @@ class TransactionController extends AbstractController
                 $project = $transactionService->calculateProject($transaction);
                 $transaction->setProject($project);
                 $em->flush();
+                $this->step($transaction);
             }
 
-            return $this->json([
+            return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-                'view' => $this->renderView('gestapp/transaction/show/_invoices.html.twig', [
-                    'transaction' => $transaction,
-                    'access' => $access
-                ]),
-                'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                    'transaction' => $transaction,
-                ]),
-            ], 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_invoices.html.twig')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -1039,17 +1043,10 @@ class TransactionController extends AbstractController
                 $em->flush();
             }
 
-            return $this->json([
+            return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-                'view' => $this->renderView('gestapp/transaction/show/_invoices.html.twig', [
-                    'transaction' => $transaction,
-                    'access' => $access
-                ]),
-                'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                    'transaction' => $transaction,
-                ]),
-            ], 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_invoices.html.twig')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -2945,17 +2942,10 @@ class TransactionController extends AbstractController
             // liste tous les clients attachés à leur propriété
             $customers = $customerRepository->listbytransaction($transaction);
 
-            return $this->json([
+            return $this->json(array_merge([
                 'code'=> 200,
-                'message' => "L'acheteur a été correctement ajouté.",
-                'liste' => $this->renderView('gestapp/transaction/include/block/_customers.html.twig', [
-                    'transaction' => $transaction,
-                    'access' => $access
-                ]),
-                'stateTransaction' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                    'transaction' => $transaction
-                ]),
-            ], 200);
+                'message' => "Le vendeur a été correctement modifié.",
+            ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig' )), 200);
         }
 
         $view = $this->render('gestapp/customer/add.html.twig', [
@@ -3055,18 +3045,10 @@ class TransactionController extends AbstractController
             $customer->setFinished(1);
             $customerRepository->add($customer);
 
-            return $this->json([
+            return $this->json(array_merge([
                 'code'=> 200,
-                'type' => 2,
                 'message' => "Le vendeur a été correctement modifié.",
-                'view' => $this->renderView('gestapp/transaction/show/buyers.html.twig', [
-                    'transaction' => $transaction,
-                    'access' => $access
-                ]),
-                'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                    'transaction' => $transaction
-                ])
-            ], 200);
+            ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig' )), 200);
         }
 
         // Affichage du formulaire de modification du client
@@ -3099,17 +3081,14 @@ class TransactionController extends AbstractController
             $em->flush();
         }
 
-        return $this->json([
+        return $this->json(array_merge([
             'code' => 200,
             'message' => "L'acheteur a été retiré de la vente.",
             'view' => $this->renderView('gestapp/transaction/show/buyers.html.twig', [
                 'transaction' => $transaction,
                 'access' => $access
             ]),
-            'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                'transaction' => $transaction
-            ])
-        ], 200);
+        ], $this->returnView($transaction, $access, 'gestapp/transaction/show/buyers.html.twig' )), 200);
     }
 
     #[Route('/delappointment/{id}/{appointment}', name: 'op_gestapp_transaction_delappointment',  methods: ['GET', 'POST'])]
@@ -3131,17 +3110,10 @@ class TransactionController extends AbstractController
 
         $this->step($transaction);
 
-        return $this->json([
+        return $this->json(array_merge([
             'code' => 200,
             'message' => "L'acheteur a été retiré de la vente.",
-            'view' => $this->renderView('gestapp/transaction/show/_appointment.html.twig', [
-                'transaction' => $transaction,
-                'access' => $access
-            ]),
-            'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                'transaction' => $transaction,
-            ]),
-        ], 200);
+        ], $this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig')), 200);
     }
 
     #[Route('/delfile/{id}/{document}', name: 'op_gestapp_transaction_delfile',  methods: ['GET','POST'])]
@@ -3217,16 +3189,9 @@ class TransactionController extends AbstractController
         $em->flush();
         $this->step($transaction);
 
-        return $this->json([
+        return $this->json(array_merge([
             'code' => 200,
             'message' => 'Le fichier a été correctement supprimé.',
-            'view' => $this->renderView($view, [
-                'transaction' => $transaction,
-                'access' => $access
-            ]),
-            'state' => $this->renderView('gestapp/transaction/show/_stateTransaction.html.twig', [
-                'transaction' => $transaction
-            ])
-        ]);
+        ], $this->returnView($transaction, $access, $view)));
     }
 }
