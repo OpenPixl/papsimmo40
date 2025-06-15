@@ -21,6 +21,7 @@ class EmailService
     ){}
 
     public function submitEmailFromTransac($email_expediteur, $expediteur_name, $email_destinataire, $subject, $idtransaction){
+        dd($email_expediteur, $expediteur_name, $email_destinataire, $subject, $idtransaction);
         $transaction = $this->transactionRepository->find($idtransaction);
         $email = (new TemplatedEmail())
             ->from(new Address($email_expediteur, $expediteur_name))

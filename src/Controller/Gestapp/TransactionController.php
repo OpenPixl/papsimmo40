@@ -350,7 +350,7 @@ class TransactionController extends AbstractController
             dd($e);
         }
 
-        return $this->redirectToRoute('op_gestapp_transaction_show2', [
+        return $this->redirectToRoute('op_gestapp_transaction_show', [
             'id' => $transaction->getId()
         ]);
     }
