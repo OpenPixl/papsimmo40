@@ -417,6 +417,15 @@ class TransactionController extends AbstractController
             $em->flush();
 
             $this->step($transaction);
+            if($access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $this->getUser()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
+                    $this->application->getAdminEmail(),
+                    'Ajout d\'une date de RDV.',
+                    $transaction->getId(),
+                );
+            }
 
             return $this->json(array_merge([
                 'code'=> 200,
@@ -488,6 +497,16 @@ class TransactionController extends AbstractController
             $project = $this->transactionService->calculateProject($transaction);
             $transaction->setProject($project);
             $em->flush();
+
+            if($access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $this->getUser()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
+                    $this->application->getAdminEmail(),
+                    'Modification de la date de RDV.',
+                    $transaction->getId(),
+                );
+            }
 
             return $this->json(array_merge([
                 'code'=> 200,
@@ -622,6 +641,16 @@ class TransactionController extends AbstractController
                 $this->step($transaction);
             }
 
+            if($access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $this->getUser()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
+                    $this->application->getAdminEmail(),
+                    'Ajout d\'un document sur une transaction.',
+                    $transaction->getId(),
+                );
+            }
+
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
@@ -753,6 +782,17 @@ class TransactionController extends AbstractController
                 $em->flush();
             }
 
+            if($access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $this->getUser()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
+                    $this->application->getAdminEmail(),
+                    'Modification du document sur une transaction.',
+                    $transaction->getId(),
+                );
+            }
+
+
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
@@ -786,27 +826,32 @@ class TransactionController extends AbstractController
             if($typeDoc == 'cv') {
                 $transaction->setIsValidPromisepdf(1);
                 $transaction->setPromiseValidBy($this->getUser());
-                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $message = "Vous venez de valider la promesse de vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
             }elseif($typeDoc == 'fh'){
                 $transaction->setIsValidHonoraires(1);
                 $transaction->setHonorairesValidBy($this->getUser());
-                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $message = "Vous venez de valider les honoraires de votre collaborateur. <br>
+                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_invoices.html.twig';
             }elseif($typeDoc == 'av'){
                 $transaction->setIsValidActepdf(1);
                 $transaction->setActeValidBy($this->getUser());
-                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $message = "Vous venez de valider l'attestation de l'acte de vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
             }elseif($typeDoc == 'tf'){
                 $transaction->setIsValidtracfinPdf(1);
                 $transaction->setTracfinValidBy($this->getUser());
-                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $message = "Vous venez de valider le tracFin de votre collaborateur. <br>
+                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
             }elseif($typeDoc == 'fact'){
                 $transaction->setIsValidInvoicepdf(1);
                 $transaction->setInvoiceValidBy($this->getUser());
-                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $message = "Vous venez de valider la facture de la vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_invoices.html.twig';
             }
             $project = $transactionService->calculateProject($transaction);
@@ -943,6 +988,17 @@ class TransactionController extends AbstractController
                 $this->step($transaction);
             }
 
+            if($access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $this->getUser()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
+                    $this->application->getAdminEmail(),
+                    'Ajout d\'une facture sur une transaction.',
+                    $transaction->getId(),
+                );
+            }
+
+
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
@@ -1053,6 +1109,16 @@ class TransactionController extends AbstractController
                 $project = $transactionService->calculateProject($transaction);
                 $transaction->setProject($project);
                 $em->flush();
+            }
+
+            if($access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $this->getUser()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
+                    $this->application->getAdminEmail(),
+                    'Modification d\'une facture sur une transaction.',
+                    $transaction->getId(),
+                );
             }
 
             return $this->json(array_merge([

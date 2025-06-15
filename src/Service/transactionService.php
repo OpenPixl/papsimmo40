@@ -28,7 +28,9 @@ class transactionService
         if(is_null($transaction->getTracfinPdfFilename())){$isTracfin = 0;}else{$isTracfin = 1;}
         if($transaction->isIsValidtracfinPdf() == 0){$isTracfinValid = 0;}else{$isTracfinValid = 1;}
         if(is_null($transaction->getHonorairesPdfFilename())){$isHonoraires = 0;}else{$isHonoraires = 1;}
+        if($transaction->isIsValidHonoraires() == 0){$isHonorairesValid = 0;}else{$isHonorairesValid = 1;}
         if(is_null($transaction->getInvoicePdfFilename())){$isInvoice = 0;}else{$isInvoice = 1;}
+        if($transaction->isIsValidInvoicePdf() == 0){$isInvoiceValid = 0;}else{$isInvoiceValid = 1;}
         array_push($projectArray, $isDatePromise,$isDateSale,$isPromise,$isPromiseValid,$isActe,$isActeValid,$isTracfin,$isTracfinValid,$isHonoraires,$isInvoice);
         $project = (array_sum($projectArray)/count($projectArray))*100;
 
