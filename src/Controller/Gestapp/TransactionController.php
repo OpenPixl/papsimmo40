@@ -778,33 +778,46 @@ class TransactionController extends AbstractController
         $data = json_decode($request->getContent(), true);
         $isValid = $data['option'] ?? null;
         $typeDoc = explode('-', $file)[0];
+        $message = '';
+        $view = '';
 
         if($isValid == 'validFile'){
 
             if($typeDoc == 'cv') {
                 $transaction->setIsValidPromisepdf(1);
                 $transaction->setPromiseValidBy($this->getUser());
+                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $view = 'gestapp/transaction/show/_documents.html.twig';
             }elseif($typeDoc == 'fh'){
                 $transaction->setIsValidHonoraires(1);
                 $transaction->setHonorairesValidBy($this->getUser());
+                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $view = 'gestapp/transaction/show/_invoices.html.twig';
             }elseif($typeDoc == 'av'){
                 $transaction->setIsValidActepdf(1);
                 $transaction->setActeValidBy($this->getUser());
+                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $view = 'gestapp/transaction/show/_documents.html.twig';
             }elseif($typeDoc == 'tf'){
                 $transaction->setIsValidtracfinPdf(1);
                 $transaction->setTracfinValidBy($this->getUser());
+                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $view = 'gestapp/transaction/show/_documents.html.twig';
             }elseif($typeDoc == 'fact'){
                 $transaction->setIsValidInvoicepdf(1);
                 $transaction->setInvoiceValidBy($this->getUser());
+                $message = "<p>Vous venez de valider le document.</p><p>Un email va être envoyé au mandataire pour va</p>";
+                $view = 'gestapp/transaction/show/_invoices.html.twig';
             }
             $project = $transactionService->calculateProject($transaction);
             $transaction->setProject($project);
             $em->flush();
+            $this->step($transaction);
 
-            return $this->json([
+            return $this->json(array_merge([
                 'code'=> 200,
-                'message' => "Un RDV à été ajouté.",
-            ], 200);
+                'message' => $message,
+            ],$this->returnView($transaction, $access, $view)), 200);
         }
 
         if($typeDoc == 'cv') {
@@ -827,7 +840,6 @@ class TransactionController extends AbstractController
 
         return $this->json([
             'code'=> 200,
-            'message' => "Un RDV à été ajouté.",
             'path' => $pathdir,
         ], 200);
 

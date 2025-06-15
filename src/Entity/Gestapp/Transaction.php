@@ -169,7 +169,7 @@ class Transaction
     #[ORM\Column(nullable: true)]
     private ?bool $isValidHonoraires = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?int $step = null;
 
     #[ORM\Column(length: 255, nullable: true)]

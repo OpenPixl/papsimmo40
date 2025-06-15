@@ -331,11 +331,18 @@ export function initShowTransactionPage() {
             }
             else if(option !== null && option === 'validFile') {
                 let data = { 'option' : option};
+                console.log('block valid et option');
                 axios
                     .post(btnSubmitModal.href, data)
-                    .then((data)=> {
-                        toasterMessage(data.message);
-                        declareEvent();
+                    .then(({data})=> {
+                        updateTransactionView({
+                            viewTargetId: 'Block_Invoices',
+                            view: data.view,
+                            state: data.state,
+                            progress: data.progress,
+                            actionButtons: data.actionButtons,
+                            message: data.message
+                        });
                     })
                 ;
                 modalBs.hide();
