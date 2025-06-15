@@ -1,0 +1,27 @@
+{% if photo is not null %}
+    <img class="card-img-top" src="{{ asset('properties/' ~ photo.path) ~ '/' ~ photo.galeryFrontName }}" alt="">
+    <div class="progress" role="progressbar" aria-label="Default striped example" aria-valuenow="{{ transaction.project }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar progress-bar-striped" style="width: {{ transaction.project }}%"></div>
+    </div>
+{% else %}
+    <img class="card-img-top" src="{{ asset('images/jpeg/mod_maison.jpg') }}" alt="">
+    <div class="progress" role="progressbar" aria-label="Default striped example" aria-valuenow="{{ transaction.project }}" aria-valuemin="0" aria-valuemax="100">
+        <div class="progress-bar progress-bar-striped" style="width: {{ transaction.project }}%"></div>
+    </div>
+{% endif %}
+<div class="card-body p-2">
+    <h5 class="card-title">{{ transaction.property.name }}</h5>
+    <p class="card-text mb-2">
+        Bien sous mandat numéro : <b>{{ transaction.property.refMandat }}{% if transaction.property.dupMandat %}{{ transaction.property.dupMandat }}{% endif %}</b>
+        <br>
+        {% if transaction.refEmployed.id == app.user.id %}
+            Porté par : <b>Moi même</b>
+        {% else %}
+            Porté par : <b>{% if transaction.refEmployed.civility == 2 %}Mme {% else %}M. {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}</b>
+        {% endif %}
+    </p>
+    <p class="mb-1">Vendeurs :</p>
+    {{ include('gestapp/transaction/show/sellers.html.twig') }}
+
+
+</div>

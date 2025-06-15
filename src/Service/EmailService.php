@@ -17,15 +17,14 @@ class EmailService
     public function __construct(
         public TransactionRepository $transactionRepository,
         protected MailerInterface    $mailer,
-        protected RequestStack            $request,
-        private readonly ApplicationRepository $applicationRepository,
+        protected RequestStack $request,
     ){}
 
-    public function SubmitPdfForTransacAtAdmin($email_exp, $email_name, $email_dest, $subject, $idtransaction){
+    public function submitEmailFromTransac($email_expediteur, $expediteur_name, $email_destinataire, $subject, $idtransaction){
         $transaction = $this->transactionRepository->find($idtransaction);
         $email = (new TemplatedEmail())
-            ->from(new Address($email_exp, $email_name))
-            ->to($this->applicationRepository->find(1)->getAdminEmail())
+            ->from(new Address($email_expediteur, $expediteur_name))
+            ->to($email_destinataire)
             //->cc('cc@example.com')
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')

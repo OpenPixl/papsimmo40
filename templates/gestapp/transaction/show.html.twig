@@ -25,9 +25,12 @@
 {% block content %}
 <div class="row mb-5 align-items-top g-2">
     <div class="col-3">
-        {{ include('gestapp/transaction/show/cardInformations.html.twig') }}
-        {{ include('gestapp/transaction/show/cardCollaborateurs.html.twig') }}
-
+        <div class="card border-dark" id="blockInformation">
+            {{ include('gestapp/transaction/show/_cardInformations.html.twig') }}
+        </div>
+        <div class="card border-dark mt-2" id="blockCollaborator">
+            {{ include('gestapp/transaction/show/cardCollaborateurs.html.twig') }}
+        </div>
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <div class="card border-dark mt-2" id="blockAgencyEmployed">
                 <div class="card-body p-2">
@@ -37,26 +40,8 @@
         {% endif %}
     </div>
     <div class="col-9">
-        <div class="row justify-content-center mb-2">
-            {% set stepRdvActive = [1,6] %}
-            {% set stepDocActive = [2,7] %}
-            {% set stepInvoiceActive = [4,9,11] %}
-            <div class="col-6 justify-content-end" id="btnsTransaction">
-                <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal " data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
-                <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepRdvActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal" data-bs-data="ADDAPPOINTMENT-Ajouter une date"><i class="fa-duotone fa-light fa-plus"></i> Date de RDV</a>
-                <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal " data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
-                <a href="{{ path('op_gestapp_transaction_addinvoices', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepInvoiceActive %}btn-outline-dark{% else %}btn-outline-dark disabled{% endif %} openModal " data-bs-data="ADDINVOICES-Ajouter une facture"><i class="fa-duotone fa-light fa-plus"></i> Factures</a>
-                {{ transaction.step }}
-            </div>
-            <div class="col-6 d-flex align-items-center justify-content-end">
-                {% if access == 'read' %}
-                    <p class="text-dark mb-0">Vous avez uniquement les droits de lecture sur ce document.</p>
-                {% elseif access == 'edit' %}
-                    <p class="text-secondary mb-0">Vous avez les droits sur ce document en tant qu'éditeur.</p>
-                {% else %}
-                    <p class="text-secondary mb-0">Vous avez les droits sur ce document en tant qu'administrateur.</p>
-                {% endif %}
-            </div>
+        <div class="row justify-content-center mb-2" id="block_buttons">
+            {{ include('gestapp/transaction/show/_actionButtons.html.twig') }}
         </div>
         <div class="card border-primary mb-2">
             <div class="card-body p-2">
@@ -75,7 +60,6 @@
 
                         <div class="row" id="stateTransaction">
                             {{ include('gestapp/transaction/show/_stateTransaction.html.twig') }}
-
                         </div>
 
                     </div>
