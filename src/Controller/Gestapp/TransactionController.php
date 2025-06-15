@@ -321,6 +321,7 @@ class TransactionController extends AbstractController
         $transaction->setName($name);
         $transaction->setRefEmployed($user);
         $entityManager->persist($transaction);
+
         $property->setIsTransaction(1);
         $entityManager->persist($property);
         $entityManager->flush();
@@ -350,7 +351,7 @@ class TransactionController extends AbstractController
             dd($e);
         }
 
-        return $this->redirectToRoute('op_gestapp_transaction_show2', [
+        return $this->redirectToRoute('op_gestapp_transaction_show', [
             'id' => $transaction->getId()
         ]);
     }
