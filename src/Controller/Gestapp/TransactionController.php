@@ -321,6 +321,7 @@ class TransactionController extends AbstractController
         $transaction->setName($name);
         $transaction->setRefEmployed($user);
         $entityManager->persist($transaction);
+
         $property->setIsTransaction(1);
         $entityManager->persist($property);
         $entityManager->flush();
