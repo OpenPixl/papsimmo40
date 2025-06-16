@@ -251,7 +251,9 @@ class Customer
     public function initializeSlug() {
         $slugify = new Slugify();
         // Vérifiez si firstName et lastName ne sont pas vides avant de créer le slug
-        if (!empty($this->firstName) && !empty($this->lastName)) {
+        if(!empty($this->maidenName && !empty($this->firstName))) {
+            $this->slug = $slugify->slugify($this->firstName . "_" . $this->maidenName);
+        }else{
             $this->slug = $slugify->slugify($this->firstName . "_" . $this->lastName);
         }
 
