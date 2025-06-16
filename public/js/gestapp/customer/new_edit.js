@@ -2,6 +2,9 @@ const typeClient = document.getElementById('customer_typeClient');
 const btnAddCustomer = document.getElementById('btnAddCustomer');
 const btnAddResp = document.getElementById('btnAddResp');
 
+const modal = document.getElementById('modal');
+const modalBs = new bootstrap.Modal(document.getElementById('modal'));
+
 const customer_commune = document.getElementById('customer_city');
 const customer_zipcode = document.getElementById('customer_zipcode');
 const customer_SelectCity = document.getElementById('customer_selectcity');
@@ -101,6 +104,39 @@ function submitCustomer(event){
     ;
 }
 
+function openModal(event){
+    event.preventDefault();
+    let a = event.currentTarget;
+    let recipient = a.getAttribute('data-bs-data');
+    let url = a.href;
+    let [crud, contentTitle, id] = recipient.split('-');
+    modalBs.show();
+    modal.querySelector('.modal-title').textContent = contentTitle;
+    if(crud === 'ADDRESEARCH' || crud === 'EDITRESEARCH'){
+        modal.querySelector('.modal-dialog').classList.add('modal-xl');
+        modal.querySelector('.modal-footer a').href= url;
+        axios.get(url).then(({data}) => {
+            modal.querySelector('.modal-body').innerHTML = data.form;
+            modal.querySelector('.modal-footer a').addEventListener('click', submitModal);
+        });
+        reloadEvent();
+    }
+}
+
+function submitModal(e){
+    e.preventDefault();
+    let form = document.getElementById('Form_Customer_Research');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            modalBs.hide();
+            document.getElementById('liste_research').innerHTML = response.data.liste;
+            toasterMessage(response.data.message);
+        });
+}
+
 function addResponsable(event){
     event.preventDefault();
     let form = document.getElementById('AddRespStructure');
@@ -183,8 +219,19 @@ function toasterMessage(message){
 }
 
 function reloadEvent(){
+    let btnSubmitModal = document.getElementById('btnSubmitModal');
+    let btnOpenModal = document.querySelectorAll('.openModal');
+    console.log(btnOpenModal);
+
     btnAddCustomer.addEventListener('click', submitCustomer);
     btnAddResp.addEventListener('click', addResponsable);
+    btnOpenModal.forEach(function(click){
+        click.addEventListener('click', openModal);
+    });
+    if(btnSubmitModal !== null){
+        btnSubmitModal.addEventListener('click', submitModal);
+    }
+
     let btnSupprResps = document.querySelectorAll('.btnSupprResp');
     btnSupprResps.forEach(function(click){
         click.addEventListener('click', dellResponsable);

@@ -1,144 +1,167 @@
 {{ form_start(form) }}
     <div class="row">
-        <div class="col-12">
+        <div class="col-12 mb-2">
             <p class="mb-0">Cette fiche est réalisée dans le cadre de la démarche commerciale entre vous et le client.</p>
         </div>
         <div class="col-12">
-            <div class="row align-items-center g-2 mb-2">
-                <div class="col-12">
-                    {{ form_label(form.ResearchBien, 'Type de bien', {'label_attr': {'class':'form-check-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                </div>
-                <div class="col-12">
-                    {{ form_widget(form.ResearchBien, {'attr': {'class': 'form-select form-sm-select'}}) }}
-                </div>
-            </div>
-            <div class="row align-items-center g-2 mb-2">
-                <div class="col-2">
-                    {# But de la recherche #}
-                    <div class="row align-items-center g-1 mb-1">
-                        <div class="col-12">
-                            {{ form_label(form.researchFor, 'Achat ou Location', {'label_attr': {'class':'form-check-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-12">
-                            {% for label, value, choice in field_choices(form.researchFor) %}
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="{{ field_name(form.researchFor) }}" id="{{ field_name(form.researchFor) }}{{ value }}" value="{{ value }}" {% if value is same as research.researchFor %}checked="checked"{% endif %}>
-                                    <label class="form-check-label" for="{{ field_name(form.researchFor) }}{{ value }}">{{ label }}</label>
+            <div class="row g-1">
+                <div class="col-3">
+                    <div class="card border-dark">
+                        <div class="card-body p-2">
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <h4 class="mb-0 border-dark border-bottom fs-6 fw-semibold">La demande concerne</h4>
                                 </div>
-                            {% endfor %}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="col-10">
-                    {# Type de projet #}
-                    <div class="row align-items-center g-1 mb-1">
-                        <div class="col-12">
-                            {{ form_label(form.typeProject, 'Projet', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-12">
-                            {% for label, value, choice in field_choices(form.typeProject) %}
-                                <div class="form-check form-check-inline">
-                                    <input class="form-check-input" type="radio" name="{{ field_name(form.typeProject) }}" id="{{ field_name(form.typeProject) }}{{ value }}" value="{{ value }}" {% if value is same as research.typeProject %}checked="checked"{% endif %}>
-                                    <label class="form-check-label" for="{{ field_name(form.typeProject) }}{{ value }}">{{ label }}</label>
+                            </div>
+                            <div class="row align-items-center">
+                                <div class="col-12">
+                                    <div class="row align-items-center g-1">
+                                        <div class="col-6">
+                                            {{ form_label(form.ResearchBien, 'Type de bien', {'label_attr': {'class':'form-check-label mb-0'}}) }}
+                                        </div>
+                                        <div class="col-6">
+                                            {{ form_widget(form.ResearchBien, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                                        </div>
+                                    </div>
                                 </div>
-                            {% endfor %}
+                                <div class="col-12">
+                                    {# But de la recherche #}
+                                    <div class="row align-items-center g-1 mb-1">
+                                        <div class="col-12">
+                                            {{ form_label(form.researchFor, 'Achat ou Location', {'label_attr': {'class':'form-check-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                        </div>
+                                        <div class="col-12">
+                                            {% for label, value, choice in field_choices(form.researchFor) %}
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="{{ field_name(form.researchFor) }}" id="{{ field_name(form.researchFor) }}{{ value }}" value="{{ value }}" {% if value is same as research.researchFor %}checked="checked"{% endif %}>
+                                                    <label class="form-check-label" for="{{ field_name(form.researchFor) }}{{ value }}">{{ label }}</label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12">
+                                    <div class="row align-items-center g-1 mb-1">
+                                        <div class="col-12">
+                                            {{ form_label(form.typeProject, 'Projet', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                        </div>
+                                        <div class="col-12">
+                                            {% for label, value, choice in field_choices(form.typeProject) %}
+                                                <div class="form-check form-check-inline">
+                                                    <input class="form-check-input" type="radio" name="{{ field_name(form.typeProject) }}" id="{{ field_name(form.typeProject) }}{{ value }}" value="{{ value }}" {% if value is same as research.typeProject %}checked="checked"{% endif %}>
+                                                    <label class="form-check-label" for="{{ field_name(form.typeProject) }}{{ value }}">{{ label }}</label>
+                                                </div>
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="row align-items-center justify-content-between g-2">
-                <div class="col-2">
-                    {# Budget #}
-                    <div class="row align-items-center g-1 mb-1">
+                <div class="col-9">
+                    <div class="row g-1">
                         <div class="col-12">
-                            {{ form_label(form.budgetMin, 'BUDGET ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.budgetMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.budgetMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    {# pièce #}
-                    <div class="row align-items-center g-1 mb-1">
-                        <div class="col-12">
-                            {{ form_label(form.pieceMin, 'PIECE ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.pieceMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.pieceMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    {# Chambre #}
-                    <div class="row align-items-center g-1 mb-1">
-                        <div class="col-12">
-                            {{ form_label(form.roomMin, 'CHAMBRE ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.roomMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.roomMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    {# Suyrface habitable #}
-                    <div class="row align-items-center g-1 mb-1">
-                        <div class="col-12">
-                            {{ form_label(form.surfaceMin, 'SURFACE HABITABLE ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.surfaceMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.surfaceMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-2">
-                    {# Surface de terrain #}
-                    <div class="row align-items-center g-1 mb-1">
-                        <div class="col-12">
-                            {{ form_label(form.surfaceLandMin, 'SURFACE DE TERRAIN ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.surfaceLandMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.surfaceLandMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="row align-items-center justify-content-between g-2">
-                <div class="col-6">
-                    {# Energie du bien #}
-                    <div class="row align-items-center g-1 mb-1">
-                        <div class="col-12">
-                            {{ form_label(form.energies, 'Type de chauffage', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-6">
-                            {{ form_widget(form.energies, {'attr': {'class': 'multiChoice'}}) }}
-                        </div>
-                    </div>
-                </div>
-                <div class="col-6">
-                    {# Options recherchées #}
-                    <div class="row align-items-center g-1 mb-1">
-                        <div class="col-12">
-                            {{ form_label(form.options, 'Options souhaitées', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
-                        </div>
-                        <div class="col-12">
-                            {{ form_widget(form.options, {'attr': {'class': 'multiChoice'}}) }}
+                            <div class="card border-dark">
+                                <div class="card-body p-2">
+                                    <div class="row align-items-center justify-content-between g-2">
+                                        <div class="col-2">
+                                            {# Budget #}
+                                            <div class="row align-items-center g-1 mb-1">
+                                                <div class="col-12">
+                                                    {{ form_label(form.budgetMin, 'BUDGET ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.budgetMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.budgetMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            {# pièce #}
+                                            <div class="row align-items-center g-1 mb-1">
+                                                <div class="col-12">
+                                                    {{ form_label(form.pieceMin, 'PIECE ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.pieceMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.pieceMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            {# Chambre #}
+                                            <div class="row align-items-center g-1 mb-1">
+                                                <div class="col-12">
+                                                    {{ form_label(form.roomMin, 'CHAMBRE ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.roomMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.roomMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            {# Suyrface habitable #}
+                                            <div class="row align-items-center g-1 mb-1">
+                                                <div class="col-12">
+                                                    {{ form_label(form.surfaceMin, 'SURFACE HABITABLE ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.surfaceMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.surfaceMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-2">
+                                            {# Surface de terrain #}
+                                            <div class="row align-items-center g-1 mb-1">
+                                                <div class="col-12">
+                                                    {{ form_label(form.surfaceLandMin, 'SURFACE DE TERRAIN ?', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.surfaceLandMin, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.surfaceLandMax, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Max'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row align-items-center justify-content-between g-2">
+                                        <div class="col-6">
+                                            {# Energie du bien #}
+                                            <div class="row align-items-center g-1 mb-1">
+                                                <div class="col-12">
+                                                    {{ form_label(form.energies, 'Type de chauffage', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                                </div>
+                                                <div class="col-6">
+                                                    {{ form_widget(form.energies, {'attr': {'class': 'multiChoice'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-6">
+                                            {# Options recherchées #}
+                                            <div class="row align-items-center g-1 mb-1">
+                                                <div class="col-12">
+                                                    {{ form_label(form.options, 'Options souhaitées', {'label_attr': {'class':'form-label border-bottom border-dark fw-semibold mb-0'}}) }}
+                                                </div>
+                                                <div class="col-12">
+                                                    {{ form_widget(form.options, {'attr': {'class': 'multiChoice'}}) }}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
