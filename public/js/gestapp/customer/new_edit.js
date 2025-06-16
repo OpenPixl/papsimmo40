@@ -134,13 +134,9 @@ function submitModal(e){
             modalBs.hide();
             document.getElementById('liste_research').innerHTML = response.data.liste;
             toasterMessage(response.data.message);
-<<<<<<< HEAD
             reloadEvent();
         });
     reloadEvent();
-=======
-        });
->>>>>>> 65f2dc0 (DEBUG | RESEARCH Customer)
 }
 
 function addResponsable(event){

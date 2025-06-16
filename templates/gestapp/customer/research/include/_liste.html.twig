@@ -26,8 +26,8 @@
                             <div class="col-11">
                                 <p class="ps-1 mb-0 alert alert-light p-2">
                                     {{ loop.index }} -
-                                    <a href="{{ path('op_gestapp_customer_research_edit', {'id':r.id}) }}" class="text-uppercase openModal" data-bs-data="EDITRESSEARCH-Demande de recherche de bien">{{ r.researchFor }}</a> |
-                                    recherche pour : {{ r.typeProject }}
+                                    <a href="{{ path('op_gestapp_customer_research_edit', {'id':r.id}) }}" class="text-uppercase openModal" data-bs-data="EDITRESEARCH-Demande de recherche de bien">{{ r.researchFor }}</a> |
+                                    recherche pour {{ r.ResearchBien }} en {{ r.typeProject }}
                                 </p>
                             </div>
                             <div class="col-1">
