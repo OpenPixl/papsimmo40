@@ -45,9 +45,9 @@ class ResearchType extends AbstractType
                     'class' => 'radio-inline'
                 ],
                 'choices'  => [
-                    'Immobilier neuf' => 'achat',
+                    'Immobilier neuf' => 'neuf',
                     'Ancien' => 'ancien',
-                    "Projet de construction" => 'location',
+                    "Projet de construction" => 'projet de construction',
                 ],
                 'expanded' => true,
                 'multiple' => false

@@ -134,7 +134,9 @@ function submitModal(e){
             modalBs.hide();
             document.getElementById('liste_research').innerHTML = response.data.liste;
             toasterMessage(response.data.message);
+            reloadEvent();
         });
+    reloadEvent();
 }
 
 function addResponsable(event){
