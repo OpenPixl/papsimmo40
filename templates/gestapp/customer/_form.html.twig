@@ -294,6 +294,7 @@
         </div>
     </div>
 {% endif %}
+<<<<<<< HEAD
 
 {% if customer.transactions|length > 0%}
     <div class="row mt-1">
@@ -317,6 +318,12 @@
     {% if customer.research|length > 0 %}
         {{ include('gestapp/customer/research/include/_liste.html.twig') }}
     {% endif %}
+=======
+<div class="row mt-1">
+    <div class="col-12" id="liste_research">
+        {{ include('gestapp/customer/research/include/_liste.html.twig') }}
+    </div>
+>>>>>>> 65f2dc0 (DEBUG | RESEARCH Customer)
 </div>
 
 <div class="mt-3">
@@ -325,7 +332,11 @@
     </a>
     {% if customer.finished == 1 %}
         <button type="submit" id="btnAddCustomer" class="btn btn-sm btn-outline-primary">{{ button_label|default("Créer la fiche") }}</button>
+<<<<<<< HEAD
         <a class="btn btn-sm btn-outline-primary btnOpenModal" href="{{ path('op_gestapp_customer_research_new', {'idCustomer': customer.id}) }}" data-bs-data="ADDRESEARCH-Demande de recherche de bien">Créer une fiche de recherche</a>
+=======
+        <a id="btnAddResearch" class="btn btn-sm btn-outline-primary openModal" href="{{ path('op_gestapp_customer_research_new', {'idCustomer': customer.id}) }}" data-bs-data="ADDRESEARCH-Demande de recherche de bien">Créer une fiche de recherche</a>
+>>>>>>> 65f2dc0 (DEBUG | RESEARCH Customer)
     {% else %}
         <button type="submit" id="btnAddCustomer" class="btn btn-sm btn-outline-warning">{{ button_label|default("Créer la fiche") }}</button>
     {% endif %}
