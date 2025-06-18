@@ -210,7 +210,8 @@ export function initShowTransactionPage() {
             // Nouveau lien pour invalider le document
             const invalidateBtn = document.createElement('a');
             invalidateBtn.textContent = 'J\'invalide ce document';
-            invalidateBtn.href = url + '?action=refuse'; // adapte l’URL si nécessaire
+            modalEl.dataset.option = "invalidFile";
+            invalidateBtn.href = url ; // adapte l’URL si nécessaire
             invalidateBtn.classList.add('btn', 'btn-sm','btn-danger', 'ms-2');
             invalidateBtn.addEventListener('click', function (e) {
                 e.preventDefault();
@@ -251,7 +252,8 @@ export function initShowTransactionPage() {
                 sendBtn.classList.add('btn', 'btn-sm', 'btn-danger');
                 sendBtn.addEventListener('click', () => {
                     const message = modalEl.querySelector('#refuseMessage').value;
-                    axios.post(url + '?action=refuse', { message })
+                    let data = {'option': option, 'message':message};
+                    axios.post(url, { message })
                         .then(() => {
                             bootstrap.Modal.getInstance(modalEl).hide();
                             toasterMessage('Le message a été envoyé au mandataire.');
@@ -407,7 +409,6 @@ export function initShowTransactionPage() {
             }
             else if(option !== null && option === 'validFile') {
                 let data = { 'option' : option};
-                console.log('block valid et option');
                 axios
                     .post(btnSubmitModal.href, data)
                     .then(({data})=> {
@@ -442,9 +443,7 @@ export function initShowTransactionPage() {
 
         }
     }
-    function InvalidFileMessage(e){
 
-    }
 
     function updateTransactionView({viewTargetId, view, state, message, progress, actionButtons}) {
         // Bloc principal à modifier
