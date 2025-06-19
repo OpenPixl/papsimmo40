@@ -23,6 +23,10 @@ class EmailService
     public function submitEmailFromTransac($email_expediteur, $expediteur_name, $email_destinataire, $subject, $idtransaction){
 
         $transaction = $this->transactionRepository->find($idtransaction);
+        $state = preg_split("/[\s|]+/", $transaction->getState())[0];
+        $typeDoc = preg_split("/[\s|]+/", $transaction->getState())[1];
+
+        $transaction = $this->transactionRepository->find($idtransaction);
         $email = (new TemplatedEmail())
             ->from(new Address($email_expediteur, $expediteur_name))
             ->to($email_destinataire)
@@ -30,12 +34,26 @@ class EmailService
             //->bcc('bcc@example.com')
             //->replyTo('fabien@example.com')
             //->priority(Email::PRIORITY_HIGH)
-            ->subject($subject)
-            ->htmlTemplate('admin/mail/messageTransaction.html.twig')
-            ->context([
-                'transaction' => $transaction,
-                'url' => $this->request->getCurrentRequest()
-            ]);
+            ->subject($subject);
+        if($state == 'Invalidation'){
+            $email
+                ->htmlTemplate('admin/mail/messageErrorDocument.html.twig')
+                ->context([
+                    'transaction' => $transaction,
+                    'typeDoc' => $typeDoc,
+                    'url' => $this->request->getCurrentRequest()
+                ]);
+            ;
+        }else{
+            $email
+                ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                ->context([
+                    'transaction' => $transaction,
+                    'url' => $this->request->getCurrentRequest()
+                ]);
+            ;
+        };
+
         try {
             $this->mailer->send($email);
         } catch (TransportExceptionInterface $e) {

@@ -178,6 +178,9 @@ class Transaction
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $invoiceValidBy = null;
 
+    #[ORM\Column(type: Types::TEXT, nullable: true)]
+    private ?string $notes = null;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -649,6 +652,18 @@ class Transaction
     public function setInvoiceValidBy(?string $invoiceValidBy): static
     {
         $this->invoiceValidBy = $invoiceValidBy;
+
+        return $this;
+    }
+
+    public function getNotes(): ?string
+    {
+        return $this->notes;
+    }
+
+    public function setNotes(?string $notes): static
+    {
+        $this->notes = $notes;
 
         return $this;
     }
