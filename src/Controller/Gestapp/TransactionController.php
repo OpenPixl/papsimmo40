@@ -877,7 +877,10 @@ class TransactionController extends AbstractController
                 'code'=> 200,
                 'message' => $message,
             ],$this->returnView($transaction, $access, $view, $block)), 200);
-        }elseif($isValid == 'invalidFile'){
+
+        }elseif($isValid == 'invalidFile'){                                 // information dans le cas ou le document proposé ne correspond pas au besoin
+
+            $transaction->setState("Invalidation $typeDoc | Le document présenté contient des erreurs.");
 
             if($typeDoc == 'cv') {
                 $view = 'gestapp/transaction/show/_documents.html.twig';
@@ -896,11 +899,14 @@ class TransactionController extends AbstractController
                 $block = 'Block_Invoices';
             }
 
+            $transaction->setNotes($messageInvalid);
+            $em->flush();
+
             $this->emailService->submitEmailFromTransac(
                 $this->application->getAdminEmail(),
                 'Administrateur SoftPAPs',
                 $transaction->getRefEmployed()->getEmail(),
-                '[SoftPAPS Transaction] - Validation du document par nos services.',
+                '[SoftPAPS Transaction] - Invalidation du document par nos services.',
                 $transaction->getId(),
             );
 
@@ -3265,21 +3271,27 @@ class TransactionController extends AbstractController
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
         $ref = explode("/", $property->getRef());
+        $block = '';
 
         $newref = $ref[0].'-'.$ref[1];
         if($document == "Ac"){
+            $block = 'Block_Documents';
             $name = $transaction->getActePdfFilename();
             $view = 'gestapp/transaction/show/_documents.html.twig';
         }elseif($document == "Ho"){
+            $block = 'Block_Invoices';
             $name = $transaction->getHonorairesPdfFilename();
             $view = 'gestapp/transaction/show/_invoices.html.twig';
         }elseif($document == "Fa"){
+            $block = 'Block_Invoices';
             $name = $transaction->getInvoicePdfFilename();
             $view = 'gestapp/transaction/show/_invoices.html.twig';
         }elseif($document == "Prom"){
+            $block = 'Block_Documents';
             $name = $transaction->getPromisePdfFilename();
             $view = 'gestapp/transaction/show/_documents.html.twig';
         }elseif ($document == "Tf"){
+            $block = 'Block_Documents';
             $name = $transaction->getTracfinPdfFilename();
             $view = 'gestapp/transaction/show/_documents.html.twig';
         }
@@ -3290,6 +3302,7 @@ class TransactionController extends AbstractController
             unlink($pathfile);
         }
 
+
         // Suppression en BDD du nom de fichier
         $typeDoc = explode('-', $name)[0];
         if($typeDoc == 'cv') {
@@ -3297,31 +3310,26 @@ class TransactionController extends AbstractController
             $transaction->setIsValidPromisepdf(0);
             $transaction->setPromiseValidBy(null);
             $transaction->setIsSupprPromisePdf(0);
-            $block = 'Block_Documents';
         }elseif($typeDoc == 'fh'){
             $transaction->setHonorairesPdfFilename(null);
             $transaction->setIsValidHonoraires(0);
             $transaction->setHonorairesValidBy(null);
             $transaction->setIsSupprHonorairesPdf(0);
-            $block = 'Block_Invoices';
         }elseif($typeDoc == 'av'){
             $transaction->setActePdfFilename(null);
             $transaction->setIsValidActepdf(0);
             $transaction->setActeValidBy(null);
             $transaction->setIsSupprActePdf(0);
-            $block = 'Block_Documents';
         }elseif($typeDoc == 'tf'){
             $transaction->setTracfinPdfFilename(null);
             $transaction->setIsValidtracfinPdf(0);
             $transaction->setTracfinValidBy(null);
             $transaction->setIsSupprTracfinPdf(0);
-            $block = 'Block_Documents';
         }elseif($typeDoc == 'fact'){
             $transaction->setInvoicePdfFilename(null);
             $transaction->setIsValidInvoicepdf(0);
             $transaction->setInvoiceValidBy(null);
             $transaction->setIsSupprInvoicePdf(0);
-            $block = 'Block_Invoices';
         }
         $em->flush();
 
@@ -3333,6 +3341,6 @@ class TransactionController extends AbstractController
         return $this->json(array_merge([
             'code' => 200,
             'message' => 'Le fichier a été correctement supprimé.',
-        ], $this->returnView($transaction, $access, $view, $block)), 200);;
+        ], $this->returnView($transaction, $access, $view, $block)), 200);
     }
 }

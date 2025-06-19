@@ -5,30 +5,49 @@
     <div class="container">
         <div class="header text-center">
             <a href="{{ url('op_webapp_public_homepage') }}">
-                {# <img src="{{ email.image('@images/email/logo.png') }}" class="logo" alt="SpaceBar Logo"> #}
-                [PAPs Immo] : Une correction doit être apportée à la transaction immobilière.
+                <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
             </a>
+
+            <h1>[SoftPAPs - TRANSACTION ] : Document invalidé.</h1>
+
         </div>
         <div class="content">
-            <h1>[PAPs Immo] : Une correction doit être apportée à la transaction immobilière.</h1>
             <h3>Référence: {{ transaction.name }}</h3>
             <hr>
             <h4>Bonjour,</h4>
             <p>
-                Dans le cadre de la transaction immobilière concernant le bien :<br>
-                - {{ transaction.property.name }}<br>
-                - {{ transaction.property.zipcode }} {{ transaction.property.city }}<br>
-                {% if typedoc == 'cv' %}
-                    Vous avez présenté un document de type : <b>Compromis de vente.</b>
-                {% elseif typedoc == 'av' %}
-                    Vous avez présenté un document de type : <b>Attestation d'acte de vente.</b>
-                {% elseif typedoc == 'tf' %}
-                    Vous avez présenté un document de type : <b>TRACFIN.</b>
-                {% endif %}
-                Ce document présente une erreur. N'hésitez pas à contacter votre référent pour la résoudre. <br>
-                En cliquant sur le lien suivant, vous pourrez recharger ce dernier dans le champ prévu à cet effet.
+                Suite à la présentation d'un document concernant la transaction immobilière :
                 <br>
-                <a href="http://{{ url }}{{ path("op_gestapp_transaction_show2", {'id': transaction.id}) }}">Accès à la fiche de vente</a>
+                - {{ transaction.property.name }}<br>
+                - {{ transaction.property.zipcode }} {{ transaction.property.city }}
+                <br>
+                {% if typeDoc == 'cv' %}
+                    Vous avez présenté un <b>Compromis de vente.</b>
+                {% elseif typeDoc == 'av' %}
+                    Vous avez présenté une <b>Attestation d'acte de vente.</b>
+                {% elseif typeDoc == 'tf' %}
+                    Vous avez présenté un <b>TRACFIN.</b>
+                {% elseif typeDoc == 'fh' %}
+                    Vous avez présenté une <b>Facture d'honoraire.</b>
+                {% elseif typeDoc == 'fact' %}
+                    Vous avez présenté une <b>facture.</b>
+                {% endif %}
+            </p>
+            <p>
+                Ce document présente une erreur.&nbsp;
+                {% if transaction.notes is not null %}
+                    Voici la réponse de l'administrateur :
+                    <br>
+                    <span style="font-style: italic; background-color:  #f2f2f2;">
+                        "{{ transaction.notes }}"
+                    </span>
+                {% else %}
+                    Veuillez recharger un document à jour.
+                {% endif %}
+            </p>
+            <p>L'équipe PAPs immo.</p>
+            <p>
+                <a class="btn" href="https://www.papsimmo.fr/gestapp/transaction/{{transaction.id}}">Accès à la fiche de vente</a>
             </p>
         </div>
     </div>
