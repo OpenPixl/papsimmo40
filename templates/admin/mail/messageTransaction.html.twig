@@ -7,9 +7,9 @@
             <a href="{{ url('op_webapp_public_homepage') }}">
                 <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
             </a>
-            {% set step_date = [] %}
-            {% set step_document = [] %}
-            {% set step_attente = [] %}
+            {% set step_date = [0,1,6] %}
+            {% set step_document = [2,7] %}
+            {% set step_attente = [4,9,11] %}
 
             {% if transaction.step in step_date %}
                 <h1>[PAPs Immo - TRANSACTION ] : Un RDV vient d'être ajouté.</h1>

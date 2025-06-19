@@ -73,7 +73,7 @@ class TransactionController extends AbstractController
         return $access;
     }
 
-    private function returnView(Transaction $transaction, $access, $path){
+    private function returnView(Transaction $transaction, $access, $path, $blockId){
 
         $property = $transaction->getProperty();
         $photo = $this->photoRepository->firstphoto($property->getId());
@@ -95,6 +95,7 @@ class TransactionController extends AbstractController
                 'transaction' => $transaction,
                 'access' => $access
             ]),
+            'blockId' => $blockId,
         ];
     }
 
@@ -126,7 +127,7 @@ class TransactionController extends AbstractController
             return 3;
         }
         if(!$transaction->getHonorairesPdfFilename()){
-            $transaction->setState('Honoraires | En attente du chargement du fichier Pdf');
+            $transaction->setState('Honoraires | En attente du chargement du fichier Pdf par l\'administrateur');
             $transaction->setStep(4);
             $this->entityManager->flush();
             return 4;
@@ -418,7 +419,7 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le RDV a été correctement enregistré.",
-            ], $this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig')), 200);
+            ], $this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig', 'Block_Appointment')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_appointmentForm.html.twig', [
@@ -499,7 +500,7 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le vendeur a été correctement modifié.",
-            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig')), 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig', 'Block_Appointment')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_appointmentForm.html.twig', [
@@ -637,12 +638,14 @@ class TransactionController extends AbstractController
                     'Ajout d\'un document sur une transaction.',
                     $transaction->getId(),
                 );
+            }else if($access === 'admin'){
+
             }
 
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_documents.html.twig')), 200);;
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_documents.html.twig', 'Block_Documents')), 200);;
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -784,7 +787,7 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_documents.html.twig')), 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_documents.html.twig', 'Block_Documents')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -805,7 +808,7 @@ class TransactionController extends AbstractController
 
         $data = json_decode($request->getContent(), true);
         $isValid = $data['option'] ?? null;
-        $message = $data['message'] ?? null;
+        $messageInvalid=$data['message'] ?? null;
         $typeDoc = explode('-', $file)[0];
         $message = '';
         $view = '';
@@ -818,30 +821,35 @@ class TransactionController extends AbstractController
                 $message = "Vous venez de valider la promesse de vente de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
             }elseif($typeDoc == 'fh'){
                 $transaction->setIsValidHonoraires(1);
                 $transaction->setHonorairesValidBy($this->getUser());
                 $message = "Vous venez de valider les honoraires de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_invoices.html.twig';
+                $block = 'Block_Invoices';
             }elseif($typeDoc == 'av'){
                 $transaction->setIsValidActepdf(1);
                 $transaction->setActeValidBy($this->getUser());
                 $message = "Vous venez de valider l'attestation de l'acte de vente de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
             }elseif($typeDoc == 'tf'){
                 $transaction->setIsValidtracfinPdf(1);
                 $transaction->setTracfinValidBy($this->getUser());
                 $message = "Vous venez de valider le tracFin de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
             }elseif($typeDoc == 'fact'){
                 $transaction->setIsValidInvoicepdf(1);
                 $transaction->setInvoiceValidBy($this->getUser());
                 $message = "Vous venez de valider la facture de la vente de votre collaborateur. <br>
                           Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_invoices.html.twig';
+                $block = 'Block_Invoices';
             }
             $project = $transactionService->calculateProject($transaction);
             $transaction->setProject($project);
@@ -868,15 +876,38 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => $message,
-            ],$this->returnView($transaction, $access, $view)), 200);
+            ],$this->returnView($transaction, $access, $view, $block)), 200);
         }elseif($isValid == 'invalidFile'){
 
+            if($typeDoc == 'cv') {
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'fh'){
+                $view = 'gestapp/transaction/show/_invoices.html.twig';
+                $block = 'Block_Invoices';
+            }elseif($typeDoc == 'av'){
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'tf'){
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'fact'){
+                $view = 'gestapp/transaction/show/_invoices.html.twig';
+                $block = 'Block_Invoices';
+            }
 
+            $this->emailService->submitEmailFromTransac(
+                $this->application->getAdminEmail(),
+                'Administrateur SoftPAPs',
+                $transaction->getRefEmployed()->getEmail(),
+                '[SoftPAPS Transaction] - Validation du document par nos services.',
+                $transaction->getId(),
+            );
 
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Traitement du document en suspens suite à son invalidation",
-            ],$this->returnView($transaction, $access, $view)), 200);
+            ],$this->returnView($transaction, $access, $view, $block)), 200);
         }
 
         if($typeDoc == 'cv') {
@@ -896,8 +927,6 @@ class TransactionController extends AbstractController
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
         $pathdir = "/properties/".$newref."/documents/".$fileName;
-
-
 
         return $this->json([
             'code'=> 200,
@@ -1029,7 +1058,7 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_invoices.html.twig')), 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_invoices.html.twig', 'Block_Invoices')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -1151,7 +1180,7 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_invoices.html.twig')), 200);
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_invoices.html.twig', 'Block_Invoices')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -3052,7 +3081,7 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le vendeur a été correctement modifié.",
-            ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig' )), 200);
+            ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers')), 200);
         }
 
         $view = $this->render('gestapp/customer/add.html.twig', [
@@ -3155,7 +3184,7 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le vendeur a été correctement modifié.",
-            ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig' )), 200);
+            ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers' )), 200);
         }
 
         // Affichage du formulaire de modification du client
@@ -3195,7 +3224,7 @@ class TransactionController extends AbstractController
                 'transaction' => $transaction,
                 'access' => $access
             ]),
-        ], $this->returnView($transaction, $access, 'gestapp/transaction/show/buyers.html.twig' )), 200);
+        ], $this->returnView($transaction, $access, 'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers')), 200);
     }
 
     #[Route('/delappointment/{id}/{appointment}', name: 'op_gestapp_transaction_delappointment',  methods: ['GET', 'POST'])]
@@ -3220,7 +3249,7 @@ class TransactionController extends AbstractController
         return $this->json(array_merge([
             'code' => 200,
             'message' => "L'acheteur a été retiré de la vente.",
-        ], $this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig')), 200);
+        ], $this->returnView($transaction, $access, 'gestapp/transaction/show/_appointment.html.twig', 'Block_Appointment')), 200);
     }
 
     #[Route('/delfile/{id}/{document}', name: 'op_gestapp_transaction_delfile',  methods: ['GET','POST'])]
@@ -3268,26 +3297,31 @@ class TransactionController extends AbstractController
             $transaction->setIsValidPromisepdf(0);
             $transaction->setPromiseValidBy(null);
             $transaction->setIsSupprPromisePdf(0);
+            $block = 'Block_Documents';
         }elseif($typeDoc == 'fh'){
             $transaction->setHonorairesPdfFilename(null);
             $transaction->setIsValidHonoraires(0);
             $transaction->setHonorairesValidBy(null);
             $transaction->setIsSupprHonorairesPdf(0);
+            $block = 'Block_Invoices';
         }elseif($typeDoc == 'av'){
             $transaction->setActePdfFilename(null);
             $transaction->setIsValidActepdf(0);
             $transaction->setActeValidBy(null);
             $transaction->setIsSupprActePdf(0);
+            $block = 'Block_Documents';
         }elseif($typeDoc == 'tf'){
             $transaction->setTracfinPdfFilename(null);
             $transaction->setIsValidtracfinPdf(0);
             $transaction->setTracfinValidBy(null);
             $transaction->setIsSupprTracfinPdf(0);
+            $block = 'Block_Documents';
         }elseif($typeDoc == 'fact'){
             $transaction->setInvoicePdfFilename(null);
             $transaction->setIsValidInvoicepdf(0);
             $transaction->setInvoiceValidBy(null);
             $transaction->setIsSupprInvoicePdf(0);
+            $block = 'Block_Invoices';
         }
         $em->flush();
 
@@ -3299,6 +3333,6 @@ class TransactionController extends AbstractController
         return $this->json(array_merge([
             'code' => 200,
             'message' => 'Le fichier a été correctement supprimé.',
-        ], $this->returnView($transaction, $access, $view)));
+        ], $this->returnView($transaction, $access, $view, $block)), 200);;
     }
 }

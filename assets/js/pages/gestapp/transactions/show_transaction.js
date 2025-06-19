@@ -210,12 +210,11 @@ export function initShowTransactionPage() {
             // Nouveau lien pour invalider le document
             const invalidateBtn = document.createElement('a');
             invalidateBtn.textContent = 'J\'invalide ce document';
-            modalEl.dataset.option = "invalidFile";
             invalidateBtn.href = url ; // adapte l’URL si nécessaire
             invalidateBtn.classList.add('btn', 'btn-sm','btn-danger', 'ms-2');
             invalidateBtn.addEventListener('click', function (e) {
                 e.preventDefault();
-
+                modalEl.dataset.option = "invalidFile";
                 // 1. Préparer le formulaire de refus
                 modalEl.querySelector('.modal-body').innerHTML = `
                     <div class="mb-3">
@@ -252,8 +251,9 @@ export function initShowTransactionPage() {
                 sendBtn.classList.add('btn', 'btn-sm', 'btn-danger');
                 sendBtn.addEventListener('click', () => {
                     const message = modalEl.querySelector('#refuseMessage').value;
+                    let option = modalEl.dataset.option;
                     let data = {'option': option, 'message':message};
-                    axios.post(url, { message })
+                    axios.post(url, data )
                         .then(() => {
                             bootstrap.Modal.getInstance(modalEl).hide();
                             toasterMessage('Le message a été envoyé au mandataire.');
@@ -391,7 +391,6 @@ export function initShowTransactionPage() {
                 ;
                 modalBs.hide();
             }else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
-                console.log('dans le vl:ock de suppression d\'une facture');
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
