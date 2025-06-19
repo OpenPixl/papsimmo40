@@ -89,11 +89,11 @@ class ftptransfertService
                 unset($fichiers[0], $fichiers[1]);
                 foreach($fichiers as $f)
                 {
-                    // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
-                    // Pour ne pas créer de dossier dans l’archive.
-                    if(!$zip->addFile($Rep.'/'.$f, $f))
-                    {
-                        dd('erreur');
+                    // Vérifie que le fichier a bien l'extension .xlsx (insensible à la casse)
+                    if (strtolower(pathinfo($f, PATHINFO_EXTENSION)) === 'csv') {
+                        if (!$zip->addFile($Rep . '/' . $f, $f)) {
+                            dd('Erreur lors de l\'ajout du fichier : ' . $f);
+                        }
                     }
                 }
                 $zip->close();
