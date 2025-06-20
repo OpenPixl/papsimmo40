@@ -304,7 +304,6 @@ export function initShowTransactionPage() {
             let action = form.action;
             let data = new FormData(form);
             if (listForm.includes(nameForm)) {
-                console.log('formulaire présent.');
                 axios
                     .post(action, data)
                     .then(function ({data}) {
@@ -317,7 +316,8 @@ export function initShowTransactionPage() {
                                 actionButtons: data.actionButtons,
                                 message: data.message
                             });
-                        }else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
+                        }
+                        else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
                             delete modal.dataset.deleteUrl;
                             updateTransactionView({
                                 viewTargetId: 'Block_Buyers',
@@ -328,7 +328,8 @@ export function initShowTransactionPage() {
                                 message: data.message
                             });
 
-                        }else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
+                        }
+                        else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
                             updateTransactionView({
                                 viewTargetId: 'Block_Documents',
                                 view: data.view,
@@ -375,7 +376,8 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
-            }else if(option !== null && (option === 'Prom' || option === 'Ac' || option === 'Tf')){
+            }                   // Soumission du formulaire RDV
+            else if(option !== null && (option === 'Prom' || option === 'Ac' || option === 'Tf')){
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
@@ -390,7 +392,8 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
-            }else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
+            }             // Soumission du Documents
+            else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
@@ -405,14 +408,14 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
-            }
+            }            // Soumission d'une facture
             else if(option !== null && option === 'validFile') {
                 let data = { 'option' : option};
                 axios
                     .post(btnSubmitModal.href, data)
                     .then(({data})=> {
                         updateTransactionView({
-                            viewTargetId: 'Block_Invoices',
+                            viewTargetId: data.blockId,
                             view: data.view,
                             state: data.state,
                             progress: data.progress,
@@ -422,7 +425,7 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
-            }
+            }                                               // Validation d'un fichier
             else{
                 axios
                     .post(btnSubmitModal.href)

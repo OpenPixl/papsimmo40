@@ -278,15 +278,16 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * Adds a new transaction for a given property.
+     * Ajoute une nouvelle transaction pour un bien donné.
      *
-     * This method creates a transaction for a specified property, provided
-     * the property is not already part of an ongoing transaction. It updates
-     * the property's transaction status, creates a corresponding transaction
-     * entity, and sends a notification email to administrative contacts.
+     * Cette méthode crée une transaction pour un bien spécifié, à condition que
+     * le bien ne fasse pas déjà partie d'une transaction en cours. Elle met à jour
+     * l'état de la transaction du bien, crée une entité de transaction correspondante
+     * Elle met à jour le statut de la transaction du bien, crée une entité de transaction correspondante et envoie un courriel de notification aux contacts administratifs.
      *
-     * If the property is already in a transaction, it redirects the user to
-     * the transaction index without creating another transaction.
+     * Si le bien fait déjà partie d'une transaction, il redirige l'utilisateur vers
+     * l'index de la transaction sans créer une autre transaction.
+     *
      *
      * @param Request $request Information about the current HTTP request.
      * @param int $idproperty The identifier of the property for which the transaction is being created.
@@ -3080,6 +3081,16 @@ class TransactionController extends AbstractController
             $em->flush();
 
             $this->step($transaction);
+
+            if($access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $transaction->getRefEmployed()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+                    $this->application->getAdminEmail(),
+                    '[SoftPAPs - Transaction] - Ajout d\'une date de RDV à un dossier.',
+                    $transaction->getId(),
+                );
+            }
 
             // liste tous les clients attachés à leur propriété
             $customers = $customerRepository->listbytransaction($transaction);
