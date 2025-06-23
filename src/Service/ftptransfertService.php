@@ -304,7 +304,7 @@ class ftptransfertService
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
         $nameRep = 'figaro';                     // Nom du dossier
-        $nameFile = '107428';               // Nom du Fichier sans extension
+        $nameFile = 'Annonces';               // Nom du Fichier sans extension
         $Rep = 'doc/report/figaro/';             // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content);
         $this->generateExcel($properties, $Rep, $nameFile);
