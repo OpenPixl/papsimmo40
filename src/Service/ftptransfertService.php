@@ -72,7 +72,7 @@ class ftptransfertService
 
     }
 
-    public function directoryZip($Rep, $nameRep, $nameFile, $content ){
+    public function directoryZip($Rep, $nameRep, $nameFile, $content, $nameFTP ){
         $zip = new \ZipArchive();                               // instanciation de la classe Zip
         $repFile = $Rep.$nameFile.'.csv';
 
@@ -85,7 +85,7 @@ class ftptransfertService
             }
             file_put_contents($repFile, $content);                  // Génération du fichier dans l'arborescence du fichiers du site
 
-            if($zip->open($nameRep.'.zip', ZipArchive::CREATE) == TRUE)
+            if($zip->open($nameFTP.'.zip', ZipArchive::CREATE) == TRUE)
             {
                 $fichiers = scandir($Rep);
                 unset($fichiers[0], $fichiers[1]);
@@ -99,7 +99,7 @@ class ftptransfertService
                     }
                 }
                 $zip->close();
-                rename($nameRep.'.zip', 'doc/report/'.$nameRep.'.zip');
+                rename($nameFTP.'.zip', 'doc/report/'.$nameFTP.'.zip');
             }else{
                 dd('Erreur');
             }
@@ -112,7 +112,7 @@ class ftptransfertService
             }
             file_put_contents($repFile, $content);                  // Génération du fichier dans l'arborescence du fichiers du site
 
-            if($zip->open($nameRep.'.zip', ZipArchive::CREATE) == TRUE)
+            if($zip->open($nameFTP.'.zip', ZipArchive::CREATE) == TRUE)
             {
                 $fichiers = scandir($Rep);
                 unset($fichiers[0], $fichiers[1]);
@@ -126,7 +126,7 @@ class ftptransfertService
                     }
                 }
                 $zip->close();
-                rename($nameRep.'.zip', 'doc/report/'.$nameRep.'.zip');
+                rename($nameFTP.'.zip', 'doc/report/'.$nameFTP.'.zip');
             }else{
                 dd('Erreur');
             }
@@ -212,7 +212,7 @@ class ftptransfertService
         $nameRep = 'Annonces';             // Nom du dossier
         $nameFile = 'RC-1860977';               // Nom du Fichier sans extension
         $Rep = 'doc/report/Annonces/';     // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "RC-1860977");
         $this->generateExcel($properties, $Rep, $nameFile);
     }
 
@@ -294,7 +294,6 @@ class ftptransfertService
             $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
             for ($i = 0; $i < count($data); $i++) {
-                //dd($data[$i+1]);
                 array_push($row, $data[$i+1]);
             }
             $rows[] = implode('!#', $row);
@@ -308,9 +307,9 @@ class ftptransfertService
         $nameRep = 'figaro';                     // Nom du dossier
         $nameFile = 'Annonces';               // Nom du Fichier sans extension
         $Rep = 'doc/report/figaro/';             // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $nameFTP = '107428';
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, $nameFTP);
         $this->generateExcel($properties, $Rep, $nameFile);
-
     }
 
     // Protocole de transfert des annonces pour la plateforme GreenACRES et VIZZIT - XML
@@ -658,7 +657,7 @@ class ftptransfertService
         $nameRep = 'Superimmo';                     // Nom du dossier
         $nameFile = 'paps_superimmo';               // Nom du Fichier sans extension
         $Rep = 'doc/report/Superimmo/';             // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "Superimmo");
         $this->generateExcel($properties, $Rep, $nameFile);
 
     }
@@ -756,7 +755,7 @@ class ftptransfertService
         $nameRep = 'Alentour';             // Nom du dossier
         $nameFile = 'paps_alentour';               // Nom du Fichier sans extension
         $Rep = 'doc/report/Alentour/';     // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "Alentour");
         $this->generateExcel($properties, $Rep, $nameFile);
     }
 
@@ -852,11 +851,11 @@ class ftptransfertService
         $Rep = 'doc/report/Htlouer/';     // nom du répertoire final
         if(is_dir($Rep))
         {
-            $this->directoryZip($Rep,$nameRep, $nameFile, $content);
+            $this->directoryZip($Rep,$nameRep, $nameFile, $content, "g46426");
         }else{
             // Création du répertoire s'il n'existe pas.
             mkdir($Rep."/", 0775, true);
-            $this->directoryZip($Rep,$nameRep, $nameFile, $content);
+            $this->directoryZip($Rep,$nameRep, $nameFile, $content, "Htlouer");;
         }
         $this->generateExcel($properties, $Rep, $nameFile);
     }
@@ -954,7 +953,7 @@ class ftptransfertService
         $nameRep = 'ubiflow';                           // Nom du dossier
         $nameFile = 'ubiflow';                          // Nom du Fichier sans extension
         $Rep = 'doc/report/ubiflow/';                   // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "ubiflow");
         $this->generateExcel($properties, $Rep, $nameFile);
     }
 
@@ -1051,7 +1050,7 @@ class ftptransfertService
         $nameRep = 'lcdcm';                     // Nom du dossier
         $nameFile = 'paps_lcdcm';               // Nom du Fichier sans extension
         $Rep = 'doc/report/lcdcm/';             // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "lcdcm");
         $this->generateExcel($properties, $Rep, $nameFile);
     }
 
@@ -1148,102 +1147,7 @@ class ftptransfertService
         $nameRep = 'monbien';                     // Nom du dossier
         $nameFile = 'paps_monbien';               // Nom du Fichier sans extension
         $Rep = 'doc/report/monbien/';             // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "monbien");
         $this->generateExcel($properties, $Rep, $nameFile);
-    }
-
-    // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.12
-    public function createfileForFTPTransfert(
-        PropertyRepository $propertyRepository,
-        PhotoRepository $photoRepository,
-        ComplementRepository $complementRepository,
-        $diffuseur,
-    )
-    {
-        $request = $this->requestStack->getCurrentRequest();
-        $properties = $propertyRepository->reportpropertycsv4($diffuseur);            // On récupère les biens à publier sur SeLoger
-
-        $rows = array();
-        foreach ($properties as $property){
-            $propriete = $propertyRepository->find($property['id']);
-            //destination du bien
-            $destination = $this->propertyService->getDestination($propriete);
-            $energies = $this->propertyService->getEnergies($propriete);
-            // Description de l'annonce
-            $annonce = $this->propertyService->getAnnonce($propriete);
-            //dd($annonce);
-
-
-            $dates = $this->propertyService->getDates($property);
-
-            // Calcul des honoraires en %
-            //$honoraires = round(100 - (($property['price'] * 100) / $property['priceFai']), 2);
-            //dd($property['price'], $property['priceFai'], $honoraires);
-
-            // Récupération des images liées au bien
-            $url = $this->propertyService->getUrlPhotos($property);
-            $titrephoto = $this->propertyService->getTitrePhotos($property);
-
-            // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
-
-            // publication sur les réseaux
-            $publications = 'HT';
-            // version du document
-            $version = '4.12';
-
-            // Transformation terrace en booléen
-            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
-            $infos = ['refDossier' => 'g46426', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
-
-            // Equipements
-            $complement = $propriete->getComplement();
-
-            // Récupération DPE & GES
-            $bilanDpe = $this->propertyService->getClasseDpe($propriete);
-            $bilanGes = $this->propertyService->getClasseGes($propriete);
-            if($bilanGes > $bilanDpe){
-                $bilanDpe = $bilanGes;
-            }
-
-            // Création d'une ligne du tableau
-            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
-            $row = [];
-            for ($i = 0; $i < count($data); $i++) {
-                //dd($data[$i+1]);
-                array_push($row, $data[$i+1]);
-            }
-            $rows[] = implode('!#', $row);
-        }
-        $content = implode("\n", $rows);
-
-        // PARTIE II : Génération du dossier et création fichier CSV
-        // ---------------------------------------------------------
-        $nameRep = 'AnnoncesHtlouer';             // Nom du dossier
-        $nameFile = 'g46426';               // Nom du Fichier sans extension
-        $Rep = 'doc/report/AnnoncesHtlouer/';     // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
-        $this->generateExcel($properties, $Rep, $nameFile);
-
     }
 }
