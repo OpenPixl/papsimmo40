@@ -79,12 +79,6 @@ class PublicationController extends AbstractController
             // mettre la propriété en fin de parcours création
             $property->setIsIncreating(0);
             $propertyRepository->add($property);
-            // Service de dépot sur serveur le serveur FTP "SeLoger"
-            $ftptransfertService->selogerFTP(
-                $propertyRepository,
-                $photoRepository,
-                $complementRepository,
-            );
             // Service de dépot sur serveur le serveur FTP "figaroImmo"
             $ftptransfertService->figaroFTP(
                 $propertyRepository,

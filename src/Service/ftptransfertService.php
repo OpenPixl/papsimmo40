@@ -75,6 +75,8 @@ class ftptransfertService
     public function directoryZip($Rep, $nameRep, $nameFile, $content ){
         $zip = new \ZipArchive();                               // instanciation de la classe Zip
         $repFile = $Rep.$nameFile.'.csv';
+
+
         if(is_dir($Rep)) {
             if(file_exists($repFile))
             {
@@ -83,7 +85,7 @@ class ftptransfertService
             }
             file_put_contents($repFile, $content);                  // Génération du fichier dans l'arborescence du fichiers du site
 
-            if($zip->open($nameFile.'.zip', ZipArchive::CREATE) == TRUE)
+            if($zip->open($nameRep.'.zip', ZipArchive::CREATE) == TRUE)
             {
                 $fichiers = scandir($Rep);
                 unset($fichiers[0], $fichiers[1]);
@@ -97,7 +99,7 @@ class ftptransfertService
                     }
                 }
                 $zip->close();
-                rename($nameFile.'.zip', 'doc/report/'.$nameFile.'.zip');
+                rename($nameRep.'.zip', 'doc/report/'.$nameRep.'.zip');
             }else{
                 dd('Erreur');
             }
@@ -110,21 +112,21 @@ class ftptransfertService
             }
             file_put_contents($repFile, $content);                  // Génération du fichier dans l'arborescence du fichiers du site
 
-            if($zip->open($nameFile.'.zip', ZipArchive::CREATE) == TRUE)
+            if($zip->open($nameRep.'.zip', ZipArchive::CREATE) == TRUE)
             {
                 $fichiers = scandir($Rep);
                 unset($fichiers[0], $fichiers[1]);
                 foreach($fichiers as $f)
                 {
-                    // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
-                    // Pour ne pas créer de dossier dans l’archive.
-                    if(!$zip->addFile($Rep.'/'.$f, $f))
-                    {
-                        dd('erreur');
+                    // Vérifie que le fichier a bien l'extension .xlsx (insensible à la casse)
+                    if (strtolower(pathinfo($f, PATHINFO_EXTENSION)) === 'csv') {
+                        if (!$zip->addFile($Rep . '/' . $f, $f)) {
+                            dd('Erreur lors de l\'ajout du fichier : ' . $f);
+                        }
                     }
                 }
                 $zip->close();
-                rename($nameFile.'.zip', 'doc/report/'.$nameFile.'.zip');
+                rename($nameRep.'.zip', 'doc/report/'.$nameRep.'.zip');
             }else{
                 dd('Erreur');
             }
