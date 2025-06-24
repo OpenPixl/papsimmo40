@@ -405,7 +405,7 @@ class PropertyService
             }elseif($property['rubric'] == 'Location'){
                 $bien = $property['rubricss'];
             }elseif($property['rubric'] == 'Investissement'){
-                $bien = 'local';
+                $bien = 'Local';
             }else{
                 $bien = $property['rubric'];
             }
