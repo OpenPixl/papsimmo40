@@ -404,6 +404,8 @@ class PropertyService
                 $bien = 'Parking/box';
             }elseif($property['rubric'] == 'Location'){
                 $bien = $property['rubricss'];
+            }elseif($property['rubric'] == 'Investissement'){
+                $bien = 'local';
             }else{
                 $bien = $property['rubric'];
             }
