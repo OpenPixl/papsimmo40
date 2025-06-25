@@ -26,11 +26,6 @@ export function initShowTransactionPage() {
             delete modal.dataset.deleteUrl;
         }
 
-        const option = modalEl.dataset.option;
-        if (option) {
-            delete modal.dataset.option;
-        }
-
         modalEl.querySelector('.modal-dialog').classList.remove('modal-lg', 'modal-xl');
         modalEl.querySelector('.modal-body').innerHTML = `
               <div class="d-flex justify-content-center">
@@ -299,6 +294,7 @@ export function initShowTransactionPage() {
 
     function submitModal(e) {
         e.preventDefault();
+        delete modal.dataset.deleteUrl;
 
         const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit'];
         const list = ['dateAtPromise', 'dateAtActe', 'Promise', 'valid'];
@@ -323,7 +319,6 @@ export function initShowTransactionPage() {
                             });
                         }
                         else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
-                            delete modal.dataset.deleteUrl;
                             updateTransactionView({
                                 viewTargetId: 'Block_Buyers',
                                 view: data.view,
@@ -365,7 +360,6 @@ export function initShowTransactionPage() {
         else {
             let option = modalEl.dataset.option;
             let url = e.currentTarget.href;
-            console.log(url);
             // Soumission du formulaire pour signature de document
             if (option !== null && (option === 'dateAtActe' || option === 'dateAtPromise')){
                 delete modal.dataset.option;
@@ -459,11 +453,6 @@ export function initShowTransactionPage() {
         }
     }
 
-    function delDocuments(e){
-        e.preventDefault();
-
-    }
-
 
     function updateTransactionView({viewTargetId, view, state, message, progress, actionButtons}) {
         // Bloc principal à modifier
@@ -480,14 +469,13 @@ export function initShowTransactionPage() {
         }
         // Bloc des actions sur la page
         if (actionButtons !== undefined) {
-            document.getElementById('block_buttons').innerHTML = actionButtons	;
+            document.getElementById('block_buttons').innerHTML = actionButtons;
         }
         // tosater message
         if (message) {
             toasterMessage(message);
         }
         declareEvent(); // réappliquer les événements
-        modalBs.hide(); // fermer la modal
     }
 
     function declareEvent() {
@@ -502,6 +490,5 @@ export function initShowTransactionPage() {
             btnSubmitModal.addEventListener('click', submitModal);
         }
     }
-
     declareEvent();
 }

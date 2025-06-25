@@ -23,8 +23,6 @@
                 <p class="mb-0">
                     {% if access == "edit" %}
                         <a href="{{ path('op_gestapp_transaction_editcustomerjson', {'id': transaction.id, 'buyer': customer.id}) }}" class="text-info openModal" data-bs-data="EDITBUYERS-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        {% endif %}
                     {% else %}
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <a href="{{ path('op_gestapp_transaction_editcustomerjson', {'id': transaction.id, 'buyer': customer.id}) }}" class="text-info openModal" data-bs-data="EDITBUYERS-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a> |

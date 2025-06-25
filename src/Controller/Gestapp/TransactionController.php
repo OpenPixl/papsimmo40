@@ -54,7 +54,7 @@ class TransactionController extends AbstractController
         public PhotoRepository $photoRepository,
     )
     {
-        $this->submit = false; // Initialisation de la variable $public
+        $this->submit = true; // Initialisation de la variable $public
         $this->application = $entityManager->getRepository(Application::class)->find(1);
     }
 
@@ -409,12 +409,12 @@ class TransactionController extends AbstractController
             $em->flush();
 
             $this->step($transaction);
-            if($this->submit == true && $access === 'edit'){
+            if($this->submit === true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
-                    $this->getUser()->getEmail(),
+                    $transaction->getRefEmployed()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                     $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Ajout d\'une date de RDV à un dossier.',
+                    '[SoftPAPs - Transaction] - Ajout d\'une date de signature au dossier de vente :'.$transaction->getName().'.',
                     $transaction->getId(),
                 );
             }
@@ -633,16 +633,14 @@ class TransactionController extends AbstractController
                 $this->step($transaction);
             }
 
-            if($this->submit == true && $access === 'edit'){
+            if($this->submit === true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
-                    $this->getUser()->getEmail(),
-                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
+                    $transaction->getRefEmployed()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                     $this->application->getAdminEmail(),
-                    'Ajout d\'un document sur une transaction.',
+                    '[SoftPAPs - Transaction] - Ajout d\'un document au dossier de vente :'.$transaction->getName().'.',
                     $transaction->getId(),
                 );
-            }else if($this->submit == true && $access === 'admin'){
-
             }
 
             return $this->json(array_merge([
@@ -1054,12 +1052,12 @@ class TransactionController extends AbstractController
                 $em->flush();
                 $this->step($transaction);
 
-                if($this->submit == true && $access === 'edit'){
+                if($this->submit === true && $access === 'edit'){
                     $this->emailService->submitEmailFromTransac(
-                        $this->getUser()->getEmail(),
-                        $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
+                        $transaction->getRefEmployed()->getEmail(),
+                        $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                         $this->application->getAdminEmail(),
-                        'Ajout d\'une facture sur une transaction.',
+                        '[SoftPAPs - Transaction] - Ajout d\'une facture au dossier de vente :'.$transaction->getName().'.',
                         $transaction->getId(),
                     );
                 }
@@ -3005,7 +3003,6 @@ class TransactionController extends AbstractController
         $customer->addTransaction($transaction);
         $em->persist($customer);
         $em->flush();
-        //dd($transaction);
 
         $form = $this->createForm(CustomerType::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
@@ -3086,12 +3083,12 @@ class TransactionController extends AbstractController
 
             $this->step($transaction);
 
-            if($this->submit == true && $access === 'edit'){
+            if($this->submit === true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
                     $transaction->getRefEmployed()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                     $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Ajout d\'une date de RDV à un dossier.',
+                    '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente :'.$transaction->getName().'.',
                     $transaction->getId(),
                 );
             }
@@ -3101,7 +3098,7 @@ class TransactionController extends AbstractController
 
             return $this->json(array_merge([
                 'code'=> 200,
-                'message' => "Le vendeur a été correctement modifié.",
+                'message' => "Le vendeur a été correctement ajouté au dossier de vente.",
             ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers')), 200);
         }
 
@@ -3209,12 +3206,12 @@ class TransactionController extends AbstractController
 
             $this->step($transaction);
 
-            if($this->submit == true && $access === 'edit'){
+            if($this->submit === true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
                     $transaction->getRefEmployed()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                     $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Ajout d\'une date de RDV à un dossier.',
+                    '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente :'.$transaction->getName().'.',
                     $transaction->getId(),
                 );
             }
