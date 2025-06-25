@@ -26,6 +26,11 @@ export function initShowTransactionPage() {
             delete modal.dataset.deleteUrl;
         }
 
+        const option = modalEl.dataset.option;
+        if (option) {
+            delete modal.dataset.option;
+        }
+
         modalEl.querySelector('.modal-dialog').classList.remove('modal-lg', 'modal-xl');
         modalEl.querySelector('.modal-body').innerHTML = `
               <div class="d-flex justify-content-center">
@@ -349,8 +354,6 @@ export function initShowTransactionPage() {
                                 message: data.message
                             });
                         }
-                        toasterMessage(data.message);
-                        declareEvent();
                     })
                     .catch(function (error) {
                         console.log('error', error);
@@ -361,10 +364,13 @@ export function initShowTransactionPage() {
         }
         else {
             let option = modalEl.dataset.option;
+            let url = e.currentTarget.href;
+            console.log(url);
             // Soumission du formulaire pour signature de document
             if (option !== null && (option === 'dateAtActe' || option === 'dateAtPromise')){
+                delete modal.dataset.option;
                 axios
-                    .post(btnSubmitModal.href)
+                    .post(url)
                     .then(({data}) => {
                         updateTransactionView({
                             viewTargetId: 'Block_Appointment',
@@ -374,16 +380,17 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
-                        declareEvent();
                     })
                 ;
+
                 modalBs.hide();
             }
             // Suppression d'un document de vente présent dans le dossier
             else if(option !== null && (option === 'Prom' || option === 'Ac' || option === 'Tf')){
                 axios
-                    .post(btnSubmitModal.href)
+                    .post(url)
                     .then(({data}) => {
+                        delete modal.dataset.option;
                         updateTransactionView({
                             viewTargetId: 'Block_Documents',
                             view: data.view,
@@ -392,7 +399,6 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
-                        declareEvent();
                     })
                 ;
                 modalBs.hide();
@@ -400,8 +406,9 @@ export function initShowTransactionPage() {
             // Suppression d'une facturation présente dans le dossier
             else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
                 axios
-                    .post(btnSubmitModal.href)
+                    .post(url)
                     .then(({data}) => {
+                        delete modal.dataset.option;
                         updateTransactionView({
                             viewTargetId: 'Block_Invoices',
                             view: data.view,
@@ -410,7 +417,6 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
-                        declareEvent();
                     })
                 ;
                 modalBs.hide();
@@ -419,8 +425,9 @@ export function initShowTransactionPage() {
             else if(option !== null && option === 'validFile') {
                 let data = { 'option' : option};
                 axios
-                    .post(btnSubmitModal.href, data)
+                    .post(url, data)
                     .then(({data})=> {
+                        delete modal.dataset.option;
                         updateTransactionView({
                             viewTargetId: data.blockId,
                             view: data.view,
@@ -429,14 +436,13 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
-                        declareEvent();
                     })
                 ;
                 modalBs.hide();
             }
             else{
                 axios
-                    .post(btnSubmitModal.href)
+                    .post(url)
                     .then(({data}) => {
                         updateTransactionView({
                             viewTargetId: 'Block_Buyers',
@@ -446,12 +452,16 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
-                        declareEvent();
                     })
                 ;
                 modalBs.hide();
             }
         }
+    }
+
+    function delDocuments(e){
+        e.preventDefault();
+
     }
 
 
