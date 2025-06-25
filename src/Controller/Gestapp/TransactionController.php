@@ -54,7 +54,7 @@ class TransactionController extends AbstractController
         public PhotoRepository $photoRepository,
     )
     {
-        $this->submit = true; // Initialisation de la variable $public
+        $this->submit = false; // Initialisation de la variable $public
         $this->application = $entityManager->getRepository(Application::class)->find(1);
     }
 
@@ -278,15 +278,16 @@ class TransactionController extends AbstractController
     }
 
     /**
-     * Adds a new transaction for a given property.
+     * Ajoute une nouvelle transaction pour un bien donné.
      *
-     * This method creates a transaction for a specified property, provided
-     * the property is not already part of an ongoing transaction. It updates
-     * the property's transaction status, creates a corresponding transaction
-     * entity, and sends a notification email to administrative contacts.
+     * Cette méthode crée une transaction pour un bien spécifié, à condition que
+     * le bien ne fasse pas déjà partie d'une transaction en cours. Elle met à jour
+     * l'état de la transaction du bien, crée une entité de transaction correspondante
+     * Elle met à jour le statut de la transaction du bien, crée une entité de transaction correspondante et envoie un courriel de notification aux contacts administratifs.
      *
-     * If the property is already in a transaction, it redirects the user to
-     * the transaction index without creating another transaction.
+     * Si le bien fait déjà partie d'une transaction, il redirige l'utilisateur vers
+     * l'index de la transaction sans créer une autre transaction.
+     *
      *
      * @param Request $request Information about the current HTTP request.
      * @param int $idproperty The identifier of the property for which the transaction is being created.
@@ -331,13 +332,15 @@ class TransactionController extends AbstractController
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
 
-        $this->emailService->submitEmailFromTransac(
-            'contact@papsimmo.fr',
-            'SoftPAPs',
-            $this->application->getAdminEmail(),
-            '[SoftPAPs] Un nouveau dossier de transaction a été ouvert sur SoftPAPs.',
-            $transaction->getId()
-        );
+        if($this->submit == true){
+            $this->emailService->submitEmailFromTransac(
+                'contact@papsimmo.fr',
+                'SoftPAPs',
+                $this->application->getAdminEmail(),
+                '[SoftPAPs] Un nouveau dossier de transaction a été ouvert sur SoftPAPs.',
+                $transaction->getId()
+            );
+        }
 
         return $this->redirectToRoute('op_gestapp_transaction_show', [
             'id' => $transaction->getId()
@@ -406,7 +409,7 @@ class TransactionController extends AbstractController
             $em->flush();
 
             $this->step($transaction);
-            if($access === 'edit'){
+            if($this->submit == true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
                     $this->getUser()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
@@ -487,7 +490,7 @@ class TransactionController extends AbstractController
             $transaction->setProject($project);
             $em->flush();
 
-            if($access === 'edit'){
+            if($this->submit == true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
                     $this->getUser()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
@@ -630,7 +633,7 @@ class TransactionController extends AbstractController
                 $this->step($transaction);
             }
 
-            if($access === 'edit'){
+            if($this->submit == true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
                     $this->getUser()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
@@ -638,7 +641,7 @@ class TransactionController extends AbstractController
                     'Ajout d\'un document sur une transaction.',
                     $transaction->getId(),
                 );
-            }else if($access === 'admin'){
+            }else if($this->submit == true && $access === 'admin'){
 
             }
 
@@ -773,7 +776,7 @@ class TransactionController extends AbstractController
                 $em->flush();
             }
 
-            if($access === 'edit'){
+            if($this->submit == true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
                     $this->getUser()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
@@ -856,7 +859,7 @@ class TransactionController extends AbstractController
             $em->flush();
             $this->step($transaction);
 
-            if($access == "admin"){
+            if($this->submit == true && $access == "admin"){
                 $this->emailService->submitEmailFromTransac(
                     $this->application->getAdminEmail(),
                     'Administrateur SoftPAPs',
@@ -902,13 +905,15 @@ class TransactionController extends AbstractController
             $transaction->setNotes($messageInvalid);
             $em->flush();
 
-            $this->emailService->submitEmailFromTransac(
-                $this->application->getAdminEmail(),
-                'Administrateur SoftPAPs',
-                $transaction->getRefEmployed()->getEmail(),
-                '[SoftPAPS Transaction] - Invalidation du document par nos services.',
-                $transaction->getId(),
-            );
+            if($this->submit == true){
+                $this->emailService->submitEmailFromTransac(
+                    $this->application->getAdminEmail(),
+                    'Administrateur SoftPAPs',
+                    $transaction->getRefEmployed()->getEmail(),
+                    '[SoftPAPS Transaction] - Invalidation du document par nos services.',
+                    $transaction->getId(),
+                );
+            }
 
             return $this->json(array_merge([
                 'code'=> 200,
@@ -1022,7 +1027,7 @@ class TransactionController extends AbstractController
                 $em->flush();
                 $this->step($transaction);
 
-                if($access === 'admin'){
+                if($this->submit == true && $access === 'admin'){
                     $this->emailService->submitEmailFromTransac(
                         $this->application->getAdminEmail(),
                         "Administrateur SoftPAPs",
@@ -1049,7 +1054,7 @@ class TransactionController extends AbstractController
                 $em->flush();
                 $this->step($transaction);
 
-                if($access === 'edit'){
+                if($this->submit == true && $access === 'edit'){
                     $this->emailService->submitEmailFromTransac(
                         $this->getUser()->getEmail(),
                         $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
@@ -1059,7 +1064,6 @@ class TransactionController extends AbstractController
                     );
                 }
             }
-
 
             return $this->json(array_merge([
                 'code'=> 200,
@@ -1173,7 +1177,7 @@ class TransactionController extends AbstractController
                 $em->flush();
             }
 
-            if($access === 'edit'){
+            if($this->submit == true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
                     $this->getUser()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
@@ -3001,6 +3005,7 @@ class TransactionController extends AbstractController
         $customer->addTransaction($transaction);
         $em->persist($customer);
         $em->flush();
+        //dd($transaction);
 
         $form = $this->createForm(CustomerType::class, $customer, [
             'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
@@ -3080,6 +3085,16 @@ class TransactionController extends AbstractController
             $em->flush();
 
             $this->step($transaction);
+
+            if($this->submit == true && $access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $transaction->getRefEmployed()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+                    $this->application->getAdminEmail(),
+                    '[SoftPAPs - Transaction] - Ajout d\'une date de RDV à un dossier.',
+                    $transaction->getId(),
+                );
+            }
 
             // liste tous les clients attachés à leur propriété
             $customers = $customerRepository->listbytransaction($transaction);
@@ -3186,6 +3201,23 @@ class TransactionController extends AbstractController
 
             $customer->setFinished(1);
             $customerRepository->add($customer);
+
+            $this->step($transaction);
+            $project = $this->transactionService->calculateProject($transaction);
+            $transaction->setProject($project);
+            $customerRepository->add($customer);
+
+            $this->step($transaction);
+
+            if($this->submit == true && $access === 'edit'){
+                $this->emailService->submitEmailFromTransac(
+                    $transaction->getRefEmployed()->getEmail(),
+                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+                    $this->application->getAdminEmail(),
+                    '[SoftPAPs - Transaction] - Ajout d\'une date de RDV à un dossier.',
+                    $transaction->getId(),
+                );
+            }
 
             return $this->json(array_merge([
                 'code'=> 200,

@@ -304,7 +304,6 @@ export function initShowTransactionPage() {
             let action = form.action;
             let data = new FormData(form);
             if (listForm.includes(nameForm)) {
-                console.log('formulaire présent.');
                 axios
                     .post(action, data)
                     .then(function ({data}) {
@@ -317,7 +316,8 @@ export function initShowTransactionPage() {
                                 actionButtons: data.actionButtons,
                                 message: data.message
                             });
-                        }else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
+                        }
+                        else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
                             delete modal.dataset.deleteUrl;
                             updateTransactionView({
                                 viewTargetId: 'Block_Buyers',
@@ -328,7 +328,8 @@ export function initShowTransactionPage() {
                                 message: data.message
                             });
 
-                        }else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
+                        }
+                        else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
                             updateTransactionView({
                                 viewTargetId: 'Block_Documents',
                                 view: data.view,
@@ -360,6 +361,7 @@ export function initShowTransactionPage() {
         }
         else {
             let option = modalEl.dataset.option;
+            // Soumission du formulaire pour signature de document
             if (option !== null && (option === 'dateAtActe' || option === 'dateAtPromise')){
                 axios
                     .post(btnSubmitModal.href)
@@ -372,10 +374,13 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
-            }else if(option !== null && (option === 'Prom' || option === 'Ac' || option === 'Tf')){
+            }
+            // Suppression d'un document de vente présent dans le dossier
+            else if(option !== null && (option === 'Prom' || option === 'Ac' || option === 'Tf')){
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
@@ -387,10 +392,13 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
-            }else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
+            }
+            // Suppression d'une facturation présente dans le dossier
+            else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
                 axios
                     .post(btnSubmitModal.href)
                     .then(({data}) => {
@@ -402,23 +410,26 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
             }
+            // procédure de validation d'un document fournis par le mandataire
             else if(option !== null && option === 'validFile') {
                 let data = { 'option' : option};
                 axios
                     .post(btnSubmitModal.href, data)
                     .then(({data})=> {
                         updateTransactionView({
-                            viewTargetId: 'Block_Invoices',
+                            viewTargetId: data.blockId,
                             view: data.view,
                             state: data.state,
                             progress: data.progress,
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
@@ -435,11 +446,11 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
             }
-
         }
     }
 

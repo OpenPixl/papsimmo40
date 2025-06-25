@@ -59,6 +59,7 @@ class EmailService
         } catch (TransportExceptionInterface $e) {
             // some error prevented the email sending; display an
             // error message or try to resend the message
+
             dd($e);
         }
     }

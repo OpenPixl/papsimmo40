@@ -7,7 +7,8 @@
             <a href="{{ url('op_webapp_public_homepage') }}">
                 <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
             </a>
-            {% set step_date = [0,1,6] %}
+            {% set step_ouverture = [0] %}
+            {% set step_date = [1,6] %}
             {% set step_document = [2,7] %}
             {% set step_attente = [4,9,11] %}
 
@@ -28,6 +29,12 @@
                 {% if transaction.step == 0 %}
                     <p>
                         L'un de vos collaborateur à ouvert une nouvelle transaction immobilière : {{ transaction.name }}.<br>
+                        Cette démarche ne requiert aucune intervention de votre part.
+                    </p>
+                {% elseif transaction.step == 0 and transaction.customer|length > 0 %}
+                    <p>
+                        Dans le cadre de la transaction immobilière {{ transaction.name }}, un acheteur a été lié au dossier.
+                        <br>
                         Cette démarche ne requiert aucune intervention de votre part.
                     </p>
                 {% elseif transaction.step in step_date %}

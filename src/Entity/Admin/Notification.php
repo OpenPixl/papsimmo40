@@ -21,6 +21,9 @@ class Notification
     #[ORM\Column]
     private ?bool $isConnectedAt = false;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $service = null;
+
     #[ORM\Column]
     private ?bool $isApi = false;
 
@@ -35,6 +38,8 @@ class Notification
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $session = null;
+
+
 
     public function getId(): ?int
     {
@@ -122,6 +127,18 @@ class Notification
     public function setSession(?string $session): static
     {
         $this->session = $session;
+
+        return $this;
+    }
+
+    public function getService(): ?string
+    {
+        return $this->service;
+    }
+
+    public function setService(?string $service): static
+    {
+        $this->service = $service;
 
         return $this;
     }
