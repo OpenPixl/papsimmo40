@@ -361,6 +361,7 @@ export function initShowTransactionPage() {
         }
         else {
             let option = modalEl.dataset.option;
+            // Soumission du formulaire pour signature de document
             if (option !== null && (option === 'dateAtActe' || option === 'dateAtPromise')){
                 axios
                     .post(btnSubmitModal.href)
@@ -373,10 +374,12 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
-            }                   // Soumission du formulaire RDV
+            }
+            // Suppression d'un document de vente présent dans le dossier
             else if(option !== null && (option === 'Prom' || option === 'Ac' || option === 'Tf')){
                 axios
                     .post(btnSubmitModal.href)
@@ -389,10 +392,12 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
-            }             // Soumission du Documents
+            }
+            // Suppression d'une facturation présente dans le dossier
             else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
                 axios
                     .post(btnSubmitModal.href)
@@ -405,10 +410,12 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
-            }            // Soumission d'une facture
+            }
+            // procédure de validation d'un document fournis par le mandataire
             else if(option !== null && option === 'validFile') {
                 let data = { 'option' : option};
                 axios
@@ -422,10 +429,11 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
-            }                                               // Validation d'un fichier
+            }
             else{
                 axios
                     .post(btnSubmitModal.href)
@@ -438,11 +446,11 @@ export function initShowTransactionPage() {
                             actionButtons: data.actionButtons,
                             message: data.message
                         });
+                        declareEvent();
                     })
                 ;
                 modalBs.hide();
             }
-
         }
     }
 

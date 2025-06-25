@@ -14,6 +14,7 @@ use App\Repository\Gestapp\choice\CustomerChoiceRepository;
 use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\TransactionRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -31,10 +32,12 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 class CustomerController extends AbstractController
 {
     private $router;
+    private EmailService $emailService;
 
-    public function __construct(RouterInterface $router)
+    public function __construct(RouterInterface $router, EmailService $emailService)
     {
         $this->router = $router;
+        $this->emailService = $emailService;
     }
 
     #[Route('/renamedir', name: 'op_gestapp_customer_renamedir',  methods: ['GET', 'POST'])]
