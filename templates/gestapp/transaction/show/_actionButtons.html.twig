@@ -3,12 +3,19 @@
 {% set stepInvoiceActive = [4,9,11] %}
 <div class="col-6 justify-content-end" id="btnsTransaction">
     <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal " data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
-    <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepRdvActive %}{% if transaction.customer|length > 0 %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %}{% else %}btn-outline-secondary disabled{% endif %} openModal" data-bs-data="ADDAPPOINTMENT-Ajouter une date"><i class="fa-duotone fa-light fa-plus"></i> Date de RDV</a>
+    <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="btn btn-sm
+        {% if transaction.step in stepRdvActive %}
+            {% if transaction.customer|length > 0 %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %}
+        {% else %}btn-outline-secondary disabled{% endif %} openModal" data-bs-data="ADDAPPOINTMENT-Ajouter une date">
+        <i class="fa-duotone fa-light fa-plus"></i> Date de RDV
+    </a>
     <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
     <a href="{{ path('op_gestapp_transaction_addinvoices', {'id': transaction.id }) }}" class="btn btn-sm
         {% if transaction.step in stepInvoiceActive %}
             {% if transaction.step == 4 and access == 'edit' %}btn-outline-secondary disabled{% else %}btn-outline-dark{% endif %}
-        {% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDINVOICES-Ajouter une facture"><i class="fa-duotone fa-light fa-plus"></i> Factures</a>
+        {% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDINVOICES-Ajouter une facture">
+        <i class="fa-duotone fa-light fa-plus"></i> Factures
+    </a>
     {{ transaction.step }}
 </div>
 <div class="col-6 d-flex align-items-center justify-content-end">

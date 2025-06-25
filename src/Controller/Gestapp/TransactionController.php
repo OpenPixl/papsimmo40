@@ -822,35 +822,35 @@ class TransactionController extends AbstractController
                 $transaction->setIsValidPromisepdf(1);
                 $transaction->setPromiseValidBy($this->getUser());
                 $message = "Vous venez de valider la promesse de vente de votre collaborateur. <br>
-                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
                 $block = 'Block_Documents';
             }elseif($typeDoc == 'fh'){
                 $transaction->setIsValidHonoraires(1);
                 $transaction->setHonorairesValidBy($this->getUser());
                 $message = "Vous venez de valider les honoraires de votre collaborateur. <br>
-                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_invoices.html.twig';
                 $block = 'Block_Invoices';
             }elseif($typeDoc == 'av'){
                 $transaction->setIsValidActepdf(1);
                 $transaction->setActeValidBy($this->getUser());
                 $message = "Vous venez de valider l'attestation de l'acte de vente de votre collaborateur. <br>
-                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
                 $block = 'Block_Documents';
             }elseif($typeDoc == 'tf'){
                 $transaction->setIsValidtracfinPdf(1);
                 $transaction->setTracfinValidBy($this->getUser());
                 $message = "Vous venez de valider le tracFin de votre collaborateur. <br>
-                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
                 $block = 'Block_Documents';
             }elseif($typeDoc == 'fact'){
                 $transaction->setIsValidInvoicepdf(1);
                 $transaction->setInvoiceValidBy($this->getUser());
                 $message = "Vous venez de valider la facture de la vente de votre collaborateur. <br>
-                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.";
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_invoices.html.twig';
                 $block = 'Block_Invoices';
             }
