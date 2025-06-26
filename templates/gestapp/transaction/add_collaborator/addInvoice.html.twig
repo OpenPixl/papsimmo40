@@ -1,5 +1,6 @@
 <div>
     {{ form_start(form) }}
+    {{ form_label(form.invoicePdfFilename) }}
     {{ form_widget(form.invoicePdfFilename, {'attr': {'class':'form-control form-control-sm w-100'}}) }}
     {{ form_end(form) }}
 </div>

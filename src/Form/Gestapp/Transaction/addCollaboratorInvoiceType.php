@@ -16,7 +16,7 @@ class addCollaboratorInvoiceType extends AbstractType
     {
         $builder
             ->add('invoicePdfFilename', FileType::class,[
-                'label' => "Déposer votre facture, le fichier \"PDF\" ne doit pas dépasser 10Mo de taille",
+                'label' => "Déposer votre facture de collaborateur sur ce dossier, le fichier \"PDF\" ne doit pas dépasser 10Mo de taille",
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

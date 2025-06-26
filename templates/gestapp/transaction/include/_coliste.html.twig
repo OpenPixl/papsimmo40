@@ -64,7 +64,7 @@
                             Action
                         </button>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="{{ path('op_gestapp_transaction_show2', {'id': listtransac.idTransac}) }}">Voir</a></li>
+                            <li><a class="dropdown-item" href="{{ path('op_gestapp_transaction_show', {'id': listtransac.idTransac}) }}">Voir</a></li>
                             <li><a id="btnModaltransaction" class="dropdown-item" href="{{ path('op_gestapp_transaction_del', {'id': listtransac.idTransac}) }}" data-bs-toggle="modal" data-bs-target="#modaltransaction" data-bs-whatever="{{ listtransac.idTransac }}">Supprimer</a></li>
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <li><a href="{{ path('op_gestapp_transaction_closedfolder', {'id': listtransac.idTransac}) }}" class="dropdown-item transClosed">Clôture du dossier</a></li>
