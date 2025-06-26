@@ -6,7 +6,7 @@
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <div class="col-3">
                     <p class="mb-0 text-center">
-                        <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-FormAddcollaborator"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                        <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" class="openModal" data-bs-data="ADDCOLLAB-Ajout d'un collaborateur-FormAddcollaborator"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
                     </p>
                 </div>
             {% endif %}
@@ -15,7 +15,7 @@
                 <div class="col-9"><h5 class="mb-0">Ajouter un collaborateur</h5></div>
                 <div class="col-3">
                     <p class="text-center mb-0">
-                        <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" data-bs-toggle="modal" data-bs-target="#modalAddColl" data-bs-whatever="ADD-Ajout d'un collaborateur-FormAddcollaborator"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
+                        <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" class="openModal" data-bs-data="ADDCOLLAB-Ajout d'un collaborateur-FormAddcollaborator"><i class="fa-duotone fa-user-plus fa-2x"></i></a>
                     </p>
                 </div>
             {% else %}
@@ -23,9 +23,10 @@
             {% endif%}
         {% endif %}
     </div>
-    {% if transaction.addCollTransacs|length > 0   %}
-    <div id="listCollaborator" class="mt-1">
-        {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::listByTransac', {'id': transaction.id})) }}
-    </div>
+    {% if transaction.addCollTransacs|length > 0 %}
+        {% set listcollaborators = transaction.addCollTransacs %}
+        <div id="listCollaborator" class="mt-1">
+            {% include 'gestapp/transaction/show/_listCollaborator.html.twig' with listcollaborators %}
+        </div>
     {% endif %}
 </div>

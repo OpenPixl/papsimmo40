@@ -163,23 +163,33 @@ class TransactionController extends AbstractController
             return 9;
         }
         if(!$transaction->isIsValidInvoicePdf()){
-            $transaction->setState('Facture de vente | Validée par l\'administrateur');
+            $transaction->setState("Facture de vente | Validée par l'administrateur");
             $transaction->setStep(10);
             $this->entityManager->flush();
             return 10;
         }
-        if($transaction->isIsValidInvoicePdf() == 1){
-            $transaction->setState('Facture de vente | Validée par l\'administrateur');
-            $transaction->setStep(11);
-            $this->entityManager->flush();
-            return 11;
+        if($transaction->isCollaborator() == 1){
+            $collaborateurs = $transaction->getAddCollTransacs();
+            $hasFacture = false;
+
+            foreach ($collaborateurs as $collab) {
+                // Supposons ici que $collab est une entité CollaborateurTransaction
+                // et qu'elle a une relation vers des factures
+                if (method_exists($collab, 'getInvoicePdfFilename') && !empty($collab->getInvoicePdfFilename()) > 0) {
+                    $hasFacture = true;
+                    break;
+                }
+            }
+            // Aucun collaborateur n’a encore déposé de facture
+            if (!$hasFacture) {
+                $transaction->setState('Autres Factures | En attente des pièces');
+                $transaction->setStep(11);
+                $this->entityManager->flush();
+                return 11;
+            }
+
         }
-        if($transaction->getStep() == 11 && $transaction->getAddCollTransacs()->count() > 0){
-            $transaction->setState('Autres Factures | Factures de collaborateur');
-            $transaction->setStep(12);
-            $this->entityManager->flush();
-            return 12;
-        }
+
 
         $step = $transaction->getStep();
 
@@ -969,34 +979,67 @@ class TransactionController extends AbstractController
         }
         if (!$pdfHonoraire && !$pdfInvoice){
             $label = "Charger le PDF de vos honoraires, le fichier ne doit pas dépasser 20Mo de taille";
-        }elseif($pdfHonoraire && !$pdfInvoice){
-            $label = "Charger le PDF de la facture finale, le fichier ne doit pas dépasser 20Mo de taille";
+        }
+        elseif($pdfHonoraire && $pdfInvoice){
+            $label = "Charger votre facture collabaorateur";
         }
 
-        $form = $this->createFormBuilder(null,
-            [
-                'action' => $this->generateUrl('op_gestapp_transaction_addinvoices', ['id' => $transaction->getId()]),
-                'method' => 'POST',
-                'attr'   => [
-                    'id' => 'formInvoice_add',
-                ],
-            ])
-            ->add('document', FileType::class,[
-                'label' => $label,
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '40952k',
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
-                        ],
-                        'mimeTypesMessage' => 'Please upload a valid PDF document',
-                    ])
-                ],
-            ])
-            ->getForm();
+        if($pdfHonoraire && $pdfInvoice){
+            $form = $this->createFormBuilder(null,
+                [
+                    'action' => $this->generateUrl('op_gestapp_transaction_addcollaborator_addinvoice', [
+                        'refEmployed' => $this->getUser()->getId(),
+                        'idTransac' => $transaction->getId()
+                    ]),
+                    'method' => 'POST',
+                    'attr'   => [
+                        'id' => 'formInvoice_add',
+                    ],
+                ])
+                ->add('document', FileType::class,[
+                    'label' => $label,
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '40952k',
+                            'mimeTypes' => [
+                                'application/pdf',
+                                'application/x-pdf',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        ])
+                    ],
+                ])
+                ->getForm();
+        }
+        else{
+            $form = $this->createFormBuilder(null,
+                [
+                    'action' => $this->generateUrl('op_gestapp_transaction_addinvoices', ['id' => $transaction->getId()]),
+                    'method' => 'POST',
+                    'attr'   => [
+                        'id' => 'formInvoice_add',
+                    ],
+                ])
+                ->add('document', FileType::class,[
+                    'label' => $label,
+                    'mapped' => false,
+                    'required' => false,
+                    'constraints' => [
+                        new File([
+                            'maxSize' => '40952k',
+                            'mimeTypes' => [
+                                'application/pdf',
+                                'application/x-pdf',
+                            ],
+                            'mimeTypesMessage' => 'Please upload a valid PDF document',
+                        ])
+                    ],
+                ])
+                ->getForm();
+        }
+
 
         $form->handleRequest($request);
 

@@ -18,11 +18,11 @@ class AddCollTransacType extends AbstractType
             ->add('pourcentComm')
             ->add('refemployed', EntityType::class, [
                 'class' => Employed::class,
-'choice_label' => 'id',
+                'choice_label' => 'id',
             ])
             ->add('refTransac', EntityType::class, [
                 'class' => Transaction::class,
-'choice_label' => 'id',
+                'choice_label' => 'id',
             ])
         ;
     }

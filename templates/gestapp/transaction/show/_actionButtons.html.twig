@@ -10,7 +10,15 @@
         <i class="fa-duotone fa-light fa-plus"></i> Date de RDV
     </a>
     <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
-    <a href="{{ path('op_gestapp_transaction_addinvoices', {'id': transaction.id }) }}" class="btn btn-sm
+    <a
+        {% if transaction.step in stepInvoiceActive %}
+            {% if transaction.step == 11 and access == 'read' %}
+                href="{{ path('op_gestapp_transaction_addcollaborator_addinvoice', {'refEmployed': app.user.id, 'idTransac': transaction.id}) }}"
+            {% else %}
+                href="{{ path('op_gestapp_transaction_addinvoices', {'id': transaction.id }) }}"
+            {% endif %}
+        {% endif %}
+         class="btn btn-sm
         {% if transaction.step in stepInvoiceActive %}
             {% if transaction.step == 4 and access == 'edit' %}btn-outline-secondary disabled{% else %}btn-outline-dark{% endif %}
         {% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDINVOICES-Ajouter une facture">

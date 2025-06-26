@@ -17,4 +17,18 @@
     'urlEdit': 'op_gestapp_transaction_editinvoices',
     'message' : 'message'
 } %}
+{% if transaction.addCollTransacs|length > 0 %}
+    {% for transac in transaction.addCollTransacs %}
+        {{ dump(transac) }}
+        {% include 'gestapp/transaction/show/_document.html.twig' with {
+            'documentValid' : "",
+            'typeDocument' : 'Facture collaborateur',
+            'slugDocument' : 'FColl',
+            'nameDocument' : transac.InvoicePdfFilename,
+            'valid' : "",
+            'urlEdit': 'op_gestapp_transaction_editinvoices',
+            'message' : 'message'
+        } %}
+    {% endfor %}
+{% endif %}
 

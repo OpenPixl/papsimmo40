@@ -169,6 +169,17 @@ export function initShowTransactionPage() {
                 })
             ;
         }
+        else if (crud === 'ADDCOLLAB'){
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    const confirmBtn = modalEl.querySelector('.modal-footer a');
+                    confirmBtn.textContent = 'Ajouter le collaborateur au dossier';
+                    confirmBtn.href = url;
+                })
+            ;
+        }
         else if (crud === 'DELAPPOINTMENT') {
             modalEl.querySelector('.modal-body').innerHTML =
                 "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce RDV.</p>";
@@ -296,7 +307,7 @@ export function initShowTransactionPage() {
         e.preventDefault();
         delete modal.dataset.deleteUrl;
 
-        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit'];
+        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit', 'FormAddcollaborator'];
         const list = ['dateAtPromise', 'dateAtActe', 'Promise', 'valid'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
@@ -348,6 +359,9 @@ export function initShowTransactionPage() {
                                 actionButtons: data.actionButtons,
                                 message: data.message
                             });
+                        }
+                        else if(nameForm === 'FormAddcollaborator'){
+                            document.getElementById('listCollaborator').innerHTML = data.listcollaborators;
                         }
                     })
                     .catch(function (error) {

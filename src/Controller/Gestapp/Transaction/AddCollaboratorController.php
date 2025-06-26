@@ -60,6 +60,9 @@ class AddCollaboratorController extends AbstractController
         $transac = $transactionRepository->find($idtransac);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            $transaction = $transactionRepository->find($idtransac);
+            $transaction->setIsCollaborator(1);
+
             $addCollTransac->setRefTransac($transac);
             $entityManager->persist($addCollTransac);
             $entityManager->flush();

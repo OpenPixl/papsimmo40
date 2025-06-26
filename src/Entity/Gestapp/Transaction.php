@@ -181,6 +181,9 @@ class Transaction
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $notes = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isCollaborator = false;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
@@ -664,6 +667,18 @@ class Transaction
     public function setNotes(?string $notes): static
     {
         $this->notes = $notes;
+
+        return $this;
+    }
+
+    public function isCollaborator(): ?bool
+    {
+        return $this->isCollaborator;
+    }
+
+    public function setIsCollaborator(?bool $isCollaborator): static
+    {
+        $this->isCollaborator = $isCollaborator;
 
         return $this;
     }
