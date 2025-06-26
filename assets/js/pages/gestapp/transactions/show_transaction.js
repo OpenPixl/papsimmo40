@@ -307,7 +307,7 @@ export function initShowTransactionPage() {
         e.preventDefault();
         delete modal.dataset.deleteUrl;
 
-        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit', 'FormAddcollaborator'];
+        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit', 'FormAddcollaborator', 'FormAddcollaboratorInvoice'];
         const list = ['dateAtPromise', 'dateAtActe', 'Promise', 'valid'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
@@ -351,6 +351,16 @@ export function initShowTransactionPage() {
                             });
                         }
                         else if(nameForm === 'formInvoice_add' || nameForm === 'formInvoice_edit'){
+                            updateTransactionView({
+                                viewTargetId: 'Block_Invoices',
+                                view: data.view,
+                                state: data.state,
+                                progress: data.progress,
+                                actionButtons: data.actionButtons,
+                                message: data.message
+                            });
+                        }
+                        else if(nameForm === 'FormAddcollaboratorInvoice'){
                             updateTransactionView({
                                 viewTargetId: 'Block_Invoices',
                                 view: data.view,
@@ -412,7 +422,7 @@ export function initShowTransactionPage() {
                 modalBs.hide();
             }
             // Suppression d'une facturation présente dans le dossier
-            else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'Fcoll')){
+            else if(option !== null && (option === 'Ho' || option === 'Fa' || option === 'FColl')){
                 axios
                     .post(url)
                     .then(({data}) => {

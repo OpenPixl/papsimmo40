@@ -2,6 +2,7 @@
 
 namespace App\Controller\Gestapp\Transaction;
 
+use App\Controller\Gestapp\TransactionController;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\Transaction;
 use App\Entity\Gestapp\Transaction\AddCollTransac;
@@ -22,6 +23,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AddCollaboratorController extends AbstractController
 {
+    public function __construct(
+        public TransactionController $transactionController
+    ){}
+
     #[Route('/gestapp/transaction/addcollaborator/{id}/listbytransac', name: 'op_gestapp_transaction_add_collaborator_listbytransac')]
     public function listByTransac(Transaction $transaction, AddCollTransacRepository $addCollTransacRepository): Response
     {
@@ -148,13 +153,17 @@ class AddCollaboratorController extends AbstractController
                     // ... handle exception if something happens during file upload
                 }
                 $addColl->setInvoicePdfFilename($newFilename);
+                $addColl->setIsValidInvoicePdf(1);
                 $em->persist($addColl);
                 $em->flush();
             }
-            return $this->json([
+
+            $access = $this->transactionController->access($transaction);
+
+            return $this->json(array_merge([
                 "code" => 200,
                 "message" => "La facture a été correctement déposée",
-            ],200);
+            ],$this->transactionController->returnView($transaction, $access, 'gestapp/transaction/show/_invoices.html.twig', 'Block_Invoices')),200);
         }
 
         // view
@@ -190,8 +199,11 @@ class AddCollaboratorController extends AbstractController
         $user = $this->getUser();
         $iduser = $user->getId();
 
+        $transaction = $addCollTransac->getRefTransac();
+        $access = $this->transactionController->access($transaction);
+
         // securite : controle que l'user est le bon
-        if ($iduser == $addCollTransac->getRefemployed()->getId())
+        if ($access == 'admin' || $access == 'read')
         {
             // supprimer le fichier réel dans le dossier
             $transaction = $transactionRepository->find($addCollTransac->getRefTransac());
@@ -209,15 +221,14 @@ class AddCollaboratorController extends AbstractController
             $addCollTransac->setInvoicePdfFilename(null);
             $addCollTransac->setInvoicePdfExt(null);
             $addCollTransac->setInvoicePdfSize(null);
+            $addCollTransac->setIsValidInvoicePdf(0);
             $em->flush();
 
-            return $this->json([
+            return $this->json(array_merge([
                 "code" => 200,
                 "message" => 'La facture a été correctement supprimée de la base.',
-                "row" => $this->renderView('gestapp/transaction/include/block/_rowinvoicesPdf.html.twig', [
-                    'transaction' => $transaction
-                ])
-            ], 200);
+            ],$this->transactionController->returnView($transaction, $access, 'gestapp/transaction/show/_invoices.html.twig', 'Block_Invoices')),200);
+
         }else{
             // return
             return $this->json([

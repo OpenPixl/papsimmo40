@@ -73,7 +73,7 @@ class TransactionController extends AbstractController
         return $access;
     }
 
-    private function returnView(Transaction $transaction, $access, $path, $blockId){
+    public function returnView(Transaction $transaction, $access, $path, $blockId){
 
         $property = $transaction->getProperty();
         $photo = $this->photoRepository->firstphoto($property->getId());
@@ -170,23 +170,39 @@ class TransactionController extends AbstractController
         }
         if($transaction->isCollaborator() == 1){
             $collaborateurs = $transaction->getAddCollTransacs();
-            $hasFacture = false;
+            if ($collaborateurs->count() === 0) {
+                // Aucun collaborateur, on reste dans l'état actuel ou on log si besoin
+                return $transaction->getStep();
+            }
+
+            $totalCollaborateurs = $collaborateurs->count();
+            $collaborateursAvecFacture = 0;
 
             foreach ($collaborateurs as $collab) {
-                // Supposons ici que $collab est une entité CollaborateurTransaction
-                // et qu'elle a une relation vers des factures
-                if (method_exists($collab, 'getInvoicePdfFilename') && !empty($collab->getInvoicePdfFilename()) > 0) {
-                    $hasFacture = true;
-                    break;
+                if (!empty($collab->getInvoicePdfFilename())) {
+                    $collaborateursAvecFacture++;
                 }
             }
-            // Aucun collaborateur n’a encore déposé de facture
-            if (!$hasFacture) {
+
+            if ($collaborateursAvecFacture === 0) {
+                // Aucun collaborateur n’a déposé sa facture
                 $transaction->setState('Autres Factures | En attente des pièces');
                 $transaction->setStep(11);
                 $this->entityManager->flush();
                 return 11;
             }
+
+            if ($collaborateursAvecFacture === $totalCollaborateurs) {
+                // Tous les collaborateurs ont fourni leur facture
+                $transaction->setState('Autres Factures | La ou les factures sont déposées');
+                $transaction->setStep(12);
+                $this->entityManager->flush();
+                return 12;
+            }
+
+            // Si certains ont mis une facture, mais pas tous : on ne change rien ou on peut log l'état partiel
+            return $transaction->getStep();
+
 
         }
 
@@ -972,19 +988,24 @@ class TransactionController extends AbstractController
         $validInvoice = $transaction->isIsValidInvoicePdf();
 
         if ($pdfHonoraire !== null && $pdfInvoice !== null){
-            return $this->json([
-                'code'=> 400,
-                'formView' => 'impossible d\'ajouter une facture à ce dossier.'
-            ], 400);
+            if($transaction->getAddCollTransacs()->count() > 0){
+                $label = "Charger la facture du collaborateur";
+            }
+            else{
+                return $this->json([
+                    'code'=> 400,
+                    'formView' => 'impossible d\'ajouter une facture à ce dossier.'
+                ], 400);
+            }
+
         }
         if (!$pdfHonoraire && !$pdfInvoice){
             $label = "Charger le PDF de vos honoraires, le fichier ne doit pas dépasser 20Mo de taille";
-        }
-        elseif($pdfHonoraire && $pdfInvoice){
-            $label = "Charger votre facture collabaorateur";
+        }elseif($pdfHonoraire && !$pdfInvoice){
+            $label = "Charger le PDF de la facture finale, le fichier ne doit pas dépasser 20Mo de taille";
         }
 
-        if($pdfHonoraire && $pdfInvoice){
+        if($pdfHonoraire !== null && $pdfInvoice !== null){
             $form = $this->createFormBuilder(null,
                 [
                     'action' => $this->generateUrl('op_gestapp_transaction_addcollaborator_addinvoice', [
@@ -3350,19 +3371,23 @@ class TransactionController extends AbstractController
             $block = 'Block_Documents';
             $name = $transaction->getActePdfFilename();
             $view = 'gestapp/transaction/show/_documents.html.twig';
-        }elseif($document == "Ho"){
+        }
+        elseif($document == "Ho"){
             $block = 'Block_Invoices';
             $name = $transaction->getHonorairesPdfFilename();
             $view = 'gestapp/transaction/show/_invoices.html.twig';
-        }elseif($document == "Fa"){
+        }
+        elseif($document == "Fa"){
             $block = 'Block_Invoices';
             $name = $transaction->getInvoicePdfFilename();
             $view = 'gestapp/transaction/show/_invoices.html.twig';
-        }elseif($document == "Prom"){
+        }
+        elseif($document == "Prom"){
             $block = 'Block_Documents';
             $name = $transaction->getPromisePdfFilename();
             $view = 'gestapp/transaction/show/_documents.html.twig';
-        }elseif ($document == "Tf"){
+        }
+        elseif ($document == "Tf"){
             $block = 'Block_Documents';
             $name = $transaction->getTracfinPdfFilename();
             $view = 'gestapp/transaction/show/_documents.html.twig';

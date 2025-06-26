@@ -35,6 +35,9 @@ class AddCollTransac
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $invoicePdfExt = null;
 
+    #[ORM\Column(nullable: true)]
+    private ?bool $isValidInvoicePdf = false;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -108,6 +111,18 @@ class AddCollTransac
     public function setInvoicePdfExt(?string $invoicePdfExt): static
     {
         $this->invoicePdfExt = $invoicePdfExt;
+
+        return $this;
+    }
+
+    public function isValidInvoicePdf(): ?bool
+    {
+        return $this->isValidInvoicePdf;
+    }
+
+    public function setIsValidInvoicePdf(?bool $isValidInvoicePdf): static
+    {
+        $this->isValidInvoicePdf = $isValidInvoicePdf;
 
         return $this;
     }
