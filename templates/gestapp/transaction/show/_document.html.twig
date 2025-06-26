@@ -3,11 +3,11 @@
 <dl class="row g-1 align-items-center mb-1" >
     <dt class="col-sm-2 mb-0">
         {% if nameDocument is null %}
-            <p class="mb-0 text-secondary"><span class="text-warning"><i class="fa-duotone fa-light fa-circle-dashed"></i></span> {{ typeDocument }} :</p>
+            <p class="mb-0 text-secondary"><span class="text-warning"><i class="fa-duotone fa-light fa-circle-dashed"></i></span> {{ typeDocument }}</p>
         {% elseif nameDocument is not null and documentValid == 0 %}
-            <p class="mb-0"><span class="text-warning"><i class="fa-light fa-circle-exclamation"></i></span> {{ typeDocument }} :</p>
+            <p class="mb-0"><span class="text-warning"><i class="fa-light fa-circle-exclamation"></i></span> {{ typeDocument }}</p>
         {% elseif nameDocument is not null and documentValid == 1 %}
-            <p class="mb-0"><span class="text-success"><i class="fa-duotone fa-light fa-shield-check"></i></span> {{ typeDocument }} :</p>
+            <p class="mb-0"><span class="text-success"><i class="fa-duotone fa-light fa-shield-check"></i></span> {{ typeDocument }}</p>
         {% endif %}
     </dt>
     <dd class="col-sm-4 mb-0">
