@@ -4,13 +4,19 @@ import * as bootstrap from 'bootstrap';
 window.bootstrap = bootstrap;
 import flatpickr from "flatpickr";
 
+import { initNewEditCustomerPage } from './js/pages/gestapp/customer/newedit_customer';
 import { initShowTransactionPage } from './js/pages/gestapp/transactions/show_transaction';
 import { initListTransactionPage } from './js/pages/gestapp/transactions/list_transaction';
+
 
 document.addEventListener('DOMContentLoaded', () => {
     const page = document.body.dataset.page;
 
     switch (page) {
+        case 'op_gestapp_customer_new':
+        case 'op_gestapp_customer_edit':
+            initNewEditCustomerPage();
+            break;
         case 'op_gestapp_transaction_show':
             initShowTransactionPage();
             break;

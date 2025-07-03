@@ -10,7 +10,7 @@
 } %}
 {% include 'gestapp/transaction/show/_document.html.twig' with {
     'documentValid' : transaction.isValidInvoicePdf,
-    'typeDocument' : 'Facture du dossier',
+    'typeDocument' : 'Facture',
     'slugDocument' : 'Fa',
     'nameDocument' : transaction.invoicePdfFilename,
     'valid' : transaction.isValidInvoicePdf,

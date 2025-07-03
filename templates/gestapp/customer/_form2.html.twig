@@ -25,7 +25,6 @@
                         {{ form_widget(form.customerChoice, {'attr': {'class': 'form-select form-select-sm'}}) }}
                     </div>
                     <div class="col-3">
-                        {{ app.request.attributes.get('_route') }}
                         {% if app.request.attributes.get('_route') == 'op_gestapp_customer_new' or app.request.attributes.get('_route') == 'op_gestapp_customer_edit' %}
                             {{ form_label(form.isArchived, '', {'label_attr': {'class':'form-label mb-0'}}) }}
                             {{ form_widget(form.isArchived) }}
@@ -64,13 +63,13 @@
                                 {{ form_label(form.firstName, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-2">
-                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Prénom complet ...'}}) }}
+                                {{ form_widget(form.firstName, {'attr': {'class': 'form-control form-control-sm' ~ (form.firstName.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Prénom'}}) }}
                             </div>
                             <div class="col-3 d-none">
-                                {{ form_widget(form.maidenName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom de jeune fille ...'}}) }}
+                                {{ form_widget(form.maidenName, {'attr': {'class': 'form-control form-control-sm' ~ (form.maidenName.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Nom de naissance'}}) }}
                             </div>
                             <div class="col-3">
-                                {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+                                {{ form_widget(form.lastName, {'attr': {'class': 'form-control form-control-sm' ~ (form.lastName.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Nom'}}) }}
                             </div>
                         </div>
                         <div class="row align-items-center g-1 mb-1 pb-1 border-bottom">
@@ -78,10 +77,10 @@
                                 {{ form_label(form.ddn, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-2">
-                                {{ form_widget(form.ddn, {'attr': {'class': 'form-control form-control-sm flatpickr', 'placeholder': '01/01/1900'}}) }}
+                                {{ form_widget(form.ddn, {'attr': {'class': 'form-control form-control-sm flatpickr' ~ (form.ddn.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder': '01/01/1900'}}) }}
                             </div>
                             <div class="col-3">
-                                {{ form_widget(form.ddnIn, {'attr': {'class': 'form-control form-control-sm ', 'placeholder': 'lieu de naissance'}}) }}
+                                {{ form_widget(form.ddnIn, {'attr': {'class': 'form-control form-control-sm' ~ (form.ddnIn.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder': 'lieu de naissance'}}) }}
                             </div>
                         </div>
                         <div class="row align-items-center g-1 mb-1 pb-1 border-bottom">
@@ -89,7 +88,7 @@
                                 {{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-6">
-                                {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse ...'}}) }}
+                                {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm' ~ (form.adress.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Adresse ...'}}) }}
                             </div>
                             <div class="w-100"></div>
                             <div class="offset-2 col-6 mt-0">
@@ -97,7 +96,7 @@
                             </div>
                             <div class="w-100"></div>
                             <div class="offset-2 col-2 mt-0">
-                                {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ville/Commune ...'}}) }}
+                                {{ form_widget(form.zipcode, {'attr': {'class': 'form-control form-control-sm' ~ (form.zipcode.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Ville/Commune ...'}}) }}
                             </div>
                             <div class="col-4 mt-0">
                                 {{ form_widget(form.city, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
@@ -119,7 +118,7 @@
                             <div class="col-3">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
-                                    {{ form_widget(form.gsm, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Portable ...'}}) }}
+                                    {{ form_widget(form.gsm, {'attr': {'class': 'form-control form-control-sm' ~ (form.gsm.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Portable ...'}}) }}
                                 </div>
                             </div>
                             <div class="col-3">
@@ -134,7 +133,7 @@
                                 {{ form_label(form.otherEmail, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-6">
-                                {{ form_widget(form.otherEmail, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email ...'}}) }}
+                                {{ form_widget(form.otherEmail, {'attr': {'class': 'form-control form-control-sm' ~ (form.otherEmail.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Email ...'}}) }}
                             </div>
                         </div>
                     </div>
@@ -168,7 +167,7 @@
                                 {{ form_label(form.nameStructure, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-3">
-                                {{ form_widget(form.nameStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom complet ...'}}) }}
+                                {{ form_widget(form.nameStructure, {'attr': {'class': 'form-control form-control-sm' ~ (form.nameStructure.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Nom complet ...'}}) }}
                             </div>
                             <div class="col-2"></div>
                             <div class="col-2">
@@ -183,7 +182,7 @@
                                 {{ form_label(form.proAdress, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-6">
-                                {{ form_widget(form.proAdress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse ...'}}) }}
+                                {{ form_widget(form.proAdress, {'attr': {'class': 'form-control form-control-sm' ~ (form.proAdress.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Adresse ...'}}) }}
                             </div>
                             <div class="w-100"></div>
                             <div class="offset-2 col-6 mt-0">
@@ -191,7 +190,7 @@
                             </div>
                             <div class="w-100"></div>
                             <div class="offset-2 col-2 mt-0">
-                                {{ form_widget(form.proZipcode, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Ville/Commune ...'}}) }}
+                                {{ form_widget(form.proZipcode, {'attr': {'class': 'form-control form-control-sm'~ (form.proZipcode.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Ville/Commune ...'}}) }}
                             </div>
                             <div class="col-4 mt-0">
                                 {{ form_widget(form.proCity, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Commune'}}) }}
@@ -207,7 +206,7 @@
                             <div class="col-3">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
-                                    {{ form_widget(form.gsmStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Portable ...'}}) }}
+                                    {{ form_widget(form.gsmStructure, {'attr': {'class': 'form-control form-control-sm' ~ (form.gsmStructure.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Portable ...'}}) }}
                                 </div>
                             </div>
                             <div class="col-3">
