@@ -11,7 +11,6 @@ const customer_proZipcode = document.getElementById('customer_proZipcode');
 const customer_proSelectcity = document.getElementById('customer_proSelectcity');
 
 if(document.querySelector('input[name=customer\\[civility\\]]:checked').value > 1){
-    console.log("ok");
     document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
 }
 const radioCustomerButtons = document.querySelectorAll('input[name=customer\\[civility\\]]');
@@ -92,8 +91,15 @@ function submitCustomer(event){
     axios
         .post(action, data)
         .then(function(response){
+            if(response.data.code === 422){
+                document.getElementById('form').innerHTML = response.data.formView;
+                reloadEvent();
+                toasterMessage(response.data.message);
+            }else{
+                toasterMessage(response.data.message);
+            }
             reloadEvent();
-            toasterMessage(response.data.message);
+
         })
         .catch(function(error){
             console.log(error);
@@ -106,7 +112,6 @@ function addResponsable(event){
     let form = document.getElementById('AddRespStructure');
     let action = form.action;
     let data = new FormData(form);
-    console.log(form);
     axios
         .post(action, data)
         .then(function(response){
@@ -177,7 +182,7 @@ function toasterMessage(message){
     // initialisation du toaster
     let toastHTMLElement = document.getElementById("toaster");
     let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
-    toastBody.textContent = message;
+    toastBody.innerHTML = message;
     let toastElement = new bootstrap.Toast(toastHTMLElement, option);
     toastElement.show();
 }

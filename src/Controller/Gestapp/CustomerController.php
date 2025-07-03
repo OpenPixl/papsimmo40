@@ -268,6 +268,21 @@ class CustomerController extends AbstractController
             return $this->redirectToRoute('op_gestapp_customer_index', [], Response::HTTP_SEE_OTHER);
         }
 
+        if ($request->isXmlHttpRequest() || in_array('application/json', $request->getAcceptableContentTypes())) {
+            $view = $this->render('gestapp/customer/_form.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
+
+            return $this->json([
+                'code' => 422,
+                'message' => 'Le formulaire présente une ou des erreurs.<br> A vous de corriger celles-ci',
+                'formView' => $view->getContent()
+                ],200);
+        }
+
+        //dd('erreur soumission');
+
         return $this->render('gestapp/customer/new.html.twig', [
             'customer' => $customer,
             'form' => $form,
@@ -701,10 +716,23 @@ class CustomerController extends AbstractController
                 'code'=> 200,
                 'message' => 'Mise à jour réussie',
             ],200);
-//            return $this->redirectToRoute('op_gestapp_customer_edit', ['id'=>$customer->getId()], Response::HTTP_SEE_OTHER);
+            // return $this->redirectToRoute('op_gestapp_customer_edit', ['id'=>$customer->getId()], Response::HTTP_SEE_OTHER);
         }
 
-        //dd($form->isSubmitted());
+        if ($request->isXmlHttpRequest() || in_array('application/json', $request->getAcceptableContentTypes())) {
+            $view = $this->renderView('gestapp/customer/_form.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
+
+            return $this->json([
+                'code' => 422,
+                'message' => 'Le formulaire présente une ou des erreurs.<br> A vous de corriger celles-ci',
+                'formView' => $view
+            ],200);
+        }
+
+        //dd('erreur soumission');
 
         return $this->render('gestapp/customer/edit.html.twig', [
             'customer' => $customer,

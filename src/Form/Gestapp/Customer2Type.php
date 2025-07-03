@@ -7,6 +7,9 @@ use App\Entity\Gestapp\Choice\CustomerChoice;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -52,15 +55,15 @@ class Customer2Type extends AbstractType
                 'multiple' => false
             ])
             ->add('firstName', TextType::class, [
-                'label' => 'Prénom & Nom',
-                'required' => false
+                'label' => 'Prénom',
+                'required' => false,
             ])
             ->add('lastName', TextType::class, [
                 'label' => 'Nom',
-                'required' => false
+                'required' => false,
             ])
             ->add('maidenName', TextType::class, [
-                'label' => 'Nom de jeune fille',
+                'label' => 'Nom de naissance',
                 'required' => false
             ])
             ->add('adress', TextType::class, [
@@ -97,7 +100,6 @@ class Customer2Type extends AbstractType
                 'label' => 'Tel Portable',
                 'required' => true
             ])
-
             ->add('otherEmail', TextType::class, [
                 'label' => 'Email',
                 'required' => true
@@ -150,7 +152,37 @@ class Customer2Type extends AbstractType
                 ],
             ])
         ;
+
+        $builder->addEventListener(FormEvents::PRE_SUBMIT, function (FormEvent $event) {
+            $data = $event->getData();
+            $form = $event->getForm();
+
+            if (($data['typeClient'] ?? null) === 'particulier') {
+                $form
+                    ->add('firstName', TextType::class, [
+                        'label' => 'Prénom & Nom',
+                        'required' => true,
+                        'constraints' => [
+                            new Assert\NotBlank([
+                                'message' => 'Le prénom est obligatoire.'
+                            ]),
+                        ],
+                    ]);
+            }
+
+            if (($data['typeClient'] ?? null) === 'professionnel') {
+                $form->add('nameStructure', TextType::class, [
+                    'required' => true,
+                    'constraints' => [
+                        new Assert\NotBlank([
+                            "message" => "Le nom de la structure est obligatoire."
+                        ])
+                    ]
+                ]);
+            }
+        });
     }
+
 
     public function configureOptions(OptionsResolver $resolver): void
     {

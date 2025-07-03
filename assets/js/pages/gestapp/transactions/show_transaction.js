@@ -1,7 +1,8 @@
 import axios from 'axios';
 import * as bootstrap from 'bootstrap';
-import {toasterMessage} from "../../../components/toaster";
-import {zipcode, removeOptions, change_selectcity, formatDate} from "../../../components/common";
+import {toasterMessage} from "../../../components/bootstrap/toaster";
+import {zipcode, removeOptions, change_selectcity, formatDate} from "../../../components/appli/common";
+import {typeClient, civilityChoice} from "../../../components/appli/customer";
 import flatpickr from "flatpickr";
 
 
@@ -57,57 +58,8 @@ export function initShowTransactionPage() {
                     confirmBtn.href = url;
                     modalEl.dataset.deleteUrl = data.deleteUrl;
 
-                    const typeClient = document.getElementById('customer_typeClient');
-                    if (typeClient.value === "professionnel") {
-                        document.getElementById("box_professionnel").classList.remove('d-none');
-                        document.getElementById("box_particulier").classList.add('d-none');
-                    }
-
-                    typeClient.addEventListener('change', function (event) {
-                        if (typeClient.value === "professionnel") {
-                            document.getElementById("box_professionnel").classList.remove('d-none');
-                            document.getElementById("box_professionnel").classList.add('animate__animated', 'animate__fadeIn');
-                        } else {
-                            document.getElementById("box_professionnel").classList.add('d-none');
-                            document.getElementById("box_professionnel").classList.remove('animate__animated', 'animate__fadeIn');
-                        }
-                        if (typeClient.value === "particulier") {
-                            document.getElementById("box_particulier").classList.remove('d-none');
-                            document.getElementById("box_particulier").classList.add('animate__animated', 'animate__fadeIn');
-                        } else {
-                            document.getElementById("box_particulier").classList.add('d-none');
-                            document.getElementById("box_particulier").classList.remove('animate__animated', 'animate__fadeIn');
-                        }
-                    });
-
-                    // block pour interagir sur la civilité
-                    if (document.querySelector('input[name=customer\\[civility\\]]:checked').value > 1) {
-                        console.log("ok");
-                        document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
-                    }
-                    const radioCustomerButtons = document.querySelectorAll('input[name=customer\\[civility\\]]');
-                    radioCustomerButtons.forEach(function (radio) {
-                        radio.addEventListener("change", function () {
-                            if (parseInt(this.value) === 2) {
-                                document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
-                            } else if (parseInt(this.value) === 1) {
-                                document.getElementById('customer_maidenName').parentElement.classList.add('d-none');
-                            }
-                        });
-                    });
-                    if (document.querySelector('input[name=customer_resp\\[civility\\]]:checked').value > 1) {
-                        document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
-                    }
-                    const radioRespButtons = document.querySelectorAll('input[name=customer_resp\\[civility\\]]');
-                    radioRespButtons.forEach(function (radio) {
-                        radio.addEventListener("change", function () {
-                            if (parseInt(this.value) === 2) {
-                                document.getElementById('customer_resp_maidenName').parentElement.classList.remove('d-none');
-                            } else if (parseInt(this.value) === 1) {
-                                document.getElementById('customer_resp_maidenName').parentElement.classList.add('d-none');
-                            }
-                        });
-                    });
+                    typeClient();
+                    civilityChoice();
 
                     // Variables liés aux modifications des champs du bloc adresse.
                     let customer_commune = document.getElementById('customer_city');
@@ -328,17 +280,49 @@ export function initShowTransactionPage() {
                                 actionButtons: data.actionButtons,
                                 message: data.message
                             });
+                            modalBs.hide();
                         }
                         else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
-                            updateTransactionView({
-                                viewTargetId: 'Block_Buyers',
-                                view: data.view,
-                                state: data.state,
-                                progress: data.progress,
-                                actionButtons: data.actionButtons,
-                                message: data.message
-                            });
+                            console.log(data.code);
+                            if(data.code === 422){
+                                form.outerHTML = data.formView;
+                                toasterMessage(data.message);
+                                typeClient();
+                                civilityChoice();
 
+                                // Variables liés aux modifications des champs du bloc adresse.
+                                let customer_commune = document.getElementById('customer_city');
+                                let customer_zipcode = document.getElementById('customer_zipcode');
+                                let customer_selectcity = document.getElementById('customer_selectcity');
+                                let customer_addresseInput = document.getElementById('customer_adress');
+                                let customer_proCity = document.getElementById('customer_proCity');
+                                let customer_proZipcode = document.getElementById('customer_proZipcode');
+                                let customer_proSelectcity = document.getElementById('customer_proSelectcity');
+                                if (customer_commune && customer_addresseInput) {
+                                    customer_zipcode.addEventListener('input', function (event) {
+                                        zipcode(customer_zipcode, customer_commune, customer_selectcity);
+                                    });
+                                    customer_selectcity.addEventListener('change', function (event) {
+                                        change_selectcity(customer_zipcode, customer_commune, customer_selectcity);
+                                    });
+                                    customer_proZipcode.addEventListener('input', function (event) {
+                                        zipcode(customer_proZipcode, customer_proCity, customer_proSelectcity);
+                                    });
+                                    customer_proSelectcity.addEventListener('change', function (event) {
+                                        change_selectcity(customer_proZipcode, customer_proCity, customer_proSelectcity);
+                                    });
+                                }
+                            }else{
+                                updateTransactionView({
+                                    viewTargetId: 'Block_Buyers',
+                                    view: data.view,
+                                    state: data.state,
+                                    progress: data.progress,
+                                    actionButtons: data.actionButtons,
+                                    message: data.message
+                                });
+                                modalBs.hide();
+                            }
                         }
                         else if(nameForm === 'formDocuments_add' || nameForm === 'formDocuments_edit'){
                             updateTransactionView({
@@ -379,7 +363,6 @@ export function initShowTransactionPage() {
                     })
                 ;
             }
-            modalBs.hide();
         }
         else {
             let option = modalEl.dataset.option;

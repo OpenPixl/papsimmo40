@@ -27,6 +27,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
@@ -44,6 +45,14 @@ class TransactionController extends AbstractController
 {
     private bool $submit;
     private Application $application;
+    private function getFormErrors(FormInterface $form): array
+    {
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            $errors[] = $error->getMessage();
+        }
+        return $errors;
+    }
 
     public function __construct(
         public NotificationService $notificationService,
@@ -102,18 +111,19 @@ class TransactionController extends AbstractController
     #[Route('/{id}/step', name: 'op_gestapp_transaction_step', methods: ['GET'])]
     public function step(Transaction $transaction){
         //dd($transaction->getCustomer()->count() > 0);
-        if(!$transaction->getCustomer()->count() > 0) {
-            $transaction->setState('Ouverture du dossier | En attente d\'un ou de plusieurs acquéreurs');
+        if(!$transaction->getDateAtPromise()){
+            $transaction->setState('Promesse de vente | En attente de la date du RDV');
             $transaction->setStep(0);
             $this->entityManager->flush();
             return 0;
         }
-        if(!$transaction->getDateAtPromise()){
-            $transaction->setState('Promesse de vente | En attente de la date du RDV');
+        if(!$transaction->getCustomer()->count() > 0) {
+            $transaction->setState('Ouverture du dossier | En attente d\'un ou de plusieurs acquéreurs');
             $transaction->setStep(1);
             $this->entityManager->flush();
             return 1;
         }
+
         if(!$transaction->getPromisePdfFilename()){
             $transaction->setState('Promesse de vente | En attente du chargement du fichier Pdf');
             $transaction->setStep(2);
@@ -139,19 +149,19 @@ class TransactionController extends AbstractController
             return 5;
         }
         if(!$transaction->getDateAtSale()){
-            $transaction->setState('Acte de vente ou Tracfin | En attente de la date du RDV');
+            $transaction->setState('Acte de vente et Tracfin | En attente de la date du RDV');
             $transaction->setStep(6);
             $this->entityManager->flush();
             return 6;
         }
         if(!$transaction->getActePdfFilename() || !$transaction->getTracfinPdfFilename()){
-            $transaction->setState('Acte de vente ou Tracfin | En attente du chargement du fichier Pdf');
+            $transaction->setState('Acte de vente et Tracfin | En attente du chargement du fichier Pdf');
             $transaction->setStep(7);
             $this->entityManager->flush();
             return 7;
         }
         if((!$transaction->isIsValidActepdf() || $transaction->isIsValidActepdf() == 0) || (!$transaction->isIsValidtracfinPdf() || $transaction->isIsValidtracfinPdf() == 0)){
-            $transaction->setState('Acte de vente ou Tracfin | En attente de la validation du pdf par l\'administrateur');
+            $transaction->setState('Acte de vente et Tracfin | En attente de la validation du pdf par l\'administrateur');
             $transaction->setStep(8);
             $this->entityManager->flush();
             return 8;
@@ -3005,8 +3015,11 @@ class TransactionController extends AbstractController
         $property->setIsTransaction(0);
         $em->persist($property);
 
+        $customers = $transaction->getCustomer();
+
+        dd($customers);
+
         // Suprression des documents dans leur répertoire
-        // récupération du nom de l'image
         $PromisePdfName = $transaction->getPromisePdfFilename();
         $pathPromisePdf = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
         $ActePdfName = $transaction->getActePdfFilename();
@@ -3062,7 +3075,7 @@ class TransactionController extends AbstractController
 
         $customer = new Customer();
         $customer->setRefEmployed($employed);
-        $customer->setCustomerChoice($customerChoiceRepository->find(1));
+        $customer->setCustomerChoice($customerChoiceRepository->find(2));
         $customer->setTypeClient('particulier');
         $customer->addTransaction($transaction);
         $em->persist($customer);
@@ -3081,89 +3094,108 @@ class TransactionController extends AbstractController
         $form->handleRequest($request);
 
         $customerChoice = $customerChoiceRepository->find(2);
-        if ($form->isSubmitted() && $form->isValid()) {
-            // Contruction de la référence pour chaque propriété
-            $date = new \DateTime();
-            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-            $customer->setRefCustomer($refCustomer);
-            $customer->setRefEmployed($employed);
-            $customer->setCustomerChoice($customerChoice);
-            $customer->addTransaction($transaction);
+        if ($form->isSubmitted()) {
+            // Si Formulaire valide
+            if($form->isValid()){
+                // Contruction de la référence pour chaque propriété
+                $date = new \DateTime();
+                $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
+                $customer->setRefCustomer($refCustomer);
+                $customer->setRefEmployed($employed);
+                $customer->setCustomerChoice($customerChoice);
+                $customer->addTransaction($transaction);
 
-            // Ajouter le code d'insertion du fichier PDF
-            // partie ajout CI
-            $ci = $form->get('cifilename')->getData();
-            $ciFilename = $customer->getCifilename();
-            if($ci) {
-                if ($ciFilename) {
-                    $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
-                    // On vérifie si l'image existe
-                    if (file_exists($pathheader)) {
-                        unlink($pathheader);
+                // Ajouter le code d'insertion du fichier PDF
+                // partie ajout CI
+                $ci = $form->get('cifilename')->getData();
+                $ciFilename = $customer->getCifilename();
+                if($ci) {
+                    if ($ciFilename) {
+                        $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
                     }
-                }
-                $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
-                try {
-                    $ci->move(
-                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $customer->setCifilename($newFilename);
-            }
-
-            // partie Ajout Kbis
-            $kbis = $form->get('kbisfilename')->getData();
-            $kbisFilename = $customer->getKbisfilename();
-            if($kbis) {
-                if ($kbisFilename) {
-                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
-                    // On vérifie si l'image existe
-                    if (file_exists($pathheader)) {
-                        unlink($pathheader);
+                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                    try {
+                        $ci->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
                     }
+                    $customer->setCifilename($newFilename);
                 }
-                $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
-                try {
-                    $kbis->move(
-                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                        $newFilename
+
+                // partie Ajout Kbis
+                $kbis = $form->get('kbisfilename')->getData();
+                $kbisFilename = $customer->getKbisfilename();
+                if($kbis) {
+                    if ($kbisFilename) {
+                        $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
+                    try {
+                        $kbis->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setKbisfilename($newFilename);
+                }
+
+                // Ajout en BDD du nouveau client
+                $customerRepository->add($customer);
+
+                $this->step($transaction);
+                $project = $this->transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $em->flush();
+
+                $this->step($transaction);
+
+                if($this->submit === true && $access === 'edit'){
+                    $this->emailService->submitEmailFromTransac(
+                        $transaction->getRefEmployed()->getEmail(),
+                        $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+                        $this->application->getAdminEmail(),
+                        '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente :'.$transaction->getName().'.',
+                        $transaction->getId(),
                     );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
                 }
-                $customer->setKbisfilename($newFilename);
+
+                // liste tous les clients attachés à leur propriété
+                $customers = $customerRepository->listbytransaction($transaction);
+
+                return $this->json(array_merge([
+                    'code'=> 200,
+                    'message' => "Le vendeur a été correctement ajouté au dossier de vente.",
+                ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers')), 200);
             }
 
-            // Ajout en BDD du nouveau client
-            $customerRepository->add($customer);
+            $view = $this->renderView('gestapp/customer/_form2.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
 
-            $this->step($transaction);
-            $project = $this->transactionService->calculateProject($transaction);
-            $transaction->setProject($project);
-            $em->flush();
+            return $this->json([
+                'code' => 422,
+                'message' => 'Le formulaire présente une ou des erreurs.<br>'. implode(', ', $this->getFormErrors($form)). '<br>A vous de corriger celles-ci',
+                'formView' => $view,
+                'deleteUrl' => $this->generateUrl('op_gestapp_transaction_delcustomerjson', [
+                    'id' => $transaction->getId(),
+                    'idCustomer' => $customer->getId()
+                ])
+            ],200);
 
-            $this->step($transaction);
-
-            if($this->submit === true && $access === 'edit'){
-                $this->emailService->submitEmailFromTransac(
-                    $transaction->getRefEmployed()->getEmail(),
-                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                    $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente :'.$transaction->getName().'.',
-                    $transaction->getId(),
-                );
-            }
-
-            // liste tous les clients attachés à leur propriété
-            $customers = $customerRepository->listbytransaction($transaction);
-
-            return $this->json(array_merge([
-                'code'=> 200,
-                'message' => "Le vendeur a été correctement ajouté au dossier de vente.",
-            ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers')), 200);
         }
 
         $view = $this->render('gestapp/customer/add.html.twig', [
@@ -3211,79 +3243,96 @@ class TransactionController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // Ajouter le code d'insertion du fichier PDF
-            // partie ajout CI
-            $ci = $form->get('cifilename')->getData();
-            $ciFilename = $customer->getCifilename();
-            if($ci) {
-                if ($ciFilename) {
-                    $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
-                    // On vérifie si l'image existe
-                    if (file_exists($pathheader)) {
-                        unlink($pathheader);
+        if ($form->isSubmitted()) {
+            if($form->isValid()){
+                // Ajouter le code d'insertion du fichier PDF
+                // partie ajout CI
+                $ci = $form->get('cifilename')->getData();
+                $ciFilename = $customer->getCifilename();
+                if($ci) {
+                    if ($ciFilename) {
+                        $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
                     }
-                }
-                $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
-                try {
-                    $ci->move(
-                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                        $newFilename
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $customer->setCifilename($newFilename);
-            }
-
-            // partie Ajout Kbis
-            $kbis = $form->get('kbisfilename')->getData();
-            $kbisFilename = $customer->getKbisfilename();
-            if($kbis) {
-                if ($kbisFilename) {
-                    $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
-                    // On vérifie si l'image existe
-                    if (file_exists($pathheader)) {
-                        unlink($pathheader);
+                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                    try {
+                        $ci->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
                     }
+                    $customer->setCifilename($newFilename);
                 }
-                $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
-                try {
-                    $kbis->move(
-                        $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                        $newFilename
+
+                // partie Ajout Kbis
+                $kbis = $form->get('kbisfilename')->getData();
+                $kbisFilename = $customer->getKbisfilename();
+                if($kbis) {
+                    if ($kbisFilename) {
+                        $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
+                    try {
+                        $kbis->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setKbisfilename($newFilename);
+                }
+
+                $customer->setFinished(1);
+                $customerRepository->add($customer);
+
+                $this->step($transaction);
+                $project = $this->transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $customerRepository->add($customer);
+
+                $this->step($transaction);
+
+                if($this->submit === true && $access === 'edit'){
+                    $this->emailService->submitEmailFromTransac(
+                        $transaction->getRefEmployed()->getEmail(),
+                        $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+                        $this->application->getAdminEmail(),
+                        '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente :'.$transaction->getName().'.',
+                        $transaction->getId(),
                     );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
                 }
-                $customer->setKbisfilename($newFilename);
+
+                return $this->json(array_merge([
+                    'code'=> 200,
+                    'message' => "Le vendeur a été correctement modifié.",
+                ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers' )), 200);
             }
 
-            $customer->setFinished(1);
-            $customerRepository->add($customer);
+            // si Formulaire invalide
+            $view = $this->renderView('gestapp/customer/_form2.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
 
-            $this->step($transaction);
-            $project = $this->transactionService->calculateProject($transaction);
-            $transaction->setProject($project);
-            $customerRepository->add($customer);
-
-            $this->step($transaction);
-
-            if($this->submit === true && $access === 'edit'){
-                $this->emailService->submitEmailFromTransac(
-                    $transaction->getRefEmployed()->getEmail(),
-                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                    $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente :'.$transaction->getName().'.',
-                    $transaction->getId(),
-                );
-            }
-
-            return $this->json(array_merge([
-                'code'=> 200,
-                'message' => "Le vendeur a été correctement modifié.",
-            ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers' )), 200);
+            return $this->json([
+                'code' => 422,
+                'message' => 'Le formulaire présente une ou des erreurs.<br><span class="mt-1 mb-1 fw-semibold text-warning">'. implode('<br>', $this->getFormErrors($form)). '</span>',
+                'formView' => $view,
+                'deleteUrl' => $this->generateUrl('op_gestapp_transaction_delcustomerjson', [
+                    'id' => $transaction->getId(),
+                    'idCustomer' => $customer->getId()
+                ])
+            ],200);
         }
 
         // Affichage du formulaire de modification du client

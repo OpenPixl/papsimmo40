@@ -13,22 +13,29 @@
             {% set step_attente = [4,9,11] %}
 
             {% if transaction.step == 0 %}
-                <h1>[PAPs Immo - TRANSACTION ] : Ouverture du Dossier.</h1>
+                <h1>[SoftPAPs - TRANSACTION ] : Ouverture du Dossier.</h1>
             {% endif %}
             {% if transaction.step == 1 %}
-                <h1>[PAPs Immo - TRANSACTION ] : Nouvel acheteur au dossier.</h1>
+                <h1>[SoftPAPs - TRANSACTION ] : Nouvel acheteur au dossier.</h1>
             {% endif %}
             {% if transaction.step in step_date %}
-                <h1>[PAPs Immo - TRANSACTION ] : Un RDV vient d'être ajouté.</h1>
+                <h1>[SoftPAPs - TRANSACTION ] : Un RDV de signature vient d'être ajouté au dossier.</h1>
             {% endif %}
             {% if transaction.step in step_document %}
-                <h1>[PAPs Immo - TRANSACTION ] : Un document attends votre approbation.</h1>
+                <h1>[SoftPAPs - TRANSACTION ] : Un document attends votre approbation.</h1>
             {% endif %}
         </div>
         <div class="content">
             <h3>Dossier n°: {{ transaction.name }}</h3>
             <hr>
             <h4>Bonjour,</h4>
+                <p>
+                    Suite à la présentation d'un document concernant la transaction immobilière :
+                    <br>
+                    - {{ transaction.property.name }}<br>
+                    - {{ transaction.property.zipcode }} {{ transaction.property.city }}
+                    <br>
+                </p>
                 {% if transaction.step == 0 %}
                     <p>
                         L'un de vos collaborateur à ouvert une nouvelle transaction immobilière : {{ transaction.name }}.<br>
@@ -49,6 +56,7 @@
                         Cette démarche ne requiert aucune intervention de votre part.
                     </p>
                 {% endif %}
+
                 {% if transaction.step in step_document %}
                     <p>
                         L'un de vos collaborateur : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }},a ajouté un document au dossier.
@@ -56,6 +64,15 @@
                         Nous vous invitons à verifier le document.
                     </p>
                 {% endif%}
+
+                {% if transaction.step in step_document and (transaction.isValidPromisepdf == 1 or transaction.isValidActepdf == 1 or transaction.isValidtracfinPdf == 1 or transaction.isValidInvoicePdf == 1) %}
+                    <p>
+                        Le document présenté a été vérifié par un administrateur.
+                        <br>
+                        Vous pouvez continuer votre démarche de vente en cliquant sur la plateforme "SoftPAPs" en cliquant le lien suivant.
+                    </p>
+                {% endif%}
+
                 {% if transaction.step in step_attente %}
                     <p>
                         Dans le cadre de la transaction immobilière {{ transaction.name }}, Un document a été déposé sur la plateforme.
