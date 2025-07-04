@@ -1,3 +1,15 @@
+import TomSelect from "tom-select";
+import 'tom-select/dist/css/tom-select.css';
+import tinymce from "tinymce";
+
+export function handleNavLinkClick(event) {
+    event.preventDefault();
+    const clickedNavLink = event.target.closest('.nav-link');
+    if (clickedNavLink) {
+        clickedNavLink.classList.add('active');
+        loadFormContent(clickedNavLink);}
+}
+
 export function removeOptions(selectElement) {
     for (let i = selectElement.options.length - 1; i >= 0; i -= 1) {
         selectElement.remove(i);
@@ -62,5 +74,126 @@ export function formatDate(dateInput){
         if (digits.length >= 4) formatted += '/' + digits.substring(2, 4);
         if (digits.length > 4) formatted += '/' + digits.substring(4, 8);
         e.target.value = formatted;
+    });
+}
+
+// Affiche le nombre de caractère restant selon la limite
+export function calculateChars(element, maxLength, charCountElement){
+    const inputElement = element;
+    const remainingChars = maxLength - inputElement.value.length;
+
+    charCountElement.textContent = `${remainingChars} caractères restants`;
+
+    inputElement.addEventListener('input', function() {
+        const remainingChars = maxLength - this.value.length;
+        charCountElement.textContent = `${remainingChars} caractères restants`;
+        if (this.value.length > maxLength) {
+            this.value = this.value.slice(0, maxLength);
+            alert('Le texte est limité à $maxlength caractères.');
+        }
+    });
+}
+
+export function SelectChoice(listSelect, parentValue, url,ChoiceValue){
+    if(listSelect.value >= 1){
+        axios
+            .get(url + parentValue)
+            .then(
+                function(response){
+                    let SelectChoicevalues = response.data.values;
+                    removeOptions(listSelect);
+                    SelectChoicevalues.forEach((element)=>{
+                        if (element.id === parseInt(ChoiceValue)){
+                            let newOption = new Option (element.name, element.id, false, true);
+                            listSelect.options.add(newOption);
+                        }else{
+                            let newOption = new Option (element.name, element.id);
+                            listSelect.options.add(newOption);
+                        }
+                    });
+                }
+            )
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
+    }
+}
+
+export function selectChoiceOnChange(parentSelect, listSelect, url, ChoiceValue){
+    let parentValue = parseInt(parentSelect.value);
+    axios
+        .get(url + parentValue)
+        .then(
+            function(response){
+                let SelectChoicevalues = response.data.values;
+                removeOptions(listSelect);
+                SelectChoicevalues.forEach((element)=>{
+                    if (element.id === parseInt(ChoiceValue)){
+                        let newOption = new Option (element.name, element.id, false, true);
+                        listSelect.options.add(newOption);
+                    }else{
+                        let newOption = new Option (element.name, element.id);
+                        listSelect.options.add(newOption);
+                    }
+                });
+            }
+        )
+        .catch(function(error){
+            console.log(error);
+        })
+    ;
+}
+
+export function initializeTinyMCE(maxChars) {
+    tinymce.remove(); // Supprime les instances existantes
+    tinymce.init({
+        selector: 'textarea.tinymce',
+        setup: function(editor) {
+            editor.on('input', function() {
+                const content = editor.getContent({ format: 'text' });
+                if (content.length > maxChars) {
+                    const truncatedContent = content.substring(0, maxChars);
+                    editor.setContent(truncatedContent);
+                    alert(`La limite de ${maxChars} caractères a été atteinte.`);
+                }
+            });
+
+            editor.on('keydown', function(event) {
+                const content = editor.getContent({ format: 'text' });
+                if (content.length >= maxChars && event.key !== "Backspace" && event.key !== "Delete") {
+                    event.preventDefault();
+                    alert(`La limite de ${maxChars} caractères a été atteinte.`);
+                }
+            });
+        },
+        plugins: 'image table lists visualchars wordcount',
+        toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image',
+        images_file_types: 'jpg,svg,webp',
+        language: 'fr_FR',
+        language_url: '/js/tinymce/js/tinymce/languages/fr_FR.js',
+        entity_encoding: "raw",
+        encoding: "html",
+        paste_as_text: true,
+        valid_elements: 'p,br,b,i,u,strong,em,ul,ol,li', // Exemple : limiter les balises autorisées
+        valid_children: '+body[p,br,b,i,u,strong,em,ul,ol,li]', // Exemple : limiter les enfants autorisés
+    });
+
+    // mise en place du datapicker flatpickr sur les champs de date
+    flatpickr(".flatpickr", {
+        "locale": "fr",
+        enableTime: false,
+        allowInput: true,
+        altFormat: "j F Y",
+        dateFormat: "d/m/Y",
+    });
+
+// mise en place du datapicker flatpickr sur les champs de date
+    flatpickr(".flatpickrtime", {
+        "locale": "fr",
+        enableTime: true,
+        noCalendar: true,
+        dateFormat: "H:i",
+        time_24hr: true
     });
 }

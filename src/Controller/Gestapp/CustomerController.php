@@ -20,6 +20,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -33,6 +34,14 @@ class CustomerController extends AbstractController
 {
     private $router;
     private EmailService $emailService;
+    private function getFormErrors(FormInterface $form): array
+    {
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            $errors[] = $error->getMessage();
+        }
+        return $errors;
+    }
 
     public function __construct(RouterInterface $router, EmailService $emailService)
     {
@@ -326,41 +335,59 @@ class CustomerController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $url = $request->headers->get('referer');
+        if ($form->isSubmitted()) {
 
-            // Contruction de la référence pour chaque propriété
-            $date = new \DateTime();
-            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-            $customer->setRefCustomer($refCustomer);
-            $customer->setRefEmployed($employed);
-            if($url){
-            $path = parse_url($url, PHP_URL_PATH);
-                $PathShowProperty = $this->router->generate('op_gestapp_property_show', ['id' => $idproperty]);
-                if($path === $PathShowProperty){
-                    $customerChoice = $customerChoiceRepository->find(1);
-                    $customer->setCustomerChoice($customerChoice);
-                }else{
-                    $customerChoice = $customerChoiceRepository->find(2);
-                    $customer->setCustomerChoice($customerChoice);
+            if($form->isValid()){
+                $url = $request->headers->get('referer');
+
+                // Contruction de la référence pour chaque propriété
+                $date = new \DateTime();
+                $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
+                $customer->setRefCustomer($refCustomer);
+                $customer->setRefEmployed($employed);
+                if($url){
+                    $path = parse_url($url, PHP_URL_PATH);
+                    $PathShowProperty = $this->router->generate('op_gestapp_property_show', ['id' => $idproperty]);
+                    if($path === $PathShowProperty){
+                        $customerChoice = $customerChoiceRepository->find(1);
+                        $customer->setCustomerChoice($customerChoice);
+                    }else{
+                        $customerChoice = $customerChoiceRepository->find(2);
+                        $customer->setCustomerChoice($customerChoice);
+                    }
                 }
-            }
-            $customer->addProperty($property);
-            $customer->setFinished(1);
-            // Ajout en BDD du nouveau client
-            $customerRepository->add($customer);
+                $customer->addProperty($property);
+                $customer->setFinished(1);
+                // Ajout en BDD du nouveau client
+                $customerRepository->add($customer);
 
-            // liste tous les clients attachés à leur propriété
-            $customers = $customerRepository->listbyproperty($property);
+                // liste tous les clients attachés à leur propriété
+                $customers = $customerRepository->listbyproperty($property);
+
+                return $this->json([
+                    'code'=> 200,
+                    'message' => "Le vendeur a été correctement ajouté.",
+                    'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
+                        'customers' => $customers,
+                        'idproperty' => $idproperty
+                    ]),
+                ], 200);
+            }
+
+            $view = $this->renderView('gestapp/customer/_form2.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
 
             return $this->json([
-                'code'=> 200,
-                'message' => "Le vendeur a été correctement ajouté.",
-                'liste' => $this->renderView('gestapp/customer/_listecustomers.html.twig', [
-                    'customers' => $customers,
-                    'idproperty' => $idproperty
+                'code' => 422,
+                'message' => 'Le formulaire présente une ou des erreurs.<br>'. implode(', ', $this->getFormErrors($form)). '<br>A vous de corriger celles-ci',
+                'formView' => $view,
+                'deleteUrl' => $this->generateUrl('op_gestapp_customer_del', [
+                    'id' => $customer->getId()
                 ])
-            ], 200);
+            ],200);
+
         }
 
         //dd('erreur soumission');
@@ -373,7 +400,10 @@ class CustomerController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => 'formulaire présenté',
-            'form' => $view->getContent()
+            'formView' => $view->getContent(),
+            'deleteUrl' => $this->generateUrl('op_gestapp_customer_del', [
+                'id' => $customer->getId(),
+            ])
         ]);
     }
 
@@ -782,49 +812,23 @@ class CustomerController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $customers = $customerRepository->listbyproperty($idproperty);
+        if ($form->isSubmitted()) {
+            if($form->isValid()){
+                $customers = $customerRepository->listbyproperty($idproperty);
 
-            $tclient = $customer->getTypeClient();
-            $slugStructure = $customer->getSlugStructure();
-            if(!$slugStructure){
-                $nameStructure = $form->get('nameStructure')->getData();
-                $slugStructure = $slugger->slug($nameStructure)->lower();
-            }
-
-            if($tclient == 'professionnel'){                    // BOUCLE SUR TypeClient Professionnel
-                $path_pro = $this->getParameter('customer_ci_directory').'/'.$slugStructure.'_'.$customer->getId();
-                if(is_dir($path_pro)){                          // On teste le répertoire dossier professionnel
-                    // intégration de l'extrait Kbis puisque Professionnel
-                    $kbis = $form->get('kbisfilename')->getData();
-
-                    $kbisFilename = $customer->getKbisfilename();
-                    if($kbis) {
-                        if ($kbisFilename) {
-                            $pathheader = $path_pro. '/' .$kbisFilename;
-                            // On vérifie si l'image existe
-                            if (file_exists($pathheader)) {
-                                unlink($pathheader);
-                            }
-                        }
-                        $newFilename = 'kbis-'.$slugStructure.'.'.$kbis->guessExtension();
-                        try {
-                            $kbis->move(
-                                $path_pro. '/',
-                                $newFilename
-                            );
-                        } catch (FileException $e) {
-                            // ... handle exception if something happens during file upload
-                        }
-                        $customer->setKbisfilename($newFilename);
-                    }
+                $tclient = $customer->getTypeClient();
+                $slugStructure = $customer->getSlugStructure();
+                if(!$slugStructure){
+                    $nameStructure = $form->get('nameStructure')->getData();
+                    $slugStructure = $slugger->slug($nameStructure)->lower();
                 }
-                else{                                           // Le dossier pro n'existe pas.
-                    $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
-                    if(is_dir($path_part)){                     // Il existe un dossier un nom du client | configuration initiale
-                        rename($path_part, $path_pro);
-                        mkdir($path_pro."/", 0775, true);
+
+                if($tclient == 'professionnel'){                    // BOUCLE SUR TypeClient Professionnel
+                    $path_pro = $this->getParameter('customer_ci_directory').'/'.$slugStructure.'_'.$customer->getId();
+                    if(is_dir($path_pro)){                          // On teste le répertoire dossier professionnel
+                        // intégration de l'extrait Kbis puisque Professionnel
                         $kbis = $form->get('kbisfilename')->getData();
+
                         $kbisFilename = $customer->getKbisfilename();
                         if($kbis) {
                             if ($kbisFilename) {
@@ -845,95 +849,136 @@ class CustomerController extends AbstractController
                             }
                             $customer->setKbisfilename($newFilename);
                         }
-                    }else{                                      // Pas de dossier actuellement créé
-                        $kbis = $form->get('kbisfilename')->getData();
-                        $kbisFilename = $customer->getKbisfilename();
-                        if($kbis) {
-                            if ($kbisFilename) {
-                                $pathheader = $path_pro. '/' .$kbisFilename;
-                                // On vérifie si l'image existe
-                                if (file_exists($pathheader)) {
-                                    unlink($pathheader);
+                    }
+                    else{                                           // Le dossier pro n'existe pas.
+                        $path_part = $this->getParameter('customer_ci_directory').'/'.$customer->getSlug().'_'.$customer->getId();
+                        if(is_dir($path_part)){                     // Il existe un dossier un nom du client | configuration initiale
+                            rename($path_part, $path_pro);
+                            mkdir($path_pro."/", 0775, true);
+                            $kbis = $form->get('kbisfilename')->getData();
+                            $kbisFilename = $customer->getKbisfilename();
+                            if($kbis) {
+                                if ($kbisFilename) {
+                                    $pathheader = $path_pro. '/' .$kbisFilename;
+                                    // On vérifie si l'image existe
+                                    if (file_exists($pathheader)) {
+                                        unlink($pathheader);
+                                    }
                                 }
-                            }
-                            $newFilename = 'kbis-'.$slugStructure.'.'.$kbis->guessExtension();
-                            try {
-                                if(is_dir($path_pro)){
+                                $newFilename = 'kbis-'.$slugStructure.'.'.$kbis->guessExtension();
+                                try {
                                     $kbis->move(
                                         $path_pro. '/',
                                         $newFilename
                                     );
-                                }else{
-                                    mkdir($path_pro."/", 0775, true);
-                                    $kbis->move(
-                                        $path_pro. '/',
-                                        $newFilename
-                                    );
+                                } catch (FileException $e) {
+                                    // ... handle exception if something happens during file upload
                                 }
-
-                            } catch (FileException $e) {
-                                // ... handle exception if something happens during file upload
+                                $customer->setKbisfilename($newFilename);
                             }
-                            $customer->setKbisfilename($newFilename);
+                        }else{                                      // Pas de dossier actuellement créé
+                            $kbis = $form->get('kbisfilename')->getData();
+                            $kbisFilename = $customer->getKbisfilename();
+                            if($kbis) {
+                                if ($kbisFilename) {
+                                    $pathheader = $path_pro. '/' .$kbisFilename;
+                                    // On vérifie si l'image existe
+                                    if (file_exists($pathheader)) {
+                                        unlink($pathheader);
+                                    }
+                                }
+                                $newFilename = 'kbis-'.$slugStructure.'.'.$kbis->guessExtension();
+                                try {
+                                    if(is_dir($path_pro)){
+                                        $kbis->move(
+                                            $path_pro. '/',
+                                            $newFilename
+                                        );
+                                    }else{
+                                        mkdir($path_pro."/", 0775, true);
+                                        $kbis->move(
+                                            $path_pro. '/',
+                                            $newFilename
+                                        );
+                                    }
+
+                                } catch (FileException $e) {
+                                    // ... handle exception if something happens during file upload
+                                }
+                                $customer->setKbisfilename($newFilename);
+                            }
                         }
                     }
                 }
+                else{
+                    // partie ajout CI
+                    $ci = $form->get('cifilename')->getData();
+                    $firstname = $form->get('firstName')->getData();
+                    $lastname = $form->get('lastName')->getData();
+                    $maidenname = $form->get('maidenName')->getData();
+                    if($maidenname){
+                        $slugCustomer = $slugger->slug($firstname.'-'.$maidenname)->lower();
+                    }else{
+                        $slugCustomer = $slugger->slug($firstname.'-'.$lastname)->lower();
+                    }
+
+                    $ciFilename = $customer->getCifilename();
+                    if($ci) {
+                        $path_part = $this->getParameter('customer_ci_directory').'/'.$slugCustomer.'_'.$customer->getId();
+                        if ($ciFilename) {
+                            $pathheader = $path_part. '/' .$ciFilename;
+                            // On vérifie si l'image existe
+                            if (file_exists($pathheader)) {
+                                unlink($pathheader);
+                            }
+                        }
+                        $newFilename = 'ci-'.$slugCustomer.'.'.$ci->guessExtension();
+                        try {
+                            if(is_dir($path_part)){
+                                $ci->move(
+                                    $path_part. '/',
+                                    $newFilename
+                                );
+                            }else{
+                                mkdir($path_part."/", 0775, true);
+                                $ci->move(
+                                    $path_part. '/',
+                                    $newFilename
+                                );
+                            }
+
+                        } catch (FileException $e) {
+                            // ... handle exception if something happens during file upload
+                        }
+                        $customer->setCifilename($newFilename);
+                    }
+                }
+
+                $customer->setFinished(1);
+                $customerRepository->add($customer);
+
+                return $this->json([
+                    'code'=> 200,
+                    'message' => "Le vendeur a été correctement modifié.",
+                    'liste' => $this->renderView('gestapp/customer/include/_listecustomers.html.twig', [
+                        'customers' => $customers,
+                        'idproperty' => $idproperty
+                    ])
+                ], 200);
             }
-            else{
-                // partie ajout CI
-                $ci = $form->get('cifilename')->getData();
-                $firstname = $form->get('firstName')->getData();
-                $lastname = $form->get('lastName')->getData();
-                $maidenname = $form->get('maidenName')->getData();
-                if($maidenname){
-                    $slugCustomer = $slugger->slug($firstname.'-'.$maidenname)->lower();
-                }else{
-                    $slugCustomer = $slugger->slug($firstname.'-'.$lastname)->lower();
-                }
-
-                $ciFilename = $customer->getCifilename();
-                if($ci) {
-                    $path_part = $this->getParameter('customer_ci_directory').'/'.$slugCustomer.'_'.$customer->getId();
-                    if ($ciFilename) {
-                        $pathheader = $path_part. '/' .$ciFilename;
-                        // On vérifie si l'image existe
-                        if (file_exists($pathheader)) {
-                            unlink($pathheader);
-                        }
-                    }
-                    $newFilename = 'ci-'.$slugCustomer.'.'.$ci->guessExtension();
-                    try {
-                        if(is_dir($path_part)){
-                            $ci->move(
-                                $path_part. '/',
-                                $newFilename
-                            );
-                        }else{
-                            mkdir($path_part."/", 0775, true);
-                            $ci->move(
-                                $path_part. '/',
-                                $newFilename
-                            );
-                        }
-
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    $customer->setCifilename($newFilename);
-                }
-            }
-
-            $customer->setFinished(1);
-            $customerRepository->add($customer);
+            $view = $this->renderView('gestapp/customer/_form2.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
 
             return $this->json([
-                'code'=> 200,
-                'message' => "Le vendeur a été correctement modifié.",
-                'liste' => $this->renderView('gestapp/customer/include/_listecustomers.html.twig', [
-                    'customers' => $customers,
-                    'idproperty' => $idproperty
+                'code' => 422,
+                'message' => 'Le formulaire présente une ou des erreurs.<br>'. implode(', ', $this->getFormErrors($form)). '<br>A vous de corriger celles-ci',
+                'formView' => $view,
+                'deleteUrl' => $this->generateUrl('op_gestapp_customer_del', [
+                    'id' => $customer->getId()
                 ])
-            ], 200);
+            ],200);
         }
 
         $customers = $customerRepository->listbyproperty($idproperty);
@@ -947,7 +992,7 @@ class CustomerController extends AbstractController
         return $this->json([
             'code' => 200,
             'message' => 'Modifier les informations du Client',
-            'form' => $view->getContent()
+            'formView' => $view->getContent()
         ],200);
     }
 
