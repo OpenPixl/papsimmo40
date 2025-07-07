@@ -34,7 +34,7 @@ export function initShowPropertyPage() {
                 </div>
               </div>`;
         modalEl.querySelector('.modal-footer').innerHTML = '\n' +
-            '<a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary">Ajouter</a>\n' +
+            '<a href="#" type="button" class="btn btn-sm btn-primary btnModalSubmit">Ajouter</a>\n' +
             '<button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>';
 
     });
@@ -46,7 +46,7 @@ export function initShowPropertyPage() {
         const btnUpdateProperty = document.getElementById('btnUpdateProperty');
         const btnNewProperty = document.getElementById('btnNewProperty');
         const btndellPhotos = document.querySelectorAll('a.delphoto');
-        const btnModalSubmit = document.getElementById('btnModalSubmit');
+        const btnsModalSubmit = document.querySelectorAll('.btnModalSubmit');
 
         // Charge le formulaire pour le lien actif par défaut au chargement du DOM
         if (defaultActiveNavLink) {
@@ -67,8 +67,9 @@ export function initShowPropertyPage() {
         btndellPhotos.forEach(function (link) {
             link.addEventListener('click', delPhoto);
         });
-
-        btnModalSubmit.addEventListener('click', submitModalForm);
+        btnsModalSubmit.forEach(function (link) {
+            link.addEventListener('click', submitModalForm);
+        });
     }
 
     function handleNavLinkClick(event) {
@@ -284,8 +285,10 @@ export function initShowPropertyPage() {
                     modal.querySelector('.modal-body').innerHTML = "<p class='mb-0'>Attention, vous êtes sur le point de supprimer la fiche du client : <br><b>" + h4Content + "</b><br>Etes-vous sur de votre choix ?</p>";
                     modal.querySelector('.modal-footer a').textContent = 'Supprimer';
                     modal.querySelector('.modal-footer a').href = url;
+                    declareEvent();
                 }
             }
+
         }
         else if(crud === 'ADDMANDAT'){
             axios
@@ -421,6 +424,7 @@ export function initShowPropertyPage() {
                     linkOpenModal.forEach(function(link){
                         link.addEventListener('click', openModalXL);
                     });
+                    declareEvent();
                 })
                 .catch(function(error){
                     console.log('error', error);

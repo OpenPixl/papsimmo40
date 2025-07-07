@@ -285,7 +285,7 @@ class CustomerController extends AbstractController
 
             return $this->json([
                 'code' => 422,
-                'message' => 'Le formulaire présente une ou des erreurs.<br> A vous de corriger celles-ci',
+                'message' => 'Le formulaire présente une ou des erreurs.<br><span class="mt-1 mb-1 fw-semibold text-warning">'. implode('<br>', $this->getFormErrors($form)). '</span>',
                 'formView' => $view->getContent()
                 ],200);
         }
@@ -757,12 +757,10 @@ class CustomerController extends AbstractController
 
             return $this->json([
                 'code' => 422,
-                'message' => 'Le formulaire présente une ou des erreurs.<br> A vous de corriger celles-ci',
+                'message' => 'Le formulaire présente une ou des erreurs.<br><span class="mt-1 mb-1 fw-semibold text-warning">'. implode('<br>', $this->getFormErrors($form)). '</span>',
                 'formView' => $view
             ],200);
         }
-
-        //dd('erreur soumission');
 
         return $this->render('gestapp/customer/edit.html.twig', [
             'customer' => $customer,
