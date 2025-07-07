@@ -292,7 +292,7 @@ class CustomerType extends AbstractType
                         'required' => true,
                         'constraints'=> [
                             new Assert\NotBlank([
-                                'message' => '- Le lieu de est obligatoire'
+                                'message' => '- Un email est nécéssaire pour contacter le client'
                             ]),
                             new Assert\Email([
                                 "message" => "- L'email est invalide"
