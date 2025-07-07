@@ -349,6 +349,14 @@ class CustomerType extends AbstractType
                             ])
                         ],
                     ])
+                    ->add('EmailStructure', TextType::class, [
+                        'required' => true,
+                        'constraints' => [
+                            new Assert\NotBlank([
+                                'message' => "- L'email est obligatoire"
+                            ])
+                        ]
+                    ])
                 ;
             }
         });
