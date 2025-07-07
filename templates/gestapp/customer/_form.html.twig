@@ -82,7 +82,7 @@
                                 {{ form_label(form.adress, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-6">
-                                {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Adresse ...'}}) }}
+                                {{ form_widget(form.adress, {'attr': {'class': 'form-control form-control-sm' ~ (form.adress.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Adresse ...'}}) }}
                             </div>
                             <div class="w-100"></div>
                             <div class="offset-2 col-6 mt-0">
@@ -112,7 +112,7 @@
                             <div class="col-3">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
-                                    {{ form_widget(form.gsm, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Portable ...'}}) }}
+                                    {{ form_widget(form.gsm, {'attr': {'class': 'form-control form-control-sm' ~ (form.gsm.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Portable ...'}}) }}
                                 </div>
                             </div>
                             <div class="col-3">
@@ -127,7 +127,7 @@
                                 {{ form_label(form.otherEmail, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-6">
-                                {{ form_widget(form.otherEmail, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email ...'}}) }}
+                                {{ form_widget(form.otherEmail, {'attr': {'class': 'form-control form-control-sm' ~ (form.otherEmail.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Email ...'}}) }}
                             </div>
                         </div>
                     </div>
@@ -200,7 +200,7 @@
                             <div class="col-3">
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><i class="fa-duotone fa-mobile"></i></span>
-                                    {{ form_widget(form.gsmStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Portable ...'}}) }}
+                                    {{ form_widget(form.gsmStructure, {'attr': {'class': 'form-control form-control-sm' ~ (form.gsmStructure.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Portable ...'}}) }}
                                 </div>
                             </div>
                             <div class="col-3">
@@ -215,7 +215,7 @@
                                 {{ form_label(form.EmailStructure, '', {'label_attr': {'class':'form-label'}}) }}
                             </div>
                             <div class="col-6">
-                                {{ form_widget(form.EmailStructure, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Email de la structure...'}}) }}
+                                {{ form_widget(form.EmailStructure, {'attr': {'class': 'form-control form-control-sm' ~ (form.EmailStructure.vars.errors|length > 0 ? ' is-invalid' : ''), 'placeholder':'Email de la structure...'}}) }}
                             </div>
                         </div>
                     </div>
