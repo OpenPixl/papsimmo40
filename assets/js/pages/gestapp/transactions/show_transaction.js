@@ -283,7 +283,6 @@ export function initShowTransactionPage() {
                             modalBs.hide();
                         }
                         else if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
-                            console.log(data.code);
                             if(data.code === 422){
                                 form.outerHTML = data.formView;
                                 toasterMessage(data.message);
@@ -459,7 +458,6 @@ export function initShowTransactionPage() {
             }
         }
     }
-
 
     function updateTransactionView({viewTargetId, view, state, message, progress, actionButtons}) {
         // Bloc principal à modifier
