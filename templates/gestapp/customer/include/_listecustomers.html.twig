@@ -3,11 +3,7 @@
     <div class="card">
         <div class="card-body p-3">
             {% if customer.typeClient == 'particulier' %}
-<<<<<<< HEAD
-                <h4 class="card-title fs-5">{% if customer.civility == 2 %}Mme. {{ customer.maidenName }} {{ customer.lastName }}{% elseif customer.civility == 3 %}Mlle. {{ customer.firstName }} {{ customer.lastName }}{% else %}M. {{ customer.firstName }} {{ customer.lastName }}{% endif %}</h4>
-=======
                 <h4 class="card-title fs-5">{% if customer.civility == 2 %}Mme. {{ customer.firstName }} {{ customer.maidenName }}{% elseif customer.civility == 3 %}Mlle. {{ customer.firstName }} {{ customer.lastName }}{% else %}M. {{ customer.firstName }} {{ customer.lastName }}{% endif %}</h4>
->>>>>>> ModifTransaction
                 <h6 class="card-subtitle mb-2 text-muted fs-6">{{ customer.RefCustomer }} | {{ customer.customerChoice }}</h6>
                 <p class="fw-lighter mb-2">
                     <i class="fa-duotone fa-location-dot"></i> Adresse : <br>
