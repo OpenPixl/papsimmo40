@@ -439,51 +439,61 @@ export function initShowPropertyPage() {
         let form = modalContent.querySelector('form');
         if (form){
             let nameForm = form.id;
+            let action = form.action;
+            let data = new FormData(form);
             if(listForm.includes(nameForm)){
-                let action = form.action;
-                let data = new FormData(form);
                 axios
                     .post(action, data)
-                    .then(function(response){
-                        if(data.code === 422){
-                            form.outerHTML = data.formView;
-                            typeClient();
-                            civilityChoice();
+                    .then(function({data}) {
+                        if(nameForm === 'formCustomer_add' || nameForm === 'formCustomer_edit'){
+                            if(data.code === 422){
+                                form.outerHTML = data.formView;
+                                toasterMessage(data.message);
+                                typeClient();
+                                civilityChoice();
 
-                            // Variables liés aux modifications des champs du bloc adresse.
-                            let customer_commune = document.getElementById('customer_city');
-                            let customer_zipcode = document.getElementById('customer_zipcode');
-                            let customer_selectcity = document.getElementById('customer_selectcity');
-                            let customer_addresseInput = document.getElementById('customer_adress');
-                            let customer_proCity = document.getElementById('customer_proCity');
-                            let customer_proZipcode = document.getElementById('customer_proZipcode');
-                            let customer_proSelectcity = document.getElementById('customer_proSelectcity');
-                            if (customer_commune && customer_addresseInput) {
-                                customer_zipcode.addEventListener('input', function (event) {
-                                    zipcode(customer_zipcode, customer_commune, customer_selectcity);
-                                });
-                                customer_selectcity.addEventListener('change', function (event) {
-                                    change_selectcity(customer_zipcode, customer_commune, customer_selectcity);
-                                });
-                                customer_proZipcode.addEventListener('input', function (event) {
-                                    zipcode(customer_proZipcode, customer_proCity, customer_proSelectcity);
-                                });
-                                customer_proSelectcity.addEventListener('change', function (event) {
-                                    change_selectcity(customer_proZipcode, customer_proCity, customer_proSelectcity);
-                                });
+                                // Variables liés aux modifications des champs du bloc adresse.
+                                let customer_commune = document.getElementById('customer_city');
+                                let customer_zipcode = document.getElementById('customer_zipcode');
+                                let customer_selectcity = document.getElementById('customer_selectcity');
+                                let customer_addresseInput = document.getElementById('customer_adress');
+                                let customer_proCity = document.getElementById('customer_proCity');
+                                let customer_proZipcode = document.getElementById('customer_proZipcode');
+                                let customer_proSelectcity = document.getElementById('customer_proSelectcity');
+                                if (customer_commune && customer_addresseInput) {
+                                    customer_zipcode.addEventListener('input', function (event) {
+                                        zipcode(customer_zipcode, customer_commune, customer_selectcity);
+                                    });
+                                    customer_selectcity.addEventListener('change', function (event) {
+                                        change_selectcity(customer_zipcode, customer_commune, customer_selectcity);
+                                    });
+                                    customer_proZipcode.addEventListener('input', function (event) {
+                                        zipcode(customer_proZipcode, customer_proCity, customer_proSelectcity);
+                                    });
+                                    customer_proSelectcity.addEventListener('change', function (event) {
+                                        change_selectcity(customer_proZipcode, customer_proCity, customer_proSelectcity);
+                                    });
+                                }
                             }
-                            declareEvent();
+                            else{
+                                const defaultActiveNavLink = document.querySelector('#admin-tab .nav-link.active');
+                                if (defaultActiveNavLink) {
+                                    loadFormContent(defaultActiveNavLink);
+                                }
+                                toasterMessage(data.message);
+                                declareEvent();
+                                modalBs.hide();
+                            }
                         }
-                        else{
+                        else if(nameForm === 'formAvenant_add'){
                             const defaultActiveNavLink = document.querySelector('#admin-tab .nav-link.active');
                             if (defaultActiveNavLink) {
                                 loadFormContent(defaultActiveNavLink);
                             }
-                            toasterMessage(response.data.message);
+                            toasterMessage(data.message);
                             declareEvent();
                             modalBs.hide();
                         }
-
                     })
                     .catch(function(error){
                         console.log('error', error);
@@ -503,6 +513,46 @@ export function initShowPropertyPage() {
                     console.log(error);
                 })
             ;
+        }
+    }
+
+    function newPro_submitNodeForm(){
+        submitNodeForm();
+        // Sélectionne tous les éléments <li> dans la barre de navigation
+        let navItems = document.querySelectorAll('.nav-tabs li');
+
+        // Trouve l'élément <li> actuellement actif (qui n'a pas la classe 'disabled')
+        let currentActiveItem = null;
+        for (let item of navItems) {
+            if (!item.classList.contains('notActive')) {
+                currentActiveItem = item;
+                break;
+            }
+        }
+
+        // Si un élément actif est trouvé, on passe au suivant
+        if (currentActiveItem) {
+            const nextItem = currentActiveItem.nextElementSibling;
+
+            if (nextItem) {
+                console.log(nextItem);
+                nextItem.classList.remove('notActive');
+                currentActiveItem.classList.add('notActive');
+                nextItem.querySelector('a').classList.remove('disabled');
+                nextItem.querySelector('a').classList.add('active');
+                currentActiveItem.querySelector('a').classList.remove('active');
+                currentActiveItem.querySelector('a').classList.add('disabled');
+
+                const currentPaneId = currentActiveItem.querySelector('a').getAttribute('data-bs-target');
+                const nextPaneId = nextItem.querySelector('a').getAttribute('data-bs-target');
+
+                document.querySelector(currentPaneId).classList.remove('active', 'show');
+                document.querySelector(currentPaneId).querySelector('#content-form').innerHTML = "<div class=\"text-center p-5\"><div class=\"spinner-border\" role=\"status\"><span class=\"visually-hidden\">Loading...</span></div></div>";
+                document.querySelector(nextPaneId).classList.add('active', 'show');
+                loadFormContent(nextItem.querySelector('a'));
+            }else{
+                console.log('il n\'existe pas');
+            }
         }
     }
 
