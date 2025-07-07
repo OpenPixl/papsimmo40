@@ -55,9 +55,9 @@
                     {% if customer.typeClient == "professionnel" %}
                         <p class="mb-0"><strong>{{ customer.nameStructure }}</strong>  <span class="badge rounded-pill bg-success text-dark">Pro</span><p>
                     {% elseif customer.typeClient == "dirigeant" %}
-                        <p class="mb-0"><strong>{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-danger text-dark">Dir</span><p>
+                        <p class="mb-0"><strong>{% if customer.civility == 2 %}Mme. {{ customer.maidenName }} {{ customer.firstName }}{% elseif customer.civility == 3 %}Mlle. {{ customer.lastName }} {{ customer.firstName }}  {% else %}M. {{ customer.lastName }} {{ customer.firstName }}{% endif %}</strong>  <span class="badge rounded-pill bg-danger text-dark">Dir</span><p>
                     {% else %}
-                        <p class="mb-0"><strong>{% if customer.civility == 2 %}Mme. {% else %}M. {% endif %}{{ customer.lastName }} {{ customer.firstName }}</strong>  <span class="badge rounded-pill bg-info text-dark">Par</span>
+                        <p class="mb-0"><strong>{% if customer.civility == 2 %}Mme. {{ customer.maidenName }} {{ customer.firstName }}{% elseif customer.civility == 3 %}Mlle. {{ customer.lastName }} {{ customer.firstName }}  {% else %}M. {{ customer.lastName }} {{ customer.firstName }}{% endif %}</strong>  <span class="badge rounded-pill bg-info text-dark">Par</span>
                         </p>
                     {% endif %}
                 </td>
