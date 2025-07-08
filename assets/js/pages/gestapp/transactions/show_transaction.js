@@ -484,16 +484,16 @@ export function initShowTransactionPage() {
     }
 
     function declareEvent() {
-        let btnSubmitModal = document.getElementById('btnModalSubmit');
+        let btnsSubmitModal = document.querySelectorAll('.btnModalSubmit');
         let btnsOpenModal = document.querySelectorAll('.openModal');
         /** ouverture */
         btnsOpenModal.forEach((btn) => {
             btn.addEventListener('click', openModalXl);
         });
-        /** validation depuis le bouton du footer */
-        if (btnSubmitModal) {
-            btnSubmitModal.addEventListener('click', submitModal);
-        }
+        /** validation depuis le bouton du footer **/
+        btnsSubmitModal.forEach((link) => {
+            link.addEventListener('click', submitModal);
+        });
     }
     declareEvent();
 }

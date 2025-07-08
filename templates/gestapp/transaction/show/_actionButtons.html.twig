@@ -1,12 +1,15 @@
-{% set stepRdvActive = [0,1,6] %}
+{% set stepRdvActive = [0,6] %}
 {% set stepDocActive = [2,7] %}
 {% set stepInvoiceActive = [4,9,11] %}
 <div class="col-6 justify-content-end" id="btnsTransaction">
     <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal " data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
-    <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="btn btn-sm
+    <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="
         {% if transaction.step in stepRdvActive %}
-            {% if transaction.customer|length > 0 %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %}
-        {% else %}btn-outline-secondary disabled{% endif %} openModal" data-bs-data="ADDAPPOINTMENT-Ajouter une date">
+            {% if transaction.customer|length == 0 %}btn btn-sm btn-outline-dark openModal{% else %}btn btn-sm btn-outline-secondary openModal disabled{% endif %}
+        {% else %}
+            btn btn-sm btn-outline-secondary openModal disabled
+        {% endif %}"
+        data-bs-data="ADDAPPOINTMENT-Ajouter une date">
         <i class="fa-duotone fa-light fa-plus"></i> Date de RDV
     </a>
     <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>

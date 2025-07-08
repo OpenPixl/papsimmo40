@@ -63,7 +63,7 @@ class TransactionController extends AbstractController
         public PhotoRepository $photoRepository,
     )
     {
-        $this->submit = true; // Initialisation de la variable $public
+        $this->submit = false; // Initialisation de la variable $public
         $this->application = $entityManager->getRepository(Application::class)->find(1);
     }
 
@@ -1293,22 +1293,6 @@ class TransactionController extends AbstractController
             'property' => $property,
             'customers' => $customers,
             'photo' => $photo,
-        ]);
-    }
-
-
-    #[Route('/2/{id}', name: 'op_gestapp_transaction_show2', methods: ['GET'])]
-    public function show2(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
-    {
-        $property = $transaction->getProperty();
-        $customers = $transaction->getCustomer();
-        $photo = $photoRepository->firstphoto($property->getId());
-
-        return $this->render('gestapp/transaction/show2.html.twig', [
-            'transaction' => $transaction,
-            'property' => $property,
-            'customers' => $customers,
-            'photo' => $photo
         ]);
     }
 
