@@ -6,6 +6,10 @@ import {typeClient, civilityChoice} from "../../../components/appli/customer";
 
 export function initNewEditCustomerPage() {
 
+    const modalEl = document.getElementById('modal');
+    if (!modalEl) return;
+    const modalBs = new bootstrap.Modal(modalEl);
+
     function submitCustomer(event){
         event.preventDefault();
         let form = document.getElementById('FormEditCustomer');
@@ -17,10 +21,10 @@ export function initNewEditCustomerPage() {
                 if(response.data.code === 422){
                     document.getElementById('form').innerHTML = response.data.formView;
                     toasterMessage(response.data.message);
-                    loadEvent();
+                    declareEvent();
                 }else{
                     toasterMessage(response.data.message);
-                    loadEvent();
+                    declareEvent();
                 }
             })
             .catch(function(error){
@@ -45,7 +49,7 @@ export function initNewEditCustomerPage() {
                 console.log(error);
             })
         ;
-        loadEvent();
+        declareEvent();
     }
 
     function dellResponsable(event){
@@ -61,13 +65,31 @@ export function initNewEditCustomerPage() {
                 console.log(error);
             })
         ;
-        loadEvent();
+        declareEvent();
     }
 
-    function loadEvent(){
+    function addResearch(e){
+        e.preventDefault();
+        let a = e.currentTarget;
+        let url = a.href;
+        const [crud, contentTitle, option] = a.dataset.bsData.split('-');
+        modalEl.querySelector('.modal-dialog').classList.add('modal-xl');
+        modalEl.querySelector('.modal-title').textContent = contentTitle;
+        axios
+            .get(url)
+            .then(({data}) => {
+                modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                const confirmBtn = modalEl.querySelector('.modal-footer a');
+                confirmBtn.textContent = 'Créer la recherche';
+                confirmBtn.href = url;
+            });
+        modalBs.show();
+    }
 
+    function declareEvent(){
         const btnAddCustomer = document.getElementById('btnAddCustomer');
         const btnAddResp = document.getElementById('btnAddResp');
+        const btnAddResearch = document.getElementById('btnAddResearch');
         // Variables liés aux modifications des champs du bloc adresse.
         let customer_commune = document.getElementById('customer_city');
         let customer_zipcode = document.getElementById('customer_zipcode');
@@ -97,10 +119,11 @@ export function initNewEditCustomerPage() {
 
         btnAddCustomer.addEventListener('click', submitCustomer);
         btnAddResp.addEventListener('click', addResponsable);
+        btnAddResearch.addEventListener('click', addResearch);
         let btnSupprResps = document.querySelectorAll('.btnSupprResp');
         btnSupprResps.forEach(function(link){
             link.addEventListener('click', dellResponsable);
         });
     }
-    loadEvent();
+    declareEvent();
 }

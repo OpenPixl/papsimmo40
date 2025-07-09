@@ -24,10 +24,10 @@
         {% for customer in customers%}
             <tr class="align-middle"
                 {% if customer.isFinished == 0 %}
-                    style="border-left: 2px solid #e99002"
-                {% elseif customer.typeClient == 'particulier' and customer.cifilename is null %}style="border-left: 2px solid #e99002"
-                {% elseif customer.typeClient == 'dirigeant' and customer.cifilename is null %}style="border-left: 2px solid #e99002"
-                {% elseif customer.typeClient == 'professionnel' and customer.kbisfilename is null %}style="border-left: 2px solid #e99002"
+                    style="margin-bottom: 0.5rem;background-color: #ffffff;border-left: 2px solid #e99002;"
+                {% elseif customer.typeClient == 'particulier' and customer.cifilename is null %}style="margin-bottom: 0.5rem;background-color: #ffffff;border-left: 2px solid #e99002"
+                {% elseif customer.typeClient == 'dirigeant' and customer.cifilename is null %}style="margin-bottom: 0.5rem;background-color: #ffffff;border-left: 2px solid #e99002"
+                {% elseif customer.typeClient == 'professionnel' and customer.kbisfilename is null %}style="margin-bottom: 0.5rem;background-color: #ffffff;border-left: 2px solid #e99002"
                 {% else %}
                     style="border-left: 2px solid #43ac6a"
                 {% endif %}>

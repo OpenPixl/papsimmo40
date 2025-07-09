@@ -49,6 +49,7 @@ export function initShowTransactionPage() {
         modalEl.querySelector('.modal-title').textContent = contentTitle;
         if (['ADDBUYERS', 'EDITBUYERS'].includes(crud)) {
             modalEl.querySelector('.modal-dialog').classList.add('modal-xl');
+            modalEl.querySelector('.modal-footer a').textContent = 'Modifier l\'acheteur';
             axios
                 .get(url)
                 .then(({data}) => {
@@ -60,6 +61,8 @@ export function initShowTransactionPage() {
 
                     typeClient();
                     civilityChoice();
+                    let dateinputddn = document.getElementById('customer_ddn');
+                    formatDate(dateinputddn);
 
                     // Variables liés aux modifications des champs du bloc adresse.
                     let customer_commune = document.getElementById('customer_city');

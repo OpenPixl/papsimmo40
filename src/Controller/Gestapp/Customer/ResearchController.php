@@ -67,7 +67,7 @@ final class ResearchController extends AbstractController
 
         return $this->json([
             'code' => 200,
-            'form' => $view->getContent(),
+            'formView' => $view->getContent(),
         ],200);
     }
 
