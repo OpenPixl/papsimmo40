@@ -1,7 +1,14 @@
 import axios from 'axios';
 import * as bootstrap from 'bootstrap';
 import {toasterMessage} from "../../../components/bootstrap/toaster";
-import {zipcode, removeOptions, change_selectcity, formatDate} from "../../../components/appli/common";
+import {
+    zipcode,
+    removeOptions,
+    change_selectcity,
+    formatDate,
+    useTomSelect,
+    initializeTinyMCE
+} from "../../../components/appli/common";
 import {typeClient, civilityChoice} from "../../../components/appli/customer";
 
 export function initNewEditCustomerPage() {
@@ -82,6 +89,10 @@ export function initNewEditCustomerPage() {
                 const confirmBtn = modalEl.querySelector('.modal-footer a');
                 confirmBtn.textContent = 'Créer la recherche';
                 confirmBtn.href = url;
+
+                initializeTinyMCE(500);
+                useTomSelect('.oneChoice', 'Simple');
+                useTomSelect('.multiChoice', 'Multi');
             });
         modalBs.show();
     }

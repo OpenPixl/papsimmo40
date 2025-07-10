@@ -34,11 +34,11 @@ liip_imagine:
             quality: 150
             filters:
                 thumbnail:
-                    size: [ 110, 80 ]
+                    size: [ 82, 60 ]
                     mode: outbond
                 background:
                     color: '#fff'
-                    size: [ 110, 80 ]
+                    size: [ 82, 60 ]
                     position: top
         oneproperty_image:
             quality: 150

@@ -12,7 +12,7 @@
                             {{ form_label(form.ResearchBien, '- Le client recherche quel type de bien ?', {'label_attr': {'class':'form-label mb-0'}}) }}
                         </div>
                         <div class="col-3 d-flex align-items-center">
-                            {{ form_widget(form.ResearchBien, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                            {{ form_widget(form.ResearchBien, {'attr': {'class': 'oneChoice w-75'}}) }}
                         </div>
                         <div class="col-1"></div>
                         <div class="col-1 d-flex align-items-center">
@@ -103,14 +103,14 @@
                             {{ form_label(form.energies, '- Energies ?', {'label_attr': {'class':'form-label mb-0'}}) }}
                         </div>
                         <div class="col-1 d-flex align-items-center">
-                            {{ form_widget(form.energies, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
+                            {{ form_widget(form.energies, {'attr': {'class': 'multiChoice', 'placeholder':'Quelles énergies ?'}}) }}
                         </div>
                         <div class="col-1"></div>
                         <div class="col-2 d-flex align-items-center">
                             {{ form_label(form.options, '- Options ?', {'label_attr': {'class':'form-label mb-0'}}) }}
                         </div>
                         <div class="col-1 d-flex align-items-center">
-                            {{ form_widget(form.options, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Min'}}) }}
+                            {{ form_widget(form.options, {'attr': {'class': 'multiChoice', 'placeholder':'Quelles Options ?'}}) }}
                         </div>
                     </div>
                 </div>

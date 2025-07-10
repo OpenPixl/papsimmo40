@@ -2,6 +2,56 @@ import TomSelect from "tom-select";
 import 'tom-select/dist/css/tom-select.css';
 import tinymce from "tinymce";
 
+
+export function useTomSelect(selector, option) {
+    const TsSimple = {
+        //plugins: ['remove_button'],
+        create: true,
+        onItemAdd:function(){
+            this.setTextboxValue('');
+            this.refreshOptions();
+        },
+        render:{
+            option:function(data,escape){
+                return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+            },
+            item:function(data,escape){
+                return '<div>' + escape(data.data) + '</div>';
+            }
+        }
+    };
+    const TsMulti = {
+        plugins: ['remove_button'],
+        create: true,
+        onItemAdd:function(){
+            this.setTextboxValue('');
+            this.refreshOptions();
+        },
+        render:{
+            option:function(data,escape){
+                return '<div class="d-flex"><span>' + escape(data.data) + '</span><span class="ms-auto text-muted">' + escape(data.value) + '</span></div>';
+            },
+            item:function(data,escape){
+                return '<div>' + escape(data.data) + '</div>';
+            }
+        }
+    };
+    console.log(option);
+
+    if (option === 'Simple'){
+        initializeTomSelect('.oneChoice', TsSimple);
+    }
+    else if (option === 'Multi'){
+        initializeTomSelect('.multiChoice', TsMulti);
+    }
+
+    function initializeTomSelect(selector, options = {}) {
+        document.querySelectorAll(selector).forEach(selectElement => {
+            new TomSelect(selectElement, options);
+        });
+    }
+}
+
 export function handleNavLinkClick(event) {
     event.preventDefault();
     const clickedNavLink = event.target.closest('.nav-link');
