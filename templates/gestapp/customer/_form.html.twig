@@ -277,22 +277,22 @@
 {% endif %}
 
 {% if customer.customers|length > 0 %}
-<div class="row mt-1">
-    <div class="col-12">
-        <div class="card border-dark">
-            <div class="card-body p-2">
-                <p class="border-bottom mb-1 text-uppercase"><b>Listes des sociétés rattachées au client</b></p>
-                <div class="row">
-                    <div class="col">
-                        {% for customers in customer.customers %}
-                            <p class="mb-0">{{ loop.index }} <i class="fa-sharp-duotone fa-solid fa-building"></i> | <a href="{{ path('op_gestapp_customer_edit', {'id':customers.id}) }}" class="linkContent">{{ customers.NameStructure }}</a> | domiciliée sur : {{ customers.proCity  }}</p>
-                        {% endfor %}
+    <div class="row mt-1">
+        <div class="col-12">
+            <div class="card border-dark">
+                <div class="card-body p-2">
+                    <p class="border-bottom mb-1 text-uppercase"><b>Listes des sociétés rattachées au client</b></p>
+                    <div class="row">
+                        <div class="col">
+                            {% for customers in customer.customers %}
+                                <p class="mb-0">{{ loop.index }} <i class="fa-sharp-duotone fa-solid fa-building"></i> | <a href="{{ path('op_gestapp_customer_edit', {'id':customers.id}) }}" class="linkContent">{{ customers.NameStructure }}</a> | domiciliée sur : {{ customers.proCity  }}</p>
+                            {% endfor %}
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-</div>
 {% endif %}
 
 {% if customer.transactions|length > 0%}
@@ -313,10 +313,11 @@
         </div>
     </div>
 {% endif %}
-
-{% if customer.research|length > 0 %}
-    {{ include('gestapp/customer/research/include/_liste.html.twig') }}
-{% endif %}
+<div class="row mt-1" id="listeResearch">
+    {% if customer.research|length > 0 %}
+        {{ include('gestapp/customer/research/include/_liste.html.twig') }}
+    {% endif %}
+</div>
 
 <div class="mt-3">
     <a class="btn btn-sm btn-outline-dark" href="{{ path('op_gestapp_customer_index') }}">
@@ -324,7 +325,7 @@
     </a>
     {% if customer.finished == 1 %}
         <button type="submit" id="btnAddCustomer" class="btn btn-sm btn-outline-primary">{{ button_label|default("Créer la fiche") }}</button>
-        <a id="btnAddResearch" class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_research_new', {'idCustomer': customer.id}) }}" data-bs-data="NEW_Research-Demande de recherche de bien">Créer une fiche de recherche</a>
+        <a class="btn btn-sm btn-outline-primary btnOpenModal" href="{{ path('op_gestapp_customer_research_new', {'idCustomer': customer.id}) }}" data-bs-data="ADDRESEARCH-Demande de recherche de bien">Créer une fiche de recherche</a>
     {% else %}
         <button type="submit" id="btnAddCustomer" class="btn btn-sm btn-outline-warning">{{ button_label|default("Créer la fiche") }}</button>
     {% endif %}
