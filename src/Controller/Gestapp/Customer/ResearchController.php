@@ -9,6 +9,7 @@ use App\Repository\Gestapp\Customer\ResearchRepository;
 use App\Repository\Gestapp\CustomerRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Form\FormInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,6 +17,15 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/gestapp/customer/research')]
 final class ResearchController extends AbstractController
 {
+    private function getFormErrors(FormInterface $form): array
+    {
+        $errors = [];
+        foreach ($form->getErrors(true) as $error) {
+            $errors[] = $error->getMessage();
+        }
+        return $errors;
+    }
+
     #[Route(name: 'op_gestapp_customer_research_index', methods: ['GET'])]
     public function index(ResearchRepository $researchRepository): Response
     {
@@ -32,6 +42,8 @@ final class ResearchController extends AbstractController
         $idCustomer): Response
     {
         $research = new Research();
+        $research->setResearchFor('achat');
+        $research->setTypeProject('neuf');
         $form = $this->createForm(ResearchType::class, $research, [
             'action' => $this->generateUrl('op_gestapp_customer_research_new', ['idCustomer' => $idCustomer]),
             'method' => 'POST',
@@ -91,19 +103,30 @@ final class ResearchController extends AbstractController
         ]);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->flush();
+        if ($form->isSubmitted()) {
+            if($form->isValid()){
+                $entityManager->flush();
 
-            $idCustomer = $research->getCustomer()->getId();;
+                $idCustomer = $research->getCustomer()->getId();;
 
-            $customer = $entityManager->getRepository(Customer::class)->find($idCustomer);
+                $customer = $entityManager->getRepository(Customer::class)->find($idCustomer);
 
+                return $this->json([
+                    'code' => 200,
+                    'liste' => $this->renderView('gestapp/customer/research/include/_liste.html.twig',[
+                        'customer' => $customer,
+                    ]),
+                    'message' => 'la recherche été ajouter au dossier du client.',
+                ],200);
+            }
+            $view = $this->render('gestapp/customer/research/new.html.twig', [
+                'research' => $research,
+                'form' => $form,
+            ]);
             return $this->json([
-                'code' => 200,
-                'liste' => $this->renderView('gestapp/customer/research/include/_liste.html.twig',[
-                    'customer' => $customer,
-                ]),
-                'message' => 'la recherche été ajouter au dossier du client.',
+                'code' => 422,
+                'formView' => $view->getContent(),
+                'message' => 'Le formulaire présente une ou des erreurs.<br><span class="mt-1 mb-1 fw-semibold text-warning">'. implode(', ', $this->getFormErrors($form)). '</span><br>A vous de corriger celles-ci',
             ],200);
         }
 

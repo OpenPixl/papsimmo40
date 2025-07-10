@@ -28,7 +28,7 @@ class ResearchType extends AbstractType
                     "LOCATION" => 'location',
                 ],
                 'expanded' => true,
-                'multiple' => false
+                'multiple' => false,
             ])
             ->add('ResearchBien', EntityType::class, [
                 'class' => ResearchBien::class,
@@ -45,7 +45,7 @@ class ResearchType extends AbstractType
                     'class' => 'radio-inline'
                 ],
                 'choices'  => [
-                    'De l\'immobilier neuf' => 'achat',
+                    'De l\'immobilier neuf' => 'neuf',
                     'Dans de l\'ancien' => 'ancien',
                     "Pour un Projet de construction" => 'construction',
                 ],

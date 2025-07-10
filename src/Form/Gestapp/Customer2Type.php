@@ -157,29 +157,224 @@ class Customer2Type extends AbstractType
             $data = $event->getData();
             $form = $event->getForm();
 
-            if (($data['typeClient'] ?? null) === 'particulier') {
-                $form
-                    ->add('firstName', TextType::class, [
-                        'label' => 'Prénom & Nom',
-                        'required' => true,
-                        'constraints' => [
-                            new Assert\NotBlank([
-                                'message' => 'Le prénom est obligatoire.'
-                            ]),
-                        ],
-                    ]);
+            if(($data['customerChoice'] ?? null) === '3'){
+                if (($data['typeClient'] ?? null) === 'particulier') {
+                    $form
+                        ->add('firstName', TextType::class, [
+                            'label' => 'Prénom & Nom',
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    'message' => '- Le prénom est obligatoire'
+                                ]),
+                                new Assert\Regex([
+                                    'pattern' => '/^([^,]*)$/',
+                                    'message' => 'Le prénom ne doit pas contenir de virgule.'
+                                ])
+                            ],
+                        ])
+                        ->add('lastName', TextType::class, [
+                            'label' => 'Prénom & Nom',
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    'message' => '- Le nom est obligatoire'
+                                ]),
+                            ],
+                        ])
+                        ->add('gsm', TextType::class, [
+                            'label' => 'Tel Portable',
+                            'constraints'=> [
+                                new Assert\NotBlank([
+                                    'message' => '- Un numéro de portable est obligatoire'
+                                ])
+                            ],
+                        ])
+                    ;
+                    if(($data['civility'] ?? null) === '2'){
+                        $form
+                            ->add('maidenName', TextType::class, [
+                                'label' => 'Nom de jeune fille',
+                                'constraints' => [
+                                    new Assert\NotBlank([
+                                        'message' => '- Le nom de naissance est obligatoire'
+                                    ]),
+                                ],
+                            ])
+                        ;
+                    }
+
+                }
+                if (($data['typeClient'] ?? null) === 'professionnel') {
+                    $form
+                        ->add('nameStructure', TextType::class, [
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    "message" => "- Le nom de la structure est obligatoire"
+                                ])
+                            ],
+                        ])
+                        ->add('gsmStructure', TextType::class, [
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    "message" => "- Le contact téléphonique est obligatoire"
+                                ])
+                            ],
+                        ])
+                    ;
+                }
+            }
+            else{
+                if (($data['typeClient'] ?? null) === 'particulier') {
+                    $form
+                        ->add('firstName', TextType::class, [
+                            'label' => 'Prénom & Nom',
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    'message' => '- Le prénom est obligatoire'
+                                ]),
+                                new Assert\Regex([
+                                    'pattern' => '/^([^,]*)$/',
+                                    'message' => 'Le prénom ne doit pas contenir de virgule.'
+                                ])
+                            ],
+                        ])
+                        ->add('lastName', TextType::class, [
+                            'label' => 'Prénom & Nom',
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    'message' => '- Le nom est obligatoire'
+                                ]),
+                            ],
+                        ])
+                        ->add('ddn', DateType::class, [
+                            'label' => 'Date de naissance',
+                            'widget' => 'single_text',
+                            'format' => 'dd/MM/yyyy',
+                            // prevents rendering it as type="date", to avoid HTML5 date pickers
+                            'html5' => false,
+                            'required' => true,
+                            'constraints'=> [
+                                new Assert\NotBlank([
+                                    'message' => '- La date de naissance est obligatoire'
+                                ])
+                            ],
+                            'by_reference' => true,
+                        ])
+                        ->add('ddnIn', TextType::class, [
+                            'label' => 'à',
+                            'required' => true,
+                            'constraints'=> [
+                                new Assert\NotBlank([
+                                    'message' => '- Le lieu de naissance est obligatoire'
+                                ])
+                            ],
+                        ])
+                        ->add('adress', TextType::class, [
+                            'label' => 'Adresse',
+                            'required' => true,
+                            'constraints'=> [
+                                new Assert\NotBlank([
+                                    'message' => "- L'adresse est necessaire"
+                                ])
+                            ],
+                            'empty_data' =>''
+                        ])
+                        ->add('zipcode', TextType::class, [
+                            'label' => 'Code Postal',
+                            'required' => true,
+                            'constraints'=> [
+                                new Assert\NotBlank([
+                                    'message' => '- Le code postal est obligatoire'
+                                ])
+                            ],
+                        ])
+                        ->add('gsm', TextType::class, [
+                            'label' => 'Tel Portable',
+                            'constraints'=> [
+                                new Assert\NotBlank([
+                                    'message' => '- Un numéro de portable est obligatoire'
+                                ])
+                            ],
+                        ])
+                        ->add('otherEmail', TextType::class, [
+                            'label' => 'Email',
+                            'required' => true,
+                            'constraints'=> [
+                                new Assert\NotBlank([
+                                    'message' => '- Un email est nécéssaire pour contacter le client'
+                                ]),
+                                new Assert\Email([
+                                    "message" => "- L'email est invalide"
+                                ])
+                            ],
+                        ])
+                    ;
+                    if(($data['civility'] ?? null) === '2'){
+                        $form
+                            ->add('maidenName', TextType::class, [
+                                'label' => 'Nom de jeune fille',
+                                'constraints' => [
+                                    new Assert\NotBlank([
+                                        'message' => '- Le nom de naissance est obligatoire'
+                                    ]),
+                                ],
+                            ])
+                        ;
+                    }
+
+                }
+                if (($data['typeClient'] ?? null) === 'professionnel') {
+                    $form
+                        ->add('nameStructure', TextType::class, [
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    "message" => "- Le nom de la structure est obligatoire"
+                                ])
+                            ],
+                        ])
+                        ->add('proAdress', TextType::class, [
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    "message" => "- L'adresse est obligatoire"
+                                ])
+                            ],
+                        ])
+                        ->add('proZipcode', TextType::class, [
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    "message" => "- Le code postal est obligatoire"
+                                ])
+                            ],
+                        ])
+                        ->add('gsmStructure', TextType::class, [
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    "message" => "- Le contact téléphonique est obligatoire"
+                                ])
+                            ],
+                        ])
+                        ->add('EmailStructure', TextType::class, [
+                            'required' => true,
+                            'constraints' => [
+                                new Assert\NotBlank([
+                                    'message' => "- L'email est obligatoire"
+                                ])
+                            ]
+                        ])
+                    ;
+                }
             }
 
-            if (($data['typeClient'] ?? null) === 'professionnel') {
-                $form->add('nameStructure', TextType::class, [
-                    'required' => true,
-                    'constraints' => [
-                        new Assert\NotBlank([
-                            "message" => "Le nom de la structure est obligatoire."
-                        ])
-                    ]
-                ]);
-            }
+
         });
     }
 

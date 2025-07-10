@@ -3172,7 +3172,7 @@ class TransactionController extends AbstractController
 
             return $this->json([
                 'code' => 422,
-                'message' => 'Le formulaire présente une ou des erreurs.<br>'. implode(', ', $this->getFormErrors($form)). '<br>A vous de corriger celles-ci',
+                'message' => 'Le formulaire présente une ou des erreurs.<br><span class="mt-1 mb-1 fw-semibold text-warning">'. implode(', ', $this->getFormErrors($form)). '</span><br>A vous de corriger celles-ci',
                 'formView' => $view,
                 'deleteUrl' => $this->generateUrl('op_gestapp_transaction_delcustomerjson', [
                     'id' => $transaction->getId(),

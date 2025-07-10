@@ -17,21 +17,23 @@ export function initNewEditCustomerPage() {
     if (!modalEl) return;
     const modalBs = new bootstrap.Modal(modalEl);
 
-    function submitCustomer(event){
-        event.preventDefault();
-        let form = document.getElementById('FormEditCustomer');
+    function submitCustomer(e){
+        e.preventDefault();
+        let modalContent = e.currentTarget.parentNode.parentElement;
+        let form = modalContent.querySelector('form');
         let action = form.action;
         let data = new FormData(form);
         axios
             .post(action, data)
             .then(function(response){
                 if(response.data.code === 422){
-                    document.getElementById('listeResearch').innerHTML = response.data.liste;
+                    document.getElementById('form').innerHTML = response.data.formView;
                     toasterMessage(response.data.message);
                     declareEvent();
                 }else{
                     toasterMessage(response.data.message);
                     declareEvent();
+                    window.location.href = action;
                 }
             })
             .catch(function(error){
@@ -112,9 +114,17 @@ export function initNewEditCustomerPage() {
         axios
             .post(action, data)
             .then(function ({data}) {
-                document.getElementById('listeResearch').innerHTML = data.liste;
-                toasterMessage(data.message);
-                declareEvent();
+                if(data.code === 422){
+                    document.getElementById('form').innerHTML = data.formView;
+                    toasterMessage(data.message);
+                    declareEvent();
+                }
+                else{
+                    document.getElementById('listeResearch').innerHTML = data.liste;
+                    toasterMessage(data.message);
+                    declareEvent();
+                }
+
             })
         ;
         modalBs.hide();
@@ -138,6 +148,8 @@ export function initNewEditCustomerPage() {
 
         typeClient();
         civilityChoice();
+        let dateinputddn = document.getElementById('customer_ddn');
+        formatDate(dateinputddn);
 
         if (customer_commune && customer_addresseInput) {
             customer_zipcode.addEventListener('input', function (event) {
