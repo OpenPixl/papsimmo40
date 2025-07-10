@@ -112,7 +112,7 @@ export function initNewEditCustomerPage() {
         axios
             .post(action, data)
             .then(function ({data}) {
-                document.getElementById('form').innerHTML = data.formView;
+                document.getElementById('listeResearch').innerHTML = data.liste;
                 toasterMessage(data.message);
                 declareEvent();
             })
