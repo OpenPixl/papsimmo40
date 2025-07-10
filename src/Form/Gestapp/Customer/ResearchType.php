@@ -19,7 +19,7 @@ class ResearchType extends AbstractType
     {
         $builder
             ->add('researchFor', ChoiceType::class, [
-                'label' => 'Choixe de recherche',
+                'label' => 'Choix de recherche',
                 'attr' => [
                     'class' => 'radio-inline'
                 ],
