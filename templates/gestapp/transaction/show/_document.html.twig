@@ -18,7 +18,7 @@
         <a href="{{ asset('/properties/'~ref~'/documents/'~nameDocument) }}" class="text-primary text-decoration-none" download><i class="fa-light fa-arrow-down-to-line"></i> Télécharger</a>
             {% if transaction.isDocsFinished == 0 %}
                 {% if access == "read" %}
-                    | <a href="#" class="text-primary text-decoration-none"><i class="fa-duotone fa-light fa-eye"></i>
+                    | <a href="{{ path('op_gestapp_transaction_validfile', {'id': transaction.id, 'file': nameDocument }) }}" class="text-primary text-decoration-none openModal" data-bs-data="VIEWDOCS-Visualisation d'un document-{{ slugDocument }}"><i class="fa-duotone fa-light fa-eye"></i>
                     Voir </a>
                 {% elseif access == "edit" or access == "admin" %}
                     | <a href="{{ path(urlEdit, {'id': transaction.id, 'typeFile': slugDocument }) }}" class="text-primary text-decoration-none openModal" data-bs-data="EDITDOCUMENTS-Actualiser le document initial-"><i class="fa-light fa-arrows-rotate"></i>

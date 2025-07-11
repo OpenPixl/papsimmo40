@@ -13,7 +13,7 @@
 
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <div class="col-2">
-                <a id="supprCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_suppr', {'id': listcollaborator.id, 'idtransac': listcollaborator.refTransac.id}) }}" data-bs-data="DEL-Suppression d'un collaborateur-{{ listcollaborator.refemployed.id }}"><i class="fa-duotone fa-user-minus"></i></a>
+                <a id="supprCollaborator" class="openModal" href="{{ path('op_gestapp_transaction_addcollaborator_suppr', {'id': listcollaborator.id, 'idtransac': listcollaborator.refTransac.id}) }}" data-bs-data="DELCOLLAB-Suppression d'un collaborateur-collab"><i class="fa-duotone fa-user-minus"></i></a>
             </div>
         {% endif %}
 

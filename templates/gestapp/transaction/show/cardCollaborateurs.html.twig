@@ -23,10 +23,11 @@
             {% endif%}
         {% endif %}
     </div>
+    <div id="listCollaborator" class="mt-1">
     {% if transaction.addCollTransacs|length > 0 %}
         {% set listcollaborators = transaction.addCollTransacs %}
-        <div id="listCollaborator" class="mt-1">
+
             {% include 'gestapp/transaction/show/_listCollaborator.html.twig' with listcollaborators %}
-        </div>
     {% endif %}
+    </div>
 </div>

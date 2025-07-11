@@ -77,8 +77,8 @@ class AddCollaboratorController extends AbstractController
             return $this->json([
                 "code" => 200,
                 "message" => "Le collaborateur à été ajouté",
-                'listCollaborator' => $this->renderView('gestapp/transaction/add_collaborator/index.html.twig',[
-                    'listcollaborators' => $listCollaborators
+                'listCollaborators' => $this->renderView('gestapp/transaction/add_collaborator/index.html.twig',[
+                    'listCollaborators' => $listCollaborators
                 ]),
 
             ],200);
@@ -251,12 +251,9 @@ class AddCollaboratorController extends AbstractController
         return $this->json([
             "code" => 200,
             "message" => "Le collaborateur à été retiré.",
-            'listCollaborator' => $this->renderView('gestapp/transaction/add_collaborator/index.html.twig',[
-                'listcollaborators' => $listCollaborators
+            'listCollaborators' => $this->renderView('gestapp/transaction/add_collaborator/index.html.twig',[
+                'listCollaborators' => $listCollaborators
             ]),
-            "row" => $this->renderView('gestapp/transaction/include/block/_rowinvoicesPdf.html.twig', [
-                'transaction' => $transaction
-            ])
         ],200);
     }
 }

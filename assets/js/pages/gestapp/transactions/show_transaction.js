@@ -135,13 +135,21 @@ export function initShowTransactionPage() {
                 })
             ;
         }
+        else if (crud === 'DELCOLLAB') {
+            modalEl.querySelector('.modal-body').innerHTML =
+                "<p class='mb-0'>Attention, vous êtes sur le point de retirer ce collaborateur.</p>";
+            const confirmBtn = modalEl.querySelector('.modal-footer a');
+            confirmBtn.textContent = 'Retirer le collaborateur';
+            confirmBtn.href = url;
+            declareEvent();
+        }
         else if (crud === 'DELAPPOINTMENT') {
             modalEl.querySelector('.modal-body').innerHTML =
                 "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce RDV.</p>";
             const confirmBtn = modalEl.querySelector('.modal-footer a');
             confirmBtn.textContent = 'Valider le document';
             confirmBtn.href = url;
-            modalEl.dataset.option = option;
+            modalEl.dataset.option = option; // donne le nom du support à retirer
             declareEvent();
         }
         else if (crud === 'DELDOCUMENTS'){
@@ -160,6 +168,16 @@ export function initShowTransactionPage() {
             confirmBtn.textContent = 'Suppression';
             confirmBtn.href = url;
             declareEvent();
+        }
+        else if (crud === 'VIEWDOCS') {
+            modalEl.querySelector('.modal-dialog').classList.add('modal-xl');
+            modalEl.querySelector('.modal-body').innerHTML = '<iframe src="" width="100%" height="500px"></iframe>';
+            axios.get(url).then(({data}) => {
+                modalEl.querySelector('.modal-body iframe').src = data.path;
+            });
+            const footer = modalEl.querySelector('.modal-footer');
+            const confirmBtn = footer.querySelector('a');
+            confirmBtn.classList.add('d-none');
         }
         else if (crud === 'SHOWFILE') {
             modalEl.querySelector('.modal-dialog').classList.add('modal-xl');
@@ -357,7 +375,8 @@ export function initShowTransactionPage() {
                             });
                         }
                         else if(nameForm === 'FormAddcollaborator'){
-                            document.getElementById('listCollaborator').innerHTML = data.listcollaborators;
+                            document.getElementById('listCollaborator').innerHTML = data.listCollaborators;
+                            modalBs.hide();
                         }
                     })
                     .catch(function (error) {
@@ -442,6 +461,16 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
+            }
+            else if(option !== null && option === 'collab') {
+                delete modal.dataset.option;
+                axios.post(url).then(function ({data}) {
+                    document.getElementById('listCollaborator').innerHTML = data.listCollaborators;
+                    toasterMessage(data.message);
+                    modalBs.hide();
+                })
+                ;
+                declareEvent();
             }
             else{
                 axios
