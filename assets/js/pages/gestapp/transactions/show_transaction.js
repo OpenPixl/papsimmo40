@@ -35,9 +35,8 @@ export function initShowTransactionPage() {
                 </div>
               </div>`;
         modalEl.querySelector('.modal-footer').innerHTML = '\n' +
-            '<a id="btnModalSubmit" href="#" type="button" class="btn btn-sm btn-primary">Ajouter</a>\n' +
+            '<a href="#" type="button" class="btn btn-sm btn-primary btnModalSubmit">Ajouter</a>\n' +
             '<button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>';
-
     });
 
     function openModalXl(e) {
@@ -141,6 +140,7 @@ export function initShowTransactionPage() {
             const confirmBtn = modalEl.querySelector('.modal-footer a');
             confirmBtn.textContent = 'Retirer le collaborateur';
             confirmBtn.href = url;
+            modalEl.dataset.option = option; // donne le nom du support à retirer
             declareEvent();
         }
         else if (crud === 'DELAPPOINTMENT') {
@@ -377,6 +377,7 @@ export function initShowTransactionPage() {
                         else if(nameForm === 'FormAddcollaborator'){
                             document.getElementById('listCollaborator').innerHTML = data.listCollaborators;
                             modalBs.hide();
+                            declareEvent();
                         }
                     })
                     .catch(function (error) {
@@ -462,11 +463,12 @@ export function initShowTransactionPage() {
                 ;
                 modalBs.hide();
             }
-            else if(option !== null && option === 'collab') {
-                delete modal.dataset.option;
+            else if(option !== null && option === 'supprCollab') {
                 axios.post(url).then(function ({data}) {
+                    console.log(document.getElementById('listCollaborator'));
                     document.getElementById('listCollaborator').innerHTML = data.listCollaborators;
                     toasterMessage(data.message);
+                    delete modal.dataset.option;
                     modalBs.hide();
                 })
                 ;

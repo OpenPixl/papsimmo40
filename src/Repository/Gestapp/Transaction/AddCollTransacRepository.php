@@ -28,6 +28,7 @@ class AddCollTransacRepository extends ServiceEntityRepository
             ->select('
             t.id as idTransac,
             e.avatarName as avatarName,
+            
             e.lastName as lastName,
             e.firstName as firstName,
             e.id as idEmployed,

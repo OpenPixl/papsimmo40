@@ -25,9 +25,8 @@
     </div>
     <div id="listCollaborator" class="mt-1">
     {% if transaction.addCollTransacs|length > 0 %}
-        {% set listcollaborators = transaction.addCollTransacs %}
-
-            {% include 'gestapp/transaction/show/_listCollaborator.html.twig' with listcollaborators %}
+        {% set listCollaborators = transaction.addCollTransacs %}
+            {% include 'gestapp/transaction/show/_listCollaborator.html.twig' with listCollaborators %}
     {% endif %}
     </div>
 </div>

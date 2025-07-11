@@ -1,19 +1,19 @@
-{% for listcollaborator in listcollaborators %}
+{% for listCollaborator in listCollaborators %}
     <div class="row p-1 align-items-center">
         <div class="col-2">
-            {% if listcollaborator.refemployed.avatarName is not null %}
-                <img class="rounded-circle" src="{{ asset('images/avatar/' ~ listcollaborator.refemployed.avatarName) }}" alt="{{ listcollaborator.refemployed.avatarName }}" style="height:50px;width:50px">
+            {% if listCollaborator.refemployed.avatarName is not null %}
+                <img class="rounded-circle" src="{{ asset('images/avatar/' ~ listCollaborator.refEmployed.avatarName) }}" alt="{{ listCollaborator.refemployed.avatarName }}" style="height:50px;width:50px">
             {% else %}
                 <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
             {% endif %}
         </div>
         <div class="col-8">
-            {{ listcollaborator.refemployed.firstName }} {{ listcollaborator.refemployed.lastName }}
+            {{ listCollaborator.refemployed.firstName }} {{ listCollaborator.refemployed.lastName }}
         </div>
 
         {% if is_granted('ROLE_SUPER_ADMIN') %}
             <div class="col-2">
-                <a id="supprCollaborator" class="openModal" href="{{ path('op_gestapp_transaction_addcollaborator_suppr', {'id': listcollaborator.id, 'idtransac': listcollaborator.refTransac.id}) }}" data-bs-data="DELCOLLAB-Suppression d'un collaborateur-collab"><i class="fa-duotone fa-user-minus"></i></a>
+                <a id="supprCollaborator" class="openModal" href="{{ path('op_gestapp_transaction_addcollaborator_suppr', {'id': listCollaborator.id, 'idtransac': listCollaborator.refTransac.id}) }}" data-bs-data="DELCOLLAB-Suppression d'un collaborateur-supprCollab"><i class="fa-duotone fa-user-minus"></i></a>
             </div>
         {% endif %}
 

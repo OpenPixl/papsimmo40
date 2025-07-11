@@ -32,8 +32,8 @@ class AddCollaboratorController extends AbstractController
     {
         $listCollaborators = $addCollTransacRepository->listcollTransac($transaction);
 
-        return $this->render('gestapp/transaction/add_collaborator/index.html.twig', [
-            'listcollaborators' => $listCollaborators,
+        return $this->render('gestapp/transaction/show/_listCollaborator.html.twig', [
+            'listCollaborators' => $listCollaborators,
             'transaction' => $transaction,
         ]);
     }
@@ -72,12 +72,11 @@ class AddCollaboratorController extends AbstractController
             $entityManager->persist($addCollTransac);
             $entityManager->flush();
 
-            $listCollaborators = $addCollTransacRepository->listcollTransac($idtransac);
-
+            $listCollaborators = $transaction->getAddCollTransacs();
             return $this->json([
                 "code" => 200,
                 "message" => "Le collaborateur à été ajouté",
-                'listCollaborators' => $this->renderView('gestapp/transaction/add_collaborator/index.html.twig',[
+                'listCollaborators' => $this->renderView('gestapp/transaction/show/_listCollaborator.html.twig',[
                     'listCollaborators' => $listCollaborators
                 ]),
 
@@ -239,19 +238,19 @@ class AddCollaboratorController extends AbstractController
     }
 
     #[Route('/gestapp/transaction/addcollaborator/{id}/suppr/{idtransac}', name: 'op_gestapp_transaction_addcollaborator_suppr')]
-    public function supprCollaborator(AddCollTransac $addCollTransac, EntityManagerInterface $em, AddCollTransacRepository $addCollTransacRepository, $idtransac)
+    public function supprCollaborator(AddCollTransac $addCollTransac, EntityManagerInterface $em, $idtransac, TransactionRepository $transactionRepository)
     {
-        $transaction = $addCollTransac->getRefTransac();
-
+        $transaction = $transactionRepository->find($idtransac);
         $em->remove($addCollTransac);
         $em->flush();
 
-        $listCollaborators = $addCollTransacRepository->listcollTransac($idtransac);
+        $listCollaborators = $transaction->getAddCollTransacs();
+        //dd($listCollaborators);
 
         return $this->json([
             "code" => 200,
             "message" => "Le collaborateur à été retiré.",
-            'listCollaborators' => $this->renderView('gestapp/transaction/add_collaborator/index.html.twig',[
+            'listCollaborators' => $this->renderView('gestapp/transaction/show/_listCollaborator.html.twig',[
                 'listCollaborators' => $listCollaborators
             ]),
         ],200);
