@@ -2,6 +2,9 @@ const typeClient = document.getElementById('customer_typeClient');
 const btnAddCustomer = document.getElementById('btnAddCustomer');
 const btnAddResp = document.getElementById('btnAddResp');
 
+const modal = document.getElementById('modal');
+const modalBs = new bootstrap.Modal(document.getElementById('modal'));
+
 const customer_commune = document.getElementById('customer_city');
 const customer_zipcode = document.getElementById('customer_zipcode');
 const customer_SelectCity = document.getElementById('customer_selectcity');
@@ -11,6 +14,7 @@ const customer_proZipcode = document.getElementById('customer_proZipcode');
 const customer_proSelectcity = document.getElementById('customer_proSelectcity');
 
 if(document.querySelector('input[name=customer\\[civility\\]]:checked').value > 1){
+    console.log("ok");
     document.getElementById('customer_maidenName').parentElement.classList.remove('d-none');
 }
 const radioCustomerButtons = document.querySelectorAll('input[name=customer\\[civility\\]]');
@@ -91,15 +95,8 @@ function submitCustomer(event){
     axios
         .post(action, data)
         .then(function(response){
-            if(response.data.code === 422){
-                document.getElementById('form').innerHTML = response.data.formView;
-                reloadEvent();
-                toasterMessage(response.data.message);
-            }else{
-                toasterMessage(response.data.message);
-            }
             reloadEvent();
-
+            toasterMessage(response.data.message);
         })
         .catch(function(error){
             console.log(error);
@@ -107,11 +104,47 @@ function submitCustomer(event){
     ;
 }
 
+function openModal(event){
+    event.preventDefault();
+    let a = event.currentTarget;
+    let recipient = a.getAttribute('data-bs-data');
+    let url = a.href;
+    let [crud, contentTitle, id] = recipient.split('-');
+    modalBs.show();
+    modal.querySelector('.modal-title').textContent = contentTitle;
+    if(crud === 'ADDRESEARCH' || crud === 'EDITRESEARCH'){
+        modal.querySelector('.modal-dialog').classList.add('modal-xl');
+        modal.querySelector('.modal-footer a').href= url;
+        axios.get(url).then(({data}) => {
+            modal.querySelector('.modal-body').innerHTML = data.form;
+            modal.querySelector('.modal-footer a').addEventListener('click', submitModal);
+        });
+        reloadEvent();
+    }
+}
+
+function submitModal(e){
+    e.preventDefault();
+    let form = document.getElementById('Form_Customer_Research');
+    let action = form.action;
+    let data = new FormData(form);
+    axios
+        .post(action, data)
+        .then(function(response){
+            modalBs.hide();
+            document.getElementById('liste_research').innerHTML = response.data.liste;
+            toasterMessage(response.data.message);
+            reloadEvent();
+        });
+    reloadEvent();
+}
+
 function addResponsable(event){
     event.preventDefault();
     let form = document.getElementById('AddRespStructure');
     let action = form.action;
     let data = new FormData(form);
+    console.log(form);
     axios
         .post(action, data)
         .then(function(response){
@@ -182,14 +215,25 @@ function toasterMessage(message){
     // initialisation du toaster
     let toastHTMLElement = document.getElementById("toaster");
     let toastBody = toastHTMLElement.querySelector('.toast-body'); // selection de l'élément possédant le message
-    toastBody.innerHTML = message;
+    toastBody.textContent = message;
     let toastElement = new bootstrap.Toast(toastHTMLElement, option);
     toastElement.show();
 }
 
 function reloadEvent(){
+    let btnSubmitModal = document.getElementById('btnSubmitModal');
+    let btnOpenModal = document.querySelectorAll('.openModal');
+    console.log(btnOpenModal);
+
     btnAddCustomer.addEventListener('click', submitCustomer);
     btnAddResp.addEventListener('click', addResponsable);
+    btnOpenModal.forEach(function(click){
+        click.addEventListener('click', openModal);
+    });
+    if(btnSubmitModal !== null){
+        btnSubmitModal.addEventListener('click', submitModal);
+    }
+
     let btnSupprResps = document.querySelectorAll('.btnSupprResp');
     btnSupprResps.forEach(function(click){
         click.addEventListener('click', dellResponsable);

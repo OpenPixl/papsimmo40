@@ -3001,8 +3001,6 @@ class TransactionController extends AbstractController
 
         $customers = $transaction->getCustomer();
 
-        dd($customers);
-
         // Suprression des documents dans leur répertoire
         $PromisePdfName = $transaction->getPromisePdfFilename();
         $pathPromisePdf = $this->getParameter('transaction_promise_directory').'/'.$PromisePdfName;
@@ -3010,7 +3008,8 @@ class TransactionController extends AbstractController
         $pathActePdf = $this->getParameter('transaction_acte_directory').'/'.$PromisePdfName;
         $TracfinPdfName = $transaction->getTracfinPdfFilename();
         $pathTracfinPdf = $this->getParameter('transaction_tracfin_directory').'/'.$PromisePdfName;
-        // On vérifie si les fichiers existe
+
+        // On vérifie si les fichiers existe et on les supprime
         if(file_exists($PromisePdfName)){
             unlink($pathPromisePdf);
         }

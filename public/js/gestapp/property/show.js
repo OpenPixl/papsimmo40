@@ -211,6 +211,7 @@ function openModalXL(event){
             })
         ;
     }
+
 }
 
 // Fonction pour activer le lien de navigation et charger le formulaire au chargement du DOM

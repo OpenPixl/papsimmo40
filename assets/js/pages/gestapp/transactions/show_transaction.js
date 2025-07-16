@@ -134,6 +134,17 @@ export function initShowTransactionPage() {
                 })
             ;
         }
+        else if (crud === 'ADDAGENCY') {
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    const confirmBtn = modalEl.querySelector('.modal-footer a');
+                    confirmBtn.textContent = 'Ajouter l\'agent au dossier';
+                    confirmBtn.href = url;
+                })
+            ;
+        }
         else if (crud === 'DELCOLLAB') {
             modalEl.querySelector('.modal-body').innerHTML =
                 "<p class='mb-0'>Attention, vous êtes sur le point de retirer ce collaborateur.</p>";
@@ -270,6 +281,9 @@ export function initShowTransactionPage() {
 
 
             declareEvent();
+        }
+        else{
+            console.log('Erreur : le type de formulaire n\'est pas reconnu');
         }
 
         modalBs.show();
