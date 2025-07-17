@@ -221,6 +221,11 @@ class EmployedController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            $referent = $form->get('referent')->getData();
+            if(!$referent){
+                $employed->setReferent(null);
+            }
+
             // Suppression directe de l'avatar
             $supprAvatarInput = $form->get('isSupprAvatar')->getData();
             if($supprAvatarInput && $supprAvatarInput == true){

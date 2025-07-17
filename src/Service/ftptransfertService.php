@@ -6,10 +6,13 @@ namespace App\Service;
 use App\Repository\Gestapp\ComplementRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use phpseclib3\Net\SSH2;
 use Symfony\Component\HttpFoundation\RequestStack;
 use phpseclib\Net\SFTP;
 use phpseclib\Crypt\RSA;
+use Symfony\Component\HttpFoundation\StreamedResponse;
 use Twig\Environment;
 use ZipArchive;
 use App\Service\PropertyService;
@@ -22,40 +25,109 @@ class ftptransfertService
         RequestStack $requestStack,
         private Environment $twig,
         public PropertyService $propertyService,
+        string $projectDir
     )
     {
         $this->requestStack = $requestStack;
+        $this->projectDir = $projectDir;
     }
 
-    public function directoryZip($nameRep, $nameFile, $content ){
-        $zip = new \ZipArchive();                               // instanciation de la classe Zip
-        $rep = 'doc/report/'.$nameRep;
-        $repFile = $rep.'/'.$nameFile.'.csv';
+    public function generateExcel($data, $Rep, $nameFile)
+    {
+        // 2. Créer le fichier Excel
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
 
-        if(file_exists($repFile))
-        {
-            unlink($repFile);                                   // Suppression du précédent s'il existe
-            file_put_contents($repFile, $content);              // Génération du fichier dans l'arborescence du fichiers du site
+        // 3. En-têtes
+        $sheet->fromArray(['ID', 'Référence', 'Titre', 'Adresse', 'Prix', 'Mise à jour'], null, 'A1');
+
+        // 4. Données
+        $date = new \DateTime('now');
+        $row = 2;
+        $letter = 'A';
+        foreach ($data as $d) {
+            $sheet->setCellValue("A$row", $d['id']);
+            $sheet->setCellValue("B$row", $d['ref']);
+            $sheet->setCellValue("C$row", $d['name']);
+            $sheet->setCellValue("D$row", $d['city']);
+            $sheet->setCellValue("E$row", $d['priceFai']);
+            $sheet->setCellValue("F$row", $date->format('d/m/Y'));
+            $row++;
+            $letter++;
         }
-        file_put_contents($repFile, $content);                  // Génération du fichier dans l'arborescence du fichiers du site
 
-        if($zip->open($nameFile.'.zip', ZipArchive::CREATE) == TRUE)
+        $filePath = $this->projectDir . $Rep .$nameFile.'.xlsx';
+
+        $writer = new Xlsx($spreadsheet);
+        $writer->save($filePath);
+
+        if(file_exists($filePath))
         {
-            $fichiers = scandir($rep);
-            unset($fichiers[0], $fichiers[1]);
-            foreach($fichiers as $f)
+            unlink($filePath);                                  // Suppression du précédent s'il existe
+            $writer->save($filePath);                           // Génération du fichier dans l'arborescence du fichiers du site
+        }
+        $writer->save($filePath);
+
+        return $filePath; // pour info, log, ou lien de téléchargement
+
+    }
+
+    public function directoryZip($Rep, $nameRep, $nameFile, $content ){
+        $zip = new \ZipArchive();                               // instanciation de la classe Zip
+        $repFile = $Rep.$nameFile.'.csv';
+        if(is_dir($Rep)) {
+            if(file_exists($repFile))
             {
-                // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
-                // Pour ne pas créer de dossier dans l’archive.
-                if(!$zip->addFile($rep.'/'.$f, $f))
-                {
-                    dd('erreur');
-                }
+                unlink($repFile);                                   // Suppression du précédent s'il existe
+                file_put_contents($repFile, $content);              // Génération du fichier dans l'arborescence du fichiers du site
             }
-            $zip->close();
-            rename($nameFile.'.zip', 'doc/report/'.$nameFile.'.zip');
+            file_put_contents($repFile, $content);                  // Génération du fichier dans l'arborescence du fichiers du site
+
+            if($zip->open($nameFile.'.zip', ZipArchive::CREATE) == TRUE)
+            {
+                $fichiers = scandir($Rep);
+                unset($fichiers[0], $fichiers[1]);
+                foreach($fichiers as $f)
+                {
+                    // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
+                    // Pour ne pas créer de dossier dans l’archive.
+                    if(!$zip->addFile($Rep.'/'.$f, $f))
+                    {
+                        dd('erreur');
+                    }
+                }
+                $zip->close();
+                rename($nameFile.'.zip', 'doc/report/'.$nameFile.'.zip');
+            }else{
+                dd('Erreur');
+            }
         }else{
-            dd('Erreur');
+            mkdir($Rep."/", 0775, true);
+            if(file_exists($repFile))
+            {
+                unlink($repFile);                                   // Suppression du précédent s'il existe
+                file_put_contents($repFile, $content);              // Génération du fichier dans l'arborescence du fichiers du site
+            }
+            file_put_contents($repFile, $content);                  // Génération du fichier dans l'arborescence du fichiers du site
+
+            if($zip->open($nameFile.'.zip', ZipArchive::CREATE) == TRUE)
+            {
+                $fichiers = scandir($Rep);
+                unset($fichiers[0], $fichiers[1]);
+                foreach($fichiers as $f)
+                {
+                    // On ajoute chaque fichier à l’archive en spécifiant l’argument optionnel.
+                    // Pour ne pas créer de dossier dans l’archive.
+                    if(!$zip->addFile($Rep.'/'.$f, $f))
+                    {
+                        dd('erreur');
+                    }
+                }
+                $zip->close();
+                rename($nameFile.'.zip', 'doc/report/'.$nameFile.'.zip');
+            }else{
+                dd('Erreur');
+            }
         }
     }
 
@@ -138,14 +210,8 @@ class ftptransfertService
         $nameRep = 'Annonces';             // Nom du dossier
         $nameFile = 'RC-1860977';               // Nom du Fichier sans extension
         $Rep = 'doc/report/Annonces/';     // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     public function figaroFTP(
@@ -240,14 +306,9 @@ class ftptransfertService
         $nameRep = 'figaro';                     // Nom du dossier
         $nameFile = '107428';               // Nom du Fichier sans extension
         $Rep = 'doc/report/figaro/';             // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
+
     }
 
     // Protocole de transfert des annonces pour la plateforme GreenACRES et VIZZIT - XML
@@ -482,12 +543,24 @@ class ftptransfertService
 
 
         // PARTIE II : Génération du fichier CSV
-        $file = 'doc/report/AnnoncesGreen/892318a.xml';                                  // Chemin du fichier
-        if (file_exists($file)) {
-            unlink($file);                                                  // Suppression du précédent s'il exist
-            file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
+        $Rep = 'doc/report/Green/';
+        $nameFile = '892318a';
+        $repFile = $Rep.$nameFile.'.xml';
+        if(is_dir($Rep)){
+            if (file_exists($repFile)) {
+                unlink($repFile);                                                  // Suppression du précédent s'il exist
+                file_put_contents($repFile, $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
+            }
+            file_put_contents($repFile, $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
+        }else{
+            mkdir($Rep."/", 0775, true);
+            if (file_exists($repFile)) {
+                unlink($repFile);                                                  // Suppression du précédent s'il exist
+                file_put_contents($repFile, $xmlContent); // Génération du fichier dans l'arborescence du fichiers du site
+            }
+            file_put_contents($repFile, $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
         }
-        file_put_contents('doc/report/AnnoncesGreen/892318a.xml', $xmlContent);     // Génération du fichier dans l'arborescence du fichiers du site
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.11
@@ -583,14 +656,9 @@ class ftptransfertService
         $nameRep = 'Superimmo';                     // Nom du dossier
         $nameFile = 'paps_superimmo';               // Nom du Fichier sans extension
         $Rep = 'doc/report/Superimmo/';             // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
+
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.09
@@ -683,17 +751,11 @@ class ftptransfertService
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
-        $nameRep = 'AnnoncesAlentour';             // Nom du dossier
+        $nameRep = 'Alentour';             // Nom du dossier
         $nameFile = 'paps_alentour';               // Nom du Fichier sans extension
-        $Rep = 'doc/report/AnnoncesAlentour/';     // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }
+        $Rep = 'doc/report/Alentour/';     // nom du répertoire final
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.12
@@ -783,17 +845,18 @@ class ftptransfertService
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
-        $nameRep = 'AnnoncesHtlouer';             // Nom du dossier
+        $nameRep = 'Htlouer';             // Nom du dossier
         $nameFile = 'g46426';               // Nom du Fichier sans extension
-        $Rep = 'doc/report/AnnoncesHtlouer/';     // nom du répertoire final
+        $Rep = 'doc/report/Htlouer/';     // nom du répertoire final
         if(is_dir($Rep))
         {
-            $this->directoryZip($nameRep, $nameFile, $content);
+            $this->directoryZip($Rep,$nameRep, $nameFile, $content);
         }else{
             // Création du répertoire s'il n'existe pas.
             mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
+            $this->directoryZip($Rep,$nameRep, $nameFile, $content);
         }
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     public function ubiflow(
@@ -889,14 +952,8 @@ class ftptransfertService
         $nameRep = 'ubiflow';                           // Nom du dossier
         $nameFile = 'ubiflow';                          // Nom du Fichier sans extension
         $Rep = 'doc/report/ubiflow/';                   // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.11
@@ -992,14 +1049,8 @@ class ftptransfertService
         $nameRep = 'lcdcm';                     // Nom du dossier
         $nameFile = 'paps_lcdcm';               // Nom du Fichier sans extension
         $Rep = 'doc/report/lcdcm/';             // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.11
@@ -1092,17 +1143,11 @@ class ftptransfertService
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
-        $nameRep = 'lcdcm';                     // Nom du dossier
-        $nameFile = 'paps_lcdcm';               // Nom du Fichier sans extension
-        $Rep = 'doc/report/lcdcm/';             // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }
+        $nameRep = 'monbien';                     // Nom du dossier
+        $nameFile = 'paps_monbien';               // Nom du Fichier sans extension
+        $Rep = 'doc/report/monbien/';             // nom du répertoire final
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
     }
 
     // Protocole de transfert des annonces pour la plateforme Superimmo - poliris 4.12
@@ -1195,13 +1240,8 @@ class ftptransfertService
         $nameRep = 'AnnoncesHtlouer';             // Nom du dossier
         $nameFile = 'g46426';               // Nom du Fichier sans extension
         $Rep = 'doc/report/AnnoncesHtlouer/';     // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($nameRep, $nameFile, $content);
-        }
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content);
+        $this->generateExcel($properties, $Rep, $nameFile);
+
     }
 }

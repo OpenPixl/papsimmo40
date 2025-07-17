@@ -396,6 +396,9 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'referent', targetEntity: self::class)]
     private Collection $employeds;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $rsacNumber = null;
+
     public function __construct()
     {
         $this->Customer = new ArrayCollection();
@@ -1361,6 +1364,18 @@ class Employed implements UserInterface, PasswordAuthenticatedUserInterface
                 $employed->setReferent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRsacNumber(): ?string
+    {
+        return $this->rsacNumber;
+    }
+
+    public function setRsacNumber(string $rsacNumber): static
+    {
+        $this->rsacNumber = $rsacNumber;
 
         return $this;
     }
