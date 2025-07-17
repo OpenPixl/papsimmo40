@@ -241,6 +241,12 @@ class AddCollaboratorController extends AbstractController
     public function supprCollaborator(AddCollTransac $addCollTransac, EntityManagerInterface $em, $idtransac, TransactionRepository $transactionRepository)
     {
         $transaction = $transactionRepository->find($idtransac);
+        //dd($transaction->getAddCollTransacs()->count());
+        if($transaction->getAddCollTransacs()->count() <= 1)
+        {
+            $transaction->setIsCollaborator(0);
+        }
+
         $em->remove($addCollTransac);
         $em->flush();
 
