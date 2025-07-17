@@ -110,14 +110,15 @@ class TransactionController extends AbstractController
 
     #[Route('/{id}/step', name: 'op_gestapp_transaction_step', methods: ['GET'])]
     public function step(Transaction $transaction){
-        //dd($transaction->getCustomer()->count() > 0);
         if(!$transaction->getDateAtPromise()){
+            //dd(0);
             $transaction->setState('Promesse de vente | En attente de la date du RDV');
             $transaction->setStep(0);
             $this->entityManager->flush();
             return 0;
         }
         if(!$transaction->getCustomer()->count() > 0) {
+            //dd(1);
             $transaction->setState('Ouverture du dossier | En attente d\'un ou de plusieurs acquéreurs');
             $transaction->setStep(1);
             $this->entityManager->flush();
@@ -125,62 +126,73 @@ class TransactionController extends AbstractController
         }
 
         if(!$transaction->getPromisePdfFilename()){
+            //dd(2);
             $transaction->setState('Promesse de vente | En attente du chargement du fichier Pdf');
             $transaction->setStep(2);
             $this->entityManager->flush();
             return 2;
         }
         if(!$transaction->isIsValidPromisepdf()){
+            //dd(3);
             $transaction->setState('Promesse de vente | En attente de la validation du pdf par l\'administrateur');
             $transaction->setStep(3);
             $this->entityManager->flush();
             return 3;
         }
         if(!$transaction->getHonorairesPdfFilename()){
+            //dd(4);
             $transaction->setState('Honoraires | En attente du chargement du fichier Pdf par l\'administrateur');
             $transaction->setStep(4);
             $this->entityManager->flush();
             return 4;
         }
         if(!$transaction->isIsValidHonoraires()){
+            //dd(5);
             $transaction->setState('Honoraires | En attente de la validation du pdf par l\'administrateur');
             $transaction->setStep(5);
             $this->entityManager->flush();
             return 5;
         }
         if(!$transaction->getDateAtSale()){
+            //dd(6);
             $transaction->setState('Acte de vente et Tracfin | En attente de la date du RDV');
             $transaction->setStep(6);
             $this->entityManager->flush();
             return 6;
         }
         if(!$transaction->getActePdfFilename() || !$transaction->getTracfinPdfFilename()){
+            //dd(7);
             $transaction->setState('Acte de vente et Tracfin | En attente du chargement du fichier Pdf');
             $transaction->setStep(7);
             $this->entityManager->flush();
             return 7;
         }
         if((!$transaction->isIsValidActepdf() || $transaction->isIsValidActepdf() == 0) || (!$transaction->isIsValidtracfinPdf() || $transaction->isIsValidtracfinPdf() == 0)){
+            //dd(8);
             $transaction->setState('Acte de vente et Tracfin | En attente de la validation du pdf par l\'administrateur');
             $transaction->setStep(8);
             $this->entityManager->flush();
             return 8;
         }
         if(!$transaction->getInvoicePdfFilename()){
+            //dd(9);
             $transaction->setState('Facture de vente | En attente du chargement du fichier Pdf');
             $transaction->setStep(9);
             $this->entityManager->flush();
             return 9;
         }
         if(!$transaction->isIsValidInvoicePdf()){
+            //dd(10);
             $transaction->setState("Facture de vente | Validée par l'administrateur");
             $transaction->setStep(10);
             $this->entityManager->flush();
             return 10;
         }
         if($transaction->isCollaborator() == 1){
+
             $collaborateurs = $transaction->getAddCollTransacs();
             if ($collaborateurs->count() === 0) {
+                //dd('11A');
                 // Aucun collaborateur, on reste dans l'état actuel ou on log si besoin
                 return $transaction->getStep();
             }
@@ -195,6 +207,7 @@ class TransactionController extends AbstractController
             }
 
             if ($collaborateursAvecFacture === 0) {
+                //dd('11B');
                 // Aucun collaborateur n’a déposé sa facture
                 $transaction->setState('Autres Factures | En attente des pièces');
                 $transaction->setStep(11);
@@ -216,6 +229,10 @@ class TransactionController extends AbstractController
 
         }
 
+
+        $transaction->setStep(15);
+        $transaction->setIsDocsFinished(1);
+        $this->entityManager->flush();
 
         $step = $transaction->getStep();
 
@@ -1010,9 +1027,11 @@ class TransactionController extends AbstractController
 
         }
         if (!$pdfHonoraire && !$pdfInvoice){
-            $label = "Charger le PDF de vos honoraires, le fichier ne doit pas dépasser 20Mo de taille";
+            $label = "Veuillez Charger le PDF des honoraires de ventes,, le fichier ne doit pas dépasser 20Mo de taille";
         }elseif($pdfHonoraire && !$pdfInvoice){
             $label = "Charger le PDF de la facture finale, le fichier ne doit pas dépasser 20Mo de taille";
+        }elseif(!$pdfHonoraire && $pdfInvoice){
+            $label = "Veuillez recharger le PDF des honoraires de ventes, le fichier ne doit pas dépasser 20Mo de taille";
         }
 
         if($pdfHonoraire !== null && $pdfInvoice !== null){
@@ -1088,16 +1107,18 @@ class TransactionController extends AbstractController
                 if($access === 'edit'){
                     $transaction->setHonorairesPdfFilename($newFilename);
                     $em->flush();
+                    $this->step($transaction);
                 }elseif ($access == 'admin'){
                     $transaction->setHonorairesPdfFilename($newFilename);
                     $transaction->setIsValidHonoraires(1);
                     $transaction->setHonorairesValidBy($this->getUser());
                     $em->flush();
+                    //dd($transaction->getHonorairesPdfFilename());
+                    $this->step($transaction);
                 }
                 $project = $transactionService->calculateProject($transaction);
                 $transaction->setProject($project);
                 $em->flush();
-                $this->step($transaction);
 
                 if($this->submit == true && $access === 'admin'){
                     $this->emailService->submitEmailFromTransac(
@@ -1114,17 +1135,18 @@ class TransactionController extends AbstractController
                 if($access === 'edit'){
                     $transaction->setInvoicePdfFilename($newFilename);
                     $em->flush();
+                    $this->step($transaction);
                 }elseif ($access == 'admin'){
                     $transaction->setInvoicePdfFilename($newFilename);
                     $transaction->setIsValidInvoicepdf(1);
                     $transaction->setInvoiceValidBy($this->getUser());
                     $em->flush();
+                    $this->step($transaction);
                 }
 
                 $project = $transactionService->calculateProject($transaction);
                 $transaction->setProject($project);
                 $em->flush();
-                $this->step($transaction);
 
                 if($this->submit === true && $access === 'edit'){
                     $this->emailService->submitEmailFromTransac(
@@ -3459,6 +3481,9 @@ class TransactionController extends AbstractController
             $transaction->setIsValidInvoicepdf(0);
             $transaction->setInvoiceValidBy(null);
             $transaction->setIsSupprInvoicePdf(0);
+        }
+        if($transaction->isIsDocsFinished() == 1){
+            $transaction->setIsDocsFinished(0);
         }
         $em->flush();
 

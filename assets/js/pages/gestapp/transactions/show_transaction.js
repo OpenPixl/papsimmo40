@@ -346,6 +346,7 @@ export function initShowTransactionPage() {
                                         change_selectcity(customer_proZipcode, customer_proCity, customer_proSelectcity);
                                     });
                                 }
+                                modalBs.hide();
                             }else{
                                 updateTransactionView({
                                     viewTargetId: 'Block_Buyers',
@@ -367,6 +368,7 @@ export function initShowTransactionPage() {
                                 actionButtons: data.actionButtons,
                                 message: data.message
                             });
+                            modalBs.hide();
                         }
                         else if(nameForm === 'formInvoice_add' || nameForm === 'formInvoice_edit'){
                             updateTransactionView({
@@ -377,6 +379,7 @@ export function initShowTransactionPage() {
                                 actionButtons: data.actionButtons,
                                 message: data.message
                             });
+                            modalBs.hide();
                         }
                         else if(nameForm === 'FormAddcollaboratorInvoice'){
                             updateTransactionView({
@@ -387,6 +390,7 @@ export function initShowTransactionPage() {
                                 actionButtons: data.actionButtons,
                                 message: data.message
                             });
+                            modalBs.hide();
                         }
                         else if(nameForm === 'FormAddcollaborator'){
                             document.getElementById('listCollaborator').innerHTML = data.listCollaborators;
