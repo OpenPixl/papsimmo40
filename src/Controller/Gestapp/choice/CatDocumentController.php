@@ -43,10 +43,15 @@ class CatDocumentController extends AbstractController
             ]);
         }
 
-        return $this->render('gestapp/choice/cat_document/new.html.twig', [
+        $view = $this->render('gestapp/choice/cat_document/new.html.twig', [
             'cat_document' => $catDocument,
-            'form' => $form,
+            'form' => $form
         ]);
+
+        return $this->json([
+            'code'=> 200,
+            'formView' => $view->getContent(),
+        ], 200);
     }
 
     #[Route('/{id}', name: 'app_gestapp_choice_cat_document_show', methods: ['GET'])]

@@ -5,7 +5,6 @@ import {zipcode, removeOptions, change_selectcity, formatDate} from "../../../co
 import {typeClient, civilityChoice} from "../../../components/appli/customer";
 import flatpickr from "flatpickr";
 
-
 export function initShowTransactionPage() {
 
     const modalEl = document.getElementById('modal');

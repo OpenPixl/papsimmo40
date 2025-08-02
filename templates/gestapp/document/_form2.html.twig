@@ -10,7 +10,9 @@
             <td class="col-sm-2">
                 <div class="row">
                     <div class="col-md-10">{{ form_widget(form.category) }}</div>
-                    <div class="col-md-2"><button id="btnAddCatDocument" class="btn btn-sm"><i class="fa-regular fa-circle-plus"></i></button></div>
+                    <div class="col-md-2">
+                        <a id="btnAddCatDocument" href="{{ path('app_gestapp_choice_cat_document_new') }}" class="btn btn-sm" data-bs-data="ADDCATEGORY-Ajout d'une catégorie-RAS"><i class="fa-regular fa-circle-plus"></i></a>
+                    </div>
                 </div>
             </td>
             <td></td>

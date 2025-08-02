@@ -10,6 +10,7 @@ import { initNewEditCustomerPage } from './js/pages/gestapp/customer/newedit_cus
 import { initShowPropertyPage } from './js/pages/gestapp/property/show_property';
 import { initShowTransactionPage } from './js/pages/gestapp/transactions/show_transaction';
 import { initListTransactionPage } from './js/pages/gestapp/transactions/list_transaction';
+import {initIndexDocumentsPage, initShowDocumentsPage} from './js/pages/gestapp/documents/index_documents';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -25,6 +26,9 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
         case 'op_gestapp_transaction_show':
             initShowTransactionPage();
+            break;
+        case 'op_gestapp_document_index':
+            initIndexDocumentsPage();
             break;
         case 'op_gestapp_transaction_index':
             initListTransactionPage();
