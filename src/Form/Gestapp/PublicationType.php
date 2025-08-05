@@ -66,6 +66,10 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur "Les clefs de chez moi" ?',
                 'required' => false
             ])
+            ->add('isPublishEtreProprio', CheckboxType::class, [
+                'label' => 'Publié sur "Les clefs de chez moi" ?',
+                'required' => false
+            ])
             //->add('sector', ChoiceType::class, [
             //    'label' => 'Secteur',
             //    'choices'  => [
