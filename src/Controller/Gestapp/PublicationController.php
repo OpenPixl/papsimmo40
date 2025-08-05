@@ -125,6 +125,13 @@ class PublicationController extends AbstractController
                 $complementRepository
             );
 
+            // Service de dépot sur serveur le serveur FTP "EtreProprio"
+            $ftptransfertService->etreproprio(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository
+            );
+
             $view = $this->render('gestapp/publication/showbyproperty.html.twig', [
                 'publication' => $publication,
                 'property' => $property,
