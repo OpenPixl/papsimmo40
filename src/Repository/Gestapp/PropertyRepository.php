@@ -1512,6 +1512,8 @@ class PropertyRepository extends ServiceEntityRepository
             $query->where('pu.isPublishClefsmoi = 1');
         }elseif($partenaire == "MB"){
             $query->where('pu.isPublishMonbien = 1');
+        }elseif($partenaire == "EP"){
+            $query->where('pu.isPublishEtreProprio = 1');
         }
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');

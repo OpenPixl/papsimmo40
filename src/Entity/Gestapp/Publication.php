@@ -58,6 +58,8 @@ class Publication
     #[ORM\Column]
     private ?bool $isPublishMonbien = false;
 
+    #[ORM\Column]
+    private ?bool $isPublishEtreProprio = false;
 
     public function getId(): ?int
     {
@@ -240,6 +242,18 @@ class Publication
     public function setIsPublishMonbien(bool $isPublishMonbien): static
     {
         $this->isPublishMonbien = $isPublishMonbien;
+
+        return $this;
+    }
+
+    public function isIsPublishEtreProprio(): ?bool
+    {
+        return $this->isPublishEtreProprio;
+    }
+
+    public function setIsPublishEtreProprio(bool $isPublishEtreProprio): static
+    {
+        $this->isPublishEtreProprio = $isPublishEtreProprio;
 
         return $this;
     }
