@@ -6,17 +6,22 @@ import flatpickr from "flatpickr";
 import 'tom-select/dist/css/tom-select.css';
 import TomSelect from 'tom-select';
 
+
+import { initIndexCustomerPage } from './js/pages/gestapp/customer/index_customer';
 import { initNewEditCustomerPage } from './js/pages/gestapp/customer/newedit_customer';
 import { initShowPropertyPage } from './js/pages/gestapp/property/show_property';
 import { initShowTransactionPage } from './js/pages/gestapp/transactions/show_transaction';
 import { initListTransactionPage } from './js/pages/gestapp/transactions/list_transaction';
-import {initIndexDocumentsPage, initShowDocumentsPage} from './js/pages/gestapp/documents/index_documents';
+import { initIndexDocumentsPage } from './js/pages/gestapp/documents/index_documents';
 
 
 document.addEventListener('DOMContentLoaded', () => {
     const page = document.body.dataset.page;
 
     switch (page) {
+        case 'op_gestapp_customer_index':
+            initIndexCustomerPage();
+            break;
         case 'op_gestapp_customer_new':
         case 'op_gestapp_customer_edit':
             initNewEditCustomerPage();

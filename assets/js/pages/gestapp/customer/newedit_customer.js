@@ -10,8 +10,20 @@ import {
     initializeTinyMCE
 } from "../../../components/appli/common";
 import {typeClient, civilityChoice} from "../../../components/appli/customer";
+import blockBackNavigation from '../../../components/action.js';
+
 
 export function initNewEditCustomerPage() {
+
+    // Activer uniquement sur certaines pages
+    const page = document.body.dataset.page;
+    if(page === "op_gestapp_customer_new"){
+        document.body.setAttribute("data-block-back", "true");
+        if (document.body.dataset.blockBack === "true") {
+            blockBackNavigation();
+        }
+    }
+
 
     const modalEl = document.getElementById('modal');
     if (!modalEl) return;
@@ -143,8 +155,6 @@ export function initNewEditCustomerPage() {
         let customer_proCity = document.getElementById('customer_proCity');
         let customer_proZipcode = document.getElementById('customer_proZipcode');
         let customer_proSelectcity = document.getElementById('customer_proSelectcity');
-
-        console.log(btnsModalSubmit);
 
         typeClient();
         civilityChoice();

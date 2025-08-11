@@ -7,6 +7,12 @@ fos_elastica:
             persistence:
                 driver: orm
                 model: App\Entity\Gestapp\Property
+                listener:
+                    enabled: true
+                    defer: false   # false = update direct, true = différé
+                    insert: true   # indexe à la création
+                    update: true   # met à jour à la modification
+                    delete: true   # supprime à la suppression
                 provider: ~
                 finder: ~
             properties:
@@ -38,17 +44,25 @@ fos_elastica:
                 model: App\Entity\Gestapp\Customer
                 provider: ~
                 finder: ~
+                listener:
+                    enabled: true
+                    defer: false   # false = update direct, true = différé
+                    insert: true   # indexe à la création
+                    update: true   # met à jour à la modification
+                    delete: true   # supprime à la suppression
             properties:
-                refCustomer:
-                    type: text
                 firstName:
                     type: text
+                    fields:
+                        keyword:
+                            type: keyword
                 lastName:
                     type: text
-                city:
+                    fields:
+                        keyword:
+                            type: keyword
+                slug:
                     type: text
-                zipcode:
-                    type: text
-                typeClient:
-                    type: text
-
+                    fields:
+                        keyword:
+                            type: keyword

@@ -43,6 +43,5 @@ class DirectoryService
             $result = false;
         }
         return $result;
-
     }
 }

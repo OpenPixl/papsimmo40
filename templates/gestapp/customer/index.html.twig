@@ -4,7 +4,6 @@
 
 {% block javascripts %}
     {{ parent() }}
-    <script type="module" src="{{ asset('js/gestapp/customer/index.js') }}"></script>
 {% endblock %}
 
 {% block contentTitle %}
@@ -13,17 +12,16 @@
             <h1 class="fs-4 border-bottom border-dark fw-normal">TRANSACTION - Liste des Clients</h1>
         </div>
     </div>
-
 {% endblock %}
 
 {% block content %}
-    <div class="row">
-        <div id="list" class="col-sm-12">
-            <div class="navigation d-flex justify-content-end mb-1">
-                <form id="searchCustomerform" action="{{ path('op_gestapp_customer_search') }}">
-                    <input id="searchCustomerInput" type="text" class="form-control form-control-sm" name="word" placeholder="&#x1F50D; Rechercher le client">
-                </form>
-            </div>
+    <div class="row justify-content-end mt-1 mb-1">
+        <div class="col-6 d-inline-flex">
+            <a class="btn btn-sm btn-outline-primary" href="{{ path('op_gestapp_customer_new') }}"><i class="fa-duotone fa-user-plus"></i> Ajouter un nouveau client ou nouvelle cliente.</a>
+            {{ render(controller('App\\Controller\\Admin\\SearchController::customerOnIndex')) }}
+        </div>
+        <div class="col-6 d-flex justify-content-end" id="blockPagination">
+            {{ knp_pagination_render(customers, 'include/admin/pagination.html.twig') }}
         </div>
     </div>
     <div class="row">
@@ -31,32 +29,4 @@
             {% include('gestapp/customer/include/_list.html.twig') %}
         </div>
     </div>
-{% endblock %}
-
-{% block modal %}
-    {{ parent() }}
-    <section>
-        {# Modal de suppression #}
-        <div class="modal fade" id="modalCustomer" tabindex="-1" aria-labelledby="modalStatus" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Modal Customer</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="d-flex justify-content-center">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <a id="btnModalSubmit" href="#" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Ajouter</a>
-                        <button type="button" class="btn btn btn-sm btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
 {% endblock %}

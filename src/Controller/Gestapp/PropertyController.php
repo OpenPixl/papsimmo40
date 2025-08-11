@@ -406,6 +406,9 @@ class PropertyController extends AbstractController
         PropertyService $propertyService
     )
     {
+        $user = $this->getUser();
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+
         // Vérification si property été dupliqué
         $refs = $propertyService->getRefs($property, $propertyRepository);
 
@@ -433,6 +436,9 @@ class PropertyController extends AbstractController
         $dupproperty->setOptions($dupcomplement);
         $dupproperty->setPublication($dupublication);
         $dupproperty->setIsIncreating(0);
+        if($hasAccess == true){
+            $dupproperty->setRefEmployed($user);
+        }
 
         //dd($dupproperty);
         $propertyRepository->add($dupproperty);

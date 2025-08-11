@@ -2,6 +2,7 @@
 
 namespace App\Controller\Gestapp;
 
+use App\Controller\Admin\SearchController;
 use App\Entity\Gestapp\choice\CustomerChoice;
 use App\Entity\Gestapp\Customer;
 use App\Entity\Gestapp\Property;
@@ -607,6 +608,27 @@ class CustomerController extends AbstractController
             'customer' => $customer,
             'form' => $form,
         ]);
+    }
+
+    // Le Client possède un lien avec un bien immobilier (soit acquéreur soit vendeur)
+    #[Route('/haslink/{customer}', name: 'op_gestapp_customer_haslink',  methods: ['GET', 'POST'])]
+    public function haslink(Customer $customer)
+    {
+        $haslink = false;
+
+        if($customer->getProperties()->count() > 0 || $customer->getTransactions()->count() > 0){
+            $haslink = true;
+
+            return $this->json([
+                'code'=> 200,
+                'haslink' => $haslink,
+            ], 200);
+        }
+
+        return $this->json([
+            'code'=> 200,
+            'haslink' => $haslink,
+        ], 200);
     }
 
     #[Route('/{id}', name: 'op_gestapp_customer_show', methods: ['GET'])]
