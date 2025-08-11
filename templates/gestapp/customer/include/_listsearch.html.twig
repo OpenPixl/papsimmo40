@@ -23,12 +23,12 @@
                     style="border-left: 2px solid #43ac6a"
                 {% endif %}>
                 <td>
-                    {% if customer.avatarName is not null %}
-                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ customer.avatarName) }}" alt="" style="height:50px;width:50px" alt="{{ customer.avatarName }}">
+                    {% if customer.refemployed.avatarName is not null %}
+                        <img class="rounded-circle" src="{{ asset('images/avatar/' ~ customer.refemployed.avatarName) }}" alt="" style="height:50px;width:50px" alt="{{ customer.refemployed.avatarName }}">
                     {% else %}
                         <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
                     {% endif %}
-                    {{ customer.firstNameEmpl }} {{ customer.lastNameEmpl }}
+                    {{ customer.refemployed.firstName }} {{ customer.refemployed.lastName }}
                 </td>
                 <td>
                     {% if customer.isFinished == 0 %}

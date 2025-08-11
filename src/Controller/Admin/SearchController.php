@@ -4,15 +4,18 @@ namespace App\Controller\Admin;
 
 use App\Form\Admin\Search\SearchConstructType;
 use App\Form\Admin\Search\SearchCustomerPropertyType;
+use App\Form\Admin\Search\SearchCustomerType;
 use App\Form\Admin\Search\SearchPropertyDashboardType;
 use App\Form\Admin\Search\SearchPropertyType;
 use Elastica\Query;
 use Elastica\Query\BoolQuery;
+use Elastica\Query\MatchPhrasePrefix;
 use Elastica\Query\Range;
 use Elastica\Query\Term;
 use Elastica\Query\MultiMatch;
 use FOS\ElasticaBundle\Finder\PaginatedFinderInterface;
 use FOS\ElasticaBundle\Finder\FinderInterface;
+use FOS\ElasticaBundle\Finder\TransformedFinder;
 use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -241,19 +244,74 @@ class SearchController extends AbstractController
         ]);
     }
 
-    #[Route('/admin/search/customer_index/', name: 'app_admin_search_customer_index', methods: ['POST', 'GET'])]
-    public function customerIndex(Request $request): Response
+    #[Route('/admin/search/customeronindex/', name: 'app_admin_search_customeronindex', methods: ['POST', 'GET'])]
+    public function customerOnIndex(Request $request, TransformedFinder $customerFinder,): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
-        $user = $this->getUser();
 
-        return $this->render('admin/search/searchpropertydashboard.html.twig', [
-            // form' => $form,
+        $form = $this->createForm(SearchCustomerType::class, null, [
+            'action' => $this->generateUrl('app_admin_search_customeronindex'),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'SearchFormCustomer'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+
+
+        if($form->isSubmitted() && $form->isValid()) {
+            $data = $form->getData()->slug;
+            $page = $request->query->getInt('page', 1);
+
+            //dd($data);
+
+            if (empty($data)) {
+                return $this->json([]);
+            }
+
+            // Découper la recherche sur les espaces
+            $terms = preg_split('/\s+/', $data);
+
+            // Le code ci dessous :
+            // - Découpe la chaîne de recherche sur les espaces
+            // - Pour chaque mot, construit un sous-bool qui cherche dans firstName ou lastName (should)
+            // - Combine tous ces sous-bool avec un must (= tous les mots doivent apparaître au moins une fois dans les deux champs)
+            // - Utilise MatchPhrasePrefix pour que ce soit tolérant aux débuts de mots
+
+            $boolQuery = new BoolQuery();
+
+            foreach ($terms as $term) {
+                $should = new BoolQuery();
+                $should->addShould(new MatchPhrasePrefix('firstName', $term));
+                $should->addShould(new MatchPhrasePrefix('lastName', $term));
+
+                $boolQuery->addMust($should);
+            }
+
+            $query = new Query($boolQuery);
+
+            // Récupérer les résultats (objets Customer)
+            $results = $customerFinder->find($query);
+
+
+            $customers = $this->paginator->paginate($results, $page);
+            //dd($customers);
+
+            return $this->json([
+                'liste' => $this->renderView('gestapp/customer/include/_listsearch.html.twig', [
+                    'customers' => $customers,
+                ]),
+            ], 200);
+        }
+
+        return $this->render('admin/search/searchcustomerindex.html.twig', [
+            'form' => $form,
         ]);
     }
 
+    // outil de Recherche d'un client sur la vue Show Property
     #[Route('/admin/search/customer_property/{idproperty}', name: 'op_admin_search_customer_property', methods: ['POST', 'GET'])]
-    public function customerProperty(Request $request, $idproperty): Response
+    public function customerProperty(Request $request, $idproperty, TransformedFinder $customerFinder): Response
     {
         $form = $this->createForm(SearchCustomerPropertyType::class, null, [
             'action' => $this->generateUrl('op_admin_search_customer_property',[
@@ -267,24 +325,35 @@ class SearchController extends AbstractController
         $form->handleRequest($request);
 
         if($form->isSubmitted() && $form->isValid()){
-            $data = $form->getData();
+            $data = $form->getData()->firstName;
 
-
-            if (!empty($data->firstName)){
-
-                $elasticaQuery = new Query();
-                $multiMatchQuery = new MultiMatch();
-                $multiMatchQuery->setFields(['firstName', 'lastName']);
-                $multiMatchQuery->setQuery($data->firstName);
-                $elasticaQuery->setQuery($multiMatchQuery);
-
-                //dd($elasticaQuery);
-
+            if (empty($data)) {
+                return $this->json([]);
             }
 
-            $customers = $this->customerFinder->find($elasticaQuery);
+            // Découper la recherche sur les espaces
+            $terms = preg_split('/\s+/', $data);
 
-            //dd($customers);
+            // Le code ci dessous :
+            // - Découpe la chaîne de recherche sur les espaces
+            // - Pour chaque mot, construit un sous-bool qui cherche dans firstName ou lastName (should)
+            // - Combine tous ces sous-bool avec un must (= tous les mots doivent apparaître au moins une fois dans les deux champs)
+            // - Utilise MatchPhrasePrefix pour que ce soit tolérant aux débuts de mots
+
+            $boolQuery = new BoolQuery();
+
+            foreach ($terms as $term) {
+                $should = new BoolQuery();
+                $should->addShould(new MatchPhrasePrefix('firstName', $term));
+                $should->addShould(new MatchPhrasePrefix('lastName', $term));
+
+                $boolQuery->addMust($should);
+            }
+
+            $query = new Query($boolQuery);
+
+            // Récupérer les résultats (objets Customer)
+            $customers = $customerFinder->find($query);
 
             return $this->json([
                 'code'=> 200,
@@ -301,5 +370,4 @@ class SearchController extends AbstractController
             'idproperty' => $idproperty,
         ]);
     }
-
 }

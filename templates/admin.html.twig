@@ -47,14 +47,17 @@
                     </ol>
                 {% endblock %}
                 </section>
-                <section id="content_title" class="mt-2">
-                {% block contentTitle %}{% endblock %}
+                <section id="content_title" class="mt-1">
+                    {% block contentTitle %}
+                    {% endblock %}
                 </section>
-                <section id="content_main" class="mt-2">
-                    {% block content %}{% endblock %}
+                <section id="content_main" class="mt-1">
+                    {% block content %}
+                    {% endblock %}
                 </section>
-                <section id="content_footer" class="mt-2">
-                {% block contentFooter %}{% endblock %}
+                <section id="content_footer" class="mt-1">
+                    {% block contentFooter %}
+                    {% endblock %}
                 </section>
                 <div id="modals">
                     {% block modal %}
