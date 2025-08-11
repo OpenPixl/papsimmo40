@@ -22,11 +22,13 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'op_gestapp_customer_index':
             initIndexCustomerPage();
             break;
+
         case 'op_gestapp_customer_new':
         case 'op_gestapp_customer_edit':
             initNewEditCustomerPage();
             break;
         case 'op_gestapp_property_show':
+        case 'op_gestapp_property_duplicate':
             initShowPropertyPage();
             break;
         case 'op_gestapp_transaction_show':
