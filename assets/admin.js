@@ -22,7 +22,6 @@ document.addEventListener('DOMContentLoaded', () => {
         case 'op_gestapp_customer_index':
             initIndexCustomerPage();
             break;
-
         case 'op_gestapp_customer_new':
         case 'op_gestapp_customer_edit':
             initNewEditCustomerPage();

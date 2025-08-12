@@ -223,7 +223,6 @@ function toasterMessage(message){
 function reloadEvent(){
     let btnSubmitModal = document.getElementById('btnSubmitModal');
     let btnOpenModal = document.querySelectorAll('.openModal');
-    console.log(btnOpenModal);
 
     btnAddCustomer.addEventListener('click', submitCustomer);
     btnAddResp.addEventListener('click', addResponsable);

@@ -51,4 +51,15 @@ export function estimate(response){
     calculatePrices(document.getElementById('property_step2_price'),document.getElementById('property_step2_honoraires'), document.getElementById('property_step2_priceFai'));
 }
 
-export function calculatePrices(price, honoraires, priceFai){}
+export function calculatePrices(price, honoraires, priceFai){
+    price.addEventListener('change', function () {
+        let priceValue = parseInt(price.value);
+        let honorairesValue = parseInt(honoraires.value);
+        priceFAI.value = priceValue + honorairesValue;
+    });
+    honoraires.addEventListener('change', function () {
+        let priceValue = parseInt(price.value);
+        let honorairesValue = parseInt(honoraires.value);
+        priceFAI.value = priceValue + honorairesValue;
+    });
+}

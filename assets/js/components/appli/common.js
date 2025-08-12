@@ -199,6 +199,7 @@ export function initializeTinyMCE(maxChars) {
     tinymce.remove(); // Supprime les instances existantes
     tinymce.init({
         selector: 'textarea.tinymce',
+        skin: 'tinymce-5',
         setup: function(editor) {
             editor.on('input', function() {
                 const content = editor.getContent({ format: 'text' });

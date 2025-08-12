@@ -539,7 +539,6 @@ export function initShowPropertyPage() {
             const nextItem = currentActiveItem.nextElementSibling;
 
             if (nextItem) {
-                console.log(nextItem);
                 nextItem.classList.remove('notActive');
                 currentActiveItem.classList.add('notActive');
                 nextItem.querySelector('a').classList.remove('disabled');
@@ -645,6 +644,9 @@ export function initShowPropertyPage() {
         let sales = document.getElementById('sale');
         let rent = document.getElementById('rent');
         let rentCommerce = document.getElementById('rentCommerce');
+        let price = document.getElementById('property_step2_price');
+        let honoraires = document.getElementById('property_step2_honoraires');
+        let priceFAI = document.getElementById('property_step2_priceFai');
 
         if(response.data.data[0] === 4 && response.data.data[1] === 8) {
             let warranty = document.getElementById('warrantyDeposit');
@@ -691,7 +693,17 @@ export function initShowPropertyPage() {
             }
         };
         tsdiagChoice.on('change', changeTsDiag );
-        calculatePrices(document.getElementById('property_step2_price'),document.getElementById('property_step2_honoraires'), document.getElementById('property_step2_priceFai'));
+
+        price.addEventListener('change', function () {
+            let priceValue = parseInt(price.value);
+            let honorairesValue = parseInt(honoraires.value);
+            priceFAI.value = priceValue + honorairesValue;
+        });
+        honoraires.addEventListener('change', function () {
+            let priceValue = parseInt(price.value);
+            let honorairesValue = parseInt(honoraires.value);
+            priceFAI.value = priceValue + honorairesValue;
+        });
     }
 
     // Onglet Complements
