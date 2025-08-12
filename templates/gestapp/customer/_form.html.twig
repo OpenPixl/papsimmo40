@@ -306,7 +306,7 @@
     </a>
     {% if customer.finished == 1 %}
         <button type="submit" id="btnAddCustomer" class="btn btn-sm btn-outline-primary">{{ button_label|default("Créer la fiche") }}</button>
-        <a id="btnAddResearch" class="btn btn-sm btn-outline-primary openModal" href="{{ path('op_gestapp_customer_research_new', {'idCustomer': customer.id}) }}" data-bs-data="ADDRESEARCH-Demande de recherche de bien">Créer une fiche de recherche</a>
+        <a id="btnAddResearch" class="btn btn-sm btn-outline-primary btnOpenModal" href="{{ path('op_gestapp_customer_research_new', {'idCustomer': customer.id}) }}" data-bs-data="ADDRESEARCH-Demande de recherche de bien">Créer une fiche de recherche</a>
     {% else %}
         <button type="submit" id="btnAddCustomer" class="btn btn-sm btn-outline-warning">{{ button_label|default("Créer la fiche") }}</button>
     {% endif %}
