@@ -13,6 +13,7 @@ import { initShowPropertyPage } from './js/pages/gestapp/property/show_property'
 import { initShowTransactionPage } from './js/pages/gestapp/transactions/show_transaction';
 import { initListTransactionPage } from './js/pages/gestapp/transactions/list_transaction';
 import { initIndexDocumentsPage } from './js/pages/gestapp/documents/index_documents';
+import { initNewEditArticlesPage } from './js/pages/webapp/article/newedit_article';
 
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -38,6 +39,12 @@ document.addEventListener('DOMContentLoaded', () => {
             break;
         case 'op_gestapp_transaction_index':
             initListTransactionPage();
+            break;
+        case 'op_webapp_articles_new':
+        case 'op_webapp_articles_edit':
+        case 'op_webapp_articles_newactualite':
+        case 'op_webapp_articles_editactualite':
+            initNewEditArticlesPage();
             break;
         default:
             console.log('Page non reconnue ou pas de JS spécifique');

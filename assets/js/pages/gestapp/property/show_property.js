@@ -342,8 +342,19 @@ export function initShowPropertyPage() {
                 .get(url)
                 .then(function(response){
                     modal.querySelector('.modal-body').innerHTML = response.data.form;
-                    calculatePrices(document.getElementById('avenant_price'),document.getElementById('avenant_honoraires'), document.getElementById('avenant_priceFai'));
-                    initializeTinyMCE(1500);
+                    let priceAv = document.getElementById('avenant_price');
+                    let honorairesAv = document.getElementById('avenant_honoraires');
+                    let priceFaiAv = document.getElementById('avenant_priceFai');
+                    priceAv.addEventListener('change', function () {
+                        let priceValue = parseInt(priceAv.value);
+                        let honorairesValue = parseInt(honorairesAv.value);
+                        priceFaiAv.value = priceValue + honorairesValue;
+                    });
+                    honorairesAv.addEventListener('change', function () {
+                        let priceValue = parseInt(priceAv.value);
+                        let honorairesValue = parseInt(honorairesAv.value);
+                        priceFaiAv.value = priceValue + honorairesValue;
+                    });                    initializeTinyMCE(1500);
                 })
                 .catch(function(error){
                     console.log('Erreur lors du chargement de la modal', error);
