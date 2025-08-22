@@ -6,7 +6,11 @@
     <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal" data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
     <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="
         {% if transaction.step in stepRdvActive %}
-            {% if transaction.customer|length == 0 %}btn btn-sm btn-outline-dark openModal{% else %}btn btn-sm btn-outline-secondary openModal disabled{% endif %}
+            {% if transaction.customer|length == 0 %}
+                btn btn-sm btn-outline-secondary openModal disabled
+            {% else %}
+                btn btn-sm btn-outline-dark openModal
+            {% endif %}
         {% else %}
             btn btn-sm btn-outline-secondary openModal disabled
         {% endif %}"
@@ -28,6 +32,7 @@
         {% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDINVOICES-Ajouter une facture">
         <i class="fa-duotone fa-light fa-plus"></i> Factures
     </a>
+    Step - {{ transaction.step }}
 </div>
 <div class="col-6 d-flex align-items-center justify-content-end">
     {% if access == 'read' %}
