@@ -14,7 +14,7 @@
   overflow: hidden; /* Cache le contenu débordant */
   text-overflow: ellipsis; /* Ajoute des points de suspension */
   display: -webkit-box;
-  -webkit-line-clamp: 17; /* Limite à 3 lignes */
+  -webkit-line-clamp: 20; /* Limite à 3 lignes */
   -webkit-box-orient: vertical;
 }
 
