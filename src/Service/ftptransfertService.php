@@ -1112,7 +1112,7 @@ class ftptransfertService
             // publication sur les réseaux
             $publications = 'EP';
             // version du document
-            $version = '4.12';
+            $version = '4.10';
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}

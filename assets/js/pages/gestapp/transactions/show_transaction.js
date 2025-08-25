@@ -345,7 +345,6 @@ export function initShowTransactionPage() {
                                         change_selectcity(customer_proZipcode, customer_proCity, customer_proSelectcity);
                                     });
                                 }
-                                modalBs.hide();
                             }else{
                                 updateTransactionView({
                                     viewTargetId: 'Block_Buyers',

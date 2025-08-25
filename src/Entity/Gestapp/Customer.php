@@ -78,7 +78,7 @@ class Customer
     private $RefCustomer;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]
-    #[Groups(['client:list', 'client:write:patch' , 'client:item', 'transaction:item'])]
+    #[Groups(['client:list', 'client:write:edit' , 'client:item', 'transaction:item'])]
     private $firstName;
 
     #[ORM\Column(type: 'string', length: 80, nullable: true)]

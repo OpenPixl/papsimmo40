@@ -314,7 +314,6 @@ class CustomerController extends AbstractController
         CustomerRepository $customerRepository,
         EmployedRepository $employedRepository,
         PropertyRepository $propertyRepository,
-        TransactionRepository $transactionRepository,
         CustomerChoiceRepository $customerChoiceRepository,
         EntityManagerInterface $em,
         $idproperty
@@ -350,11 +349,12 @@ class CustomerController extends AbstractController
             if($form->isValid()){
                 $url = $request->headers->get('referer');
 
-                // Contruction de la référence pour chaque propriété
+                // Contruction de la référence pour chaque client
                 $date = new \DateTime();
                 $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
                 $customer->setRefCustomer($refCustomer);
                 $customer->setRefEmployed($employed);
+
                 if($url){
                     $path = parse_url($url, PHP_URL_PATH);
                     $PathShowProperty = $this->router->generate('op_gestapp_property_show', ['id' => $idproperty]);
@@ -366,6 +366,7 @@ class CustomerController extends AbstractController
                         $customer->setCustomerChoice($customerChoice);
                     }
                 }
+
                 $customer->addProperty($property);
                 $customer->setFinished(1);
                 // Ajout en BDD du nouveau client

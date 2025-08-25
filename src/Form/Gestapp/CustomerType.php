@@ -154,7 +154,7 @@ class CustomerType extends AbstractType
             ])
             ->add('gsmStructure', TextType::class, [
                 'label' => 'Tel Portable',
-                'required' => true
+                'required' => false
             ])
             ->add('otherEmail', TextType::class, [
                 'label' => 'Email',
@@ -286,15 +286,13 @@ class CustomerType extends AbstractType
                 if (($data['typeClient'] ?? null) === 'particulier') {
                     $form
                         ->add('firstName', TextType::class, [
-                            'label' => 'Prénom & Nom',
-                            'required' => true,
                             'constraints' => [
                                 new Assert\NotBlank([
                                     'message' => '- Le prénom est obligatoire'
                                 ]),
                                 new Assert\Regex([
                                     'pattern' => '/^([^,]*)$/',
-                                    'message' => 'Le prénom ne doit pas contenir de virgule.'
+                                    'message' => '- Le prénom ne doit pas contenir de virgule.'
                                 ])
                             ],
                         ])
@@ -429,8 +427,6 @@ class CustomerType extends AbstractType
                     ;
                 }
             }
-
-
         });
     }
 
