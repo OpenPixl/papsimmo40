@@ -9,13 +9,13 @@
                             <div class="col-11">
                                 <p class="ps-1 mb-0 alert alert-light p-2">
                                     {{ loop.index }} -
-                                    <a href="{{ path('op_gestapp_customer_research_edit', {'id':r.id}) }}" class="text-uppercase openModal" data-bs-data="EDITRESEARCH-Demande de recherche de bien">{{ r.researchFor }}</a> |
+                                    <a href="{{ path('op_gestapp_customer_research_edit', {'id':r.id}) }}" class="text-uppercase btnOpenModal" data-bs-data="EDITRESEARCH-Demande de recherche de bien">{{ r.researchFor }}</a> |
                                     recherche pour {{ r.ResearchBien }} en {{ r.typeProject }}
                                 </p>
                             </div>
                             <div class="col-1">
                                 <p class="mb-0 alert alert-light p-2">
-                                    <a href="{{ path('op_gestapp_customer_research_delete', {'id':r.id}) }}" class="text-uppercase openModal" data-bs-data="DELRESEARCH-Demande de recherche de bien"><i class="fa-light fa-trash-xmark"></i> Supprimer</a>
+                                    <a href="{{ path('op_gestapp_customer_research_delete', {'id':r.id}) }}" class="text-uppercase btnOpenModal" data-bs-data="DELRESEARCH-Demande de recherche de bien"><i class="fa-light fa-trash-xmark"></i> Supprimer</a>
                                 </p>
                             </div>
                         </div>

@@ -75,14 +75,15 @@
 
                 {% if transaction.step in step_attente %}
                     <p>
-                        Dans le cadre de la transaction immobilière {{ transaction.name }}, Un document a été déposé sur la plateforme.
+
+                        Un document a été déposé par l'un des collaborateurs : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}sur la plateforme.
                         <br>
                         En cliquant sur le lien suivant vous pourrez-le controler.
                     </p>
-                {% endif%}
+                {% endif %}
             <p>L'équipe PAPs immo.</p>
             <p>
-                <a class="btn " href="#">Accès à la fiche de vente</a>
+                <a class="btn" href="{{ path('op_gestapp_property_show', {'id': transaction.property.id}) }}">Accès à la fiche de vente</a>
             </p>
 
         </div>
