@@ -47,23 +47,24 @@ class DocumentController extends AbstractController
         ], 200);
     }
 
-    #[Route('/updateposition', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
-    public function updatePosition(EntityManagerInterface $entityManager, Request $request)
+    #[Route('/updateposition/{idCategory}', name: 'app_gestapp_document_updateposition', methods: ['POST'])]
+    public function updatePosition(EntityManagerInterface $entityManager, Request $request, $idCategory)
     {
         $data = json_decode($request->getContent(), true);
 
         foreach ($data as $d){
-            //dd($d['idcol']);
             // récupérer le doc correspondant à la position
-            $doc = $entityManager->getRepository(Document::class)->findOneBy(['position' => $d['idcol']]);
-            // mettre à jour le positionnnement
-            $doc->setPosition($d['key'] +1);
-            // mettre à jour la bdd
-            $entityManager->persist($doc);
-        }
-        $entityManager->flush();
+            $doc = $entityManager->getRepository(Document::class)->findOneBy(['position' => $d['idcol'], 'category' => $idCategory]);;
 
-        $documents = $entityManager->getRepository(Document::class)->findAll();
+            // mettre à jour le positionnnement
+            $doc->setPosition($d['key']);
+            // mettre à jour la bdd
+            $entityManager->flush();
+        }
+
+
+        $category = $entityManager->getRepository(CatDocument::class)->find($idCategory);
+        $documents = $entityManager->getRepository(Document::class)->findBy(['category' => $category]);
 
         return $this->json([
             'code' => '200',

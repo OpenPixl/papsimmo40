@@ -11,7 +11,6 @@ export function initIndexCustomerPage() {
 
     const searchForm = document.getElementById('SearchFormProperty');
     const searchInput = document.getElementById('search_customer_slug');
-    console.log(searchForm);
 
     modalEl.addEventListener('hidden.bs.modal', () => {
         // Cas ou une url de suppression serait en place
