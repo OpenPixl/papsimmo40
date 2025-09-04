@@ -7,7 +7,10 @@
                 {% else %}
                     <img class="img-fluid rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" style="width:165px;height:165px; object-fit: cover;">
                 {% endif%}
-                <p class="text-center">{{ app.user.firstName }} {{ app.user.lastName }}</p>
+                <p class="text-center">
+                    {{ app.user.firstName }} {{ app.user.lastName }} <br>
+                    {{ app.user.numCollaborator }}
+                </p>
             </div>
         </div>
     </div>
