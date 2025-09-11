@@ -16,6 +16,7 @@ class transactionService
     )
     {}
 
+    // Calcule le taux de progression du projet
     public function calculateProject(Transaction $transaction){
         $projectArray = [];
 

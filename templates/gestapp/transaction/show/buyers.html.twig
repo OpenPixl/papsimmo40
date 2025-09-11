@@ -1,4 +1,4 @@
-<p class="border-bottom mb-1"><b>Acquéreurs</b></p>
+<p class="border-bottom mb-1"><b>Acquéreurs</b> : {{ transaction.customer|length }}</p>
 {% for customer in transaction.customer %}
     <div class="alert alert-light mb-1 p-2">
         <div class="d-flex justify-content-between">

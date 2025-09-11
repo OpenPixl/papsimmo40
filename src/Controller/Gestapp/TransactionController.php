@@ -63,7 +63,7 @@ class TransactionController extends AbstractController
         public PhotoRepository $photoRepository,
     )
     {
-        $this->submit = true; // Initialisation de la variable $public
+        $this->submit = false; // Initialisation de la variable $public
         $this->application = $entityManager->getRepository(Application::class)->find(1);
     }
 
@@ -119,12 +119,11 @@ class TransactionController extends AbstractController
         }
         if(!$transaction->getCustomer()->count() > 0) {
             //dd(1);
-            $transaction->setState('Ouverture du dossier | En attente d\'un ou de plusieurs acquéreurs');
+            $transaction->setState('Ouverture du dossier | En attente d\'un ou de plusieurs acquéreurs ');
             $transaction->setStep(1);
             $this->entityManager->flush();
             return 1;
         }
-
         if(!$transaction->getPromisePdfFilename()){
             //dd(2);
             $transaction->setState('Promesse de vente | En attente du chargement du fichier Pdf');
@@ -139,23 +138,23 @@ class TransactionController extends AbstractController
             $this->entityManager->flush();
             return 3;
         }
-        if(!$transaction->getHonorairesPdfFilename()){
-            //dd(4);
-            $transaction->setState('Honoraires | En attente du chargement du fichier Pdf par l\'administrateur');
+        if(!$transaction->getDateAtSale()){
+            //dd(6);
+            $transaction->setState('Acte de vente et Tracfin | En attente de la date du RDV');
             $transaction->setStep(4);
             $this->entityManager->flush();
             return 4;
         }
-        if(!$transaction->isIsValidHonoraires()){
-            //dd(5);
-            $transaction->setState('Honoraires | En attente de la validation du pdf par l\'administrateur');
+        if(!$transaction->getHonorairesPdfFilename()){
+            //dd(4);
+            $transaction->setState('Honoraires | En attente du chargement du fichier Pdf par l\'administrateur');
             $transaction->setStep(5);
             $this->entityManager->flush();
             return 5;
         }
-        if(!$transaction->getDateAtSale()){
-            //dd(6);
-            $transaction->setState('Acte de vente et Tracfin | En attente de la date du RDV');
+        if(!$transaction->isIsValidHonoraires()){
+            //dd(5);
+            $transaction->setState('Honoraires | En attente de la validation du pdf par l\'administrateur');
             $transaction->setStep(6);
             $this->entityManager->flush();
             return 6;
@@ -415,9 +414,9 @@ class TransactionController extends AbstractController
             ], 400);
         }
         if ($dateAtPromise == null && $dateAtActe == null){
-            $label = 'Date de la prommesse de vente';
+            $label = 'RDV pour le compromis de vente chez le notaire';
         } elseif ($dateAtPromise !== null && $dateAtActe == null){
-            $label = 'Date de l\'acte de vente';
+            $label = 'RDV pour l\'acte de vente chez le notaire';
         }
 
         $form = $this->createFormBuilder(null,
@@ -656,10 +655,10 @@ class TransactionController extends AbstractController
                 $transaction->setProject($project);
                 $em->flush();
                 $this->step($transaction);
-            } elseif($transaction->getStep() == 7){
-                //dd($transaction->getStep());
+            }
+            elseif($transaction->getStep() == 7){
                 if(!$transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()){
-                    $newFilename = $this->addFiles($document, 'av-', $pathdir, $pdfPromise);
+                    $newFilename = $this->addFiles($document, 'av-', $pathdir, $pdfActe);
                     if($access === 'edit'){
                         $transaction->setActePdfFilename($newFilename);
                         $em->flush();
@@ -670,7 +669,7 @@ class TransactionController extends AbstractController
                         $em->flush();
                     }
                 }elseif($transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()){
-                    $newFilename = $this->addFiles($document, 'tf-', $pathdir, $pdfPromise);
+                    $newFilename = $this->addFiles($document, 'tf-', $pathdir, $pdfTracfin);
                     if($access === 'edit'){
                         $transaction->setTracfinPdfFilename($newFilename);
                         $em->flush();
@@ -699,7 +698,7 @@ class TransactionController extends AbstractController
             return $this->json(array_merge([
                 'code'=> 200,
                 'message' => "Le document à été déposé sur le serveur.",
-            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_documents.html.twig', 'Block_Documents')), 200);;
+            ],$this->returnView($transaction, $access, 'gestapp/transaction/show/_documents.html.twig', 'Block_Documents')), 200);
         }
 
         $view = $this->render('gestapp/transaction/show/_fileForm.html.twig', [
@@ -1027,7 +1026,7 @@ class TransactionController extends AbstractController
 
         }
         if (!$pdfHonoraire && !$pdfInvoice){
-            $label = "Veuillez Charger le PDF des honoraires de ventes,, le fichier ne doit pas dépasser 20Mo de taille";
+            $label = "Veuillez Charger le PDF des honoraires de ventes, le fichier ne doit pas dépasser 20Mo de taille";
         }elseif($pdfHonoraire && !$pdfInvoice){
             $label = "Charger le PDF de la facture finale, le fichier ne doit pas dépasser 20Mo de taille";
         }elseif(!$pdfHonoraire && $pdfInvoice){
@@ -1102,7 +1101,7 @@ class TransactionController extends AbstractController
             // Récupération des données sous forme de tableau associatif
             $document = $form->get('document')->getData();
 
-            if ($transaction->getStep() == 4){    // On ajoute la promesse de vente
+            if ($transaction->getStep() == 5){    // On ajoute la promesse de vente
                 $newFilename = $this->addFiles($document, 'fh-', $pathdir, $pdfHonoraire);
                 if($access === 'edit'){
                     $transaction->setHonorairesPdfFilename($newFilename);
