@@ -72,19 +72,19 @@
                                     {% set ges = 0 %}
                                     {% set dpe = 0 %}
                                     {% if property.diagGes > 0  %}
-                                        {% if property.diagGes > 0 and property.diagGes <= 5 %}
+                                        {% if property.diagGes > 0 and property.diagGes <= 6 %}
                                             {% set ges = 'A'%}
-                                        {% elseif property.diagGes > 5 and property.diagGes <= 10 %}
+                                        {% elseif property.diagGes > 7 and property.diagGes <= 11 %}
                                             {% set ges = 'B'%}
-                                        {% elseif property.diagGes > 11 and property.diagGes <= 20 %}
+                                        {% elseif property.diagGes > 12 and property.diagGes <= 30 %}
                                             {% set ges = 'C'%}
-                                        {% elseif property.diagGes > 21 and property.diagGes <= 35 %}
+                                        {% elseif property.diagGes > 31 and property.diagGes <= 50 %}
                                             {% set ges = 'D'%}
-                                        {% elseif property.diagGes > 36 and property.diagGes <= 55 %}
+                                        {% elseif property.diagGes > 51 and property.diagGes <= 70 %}
                                             {% set ges = 'E'%}
-                                        {% elseif property.diagGes > 56 and property.diagGes <= 80 %}
+                                        {% elseif property.diagGes > 71 and property.diagGes <= 100 %}
                                             {% set ges = 'F'%}
-                                        {% elseif property.diagGes > 80 %}
+                                        {% elseif property.diagGes > 100 %}
                                             {% set ges = 'G'%}
                                         {% endif %}
                                     {% endif %}
@@ -111,6 +111,7 @@
                                         {% set dpe = ges %}
                                         {% set reclassementDpe = 1 %}
                                     {% endif %}
+                                    {% if property.diagDpe > 0 and property.diagChoice == 'obligatoire' %}
                                     <div>
                                         <h5 class="subtitle" style="text-align: center">Consommation énergétique</h5>
                                         {% if property.diagDpe > 0 and property.diagChoice == 'obligatoire' %}

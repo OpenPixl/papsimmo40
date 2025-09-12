@@ -112,23 +112,49 @@
                             <div class="col-5" style="display:flex;justify-content: space-around;align-items: center;">
                                 <div>
                                     <h5 class="subtitle" >Consommation énergétique</h5>
-                                    {% if property.diagDpe > 0  %}
-                                        {% set letter = '' %}
-                                        {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
-                                            {% set letter = 'A'%}
-                                        {% elseif property.diagDpe > 70 and property.diagDpe <= 110 %}
-                                            {% set letter = 'B'%}
-                                        {% elseif property.diagDpe > 110 and property.diagDpe <= 180 %}
-                                            {% set letter = 'C'%}
-                                        {% elseif property.diagDpe > 180 and property.diagDpe <= 250 %}
-                                            {% set letter = 'D'%}
-                                        {% elseif property.diagDpe > 250 and property.diagDpe <= 330 %}
-                                            {% set letter = 'E'%}
-                                        {% elseif property.diagDpe > 330 and property.diagDpe <= 420 %}
-                                            {% set letter = 'F'%}
-                                        {% elseif property.diagDpe > 420 %}
-                                            {% set letter = 'G'%}
+                                    {% set ges = 0 %}
+                                    {% set dpe = 0 %}
+                                    {% if property.diagGes > 0  %}
+                                        {% if property.diagGes > 0 and property.diagGes <= 6 %}
+                                            {% set ges = 'A'%}
+                                        {% elseif property.diagGes > 7 and property.diagGes <= 11 %}
+                                            {% set ges = 'B'%}
+                                        {% elseif property.diagGes > 12 and property.diagGes <= 30 %}
+                                            {% set ges = 'C'%}
+                                        {% elseif property.diagGes > 31 and property.diagGes <= 50 %}
+                                            {% set ges = 'D'%}
+                                        {% elseif property.diagGes > 51 and property.diagGes <= 70 %}
+                                            {% set ges = 'E'%}
+                                        {% elseif property.diagGes > 71 and property.diagGes <= 100 %}
+                                            {% set ges = 'F'%}
+                                        {% elseif property.diagGes > 100 %}
+                                            {% set ges = 'G'%}
                                         {% endif %}
+                                    {% endif %}
+                                    {% if property.diagDpe > 0  %}
+                                        {% set dpe = '' %}
+                                        {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
+                                            {% set dpe = 'A'%}
+                                        {% elseif property.diagDpe > 70 and property.diagDpe <= 110 %}
+                                            {% set dpe = 'B'%}
+                                        {% elseif property.diagDpe > 110 and property.diagDpe <= 180 %}
+                                            {% set dpe = 'C'%}
+                                        {% elseif property.diagDpe > 180 and property.diagDpe <= 250 %}
+                                            {% set dpe = 'D'%}
+                                        {% elseif property.diagDpe > 250 and property.diagDpe <= 330 %}
+                                            {% set dpe = 'E'%}
+                                        {% elseif property.diagDpe > 330 and property.diagDpe <= 420 %}
+                                            {% set dpe = 'F'%}
+                                        {% elseif property.diagDpe > 420 %}
+                                            {% set dpe = 'G'%}
+                                        {% endif %}
+                                    {% endif %}
+                                    {% set reclassementDpe = 0 %}
+                                    {% if ges > dpe %}
+                                        {% set dpe = ges %}
+                                        {% set reclassementDpe = 1 %}
+                                    {% endif %}
+                                    {% if property.diagDpe > 0 and property.diagChoice == 'obligatoire' %}
                                         <ul class="diag_ener">
                                             <li class="c-dpe__index dpe-A {% if letter == 'A' %}dpe-active{% endif %}">A{% if letter == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
                                             <li class="c-dpe__index dpe-B {% if letter == 'B' %}dpe-active{% endif %}">B{% if letter == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
@@ -154,22 +180,6 @@
                             <div class="col-5" style="display:flex;justify-content: space-around;align-items: center;">
                                 <div>
                                     <h5 class="subtitle" >Emission de gaz</h5>
-                                    {% if property.diagGes > 0  %}
-                                        {% if property.diagGes > 0 and property.diagGes <= 5 %}
-                                            {% set letter = 'A1'%}
-                                        {% elseif property.diagGes > 5 and property.diagGes <= 10 %}
-                                            {% set letter = 'B1'%}
-                                        {% elseif property.diagGes > 11 and property.diagGes <= 20 %}
-                                            {% set letter = 'C1'%}
-                                        {% elseif property.diagGes > 21 and property.diagGes <= 35 %}
-                                            {% set letter = 'D1'%}
-                                        {% elseif property.diagGes > 36 and property.diagGes <= 55 %}
-                                            {% set letter = 'E1'%}
-                                        {% elseif property.diagGes > 56 and property.diagGes <= 80 %}
-                                            {% set letter = 'F1'%}
-                                        {% elseif property.diagGes > 80 %}
-                                            {% set letter = 'G1'%}
-                                        {% endif %}
                                         <ul class="diag_ener">
                                             <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
                                             <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
