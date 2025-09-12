@@ -156,15 +156,15 @@
                                     {% endif %}
                                     {% if property.diagDpe > 0 and property.diagChoice == 'obligatoire' %}
                                         <ul class="diag_ener">
-                                            <li class="c-dpe__index dpe-A {% if letter == 'A' %}dpe-active{% endif %}">A{% if letter == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-B {% if letter == 'B' %}dpe-active{% endif %}">B{% if letter == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-C {% if letter == 'C' %}dpe-active{% endif %}">C{% if letter == 'C' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-D {% if letter == 'D' %}dpe-active{% endif %}">D{% if letter == 'D' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-E {% if letter == 'E' %}dpe-active{% endif %}">E{% if letter == 'E' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-F {% if letter == 'F' %}dpe-active{% endif %}">F{% if letter == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-G {% if letter == 'G' %}dpe-active{% endif %}">G{% if letter == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u"> kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-A {% if dpe == 'A' %}dpe-active{% endif %}">A{% if dpe == 'A' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-B {% if dpe == 'B' %}dpe-active{% endif %}">B{% if dpe == 'B' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-C {% if dpe == 'C' %}dpe-active{% endif %}">C{% if dpe == 'C' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-D {% if dpe == 'D' %}dpe-active{% endif %}">D{% if dpe == 'D' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-E {% if dpe == 'E' %}dpe-active{% endif %}">E{% if dpe == 'E' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-F {% if dpe == 'F' %}dpe-active{% endif %}">F{% if dpe == 'F' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-G {% if dpe == 'G' %}dpe-active{% endif %}">G{% if dpe == 'G' %}<strong class="dpe_l">{{ property.diagDpe }}<span class="dpe_u">&nbsp;kWh/m2.an</span></strong>{% endif %}</li>
                                         </ul>
-                                    {% elseif property.diagDpe == 0  %}
+                                    {% else  %}
                                         <ul class="diag_ener">
                                             <li class="c-dpe__index dpe-A">A</li>
                                             <li class="c-dpe__index dpe-B">B</li>
@@ -175,19 +175,23 @@
                                             <li class="c-dpe__index dpe-G">G</li>
                                         </ul>
                                     {% endif %}
+                                    {% if reclassementDpe == 1 and property.diagChoice == 'obligatoire' %}
+                                        <p class="mt-2 pt-3 mb-0">Classement en {{ dpe }} dû au GES.</p>
+                                    {% endif %}
                                 </div>
                             </div>
                             <div class="col-5" style="display:flex;justify-content: space-around;align-items: center;">
                                 <div>
                                     <h5 class="subtitle" >Emission de gaz</h5>
+                                    {% if property.diagGes > 0 and property.diagChoice == 'obligatoire' %}
                                         <ul class="diag_ener">
-                                            <li class="c-dpe__index dpe-A1 {% if letter == 'A1' %}dpe-active{% endif %}">A{% if letter == 'A1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-B1 {% if letter == 'B1' %}dpe-active{% endif %}">B{% if letter == 'B1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-C1 {% if letter == 'C1' %}dpe-active{% endif %}">C{% if letter == 'C1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-D1 {% if letter == 'D1' %}dpe-active{% endif %}">D{% if letter == 'D1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-E1 {% if letter == 'E1' %}dpe-active{% endif %}">E{% if letter == 'E1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-F1 {% if letter == 'F1' %}dpe-active{% endif %}">F{% if letter == 'F1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
-                                            <li class="c-dpe__index dpe-G1 {% if letter == 'G1' %}dpe-active{% endif %}">G{% if letter == 'G1' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u"> kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-A1 {% if ges == 'A' %}dpe-active{% endif %}">A{% if ges == 'A' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-B1 {% if ges == 'B' %}dpe-active{% endif %}">B{% if ges == 'B' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-C1 {% if ges == 'C' %}dpe-active{% endif %}">C{% if ges == 'C' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-D1 {% if ges == 'D' %}dpe-active{% endif %}">D{% if ges == 'D' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-E1 {% if ges == 'E' %}dpe-active{% endif %}">E{% if ges == 'E' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-F1 {% if ges == 'F' %}dpe-active{% endif %}">F{% if ges == 'F' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
+                                            <li class="c-dpe__index dpe-G1 {% if ges == 'G' %}dpe-active{% endif %}">G{% if ges == 'G' %}<strong class="dpe_l">{{ property.diagGes }}<span class="dpe_u">&nbsp;kgeqCO2/m².an</span></strong>{% endif %}</li>
                                         </ul>
                                     {% else %}
                                         <ul class="diag_ener">
