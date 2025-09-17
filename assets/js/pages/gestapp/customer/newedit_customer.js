@@ -105,7 +105,7 @@ export function initNewEditCustomerPage() {
                     confirmBtn.textContent = 'Créer la recherche';
                     confirmBtn.href = url;
 
-                    initializeTinyMCE(500);
+                    initializeTinyMCE(20);
                     useTomSelect('.oneChoice', 'Simple');
                     useTomSelect('.multiChoice', 'Multi');
 
@@ -121,6 +121,7 @@ export function initNewEditCustomerPage() {
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
         let nameForm = form.id;
+        tinymce.triggerSave();
         let action = form.action;
         let data = new FormData(form);
         axios

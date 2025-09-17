@@ -10,6 +10,7 @@ use App\Entity\Gestapp\Customer\ResearchBien;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -80,7 +81,11 @@ class ResearchType extends AbstractType
                     return ['data-data' => $product->getName() ];
                 },
             ])
-            ->add('notes')
+            ->add('notes', TextareaType::class, [
+                'label' => 'Annonce',
+                'required' => false,
+                'empty_data' =>''
+            ])
         ;
     }
 
