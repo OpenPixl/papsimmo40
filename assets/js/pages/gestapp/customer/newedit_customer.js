@@ -105,7 +105,7 @@ export function initNewEditCustomerPage() {
                     confirmBtn.textContent = 'Créer la recherche';
                     confirmBtn.href = url;
 
-                    initializeTinyMCE(20);
+                    initializeTinyMCE(500);
                     useTomSelect('.oneChoice', 'Simple');
                     useTomSelect('.multiChoice', 'Multi');
 
