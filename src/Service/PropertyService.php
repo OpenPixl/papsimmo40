@@ -824,7 +824,7 @@ class PropertyService
             172 => '"' . $url[17] . '"',                                               // 172 - Photo 18
             173 => '"' . $url[18] . '"',                                               // 173 - Photo 19
             174 => '"' . $url[19] . '"',                                               // 174 - Photo 20
-            175 => '""',                                                               // 175 - Identifiant technique
+            175 => '"' . $property['ref'] .'"',                                        // 175 - Identifiant technique
             176 => '"' . $property['diagDpe'] . '"',                                   // 176 - Consommation énergie
             177 => '"' . $this->getClasseDpe($propriete) . '"',                        // 177 - Bilan consommation énergie
             178 => '"' . $property['diagGes'] . '"',                                   // 178 - Emissions GES
