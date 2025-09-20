@@ -151,4 +151,19 @@ final class ResearchController extends AbstractController
 
         return $this->redirectToRoute('op_gestapp_customer_research_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/{id}/del', name: 'op_gestapp_customer_research_del', methods: ['POST'])]
+    public function del(Research $research, EntityManagerInterface $entityManager)
+    {
+        $customer = $research->getCustomer();
+        $entityManager->remove($research);
+        $entityManager->flush();
+        
+        return $this->json([
+            'code' => 200,
+            'liste' => $this->renderView('gestapp/customer/research/include/_liste.html.twig',[
+                'customer' => $customer,
+            ])
+        ], 200);
+    }
 }

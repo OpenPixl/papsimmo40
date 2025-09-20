@@ -113,6 +113,14 @@ export function initNewEditCustomerPage() {
                 });
             modalBs.show();
         }
+        if('DELRESEARCH' === crud) {
+            modalEl.querySelector('.modal-body').innerHTML = "Attention, vous êtes sur le point de supprimer la recherche";
+            modalEl.querySelector('.modal-footer a').classList.remove('btn-primary');
+            modalEl.querySelector('.modal-footer a').classList.add('btn-outline-warning');
+            modalEl.querySelector('.modal-footer a').textContent = 'Supprimer la recherche';
+            modalEl.querySelector('.modal-footer a').href = url;
+            modalBs.show();
+        }
 
     }
 
@@ -120,26 +128,36 @@ export function initNewEditCustomerPage() {
         e.preventDefault();
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
-        let nameForm = form.id;
-        tinymce.triggerSave();
-        let action = form.action;
-        let data = new FormData(form);
-        axios
-            .post(action, data)
-            .then(function ({data}) {
-                if(data.code === 422){
-                    document.getElementById('form').innerHTML = data.formView;
-                    toasterMessage(data.message);
-                    declareEvent();
-                }
-                else{
-                    document.getElementById('listeResearch').innerHTML = data.liste;
-                    toasterMessage(data.message);
-                    declareEvent();
-                }
 
-            })
-        ;
+        if(form && form.id === 'Form_Customer_Research'){
+            tinymce.triggerSave();
+            let nameForm = form.id;
+            let action = form.action;
+            let data = new FormData(form);
+            axios
+                .post(action, data)
+                .then(function ({data}) {
+                    if(data.code === 422){
+                        document.getElementById('form').innerHTML = data.formView;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    }
+                    else{
+                        document.getElementById('listeResearch').innerHTML = data.liste;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    }
+
+                })
+            ;
+        }
+        else {
+            let url = this.href;
+            axios.post(url).then(function({data}) {
+                document.getElementById('listeResearch').innerHTML = data.liste;
+            }).catch();
+        }
+
         modalBs.hide();
     }
 
