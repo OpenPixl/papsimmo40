@@ -24,7 +24,6 @@ export function initNewEditCustomerPage() {
         }
     }
 
-
     const modalEl = document.getElementById('modal');
     if (!modalEl) return;
     const modalBs = new bootstrap.Modal(modalEl);
@@ -105,7 +104,7 @@ export function initNewEditCustomerPage() {
                     confirmBtn.textContent = 'Créer la recherche';
                     confirmBtn.href = url;
 
-                    initializeTinyMCE(500);
+                    initializeTinyMCE(1500);
                     useTomSelect('.oneChoice', 'Simple');
                     useTomSelect('.multiChoice', 'Multi');
 

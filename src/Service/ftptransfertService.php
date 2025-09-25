@@ -866,8 +866,7 @@ class ftptransfertService
         ComplementRepository $complementRepository,
     ){
         $request = $this->requestStack->getCurrentRequest();
-        //$partenaire = 'BI';
-        $properties = $propertyRepository->reportpropertycsv2();            // On récupère les biens à publier sur SeLoger
+        $properties = $propertyRepository->reportpropertycsv2();            // On récupère les biens à publier sur les plateformes rattachées à UBIFLOW
 
         $rows = array();
         foreach ($properties as $property){
