@@ -293,7 +293,7 @@ class TransactionController extends AbstractController
     }
 
     // $document : fichier transmis par l'input
-    // $suffixe = suffixe a donner pour le nnouveau nom de fichier
+    // $suffixe = suffixe a donner pour le nouveau nom de fichier
     // $pathdir = chemin du fichier
     // $pdfName = nom du fichier si ce dernier est présent dans l'entité,
     public function addFiles($document, $suffixe, $pathdir, $pdfName){
@@ -410,7 +410,7 @@ class TransactionController extends AbstractController
         if ($dateAtPromise !== null && $dateAtActe !== null){
             return $this->json([
                 'code'=> 400,
-                'formView' => 'impossible d\'ajouter une date à ce dossier.'
+                'formView' => 'Impossible d\'ajouter une date à ce dossier.'
             ], 400);
         }
         if ($dateAtPromise == null && $dateAtActe == null){

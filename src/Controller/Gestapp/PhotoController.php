@@ -63,12 +63,18 @@ class PhotoController extends AbstractController
     #[Route('/list/{idproperty}', name: 'op_gestapp_photo_includeinlistproperty', methods: ['GET'])]
     public function includeinlistproperty(PhotoRepository $photoRepository, PropertyRepository $propertyRepository, $idproperty, Request $request): Response
     {
-        $photo = $photoRepository->FirstPhoto($idproperty);
-        if(!$photo){
-            return $this->render('gestapp/photo/includeinlistpropertynull.html.twig');
+        if($idproperty){
+            $photo = $photoRepository->FirstPhoto($idproperty);
+            if(!$photo){
+                return $this->render('gestapp/photo/includeinlistpropertynull.html.twig');
+            }
+            return $this->render('gestapp/photo/includeinlistproperty.html.twig', [
+                'photo' => $photo,
+            ]);
         }
-        return $this->render('gestapp/photo/includeinlistproperty.html.twig', [
-            'photo' => $photo,
+
+        return $this->render('gestapp/photo/includeinlistpropertynull.html.twig', [
+            'idproperty' => $idproperty,
         ]);
     }
 
