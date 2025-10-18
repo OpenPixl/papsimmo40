@@ -246,7 +246,6 @@ class TransactionController extends AbstractController
 
         if($hasAccess == true){
             $transactions = $transactionRepository->findAll();
-            dd($transactions);
         }else{
             $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId()]);
         }
