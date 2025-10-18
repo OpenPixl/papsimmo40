@@ -246,6 +246,7 @@ class TransactionController extends AbstractController
 
         if($hasAccess == true){
             $transactions = $transactionRepository->findAll();
+            dd($transactions);
         }else{
             $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId()]);
         }
@@ -410,7 +411,7 @@ class TransactionController extends AbstractController
         if ($dateAtPromise !== null && $dateAtActe !== null){
             return $this->json([
                 'code'=> 400,
-                'formView' => 'Impossible d\'ajouter une date à ce dossier.'
+                'formView' => 'phpImpossible d\'ajouter une date à ce dossier.'
             ], 400);
         }
         if ($dateAtPromise == null && $dateAtActe == null){
