@@ -413,7 +413,7 @@ export function initShowPropertyPage() {
     }
 
     function submitNodeForm(){
-        const listForm = ['formProperty_informations', 'formProperty_annonce', 'formProperty_chiffres', 'formProperty_complements', 'formProperty_Publication'];
+        const listForm = ['formProperty_informations', 'formProperty_annonce', 'formProperty_chiffres', 'formProperty_complements', 'formProperty_Publication', 'formAvenant_add'];
         let activePanel = document.querySelectorAll('.tab-content .active #content-form');
         let nodeForm = activePanel[0];
         let form = nodeForm.querySelector('form');
