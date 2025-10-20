@@ -7,15 +7,11 @@
             <a href="{{ url('op_webapp_public_homepage') }}">
                 <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
             </a>
-            {% set step_ouverture = [0] %}
-            {% set step_date = [2,6] %}
-            {% set step_document = [3,7] %}
-            {% set step_attente = [4,9,11] %}
+            {% set step_date = [0,4] %}
+            {% set step_document = [2,7] %}
+            {% set step_attente = [5,9,11] %}
 
             {% if transaction.step == 0 %}
-                <h1>[SoftPAPs - TRANSACTION ] : Ouverture du Dossier.</h1>
-            {% endif %}
-            {% if transaction.step == 1 %}
                 <h1>[SoftPAPs - TRANSACTION ] : Nouvel acheteur au dossier.</h1>
             {% endif %}
             {% if transaction.step in step_date %}
@@ -25,6 +21,7 @@
                 <h1>[SoftPAPs - TRANSACTION ] : Un document attends votre approbation.</h1>
             {% endif %}
         </div>
+
         <div class="content">
             <h3>Dossier n°: {{ transaction.name }}</h3>
             <hr>
@@ -83,7 +80,7 @@
                 {% endif %}
             <p>L'équipe PAPs immo.</p>
             <p>
-                <a class="btn" href="{{ path('op_gestapp_property_show', {'id': transaction.property.id}) }}">Accès à la fiche de vente</a>
+                <a class="btn" href="https://www.papsimmo.fr/gestapp/transaction/{{transaction.id}}">Accès à la fiche de vente</a>
             </p>
 
         </div>

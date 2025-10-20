@@ -136,7 +136,8 @@ class ReportController extends AbstractController
                 $rentChargeModsPayment = $property['rentChargeModsPayment'];
                 $rentChargeHonoraire = $property['rentChargeHonoraire'];
             }
-            //dd($rentWithCharge);
+            // Situation de viager
+            $viager = 0;
 
             // Alimentation d'une ligne du fichier CSV
             $data = array(
@@ -213,6 +214,10 @@ class ReportController extends AbstractController
                 '"' . $dpeAt . '"',                                         // 71
                 '"' . $property['dpeEstimateEnergyDown'] . '"',             // 72
                 '"' . $property['dpeEstimateEnergyUp'] . '"',               // 73
+                '""',               // 74
+                '"'. $viager .'"',                                          // 75 - ERP Risque de pollution
+                '""',               // 76
+                '"'. $viager .'"',                                          // 77 - si viager
             );
             $rows[] = implode('|', $data);
         }

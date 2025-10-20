@@ -1115,7 +1115,7 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
-            $infos = ['refDossier' => 'g46426', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => 'ag166469', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
 
             // Equipements
             $complement = $propriete->getComplement();
@@ -1143,14 +1143,7 @@ class ftptransfertService
         $nameRep = 'EtreProprio';             // Nom du dossier
         $nameFile = 'ag166469';               // Nom du Fichier sans extension
         $Rep = 'doc/report/EProprio/';     // nom du répertoire final
-        if(is_dir($Rep))
-        {
-            $this->directoryZip($Rep,$nameRep, $nameFile, $content, "ag166469");
-        }else{
-            // Création du répertoire s'il n'existe pas.
-            mkdir($Rep."/", 0775, true);
-            $this->directoryZip($Rep,$nameRep, $nameFile, $content, "EProprio");;
-        }
+        $this->directoryZip($Rep,$nameRep, $nameFile, $content, "EProprio");
         $this->generateExcel($properties, $Rep, $nameFile);
     }
 
