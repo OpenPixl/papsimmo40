@@ -387,7 +387,7 @@ class TransactionController extends AbstractController
         if($this->submit == true){
             $this->emailService->submitEmailFromTransac(
                 'contact@papsimmo.fr',
-                'SoftPAPs',
+                $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                 $this->application->getAdminEmail(),
                 '[SoftPAPs] Un nouveau dossier de transaction a été ouvert sur SoftPAPs.',
                 $transaction->getId()
@@ -3171,7 +3171,7 @@ class TransactionController extends AbstractController
                         $transaction->getRefEmployed()->getEmail(),
                         $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                         $this->application->getAdminEmail(),
-                        '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente :'.$transaction->getName().'.',
+                        '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente : '.$transaction->getName().'.',
                         $transaction->getId(),
                     );
                 }
