@@ -7,6 +7,7 @@ use App\Entity\Gestapp\Property;
 use App\Form\Admin\EmployedType;
 use App\Form\Admin\ResettingPasswordType;
 use App\Repository\Admin\EmployedRepository;
+use App\Repository\Admin\NotificationRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Service\imageTransfertService;
 use Doctrine\ORM\EntityManager;
@@ -281,6 +282,77 @@ class EmployedController extends AbstractController
         ]);
     }
 
+    #[Route('/opadmin/prescriber/{id}/edit', name: 'op_admin_prescriber_edit', methods: ['GET', 'POST'])]
+    public function prescriber(Request $request, SluggerInterface $slugger, Employed $employed, EmployedRepository $employedRepository, EntityManagerInterface $entityManager): Response
+    {
+        $form = $this->createForm(EmployedType::class, $employed, [
+            'action'=>$this->generateUrl('op_admin_employed_edit', ['id' => $employed->getId()]),
+            'method' => 'POST'
+        ]);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $referent = $form->get('referent')->getData();
+            if(!$referent){
+                $employed->setReferent(null);
+            }
+
+            // Suppression directe de l'avatar
+            $supprAvatarInput = $form->get('isSupprAvatar')->getData();
+            if($supprAvatarInput && $supprAvatarInput == true){
+                // récupération du nom de l'image
+                $avatarName = $employed->getAvatarName();
+                $pathheader = $this->getParameter('avatars_directory').'/'.$avatarName;
+                // On vérifie si l'image existe
+                if(file_exists($pathheader)){
+                    unlink($pathheader);
+                }
+                $employed->setAvatarName(null);
+                $employed->setIsSupprAvatar(0);
+            }
+
+            $avatarFile = $form->get('avatarFile')->getData();
+            if ($avatarFile) {
+                // Effacement du fichier bannièreFileName si il est présent en BDD
+                // récupération du nom de l'image
+                $avatarName = $employed->getAvatarName();
+                // suppression du Fichier
+                if($avatarName){
+                    $pathlogo = $this->getParameter('avatars_directory').'/'.$avatarName;
+                    // On vérifie si l'image existe
+                    if(file_exists($pathlogo)){
+                        unlink($pathlogo);
+                    }
+                }
+
+                $originalavatarFileName = pathinfo($avatarFile->getClientOriginalName(), PATHINFO_FILENAME);
+                // this is needed to safely include the file name as part of the URL
+                $safeavatarFileName = $slugger->slug($originalavatarFileName);
+                $newavatarFileName = $safeavatarFileName . '-' . uniqid() . '.' . $avatarFile->guessExtension();
+
+                // Move the file to the directory where brochures are stored
+                try {
+                    $avatarFile->move(
+                        $this->getParameter('avatars_directory'),
+                        $newavatarFileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $employed->setAvatarName($newavatarFileName);
+            }
+
+            $entityManager->flush();
+            return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->render('admin/employed/edit.html.twig', [
+            'employed' => $employed,
+            'form' => $form,
+        ]);
+    }
+
     #[Route('/opadmin/employed/{id}', name: 'op_admin_employed_delete', methods: ['POST'])]
     public function delete(Request $request, Employed $employed, EmployedRepository $employedRepository): Response
     {
@@ -364,6 +436,38 @@ class EmployedController extends AbstractController
                 ])
             ],200);
         }
+    }
+
+    #[Route('/prescriber_del/{id}', name: 'op_admin_prescriber_del', methods: ['POST'])]
+    public function prescriber_del(Request $request, Employed $employed,EmployedRepository $employedRepository, NotificationRepository $notificationRepository, EntityManagerInterface $em): Response
+    {
+        // Liens avec les notifications
+        $notifications = $notificationRepository->findBy(['refEmployed' => $employed]);
+        foreach ($notifications as $notification){
+            $em->remove($notification);
+        }
+        // Action sur les Contacts de l'user
+        $contacts = $employed->getContacts();
+        foreach ($contacts as $contact){
+            $employed->removeContact($contact);
+        }
+
+        $referent = $employed->getReferent();
+        $recos = $employed->getRecos();
+        foreach ($recos as $reco){
+            $em->remove($reco);
+        }
+        $employedRepository->remove($employed);
+
+        $employeds = $employedRepository->findBy(['referent' => $referent, 'genre' => 'prescripteur']);
+
+        return $this->json([
+            'code' => '200',
+            'message' => "L'utilisateur et toutes ses recommandations ont été correctement supprimé de la plateforme.",
+            'liste' => $this->renderView('admin/employed/_list.html.twig', [
+                'employeds' => $employeds
+            ])
+        ],200);
     }
 
     #[Route('/opadmin/employed/{id}/adminresetpassword', name: 'op_admin_employed_adminresetpassword', methods: ['GET', 'POST'])]

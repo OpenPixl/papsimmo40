@@ -110,20 +110,21 @@ class TransactionController extends AbstractController
 
     #[Route('/{id}/step', name: 'op_gestapp_transaction_step', methods: ['GET'])]
     public function step(Transaction $transaction){
-        if(!$transaction->getDateAtPromise()){
-            //dd(0);
-            $transaction->setState('Promesse de vente | En attente de la date du RDV');
-            $transaction->setStep(0);
+        if(!$transaction->getCustomer()->count() > 0) {
+            //dd(1);
+            $transaction->setState('Promesse de vente | En attente d\'un ou de plusieurs acquéreurs ');
+            $transaction->setStep(1);
             $this->entityManager->flush();
             return 0;
         }
-        if(!$transaction->getCustomer()->count() > 0) {
-            //dd(1);
-            $transaction->setState('Ouverture du dossier | En attente d\'un ou de plusieurs acquéreurs ');
+        if(!$transaction->getDateAtPromise()){ // Un acheteur est ajoutée au dossier, il faut déposer le pdf de la promesse de vente.
+            //dd(0);
+            $transaction->setState('Promesse de vente | En attente de la date du RDV');
             $transaction->setStep(1);
             $this->entityManager->flush();
             return 1;
         }
+
         if(!$transaction->getPromisePdfFilename()){
             //dd(2);
             $transaction->setState('Promesse de vente | En attente du chargement du fichier Pdf');
@@ -131,13 +132,14 @@ class TransactionController extends AbstractController
             $this->entityManager->flush();
             return 2;
         }
-        if(!$transaction->isIsValidPromisepdf()){
+        if(!$transaction->isIsValidPromisepdf()){ // La promesse de vente est déposée mais doit être validée par un Admin
             //dd(3);
             $transaction->setState('Promesse de vente | En attente de la validation du pdf par l\'administrateur');
             $transaction->setStep(3);
             $this->entityManager->flush();
             return 3;
         }
+
         if(!$transaction->getDateAtSale()){
             //dd(6);
             $transaction->setState('Acte de vente et Tracfin | En attente de la date du RDV');
@@ -152,21 +154,21 @@ class TransactionController extends AbstractController
             $this->entityManager->flush();
             return 5;
         }
-        if(!$transaction->isIsValidHonoraires()){
-            //dd(5);
-            $transaction->setState('Honoraires | En attente de la validation du pdf par l\'administrateur');
+        if(!$transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()){
+            //dd(7);
+            $transaction->setState('Acte de vente et Tracfin | En attente du chargement du premier document');
             $transaction->setStep(6);
             $this->entityManager->flush();
             return 6;
         }
-        if(!$transaction->getActePdfFilename() || !$transaction->getTracfinPdfFilename()){
+        if(($transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()) || (!$transaction->getActePdfFilename() && $transaction->getTracfinPdfFilename())){
             //dd(7);
-            $transaction->setState('Acte de vente et Tracfin | En attente du chargement du fichier Pdf');
+            $transaction->setState('Acte de vente et Tracfin | En attente du chargement du dernier document');
             $transaction->setStep(7);
             $this->entityManager->flush();
             return 7;
         }
-        if((!$transaction->isIsValidActepdf() || $transaction->isIsValidActepdf() == 0) || (!$transaction->isIsValidtracfinPdf() || $transaction->isIsValidtracfinPdf() == 0)){
+        if((!$transaction->isIsValidActepdf() && !$transaction->isIsValidTracfinpdf()) || ($transaction->isIsValidActepdf() && !$transaction->isIsValidTracfinpdf()) || (!$transaction->isIsValidActepdf() && $transaction->isIsValidTracfinpdf()) ){
             //dd(8);
             $transaction->setState('Acte de vente et Tracfin | En attente de la validation du pdf par l\'administrateur');
             $transaction->setStep(8);
@@ -384,18 +386,173 @@ class TransactionController extends AbstractController
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
 
-        if($this->submit == true){
-            $this->emailService->submitEmailFromTransac(
-                'contact@papsimmo.fr',
-                $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                $this->application->getAdminEmail(),
-                '[SoftPAPs] Un nouveau dossier de transaction a été ouvert sur SoftPAPs.',
-                $transaction->getId()
-            );
-        }
+        // if($this->submit == true){
+        //     $this->emailService->submitEmailFromTransac(
+        //         'contact@papsimmo.fr',
+        //         $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+        //         $this->application->getAdminEmail(),
+        //         '[SoftPAPs] Un nouveau dossier de transaction a été ouvert sur SoftPAPs.',
+        //         $transaction->getId()
+        //     );
+        // }
 
         return $this->redirectToRoute('op_gestapp_transaction_show', [
             'id' => $transaction->getId()
+        ]);
+    }
+
+    #[Route('/{id}/add_customer/', name: 'op_gestapp_transaction_addcustomer',  methods: ['GET', 'POST'])]
+    public function addCustomers(
+        Transaction $transaction,
+        Request $request,
+        CustomerRepository $customerRepository,
+        EmployedRepository $employedRepository,
+        CustomerChoiceRepository $customerChoiceRepository,
+        EntityManagerInterface $em,
+    )
+    {
+        $access = $this->access($transaction);
+
+        $employed = $employedRepository->find($this->getUser());
+
+        $customer = new Customer();
+        $customer->setRefEmployed($employed);
+        $customer->setCustomerChoice($customerChoiceRepository->find(2));
+        $customer->setTypeClient('particulier');
+        $customer->addTransaction($transaction);
+        $em->persist($customer);
+        $em->flush();
+
+        $form = $this->createForm(CustomerType::class, $customer, [
+            'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
+                'id'=> $transaction->getId(),
+                'buyer' => $customer->getId(),
+            ]),
+            'method'=>'POST',
+            'attr' => [
+                'id' => 'formCustomer_add'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        $customerChoice = $customerChoiceRepository->find(2);
+        if ($form->isSubmitted()) {
+            // Si Formulaire valide
+            if($form->isValid()){
+                // Contruction de la référence pour chaque propriété
+                $date = new \DateTime();
+                $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
+                $customer->setRefCustomer($refCustomer);
+                $customer->setRefEmployed($employed);
+                $customer->setCustomerChoice($customerChoice);
+                $customer->addTransaction($transaction);
+
+                // Ajouter le code d'insertion du fichier PDF
+                // partie ajout CI
+                $ci = $form->get('cifilename')->getData();
+                $ciFilename = $customer->getCifilename();
+                if($ci) {
+                    if ($ciFilename) {
+                        $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
+                    try {
+                        $ci->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setCifilename($newFilename);
+                }
+
+                // partie Ajout Kbis
+                $kbis = $form->get('kbisfilename')->getData();
+                $kbisFilename = $customer->getKbisfilename();
+                if($kbis) {
+                    if ($kbisFilename) {
+                        $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
+                        // On vérifie si l'image existe
+                        if (file_exists($pathheader)) {
+                            unlink($pathheader);
+                        }
+                    }
+                    $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
+                    try {
+                        $kbis->move(
+                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
+                            $newFilename
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    $customer->setKbisfilename($newFilename);
+                }
+
+                // Ajout en BDD du nouveau client
+                $customerRepository->add($customer);
+
+                $this->step($transaction);
+                $project = $this->transactionService->calculateProject($transaction);
+                $transaction->setProject($project);
+                $em->flush();
+
+                $this->step($transaction);
+
+                // if($this->submit === true && $access === 'edit'){
+                //     $this->emailService->submitEmailFromTransac(
+                //         $transaction->getRefEmployed()->getEmail(),
+                //         $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+                //         $this->application->getAdminEmail(),
+                //         '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente : '.$transaction->getName().'.',
+                //         $transaction->getId(),
+                //     );
+                // }
+
+                // liste tous les clients attachés à leur propriété
+                $customers = $customerRepository->listbytransaction($transaction);
+
+                return $this->json(array_merge([
+                    'code'=> 200,
+                    'message' => "Le vendeur a été correctement ajouté au dossier de vente.",
+                ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers')), 200);
+            }
+
+            $view = $this->renderView('gestapp/customer/_form2.html.twig', [
+                'customer' => $customer,
+                'form' => $form
+            ]);
+
+            return $this->json([
+                'code' => 422,
+                'message' => 'Le formulaire présente une ou des erreurs.<br><span class="mt-1 mb-1 fw-semibold text-warning">'. implode(', ', $this->getFormErrors($form)). '</span><br>A vous de corriger celles-ci',
+                'formView' => $view,
+                'deleteUrl' => $this->generateUrl('op_gestapp_transaction_delcustomerjson', [
+                    'id' => $transaction->getId(),
+                    'idCustomer' => $customer->getId()
+                ])
+            ],200);
+
+        }
+
+        $view = $this->render('gestapp/customer/add.html.twig', [
+            'customer' => $customer,
+            'form' => $form
+        ]);
+
+        return $this->json([
+            'code' => 200,
+            'message' => 'formulaire présenté',
+            'formView' => $view->getContent(),
+            'deleteUrl' => $this->generateUrl('op_gestapp_transaction_delcustomerjson', [
+                'id' => $transaction->getId(),
+                'idCustomer' => $customer->getId()
+            ])
         ]);
     }
 
@@ -456,17 +613,18 @@ class TransactionController extends AbstractController
 
             $em->flush();
 
+            $this->step($transaction);
+
             $project = $this->transactionService->calculateProject($transaction);
             $transaction->setProject($project);
             $em->flush();
 
-            $this->step($transaction);
-            if($this->submit === true && $access === 'edit'){
+            if($this->submit === true && $access === 'edit' && $transaction->getStep() == 5){
                 $this->emailService->submitEmailFromTransac(
                     $transaction->getRefEmployed()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                     $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Ajout d\'une date de signature au dossier de vente :'.$transaction->getName().'.',
+                    '[SoftPAPs - Transaction] - Acte de vente - le RDV est déposée dans le dossier : '.$transaction->getName().'.',
                     $transaction->getId(),
                 );
             }
@@ -640,7 +798,8 @@ class TransactionController extends AbstractController
 
             //dd($transaction->getStep());
 
-            if ($transaction->getStep() == 2){    // On ajoute la promesse de vente
+            // On ajoute d'abord la promesse de vente
+            if ($transaction->getStep() == 2){
                 $newFilename = $this->addFiles($document, 'cv-', $pathdir, $pdfPromise);
                 if($access === 'edit'){
                     $transaction->setPromisePdfFilename($newFilename);
@@ -651,12 +810,23 @@ class TransactionController extends AbstractController
                     $transaction->setPromiseValidBy($this->getUser());
                     $em->flush();
                 }
+
                 $project = $transactionService->calculateProject($transaction);
                 $transaction->setProject($project);
                 $em->flush();
                 $this->step($transaction);
+
+                if($this->submit === true && $access === 'edit'){
+                    $this->emailService->submitEmailFromTransac(
+                        $transaction->getRefEmployed()->getEmail(),
+                        $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+                        $this->application->getAdminEmail(),
+                        '[SoftPAPs - Transaction] - Ajout d\'un document au dossier de vente :'.$transaction->getName().'.',
+                        $transaction->getId(),
+                    );
+                }
             }
-            elseif($transaction->getStep() == 7){
+            elseif($transaction->getStep() == 6 || $transaction->getStep() == 7){
                 if(!$transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()){
                     $newFilename = $this->addFiles($document, 'av-', $pathdir, $pdfActe);
                     if($access === 'edit'){
@@ -668,6 +838,12 @@ class TransactionController extends AbstractController
                         $transaction->setActeValidBy($this->getUser());
                         $em->flush();
                     }
+
+                    $project = $transactionService->calculateProject($transaction);
+                    $transaction->setProject($project);
+                    $em->flush();
+                    $this->step($transaction);
+
                 }elseif($transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()){
                     $newFilename = $this->addFiles($document, 'tf-', $pathdir, $pdfTracfin);
                     if($access === 'edit'){
@@ -678,21 +854,23 @@ class TransactionController extends AbstractController
                         $transaction->setIsValidtracfinPdf(1);
                         $em->flush();
                     }
-                }
-                $project = $transactionService->calculateProject($transaction);
-                $transaction->setProject($project);
-                $em->flush();
-                $this->step($transaction);
-            }
 
-            if($this->submit === true && $access === 'edit'){
-                $this->emailService->submitEmailFromTransac(
-                    $transaction->getRefEmployed()->getEmail(),
-                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                    $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Ajout d\'un document au dossier de vente :'.$transaction->getName().'.',
-                    $transaction->getId(),
-                );
+                    $project = $transactionService->calculateProject($transaction);
+                    $transaction->setProject($project);
+                    $em->flush();
+                    $this->step($transaction);
+
+                    if($this->submit === true && $access === 'edit'){
+                        $this->emailService->submitEmailFromTransac(
+                            $transaction->getRefEmployed()->getEmail(),
+                            $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
+                            $this->application->getAdminEmail(),
+                            '[SoftPAPs - Transaction] - Ajout d\'un document au dossier de vente :'.$transaction->getName().'.',
+                            $transaction->getId(),
+                        );
+                    }
+                }
+
             }
 
             return $this->json(array_merge([
@@ -710,7 +888,6 @@ class TransactionController extends AbstractController
             'message' => "Un RDV à été ajouté.",
             'formView' => $view->getContent(),
         ], 200);
-
     }
 
     #[Route('/{id}/edit_documents/{typeFile}', name: 'op_gestapp_transaction_editdocuments', methods: ['GET', 'POST'])]
@@ -855,147 +1032,6 @@ class TransactionController extends AbstractController
 
     }
 
-    #[Route('/{id}/validFiles/{file}', name: 'op_gestapp_transaction_validfile', methods: ['GET','POST'])]
-    public function validFiles(Request $request, Transaction $transaction, transactionService $transactionService, PropertyRepository $propertyRepository, EntityManagerInterface $em, $file){
-        $access = $this->access($transaction);
-
-        $data = json_decode($request->getContent(), true);
-        $isValid = $data['option'] ?? null;
-        $messageInvalid=$data['message'] ?? null;
-        $typeDoc = explode('-', $file)[0];
-        $message = '';
-        $view = '';
-
-        if($isValid == 'validFile'){
-
-            if($typeDoc == 'cv') {
-                $transaction->setIsValidPromisepdf(1);
-                $transaction->setPromiseValidBy($this->getUser());
-                $message = "Vous venez de valider la promesse de vente de votre collaborateur. <br>
-                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
-                $view = 'gestapp/transaction/show/_documents.html.twig';
-                $block = 'Block_Documents';
-            }elseif($typeDoc == 'fh'){
-                $transaction->setIsValidHonoraires(1);
-                $transaction->setHonorairesValidBy($this->getUser());
-                $message = "Vous venez de valider les honoraires de votre collaborateur. <br>
-                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
-                $view = 'gestapp/transaction/show/_invoices.html.twig';
-                $block = 'Block_Invoices';
-            }elseif($typeDoc == 'av'){
-                $transaction->setIsValidActepdf(1);
-                $transaction->setActeValidBy($this->getUser());
-                $message = "Vous venez de valider l'attestation de l'acte de vente de votre collaborateur. <br>
-                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
-                $view = 'gestapp/transaction/show/_documents.html.twig';
-                $block = 'Block_Documents';
-            }elseif($typeDoc == 'tf'){
-                $transaction->setIsValidtracfinPdf(1);
-                $transaction->setTracfinValidBy($this->getUser());
-                $message = "Vous venez de valider le tracFin de votre collaborateur. <br>
-                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
-                $view = 'gestapp/transaction/show/_documents.html.twig';
-                $block = 'Block_Documents';
-            }elseif($typeDoc == 'fact'){
-                $transaction->setIsValidInvoicepdf(1);
-                $transaction->setInvoiceValidBy($this->getUser());
-                $message = "Vous venez de valider la facture de la vente de votre collaborateur. <br>
-                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
-                $view = 'gestapp/transaction/show/_invoices.html.twig';
-                $block = 'Block_Invoices';
-            }
-            $project = $transactionService->calculateProject($transaction);
-            $transaction->setProject($project);
-            $em->flush();
-            $this->step($transaction);
-
-            if($this->submit == true && $access == "admin"){
-                $this->emailService->submitEmailFromTransac(
-                    $this->application->getAdminEmail(),
-                    'Administrateur SoftPAPs',
-                    $transaction->getRefEmployed()->getEmail(),
-                    '[SoftPAPS Transaction] - Validation du document par nos services.',
-                    $transaction->getId(),
-                );
-                $this->emailService->submitEmailFromTransac(
-                    $transaction->getRefEmployed()->getEmail(),
-                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                    $this->application->getAdminEmail(),
-                    '[SoftPAPS Transaction] - Validation du document.',
-                    $transaction->getId(),
-                );
-            }
-
-            return $this->json(array_merge([
-                'code'=> 200,
-                'message' => $message,
-            ],$this->returnView($transaction, $access, $view, $block)), 200);
-
-        }elseif($isValid == 'invalidFile'){                                 // information dans le cas ou le document proposé ne correspond pas au besoin
-
-            $transaction->setState("Invalidation $typeDoc | Le document présenté contient des erreurs.");
-
-            if($typeDoc == 'cv') {
-                $view = 'gestapp/transaction/show/_documents.html.twig';
-                $block = 'Block_Documents';
-            }elseif($typeDoc == 'fh'){
-                $view = 'gestapp/transaction/show/_invoices.html.twig';
-                $block = 'Block_Invoices';
-            }elseif($typeDoc == 'av'){
-                $view = 'gestapp/transaction/show/_documents.html.twig';
-                $block = 'Block_Documents';
-            }elseif($typeDoc == 'tf'){
-                $view = 'gestapp/transaction/show/_documents.html.twig';
-                $block = 'Block_Documents';
-            }elseif($typeDoc == 'fact'){
-                $view = 'gestapp/transaction/show/_invoices.html.twig';
-                $block = 'Block_Invoices';
-            }
-
-            $transaction->setNotes($messageInvalid);
-            $em->flush();
-
-            if($this->submit == true){
-                $this->emailService->submitEmailFromTransac(
-                    $this->application->getAdminEmail(),
-                    'Administrateur SoftPAPs',
-                    $transaction->getRefEmployed()->getEmail(),
-                    '[SoftPAPS Transaction] - Invalidation du document par nos services.',
-                    $transaction->getId(),
-                );
-            }
-
-            return $this->json(array_merge([
-                'code'=> 200,
-                'message' => "Traitement du document en suspens suite à son invalidation",
-            ],$this->returnView($transaction, $access, $view, $block)), 200);
-        }
-
-        if($typeDoc == 'cv') {
-            $fileName = $transaction->getPromisePdfFilename();
-        }elseif($typeDoc == 'fh'){
-            $fileName = $transaction->getHonorairesPdfFilename();
-        }elseif($typeDoc == 'av'){
-            $fileName = $transaction->getActePdfFilename();
-        }elseif($typeDoc == 'tf'){
-            $fileName = $transaction->getTracfinPdfFilename();
-        }elseif($typeDoc == 'fact'){
-            $fileName = $transaction->getInvoicePdfFilename();
-        }
-
-        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
-        $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
-        $pathdir = "/properties/".$newref."/documents/".$fileName;
-
-        return $this->json([
-            'code'=> 200,
-            'path' => $pathdir,
-        ], 200);
-
-    }
-
     #[Route('/{id}/addinvoices', name: 'op_gestapp_transaction_addinvoices', methods: ['GET', 'POST'])]
     public function addInvoices(
         Request $request,
@@ -1101,7 +1137,7 @@ class TransactionController extends AbstractController
             // Récupération des données sous forme de tableau associatif
             $document = $form->get('document')->getData();
 
-            if ($transaction->getStep() == 5){    // On ajoute la promesse de vente
+            if ($transaction->getStep() == 5){    // On ajoute la facture d'honoraires
                 $newFilename = $this->addFiles($document, 'fh-', $pathdir, $pdfHonoraire);
                 if($access === 'edit'){
                     $transaction->setHonorairesPdfFilename($newFilename);
@@ -1124,7 +1160,7 @@ class TransactionController extends AbstractController
                         $this->application->getAdminEmail(),
                         "Administrateur SoftPAPs",
                         $transaction->getRefEmployed()->getEmail(),
-                        'La facture d\'honoraires a été ajouté au dossier.',
+                        'La facture d\'honoraires a été ajouté au dossier de transaction'.$transaction->getName().'.',
                         $transaction->getId(),
                     );
                 }
@@ -1298,6 +1334,141 @@ class TransactionController extends AbstractController
 
     }
 
+    #[Route('/{id}/validFiles/{file}', name: 'op_gestapp_transaction_validfile', methods: ['GET','POST'])]
+    public function validFiles(Request $request, Transaction $transaction, transactionService $transactionService, PropertyRepository $propertyRepository, EntityManagerInterface $em, $file){
+        $access = $this->access($transaction);
+
+        $data = json_decode($request->getContent(), true);
+        $isValid = $data['option'] ?? null;
+        $messageInvalid=$data['message'] ?? null;
+        $typeDoc = explode('-', $file)[0];
+        $message = '';
+        $view = '';
+
+        if($isValid == 'validFile'){
+
+            if($typeDoc == 'cv') {
+                $transaction->setIsValidPromisepdf(1);
+                $transaction->setPromiseValidBy($this->getUser());
+                $message = "Vous venez de valider la promesse de vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'fh'){
+                $transaction->setIsValidHonoraires(1);
+                $transaction->setHonorairesValidBy($this->getUser());
+                $message = "Vous venez de valider les honoraires de votre collaborateur. <br>
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
+                $view = 'gestapp/transaction/show/_invoices.html.twig';
+                $block = 'Block_Invoices';
+            }elseif($typeDoc == 'av'){
+                $transaction->setIsValidActepdf(1);
+                $transaction->setActeValidBy($this->getUser());
+                $message = "Vous venez de valider l'attestation de l'acte de vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'tf'){
+                $transaction->setIsValidtracfinPdf(1);
+                $transaction->setTracfinValidBy($this->getUser());
+                $message = "Vous venez de valider le tracFin de votre collaborateur. <br>
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'fact'){
+                $transaction->setIsValidInvoicepdf(1);
+                $transaction->setInvoiceValidBy($this->getUser());
+                $message = "Vous venez de valider la facture de la vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
+                $view = 'gestapp/transaction/show/_invoices.html.twig';
+                $block = 'Block_Invoices';
+            }
+
+            $project = $transactionService->calculateProject($transaction);
+            $transaction->setProject($project);
+            $em->flush();
+            $this->step($transaction);
+
+            if($this->submit == true && $access == "admin" && ($transaction->getStep() == 3 || $transaction->getStep() == 9)){
+                $this->emailService->submitEmailFromTransac(
+                    $this->application->getAdminEmail(),
+                    'Administrateur SoftPAPs',
+                    $transaction->getRefEmployed()->getEmail(),
+                    '[SoftPAPS Transaction] - Validation du document par nos services.',
+                    $transaction->getId(),
+                );
+            }
+            return $this->json(array_merge([
+                'code'=> 200,
+                'message' => $message,
+            ],$this->returnView($transaction, $access, $view, $block)), 200);
+
+        }elseif($isValid == 'invalidFile'){                                 // information dans le cas ou le document proposé ne correspond pas au besoin
+
+            $transaction->setState("Invalidation $typeDoc | Le document présenté contient des erreurs.");
+
+            if($typeDoc == 'cv') {
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'fh'){
+                $view = 'gestapp/transaction/show/_invoices.html.twig';
+                $block = 'Block_Invoices';
+            }elseif($typeDoc == 'av'){
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'tf'){
+                $view = 'gestapp/transaction/show/_documents.html.twig';
+                $block = 'Block_Documents';
+            }elseif($typeDoc == 'fact'){
+                $view = 'gestapp/transaction/show/_invoices.html.twig';
+                $block = 'Block_Invoices';
+            }
+
+            $transaction->setNotes($messageInvalid);
+            $em->flush();
+
+            if($this->submit == true){
+                $this->emailService->submitEmailFromTransac(
+                    $this->application->getAdminEmail(),
+                    'Administrateur SoftPAPs',
+                    $transaction->getRefEmployed()->getEmail(),
+                    '[SoftPAPS Transaction] - Invalidation du document par nos services.',
+                    $transaction->getId(),
+                );
+            }
+
+            return $this->json(array_merge([
+                'code'=> 200,
+                'message' => "Traitement du document en suspens suite à son invalidation",
+            ],$this->returnView($transaction, $access, $view, $block)), 200);
+        }
+
+        if($typeDoc == 'cv') {
+            $fileName = $transaction->getPromisePdfFilename();
+        }elseif($typeDoc == 'fh'){
+            $fileName = $transaction->getHonorairesPdfFilename();
+        }elseif($typeDoc == 'av'){
+            $fileName = $transaction->getActePdfFilename();
+        }elseif($typeDoc == 'tf'){
+            $fileName = $transaction->getTracfinPdfFilename();
+        }elseif($typeDoc == 'fact'){
+            $fileName = $transaction->getInvoicePdfFilename();
+        }
+
+        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
+        $property = $propertyRepository->find($transaction->getProperty()->getId());
+        $ref = explode("/", $property->getRef());
+        $newref = $ref[0].'-'.$ref[1];
+        $pathdir = "/properties/".$newref."/documents/".$fileName;
+
+        return $this->json([
+            'code'=> 200,
+            'path' => $pathdir,
+        ], 200);
+
+    }
+
+
     #[Route('/2/{id}/show', name: 'op_gestapp_transaction_show', methods: ['GET'])]
     public function show(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
     {
@@ -1331,435 +1502,6 @@ class TransactionController extends AbstractController
 
         return $this->render('gestapp/transaction/edit.html.twig', [
             'transaction' => $transaction,
-            'form' => $form,
-        ]);
-    }
-
-    // ---------------------------------------------------------------------------
-    // Block 2
-    // ---------------------------------------------------------------------------
-    #[Route('/{id}/AddCustomer', name: 'op_gestapp_transaction_addcustomer', methods: ['GET', 'POST'])]
-    public function addCustomer(
-        Transaction $transaction,
-        CustomerRepository $customerRepository,
-        EmployedRepository $employedRepository,
-        CustomerChoiceRepository $customerChoiceRepository,
-        Request $request,
-        EntityManagerInterface $em
-    )
-    {
-        $user = $this->getUser();
-        $property = $transaction->getProperty();
-        $customerChoice = $customerChoiceRepository->find(2);
-
-        $customer = new Customer();
-        $form = $this->createForm(Customer2Type::class, $customer, [
-            'action'=> $this->generateUrl('op_gestapp_transaction_addcustomer', [
-                'id' => $transaction->getId()
-            ]),
-            'method'=>'POST'
-        ]);
-        $form->handleRequest($request);
-        if ($form->isSubmitted() && $form->isValid()) {
-            $date = new \DateTime();
-            $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-            // Ajout de l'acquéreur
-            $customer->setRefCustomer($refCustomer);
-            $customer->setRefEmployed($user);
-            $customer->setCustomerChoice($customerChoice);
-            $customer->addTransaction($transaction);
-            $em->persist($customer);
-            $em->flush();
-
-            // liste tous les clients attachés à leur propriété
-            $customers = $customerRepository->listbytransaction($transaction);
-
-            if(count($customers) == 1)
-            {
-                $transaction->setState('promise');
-                $em->persist($transaction);
-                $em->flush();
-            }
-
-            return $this->json([
-                'code'=> 200,
-                'message' => "Le futur acquéreur a été correctement ajouté.",
-                'liste' => $this->renderView('gestapp/transaction/include/block/_buyers.html.twig', [
-                    'buyers' => $customers,
-                    'transaction' => $transaction
-                ]),
-                'rowTable' => $this->renderView('gestapp/transaction/include/block/_rowPromise.html.twig', [
-                    'transaction' => $transaction
-                ])
-            ], 200);
-        }
-
-        return $this->render('gestapp/customer/add.html.twig', [
-            'customer' => $customer,
-            'form' => $form,
-        ]);
-
-    }
-
-    // Ajout ou modification de la date de signature de la promesse de vente
-    #[Route('/{id}/addDatePromise/{roleEditor}', name: 'op_gestapp_transaction_adddatepromise', methods: ['GET', 'POST'])]
-    public function addDatePromise(Transaction $transaction, $roleEditor, Request $request, EntityManagerInterface $em, transactionService $transactionService) : response
-    {
-        $form = $this->createForm(Transactionstep2Type::class, $transaction, [
-            'attr' => ['id'=>'addDatePromiseForm'],
-            'action' => $this->generateUrl('op_gestapp_transaction_adddatepromise', [
-                'id' => $transaction->getId(),
-                'roleEditor' => $roleEditor
-            ]),
-            'method' => 'POST'
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $transaction->setState('deposit');
-            $em->persist($transaction);
-            $em->flush();
-
-            $project = $transactionService->calculateProject($transaction);
-            $transaction->setProject($project);
-            $em->flush();
-
-            return $this->json([
-                'code' => 200,
-                'message' => 'Date de promesse de vente enregistrée.',
-                'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                    'transaction' => $transaction,
-                ]),
-
-            ], 200);
-        }
-
-        return $this->render('gestapp/transaction/include/block/_adddatepromise.html.twig', [
-            'transaction' => $transaction,
-            'roleEditor' => $roleEditor,
-            'form' => $form,
-        ]);
-    }
-
-    // Dépôt ou modification du compromis de vente en Pdf par le collaborateur
-    #[Route('/{id}/addPromisePdf/{roleEditor}', name: 'op_gestapp_transaction_addpromisepdf', methods: ['GET', 'POST'])]
-    public function addPromisePdf(
-        Transaction $transaction,
-        $roleEditor,
-        Request $request,
-        EntityManagerInterface $em,
-        MailerInterface $mailer,
-        SluggerInterface $slugger,
-        PropertyRepository $propertyRepository,
-        transactionService $transactionService
-    ) : response
-    {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
-        if($hasAccess == false){
-            $form = $this->createForm(Transactionstep3Type::class, $transaction, [
-                'attr' => ['id'=>'transactionstep3'],
-                'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf', [
-                    'id' => $transaction->getId(),
-                    'roleEditor' => $roleEditor
-                ]),
-                'method' => 'POST'
-            ]);
-        }else{
-            $form = $this->createForm(Transactionstep3Type::class, $transaction, [
-                'attr' => ['id'=>'transactionstep3'],
-                'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf_admin', [
-                    'id' => $transaction->getId(),
-                    'roleEditor' => $roleEditor
-                ]),
-                'method' => 'POST'
-            ]);
-        }
-        //dd($form);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-
-            // récupération de la référence du dossier pour construire le chemin vers le dossier Property
-            $property = $propertyRepository->find($transaction->getProperty()->getId());
-            $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
-
-            // Suppression du PDF si booléen sur "true"
-            $isSupprPromisePdf = $form->get('isSupprPromisePdf')->getData();
-            if($isSupprPromisePdf && $isSupprPromisePdf == true){
-                // récupération du nom de l'image
-                $PromisePdfName = $transaction->getPromisePdfFilename();
-                $pathPromisePdf = $this->getParameter('property_doc_directory')."/".$newref."/documents/".$PromisePdfName;
-                // On vérifie si l'image existe
-                if(file_exists($pathPromisePdf)){
-                    unlink($pathPromisePdf);
-                }
-                $transaction->setPromisePdfFilename(null);
-                $transaction->setIsSupprPromisePdf(0);
-            }
-
-            $promisepdf = $form->get('promisePdfFilename')->getData();
-            $PromisePdfName = $transaction->getPromisePdfFilename();
-            if($promisepdf){
-                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
-                $pathfile = $pathdir.$PromisePdfName;
-                if($PromisePdfName){
-                    // On vérifie si l'image existe
-                    if(file_exists($pathfile)){
-                        unlink($pathfile);
-                    }
-                }
-                $originalFilename = pathinfo($promisepdf->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = 'cv-'.$safeFilename.'.'.$promisepdf->guessExtension();
-                try {
-                    if (is_dir($pathdir)){
-                        $promisepdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
-                            $newFilename
-                        );
-                    }else{
-                        // Création du répertoire s'il n'existe pas.
-                        mkdir($pathdir."/", 0775, true);
-                        // Déplacement de la photo
-                        $promisepdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
-                            $newFilename
-                        );
-                    }
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-
-                $transaction->setPromisePdfFilename($newFilename);
-                $em->persist($transaction);
-                $em->flush();
-
-                $project = $transactionService->calculateProject($transaction);
-                $transaction->setProject($project);
-                $em->flush();
-
-                if($this->submit == true){
-                    if($hasAccess == false) {
-                        $this->emailService->SubmitPdfForTransacAtAdmin(
-                            'contact@papsimmo.fr',
-                            'SoftPAPs',
-                            $this->application->getAdminEmail(),
-                            '[PAPs immo] : Une promesse de vente attend votre approbation.',
-                            $transaction
-                        );
-                    }
-                }
-
-                return $this->json([
-                    'code' => 200,
-                    'message' => 'Le document PDF est déposé sur la plateforme en attente de validation.',
-                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction,
-                    ]),
-                    'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
-                        'transaction' => $transaction,
-                        'roleEditor' => $roleEditor
-                    ]),
-                    'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
-                        'transaction' => $transaction,
-                        'roleEditor' => $roleEditor
-                    ]),
-                ], 200);
-            }else if($promisepdf){
-                if($PromisePdfName){
-                    dd('doc pdf présent');
-                }else{
-                    dd('pas de doc');
-                }
-            }
-        }
-
-        return $this->render('gestapp/transaction/include/block/_addpromisepdf.html.twig', [
-            'transaction' => $transaction,
-            'roleEditor' => $roleEditor,
-            'form' => $form,
-        ]);
-    }
-
-    // Validation de la promesse de vente par un Administrateur
-    #[Route('/{id}/validPromisePdf/{roleEditor}', name: 'op_gestapp_transaction_validpromisepdf', methods: ['GET', 'POST'])]
-    public function validPromisePdf(
-        Request $request,
-        $roleEditor,
-        Transaction $transaction,
-        transactionService $transactionService,
-        EntityManagerInterface $entityManager,
-        MailerInterface $mailer
-    )
-    {
-        // action ne pouvant être réalisée uniquement par un admin
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $user = $this->getUser();
-        $username = $user->getFirstName()." ".$user->getLastName();
-        $transaction->setState('definitive_sale');
-        $transaction->setDateAtPromise(new \Datetime('now'));
-        $transaction->setPromiseValidBy($username);
-        $transaction->setIsValidPromisepdf(1);
-        $entityManager->persist($transaction);
-        $entityManager->flush();
-
-        $project = $transactionService->calculateProject($transaction);
-        $transaction->setProject($project);
-        $entityManager->flush();
-
-        $employedEmail = $transaction->getRefEmployed()->getEmail();
-        $fullHttp = $request->getUri();
-        $host = parse_url($fullHttp, PHP_URL_HOST);
-        if($this->submit == true){
-            $email = (new TemplatedEmail())
-                ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'));
-                if($host == '127.0.0.1'){
-                    $email
-                        ->to('xavier.burke@openpixl.fr');
-                }else{
-                    $email
-                        ->to($employedEmail);
-                }
-            $email
-                //->cc('cc@example.com')
-                //->bcc('bcc@example.com')
-                //->replyTo('fabien@example.com')
-                //->priority(Email::PRIORITY_HIGH)
-                ->subject("[PAPs Immo] : Document ". $transaction->getPromisePdfFilename() ." vérifié.")
-                ->htmlTemplate('admin/mail/messageTransactionVerif.html.twig')
-                ->context([
-                    'transaction' => $transaction,
-                    'url' => $request->server->get('HTTP_HOST')
-                ]);
-            try {
-                $mailer->send($email);
-            } catch (TransportExceptionInterface $e) {
-                // some error prevented the email sending; display an
-                // error message or try to resend the message
-                dd($e);
-            }
-        }
-
-
-        return $this->json([
-            'code' => 200,
-            'message' => "Vous venez de valider la promesse de vente de votre collaborateur. <br>
-                          Un mail lui a été adressé afin de qu'il puisse continuer le processus de vente.",
-            'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                'transaction' => $transaction,
-            ]),
-            'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
-                'transaction' => $transaction,
-                'roleEditor' => $roleEditor
-            ]),
-            'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
-                'transaction' => $transaction,
-                'roleEditor' => $roleEditor
-            ]),
-        ], 200);
-    }
-
-    // Dépôt ou modification du compromis de vente en Pdf par un administrateur
-    #[Route('/{id}/addPromisePdfAdmin/{roleEditor}', name: 'op_gestapp_transaction_addpromisepdf_admin', methods: ['POST', 'GET'])]
-    public function addPromisePdfAdmin(
-        Request $request,
-        Transaction $transaction,
-        transactionService $transactionService,
-        $roleEditor,
-        EntityManagerInterface $entityManager,
-        PropertyRepository $propertyRepository,
-        SluggerInterface $slugger)
-    {
-        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
-        $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
-
-        // action ne pouvant être réalisée uniquement par un admin
-        $this->denyAccessUnlessGranted('ROLE_ADMIN');
-        $form = $this->createForm(Transactionstep3Type::class, $transaction, [
-            'attr' => ['id'=>'transactionstep3'],
-            'action' => $this->generateUrl('op_gestapp_transaction_addpromisepdf_admin', [
-                'id' => $transaction->getId(),
-                'roleEditor' => $roleEditor
-            ]),
-            'method' => 'POST'
-        ]);
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $promisepdf = $form->get('promisePdfFilename')->getData();
-            if($promisepdf){
-
-                // Suppression du PDF si Présent
-                $PromisePdfName = $transaction->getPromisePdfFilename();
-                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
-                $pathfile = $pathdir.$PromisePdfName;
-                if($PromisePdfName){
-                    // On vérifie si l'image existe
-                    if(file_exists($pathfile)){
-                        unlink($pathfile);
-                    }
-                }
-                $originalFilename = pathinfo($promisepdf->getClientOriginalName(), PATHINFO_FILENAME);
-                $safeFilename = $slugger->slug($originalFilename);
-                $newFilename = 'cv-'.$safeFilename.'.'.$promisepdf->guessExtension();
-                try {
-                    if (is_dir($pathdir)){
-                        $promisepdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
-                            $newFilename
-                        );
-                    }else{
-                        // Création du répertoire s'il n'existe pas.
-                        mkdir($pathdir."/", 0775, true);
-                        // Déplacement de la photo
-                        $promisepdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
-                            $newFilename
-                        );
-                    }
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
-                }
-                $transaction->setPromisePdfFilename($newFilename);
-                $transaction->setState('definitive_sale');
-                $transaction->setIsValidPromisepdf(1);
-                $entityManager->persist($transaction);
-                $entityManager->flush();
-
-                $project = $transactionService->calculateProject($transaction);
-                $transaction->setProject($project);
-                $entityManager->flush();
-
-                return $this->json([
-                    'code' => 200,
-                    'message' => 'Promesse de vente réalisée.',
-                    'transState' => $this->renderView('gestapp/transaction/include/_barandstep.html.twig', [
-                        'transaction' => $transaction,
-                        'roleEditor' => $roleEditor
-                    ]),
-                    'rowpromise' => $this->renderView('gestapp/transaction/include/block/_rowpromisepdf.html.twig', [
-                        'transaction' => $transaction,
-                        'roleEditor' => $roleEditor
-                    ]),
-                    'rowhonoraires' => $this->renderView('gestapp/transaction/include/block/_rowhonorairespdf.html.twig', [
-                        'transaction' => $transaction,
-                        'roleEditor' => $roleEditor
-                    ]),
-                ], 200);
-            }
-
-            return $this->json([
-                'code' => 300,
-                'message' => 'Il manque le document en pdf.'
-            ], 200);
-        }
-
-        return $this->render('gestapp/transaction/include/block/_addpromisepdf.html.twig', [
-            'transaction' => $transaction,
-            'roleEditor' => $roleEditor,
             'form' => $form,
         ]);
     }
@@ -3061,161 +2803,6 @@ class TransactionController extends AbstractController
                 'transactions' => $transactions
             ])
         ], 200);
-    }
-
-    #[Route('/addcustomerjson/{id}', name: 'op_gestapp_transaction_addcustomerjson',  methods: ['GET', 'POST'])]
-    public function addCustomerJson(
-        Transaction $transaction,
-        Request $request,
-        CustomerRepository $customerRepository,
-        EmployedRepository $employedRepository,
-        CustomerChoiceRepository $customerChoiceRepository,
-        EntityManagerInterface $em,
-    )
-    {
-        $access = $this->access($transaction);
-
-        $employed = $employedRepository->find($this->getUser());
-
-        $customer = new Customer();
-        $customer->setRefEmployed($employed);
-        $customer->setCustomerChoice($customerChoiceRepository->find(2));
-        $customer->setTypeClient('particulier');
-        $customer->addTransaction($transaction);
-        $em->persist($customer);
-        $em->flush();
-
-        $form = $this->createForm(CustomerType::class, $customer, [
-            'action'=> $this->generateUrl('op_gestapp_transaction_editcustomerjson', [
-                'id'=> $transaction->getId(),
-                'buyer' => $customer->getId(),
-            ]),
-            'method'=>'POST',
-            'attr' => [
-                'id' => 'formCustomer_add'
-            ]
-        ]);
-        $form->handleRequest($request);
-
-        $customerChoice = $customerChoiceRepository->find(2);
-        if ($form->isSubmitted()) {
-            // Si Formulaire valide
-            if($form->isValid()){
-                // Contruction de la référence pour chaque propriété
-                $date = new \DateTime();
-                $refCustomer = $date->format('Y').'/'.$date->format('m').'-'.substr($form->get('firstName')->getData(), 0,3 ).substr($form->get('lastName')->getData(), 0,3 );
-                $customer->setRefCustomer($refCustomer);
-                $customer->setRefEmployed($employed);
-                $customer->setCustomerChoice($customerChoice);
-                $customer->addTransaction($transaction);
-
-                // Ajouter le code d'insertion du fichier PDF
-                // partie ajout CI
-                $ci = $form->get('cifilename')->getData();
-                $ciFilename = $customer->getCifilename();
-                if($ci) {
-                    if ($ciFilename) {
-                        $pathheader = $this->getParameter('customer_ci_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$ciFilename;
-                        // On vérifie si l'image existe
-                        if (file_exists($pathheader)) {
-                            unlink($pathheader);
-                        }
-                    }
-                    $newFilename = 'ci-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$ci->guessExtension();
-                    try {
-                        $ci->move(
-                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    $customer->setCifilename($newFilename);
-                }
-
-                // partie Ajout Kbis
-                $kbis = $form->get('kbisfilename')->getData();
-                $kbisFilename = $customer->getKbisfilename();
-                if($kbis) {
-                    if ($kbisFilename) {
-                        $pathheader = $this->getParameter('customer_kbis_directory') . '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/' .$kbisFilename;
-                        // On vérifie si l'image existe
-                        if (file_exists($pathheader)) {
-                            unlink($pathheader);
-                        }
-                    }
-                    $newFilename = 'kbis-'.$customer->getLastName().'_'.$customer->getFirstName().'.'.$kbis->guessExtension();
-                    try {
-                        $kbis->move(
-                            $this->getParameter('customer_ci_directory'). '/' .$customer->getLastName().'_'.$customer->getFirstName(). '/',
-                            $newFilename
-                        );
-                    } catch (FileException $e) {
-                        // ... handle exception if something happens during file upload
-                    }
-                    $customer->setKbisfilename($newFilename);
-                }
-
-                // Ajout en BDD du nouveau client
-                $customerRepository->add($customer);
-
-                $this->step($transaction);
-                $project = $this->transactionService->calculateProject($transaction);
-                $transaction->setProject($project);
-                $em->flush();
-
-                $this->step($transaction);
-
-                if($this->submit === true && $access === 'edit'){
-                    $this->emailService->submitEmailFromTransac(
-                        $transaction->getRefEmployed()->getEmail(),
-                        $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                        $this->application->getAdminEmail(),
-                        '[SoftPAPs - Transaction] - Ajout d\'un acheteur au dossier de vente : '.$transaction->getName().'.',
-                        $transaction->getId(),
-                    );
-                }
-
-                // liste tous les clients attachés à leur propriété
-                $customers = $customerRepository->listbytransaction($transaction);
-
-                return $this->json(array_merge([
-                    'code'=> 200,
-                    'message' => "Le vendeur a été correctement ajouté au dossier de vente.",
-                ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers')), 200);
-            }
-
-            $view = $this->renderView('gestapp/customer/_form2.html.twig', [
-                'customer' => $customer,
-                'form' => $form
-            ]);
-
-            return $this->json([
-                'code' => 422,
-                'message' => 'Le formulaire présente une ou des erreurs.<br><span class="mt-1 mb-1 fw-semibold text-warning">'. implode(', ', $this->getFormErrors($form)). '</span><br>A vous de corriger celles-ci',
-                'formView' => $view,
-                'deleteUrl' => $this->generateUrl('op_gestapp_transaction_delcustomerjson', [
-                    'id' => $transaction->getId(),
-                    'idCustomer' => $customer->getId()
-                ])
-            ],200);
-
-        }
-
-        $view = $this->render('gestapp/customer/add.html.twig', [
-            'customer' => $customer,
-            'form' => $form
-        ]);
-
-        return $this->json([
-            'code' => 200,
-            'message' => 'formulaire présenté',
-            'formView' => $view->getContent(),
-            'deleteUrl' => $this->generateUrl('op_gestapp_transaction_delcustomerjson', [
-                'id' => $transaction->getId(),
-                'idCustomer' => $customer->getId()
-            ])
-        ]);
     }
 
     #[Route('/editcustomerjson/{id}/{buyer}', name: 'op_gestapp_transaction_editcustomerjson',  methods: ['GET', 'POST'])]

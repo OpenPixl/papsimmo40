@@ -7,18 +7,28 @@
             <a href="{{ url('op_webapp_public_homepage') }}">
                 <img src="{{ email.image('@images/png/LogoPAPSimmo.png') }}" class="logo" alt="Logo" style="height: 100px; width: auto">
             </a>
-            {% set step_date = [0,4] %}
-            {% set step_document = [2,7] %}
-            {% set step_attente = [5,9,11] %}
+            {# Etape sans mail : 0,1,2,7 #}
+            {% set step_date = [] %}            {# Correspond à la validation d'un document par un admin #}
+            {% set step_document = [3,8] %}     {# Correspond à la validation d'un document par un admin #}
+            {% set step_invoices = [5,10] %}    {# Correspond à la validation d'un document par un admin #}
+            {% set step-honoraires = [6] %}     {# Correspond à la validation d'un document par un admin #}
+            {% set step_valid = [4,9] %}        {# Correspond à la validation d'un document par un admin #}
 
-            {% if transaction.step == 0 %}
-                <h1>[SoftPAPs - TRANSACTION ] : Nouvel acheteur au dossier.</h1>
-            {% endif %}
+
             {% if transaction.step in step_date %}
-                <h1>[SoftPAPs - TRANSACTION ] : Un RDV de signature vient d'être ajouté au dossier.</h1>
+                <h1>[ SoftPAPs - TRANSACTION ] : Un RDV de signature vient d'être ajouté au dossier.</h1>
             {% endif %}
             {% if transaction.step in step_document %}
-                <h1>[SoftPAPs - TRANSACTION ] : Un document attends votre approbation.</h1>
+                <h1>[ SoftPAPs - TRANSACTION ] : Un document attends votre approbation.</h1>
+            {% endif %}
+            {% if transaction.step in step_invoices %}
+                <h1>[ SoftPAPs - TRANSACTION ] : Facturation.</h1>
+            {% endif %}
+            {% if transaction.step in step-honoraires %}
+                <h1>[ SoftPAPs - TRANSACTION ] : La facture d'honoraires a été déposée.</h1>
+            {% endif %}
+            {% if transaction.step in step_valid %}
+                <h1>[ SoftPAPs - TRANSACTION ] : Un document en attente vient d'être validée.</h1>
             {% endif %}
         </div>
 
@@ -26,63 +36,83 @@
             <h3>Dossier n°: {{ transaction.name }}</h3>
             <hr>
             <h4>Bonjour,</h4>
-                <p>
-                    Suite à la présentation d'un document concernant la transaction immobilière :
-                    <br>
-                    - {{ transaction.property.name }}<br>
-                    - {{ transaction.property.zipcode }} {{ transaction.property.city }}
-                    <br>
-                </p>
-                {% if transaction.step == 0 %}
-                    <p>
-                        L'un de vos collaborateur à ouvert une nouvelle transaction immobilière : {{ transaction.name }}.<br>
-                        Cette démarche ne requiert aucune intervention de votre part.
-                    </p>
-                {% endif %}
-                {% if transaction.step == 1 %}
-                    <p>
-                        L'un de vos collaborateur : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}, a ajouté un acheteur au dossier.
-                        <br>
-                        Cette démarche ne requiert aucune intervention de votre part mais est incrite dans l'historique du dossier.
-                    </p>
-                {% endif %}
-                {% if transaction.step in step_date %}
-                    <p>
-                        L'un de vos collaborateur : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}, a ajouté une date de signature de document au dossier..
-                        <br>
-                        Cette démarche ne requiert aucune intervention de votre part.
-                    </p>
-                {% endif %}
-
-                {% if transaction.step in step_document %}
-                    <p>
-                        L'un de vos collaborateur : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }},a ajouté un document au dossier.
-                        <br>
-                        Nous vous invitons à verifier le document.
-                    </p>
-                {% endif%}
-
-                {% if transaction.step in step_document and (transaction.isValidPromisepdf == 1 or transaction.isValidActepdf == 1 or transaction.isValidtracfinPdf == 1 or transaction.isValidInvoicePdf == 1) %}
-                    <p>
-                        Le document présenté a été vérifié par un administrateur.
-                        <br>
-                        Vous pouvez continuer votre démarche de vente en cliquant sur la plateforme "SoftPAPs" en cliquant le lien suivant.
-                    </p>
-                {% endif%}
-
-                {% if transaction.step in step_attente %}
-                    <p>
-
-                        Un document a été déposé par l'un des collaborateurs : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}sur la plateforme.
-                        <br>
-                        En cliquant sur le lien suivant vous pourrez-le controler.
-                    </p>
-                {% endif %}
-            <p>L'équipe PAPs immo.</p>
             <p>
-                <a class="btn" href="https://www.papsimmo.fr/gestapp/transaction/{{transaction.id}}">Accès à la fiche de vente</a>
+                Le dossier de transaction a évolué dans la plateforme SoftPAPs. Pour rappel le dossier concerne le bien sous mandat {{ transaction.property.refMandat }} :
+                <br>
+                - {{ transaction.property.name }}<br>
+                - {{ transaction.property.zipcode }} {{ transaction.property.city }}
+                <br>
             </p>
 
+            {% if transaction.step in step_date %}
+                <p>
+                    L'un de vos collaborateur : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}, a ajouté une date de signature de document au dossier..
+                    <br>
+                    Cette démarche ne requiert aucune intervention de votre part.
+                </p>
+            {% endif %}
+
+            {% if transaction.step in step_valid %}
+                <p>
+                    Le document présenté pour le dossier de transaction a été validé par un administrateur.
+                </p>
+            {% endif %}
+
+            {% if transaction.step in step_document %}
+                <p>
+                    L'un de vos collaborateur : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }},a ajouté un document au dossier.
+                    <br>
+                    Nous vous invitons à verifier le ou les documents suivant : <br>
+                    {% if transaction.step == 3 %}- la <b>promesse de vente</b>.{% endif %}
+                    {% if transaction.step == 8 %}- <b>l'Attestation de l'acte de vente</b> et <b>le tracfin</b>.{% endif %}
+                </p>
+            {% endif%}
+
+            {% if transaction.step in step_invoices %}
+                {% if transaction.step == 5 %}
+                    <p>
+                        Le mandataire validé la date de signature de l'acte de vente auprès du notaire pour le {{ transaction.dateAtSale|date('d M Y') }}. Il vous faut générer et déposer sur la plateforme la facture correspondants aux honoraires de la vente.
+                    </p>
+                {% else %}
+                    <p>
+                        Le mandataire en charge du dossier : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }},a ajouté au dossier de transaction sa facturation.<br>
+                    </p>
+                {% endif %}
+            {% endif %}
+
+            {% if transaction.step in step-honoraires %}
+                {% if transaction.step == 6 %}
+                    <p>
+                        Une facture a été déposée par l'administrateur dans le dossier. Il vous est possible d'ajouter les pièces suivante dans la constitution du dossier.
+                    </p>
+                {% else %}
+                    <p>
+                        Une nouvelle facture a été déposée par le mandataire dans le dossier. <br>
+                        Nous vous invitons à verifier cette dernière.
+                    </p>
+                {% endif %}
+
+            {% endif %}
+
+            {% if transaction.step in step_document and (transaction.isValidPromisepdf == 1 or transaction.isValidActepdf == 1 or transaction.isValidtracfinPdf == 1 or transaction.isValidInvoicePdf == 1) %}
+                <p>
+                    Le document présenté a été vérifié par un administrateur.
+                    <br>
+                    Vous pouvez continuer votre démarche de vente en cliquant sur la plateforme "SoftPAPs" en cliquant le lien suivant.
+                </p>
+            {% endif%}
+
+            {% if transaction.step in step_attente %}
+                <p>
+                    Un document a été déposé par l'un des collaborateurs : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}sur la plateforme.
+                    <br>
+                    En cliquant sur le lien suivant vous pourrez-le controler.
+                </p>
+            {% endif %}
+            <p>L'équipe PAPs immo.</p>
+            <p>
+                <a class="btn" href="https://www.papsimmo.fr/gestapp/transaction/2/{{transaction.id}}/show">Accès à la fiche de vente</a>
+            </p>
         </div>
     </div>
 </div>

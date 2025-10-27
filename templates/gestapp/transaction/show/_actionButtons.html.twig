@@ -1,9 +1,11 @@
-{% set stepRdvActive = [0,4] %}
-{% set stepDocActive = [2,7] %}
-{% set stepInvoiceActive = [5,9,11] %}
+{% set stepRdvActive = [1,4] %}
+{% set stepDocActive = [2,6,7] %}
+{% set stepInvoiceActive = [5,9] %}
 <div class="col-6 justify-content-end" id="btnsTransaction">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-light fa-backward-step"></i> Retour</a>
-    <a href="{{ path('op_gestapp_transaction_addcustomerjson', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal" data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
+    {# btn Acquéreurs #}
+    <a href="{{ path('op_gestapp_transaction_addcustomer', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal" data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
+    {# btn RDV #}
     <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="
         {% if transaction.step in stepRdvActive %}
             btn btn-sm btn-outline-dark openModal
@@ -13,7 +15,9 @@
         data-bs-data="ADDAPPOINTMENT-Ajouter une date">
         <i class="fa-duotone fa-light fa-plus"></i> Date de RDV
     </a>
+    {# btn Documents #}
     <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
+    {# btn Factures #}
     <a
         {% if transaction.step in stepInvoiceActive %}
             {% if transaction.step == 11 and access == 'read' %}
@@ -24,11 +28,14 @@
         {% endif %}
          class="btn btn-sm
         {% if transaction.step in stepInvoiceActive %}
-            {% if transaction.step == 4 and access == 'edit' %}btn-outline-secondary disabled{% else %}btn-outline-dark{% endif %}
-        {% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDINVOICES-Ajouter une facture">
+            {% if transaction.step == 5 and access == 'edit' %}btn-outline-secondary disabled{% elseif transaction.step == 5 and access == 'admin' %}btn-outline-dark{% else %}btn-outline-dark{% endif %}
+        {% else %}
+            btn-outline-secondary disabled
+        {% endif %}
+         openModal " data-bs-data="ADDINVOICES-Ajouter une facture">
         <i class="fa-duotone fa-light fa-plus"></i> Factures
     </a>
-    {{ transaction.step }}
+    {{ transaction.step }} | {{ access }}
 </div>
 <div class="col-6 d-flex align-items-center justify-content-end">
     {% if access == 'read' %}

@@ -15,7 +15,11 @@
     <section class="mb-5">
         <div class="row">
             <div class="col-12">
-                <h1 class="fs-4 border-bottom border-dark fw-normal">Edition d'un collaborateur</h1>
+                {% if app.request.attributes.get('_route') == "op_admin_employed_edit" %}
+                    <h1 class="fs-4 border-bottom border-dark fw-normal">Edition d'un collaborateur</h1>
+                {% elseif app.request.attributes.get('_route') == "op_admin_prescriber_edit" %}
+                    <h1 class="fs-4 border-bottom border-dark fw-normal">Edition d'un prescripteur</h1>
+                {% endif %}
             </div>
         </div>
         <div class="row">

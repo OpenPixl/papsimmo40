@@ -17,11 +17,21 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\HttpFoundation\RequestStack;
 
 class EmployedType extends AbstractType
 {
+    private $requestStack;
+    public function __construct(RequestStack $requestStack){
+        $this->requestStack = $requestStack;
+    }
+
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $request = $this->requestStack->getCurrentRequest();
+        $route = $request?->attributes->get('_route');
+
         $builder
             ->add('email', EmailType::class,[
                 'label'=>'Adresse de connexion'
@@ -46,8 +56,6 @@ class EmployedType extends AbstractType
                 'label' => 'Nom de jeune fille',
                 'required' => false
             ])
-            //->add('slug')
-            ->add('sector')
             ->add('isVerified')
             ->add('referent', EntityType::class, [
                 'class' => Employed::class,
@@ -97,13 +105,6 @@ class EmployedType extends AbstractType
             ->add('facebook')
             ->add('instagram')
             ->add('linkedin')
-            ->add('isWebpublish', CheckboxType::class, [
-                'required' => false
-            ])
-            ->add('employedPrez', TextareaType::class,[
-                'label'=>'Présentation',
-                'required' => false
-            ])
             ->add('dateEmployed', DateType::class, [
                 'label'=> "Date d'entrée",
                 'widget' => 'single_text',
@@ -113,12 +114,25 @@ class EmployedType extends AbstractType
                 'required' => false,
                 'by_reference' => true,
             ])
-            ->add('rsacNumber', TextType::class, [
-                'label' => 'Numéro RSAC',
-                'required' => false
-            ])
-
         ;
+
+        if ($route === 'op_admin_employed_edit' || $route === 'op_admin_employed_new') {
+            $builder
+                ->add('rsacNumber', TextType::class, [
+                    'label' => 'Numéro RSAC',
+                    'required' => false
+                ])
+                ->add('sector')
+                ->add('isWebpublish', CheckboxType::class, [
+                    'required' => false
+                ])
+                ->add('employedPrez', TextareaType::class,[
+                    'label'=>'Présentation',
+                    'required' => false
+                ])
+            ;
+        }
+
     }
 
     public function configureOptions(OptionsResolver $resolver): void

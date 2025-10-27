@@ -3,7 +3,15 @@
     <div class="col-12">
         <div class="row mt-2">
             <div class="col-sm-12">
-                <a href="{{ path('op_admin_employed_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> retour</a>
+                {% if app.request.attributes.get('_route') == "op_admin_employed_edit" %}
+                    <a href="{{ path('op_admin_employed_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> retour</a>
+                {% elseif app.request.attributes.get('_route') == "op_admin_prescriber_edit" %}
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <a href="{{ path('op_admin_prescriber_all') }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> retour</a>
+                    {% else %}
+                        <a href="{{ path('op_admin_prescriber_index', {'refemployed' : employed.referent.id }) }}" class="btn btn-sm btn-outline-dark"><i class="fa-duotone fa-angles-left"></i> retour</a>
+                    {% endif %}
+                {% endif %}
                 <button id="submitForms" type="submit" class="btn btn-sm btn-outline-primary">{{ button_label|default('Enregistrer') }}</button>
             </div>
         </div>
@@ -54,11 +62,13 @@
                         <td>{{ form_widget(form.email, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                         <td colspan="2"></td>
                     </tr>
+                    {% if app.request.attributes.get('_route') != 'op_admin_prescriber_edit' %}
                     <tr class="align-middle">
                         <td class="table-light">{{ form_label(form.rsacNumber, '', {'label_attr': {'class':'form-label'}}) }}</td>
                         <td>{{ form_widget(form.rsacNumber, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                         <td colspan="2"></td>
                     </tr>
+                    {% endif %}
                 </table>
                 <p class="fs-5 border-bottom border-dark fw-normal mt-2">Contacts</p>
                 <table class="table table-sm mb-0">
@@ -151,20 +161,19 @@
                 </div>
             </div>
         {% endif %}
-
     </div>
     <div class="col-4">
-        <div class="card">
+        <div class="card border-dark mb-1">
             <div class="card-body p-2">
                 <p class="fs-5 border-bottom border-dark fw-normal">Paramètres</p>
-                <table class="table table-sm">
+                <table class="table table-sm mb-0">
                     <tr class="align-middle">
                         <td class="table-light col-md-2">Avatar</td>
                         {% if employed.avatarName is not null %}
                             <td class="col-md-4">
                                 {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
                                     <div class="mt-1">
-                                        <img src="{{ asset('images/avatar/' ~ employed.avatarName) }}" class="img-fluid" alt="{{ employed.avatarName }}">
+                                        <img src="{{ asset('images/avatar/' ~ employed.avatarName) }}" class="img-fluid w-50" alt="{{ employed.avatarName }}">
                                         <a href="{{ asset('images/avatar/' ~ employed.avatarName) }}">Télécharger</a>
                                     </div>
                             </td>
@@ -185,32 +194,39 @@
                             </td>
                         {% endif %}
                     </tr>
+                    {% if app.request.attributes.get('_route') != "op_admin_prescriber_edit" %}
                     <tr class="align-middle">
                         <td class="table-light">{{ form_label(form.sector, 'Secteur', {'label_attr': {'class':'form-label'}}) }}</td>
                         <td>{{ form_widget(form.sector, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                         <td>{{ form_errors(form.sector) }}</td>
                     </tr>
+                    {% endif %}
                     <tr class="align-middle">
                         <td class="table-light">{{ form_label(form.referent, '', {'label_attr': {'class':'form-label'}}) }}</td>
                         <td>{{ form_widget(form.referent) }}</td>
                         <td>{{ form_errors(form.referent) }}</td>
                     </tr>
                     {% if is_granted('ROLE_ADMIN') %}
-                <tr class="align-middle">
-                    <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                    <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
-                    <td>{{ form_errors(form.dateEmployed) }}</td>
-                </tr>
-                    {% else %}
-                        <tr class="align-middle d-none">
-                            <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                            <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
-                            <td>{{ form_errors(form.dateEmployed) }}</td>
-                        </tr>
-                    {% endif %}
-                    <tr>
-                        <td colspan="3"><h5>FICHE DE PRESENTATION</h5></td>
+                    <tr class="align-middle">
+                        <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                        <td>{{ form_errors(form.dateEmployed) }}</td>
                     </tr>
+                    {% else %}
+                    <tr class="align-middle d-none">
+                        <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                        <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                        <td>{{ form_errors(form.dateEmployed) }}</td>
+                    </tr>
+                {% endif %}
+                </table>
+            </div>
+        </div>
+        {% if app.request.attributes.get('_route') != "op_admin_prescriber_edit" %}
+        <div class="card border-dark mb-1">
+            <div class="card-body p-2">
+                <p class="fs-5 border-bottom border-dark fw-normal">Fiche de présentation</p>
+                <table class="table table-sm mb-0">
                     <tr class="align-middle">
                         <td class="table-light" colspan="2">{{ form_label(form.isWebpublish, 'Activer sa page sur le site', {'label_attr': {'class':'form-label'}}) }}</td>
                         <td>{{ form_widget(form.isWebpublish) }}</td>
@@ -220,10 +236,9 @@
                         <td colspan="2">{{ form_widget(form.employedPrez, {'attr': {'class': 'form-control form-control-sm'}}) }}</td>
                     </tr>
                 </table>
-
-
             </div>
         </div>
+        {% endif %}
     </div>
 </div>
 
