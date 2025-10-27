@@ -113,7 +113,7 @@ class TransactionController extends AbstractController
         if(!$transaction->getCustomer()->count() > 0) {
             //dd(1);
             $transaction->setState('Promesse de vente | En attente d\'un ou de plusieurs acquéreurs ');
-            $transaction->setStep(1);
+            $transaction->setStep(0);
             $this->entityManager->flush();
             return 0;
         }
