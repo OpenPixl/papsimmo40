@@ -1,4 +1,12 @@
-<p class="border-bottom mb-1"><b>Acquéreurs</b> : {{ transaction.customer|length }}</p>
+<div class="row border-bottom mb-1">
+    <div class="col-6">
+        <p class="mb-0"><b>Acquéreurs</b> : {{ transaction.customer|length }}</p></div>
+    <div class="col-6">
+        <p class="text-end mb-0"><a href="{{ path('op_admin_search_customer_transaction', {'idtransaction': transaction.id}) }}" class="openModal" data-bs-DATA="SEARCHBUYERS-Rechercher un Client dans la plateforme">Ajouter un client existant sur la plateforme <i class="fa-duotone fa-light fa-magnifying-glass"></i></a></p>
+    </div>
+</div>
+
+
 {% for customer in transaction.customer %}
     <div class="alert alert-light mb-1 p-2">
         <div class="d-flex justify-content-between">
@@ -22,10 +30,10 @@
             <div>
                 <p class="mb-0">
                     {% if access == "edit" %}
-                        <a href="{{ path('op_gestapp_transaction_editcustomerjson', {'id': transaction.id, 'buyer': customer.id}) }}" class="text-info openModal" data-bs-data="EDITBUYERS-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
+                        <a href="{{ path('op_gestapp_transaction_editcustomer', {'id': transaction.id, 'buyer': customer.id}) }}" class="text-info openModal" data-bs-data="EDITBUYERS-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a>
                     {% else %}
                         {% if is_granted('ROLE_SUPER_ADMIN') %}
-                            <a href="{{ path('op_gestapp_transaction_editcustomerjson', {'id': transaction.id, 'buyer': customer.id}) }}" class="text-info openModal" data-bs-data="EDITBUYERS-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a> |
+                            <a href="{{ path('op_gestapp_transaction_editcustomer', {'id': transaction.id, 'buyer': customer.id}) }}" class="text-info openModal" data-bs-data="EDITBUYERS-Modifier un acheteur-{{ transaction.id }}"><i class="fa-duotone fa-user-pen"></i></a> |
                             <a href="{{ path('op_gestapp_transaction_delcustomerjson', {'id': transaction.id, 'idCustomer': customer.id}) }}" class="text-danger openModal" data-bs-data="DELBUYERS-Suppression de l'acheteur"><i class="fa-duotone fa-trash-can"></i></a>
                         {% else %}
                         {% endif %}
@@ -41,6 +49,8 @@
                 <p class="mb-0">
                     Le dossier ne fait pas remonter d'acquéreur
                 </p>
+            </div>
+            <div>
             </div>
         </div>
     </div>

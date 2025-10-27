@@ -11,7 +11,7 @@
             {% set step_date = [] %}            {# Correspond à la validation d'un document par un admin #}
             {% set step_document = [3,8] %}     {# Correspond à la validation d'un document par un admin #}
             {% set step_invoices = [5,10] %}    {# Correspond à la validation d'un document par un admin #}
-            {% set step-honoraires = [6] %}     {# Correspond à la validation d'un document par un admin #}
+            {% set step_honoraires = [6] %}     {# Correspond à la validation d'un document par un admin #}
             {% set step_valid = [4,9] %}        {# Correspond à la validation d'un document par un admin #}
 
 
@@ -24,7 +24,7 @@
             {% if transaction.step in step_invoices %}
                 <h1>[ SoftPAPs - TRANSACTION ] : Facturation.</h1>
             {% endif %}
-            {% if transaction.step in step-honoraires %}
+            {% if transaction.step in step_honoraires %}
                 <h1>[ SoftPAPs - TRANSACTION ] : La facture d'honoraires a été déposée.</h1>
             {% endif %}
             {% if transaction.step in step_valid %}
@@ -80,7 +80,7 @@
                 {% endif %}
             {% endif %}
 
-            {% if transaction.step in step-honoraires %}
+            {% if transaction.step in step_honoraires %}
                 {% if transaction.step == 6 %}
                     <p>
                         Une facture a été déposée par l'administrateur dans le dossier. Il vous est possible d'ajouter les pièces suivante dans la constitution du dossier.
@@ -102,13 +102,6 @@
                 </p>
             {% endif%}
 
-            {% if transaction.step in step_attente %}
-                <p>
-                    Un document a été déposé par l'un des collaborateurs : {% if transaction.refEmployed.civility == 1 %}M. {% else %}Mme {% endif %}{{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}sur la plateforme.
-                    <br>
-                    En cliquant sur le lien suivant vous pourrez-le controler.
-                </p>
-            {% endif %}
             <p>L'équipe PAPs immo.</p>
             <p>
                 <a class="btn" href="https://www.papsimmo.fr/gestapp/transaction/2/{{transaction.id}}/show">Accès à la fiche de vente</a>
