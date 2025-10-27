@@ -370,4 +370,68 @@ class SearchController extends AbstractController
             'idproperty' => $idproperty,
         ]);
     }
+
+    // outil de Recherche d'un client sur la vue Show Property
+    #[Route('/admin/search/customer_transaction/{idtransaction}', name: 'op_admin_search_customer_transaction', methods: ['POST', 'GET'])]
+    public function customerTransaction(Request $request, $idtransaction, TransformedFinder $customerFinder): Response
+    {
+        $form = $this->createForm(SearchCustomerPropertyType::class, null, [
+            'action' => $this->generateUrl('op_admin_search_customer_transaction',[
+                'idtransaction' => $idtransaction,
+            ]),
+            'method' => 'POST',
+            'attr' => [
+                'id' => 'formSearch_CustomerTransaction'
+            ]
+        ]);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid()){
+            $data = $form->getData()->firstName;
+
+            if (empty($data)) {
+                return $this->json([]);
+            }
+
+            // Découper la recherche sur les espaces
+            $terms = preg_split('/\s+/', $data);
+
+            // Le code ci dessous :
+            // - Découpe la chaîne de recherche sur les espaces
+            // - Pour chaque mot, construit un sous-bool qui cherche dans firstName ou lastName (should)
+            // - Combine tous ces sous-bool avec un must (= tous les mots doivent apparaître au moins une fois dans les deux champs)
+            // - Utilise MatchPhrasePrefix pour que ce soit tolérant aux débuts de mots
+
+            $boolQuery = new BoolQuery();
+
+            foreach ($terms as $term) {
+                $should = new BoolQuery();
+                $should->addShould(new MatchPhrasePrefix('firstName', $term));
+                $should->addShould(new MatchPhrasePrefix('lastName', $term));
+
+                $boolQuery->addMust($should);
+            }
+
+            $query = new Query($boolQuery);
+
+            // Récupérer les résultats (objets Customer)
+            $customers = $customerFinder->find($query);
+
+            return $this->json([
+                'code'=> 200,
+                'message' => "La recherche à aboutie",
+                'liste' => $this->renderView('gestapp/customer/search/_liste.html.twig', [
+                    'customers' => $customers,
+                    'idtransaction' => $idtransaction
+                ])
+            ]);
+        }
+
+        return $this->json([
+            'formView' => $this->renderView('gestapp/customer/search/_listsearch.html.twig', [
+                'form' => $form,
+                'idtransaction' => $idtransaction,
+            ])
+        ],200);
+    }
 }

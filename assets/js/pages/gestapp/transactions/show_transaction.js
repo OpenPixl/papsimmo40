@@ -87,6 +87,18 @@ export function initShowTransactionPage() {
                     declareEvent();
                 });
         }
+        else if (crud === 'SEARCHBUYERS'){
+            modalEl.querySelector('.modal-footer a').classList.add('d-none');
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    let inputSearchCustomer = document.getElementById('search_customer_property_firstName');
+                    inputSearchCustomer.addEventListener('input', submitSearchCustomer);
+                })
+                .catch(error => { console.log(error); })
+            ;
+        }
         else if (crud === 'ADDAPPOINTMENT' || crud === 'EDITAPPOINTMENT') {
             axios
                 .get(url)
@@ -507,6 +519,50 @@ export function initShowTransactionPage() {
                 modalBs.hide();
             }
         }
+    }
+
+    // Blocs de code en lien avec la recherche et l'intégration du client dans un dossier de transactions
+    function submitSearchCustomer(event){
+        event.preventDefault();
+        let form = document.getElementById('formSearch_CustomerTransaction');
+        let action = form.action;
+        let data = new FormData(form);
+        axios
+            .post(action, data)
+            .then(function(response){
+                document.getElementById('listeSearchCustomers').innerHTML = response.data.liste;
+                toasterMessage(response.data.message);
+                let linkAddCustomer = document.querySelectorAll('a.addcustomersearch');
+                linkAddCustomer.forEach(function(link){
+                    link.addEventListener('click', submitAddSearchCustomer);
+                });
+            })
+            .catch(function(error){
+                alert(error);
+            })
+        ;
+    }
+
+    function submitAddSearchCustomer(event){
+        event.preventDefault();
+        let url = event.currentTarget.href;
+        axios
+            .post(url)
+            .then(({data}) => {
+                updateTransactionView({
+                    viewTargetId: 'Block_Buyers',
+                    view: data.view,
+                    state: data.state,
+                    progress: data.progress,
+                    actionButtons: data.actionButtons,
+                    message: data.message
+                });
+            })
+            .catch(function (error){
+                alert(error);
+            })
+        ;
+        modalBs.hide();
     }
 
     function updateTransactionView({viewTargetId, view, state, message, progress, actionButtons}) {

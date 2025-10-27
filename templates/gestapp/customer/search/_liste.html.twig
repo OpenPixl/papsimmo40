@@ -3,7 +3,12 @@
         <p class="mb-0" style="font-size:0.8rem;">{{ customer.lastName }} {{ customer.firstName }} | {{ customer.zipcode }} {{ customer.city }}</p>
     </div>
     <div class="col-1">
+        {% if idproperty is defined %}
         <p class="mb-0"><a id="addCustomerSearch" class="addcustomersearch" href="{{path('op_gestapp_customer_addsearchcustomer', {'id': customer.id, 'idproperty': idproperty})}}"><i class="fa-light fa-user-check"></i></a></p>
+        {% endif %}
+        {% if idtransaction is defined %}
+            <p class="mb-0"><a id="addCustomerSearch" class="addcustomersearch" href="{{path('op_gestapp_transaction_addsearchcustomer', {'id': idtransaction, 'idcustomer': customer.id})}}"><i class="fa-light fa-user-check"></i></a></p>
+        {% endif %}
     </div>
 {% else %}
 {% endfor %}

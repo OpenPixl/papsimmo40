@@ -148,9 +148,7 @@ export function initShowPropertyPage() {
 
                     }
                     if(nodeFormName === 'Customers'){
-                        let searchCustomersRechercher = document.getElementById('search_customers_rechercher');
                         let inputSearchCustomer = document.getElementById('search_customer_property_firstName');
-                        searchCustomersRechercher.addEventListener('click', submitSearchCustomer);
                         inputSearchCustomer.addEventListener('input', submitSearchCustomer);
                     }
                     if(nodeFormName === 'Estimate'){

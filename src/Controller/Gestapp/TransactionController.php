@@ -555,6 +555,23 @@ class TransactionController extends AbstractController
         ]);
     }
 
+    #[Route('/add_searchcustomer/{id}/{idcustomer}', name: 'op_gestapp_transaction_addsearchcustomer',  methods: ['GET', 'POST'])]
+    public function addCustomersSearch(Transaction $transaction, $idcustomer, Request $request, CustomerRepository $customerRepository, EntityManagerInterface $em)
+    {
+        $customer = $customerRepository->find($idcustomer);
+
+        $transaction->addCustomer($customer);
+        $em->flush();
+        $this->step($transaction);
+
+        $access = $this->access($transaction);
+
+        return $this->json(array_merge([
+            'code'=> 200,
+            'message' => "Le vendeur a été correctement modifié.",
+        ],$this->returnView($transaction, $access,'gestapp/transaction/show/buyers.html.twig', 'Block_Buyers' )), 200);
+    }
+
     #[Route('/editcustomer/{id}/{buyer}', name: 'op_gestapp_transaction_editcustomer',  methods: ['GET', 'POST'])]
     public function editCustomer(
         Transaction $transaction,
@@ -1601,7 +1618,6 @@ class TransactionController extends AbstractController
         ], 200);
 
     }
-
 
     #[Route('/2/{id}/show', name: 'op_gestapp_transaction_show', methods: ['GET'])]
     public function show(Request $request, Transaction $transaction, PhotoRepository $photoRepository): Response
