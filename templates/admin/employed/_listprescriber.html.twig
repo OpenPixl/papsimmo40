@@ -16,7 +16,7 @@
     {% for prescriber in prescribers %}
         <tr class="align-middle">
             <td>{{ prescriber.id }}</td>
-            <td><a href="{{ path('op_admin_employed_edit', {'id': prescriber.id}) }}">{{ prescriber.firstName }} {{ prescriber.lastName }}</a></td>
+            <td><a href="{{ path('op_admin_prescriber_edit', {'id': prescriber.id}) }}">{{ prescriber.firstName }} {{ prescriber.lastName }}</a></td>
             <td>{{ prescriber.email }}</td>
             <td>{{ prescriber.gsm }}</td>
             <td></td>

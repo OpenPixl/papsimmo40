@@ -285,8 +285,10 @@ class EmployedController extends AbstractController
     #[Route('/opadmin/prescriber/{id}/edit', name: 'op_admin_prescriber_edit', methods: ['GET', 'POST'])]
     public function prescriber(Request $request, SluggerInterface $slugger, Employed $employed, EmployedRepository $employedRepository, EntityManagerInterface $entityManager): Response
     {
+        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+
         $form = $this->createForm(EmployedType::class, $employed, [
-            'action'=>$this->generateUrl('op_admin_employed_edit', ['id' => $employed->getId()]),
+            'action'=>$this->generateUrl('op_admin_prescriber_edit', ['id' => $employed->getId()]),
             'method' => 'POST'
         ]);
         $form->handleRequest($request);
@@ -344,7 +346,15 @@ class EmployedController extends AbstractController
             }
 
             $entityManager->flush();
-            return $this->redirectToRoute('op_admin_employed_index', [], Response::HTTP_SEE_OTHER);
+            if($hasAccess == true){
+                return $this->redirectToRoute('op_admin_prescriber_all', [], Response::HTTP_SEE_OTHER);
+            }else{
+                $prescribers = $employedRepository->listPrescriber('["ROLE_PRESCRIBER"]', $this->getUser());;
+                return $this->redirectToRoute('op_admin_prescriber_index', [
+                    'refemployed' => $this->getUser()->getId(),
+                ], Response::HTTP_SEE_OTHER);
+            }
+
         }
 
         return $this->render('admin/employed/edit.html.twig', [
