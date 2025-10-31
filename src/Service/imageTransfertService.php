@@ -40,7 +40,7 @@ class imageTransfertService
         $host = $this->pathService->getHost();
 
         if(!$port){
-            $imageUrl = $scheme.'://www'.$host.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
+            $imageUrl = $scheme.'://applipaps.openpixl.fr/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
         }else{
             $imageUrl = $scheme.'://'.$host.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
         }
