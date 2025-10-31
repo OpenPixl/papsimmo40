@@ -21,18 +21,18 @@ class imageTransfertService
     public function transfertAvatarImage(string $name, Request $request): void
     {
         $authorizationHeader = $request->headers->get('Authorization');
-
+        //dd($authorizationHeader);
         if (!$authorizationHeader || !preg_match('/Bearer\s(\S+)/', $authorizationHeader, $matches)) {
             throw new \Exception('Invalid or missing JWT token.');
         }
 
         $token = $matches[1];
-
         $tokenParts = explode(".", $token);
         $tokenPayload = base64_decode($tokenParts[1]);
         $jwtPayload = json_decode($tokenPayload);
 
         $email = $jwtPayload->email;
+
         $user = $this->employedRepository->findOneBy(['email' => $email]);
 
         $scheme = $this->pathService->getScheme();
@@ -40,9 +40,9 @@ class imageTransfertService
         $host = $this->pathService->getHost();
 
         if(!$port){
-            $imageUrl = $scheme.'://applipaps.openpixl.fr/prescriptors/'.$user->getSlug().'/'.$name;
+            $imageUrl = $scheme.'://www'.$host.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
         }else{
-            $imageUrl = $scheme.'://applipaps.openpixl.fr:'.$port.'/prescriptors/'.$user->getSlug().'/'.$name;
+            $imageUrl = $scheme.'://'.$host.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
         }
 
         if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {

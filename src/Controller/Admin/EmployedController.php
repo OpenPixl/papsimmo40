@@ -57,7 +57,6 @@ class EmployedController extends AbstractController
     public function avatarTransfertApp(Request $request, $name): Response
     {
         $imageUrl = $request->get('url');
-
         try {
             $this->imageTransfertService->transfertAvatarImage($name, $request);
             return $this->json([
