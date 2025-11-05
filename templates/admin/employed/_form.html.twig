@@ -172,10 +172,17 @@
                         {% if employed.avatarName is not null %}
                             <td class="col-md-4">
                                 {{ form_widget(form.avatarFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
+                                {% if employed.genre == 'prescripteur' %}
+                                    <div class="mt-1">
+                                        <img src="{{ asset('employed/'~ employed.slug ~'/'~ employed.avatarName) }}" class="img-fluid w-50" alt="{{ employed.avatarName }}">
+                                        <a href="{{ asset('employed/'~ employed.slug ~'/'~ employed.avatarName) }}">Télécharger</a>
+                                    </div>
+                                {% else %}
                                     <div class="mt-1">
                                         <img src="{{ asset('images/avatar/' ~ employed.avatarName) }}" class="img-fluid w-50" alt="{{ employed.avatarName }}">
                                         <a href="{{ asset('images/avatar/' ~ employed.avatarName) }}">Télécharger</a>
                                     </div>
+                                {% endif %}
                             </td>
                             <td class="col-md-3">
                                 {% if app.request.attributes.get('_route') == 'op_admin_employed_edit' %}

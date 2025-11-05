@@ -49,7 +49,7 @@ class imageTransfertService
 
         if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {
             $path = $this->targetDirectoryAvatar.$user->getSlug();
-            dd($path);
+            //dd($path);
             $response = $this->httpClient->request('GET', $imageUrl);
             //dd($response);
             if ($response->getStatusCode() === 200) {
