@@ -28,6 +28,7 @@ class imageTransfertService
         }
 
         $token = $matches[1];
+
         $tokenParts = explode(".", $token);
         $tokenPayload = base64_decode($tokenParts[1]);
         $jwtPayload = json_decode($tokenPayload);
@@ -48,9 +49,9 @@ class imageTransfertService
 
         if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {
             $path = $this->targetDirectoryAvatar.$user->getSlug();
-
+            dd($path);
             $response = $this->httpClient->request('GET', $imageUrl);
-
+            //dd($response);
             if ($response->getStatusCode() === 200) {
                 $imageContent = $response->getContent();
                 $filename = basename(parse_url($imageUrl, PHP_URL_PATH));
@@ -66,7 +67,7 @@ class imageTransfertService
                 throw new \Exception('Impossible de charger  le document.');
             }
         }else{
-            throw new \Exception('Vous n\'ếtes pas autoriser par l\'application à charger l\'image');
+            throw new \Exception('Vous n\'êtes pas autoriser par l\'application à charger l\'image');
         }
 
 

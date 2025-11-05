@@ -38,10 +38,9 @@ class RecoController extends AbstractController
     #[Route('/gestapp/reco/', name: 'op_gestapp_reco_index', methods: ['GET'])]
     public function index(RecoRepository $recoRepository): Response
     {
-
-
         $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
         $user = $this->getUser();
+
         if($hasAccess == true)
         {
             $recos = $recoRepository->findAll();
@@ -49,7 +48,7 @@ class RecoController extends AbstractController
                 'recos' => $recos,
             ]);
         }else{
-            $recos = $recoRepository->findBy(['refEmployed' => $user->getId()]);
+            $recos = $recoRepository->findBy(['refEmployed' => $user]);
             return $this->render('gestapp/reco/index.html.twig', [
                 'recos' => $recos,
             ]);

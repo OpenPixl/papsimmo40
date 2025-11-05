@@ -24,13 +24,13 @@ class ApplicationService{
 
     public function getPwaUrl(){
         $application = $this->applicationRepository->findOneBy([], ['id' => 'DESC']);
-        $urlPwaapp = $application->getUrlAppli();
+        $urlPwaapp = $application->getUrlPwa();
         return $urlPwaapp;
     }
 
     public function getPwaHost(){
         $application = $this->applicationRepository->findOneBy([], ['id' => 'DESC']);
-        $urlPwahost = $application->getHostAppli();
+        $urlPwahost = $application->getHostPwa();
         return $urlPwahost;
     }
 
