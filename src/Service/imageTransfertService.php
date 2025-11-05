@@ -12,6 +12,7 @@ class imageTransfertService
 
     public function __construct(
         public PathService $pathService,
+        public ApplicationService $applicationService,
         private HttpClientInterface $httpClient,
         private string $targetDirectoryAvatar,
         private string $targetDirectoryCi,
@@ -36,19 +37,20 @@ class imageTransfertService
         $user = $this->employedRepository->findOneBy(['email' => $email]);
 
         $scheme = $this->pathService->getScheme();
-        $port = $this->pathService->getPort();
-        $host = $this->pathService->getHost();
+        $port = $this->applicationService->getPwaHost();
+        $url = $this->applicationService->getPwaUrl();
 
         if(!$port){
-            $imageUrl = $scheme.'://applipaps.openpixl.fr/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
+            $imageUrl = $scheme.'://'.$url.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
         }else{
-            $imageUrl = $scheme.'://'.$host.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
+            $imageUrl = $scheme.'://'.$url.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
         }
 
         if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {
             $path = $this->targetDirectoryAvatar.$user->getSlug();
+
             $response = $this->httpClient->request('GET', $imageUrl);
-            //dd($response->getStatusCode());
+
             if ($response->getStatusCode() === 200) {
                 $imageContent = $response->getContent();
                 $filename = basename(parse_url($imageUrl, PHP_URL_PATH));
@@ -88,13 +90,13 @@ class imageTransfertService
         $user = $this->employedRepository->findOneBy(['email' => $email]);
 
         $scheme = $this->pathService->getScheme();
-        $port = $this->pathService->getPort();
-        $host = $this->pathService->getHost();
+        $port = $this->applicationService->getPwaHost();
+        $url = $this->applicationService->getPwaUrl();
 
         if(!$port){
-            $imageUrl = $scheme.'://applipaps.openpixl.fr/prescriptors/'.$user->getSlug().'/'.$name;
+            $imageUrl = $scheme.'://'.$url.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
         }else{
-            $imageUrl = $scheme.'://papsimmo.openpixl.fr:'.$port.'/prescriptors/'.$user->getSlug().'/'.$name;
+            $imageUrl = $scheme.'://'.$url.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
         }
 
         if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {

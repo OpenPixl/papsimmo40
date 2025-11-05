@@ -2,6 +2,7 @@
 
 namespace App\Entity\Admin;
 
+use ApiPlatform\Metadata\ApiResource;
 use App\Repository\Admin\ApplicationRepository;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
@@ -10,6 +11,7 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 
 #[ORM\Entity(repositoryClass: ApplicationRepository::class)]
 #[ORM\HasLifecycleCallbacks]
+#[ApiResource()]
 class Application
 {
     #[ORM\Id]
@@ -84,6 +86,17 @@ class Application
     #[ORM\Column(type: 'integer', nullable: true)]
     private $faviconSize;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $url_appli = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $host_appli = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $url_pwa = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $host_pwa = null;
 
     #[ORM\Column(type: 'datetime')]
     private $createdAt;
@@ -364,6 +377,54 @@ class Application
         return $this->faviconSize;
     }
 
+
+    public function getUrlAppli(): ?string
+    {
+        return $this->url_appli;
+    }
+
+    public function setUrlAppli(string $url_appli): static
+    {
+        $this->url_appli = $url_appli;
+
+        return $this;
+    }
+
+    public function getHostAppli(): ?string
+    {
+        return $this->host_appli;
+    }
+
+    public function setHostAppli(?string $host_appli): static
+    {
+        $this->host_appli = $host_appli;
+
+        return $this;
+    }
+
+    public function getUrlPwa(): ?string
+    {
+        return $this->url_pwa;
+    }
+
+    public function setUrlPwa(string $url_pwa): static
+    {
+        $this->url_pwa = $url_pwa;
+
+        return $this;
+    }
+
+    public function getHostPwa(): ?string
+    {
+        return $this->host_pwa;
+    }
+
+    public function setHostPwa(?string $host_pwa): static
+    {
+        $this->host_pwa = $host_pwa;
+
+        return $this;
+    }
 
     public function getCreatedAt(): ?\DateTimeInterface
     {

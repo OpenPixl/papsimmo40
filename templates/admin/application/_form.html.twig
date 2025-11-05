@@ -4,14 +4,13 @@
     <div class="tab-pane fade show active" id="InformationGenerales" role="tabpanel" aria-labelledby="home-tab">
         <div class="row pt-2 pb-2">
             <div class="col-12">
-                <h5>INFORMATIONS GENERALES RELATIVE AU FONCTIONNEMENT DE LA PLATEFORME.</h5>
+                <h5 class="text-uppercase border-dark border-bottom mb-3 fw-normal">INFORMATIONS GENERALES RELATIVE AU FONCTIONNEMENT DE LA PLATEFORME.</h5>
             </div>
             <div class="col-4">
-                <div class="card">
-                    <div class="card-header">
-                        <h6 class="mb-0"><i class="fa-duotone fa-display-code"></i> RELATIVE AU SITE</h6>
-                    </div>
-                    <div class="card-body">
+                <div class="card border-dark shadow-sm">
+                    <div class="card-body p-2">
+                        <h6 class="border-bottom border-dark mb-2 text-uppercase fw-normal"><i class="fa-duotone fa-display-code"></i> Informations liées à la gestion des applications</h6>
+                        <p class="fw-semibold mt-2">Application Web</p>
                         <div class="row align-items-center">
                             <div class="col-5">
                                 {{ form_label(form.nameSite, '', {'label_attr': {'class':'col-form-label'}}) }}
@@ -34,6 +33,39 @@
                             </div>
                             <div class="col-7">
                                 {{ form_widget(form.descrSite, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                {{ form_label(form.urlAppli, '', {'label_attr': {'class':'col-form-label'}}) }}
+                            </div>
+                            <div class="col-7">
+                                {{ form_widget(form.urlAppli, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                {{ form_label(form.hostAppli, '', {'label_attr': {'class':'col-form-label'}}) }}
+                            </div>
+                            <div class="col-7">
+                                {{ form_widget(form.hostAppli, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                            </div>
+                        </div>
+                        <p class="fw-semibold mt-2">Application Mobile</p>
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                {{ form_label(form.urlPwa, '', {'label_attr': {'class':'col-form-label'}}) }}
+                            </div>
+                            <div class="col-7">
+                                {{ form_widget(form.urlPwa, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
+                            </div>
+                        </div>
+                        <div class="row align-items-center">
+                            <div class="col-5">
+                                {{ form_label(form.hostPwa, '', {'label_attr': {'class':'col-form-label'}}) }}
+                            </div>
+                            <div class="col-7">
+                                {{ form_widget(form.hostPwa, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'Nom du site'}}) }}
                             </div>
                         </div>
                     </div>
@@ -113,7 +145,7 @@
                     <div class="col-6">
                         {{ form_widget(form.logoFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-3">
                         {% if application.logoName is not null %}
                             <img class="img-fluid" src="{{ asset('images/application/' ~ application.logoName) }}" alt="{{ application.logoName }}">
                         {% endif %}
@@ -126,9 +158,9 @@
                     <div class="col-6">
                         {{ form_widget(form.faviconFile, {'attr': {'class': 'form-control-file form-control-sm'}}) }}
                     </div>
-                    <div class="col-6">
+                    <div class="col-3">
                         {% if application.faviconName is not null %}
-                            <img class="imgfluid" src="{{ asset('images/application/' ~ application.faviconName) }}" alt="{{ application.faviconName }}">
+                            <img class="img-fluid" src="{{ asset('images/application/' ~ application.faviconName) }}" alt="{{ application.faviconName }}">
                         {% endif %}
                     </div>
                 </div>

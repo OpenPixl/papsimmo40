@@ -57,13 +57,14 @@ class EmployedController extends AbstractController
     public function avatarTransfertApp(Request $request, $name): Response
     {
         $imageUrl = $request->get('url');
+        //dd($name);
         try {
             $this->imageTransfertService->transfertAvatarImage($name, $request);
             return $this->json([
                 'message' => "Image transférée",
             ]);
         } catch (\Exception $e) {
-            return $this->json(['error' => 'Accès non autorisé'], 401);
+            return $this->json(['error' => 'Accès non autorisé ->' . $e], 401);
         }
     }
 

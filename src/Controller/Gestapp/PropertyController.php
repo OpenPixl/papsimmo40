@@ -1167,6 +1167,7 @@ class PropertyController extends AbstractController
         CadasterRepository $cadasterRepository,
         PublicationRepository $publicationRepository,
         ComplementRepository $complementRepository,
+        ContactRepository $contactRepository,
         PaginatorInterface $paginator,
         DirectoryService $directoryService
     )
@@ -1195,6 +1196,12 @@ class PropertyController extends AbstractController
             foreach($cadasters as $cadaster){
                 $cadasterRepository->remove($cadaster);
             }
+            // suppressions des messages de contacts sur ce bien
+            $contacts = $contactRepository->findBy(['property' => $property]);
+            foreach($contacts as $contact){
+                $contactRepository->remove($contact);
+            }
+
             // Supression de la propriété
             $nameProperty = $property->getName();                   // pour afficher le nom du bien dans le toaster
             $propertyRepository->remove($property);

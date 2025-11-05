@@ -42,6 +42,22 @@ class ApplicationType extends AbstractType
                 'label' => "Nom de l'administrateur",
                 'required' => false
             ])
+            ->add('urlAppli', TextType::class, [
+                'label' => "URL de l'application",
+                'required' => false
+            ])
+            ->add('hostAppli', TextType::class, [
+                'label' => "Port de l'application",
+                'required' => false
+            ])
+            ->add('urlPwa', TextType::class, [
+                'label' => "URL de l'app mobile",
+                'required' => false
+            ])
+            ->add('hostPwa', TextType::class, [
+                'label' => "Port de l'app mobile",
+                'required' => false
+            ])
             ->add('isBlockmenufluid', CheckboxType::class, [
                 'label' => 'Site en total responsive',
                 'required' => false
