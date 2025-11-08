@@ -51,7 +51,7 @@ class imageTransfertService
             $path = $this->targetDirectoryAvatar.$user->getSlug();
             //dd($path);
             $response = $this->httpClient->request('GET', $imageUrl);
-            //dd($response);
+
             if ($response->getStatusCode() === 200) {
                 $imageContent = $response->getContent();
                 $filename = basename(parse_url($imageUrl, PHP_URL_PATH));
@@ -95,9 +95,9 @@ class imageTransfertService
         $url = $this->applicationService->getPwaUrl();
 
         if(!$port){
-            $imageUrl = $scheme.'://'.$url.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
+            $imageUrl = $scheme.'://'.$url.'/prescriptors/'.$user->getSlug().'/'.$user->getCiFileName();
         }else{
-            $imageUrl = $scheme.'://'.$url.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$user->getAvatarName();
+            $imageUrl = $scheme.'://'.$url.':'.$port.'/prescriptors/'.$user->getSlug().'/'.$user->getCiFileName();
         }
 
         if(in_array("ROLE_PRESCRIBER", $jwtPayload->roles)) {

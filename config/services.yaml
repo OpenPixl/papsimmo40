@@ -56,11 +56,14 @@ services:
             $targetDirectoryAvatar: '%kernel.project_dir%/public/employed/'
             $targetDirectoryCi: '%kernel.project_dir%/public/employed/'
 
+    App\Controller\Admin\PrescriberController:
+      arguments:
+        $targetDirectoryAvatar: '%kernel.project_dir%/public/employed/'
+        $targetDirectoryCi: '%kernel.project_dir%/public/employed/'
+
     App\Service\ftptransfertService:
         arguments:
             $projectDir: '%kernel.project_dir%/public/'
-
-
 
     App\OpenApi\JwtDecorator:
         decorates: 'api_platform.openapi.factory'

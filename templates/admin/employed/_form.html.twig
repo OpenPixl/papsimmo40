@@ -185,7 +185,7 @@
                                 {% endif %}
                             </td>
                             <td class="col-md-3">
-                                {% if app.request.attributes.get('_route') == 'op_admin_employed_edit' %}
+                                {% if app.request.attributes.get('_route') == 'op_admin_employed_edit' or app.request.attributes.get('_route') == 'op_admin_prescriber_edit'%}
                                     <div class="text-center col-8">
                                         {{ form_label(form.isSupprAvatar, "Supprimer") }}
                                         {{ form_widget(form.isSupprAvatar) }}
@@ -213,18 +213,22 @@
                         <td>{{ form_widget(form.referent) }}</td>
                         <td>{{ form_errors(form.referent) }}</td>
                     </tr>
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <tr class="align-middle">
-                        <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
-                        <td>{{ form_errors(form.dateEmployed) }}</td>
-                    </tr>
+                    {% if is_granted('ROLE_ADMIN')%}
+                        {% if app.request.attributes.get('_route') != "op_admin_prescriber_edit" %}
+                            <tr class="align-middle">
+                                <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                                <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                                <td>{{ form_errors(form.dateEmployed) }}</td>
+                            </tr>
+                        {% endif %}
                     {% else %}
-                    <tr class="align-middle d-none">
-                        <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
-                        <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
-                        <td>{{ form_errors(form.dateEmployed) }}</td>
-                    </tr>
+                        {% if app.request.attributes.get('_route') != "op_admin_prescriber_edit" %}
+                            <tr class="align-middle d-none">
+                                <td class="table-light">{{ form_label(form.dateEmployed, '', {'label_attr': {'class':'form-label'}}) }}</td>
+                                <td>{{ form_widget(form.dateEmployed, {'attr': {'class': 'form-control form-control-sm flatpickr'}}) }}</td>
+                                <td>{{ form_errors(form.dateEmployed) }}</td>
+                            </tr>
+                        {% endif %}
                 {% endif %}
                 </table>
             </div>

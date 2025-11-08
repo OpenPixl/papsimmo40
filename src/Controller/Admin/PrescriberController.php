@@ -26,6 +26,11 @@ use Symfony\Component\Validator\Constraints\File;
 
 class PrescriberController extends AbstractController
 {
+    public function __construct(
+        private string $targetDirectoryAvatar,
+        private string $targetDirectoryCi,
+    ){}
+
     #[Route('/admin/prescriber/{refemployed}', name: 'op_admin_prescriber_index', requirements:['id' => '\d+'], methods: ['GET'])]
     public function index(EmployedRepository $employedRepository, $refemployed): Response
     {
@@ -49,7 +54,6 @@ class PrescriberController extends AbstractController
             'prescribers' => $prescribers,
         ]);
     }
-
 
     #[Route('/admin/prescriber/{id}/edit/ci', name: 'op_admin_prescriber_edit_ci', methods: ['GET', 'POST'])]
     public function addCi(
@@ -122,4 +126,40 @@ class PrescriberController extends AbstractController
         ], 200);
     }
 
+    #[Route('/admin/prescriber/{id}/suppr/ci', name: 'op_admin_prescriber_suppr_ci', methods: ['GET'])]
+    public function supprCi(Employed $employed, entityManagerInterface $em)
+    {
+        $ciFilename = $employed->getCiFileName();
+        if ($ciFilename) {
+            $path = $this->targetDirectoryCi.$employed->getSlug(). '/' . $ciFilename;
+            // On vérifie si l'image existe
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        return $this->json([
+            'type' => 'ci',
+            'message' => "La pièce d'identité a été correctement supprimée.",
+        ], 200);
+    }
+
+    #[Route('/admin/prescriber/{id}/suppr/avatar', name: 'op_admin_prescriber_suppr_avatar', methods: ['GET'])]
+    public function supprAvatar(Employed $employed, entityManagerInterface $em)
+    {
+        $AvatarName = $employed->getAvatarName();
+
+        if ($AvatarName) {
+            $path = $this->targetDirectoryAvatar.$employed->getSlug(). '/' . $AvatarName;
+            // On vérifie si l'image existe
+            if (file_exists($path)) {
+                unlink($path);
+            }
+        }
+
+        return $this->json([
+            'type' => 'avatar',
+            'message' => "La photo de profil a été correctement supprimée.",
+        ], 200);
+    }
 }

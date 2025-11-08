@@ -71,10 +71,6 @@ class EmployedController extends AbstractController
     #[Route('/opadmin/employed/ciTransfertApp/{name}', name: 'op_admin_employeds_ciTransfertApp', methods: ['GET'])]
     public function ciTransfertApp(Request $request, $name): Response
     {
-        //dd($name);
-        //$imageUrl = 'http://127.0.0.1:8002/prescriptors/'.$name;
-        //dd($imageUrl);
-
         try {
             $this->imageTransfertService->transfertCiImage($name, $request);
             return $this->json([

@@ -105,15 +105,6 @@ class EmployedType extends AbstractType
             ->add('facebook')
             ->add('instagram')
             ->add('linkedin')
-            ->add('dateEmployed', DateType::class, [
-                'label'=> "Date d'entrée",
-                'widget' => 'single_text',
-                'format' => 'dd/MM/yyyy',
-                // prevents rendering it as type="date", to avoid HTML5 date pickers
-                'html5' => false,
-                'required' => false,
-                'by_reference' => true,
-            ])
         ;
 
         if ($route === 'op_admin_employed_edit' || $route === 'op_admin_employed_new') {
@@ -129,6 +120,15 @@ class EmployedType extends AbstractType
                 ->add('employedPrez', TextareaType::class,[
                     'label'=>'Présentation',
                     'required' => false
+                ])
+                ->add('dateEmployed', DateType::class, [
+                    'label'=> "Date d'entrée",
+                    'widget' => 'single_text',
+                    'format' => 'dd/MM/yyyy',
+                    // prevents rendering it as type="date", to avoid HTML5 date pickers
+                    'html5' => false,
+                    'required' => false,
+                    'by_reference' => true,
                 ])
             ;
         }
