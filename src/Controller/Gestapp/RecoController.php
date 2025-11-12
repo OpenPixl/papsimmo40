@@ -35,6 +35,13 @@ use Symfony\Component\Validator\Constraints\File;
 
 class RecoController extends AbstractController
 {
+    public function step(Reco $reco, EntityManagerInterface $entityManager)
+    {
+        if($reco->getStatutReco()->getStep() == 1){
+
+        }
+    }
+
     #[Route('/gestapp/reco/', name: 'op_gestapp_reco_index', methods: ['GET'])]
     public function index(RecoRepository $recoRepository): Response
     {
