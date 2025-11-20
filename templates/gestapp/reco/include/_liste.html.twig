@@ -3,7 +3,7 @@
     <tr>
         <th>Id</th>
         {# insertion d'un bloc collaborateur #}
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
             <th>Collaborateur</th>
         {% endif %}
         <th>Prescripteur</th>
@@ -21,7 +21,7 @@
                 <input type="checkbox" value="{{ reco.id }}" name="oneCheckbox">
             </td>
             {# insertion d'un bloc collaborateur #}
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
             <td>
                 {% if reco.refEmployed.avatarName is not null %}
                     <img class="rounded-circle" src="{{ asset('images/avatar/' ~ reco.refEmployed.avatarName) }}" alt="{{ reco.refEmployed.avatarName }}" style="height:50px;width:50px">

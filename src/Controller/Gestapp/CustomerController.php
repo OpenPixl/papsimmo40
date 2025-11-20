@@ -107,7 +107,7 @@ class CustomerController extends AbstractController
     #[Route('/', name: 'op_gestapp_customer_index', methods: ['GET'])]
     public function index(CustomerRepository $customerRepository,PaginatorInterface $paginator, Request  $request): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         if($hasAccess == true){
@@ -1048,7 +1048,7 @@ class CustomerController extends AbstractController
     #[Route('/del/{id}', name: 'op_gestapp_customer_del', methods: ['POST'])]
     public function del(Request $request, Customer $customer, CustomerRepository $customerRepository, PropertyRepository $propertyRepository, PaginatorInterface $paginator): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         $properties = $customer->getProperties();

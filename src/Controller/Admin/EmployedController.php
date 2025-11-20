@@ -281,7 +281,7 @@ class EmployedController extends AbstractController
     #[Route('/opadmin/prescriber/{id}/edit', name: 'op_admin_prescriber_edit', methods: ['GET', 'POST'])]
     public function prescriber(Request $request, SluggerInterface $slugger, Employed $employed, EmployedRepository $employedRepository, EntityManagerInterface $entityManager): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
 
         $form = $this->createForm(EmployedType::class, $employed, [
             'action'=>$this->generateUrl('op_admin_prescriber_edit', ['id' => $employed->getId()]),

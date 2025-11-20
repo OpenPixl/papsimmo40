@@ -48,39 +48,29 @@
                     </div>
                 </div>
             </div>
-        {% elseif 'ROLE_SUPER_ADMIN' in app.user.roles %}
+        {% elseif 'ROLE_ADMIN' in app.user.roles or 'ROLE_SUPER_ADMIN' in app.user.roles %}
             <div class="col-12">
-                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <ul class="nav nav-tabs" id="tabsListsTransacs" role="tablist">
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#ownliste" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Liste de mes ventes</button>
+                        <a class="nav-link active" id="maliste-tab" data-bs-toggle="tab" data-bs-target="#ownliste" type="button" role="tab" aria-controls="home-tab-pane" aria-selected="true">Liste de mes ventes</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#liste" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Liste des ventes des collaborateurs</button>
+                        <a class="nav-link" id="collabliste-tab" data-bs-toggle="tab" data-bs-target="#liste" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Liste des ventes des collaborateurs</a>
                     </li>
                     <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#coliste" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Ventes en coopération</button>
+                        <a class="nav-link" id="coopliste-tab" data-bs-toggle="tab" data-bs-target="#coliste" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Ventes en coopération</a>
                     </li>
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <li class="nav-item" role="presentation">
-                        <button class="nav-link" id="profile-tab" data-bs-toggle="tab" data-bs-target="#listeclosed" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Liste des ventes cloturées</button>
-                    </li>
+                    {% if is_granted('ROLE_ADMIN') %}
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="closedliste-tab" data-bs-toggle="tab" data-bs-target="#listeclosed" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Liste des ventes cloturées</a>
+                        </li>
+                        <li class="nav-item" role="presentation">
+                            <a class="nav-link" id="annulliste-tab" data-bs-toggle="tab" data-bs-target="#liste_cancelled" type="button" role="tab" aria-controls="profile-tab-pane" aria-selected="false">Ventes annulées</a>
+                        </li>
                     {% endif %}
                 </ul>
                 <div class="tab-content" id="myTabContent">
-                    <div class="tab-pane fade show active" id="ownliste" role="tabpanel" aria-labelledby="home-tab" tabindex="0">
-                        {{ include('gestapp/transaction/include/_ownliste.html.twig') }}
-                    </div>
-                    <div class="tab-pane fade" id="liste" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                        {{ include('gestapp/transaction/include/_liste.html.twig') }}
-                    </div>
-                    <div class="tab-pane fade" id="coliste" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                        {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::listByEmployed', {'idEmployed': app.user.id})) }}
-                    </div>
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <div class="tab-pane fade" id="listeclosed" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-                        {{ include('gestapp/transaction/include/_listeclosed.html.twig') }}
-                    </div>
-                    {% endif %}
+                    {{ include('gestapp/transaction/include/all_list_transactions.html.twig') }}
                 </div>
             </div>
         {% endif %}
@@ -89,42 +79,4 @@
 
 {% block modal %}
     {{ parent() }}
-    {# Modal de suppression #}
-    <div class="modal fade" id="modalTransaction" tabindex="-1" aria-labelledby="modalTransaction" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title text-warning" id="exampleModalLabel">New message</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="modal-text">Vous êtes sur le point de supprimer la transaction.</p>
-                    <input type="hidden" id="recipient-name">
-                </div>
-                <div class="modal-footer">
-                    <a id="btnModalSubmit" href="#" class="btn btn-warning" data-bs-dismiss="modal">Supprimer</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                </div>
-            </div>
-        </div>
-    </div>
-    {# Modal de suppression #}
-    <div class="modal fade" id="modalInvoice" tabindex="-1" aria-labelledby="modalTransaction" aria-hidden="true">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content border-dark">
-                <div class="modal-header text-bg-secondary">
-                    <h5 class="modal-title" id="exampleModalLabel">New message</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <p class="modal-text">Ajoutons une facture</p>
-                    <input type="hidden" id="recipient-name">
-                </div>
-                <div class="modal-footer  text-bg-secondary">
-                    <a id="submitModalInvoice" href="#" class="btn btn-secondary" data-bs-dismiss="modal">Valider</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Annuler</button>
-                </div>
-            </div>
-        </div>
-    </div>
 {% endblock %}

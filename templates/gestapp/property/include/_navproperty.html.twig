@@ -1,6 +1,6 @@
 <div class="navigation d-flex justify-content-between">
     <div class="mb-1">
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
             <button id="addNewProperty" class="btn btn-sm btn-outline-primary">Ajouter un nouveau bien</button>
             |
             <button class="btn btn-sm btn-outline-dark" id="btnListDiffusion">Afficher les diffusions des biens</button>

@@ -37,7 +37,7 @@
             {% if is_granted('ROLE_EMPLOYED') %}
             <a class="btn btn-sm btn-outline-dark" href="{{ path('op_admin_prescriber_index', {'refemployed': app.user.id}) }}">Liste de mes prescripteurs</a>
             {% endif %}
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <a class="btn btn-sm btn-outline-info" href="{{ path('op_admin_prescriber_all') }}">Liste des prescripteurs</a>
             {% endif %}
         </div>

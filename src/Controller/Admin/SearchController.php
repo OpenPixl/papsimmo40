@@ -91,7 +91,7 @@ class SearchController extends AbstractController
     #[Route('/admin/search/property/', name: 'app_admin_search_property', methods: ['POST', 'GET'])]
     public function propertyAdmin(Request $request): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         $form = $this->createForm(SearchPropertyType::class, null, [
@@ -173,7 +173,7 @@ class SearchController extends AbstractController
     #[Route('/admin/search/propertydashboard/', name: 'app_admin_search_propertydashboard', methods: ['POST', 'GET'])]
     public function propertyDashboard(Request $request): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         $form = $this->createForm(SearchPropertyDashboardType::class, null, [

@@ -31,7 +31,7 @@
         <div class="card border-dark mt-2" id="blockCollaborator">
             {{ include('gestapp/transaction/show/cardCollaborateurs.html.twig') }}
         </div>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
             <div class="card border-dark mt-2" id="blockAgencyEmployed">
                 <div class="card-body p-2">
                     {{ include('gestapp/transaction/add_agencyemployed/index.html.twig') }}

@@ -12,7 +12,7 @@ import { initIndexCustomerPage } from './js/pages/gestapp/customer/index_custome
 import { initNewEditCustomerPage } from './js/pages/gestapp/customer/newedit_customer';
 import { initShowPropertyPage } from './js/pages/gestapp/property/show_property';
 import { initShowTransactionPage } from './js/pages/gestapp/transactions/show_transaction';
-import { initListTransactionPage } from './js/pages/gestapp/transactions/list_transaction';
+import { initIndexTransactionPage } from './js/pages/gestapp/transactions';
 import { initIndexDocumentsPage } from './js/pages/gestapp/documents/index_documents';
 import { initNewEditArticlesPage } from './js/pages/webapp/article/newedit_article';
 
@@ -49,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
             initIndexDocumentsPage();
             break;
         case 'op_gestapp_transaction_index':
-            initListTransactionPage();
+            initIndexTransactionPage();
             break;
         case 'op_webapp_articles_new':
         case 'op_webapp_articles_edit':

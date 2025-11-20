@@ -62,7 +62,7 @@
 <table class="table">
     <thead>
     <tr>
-        {% if is_granted('ROLE_SUPER_ADMIN') %}
+        {% if is_granted('ROLE_ADMIN') %}
             <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
             <th></th>
             <th>Collaborateur</th>
@@ -81,7 +81,7 @@
     {% set user = app.user.id %}
     {% for property in listproperties %}
         <tr class="align-middle">
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <td>
                     <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
                 </td>

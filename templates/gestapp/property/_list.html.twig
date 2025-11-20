@@ -10,7 +10,7 @@
         <table class="table table-sm">
             <thead>
             <tr>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
                     <th>Ref</th>
                     <th>Collaborateur</th>
@@ -40,7 +40,7 @@
                 {% elseif  property.projet == 'VH' %}{% set projet = 'Vente immobilier' %}
                 {% endif %}
                 <tr class="align-middle">
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    {% if is_granted('ROLE_ADMIN') %}
                         <td>
                             <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
                         </td>

@@ -11,7 +11,7 @@
     </tr>
     </thead>
     <tbody>
-        {% for transaction in transactions|filter(t => t.refEmployed.id is not same as app.user.id )|filter( t => t.isClosedfolder == 0 ) %}
+        {% for transaction in transactions|filter(t => t.refEmployed.id is not same as app.user.id )|filter( t => t.isClosedfolder == 0 )|filter( t => t.isCancelled == 0 ) %}
             <tr class="align-middle
                 {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}table-light{% endif %}
                 {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}table-light{% endif %}
@@ -48,8 +48,8 @@
                         </button>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="{{ path('op_gestapp_transaction_show', {'id': transaction.id}) }}">Voir</a></li>
-                            <li><a id="btnModalTransaction" class="dropdown-item" href="{{ path('op_gestapp_transaction_del', {'id': transaction.id}) }}" data-bs-toggle="modal" data-bs-target="#modalTransaction" data-bs-whatever="{{ transaction.id }}">Supprimer</a></li>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
+                            <li><a id="btnModalTransaction" class="dropdown-item openModal" href="{{ path('op_gestapp_transaction_annulation_new', {'idTransaction': transaction.id}) }}" data-bs-data="ANNTRANSAC-Annulation du dossier de vente-{{ transaction.id }}">Annulation de la vente</a></li>
                             <li><a href="{{ path('op_gestapp_transaction_closedfolder', {'id': transaction.id}) }}" class="dropdown-item transClosed">Clôture du dossier</a></li>
                             {% endif %}
                         </ul>

@@ -45,7 +45,7 @@ class RecoController extends AbstractController
     #[Route('/gestapp/reco/', name: 'op_gestapp_reco_index', methods: ['GET'])]
     public function index(RecoRepository $recoRepository): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         if($hasAccess == true)
@@ -196,7 +196,7 @@ class RecoController extends AbstractController
     #[Route('/gestapp/reco/{id}/edit', name: 'op_gestapp_reco_edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         $form = $this->createForm(RecoType::class, $reco, [
@@ -296,7 +296,7 @@ class RecoController extends AbstractController
     #[Route('/gestapp/reco/{id}/edit/comm', name: 'op_gestapp_reco_edit_comm', methods: ['GET', 'POST'])]
     public function editComm(Request $request, Reco $reco, RecoRepository $recoRepository, EntityManagerInterface $entityManager): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         $form = $this->createFormBuilder($reco)
@@ -558,7 +558,7 @@ class RecoController extends AbstractController
         $entityManager->remove($reco);
         $entityManager->flush();
 
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true)
         {

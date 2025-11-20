@@ -14,7 +14,7 @@
         <table class="table">
             <thead>
             <tr>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
                     <th></th>
                     <th>Collaborateur</th>
@@ -36,7 +36,7 @@
             {% set user = app.user.id %}
             {% for property in properties %}
                 <tr class="align-middle">
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <td>
                         <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
                     </td>
@@ -88,7 +88,7 @@
                         <ul  class="dropdown-menu" aria-labelledby="action_property">
                             <li><a class="dropdown-item" href="{{ path('op_gestapp_property_show', {'id': property.id}) }}"><i class="fa-thin fa-file-pen"></i> Consulter</a></li>
                             <li><a class="dropdown-item" href="{{ path('op_admin_pdf_property', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Imprimer la fiche</a></li>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a href="{{ path('op_gestapp_property_disaclosed', {'id': property.id}) }}" class="dropdown-item modalDisClosed" data-bs-toggle="modal" data-bs-target="#modalDisClosed" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-open"></i> Décloturer le dossier</a></li>
                             {% endif %}

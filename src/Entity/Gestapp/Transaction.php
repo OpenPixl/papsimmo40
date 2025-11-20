@@ -10,6 +10,7 @@ use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use App\Entity\Admin\Employed;
 use App\Entity\Gestapp\Transaction\AddCollTransac;
+use App\Entity\Gestapp\Transaction\Annulation;
 use App\Repository\Gestapp\TransactionRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -183,6 +184,12 @@ class Transaction
 
     #[ORM\Column(nullable: true)]
     private ?bool $isCollaborator = false;
+
+    #[ORM\OneToOne(mappedBy: 'transaction', cascade: ['persist', 'remove'])]
+    private ?Annulation $annulation = null;
+
+    #[ORM\Column]
+    private ?bool $isCancelled = false;
 
     public function __construct()
     {
@@ -679,6 +686,35 @@ class Transaction
     public function setIsCollaborator(?bool $isCollaborator): static
     {
         $this->isCollaborator = $isCollaborator;
+
+        return $this;
+    }
+
+    public function getAnnulation(): ?Annulation
+    {
+        return $this->annulation;
+    }
+
+    public function setAnnulation(Annulation $annulation): static
+    {
+        // set the owning side of the relation if necessary
+        if ($annulation->getTransaction() !== $this) {
+            $annulation->setTransaction($this);
+        }
+
+        $this->annulation = $annulation;
+
+        return $this;
+    }
+
+    public function isCancelled(): ?bool
+    {
+        return $this->isCancelled;
+    }
+
+    public function setIsCancelled(bool $isCancelled): static
+    {
+        $this->isCancelled = $isCancelled;
 
         return $this;
     }

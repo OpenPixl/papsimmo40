@@ -73,7 +73,7 @@ class PropertyController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         if($hasAccess == true){
@@ -204,7 +204,7 @@ class PropertyController extends AbstractController
     #[Route('/propertyDiffusion', name: 'op_gestapp_property_diffusion', methods: ['GET']) ]
     public function propertyDiffusion(PropertyRepository $propertyRepository)
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true) {
             $listProperties = $propertyRepository->listPublication();
@@ -356,7 +356,7 @@ class PropertyController extends AbstractController
     #[Route('/inCreating', name: 'op_gestapp_property_inCreating', methods: ['GET'])]
     public function inCreating(PropertyRepository $propertyRepository): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         if($hasAccess == true){
@@ -407,7 +407,7 @@ class PropertyController extends AbstractController
     )
     {
         $user = $this->getUser();
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
 
         // Vérification si property été dupliqué
         $refs = $propertyService->getRefs($property, $propertyRepository);
@@ -987,7 +987,7 @@ class PropertyController extends AbstractController
         $property->setArchivedAt(new \DateTime('+90 days'));
         $propertyRepository->add($property);
 
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true){
             $data = $propertyRepository->listAllProperties();
@@ -1037,7 +1037,7 @@ class PropertyController extends AbstractController
         $property->setArchivedAt(null);
         $propertyRepository->add($property);
 
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
         if($hasAccess == true){
             $data = $propertyRepository->listAllProperties();
@@ -1090,7 +1090,7 @@ class PropertyController extends AbstractController
         EntityManagerInterface $em,
     ): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         if($hasAccess == true){
@@ -1130,7 +1130,7 @@ class PropertyController extends AbstractController
     #[Route('/increatingdel/{id}', name:'op_gestapp_property_increatingdel', methods: ['POST'] )]
     public function increatingDel(Property $property, PropertyRepository $propertyRepository)
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
         // Supression du bien sélectionné
         $propertyRepository->remove($property);
@@ -1360,7 +1360,7 @@ class PropertyController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $propertyRepository->add($property, true);
 
-            $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+            $hasAccess = $this->isGranted('ROLE_ADMIN');
             $user = $this->getUser();
 
             if($hasAccess == true){
@@ -1418,7 +1418,7 @@ class PropertyController extends AbstractController
         $property->setDateEndmandat(null);
         $propertyRepository->add($property, true);
 
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         if($hasAccess == true){

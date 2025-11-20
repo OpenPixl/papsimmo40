@@ -1,0 +1,80 @@
+<table class="table">
+    <thead>
+    <tr>
+        <th class="col-1"></th>
+        <th>Numéro de transaction</th>
+        <th>Collaborateur</th>
+        <th class="col-1">Etat</th>
+        <th>Crée le</th>
+        <th>Mis à jour le</th>
+        <th class="col-2">actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for transaction in transactions|filter(t => t.isCancelled == 1 ) %}
+        <tr class="align-middle
+                {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}table-light{% endif %}
+                {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}table-light{% endif %}
+            ">
+            <td>
+                {% if transaction.property is not null %}
+                    {{ render(controller('App\\Controller\\Gestapp\\PhotoController::includeinlistproperty', {'idproperty': transaction.property.id})) }}
+                {% else %}
+                    propriété supprimée
+                {% endif %}
+            </td>
+            <td class="align-left">
+                <b>{% if transaction.property is not null %}{{ transaction.property.refMandat }}{{ transaction.property.dupMandat }}{% endif %}</b> <small>({{ transaction.name }})</small>
+                {% if transaction.dateAtPromise is defined and transaction.isValidPromisepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>La promesse de vente doit être controlée.</span>{% endif %}<br>
+                {% if transaction.isValidPromisepdf == 1 and transaction.dateAtSale is defined and transaction.isValidActepdf == 0 %}<br><span class="text-danger">Nouveau fichier déposé :<br>L'attestation de l'acte de vente doit être controlée.</span>{% endif %}
+            </td>
+            <td>
+                {% if transaction.refEmployed.avatarName is defined %}
+                    <img class="rounded-circle" src="{{ asset('images/avatar/' ~ transaction.refEmployed.avatarName) }}" alt="{{ transaction.refEmployed.avatarName }}" style="height:50px;width:50px">
+                    {{ transaction.refEmployed.firstName }} {{ transaction.refEmployed.lastName }}
+                {% else %}
+                    <img class="rounded-circle" src="{{ asset('images/jpeg/user.jpg') }}" alt="" style="height:50px;width:50px">
+                {% endif %}
+            </td>
+            <td>
+                {% set progress = 0 %}
+                {% if transaction.state == 'open' %}
+                    {% set progress = 20 %}
+                {% elseif transaction.state == 'promise' %}
+                    {% set progress = 40 %}
+                {% elseif transaction.state == 'quotation' %}
+                    {% set progress = 60 %}
+                {% elseif transaction.state == 'definitive_sale' %}
+                    {% set progress = 80 %}
+                {% elseif transaction.state == 'finished' %}
+                    {% set progress = 100 %}
+                {% endif %}
+                <div class="progress">
+                    <div class="progress">
+                        <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="{{ progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ progress }}%"></div>
+                    </div>
+                </div>
+            </td>
+            <td>{{ transaction.createdAt ? transaction.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>{{ transaction.updatedAt ? transaction.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            <td>
+                <div class="dropdown">
+                    <button class="btn btn-sm btn-outline-dark dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Action
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="{{ path('op_gestapp_transaction_show', {'id': transaction.id}) }}">Voir</a></li>
+                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            <li><a id="btnModalTransaction" class="dropdown-item openModal" href="{{ path('op_gestapp_transaction_annulation_new', {'idTransaction': transaction.id}) }}" data-bs-data="ANNTRANSAC-Annulation du dossier de vente-{{ transaction.id }}">Réactiver la vente</a></li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </td>
+        </tr>
+    {% else %}
+        <tr>
+            <td colspan="5">Il n'y a pas de vente annulées.</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>

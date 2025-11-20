@@ -8,10 +8,10 @@
                     </div>
                     <div class="col-8">
                         <div class="card-body p-1">
-                            <h4 class="card-title mb-1">{{ property.name }} <br>{% if is_granted('ROLE_SUPER_ADMIN') %}<small><i class="fa-duotone fa-circle-user"></i> {{ property.firstName }} {{ property.lastName }}</small>{% endif %}</h4>
+                            <h4 class="card-title mb-1">{{ property.name }} <br>{% if is_granted('ROLE_ADMIN') %}<small><i class="fa-duotone fa-circle-user"></i> {{ property.firstName }} {{ property.lastName }}</small>{% endif %}</h4>
                             <p class="card-text mb-1">Ce bien est en cours d'édition. Pensez à le finaliser :</p>
                             <a href="{{path('op_gestapp_property_show', {'id' : property.id})}}" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#SupprIncreatring" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button>
                             {% endif %}
                         </div>
@@ -32,10 +32,10 @@
                     <div class="col-8">
                         <div class="card-body p-1">
                             <div class="col-11">
-                                <h4 class="card-title mb-1">{{ property.name }} <br>{% if is_granted('ROLE_SUPER_ADMIN') %}<small><i class="fa-duotone fa-circle-user"></i> {{ property.firstName }} {{ property.lastName }}</small>{% endif %}</h4>
+                                <h4 class="card-title mb-1">{{ property.name }} <br>{% if is_granted('ROLE_ADMIN') %}<small><i class="fa-duotone fa-circle-user"></i> {{ property.firstName }} {{ property.lastName }}</small>{% endif %}</h4>
                                 <p class="card-text mb-1">Ce bien est en cours d'édition.<br>Pensez à le finaliser :</p>
                                 <a href="{{path('op_gestapp_property_show', {'id' : property.id})}}" class="btn btn-sm btn-secondary"><i class="fa-duotone fa-building"></i> Reprendre</a>
-                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                {% if is_granted('ROLE_ADMIN') %}
                                     <button type="button" class="btn btn-sm btn-warning" data-bs-toggle="modal" data-bs-target="#SupprIncreatring" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-trash-can-check"></i> Supprimer</button>
                                 {% endif %}
                             </div>

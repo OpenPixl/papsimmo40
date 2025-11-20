@@ -125,7 +125,7 @@ class PropertypublicController extends AbstractController
         if($form->isSubmitted() && $form->isValid()){
             $propertyRepository->add($property, true);
 
-            $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+            $hasAccess = $this->isGranted('ROLE_ADMIN');
             $user = $this->getUser();
 
             if($hasAccess == true){
@@ -181,7 +181,7 @@ class PropertypublicController extends AbstractController
         $property->setDateEndmandat(null);
         $propertyRepository->add($property, true);
 
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         if($hasAccess == true){

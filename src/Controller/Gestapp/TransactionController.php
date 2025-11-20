@@ -242,7 +242,7 @@ class TransactionController extends AbstractController
     #[Route('/', name: 'op_gestapp_transaction_index', methods: ['GET'])]
     public function index(TransactionRepository $transactionRepository): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         if($hasAccess == true){
@@ -1784,7 +1784,7 @@ class TransactionController extends AbstractController
             $em->flush();
 
             if($this->submit){
-                $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+                $hasAccess = $this->isGranted('ROLE_ADMIN');
                 if($hasAccess == false) {
                     $email = (new TemplatedEmail())
                         ->from(new Address('contact@papsimmo.fr', 'SoftPAPs'))
@@ -1840,7 +1840,7 @@ class TransactionController extends AbstractController
         SluggerInterface $slugger
     ) : response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionActepdfType::class, $transaction, [
                 'attr' => ['id'=>'transactionactepdf'],
@@ -2172,7 +2172,7 @@ class TransactionController extends AbstractController
         SluggerInterface $slugger
     ) : response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionTracfinpdfType::class, $transaction, [
                 'attr' => ['id'=>'transactiontracfinpdf'],
@@ -2506,7 +2506,7 @@ class TransactionController extends AbstractController
         $newref = $ref[0].'-'.$ref[1];
 
         $submit = 1;
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         if($hasAccess == false){
             $form = $this->createForm(TransactionInvoicepdfType::class, $transaction, [
                 'attr' => ['id'=>'transactioninvoicepdf'],
@@ -2665,7 +2665,7 @@ class TransactionController extends AbstractController
         $ref = explode("/", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
 
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $submit = 1;
 
         // action ne pouvant être réalisée uniquement par un admin
@@ -2865,7 +2865,7 @@ class TransactionController extends AbstractController
     #[Route('/{id}/closedfolder', name: 'op_gestapp_transaction_closedfolder', methods: ['GET'])]
     public function closedFolder(Transaction $transaction, TransactionRepository $transactionRepository, PropertyRepository $propertyRepository, EntityManagerInterface $em)
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         $idproperty = $transaction->getProperty()->getId();
@@ -2935,7 +2935,7 @@ class TransactionController extends AbstractController
         $em->remove($transaction);
         $em->flush();
 
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
 
         if($hasAccess == true){
             $transactions = $transactionRepository->findAll();

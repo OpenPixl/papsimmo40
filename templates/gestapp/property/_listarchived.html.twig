@@ -14,7 +14,7 @@
         <table class="table">
             <thead>
             <tr>
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
                     <th></th>
                     <th>Collaborateur</th>
@@ -36,7 +36,7 @@
             {% set user = app.user.id %}
             {% for property in properties %}
                 <tr class="align-middle">
-                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                {% if is_granted('ROLE_ADMIN') %}
                     <td>
                         <input type="checkbox" id="CheckProperty" name="CheckProperty" value="{{ property.id }}">
                     </td>
@@ -92,7 +92,7 @@
                             <li><a class="dropdown-item" href="{{ path('op_admin_pdf_dip', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat DIP</a></li>
                             <li><a class="dropdown-item" href="{{ path('op_admin_pdf_MandatVente', {'id': property.id}) }}"><i class="fa-thin fa-print"></i> Mandat Vente</a></li>
                             #}
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <li><hr class="dropdown-divider"></li>
                                 <li><a class="dropdown-item ModalDisarchived" data-bs-toggle="modal" data-bs-target="#modalDisarchived" data-bs-whatever="{{ property.id }}"><i class="fa-duotone fa-box-open"></i> Désarchiver</a></li>
                             {% endif %}

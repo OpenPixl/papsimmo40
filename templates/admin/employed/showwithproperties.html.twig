@@ -20,7 +20,7 @@
             </div>
             <div class="col-8">
                 <h1 class="text-start">
-                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                    {% if is_granted('ROLE_ADMIN') %}
                         Agent <strong>{{ employed.firstName }} {{ employed.lastName }}</strong><br>
                     {% else %}
                         {% if employed.civility == 1%}M.{% else %}Mme{% endif%} {{ employed.firstName }} {{ employed.lastName }}

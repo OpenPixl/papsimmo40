@@ -1,14 +1,18 @@
 {% set stepRdvActive = [1,4] %}
 {% set stepDocActive = [2,6,7] %}
 {% set stepInvoiceActive = [5,9] %}
+{% set isCancelled = '' %}
+{% if transaction.isCancelled == 1 %}
+    {% set isCancelled = 'disabled' %}
+{% endif %}
 <div class="col-6 justify-content-end" id="btnsTransaction">
     <a href="{{ path('op_gestapp_transaction_index') }}" class="btn btn-sm btn-outline-dark"><i class="fa-light fa-backward-step"></i> Retour</a>
     {# btn Acquéreurs #}
-    <a href="{{ path('op_gestapp_transaction_addcustomer', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal" data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
+    <a href="{{ path('op_gestapp_transaction_addcustomer', {'id': transaction.id }) }}" class="btn btn-sm btn-outline-dark openModal {{ isCancelled }}" data-bs-data="ADDBUYERS-Ajouter un acheteur"><i class="fa-duotone fa-light fa-plus"></i> Acheteur</a>
     {# btn RDV #}
     <a href="{{ path('op_gestapp_transaction_addappointment', {'id': transaction.id }) }}" class="
         {% if transaction.step in stepRdvActive %}
-            btn btn-sm btn-outline-dark openModal
+            btn btn-sm btn-outline-dark openModal  {{ isCancelled }}
         {% else %}
             btn btn-sm btn-outline-secondary openModal disabled
         {% endif %}"
@@ -16,7 +20,7 @@
         <i class="fa-duotone fa-light fa-plus"></i> Date de RDV
     </a>
     {# btn Documents #}
-    <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %} openModal " data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
+    <a href="{{ path('op_gestapp_transaction_adddocuments', {'id': transaction.id }) }}" class="btn btn-sm {% if transaction.step in stepDocActive %}btn-outline-dark{% else %}btn-outline-secondary disabled{% endif %} openModal {{ isCancelled }}" data-bs-data="ADDDOCUMENTS-Ajouter un document"><i class="fa-duotone fa-light fa-plus"></i> Document</a>
     {# btn Factures #}
     <a
         {% if transaction.step in stepInvoiceActive %}
@@ -32,10 +36,12 @@
         {% else %}
             btn-outline-secondary disabled
         {% endif %}
-         openModal " data-bs-data="ADDINVOICES-Ajouter une facture">
+         openModal {{ isCancelled }}" data-bs-data="ADDINVOICES-Ajouter une facture">
         <i class="fa-duotone fa-light fa-plus"></i> Factures
     </a>
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
     {{ transaction.step }} | {{ access }}
+    {% endif %}
 </div>
 <div class="col-6 d-flex align-items-center justify-content-end">
     {% if access == 'read' %}

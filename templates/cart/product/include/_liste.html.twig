@@ -14,7 +14,7 @@
             <div class="card-footer">
                 <div class="d-flex justify-content-between">
                     <div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') %}
                             <a href="{{ path('op_cart_product_edit', {'id': product.id}) }}" class="btn btn-sm btn-outline-info">Modifier</a>
                         {% endif %}
                     </div>

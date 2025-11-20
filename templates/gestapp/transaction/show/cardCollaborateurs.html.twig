@@ -3,7 +3,7 @@
     <div class="row">
         {% if access == 'read' %}
             <div class="col-9"><h5 class="mb-0">Ajouter un collaborateur</h5></div>
-            {% if is_granted('ROLE_SUPER_ADMIN') %}
+            {% if is_granted('ROLE_ADMIN') %}
                 <div class="col-3">
                     <p class="mb-0 text-center">
                         <a id="btnAddCollaborator" href="{{ path('op_gestapp_transaction_addcollaborator_add', {'idtransac': transaction.id})}}" class="openModal" data-bs-data="ADDCOLLAB-Ajout d'un collaborateur-FormAddcollaborator"><i class="fa-duotone fa-user-plus fa-2x"></i></a>

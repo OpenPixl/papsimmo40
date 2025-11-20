@@ -19,7 +19,7 @@ class DashboardController extends AbstractController
     public function index(Request $request, SessionService $sessionService, ChartBuilderInterface $chartBuilder, PropertyRepository $propertyRepository): Response
     {
         $user = $this->getUser();
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
 
         $this->denyAccessUnlessGranted('ROLE_EMPLOYED');
         $chart = $chartBuilder->createChart(Chart::TYPE_BAR);

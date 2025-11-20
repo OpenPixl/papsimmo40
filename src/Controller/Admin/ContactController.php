@@ -24,7 +24,7 @@ class ContactController extends AbstractController
     #[Route('/', name: 'op_admin_contact_index', methods: ['GET'])]
     public function index(ContactRepository $contactRepository, PaginatorInterface $paginator, Request $request): Response
     {
-        $hasAccess = $this->isGranted('ROLE_SUPER_ADMIN');
+        $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
         $contacts = $contactRepository->findAll();

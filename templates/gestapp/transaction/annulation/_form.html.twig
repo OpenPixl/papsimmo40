@@ -1,0 +1,23 @@
+{{ form_start(form) }}
+
+    <div class="row mb-1 mt-1 g-1">
+        {{ form_label(form.reason, '', {'label_attr': {'class':'col-sm-12 form-label fw-semibold mb-0 border-bottom border-dark'}}) }}
+        <div class="col-12">
+            {{ form_widget(form.reason, {'attr': {'class': 'form-select form-select-sm'}}) }}
+        </div>
+    </div>
+    <div class="row mb-1 mt-1 g-1">
+        {{ form_label(form.reason, 'Dépôt de la pièce justificative', {'label_attr': {'class':'col-sm-12 form-label fw-semibold mb-0 border-bottom border-dark'}}) }}
+        <div class="col-12">
+            <p class="mb-0">
+                <span class="text-muted">Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.</span>
+            </p>
+        </div>
+        <div class="col-12">
+            {{ form_widget(form.supportFile, {'attr': {'class': 'form-control form-control-sm'}}) }}
+        </div>
+
+    </div>
+
+    {{ form_rest(form) }}
+{{ form_end(form) }}

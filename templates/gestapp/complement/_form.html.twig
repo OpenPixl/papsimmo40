@@ -12,7 +12,7 @@
                                 <div class="col-4">
                                     {{ form_widget(form.banner, {'attr': {'class': 'oneChoice'}}) }}
                                 </div>
-                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                {% if is_granted('ROLE_ADMIN') %}
                                     <div class="col-3">
                                         <a id="btnListBanner" href="{{ path('op_gestapp_choice_property_banner_index') }}" class="btn btn-sm btn-outline-dark openModal" data-bs-data="LISTBANNER-listes des bannières-0">Liste des bannières disponible</a>
                                         <a id="addPropertyBanner" href="{{ path('op_gestapp_choice_property_banner_new') }}" class="btn btn-sm btn-outline-dark openModal" data-bs-data="ADDBANNER-Ajout d'une bannière-0"><i class="fa-duotone fa-circle-plus"></i></a>
@@ -106,7 +106,7 @@
                             <div class="col-6">
                                 {{ form_widget(form.propertyState, {'attr': {'class': 'oneChoice'}} ) }}
                             </div>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <div class="col-1">
                                     <a id="addHouseState" href="{{ path('op_gestapp_choice_property_state_new') }}" class="btn btn-sm btn-secondary openModal" data-bs-data="ADDBANNER-Ajout d'un état-0"><i class="fa-duotone fa-circle-plus"></i></a>
                                 </div>
@@ -123,7 +123,7 @@
                             <div class="col-6">
                                 {{ form_widget(form.energies, {'attr': {'class': 'multiChoice'}}) }}
                             </div>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <div class="col-1">
                                     <a id="addHouseEnergy" href="{{ path('op_gestapp_choice_property_energy_new') }}" class="btn btn-sm btn-secondary openModal" data-bs-data="ADDBANNER-Ajout d'un type d'énergie-0"><i class="fa-duotone fa-circle-plus"></i></a>
                                 </div>
@@ -149,7 +149,7 @@
                             <div class="col-6">
                                 {{ form_widget(form.propertyOrientation, {'attr': {'class': 'oneChoice'}}) }}
                             </div>
-                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                            {% if is_granted('ROLE_ADMIN') %}
                                 <div class="col-1">
                                     <a id="addHouseOrientation" href="{{ path('op_gestapp_choice_property_orientation_new') }}" class="btn btn-sm btn-secondary openModal" data-bs-data="ADDBANNER-Ajout d'une orientation-0"><i class="fa-duotone fa-circle-plus"></i></a>
                                 </div>
@@ -253,7 +253,7 @@
                         <div class="col-6">
                             {{ form_widget(form.propertyEquipment, {'attr': {'class': 'multiChoice'}}) }}
                         </div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') %}
                             <div class="col-1">
                                 <a id="addHouseEquipment" href="{{ path('op_gestapp_choice_property_equipement_new') }}" class="btn btn-sm btn-secondary openModal" data-bs-data="ADDBANNER-Ajout d'un équipement-0"><i class="fa-duotone fa-circle-plus"></i></a>
                             </div>
@@ -269,7 +269,7 @@
                         <div class="col-6">
                             {{ form_widget(form.propertyTypology, {'attr': {'class': 'oneChoice'}}) }}
                         </div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') %}
                             <div class="col-1">
                                 <a id="addHouseTypology" href="{{ path('op_gestapp_choice_property_typology_new') }}" class="btn btn-sm btn-secondary openModal" data-bs-data="ADDBANNER-Ajout d'une bannière-0"><i class="fa-duotone fa-circle-plus"></i></a>
                             </div>
@@ -293,7 +293,7 @@
                         <div class="col-6">
                             {{ form_widget(form.propertyOtheroption, {'attr': {'class': 'multiChoice'}}) }}
                         </div>
-                        {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        {% if is_granted('ROLE_ADMIN') %}
                             <div class="col-1">
                                 <a id="addHouseOtheroption" href="{{ path('op_gestapp_choice_other_option_new') }}" class="btn btn-sm btn-secondary openModal" data-bs-data="ADDBANNER-Ajout d'une option-0"><i class="fa-duotone fa-circle-plus"></i></a>
                             </div>
