@@ -8,5 +8,5 @@ import {
 } from "../../../components/appli/common";
 
 export function initNewEditArticlesPage(){
-    initializeTinyMCE(500);
+    initializeTinyMCE(5000);
 }
