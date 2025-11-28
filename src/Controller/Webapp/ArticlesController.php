@@ -42,7 +42,7 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/new', name: 'op_webapp_articles_new', methods: ['GET', 'POST'])]
-    public function new(Request $request, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository, CategoryRepository $categoryRepository): Response
+    public function new(Request $request, SluggerInterface $slugger, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository, CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
@@ -61,6 +61,39 @@ class ArticlesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // intégration du code du logo du client
+            $articleFrontFile = $form->get('articleFrontFile')->getData();
+            if ($articleFrontFile) {
+                $originalFilename = pathinfo($articleFrontFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safearticleFrontFileName = $slugger->slug($originalFilename);
+                $newarticleFrontFileName = $safearticleFrontFileName. '.' . $articleFrontFile->guessExtension();
+                $pathdir = $this->getParameter('articles_directory');
+                // Move the file to the directory where brochures are stored
+                try {
+                    if (is_dir($pathdir)){
+                        $articleFrontFile->move(
+                            $this->getParameter('articles_directory'),
+                            $newarticleFrontFileName
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $articleFrontFile->move(
+                            $this->getParameter('articles_directory'),
+                            $newarticleFrontFileName
+                        );
+                    }
+
+
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $article->setArticleFrontName($newarticleFrontFileName);
+                //$article->setLogoSize($logoFile->getSize());;
+            }
+
             $articlesRepository->add($article);
             return $this->redirectToRoute('op_webapp_articles_index', [], Response::HTTP_SEE_OTHER);
         }
@@ -72,7 +105,7 @@ class ArticlesController extends AbstractController
     }
 
     #[Route('/newactualite', name: 'op_webapp_articles_newactualite', methods: ['GET', 'POST'])]
-    public function newActualite(Request $request,EntityManagerInterface $em, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository, CategoryRepository $categoryRepository): Response
+    public function newActualite(Request $request,SluggerInterface $slugger, EntityManagerInterface $em, ArticlesRepository $articlesRepository, EmployedRepository $employedRepository, CategoryRepository $categoryRepository): Response
     {
         $user = $this->getUser()->getId();
         $employed = $employedRepository->find($user);
@@ -95,7 +128,37 @@ class ArticlesController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            //$article->setCategory($actualite);
+            // intégration du code du logo du client
+            $articleFrontFile = $form->get('articleFrontFile')->getData();
+            if ($articleFrontFile) {
+                $originalFilename = pathinfo($articleFrontFile->getClientOriginalName(), PATHINFO_FILENAME);
+                $safearticleFrontFileName = $slugger->slug($originalFilename);
+                $newarticleFrontFileName = $safearticleFrontFileName. '.' . $articleFrontFile->guessExtension();
+                $pathdir = $this->getParameter('articles_directory');
+                // Move the file to the directory where brochures are stored
+                try {
+                    if (is_dir($pathdir)){
+                        $articleFrontFile->move(
+                            $this->getParameter('articles_directory'),
+                            $newarticleFrontFileName
+                        );
+                    }else{
+                        // Création du répertoire s'il n'existe pas.
+                        mkdir($pathdir."/", 0775, true);
+                        // Déplacement de la photo
+                        $articleFrontFile->move(
+                            $this->getParameter('articles_directory'),
+                            $newarticleFrontFileName
+                        );
+                    }
+
+
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                $article->setArticleFrontName($newarticleFrontFileName);
+                //$article->setLogoSize($logoFile->getSize());;
+            }
 
             $em->persist($article);
             $em->flush();
