@@ -31,7 +31,8 @@
                 <li><a href="{{ path('op_admin_soap_protexa_registre') }}" class="{% if app.request.attributes.get("_route") == 'op_admin_soap_protexa_registre' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Registre</a></li>
                 {% endif %}
                 <li><a href="{{ path('op_gestapp_reco_index') }}" class="{% if app.request.attributes.get("_route") == 'op_gestapp_transaction_index' %}active{% endif %}"><i class="fa-duotone fa-bookmark"></i> Recommandations</a></li>
-                <li><a href="https://la-loupe.immo/#login" onclick="window.open(this.href); return false;" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-money-check-dollar-pen"></i> Avis de valeurs</a></li>
+                <li><a href="https://la-loupe.immo/#login" onclick="window.open(this.href); return false;" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-money-check-dollar-pen"></i> La loupe immo</a></li>
+                <li><a href="https://app.sinimo.fr/login/?redirect=%2F" onclick="window.open(this.href); return false;" class="{% if app.request.attributes.get("_route") == 'op_gestapp_customer_index' %}active{% endif %}"><i class="fa-duotone fa-money-check-dollar-pen"></i> Sinimo</a></li>
             </ul>
         {% endif %}
     </div>
