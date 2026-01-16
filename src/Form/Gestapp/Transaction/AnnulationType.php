@@ -19,13 +19,46 @@ class AnnulationType extends AbstractType
             ->add('reason', ChoiceType::class, [
                 'label' => 'Raison de l\'annulation',
                 'choices' => [
-                    'liée au délais de retraction des acquéreurs' => 'delais_retrait',
-                    'liée aux conditions suspensives - refus de l\'obtention du crédit' => 'conditions_suspensives_refus_crédit',
-                    'liée aux conditions suspensives - refus de l\'obtention du contrat' => 'conditions_suspensives_permis_de_construire'
+                    'Liée au délais de retraction des acquéreurs' => 'delais_retrait',
+                    'Liée aux conditions suspensives - refus de l\'obtention du crédit' => 'conditions_suspensives_refus_crédit',
+                    'Liée aux conditions suspensives - refus de l\'obtention du contrat' => 'conditions_suspensives_permis_de_construire',
+                    'Liée aux conditions suspensives - refus de l\'acquéreur' => 'conditions_suspensives_refus_acquéreur'
                 ]
             ])
+
             ->add('supportFile', FileType::class,[
                 'label' => "Insérer le document justifiant l'annulation de la procedure de transaction. Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '20000k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => '<p class="mb-0"><b>Attention,</b><br>Seul un fichier PDF est accepté dans ce type de procédure.</p>',
+                    ])
+                ],
+            ])
+
+            ->add('supportFact', FileType::class,[
+                'label' => "Insérer la facture liée à l'annulation de cette vente. Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.",
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new File([
+                        'maxSize' => '20000k',
+                        'mimeTypes' => [
+                            'application/pdf',
+                            'application/x-pdf',
+                        ],
+                        'mimeTypesMessage' => '<p class="mb-0"><b>Attention,</b><br>Seul un fichier PDF est accepté dans ce type de procédure.</p>',
+                    ])
+                ],
+            ])
+            ->add('supportFactColl', FileType::class,[
+                'label' => "Insérer la facture du collaborateur liée à l'annulation de cette vente. Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.",
                 'mapped' => false,
                 'required' => false,
                 'constraints' => [

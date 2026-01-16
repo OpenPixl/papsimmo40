@@ -20,6 +20,8 @@ export function initIndexTransactionPage() {
                 .get(url)
                 .then(({data}) => {
                     modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    let annulation_reason = document.getElementById('annulation_reason');
+                    annulation_reason.addEventListener('change', choiceCancelled);
                 })
                 .catch();
         }
@@ -56,6 +58,22 @@ export function initIndexTransactionPage() {
         e.preventDefault();
         let tab_name = e.currentTarget.parentNode.id;
         console.log(tab_name);
+    }
+
+    function choiceCancelled(){
+        const el1 = document.getElementById('canceledFact');
+        const el2 = document.getElementById('canceledFactColl');
+
+        if (this.value === 'conditions_suspensives_refus_acquéreur') {
+            // Affiche (ou laisse affiché)
+            el1.classList.remove('d-none');
+            el2.classList.remove('d-none');
+        } else {
+            // Cache systématiquement pour toutes les autres conditions
+            el1.classList.add('d-none');
+            el2.classList.add('d-none');
+        }
+
     }
 
     function declareEvent(){
