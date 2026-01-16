@@ -93,6 +93,66 @@ class AnnulationController extends AbstractController
                     $annulation->setSupportName($newName);
                 }
 
+                $supportFact = $form->get('supportFact')->getData();
+                if($supportFact){
+                    // Ajout de la nouvelle photo
+                    $originalName = pathinfo($supportFact->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeName = 'annfact-'.$slugger->slug($originalName);
+                    $newName = $safeName . $supportFact->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        if (is_dir($pathdir)){
+                            $supportFact->move(
+                                $pathdir,
+                                $newName
+                            );
+                        }else{
+                            // Création du répertoire s'il n'existe pas.
+                            mkdir($pathdir."/", 0775, true);
+                            $supportFact->move(
+                                $pathdir,
+                                $newName
+                            );
+                        }
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    $annulation->setSupportFact($newName);
+                }
+
+                $supportFactColl = $form->get('supportFactColl')->getData();
+                if($supportFactColl){
+                    // Ajout de la nouvelle photo
+                    $originalName = pathinfo($supportFactColl->getClientOriginalName(), PATHINFO_FILENAME);
+                    // this is needed to safely include the file name as part of the URL
+                    $safeName = 'annfactcoll-'.$slugger->slug($originalName);
+                    $newName = $safeName . $supportFactColl->guessExtension();
+
+                    // Move the file to the directory where brochures are stored
+                    try {
+                        if (is_dir($pathdir)){
+                            $supportFactColl->move(
+                                $pathdir,
+                                $newName
+                            );
+                        }else{
+                            // Création du répertoire s'il n'existe pas.
+                            mkdir($pathdir."/", 0775, true);
+                            $supportFactColl->move(
+                                $pathdir,
+                                $newName
+                            );
+                        }
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+
+                    $annulation->setSupportFactColl($newName);
+                }
+
                 $annulation->setAuthor($user->getFirstName().' '.$user->getLastName());
 
                 $transaction->setIsCancelled(true);

@@ -28,6 +28,12 @@ class Annulation
     #[ORM\Column(length: 100)]
     private ?string $supportName = null;
 
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $supportFact = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $supportFactColl = null;
+
     #[ORM\Column(length: 100)]
     private ?string $author = null;
 
@@ -74,6 +80,30 @@ class Annulation
     public function setSupportName(string $supportName): static
     {
         $this->supportName = $supportName;
+
+        return $this;
+    }
+
+    public function getSupportFact(): ?string
+    {
+        return $this->supportFact;
+    }
+
+    public function setSupportFact(string $supportFact): static
+    {
+        $this->supportFact = $supportFact;
+
+        return $this;
+    }
+
+    public function getSupportFactColl(): ?string
+    {
+        return $this->supportFactColl;
+    }
+
+    public function setSupportFactColl(string $supportFactColl): static
+    {
+        $this->supportFactColl = $supportFactColl;
 
         return $this;
     }
