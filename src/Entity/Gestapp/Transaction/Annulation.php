@@ -25,13 +25,13 @@ class Annulation
     #[ORM\Column(type: Types::TEXT)]
     private ?string $reason = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $supportName = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $supportFact = null;
 
-    #[ORM\Column(length: 100, nullable: true)]
+    #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private ?string $supportFactColl = null;
 
     #[ORM\Column(length: 100)]
@@ -42,6 +42,15 @@ class Annulation
 
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isValidNotarialDoc = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isValidFactAdmin = false;
+
+    #[ORM\Column(nullable: true)]
+    private ?bool $isValidFactColl = false;
 
     public function getId(): ?int
     {
@@ -77,7 +86,7 @@ class Annulation
         return $this->supportName;
     }
 
-    public function setSupportName(string $supportName): static
+    public function setSupportName(string $supportName = null): static
     {
         $this->supportName = $supportName;
 
@@ -89,7 +98,7 @@ class Annulation
         return $this->supportFact;
     }
 
-    public function setSupportFact(string $supportFact): static
+    public function setSupportFact(string $supportFact = null): static
     {
         $this->supportFact = $supportFact;
 
@@ -101,7 +110,7 @@ class Annulation
         return $this->supportFactColl;
     }
 
-    public function setSupportFactColl(string $supportFactColl): static
+    public function setSupportFactColl(string $supportFactColl = null): static
     {
         $this->supportFactColl = $supportFactColl;
 
@@ -143,6 +152,42 @@ class Annulation
     public function setUpdatedAt(): self
     {
         $this->updatedAt = new \DateTime('now');
+
+        return $this;
+    }
+
+    public function isValidNotarialDoc(): ?bool
+    {
+        return $this->isValidNotarialDoc;
+    }
+
+    public function setIsValidNotarialDoc(?bool $isValidNotarialDoc): static
+    {
+        $this->isValidNotarialDoc = $isValidNotarialDoc;
+
+        return $this;
+    }
+
+    public function isValidFactAdmin(): ?bool
+    {
+        return $this->isValidFactAdmin;
+    }
+
+    public function setIsValidFactAdmin(bool $isValidFactAdmin): static
+    {
+        $this->isValidFactAdmin = $isValidFactAdmin;
+
+        return $this;
+    }
+
+    public function isValidFactColl(): ?bool
+    {
+        return $this->isValidFactColl;
+    }
+
+    public function setIsValidFactColl(?bool $isValidFactColl): static
+    {
+        $this->isValidFactColl = $isValidFactColl;
 
         return $this;
     }

@@ -41,37 +41,6 @@ class AnnulationType extends AbstractType
                     ])
                 ],
             ])
-
-            ->add('supportFact', FileType::class,[
-                'label' => "Insérer la facture liée à l'annulation de cette vente. Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.",
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '20000k',
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
-                        ],
-                        'mimeTypesMessage' => '<p class="mb-0"><b>Attention,</b><br>Seul un fichier PDF est accepté dans ce type de procédure.</p>',
-                    ])
-                ],
-            ])
-            ->add('supportFactColl', FileType::class,[
-                'label' => "Insérer la facture du collaborateur liée à l'annulation de cette vente. Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.",
-                'mapped' => false,
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '20000k',
-                        'mimeTypes' => [
-                            'application/pdf',
-                            'application/x-pdf',
-                        ],
-                        'mimeTypesMessage' => '<p class="mb-0"><b>Attention,</b><br>Seul un fichier PDF est accepté dans ce type de procédure.</p>',
-                    ])
-                ],
-            ])
         ;
     }
 

@@ -7,11 +7,11 @@
 <div class="tab-pane fade" id="coliste" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
     {{ render(controller('App\\Controller\\Gestapp\\Transaction\\AddCollaboratorController::listByEmployed', {'idEmployed': app.user.id})) }}
 </div>
+<div class="tab-pane fade" id="liste_cancelled" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
+    {{ include('gestapp/transaction/include/_listecancelled.html.twig') }}
+</div>
 {% if is_granted('ROLE_ADMIN') %}
     <div class="tab-pane fade" id="listeclosed" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
         {{ include('gestapp/transaction/include/_listeclosed.html.twig') }}
-    </div>
-    <div class="tab-pane fade" id="liste_cancelled" role="tabpanel" aria-labelledby="profile-tab" tabindex="0">
-        {{ include('gestapp/transaction/include/_listecancelled.html.twig') }}
     </div>
 {% endif %}

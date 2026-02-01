@@ -13,6 +13,7 @@
             {% set step_invoices = [5,10] %}    {# Correspond à la validation d'un document par un admin #}
             {% set step_honoraires = [6] %}     {# Correspond à la validation d'un document par un admin #}
             {% set step_valid = [4,9] %}        {# Correspond à la validation d'un document par un admin #}
+            {% set step_annulation = [13,14,15,16,17] %}   {# Correspond à l'annulation d'une vente' #}
 
 
             {% if transaction.step in step_date %}
@@ -29,6 +30,9 @@
             {% endif %}
             {% if transaction.step in step_valid %}
                 <h1>[ SoftPAPs - TRANSACTION ] : Un document en attente vient d'être validée.</h1>
+            {% endif %}
+            {% if transaction.step in step_annulation %}
+                <h1>[ SoftPAPs - TRANSACTION ] : Vente en cours d'annulation.</h1>
             {% endif %}
         </div>
 
@@ -101,6 +105,31 @@
                     Vous pouvez continuer votre démarche de vente en cliquant sur la plateforme "SoftPAPs" en cliquant le lien suivant.
                 </p>
             {% endif%}
+
+            {% if transaction.step in step_annulation %}
+                {% if app.user.id == transaction.refEmployed.id %}
+                    <p>Un email est envoyé à l'administrateur pour contrôler le document fourni lors de l'annulation.</p>
+                {% endif %}
+                {% if app.user.id != transaction.refEmployed.id and is_granted('ROLE_ADMIN') %}
+                    {% set reason = '' %}
+                    {% if transaction.annulation.reason == 'delais_retrait' %}
+                        {% set reason = 'liée au délais de retraction des acquéreurs' %}
+                    {% elseif transaction.annulation.reason == 'conditions_suspensives_refus_crédit' %}
+                        {% set reason = 'liée aux conditions suspensives - refus de l\'obtention du crédit' %}
+                    {% elseif transaction.annulation.reason == 'conditions_suspensives_permis_de_construire' %}
+                        {% set reason = 'liée aux conditions suspensives - refus de l\'obtention du contrat' %}
+                    {% elseif transaction.annulation.reason == 'conditions_suspensives_refus_acquéreur' %}
+                        {% set reason = 'liée aux conditions suspensives - refus de l\'acquéreur' %}
+                    {% endif %}
+                    {% if transaction.step == 13 %}
+                        <p>Un de vos collaborateurs a enclenché l'annulation de la vente.<br>Un document attends votre validation.</p>
+                    {% elseif transaction.step == 15 %}
+                        <p>L'attestation fournie par vos soins lors de la déclaration d'annulation a été validée.</p>
+                    {% elseif transaction.step == 16 %}
+                        <p>L'administrateur a généré la facture en lien avec l'annulation de la vente. Vous pouvez déposer votre facture.</p>
+                    {% endif %}
+                {% endif %}
+            {% endif %}
 
             <p>L'équipe PAPs immo.</p>
             <p>

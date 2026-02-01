@@ -12,33 +12,11 @@
         <div class="col-12 mb-3">
             <div class="row">
                 <div class="col-12">
-                    <p class="mb-0">Document du notaire : <br><span class="text-muted fw-lighter">Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.</span>
+                    <p class="mb-0">Attestation du notaire : <br><span class="text-muted fw-lighter">Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.</span>
                     </p>
                 </div>
                 <div class="col-12">
                     {{ form_widget(form.supportFile, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-            </div>
-        </div>
-        {# input du doc Fact principale #}
-        <div class="col-12 mb-3 d-none" id="canceledFact">
-            <div class="row">
-                <div class="col-12">
-                    <p class="mb-0">Facture principale :<br><span class="text-muted fw-lighter">Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.</span></p>
-                </div>
-                <div class="col-12">
-                    {{ form_widget(form.supportFact, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                </div>
-            </div>
-        </div>
-        {# input du doc Fact collaborateur #}
-        <div class="col-12 d-none" id="canceledFactColl">
-            <div class="row">
-                <div class="col-12">
-                    <p class="mb-0">Facture du collaborateur :<br><span class="text-muted fw-lighter">Seul, un document PDF est autorisé. Il ne doit pas dépasser 20Mo de taille.</span></p>
-                </div>
-                <div class="col-12">
-                    {{ form_widget(form.supportFactColl, {'attr': {'class': 'form-control form-control-sm'}}) }}
                 </div>
             </div>
         </div>

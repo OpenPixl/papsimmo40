@@ -1,4 +1,5 @@
-{% set step = [3,4,5,8] %}
+{% set warning = [3,4,5,8] %}
+{% set danger = [13,14,15]%}
 <div class="col-12">
-    <p class="mb-0 {% if transaction.step in step %}text-warning{% else %}text-primary{% endif %}"><i class="fa-duotone fa-light fa-circle-check"></i> {{ transaction.state }}</p>
+    <p class="mb-0 {% if transaction.step in warning %}text-warning{% elseif transaction.step in danger %}text-danger{% else %}text-primary{% endif %}"><i class="fa-duotone fa-light fa-circle-check"></i> {{ transaction.state }}</p>
 </div>
