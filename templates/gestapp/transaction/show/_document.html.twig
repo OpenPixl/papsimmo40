@@ -15,7 +15,9 @@
     </dd>
     <dd class="col-sm-3 mb-0">
         {% if nameDocument is not null %}
-        <a href="{{ asset('/properties/'~ref~'/documents/'~nameDocument) }}" class="text-primary text-decoration-none" download><i class="fa-light fa-arrow-down-to-line"></i> Télécharger</a>
+
+            <a href="{{ asset('/properties/'~ref~'/documents/'~nameDocument) }}" class="text-primary text-decoration-none" download><i class="fa-light fa-arrow-down-to-line"></i> Télécharger</a>
+
             {% if transaction.isDocsFinished == 0 %}
                 {% if access == "read" %}
                     | <a href="{{ path('op_gestapp_transaction_validfile', {'id': transaction.id, 'file': nameDocument }) }}" class="text-primary text-decoration-none openModal" data-bs-data="VIEWDOCS-Visualisation d'un document-{{ slugDocument }}"><i class="fa-duotone fa-light fa-eye"></i>
@@ -25,16 +27,45 @@
                     Actualiser le document </a>
                 {% endif %}
             {% endif %}
+
+        {% else %}
+            {% if transaction.annulation|length > 0 and slugDocument == 'Annulation' and transaction.step == 13 %}
+                <a
+                    href="{{ path('op_gestapp_transaction_annulation_newfile', {'id': transaction.annulation.id}) }}"
+                    class="text-primary text-decoration-none openModal"
+                    data-bs-data="ADDCANCELLED-Ajout d'un document d'annulation-{{ slugDocument }}"
+                >Ajouter le document</a>
+            {% endif %}
+            {% if transaction.annulation|length > 0 and slugDocument == 'AnnulationFacture' and transaction.step == 15 %}
+                <a
+                        href="{{ path('op_gestapp_transaction_annulation_newfile', {'id': transaction.annulation.id}) }}"
+                        class="text-primary text-decoration-none openModal"
+                        data-bs-data="ADDCANCELLED-Ajout d'un document d'annulation-{{ slugDocument }}"
+                >Ajouter le document</a>
+            {% endif %}
+            {% if transaction.annulation|length > 0 and slugDocument == 'AnnulationFactureCollaborateur' and transaction.step == 16 %}
+                <a
+                        href="{{ path('op_gestapp_transaction_annulation_newfile', {'id': transaction.annulation.id}) }}"
+                        class="text-primary text-decoration-none openModal"
+                        data-bs-data="ADDCANCELLED-Ajout d'un document d'annulation-{{ slugDocument }}"
+                >Ajouter le document</a>
+            {% endif %}
         {% endif %}
     </dd>
     {% if access == "admin" and nameDocument is not null %}
     <dd class="col-sm-3 mb-0">
         {% if valid is null or valid == 0 %}
-            <a href="{{ path('op_gestapp_transaction_validfile', {'id': transaction.id, 'file': nameDocument }) }}" class="text-warning text-decoration-none openModal" data-bs-data="SHOWFILE-Validation du document"><i class="fa-light fa-file-check"></i> Voir le fichier pour validation</a>
+            {% if transaction.annulation|length == 0 %}
+                <a href="{{ path('op_gestapp_transaction_validfile', {'id': transaction.id, 'file': nameDocument }) }}" class="text-warning text-decoration-none openModal" data-bs-data="SHOWFILE-Validation du document"><i class="fa-light fa-file-check"></i> Voir le fichier pour validation</a>
+            {% else%}
+                <a href="{{ path('op_gestapp_transaction_annulation_validfiles', {'id': transaction.annulation.id, 'file': slugDocument }) }}" class="text-warning text-decoration-none openModal" data-bs-data="SHOWCANCELLED-Validation du document"><i class="fa-light fa-file-check"></i> Voir le document pour validation</a>
+            {% endif %}
         {% endif %}
         {% set suffixe = nameDocument|split('-')|first %}
         {% if suffixe == 'fhc' %}
             <a href="{{ path('op_gestapp_transaction_addcollaborator_supprinvoice', {'id': transac.id }) }}" class="text-danger text-decoration-none openModal" data-bs-data="DELDOCUMENTS-Suppression d'un document-{{ slugDocument }}"><i class="fa-light fa-trash-xmark"></i> Supprimer </a>
+        {% elseif suffixe == 'annulation' %}
+            <a href="{{ path('op_gestapp_transaction_annulation_delfile', {'id': transaction.annulation.id, 'file' : slugDocument }) }}" class="text-danger text-decoration-none openModal" data-bs-data="DELDOCUMENTS-Suppression d'un document-{{ slugDocument }}"><i class="fa-light fa-trash-xmark"></i> Supprimer </a>
         {% else %}
             <a href="{{ path('op_gestapp_transaction_delfile', {'id': transaction.id, 'document': slugDocument }) }}" class="text-danger text-decoration-none openModal" data-bs-data="DELDOCUMENTS-Suppression d'un document-{{ slugDocument }}"><i class="fa-light fa-trash-xmark"></i> Supprimer </a>
         {% endif %}

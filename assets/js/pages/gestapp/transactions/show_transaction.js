@@ -156,6 +156,17 @@ export function initShowTransactionPage() {
                 })
             ;
         }
+        else if (crud === 'ADDCANCELLED' || crud === 'EDITCANCELLED'){
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    const confirmBtn = modalEl.querySelector('.modal-footer a');
+                    confirmBtn.textContent = 'Ajouter un document lié à l\'annulation';
+                    confirmBtn.href = url;
+                })
+            ;
+        }
         else if (crud === 'DELCOLLAB') {
             modalEl.querySelector('.modal-body').innerHTML =
                 "<p class='mb-0'>Attention, vous êtes sur le point de retirer ce collaborateur.</p>";
@@ -177,6 +188,15 @@ export function initShowTransactionPage() {
         else if (crud === 'DELDOCUMENTS'){
             modalEl.querySelector('.modal-body').innerHTML =
                 "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce document.</p>";
+            const confirmBtn = modalEl.querySelector('.modal-footer a');
+            confirmBtn.textContent = 'Supprimer le document';
+            confirmBtn.href = url;
+            modalEl.dataset.option = option;
+            declareEvent();
+        }
+        else if (crud === 'DELDOCSCANCELLED'){
+            modalEl.querySelector('.modal-body').innerHTML =
+                "<p class='mb-0'>Attention, vous êtes sur le point de supprimer ce document lié à l'annumation.</p>";
             const confirmBtn = modalEl.querySelector('.modal-footer a');
             confirmBtn.textContent = 'Supprimer le document';
             confirmBtn.href = url;
@@ -293,6 +313,98 @@ export function initShowTransactionPage() {
 
             declareEvent();
         }
+        else if (crud === 'SHOWCANCELLED'){
+            modalEl.querySelector('.modal-dialog').classList.add('modal-xl');
+            modalEl.querySelector('.modal-body').innerHTML = '<iframe src="" width="100%" height="500px"></iframe>';
+            axios.get(url).then(({data}) => {
+                modalEl.querySelector('.modal-body iframe').src = data.path;
+            });
+            const footer = modalEl.querySelector('.modal-footer');
+            const confirmBtn = footer.querySelector('a');
+            confirmBtn.textContent = 'Je valide ce document';
+            confirmBtn.href = url;
+            modalEl.dataset.option = "validFileCancelled";
+
+            // Nouveau lien pour invalider le document
+            const invalidateBtn = document.createElement('a');
+            invalidateBtn.textContent = 'J\'invalide ce document';
+            invalidateBtn.href = url ; // adapte l’URL si nécessaire
+            invalidateBtn.classList.add('btn', 'btn-sm','btn-danger', 'ms-2');
+            invalidateBtn.addEventListener('click', function (e) {
+                e.preventDefault();
+                modalEl.dataset.option = "invalidFile";
+                // 1. Préparer le formulaire de refus
+                modalEl.querySelector('.modal-body').innerHTML = `
+                    <div class="mb-3">
+                        <label for="refuseMessage" class="form-label">Motif du refus :</label>
+                        <textarea id="refuseMessage" class="form-control" rows="4" placeholder="Expliquez pourquoi ce document est refusé..."></textarea>
+                    </div>
+                `;
+
+                // 2. Mettre à jour le footer
+                const footer = modalEl.querySelector('.modal-footer');
+                footer.innerHTML = ''; // on vide le footer pour mettre les nouveaux boutons
+
+                // Bouton d'annulation (retour à l'aperçu du document)
+                const backBtn = document.createElement('button');
+                backBtn.textContent = 'Retour au document proposé';
+                backBtn.classList.add('btn', 'btn-sm', 'btn-outline-dark');
+                backBtn.addEventListener('click', () => {
+                    // Recharger la vue d'origine avec le document
+                    // Simule à nouveau le comportement de SHOWFILE
+                    modalEl.querySelector('.modal-body').innerHTML = '<iframe src="" width="100%" height="500px"></iframe>';
+                    axios.get(url).then(({ data }) => {
+                        modalEl.querySelector('.modal-body iframe').src = data.path;
+                    });
+
+                    footer.innerHTML = ''; // On vide à nouveau le footer
+                    footer.appendChild(confirmBtn); // on remet le bouton de validation
+                    footer.appendChild(invalidateBtn); // on remet le bouton de refus
+                    footer.appendChild(closeBtn); // on remet le bouton de fermeture
+                });
+
+                // Bouton d'envoi du refus
+                const sendBtn = document.createElement('button');
+                sendBtn.textContent = 'Envoyer le message';
+                sendBtn.classList.add('btn', 'btn-sm', 'btn-danger');
+                sendBtn.addEventListener('click', () => {
+                    const message = modalEl.querySelector('#refuseMessage').value;
+                    let option = modalEl.dataset.option;
+                    let data = {'option': option, 'message':message};
+                    axios.post(url, data )
+                        .then(() => {
+                            bootstrap.Modal.getInstance(modalEl).hide();
+                            toasterMessage('Le message a été envoyé au mandataire.');
+                        })
+                        .catch(err => {
+                            console.error('Erreur lors du refus du document', err);
+                            alert("Erreur lors de l'envoi du refus.");
+                        });
+                });
+
+                // Bouton de fermeture
+                const closeBtn = document.createElement('button');
+                closeBtn.textContent = 'Annuler';
+                closeBtn.classList.add('btn', 'btn-sm', 'btn-secondary');
+                closeBtn.setAttribute('type', 'button');
+                closeBtn.setAttribute('data-bs-dismiss', 'modal');
+
+                // Ajouter les boutons
+                footer.appendChild(backBtn);
+                footer.appendChild(sendBtn);
+                footer.appendChild(closeBtn);
+            });
+
+            // Insertion juste après le bouton de validation
+            if (confirmBtn.nextSibling) {
+                footer.insertBefore(invalidateBtn, confirmBtn.nextSibling);
+            } else {
+                footer.appendChild(invalidateBtn); // fallback
+            }
+
+
+            declareEvent();
+        }
         else{
             console.log('Erreur : le type de formulaire n\'est pas reconnu');
         }
@@ -305,7 +417,7 @@ export function initShowTransactionPage() {
         e.preventDefault();
         delete modal.dataset.deleteUrl;
 
-        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit', 'FormAddcollaborator', 'FormAddcollaboratorInvoice'];
+        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit', 'FormAddcollaborator', 'FormAddcollaboratorInvoice', 'formDocsCancelled_add'];
         const list = ['dateAtPromise', 'dateAtActe', 'Promise', 'valid'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
@@ -405,6 +517,12 @@ export function initShowTransactionPage() {
                         else if(nameForm === 'FormAddcollaborator'){
                             document.getElementById('listCollaborator').innerHTML = data.listCollaborators;
                             modalBs.hide();
+                            toasterMessage(data.message);
+                            declareEvent();
+                        }
+                        else if(nameForm === 'formDocsCancelled_add' || nameForm === 'formDocsCancelled_edit'){
+                            document.getElementById('Block_Cancelled').innerHTML = data.view;
+                            modalBs.hide();
                             declareEvent();
                         }
                     })
@@ -490,11 +608,36 @@ export function initShowTransactionPage() {
                     })
                 ;
                 modalBs.hide();
+                declareEvent();
+            }
+            else if(option !== null && option === 'validFileCancelled') {
+                let data = { 'option' : option};
+                axios
+                    .post(url, data)
+                    .then(({data})=> {
+                        delete modal.dataset.option;
+                        document.getElementById('Block_Cancelled').innerHTML = data.view;
+                        toasterMessage(data.message);
+                        declareEvent();
+                    })
+                ;
+                modalBs.hide();
+
             }
             else if(option !== null && option === 'supprCollab') {
                 axios.post(url).then(function ({data}) {
                     console.log(document.getElementById('listCollaborator'));
                     document.getElementById('listCollaborator').innerHTML = data.listCollaborators;
+                    toasterMessage(data.message);
+                    delete modal.dataset.option;
+                    modalBs.hide();
+                })
+                ;
+                declareEvent();
+            }
+            else if(option !== null && option === 'Annulation') {
+                axios.post(url).then(function ({data}) {
+                    document.getElementById('Block_Cancelled').innerHTML = data.view;
                     toasterMessage(data.message);
                     delete modal.dataset.option;
                     modalBs.hide();

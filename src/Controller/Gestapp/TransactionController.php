@@ -110,127 +110,160 @@ class TransactionController extends AbstractController
 
     #[Route('/{id}/step', name: 'op_gestapp_transaction_step', methods: ['GET'])]
     public function step(Transaction $transaction){
-        if(!$transaction->getCustomer()->count() > 0) {
-            //dd(1);
-            $transaction->setState('Promesse de vente | En attente d\'un ou de plusieurs acquéreurs ');
-            $transaction->setStep(0);
-            $this->entityManager->flush();
-            return 0;
-        }
-        if(!$transaction->getDateAtPromise()){ // Un acheteur est ajoutée au dossier, il faut déposer le pdf de la promesse de vente.
-            //dd(0);
-            $transaction->setState('Promesse de vente | En attente de la date du RDV');
-            $transaction->setStep(1);
-            $this->entityManager->flush();
-            return 1;
-        }
-        if(!$transaction->getPromisePdfFilename()){
-            //dd(2);
-            $transaction->setState('Promesse de vente | En attente du chargement du fichier Pdf');
-            $transaction->setStep(2);
-            $this->entityManager->flush();
-            return 2;
-        }
-        if(!$transaction->isIsValidPromisepdf()){ // La promesse de vente est déposée mais doit être validée par un Admin
-            //dd(3);
-            $transaction->setState('Promesse de vente | En attente de la validation du pdf par l\'administrateur');
-            $transaction->setStep(3);
-            $this->entityManager->flush();
-            return 3;
-        }
 
-        if(!$transaction->getDateAtSale()){
-            //dd(6);
-            $transaction->setState('Acte de vente et Tracfin | En attente de la date du RDV');
-            $transaction->setStep(4);
-            $this->entityManager->flush();
-            return 4;
-        }
-        if(!$transaction->getHonorairesPdfFilename()){
-            //dd(4);
-            $transaction->setState('Honoraires | En attente du chargement du fichier Pdf par l\'administrateur');
-            $transaction->setStep(5);
-            $this->entityManager->flush();
-            return 5;
-        }
-        if(!$transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()){
-            //dd(7);
-            $transaction->setState('Acte de vente et Tracfin | En attente du chargement du premier document');
-            $transaction->setStep(6);
-            $this->entityManager->flush();
-            return 6;
-        }
-        if(($transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()) || (!$transaction->getActePdfFilename() && $transaction->getTracfinPdfFilename())){
-            //dd(7);
-            $transaction->setState('Acte de vente et Tracfin | En attente du chargement du dernier document');
-            $transaction->setStep(7);
-            $this->entityManager->flush();
-            return 7;
-        }
-        if((!$transaction->isIsValidActepdf() && !$transaction->isIsValidTracfinpdf()) || ($transaction->isIsValidActepdf() && !$transaction->isIsValidTracfinpdf()) || (!$transaction->isIsValidActepdf() && $transaction->isIsValidTracfinpdf()) ){
-            //dd(8);
-            $transaction->setState('Acte de vente et Tracfin | En attente de la validation du pdf par l\'administrateur');
-            $transaction->setStep(8);
-            $this->entityManager->flush();
-            return 8;
-        }
-        if(!$transaction->getInvoicePdfFilename()){
-            //dd(9);
-            $transaction->setState('Facture de vente | En attente du chargement du fichier Pdf');
-            $transaction->setStep(9);
-            $this->entityManager->flush();
-            return 9;
-        }
-        if(!$transaction->isIsValidInvoicePdf()){
-            //dd(10);
-            $transaction->setState("Facture de vente | Validée par l'administrateur");
-            $transaction->setStep(10);
-            $this->entityManager->flush();
-            return 10;
-        }
-        if($transaction->isCollaborator() == 1){
-
-            $collaborateurs = $transaction->getAddCollTransacs();
-            if ($collaborateurs->count() === 0) {
-                //dd('11A');
-                // Aucun collaborateur, on reste dans l'état actuel ou on log si besoin
-                return $transaction->getStep();
+        if($transaction->isCancelled() == 0)
+        {
+            if(!$transaction->getCustomer()->count() > 0) {
+                //dd(1);
+                $transaction->setState('Promesse de vente | En attente d\'un ou de plusieurs acquéreurs.');
+                $transaction->setStep(0);
+                $this->entityManager->flush();
+                return 0;
             }
+            if(!$transaction->getDateAtPromise()){ // Un acheteur est ajoutée au dossier, il faut déposer le pdf de la promesse de vente.
+                //dd(0);
+                $transaction->setState('Promesse de vente | En attente de la date du RDV');
+                $transaction->setStep(1);
+                $this->entityManager->flush();
+                return 1;
+            }
+            if(!$transaction->getPromisePdfFilename()){
+                //dd(2);
+                $transaction->setState('Promesse de vente | En attente du chargement du fichier Pdf');
+                $transaction->setStep(2);
+                $this->entityManager->flush();
+                return 2;
+            }
+            if(!$transaction->isIsValidPromisepdf()){ // La promesse de vente est déposée mais doit être validée par un Admin
+                //dd(3);
+                $transaction->setState('Promesse de vente | En attente de la validation du pdf par l\'administrateur');
+                $transaction->setStep(3);
+                $this->entityManager->flush();
+                return 3;
+            }
+            if(!$transaction->getDateAtSale()){
+                //dd(6);
+                $transaction->setState('Acte de vente et Tracfin | En attente de la date du RDV');
+                $transaction->setStep(4);
+                $this->entityManager->flush();
+                return 4;
+            }
+            if(!$transaction->getHonorairesPdfFilename()){
+                //dd(4);
+                $transaction->setState('Honoraires | En attente du chargement du fichier Pdf par l\'administrateur');
+                $transaction->setStep(5);
+                $this->entityManager->flush();
+                return 5;
+            }
+            if(!$transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()){
+                //dd(7);
+                $transaction->setState('Acte de vente et Tracfin | En attente du chargement du premier document');
+                $transaction->setStep(6);
+                $this->entityManager->flush();
+                return 6;
+            }
+            if(($transaction->getActePdfFilename() && !$transaction->getTracfinPdfFilename()) || (!$transaction->getActePdfFilename() && $transaction->getTracfinPdfFilename())){
+                //dd(7);
+                $transaction->setState('Acte de vente et Tracfin | En attente du chargement du dernier document');
+                $transaction->setStep(7);
+                $this->entityManager->flush();
+                return 7;
+            }
+            if((!$transaction->isIsValidActepdf() && !$transaction->isIsValidTracfinpdf()) || ($transaction->isIsValidActepdf() && !$transaction->isIsValidTracfinpdf()) || (!$transaction->isIsValidActepdf() && $transaction->isIsValidTracfinpdf()) ){
+                //dd(8);
+                $transaction->setState('Acte de vente et Tracfin | En attente de la validation du pdf par l\'administrateur');
+                $transaction->setStep(8);
+                $this->entityManager->flush();
+                return 8;
+            }
+            if(!$transaction->getInvoicePdfFilename()){
+                //dd(9);
+                $transaction->setState('Facture de vente | En attente du chargement du fichier Pdf');
+                $transaction->setStep(9);
+                $this->entityManager->flush();
+                return 9;
+            }
+            if(!$transaction->isIsValidInvoicePdf()){
+                //dd(10);
+                $transaction->setState("Facture de vente | Validée par l'administrateur");
+                $transaction->setStep(10);
+                $this->entityManager->flush();
+                return 10;
+            }
+            if($transaction->isCollaborator() == 1){
 
-            $totalCollaborateurs = $collaborateurs->count();
-            $collaborateursAvecFacture = 0;
-
-            foreach ($collaborateurs as $collab) {
-                if (!empty($collab->getInvoicePdfFilename())) {
-                    $collaborateursAvecFacture++;
+                $collaborateurs = $transaction->getAddCollTransacs();
+                if ($collaborateurs->count() === 0) {
+                    //dd('11A');
+                    // Aucun collaborateur, on reste dans l'état actuel ou on log si besoin
+                    return $transaction->getStep();
                 }
-            }
 
-            if ($collaborateursAvecFacture === 0) {
-                //dd('11B');
-                // Aucun collaborateur n’a déposé sa facture
-                $transaction->setState('Autres Factures | En attente des pièces');
-                $transaction->setStep(11);
+                $totalCollaborateurs = $collaborateurs->count();
+                $collaborateursAvecFacture = 0;
+
+                foreach ($collaborateurs as $collab) {
+                    if (!empty($collab->getInvoicePdfFilename())) {
+                        $collaborateursAvecFacture++;
+                    }
+                }
+
+                if ($collaborateursAvecFacture === 0) {
+                    //dd('11B');
+                    // Aucun collaborateur n’a déposé sa facture
+                    $transaction->setState('Autres Factures | En attente des pièces');
+                    $transaction->setStep(11);
+                    $this->entityManager->flush();
+                    return 11;
+                }
+
+                if ($collaborateursAvecFacture === $totalCollaborateurs) {
+                    // Tous les collaborateurs ont fourni leur facture
+                    $transaction->setState('Autres Factures | La ou les factures sont déposées');
+                    $transaction->setStep(12);
+                    $this->entityManager->flush();
+                    return 12;
+                }
+
+                // Si certains ont mis une facture, mais pas tous : on ne change rien ou on peut log l'état partiel
+                return $transaction->getStep();
+
+
+            }
+        }else{
+            if(!$transaction->getAnnulation()->getSupportName()){
+                $transaction->setState('Annulation de la vente | En attente du document notarié par l\'administrateur.');
+                $transaction->setStep(13);
                 $this->entityManager->flush();
-                return 11;
+                return 13;
             }
-
-            if ($collaborateursAvecFacture === $totalCollaborateurs) {
-                // Tous les collaborateurs ont fourni leur facture
-                $transaction->setState('Autres Factures | La ou les factures sont déposées');
-                $transaction->setStep(12);
+            if(!$transaction->getAnnulation()->isValidNotarialDoc()){
+                $transaction->setState('Annulation de la vente | En attente de la validation du document notarié.');
+                $transaction->setStep(14);
                 $this->entityManager->flush();
-                return 12;
+                return 14;
             }
-
-            // Si certains ont mis une facture, mais pas tous : on ne change rien ou on peut log l'état partiel
-            return $transaction->getStep();
-
-
+            if(!$transaction->getAnnulation()->getSupportFact()){
+                $transaction->setState('Annulation de la vente | En attente de la facture collaborateur.');
+                $transaction->setStep(15);
+                $this->entityManager->flush();
+                return 15;
+            }
+            if(!$transaction->getAnnulation()->getSupportFactColl()){
+                $transaction->setState('Annulation de la vente | En attente de la facture collaborateur.');
+                $transaction->setStep(16);
+                $this->entityManager->flush();
+                return 16;
+            }
+            if(!$transaction->getAnnulation()->isValidFactAdmin()){
+                $transaction->setState('Annulation de la vente | En attente de la facture collaborateur.');
+                $transaction->setStep(17);
+                $this->entityManager->flush();
+                return 17;
+            }
         }
 
-
-        $transaction->setStep(15);
+        $transaction->setStep(18);
         $transaction->setIsDocsFinished(1);
         $this->entityManager->flush();
 
@@ -1505,28 +1538,32 @@ class TransactionController extends AbstractController
                           Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
                 $block = 'Block_Documents';
-            }elseif($typeDoc == 'fh'){
+            }
+            elseif($typeDoc == 'fh'){
                 $transaction->setIsValidHonoraires(1);
                 $transaction->setHonorairesValidBy($this->getUser());
                 $message = "Vous venez de valider les honoraires de votre collaborateur. <br>
                           Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_invoices.html.twig';
                 $block = 'Block_Invoices';
-            }elseif($typeDoc == 'av'){
+            }
+            elseif($typeDoc == 'av'){
                 $transaction->setIsValidActepdf(1);
                 $transaction->setActeValidBy($this->getUser());
                 $message = "Vous venez de valider l'attestation de l'acte de vente de votre collaborateur. <br>
                           Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
                 $block = 'Block_Documents';
-            }elseif($typeDoc == 'tf'){
+            }
+            elseif($typeDoc == 'tf'){
                 $transaction->setIsValidtracfinPdf(1);
                 $transaction->setTracfinValidBy($this->getUser());
                 $message = "Vous venez de valider le tracFin de votre collaborateur. <br>
                           Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_documents.html.twig';
                 $block = 'Block_Documents';
-            }elseif($typeDoc == 'fact'){
+            }
+            elseif($typeDoc == 'fact'){
                 $transaction->setIsValidInvoicepdf(1);
                 $transaction->setInvoiceValidBy($this->getUser());
                 $message = "Vous venez de valider la facture de la vente de votre collaborateur. <br>
@@ -1554,7 +1591,8 @@ class TransactionController extends AbstractController
                 'message' => $message,
             ],$this->returnView($transaction, $access, $view, $block)), 200);
 
-        }elseif($isValid == 'invalidFile'){                                 // information dans le cas ou le document proposé ne correspond pas au besoin
+        }
+        elseif($isValid == 'invalidFile'){                                 // information dans le cas ou le document proposé ne correspond pas au besoin
 
             $transaction->setState("Invalidation $typeDoc | Le document présenté contient des erreurs.");
 

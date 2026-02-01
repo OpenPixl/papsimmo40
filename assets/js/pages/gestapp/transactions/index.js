@@ -43,8 +43,10 @@ export function initIndexTransactionPage() {
                 axios
                     .post(action, data)
                     .then(({data}) => {
-                        document.getElementById('myTabContent').innerHTML = data.liste;
+                        document.getElementById('liste').innerHTML = data.liste;
+                        document.getElementById('liste_cancelled').innerHTML = data.listecancelled;
                         toasterMessage(message);
+                        declareEvent();
                     })
                     .catch()
                 ;
@@ -52,28 +54,6 @@ export function initIndexTransactionPage() {
         }
         modalBs.hide();
         declareEvent();
-    }
-
-    function opentab(e){
-        e.preventDefault();
-        let tab_name = e.currentTarget.parentNode.id;
-        console.log(tab_name);
-    }
-
-    function choiceCancelled(){
-        const el1 = document.getElementById('canceledFact');
-        const el2 = document.getElementById('canceledFactColl');
-
-        if (this.value === 'conditions_suspensives_refus_acquéreur') {
-            // Affiche (ou laisse affiché)
-            el1.classList.remove('d-none');
-            el2.classList.remove('d-none');
-        } else {
-            // Cache systématiquement pour toutes les autres conditions
-            el1.classList.add('d-none');
-            el2.classList.add('d-none');
-        }
-
     }
 
     function declareEvent(){

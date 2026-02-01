@@ -1,6 +1,7 @@
 {% set stepRdvActive = [1,4] %}
 {% set stepDocActive = [2,6,7] %}
 {% set stepInvoiceActive = [5,9] %}
+{% set stepCancelled = [13,14,15] %}
 {% set isCancelled = '' %}
 {% if transaction.isCancelled == 1 %}
     {% set isCancelled = 'disabled' %}
@@ -39,9 +40,6 @@
          openModal {{ isCancelled }}" data-bs-data="ADDINVOICES-Ajouter une facture">
         <i class="fa-duotone fa-light fa-plus"></i> Factures
     </a>
-    {% if is_granted('ROLE_SUPER_ADMIN') %}
-    {{ transaction.step }} | {{ access }}
-    {% endif %}
 </div>
 <div class="col-6 d-flex align-items-center justify-content-end">
     {% if access == 'read' %}

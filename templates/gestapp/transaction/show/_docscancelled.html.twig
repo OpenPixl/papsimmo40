@@ -1,0 +1,44 @@
+{% set reason = '' %}
+{% if transaction.annulation.reason == 'delais_retrait' %}
+    {% set reason = 'liée au délais de retraction des acquéreurs' %}
+{% elseif transaction.annulation.reason == 'conditions_suspensives_refus_crédit' %}
+    {% set reason = 'liée aux conditions suspensives - refus de l\'obtention du crédit' %}
+{% elseif transaction.annulation.reason == 'conditions_suspensives_permis_de_construire' %}
+    {% set reason = 'liée aux conditions suspensives - refus de l\'obtention du contrat' %}
+{% elseif transaction.annulation.reason == 'conditions_suspensives_refus_acquéreur' %}
+    {% set reason = 'liée aux conditions suspensives - refus de l\'acquéreur' %}
+{% endif %}
+
+<p class="border-bottom mb-0"><b>Pièces à fournir dans le cas d'une annulation</b> - {{ transaction.step }}</p>
+<p class="p-2 mb-0 mt-1 alert alert-secondary">Cette annulation est {{ reason }}. Merci de completer les éléments nécéssaire en lien avec cette annulation.</p>
+{% include 'gestapp/transaction/show/_document.html.twig' with {
+    'documentValid' : transaction.annulation.isValidNotarialDoc,
+    'typeDocument' : 'Attestation du notaire',
+    'slugDocument': 'Annulation',
+    'nameDocument' : transaction.annulation.supportName,
+    'valid' : transaction.annulation.isValidNotarialDoc,
+    'urlEdit': 'op_gestapp_transaction_editdocuments',
+    'message' : 'message'
+} %}
+{% if transaction.annulation.reason == 'conditions_suspensives_refus_acquéreur' %}
+    {% include 'gestapp/transaction/show/_document.html.twig' with {
+        'documentValid' : transaction.annulation.isValidFactAdmin,
+        'typeDocument' : 'Facture au client',
+        'slugDocument': 'AnnulationFacture',
+        'nameDocument' : transaction.annulation.supportFact,
+        'valid' : transaction.annulation.isValidFactAdmin,
+        'urlEdit': 'op_gestapp_transaction_editdocuments',
+        'message' : 'message'
+    } %}
+    {% include 'gestapp/transaction/show/_document.html.twig' with {
+        'documentValid' : transaction.annulation.isValidFactColl,
+        'typeDocument' : 'Facture du collaborateur',
+        'slugDocument': 'AnnulationFactureCollaborateur',
+        'nameDocument' : transaction.annulation.supportFactColl,
+        'valid' : transaction.annulation.isValidFactColl,
+        'urlEdit': 'op_gestapp_transaction_editdocuments',
+        'message' : 'message'
+    } %}
+{% endif %}
+
+

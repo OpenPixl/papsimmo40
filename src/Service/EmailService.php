@@ -44,7 +44,18 @@ class EmailService
                     'url' => $this->request->getCurrentRequest()
                 ]);
             ;
-        }else{
+        }
+        else if($state == 'Annulation'){
+            $email
+                ->htmlTemplate('admin/mail/messageTransaction.html.twig')
+                ->context([
+                    'transaction' => $transaction,
+                    'typeDoc' => $typeDoc,
+                    'url' => $this->request->getCurrentRequest()
+                ]);
+            ;
+        }
+        else{
             $email
                 ->htmlTemplate('admin/mail/messageTransaction.html.twig')
                 ->context([

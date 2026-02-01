@@ -50,10 +50,12 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col-9">
-                                {% if transaction.state == 'finished' %}
-                                    <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-check"></i> Ce dossier de vente est finalisé.</p>
-                                {% else %}
-                                    <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-exclamation"></i> Ce dossier de vente est en cours de construction.</p>
+                                {% if transaction.annulation|length == 0 %}
+                                    {% if transaction.state == 'finished' %}
+                                        <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-check"></i> Ce dossier de vente est finalisé.</p>
+                                    {% else %}
+                                        <p class="mb-0 text-primary"><i class="fa-duotone fa-light fa-circle-exclamation"></i> Ce dossier de vente est en cours de construction.</p>
+                                    {% endif %}
                                 {% endif %}
                             </div>
                         </div>
@@ -88,6 +90,13 @@
                 {{ include('gestapp/transaction/show/_invoices.html.twig') }}
             </div>
         </div>
+        {% if transaction.annulation|length == 1 %}
+        <div class="card border-dark mb-2">
+            <div class="card-body p-2" id="Block_Cancelled">
+                {{ include('gestapp/transaction/show/_docscancelled.html.twig') }}
+            </div>
+        </div>
+        {% endif %}
     </div>
 </div>
 {% endblock %}
