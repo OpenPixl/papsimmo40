@@ -428,7 +428,7 @@ export function initShowPropertyPage() {
                     initializeTomSelect('.oneChoice', TsSimple);
                     initializeTomSelect('.multiChoice', TsMulti);
                     toasterMessage(response.data.message);
-                    estimate(response);
+                    //estimate(response);
                     let linkOpenModal = document.querySelectorAll('a.openModal');
                     linkOpenModal.forEach(function(link){
                         link.addEventListener('click', openModalXL);
@@ -657,10 +657,12 @@ export function initShowPropertyPage() {
         let honoraires = document.getElementById('property_step2_honoraires');
         let priceFAI = document.getElementById('property_step2_priceFai');
 
+        console.log(response.data.data);
+
         if(response.data.data[0] === 4 && response.data.data[1] === 8) {
             let warranty = document.getElementById('warrantyDeposit');
-            sales.classList.add('d-none');
-            rent.classList.add('d-none');
+            sales.outerHTML = "";
+            rent.outerHTML = "";
             if(warranty !== null){
                 document.getElementById('warrantyDeposit').remove();
             }

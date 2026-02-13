@@ -1,5 +1,3 @@
-version: '3'
-
 services:
 ###> doctrine/doctrine-bundle ###
   ###>  database:
@@ -18,6 +16,8 @@ services:
   elasticsearch:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.16
     container_name: papsimmo_search
+    volumes:
+      - ./elasticsearch/data:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms2g -Xmx2g
