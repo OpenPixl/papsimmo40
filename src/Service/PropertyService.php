@@ -375,6 +375,28 @@ class PropertyService
         $em->flush();
     }
 
+    public function getRefNumDate()
+    {
+        $date = new \DateTime();
+        $lastproperty = $this->propertyRepository->findOneBy([], ['id'=>'desc']);
+
+        if($lastproperty){
+            $lastRefNum = $lastproperty->getReflastnumber();
+            $oldRefNum = $lastproperty->getRef();
+            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
+            if($oldRefNum == $refNumDate){
+                $ref = $refNumDate.'-'.$lastRefNum+1;
+            }else{
+                $ref = $refNumDate.'-'.$lastRefNum;
+            }
+        }else{
+            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
+            $ref = $refNumDate.'-1';
+        }
+        return $ref;
+
+    }
+
     public function getDir(Property $property){
 
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
