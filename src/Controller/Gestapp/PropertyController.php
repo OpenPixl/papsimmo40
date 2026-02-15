@@ -741,7 +741,7 @@ class PropertyController extends AbstractController
     }
 
     #[Route('/informations/{id}', name: 'op_gestapp_property_informations', methods: ['GET', 'POST'])]
-    public function informations(Request $request, Property $property, PropertyRepository $propertyRepository, HtmlSanitizerInterface  $htmlSanitizer): Response
+    public function informations(Request $request, Property $property, PropertyRepository $propertyRepository, PropertyService $propertyService, HtmlSanitizerInterface  $htmlSanitizer): Response
     {
         $form = $this->createForm(InformationsType::class, $property, [
             'action' => $this->generateUrl('op_gestapp_property_informations', ['id'=>$property->getId()]),
@@ -753,6 +753,9 @@ class PropertyController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $refNumDate = $propertyService->getRefNumDate();
+            $property->setRef($refNumDate);
             $propertyRepository->add($property);
 
             $view = $this->render('gestapp/property/Step/informations.html.twig', [
@@ -874,7 +877,7 @@ class PropertyController extends AbstractController
 
             return $this->json([
                 'code'=> 200,
-                'message' => "Les informations du bien ont été correctement ajoutées.",
+                'message' => "Les ations du bien ont été correctement ajoutées.",
                 'data'=> [$property->getFamily()->getId(), $property->getRubric()->getId()],
                 'form' => $view->getContent(),
             ], 200);
