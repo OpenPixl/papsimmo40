@@ -16,9 +16,10 @@ use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
-use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class PropertyType extends AbstractType
 {
@@ -127,14 +128,6 @@ class PropertyType extends AbstractType
             ->add('cadasterSurface', IntegerType::class, [
                 'label' => 'surface cadastrale'
             ])
-
-
-            //->add('refEmployed', EntityType::class, [
-            //    'class' => Employed::class,
-            //    'choice_attr' => ChoiceList::attr($this, function (?Employed $category) {
-            //        return $category ? ['data-data' => $category->getFirstName()] : [];
-            //    }),
-            //])
         ;
     }
 

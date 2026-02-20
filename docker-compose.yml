@@ -17,7 +17,7 @@ services:
     image: docker.elastic.co/elasticsearch/elasticsearch:7.17.16
     container_name: papsimmo_search
     volumes:
-      - ./elasticsearch/data:/usr/share/elasticsearch/data
+      - esdata:/usr/share/elasticsearch/data
     environment:
       - discovery.type=single-node
       - ES_JAVA_OPTS=-Xms2g -Xmx2g
@@ -27,6 +27,8 @@ services:
     restart: always
 
 ###>volumes:
+volumes:
+  esdata:
 ###> doctrine/doctrine-bundle ###
 ###>  db-data:
 ###< doctrine/doctrine-bundle ###

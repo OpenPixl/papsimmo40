@@ -3,6 +3,7 @@
     <div class="row g-1 mt-2">
         <div class="col-4">
             {# Bloc des Estimations #}
+            {% if property.family.id == 8 %}
             <div id="sale" class="card text-dark border-dark">
                 <div class="card-body p-2">
                     <div class="row mb-1">
@@ -72,7 +73,7 @@
                                     <span class="align-middle">Prix net vendeur</span>
                                 </div>
                                 <div class="col-7">
-                                    <input type="integer" value="{{ property.price }}" class="form-control form-control-sm" disabled>
+                                    <input value="{{ property.price }}" class="form-control form-control-sm" disabled>
                                 </div>
                                 <div class="col-7 d-none">
                                     {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
@@ -83,7 +84,7 @@
                                     {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
                                 <div class="col-7">
-                                    <input type="integer" value="{{ property.honoraires }}" class="form-control form-control-sm" disabled>
+                                    <input value="{{ property.honoraires }}" class="form-control form-control-sm" disabled>
                                 </div>
                                 <div class="col-7 d-none">
                                     {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
@@ -94,7 +95,7 @@
                                     {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
                                 </div>
                                 <div class="col-7">
-                                    <input type="integer" value="{{ property.priceFai }}" class="form-control form-control-sm" disabled>
+                                    <input value="{{ property.priceFai }}" class="form-control form-control-sm" disabled>
                                 </div>
                                 <div class="col-7 d-none">
                                     {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
@@ -104,7 +105,8 @@
                     </div>
                 </div>
             </div>
-
+            {% endif %}
+            {% if property.family.id == 5 %}
             <div id="rent" class="card text-dark border-dark">
                 <div class="card-body">
                     <div class="row mb-1">
@@ -174,7 +176,8 @@
                     </div>
                 </div>
             </div>
-
+            {% endif %}
+            {% if property.family.id == 4 %}
             <div id="rentCommerce" class="card text-dark border-dark">
                 <div class="card-body">
                     <div class="row mb-1">
@@ -346,6 +349,7 @@
                     </div>
                 </div>
             </div>
+            {% endif %}
         </div>
         <div class="col-4">
             {# Bloc des diagnostiques #}
