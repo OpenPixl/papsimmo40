@@ -74,4 +74,11 @@ class AdaptbddController extends AbstractController
         return $this->json(['code'=> 200]);
 
     }
+
+    #[Route('/admin/adaptbdd/renameDirectory', name: 'op_admin_adaptbdd_renameDirectory')]
+    public function renameDirectory(PropertyRepository $propertyRepository){
+
+        $properties = $propertyRepository->findAll();
+
+    }
 }

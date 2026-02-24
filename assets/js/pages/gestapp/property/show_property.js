@@ -648,36 +648,43 @@ export function initShowPropertyPage() {
         ;
     }
 
+    // -----------------------------------------------------------------------
     // Onglet Chiffres
+    // -----------------------------------------------------------------------
+    /**
+     * Manages interactions related to price and fee calculations, as well as diagnostic choices,
+     * based on the provided response data. Updates interface elements dynamically according to specific conditions.
+     *
+     * @param {Object} response - The response object containing data to initiate calculations and interactions.
+     * @param {Object} response.data - The primary data container within the response.
+     * @param {Array} response.data.data - An array of data elements used for conditional checks and computations.
+     * @return {void} Does not return a value. Dynamically updates the UI based on conditions and user inputs.
+     */
     function estimate(response){
-        let sales = document.getElementById('sale');
-        let rent = document.getElementById('rent');
-        let rentCommerce = document.getElementById('rentCommerce');
-        let price = document.getElementById('property_step2_price');
-        let honoraires = document.getElementById('property_step2_honoraires');
-        let priceFAI = document.getElementById('property_step2_priceFai');
+        // -----------------------------------------------------------------------
+        // Interaction sur les calculs en line avec le prix et les FAI
+        // -----------------------------------------------------------------------
 
-        console.log(response.data.data);
+        if(response.data.data[0] === 8){
+            let price = document.getElementById('property_step2_price');
+            let honoraires = document.getElementById('property_step2_honoraires');
+            let priceFAI = document.getElementById('property_step2_priceFai');
 
-        if(response.data.data[0] === 4 && response.data.data[1] === 8) {
-            let warranty = document.getElementById('warrantyDeposit');
-            sales.outerHTML = "";
-            rent.outerHTML = "";
-            if(warranty !== null){
-                document.getElementById('warrantyDeposit').remove();
-            }
-        }else if (response.data.data[0] === 5) {
-            let warranty = document.getElementById('warrantyDeposit');
-            sales.classList.add('d-none');
-            rentCommerce.classList.add('d-none');
-            if(warranty !== null){
-                document.getElementById('warrantyDeposit').remove();
-            }
-        }else{
-            rent.classList.add('d-none');
-            rentCommerce.classList.add('d-none');
+            price.addEventListener('change', function () {
+                let priceValue = parseInt(price.value);
+                let honorairesValue = parseInt(honoraires.value);
+                priceFAI.value = priceValue + honorairesValue;
+            });
+            honoraires.addEventListener('change', function () {
+                let priceValue = parseInt(price.value);
+                let honorairesValue = parseInt(honoraires.value);
+                priceFAI.value = priceValue + honorairesValue;
+            });
         }
 
+        // -----------------------------------------------------------------------
+        // Interaction sur le choix de diagnostique
+        // -----------------------------------------------------------------------
         const tsdiagChoice = new TomSelect("#property_step2_diagChoice",TsSimple);
         const diagChoice = document.getElementById('property_step2_diagChoice');
         // Affichage des inputs DPE et GPE dès le chargement de la page
@@ -704,17 +711,6 @@ export function initShowPropertyPage() {
             }
         };
         tsdiagChoice.on('change', changeTsDiag );
-
-        price.addEventListener('change', function () {
-            let priceValue = parseInt(price.value);
-            let honorairesValue = parseInt(honoraires.value);
-            priceFAI.value = priceValue + honorairesValue;
-        });
-        honoraires.addEventListener('change', function () {
-            let priceValue = parseInt(price.value);
-            let honorairesValue = parseInt(honoraires.value);
-            priceFAI.value = priceValue + honorairesValue;
-        });
     }
 
     // Onglet Complements
