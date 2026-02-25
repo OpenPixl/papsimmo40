@@ -94,17 +94,19 @@ class PhotoController extends AbstractController
         $lastphoto = $photoRepository->Lastphoto($idproperty);
 
 
-        // récupération de la référence
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
+        // récupération du nom de repertoire du bien en lien avec les photos
+        $dir = $this->propertyService->getDir($property);
+
+        //dd($dir);
+
         $nameApp = $transfertPhotos->getName($property);
         $numMandat = $this->propertyService->getMandat($property);
 
         $photo = new Photo();
+        // Mise en place de l'ordre d'affichages des photos
         if($lastphoto){
             $position = $lastphoto->getPosition() + 1;
             $refPhoto = explode('-', $lastphoto->getGaleryFrontName());
-
             if(isset($refPhoto[2])){
                 $numPhoto = $refPhoto[2];
                 $namePhoto = $nameApp.'-'.$numMandat.'-'.$numPhoto;
@@ -133,7 +135,7 @@ class PhotoController extends AbstractController
             $photoFile = $form->get('galeryFrontFile')->getData();
             if ($photoFile) {
                 $newphotoFileName = $namePhoto.'.'.$photoFile->guessExtension();
-                $pathdir = $this->getParameter('property_photo_directory')."/".$newref."/";
+                $pathdir = $this->getParameter('property_photo_directory')."/".$dir."/";
                 // Move the file to the directory where brochures are stored
                 try {
                     if (is_dir($pathdir)){
@@ -154,7 +156,7 @@ class PhotoController extends AbstractController
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }
-                $photo->setPath($newref);
+                $photo->setPath($dir);
                 $photo->setGaleryFrontName($newphotoFileName);
             }
 
