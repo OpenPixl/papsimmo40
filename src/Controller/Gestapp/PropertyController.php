@@ -856,7 +856,7 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $rentalAnnual = $form->get('commerceRentalAnnual')->getData();
+            //$rentalAnnual = $form->get('commerceRentalAnnual')->getData();
 
             $propertyRepository->add($property);
 

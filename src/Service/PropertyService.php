@@ -578,7 +578,6 @@ class PropertyService
         $complement->addPropertyEquipment($this->propertyEquipementRepository->findOneBy([], ['id'=>'ASC']));
         $complement->addPropertyOtheroption($this->otherOptionRepository->findOneBy([], ['id'=>'ASC']));
         $this->em->persist($complement);
-
         return $complement;
     }
 

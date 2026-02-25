@@ -31,17 +31,7 @@ class PropertyStep2Type extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            // Champs Commun
-            ->add('surfaceLand', IntegerType::class,[
-                'label'=>'Surface de terrain',
-                'empty_data' => 0,
-                'required' => false
-            ])
-            ->add('surfaceHome', IntegerType::class,[
-                'label'=>'Surface habitable',
-                'empty_data' => 0,
-                'required' => false
-            ])
+            // Champs commun - Bloc DPE et GES
             ->add('dpeAt', DateType::class, [
                 'label'=> 'Date du DPE',
                 'widget' => 'single_text',
@@ -92,6 +82,17 @@ class PropertyStep2Type extends AbstractType
                     'Non obligatoire' => ['data-data' => 'Non obligatoire'],
                     'Vierge' => ['data-data' => 'Vierge']
                 ],
+            ])
+            // Champs commun - Bloc Surfaces
+            ->add('surfaceLand', IntegerType::class,[
+                'label'=>'Surface de terrain',
+                'empty_data' => 0,
+                'required' => false
+            ])
+            ->add('surfaceHome', IntegerType::class,[
+                'label'=>'Surface habitable',
+                'empty_data' => 0,
+                'required' => false
             ])
         ;
 

@@ -425,8 +425,8 @@ export function initShowPropertyPage() {
                 .then(function(response){
                     nodeForm.innerHTML = response.data.form;
                     initializeTinyMCE(1500);
-                    initializeTomSelect('.oneChoice', TsSimple);
-                    initializeTomSelect('.multiChoice', TsMulti);
+                    //initializeTomSelect('.oneChoice', TsSimple);
+                    //initializeTomSelect('.multiChoice', TsMulti);
                     toasterMessage(response.data.message);
                     //estimate(response);
                     let linkOpenModal = document.querySelectorAll('a.openModal');
@@ -530,7 +530,9 @@ export function initShowPropertyPage() {
     }
 
     function newPro_submitNodeForm(){
+        // soulmet le form présent sur la page
         submitNodeForm();
+
         // Sélectionne tous les éléments <li> dans la barre de navigation
         let navItems = document.querySelectorAll('.nav-tabs li');
 
@@ -563,7 +565,7 @@ export function initShowPropertyPage() {
                 document.querySelector(nextPaneId).classList.add('active', 'show');
                 loadFormContent(nextItem.querySelector('a'));
             }else{
-                console.log('il n\'existe pas');
+                urlPrevious();
             }
         }
     }
