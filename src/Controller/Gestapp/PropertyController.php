@@ -44,6 +44,10 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/gestapp/property')]
 class PropertyController extends AbstractController
 {
+    public function __construct(private readonly PropertyService $propertyService)
+    {
+    }
+
     #[Route('/changetypemandat/', name: 'op_gestapp_properties_changetypemandat', methods: ['GET'])]
     public function changeStatutMandat(PropertyRepository $propertyRepository, Request $request, EntityManagerInterface $em, HtmlSanitizerInterface $sanitizer): Response{
         $properties = $propertyRepository->findAll();
@@ -1170,6 +1174,7 @@ class PropertyController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
+        // on vérifie si le bine est en cours de transaction et que le dossier est clos ou pas
         $closedFolder = $property->isClosedFolder();
 
         if( $closedFolder === true){
@@ -1179,6 +1184,13 @@ class PropertyController extends AbstractController
                 'message' => '<p>Le bien : ' .$nameProperty. '<br> ne peut pas être supprimé pour l\'instant.</p>'
             ], 200);
         }else{
+
+            // Suppression des fichiers
+            $path = $this->getParameter('property_photo_directory');             // Chemin vers le dossier public
+            $dir = $this->propertyService->getDir($property);               // répertoire spécifique du bien
+            //dd($path.'properties/'.$dir);
+            $directoryService->delRepertory($path.$dir);
+
             $publication = $property->getPublication();
             $complement = $property->getOptions();
             // Supression des images liées à la propriété
@@ -1202,13 +1214,6 @@ class PropertyController extends AbstractController
             $propertyRepository->remove($property);
             $publicationRepository->remove($publication);
             $complementRepository->remove($complement);
-            // suppression du dossier et de son contenu
-            $path = dirname(__DIR__, 2).'/public/';
-            // récupération de la référence
-            $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
-
-            $directoryService->delRepertory($path.'properties/'.$newref);
 
             if($hasAccess == true){
                 $data = $propertyRepository->listAllProperties();

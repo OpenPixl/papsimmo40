@@ -399,12 +399,13 @@ class PropertyService
 
     public function getDir(Property $property){
 
-        // récupération de la référence du dossier pour construire le chemin vers le dossier Property
-        $ref = explode("/", $property->getRef());
-        $refnumdate = $property->getRefnumdate();
-        $refDir = $refnumdate.'-'.$ref[1];
+        // Construction du nom de dossier attaché à la propriété lors de sa création
+        $numdate = explode("/", $property->getRefnumdate());            // on sépare en 2 variables : AAAA et MMDDSS
+        $numdiff = explode("-", $property->getRef());                   // On recupére la valeur de séparation entre deux ref identiques
 
-        return $refDir;
+        $dir = $numdate[0].'-'.$numdate[1].'-'.$numdiff[1];
+
+        return $dir;
     }
 
     public function getBien($property)
