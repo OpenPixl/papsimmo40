@@ -375,7 +375,7 @@ class PropertyService
         $em->flush();
     }
 
-    public function getRefNumDate()
+    public function getRefUpdate()
     {
         $date = new \DateTime();
         $lastproperty = $this->propertyRepository->findOneBy([], ['id'=>'desc']);
@@ -383,15 +383,15 @@ class PropertyService
         if($lastproperty){
             $lastRefNum = $lastproperty->getReflastnumber();
             $oldRefNum = $lastproperty->getRef();
-            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
-            if($oldRefNum == $refNumDate){
-                $ref = $refNumDate.'-'.$lastRefNum+1;
+            $newNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
+            if($oldRefNum == $newNumDate){
+                $ref = $newNumDate . '-' . ($lastRefNum + 1);
             }else{
-                $ref = $refNumDate.'-'.$lastRefNum;
+                $ref = $newNumDate.'-'.$lastRefNum;
             }
         }else{
-            $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
-            $ref = $refNumDate.'-1';
+            $newNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
+            $ref = $newNumDate.'-1';
         }
         return $ref;
 
@@ -401,7 +401,8 @@ class PropertyService
 
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $ref = explode("/", $property->getRef());
-        $refDir = $ref[0].'-'.$ref[1];
+        $refnumdate = $property->getRefnumdate();
+        $refDir = $refnumdate.'-'.$ref[1];
 
         return $refDir;
     }

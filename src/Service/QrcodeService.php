@@ -63,16 +63,13 @@ class QrcodeService
         $url_www = $request->getSchemeAndHttpHost().'/';
         $url = $url_www.$url_property;
 
-        // récupération de la référence
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
+        // récupération de la référence pour le nom du répertoire de la propriété
+        $refnumdate = $property->getRefnumdate();
 
         $objDateTime = new \DateTime('NOW');
         $dateString = $objDateTime->format('d-m-Y H:i:s');
 
         $path = dirname(__DIR__, 2).'/public/';
-
-        //dd($path);
 
         // set qrcode
         $result = Builder::create()
@@ -95,16 +92,16 @@ class QrcodeService
         ;
 
         //generate name
-        $namePng = 'qc-'.$newref.'.png';
+        $namePng = 'qc-'.$refnumdate.'.png';
 
-        if (is_dir($path.'properties/'.$newref)){
+        if (is_dir($path.'properties/'.$refnumdate)){
             //Save img png
-            $result->saveToFile($path.'properties/'.$newref.'/'.$namePng);
+            $result->saveToFile($path.'properties/'.$refnumdate.'/'.$namePng);
         }else{
             // Création du répertoire s'il n'existe pas.
-            mkdir($path.'properties/'.$newref, 0775, true);
+            mkdir($path.'properties/'.$refnumdate, 0775, true);
             //Save img png
-            $result->saveToFile($path.'properties/'.$newref.'/'.$namePng);
+            $result->saveToFile($path.'properties/'.$refnumdate.'/'.$namePng);
         }
 
         return $namePng;

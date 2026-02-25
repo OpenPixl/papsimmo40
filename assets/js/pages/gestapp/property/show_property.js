@@ -565,7 +565,7 @@ export function initShowPropertyPage() {
                 document.querySelector(nextPaneId).classList.add('active', 'show');
                 loadFormContent(nextItem.querySelector('a'));
             }else{
-                urlPrevious();
+                window.history.back();
             }
         }
     }

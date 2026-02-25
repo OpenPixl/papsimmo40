@@ -754,8 +754,9 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $refNumDate = $propertyService->getRefNumDate();
-            $property->setRef($refNumDate);
+            $refUpdate = $propertyService->getRefUpdate();
+            $property->setRef($refUpdate);
+
             $propertyRepository->add($property);
 
             $view = $this->render('gestapp/property/Step/informations.html.twig', [
