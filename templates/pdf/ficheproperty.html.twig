@@ -90,13 +90,16 @@
                             </div>
                             <div class="col-3">
                                 {% if property.qrcodeUrl is not null %}
-                                    {% set refyear = property.ref|split('/',2)|first %}
-                                    {% set refnumber = property.ref|split('/',2)|last %}
+                                    {% set refyear = property.refnumdate|split('/',2) | first %}           {# on récupère AAAA #}
+                                    {% set numdate = property.refnumdate|split('/',2) | last %}            {# on récupère MMDDSS #}
+                                    {% set numdiff = property.ref|split('-',2) | last %}            {# on récupère numéro de différenciation entre bien du même jour#}
+
+                                    {% set directory =  refyear ~ '-' ~ numdate ~ '-' ~ numdiff %}
                                     <div class="card">
-                                        <img src="{{ absolute_url(asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl)) }}" class="card-img-top" alt="{{ property.qrcodeUrl }}">
+                                        <img src="{{ absolute_url(asset('properties/'~ directory ~'/' ~ property.qrcodeUrl)) }}" class="img-fluid w-50" alt="{{ property.qrcodeUrl }}">
                                     </div>
-                                {% else %}
                                 {% endif %}
+
                             </div>
                         </div>
                     </div>

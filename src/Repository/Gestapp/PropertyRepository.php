@@ -655,6 +655,7 @@ class PropertyRepository extends ServiceEntityRepository
                 d.name as denomination,
                 p.id as id,
                 p.ref as ref,
+                p.refnumdate as refnumdate,
                 p.RefMandat as refMandat,
                 p.name as name,
                 p.annonce as annonce,
