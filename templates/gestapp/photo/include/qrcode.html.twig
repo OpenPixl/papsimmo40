@@ -1,8 +1,11 @@
 {% if property.qrcodeUrl is not null %}
-    {% set refyear = property.ref|split('/',2)|first %}
-    {% set refnumber = property.ref|split('/',2)|last %}
+    {% set refyear = property.refnumdate|split('/',2) | first %}           {# on récupère AAAA #}
+    {% set numdate = property.refnumdate|split('/',2) | last %}            {# on récupère MMDDSS #}
+    {% set numdiff = property.ref|split('-',2) | last %}            {# on récupère numéro de différenciation entre bien du même jour#}
+
+    {% set directory =  refyear ~ '-' ~ numdate ~ '-' ~ numdiff %}
     <div class="card mt-2">
-        <img src="{{ asset('properties/'~ refyear ~'-'~ refnumber ~'/' ~ property.qrcodeUrl) }}" class="card-img-top w-25" alt="{{ property.qrcodeUrl }}">
+        <img src="{{ asset('properties/'~ directory ~'/' ~ property.qrcodeUrl) }}" class="card-img-top w-25" alt="{{ property.qrcodeUrl }}">
         <div class="card-body">
             <p class="card-text">Qrcode vers l'url de la page Web</p>
         </div>
