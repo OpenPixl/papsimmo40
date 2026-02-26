@@ -12,8 +12,6 @@ use App\Form\Gestapp\TransactionHonorairesType;
 use App\Form\Gestapp\TransactionInvoicepdfType;
 use App\Form\Gestapp\TransactionTracfinpdfType;
 use App\Form\Gestapp\TransactionType;
-use App\Form\Gestapp\Transactionstep2Type;
-use App\Form\Gestapp\Transactionstep3Type;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\choice\CustomerChoiceRepository;
 use App\Repository\Gestapp\CustomerRepository;
@@ -22,6 +20,7 @@ use App\Repository\Gestapp\PropertyRepository;
 use App\Repository\Gestapp\TransactionRepository;
 use App\Service\EmailService;
 use App\Service\NotificationService;
+use App\Service\PropertyService;
 use App\Service\transactionService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -61,6 +60,7 @@ class TransactionController extends AbstractController
         public SluggerInterface    $slugger,
         private readonly EntityManagerInterface $entityManager,
         public PhotoRepository $photoRepository,
+        public PropertyService $propertyService,
     )
     {
         $this->submit = true; // Initialisation de la variable $public
@@ -414,9 +414,6 @@ class TransactionController extends AbstractController
         $property->setIsTransaction(1);
         $entityManager->persist($property);
         $entityManager->flush();
-
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
 
         // if($this->submit == true){
         //     $this->emailService->submitEmailFromTransac(
@@ -974,9 +971,11 @@ class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // récupération de la référence du dossier pour construire le chemin vers le dossier Property
             $property = $propertyRepository->find($transaction->getProperty()->getId());
-            $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
-            $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+
+            // récupération du nom de repertoire du bien en lien avec les photos
+            $dir = $this->propertyService->getDir($property);
+
+            $pathdir = $this->getParameter('property_doc_directory')."/".$dir."/documents/";
             // Récupération des données sous forme de tableau associatif
             $document = $form->get('document')->getData();
 
@@ -1138,9 +1137,11 @@ class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // récupération de la référence du dossier pour construire le chemin vers le dossier Property
             $property = $propertyRepository->find($transaction->getProperty()->getId());
-            $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
-            $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+
+            // récupération du nom de repertoire du bien en lien avec les photos
+            $dir = $this->propertyService->getDir($property);
+
+            $pathdir = $this->getParameter('property_doc_directory')."/".$dir."/documents/";
             // Récupération des données sous forme de tableau associatif
             $file = $form->get('document')->getData();
 
@@ -1316,8 +1317,12 @@ class TransactionController extends AbstractController
             // récupération de la référence du dossier pour construire le chemin vers le dossier Property
             $property = $propertyRepository->find($transaction->getProperty()->getId());
             $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
-            $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+            $dir = $ref[0].'-'.$ref[1];
+
+            // récupération du nom de repertoire du bien en lien avec les photos
+            $dir = $this->propertyService->getDir($property);
+
+            $pathdir = $this->getParameter('property_doc_directory')."/".$dir."/documents/";
             // Récupération des données sous forme de tableau associatif
             $document = $form->get('document')->getData();
 
@@ -1453,9 +1458,11 @@ class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // récupération de la référence du dossier pour construire le chemin vers le dossier Property
             $property = $propertyRepository->find($transaction->getProperty()->getId());
-            $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
-            $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+
+            // récupération du nom de repertoire du bien en lien avec les photos
+            $dir = $this->propertyService->getDir($property);
+
+            $pathdir = $this->getParameter('property_doc_directory')."/".$dir."/documents/";
             // Récupération des données sous forme de tableau associatif
             $document = $form->get('document')->getData();
 
@@ -1646,9 +1653,11 @@ class TransactionController extends AbstractController
 
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
-        $pathdir = "/properties/".$newref."/documents/".$fileName;
+
+        // récupération du nom de repertoire du bien en lien avec les photos
+        $dir = $this->propertyService->getDir($property);
+
+        $pathdir = "/properties/".$dir."/documents/".$fileName;
 
         return $this->json([
             'code'=> 200,
@@ -1719,9 +1728,9 @@ class TransactionController extends AbstractController
 
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
-        //dd($ref);
-        $newref = $ref[0].'-'.$ref[1];
+
+        // récupération du nom de repertoire du bien en lien avec les photos
+        $dir = $this->propertyService->getDir($property);
 
         $form->handleRequest($request);
 
@@ -1730,7 +1739,7 @@ class TransactionController extends AbstractController
             if($honorairespdf){
                 // Suppression du PDF si Présent
                 $honorairesPdfName = $transaction->getHonorairesPdfFilename();
-                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory')."/".$dir."/documents/";
                 $pathfile = $pathdir.$honorairesPdfName;
                 if($honorairesPdfName){
                     // On vérifie si l'image existe
@@ -1744,7 +1753,7 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $honorairespdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $this->getParameter('property_doc_directory')."/".$dir."/documents/",
                             $newFilename
                         );
                     }else{
@@ -1752,7 +1761,7 @@ class TransactionController extends AbstractController
                         mkdir($pathdir."/", 0775, true);
                         // Déplacement de la photo
                         $honorairespdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $this->getParameter('property_doc_directory')."/".$dir."/documents/",
                             $newFilename
                         );
                     }
@@ -1906,15 +1915,17 @@ class TransactionController extends AbstractController
             // récupération de la référence du dossier pour construire le chemin vers le dossier Property
             $property = $propertyRepository->find($transaction->getProperty()->getId());
             // récupération de la référence
-            $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
+
+
+            // récupération du nom de repertoire du bien en lien avec les photos
+            $dir = $this->propertyService->getDir($property);
 
             // Suppression du PDF si booléen sur "true"
             $isSupprActePdf = $form->get('isSupprActePdf')->getData();
             if($isSupprActePdf && $isSupprActePdf == true){
                 // récupération du nom de l'image
                 $ActePdfName = $transaction->getActePdfFilename();
-                $pathActePdf = $this->getParameter('property_doc_directory')."/".$newref."/documents/".$ActePdfName;
+                $pathActePdf = $this->getParameter('property_doc_directory')."/".$dir."/documents/".$ActePdfName;
                 // On vérifie si l'image existe
                 if(file_exists($pathActePdf)){
                     unlink($pathActePdf);
@@ -1926,7 +1937,7 @@ class TransactionController extends AbstractController
             $actepdf = $form->get('actePdfFilename')->getData();
             $actePdfName = $transaction->getActePdfFilename();
             if($actepdf){
-                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory')."/".$dir."/documents/";
                 $pathfile = $pathdir.$actePdfName;
                 if($actePdfName){
                     // On vérifie si l'image existe
@@ -1940,7 +1951,7 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $actepdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $this->getParameter('property_doc_directory')."/".$dir."/documents/",
                             $newFilename
                         );
                     }else{
@@ -1948,7 +1959,7 @@ class TransactionController extends AbstractController
                         mkdir($pathdir."/", 0775, true);
                         // Déplacement de la photo
                         $actepdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $this->getParameter('property_doc_directory')."/".$dir."/documents/",
                             $newFilename
                         );
                     }
@@ -2120,14 +2131,15 @@ class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // récupération de la référence du dossier pour construire le chemin vers le dossier Property
             $property = $propertyRepository->find($transaction->getProperty()->getId());
-            $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
+
+            // récupération du nom de repertoire du bien en lien avec les photos
+            $dir = $this->propertyService->getDir($property);
 
             $actepdf = $form->get('actePdfFilename')->getData();
             if($actepdf){
                 // Supression du PDF si Présent
                 $actePdfName = $transaction->getActePdfFilename();
-                $pathdir = $this->getParameter('property_doc_directory')."/".$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory')."/".$dir."/documents/";
                 $pathfile = $pathdir.$actePdfName;
                 if($actePdfName){
                     // On vérifie si l'image existe
@@ -2141,7 +2153,7 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $actepdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $this->getParameter('property_doc_directory')."/".$dir."/documents/",
                             $newFilename
                         );
                     }else{
@@ -2149,7 +2161,7 @@ class TransactionController extends AbstractController
                         mkdir($pathdir."/", 0775, true);
                         // Déplacement de la photo
                         $actepdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $this->getParameter('property_doc_directory')."/".$dir."/documents/",
                             $newFilename
                         );
                     }
@@ -2236,9 +2248,9 @@ class TransactionController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             // récupération de la référence du dossier pour construire le chemin vers le dossier Property
             $property = $propertyRepository->find($transaction->getProperty()->getId());
-            $ref = explode("/", $property->getRef());
-            $newref = $ref[0].'-'.$ref[1];
-            //dd($newref);
+
+            // récupération du nom de repertoire du bien en lien avec les photos
+            $dir = $this->propertyService->getDir($property);
 
             // Suppression du PDF si booléen sur "true"
             $isSupprTracfinPdf = $form->get('isSupprTracfinPdf')->getData();
@@ -2259,7 +2271,7 @@ class TransactionController extends AbstractController
 
             //dd($tracfinpdf, $tracfinPdfName);
             if($tracfinpdf){
-                $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory').$dir."/documents/";
                 $pathfile = $pathdir.$tracfinPdfName;
                 // Suppression du document si déjà présent en BDD.
                 if($tracfinPdfName){
@@ -2275,7 +2287,7 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $tracfinpdf->move(
-                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $this->getParameter('property_doc_directory').$dir."/documents/",
                             $newFilename
                         );
                     }else{
@@ -2283,7 +2295,7 @@ class TransactionController extends AbstractController
                         mkdir($pathdir."/", 0775, true);
                         // Déplacement de la photo
                         $tracfinpdf->move(
-                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $this->getParameter('property_doc_directory').$dir."/documents/",
                             $newFilename
                         );
                     }
@@ -2439,8 +2451,9 @@ class TransactionController extends AbstractController
     {
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
+
+        // récupération du nom de repertoire du bien en lien avec les photos
+        $dir = $this->propertyService->getDir($property);
 
         // action ne pouvant être réalisée uniquement par un admin
         $this->denyAccessUnlessGranted('ROLE_ADMIN');
@@ -2460,7 +2473,7 @@ class TransactionController extends AbstractController
 
                 // Supression du PDF si Présent
                 $tracfinPdfName = $transaction->getTracfinPdfFilename();
-                $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory').$dir."/documents/";
                 $pathfile = $pathdir.$tracfinPdfName;
                 if($tracfinPdfName){
                     // On vérifie si l'image existe
@@ -2474,7 +2487,7 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $tracfinpdf->move(
-                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $this->getParameter('property_doc_directory').$dir."/documents/",
                             $newFilename
                         );
                     }else{
@@ -2482,7 +2495,7 @@ class TransactionController extends AbstractController
                         mkdir($pathdir."/", 0775, true);
                         // Déplacement de la photo
                         $tracfinpdf->move(
-                            $this->getParameter('property_doc_directory')."/".$newref."/documents/",
+                            $this->getParameter('property_doc_directory')."/".$dir."/documents/",
                             $newFilename
                         );
                     }
@@ -2540,8 +2553,9 @@ class TransactionController extends AbstractController
     {
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
+
+        // récupération du nom de repertoire du bien en lien avec les photos
+        $dir = $this->propertyService->getDir($property);
 
         $submit = 1;
         $hasAccess = $this->isGranted('ROLE_ADMIN');
@@ -2572,7 +2586,7 @@ class TransactionController extends AbstractController
             if($invoicepdf){
                 // Supression du PDF si Présent
                 $invoicePdfName = $transaction->getInvoicePdfFilename();
-                $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory').$dir."/documents/";
                 $pathfile = $pathdir.$invoicePdfName;
                 if($invoicePdfName){
                     // On vérifie si l'image existe
@@ -2589,13 +2603,13 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $invoicepdf->move(
-                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $this->getParameter('property_doc_directory').$dir."/documents/",
                             $newFilename
                         );
                     }else{
                         mkdir($pathdir."/", 0775, true);
                         $invoicepdf->move(
-                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $this->getParameter('property_doc_directory').$dir."/documents/",
                             $newFilename
                         );
                     }
@@ -2700,8 +2714,8 @@ class TransactionController extends AbstractController
     {
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
+        // récupération du nom de repertoire du bien en lien avec les photos
+        $dir = $this->propertyService->getDir($property);
 
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $submit = 1;
@@ -2723,7 +2737,7 @@ class TransactionController extends AbstractController
             if($invoicepdf){
                 // Supression du PDF si Présent
                 $invoicePdfName = $transaction->getInvoicePdfFilename();
-                $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+                $pathdir = $this->getParameter('property_doc_directory').$dir."/documents/";
                 $pathfile = $pathdir.$invoicePdfName;
                 if($invoicePdfName){
                     // On vérifie si l'image existe
@@ -2739,13 +2753,13 @@ class TransactionController extends AbstractController
                 try {
                     if (is_dir($pathdir)){
                         $invoicepdf->move(
-                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $this->getParameter('property_doc_directory').$dir."/documents/",
                             $newFilename
                         );
                     }else{
                         mkdir($pathdir."/", 0775, true);
                         $invoicepdf->move(
-                            $this->getParameter('property_doc_directory').$newref."/documents/",
+                            $this->getParameter('property_doc_directory').$dir."/documents/",
                             $newFilename
                         );
                     }
@@ -2823,15 +2837,16 @@ class TransactionController extends AbstractController
 
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
-        $newref = $ref[0].'-'.$ref[1];
+
+        // récupération du nom de repertoire du bien en lien avec les photos
+        $dir = $this->propertyService->getDir($property);
 
         //responsable du dossier
         $email_resp = $property->getRefEmployed()->getEmail();
 
         $typeDoc = explode('-', $name)[0];
         //dd($typeDoc);
-        $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+        $pathdir = $this->getParameter('property_doc_directory').$dir."/documents/";
         $pathfile = $pathdir.$name;
 
         //dd($pathfile);
@@ -3056,10 +3071,10 @@ class TransactionController extends AbstractController
         $access = $this->access($transaction);
         // récupération de la référence du dossier pour construire le chemin vers le dossier Property
         $property = $propertyRepository->find($transaction->getProperty()->getId());
-        $ref = explode("/", $property->getRef());
         $block = '';
+        // récupération du nom de repertoire du bien en lien avec les photos
+        $dir = $this->propertyService->getDir($property);
 
-        $newref = $ref[0].'-'.$ref[1];
         if($document == "Ac"){
             $block = 'Block_Documents';
             $name = $transaction->getActePdfFilename();
@@ -3086,7 +3101,7 @@ class TransactionController extends AbstractController
             $view = 'gestapp/transaction/show/_documents.html.twig';
         }
 
-        $pathdir = $this->getParameter('property_doc_directory').$newref."/documents/";
+        $pathdir = $this->getParameter('property_doc_directory').$dir."/documents/";
         $pathfile = $pathdir.$name;
         if($name && file_exists($pathfile)){
             unlink($pathfile);
