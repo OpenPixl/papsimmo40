@@ -355,7 +355,6 @@ class PdfController extends AbstractController
         EntityManagerInterface $em
     ): Response
     {
-        $qrCode = null;
         $property = $propertyRepository->find($idproperty);
 
         $qrCode = $qrcodeService->qrcodeOneProperty($property);
