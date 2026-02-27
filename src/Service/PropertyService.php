@@ -78,7 +78,7 @@ class PropertyService
             //dd('location immobilier');
             $destination = 'location';
             $typeBien = $property->getRubric()->getName();
-            $price = "";
+            $price = $property->getRent();
             $priceFai = "";
             $rent = $property->getRent();
             $rentCharge = $property->getRentCharge();
@@ -107,11 +107,11 @@ class PropertyService
             //dd('location pro');
             $destination = 'location';
             $typeBien = $property->getRubricss()->getName();
-            $price = "";
+            $price = $property->getCommerceAnnualRentGlobal();
             $priceFai = "";
-            $rent = $property->getRent();
-            $rentCharge = $property->getRentCharge();
-            $rentWithCharge = $rent + $rentCharge;
+            $rent = "";
+            $rentCharge = "";
+            $rentWithCharge = "";
             $warrantyDeposit = $property->getWarrantyDeposit();
             $rentChargeModsPayment = $property->getRentChargeModsPayment();
             $rentChargeHonoraire = $property->getRentChargeHonoraire();

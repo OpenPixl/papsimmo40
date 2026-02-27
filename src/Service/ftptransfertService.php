@@ -252,17 +252,20 @@ class ftptransfertService
                 $est = 0;
                 $sud = 0;
                 $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
+            }
+            elseif($property['orientation'] = 'est'){
                 $nord = 0;
                 $est = 1;
                 $sud = 0;
                 $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
+            }
+            elseif($property['orientation'] = 'sud'){
                 $nord = 0;
                 $est = 0;
                 $sud = 1;
                 $ouest = 0;
-            }else{
+            }
+            else{
                 $nord = 0;
                 $est = 0;
                 $sud = 0;
