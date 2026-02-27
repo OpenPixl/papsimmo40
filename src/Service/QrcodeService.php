@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Gestapp\Property;
+use App\Service\PropertyService;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
 use Endroid\QrCode\ErrorCorrectionLevel;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\RequestStack;
 class QrcodeService
 {
     public function __construct(
+        public PropertyService $propertyService,
         protected RequestStack $request,
     ){}
 
@@ -56,7 +58,7 @@ class QrcodeService
         return $result->getDataUri();
     }
 
-    public function qrcodeOneProperty(Property $property, PropertyService $propertyService)
+    public function qrcodeOneProperty(Property $property)
     {
         $url_property = 'gestapp/propertypublic/oneproperty/'.$property->getId();
         $request = $this->request->getCurrentRequest();
@@ -70,7 +72,7 @@ class QrcodeService
         $dateString = $objDateTime->format('d-m-Y H:i:s');
 
         $path = dirname(__DIR__, 2).'/public/';
-        $dir = $propertyService->getDir($property);
+        $dir = $this->propertyService->getDir($property);
 
         // set qrcode
         $result = Builder::create()
