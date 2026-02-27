@@ -56,7 +56,7 @@ class QrcodeService
         return $result->getDataUri();
     }
 
-    public function qrcodeOneProperty(Property $property)
+    public function qrcodeOneProperty(Property $property, PropertyService $propertyService)
     {
         $url_property = 'gestapp/propertypublic/oneproperty/'.$property->getId();
         $request = $this->request->getCurrentRequest();
@@ -70,6 +70,7 @@ class QrcodeService
         $dateString = $objDateTime->format('d-m-Y H:i:s');
 
         $path = dirname(__DIR__, 2).'/public/';
+        $dir = $propertyService->getDir($property);
 
         // set qrcode
         $result = Builder::create()
@@ -94,14 +95,14 @@ class QrcodeService
         //generate name
         $namePng = 'qc-'.$refnumdate.'.png';
 
-        if (is_dir($path.'properties/'.$refnumdate)){
+        if (is_dir($path.'properties/'.$dir)){
             //Save img png
-            $result->saveToFile($path.'properties/'.$refnumdate.'/'.$namePng);
+            $result->saveToFile($path.'properties/'.$dir.'/'.$namePng);
         }else{
             // Création du répertoire s'il n'existe pas.
-            mkdir($path.'properties/'.$refnumdate, 0775, true);
+            mkdir($path.'properties/'.$dir, 0775, true);
             //Save img png
-            $result->saveToFile($path.'properties/'.$refnumdate.'/'.$namePng);
+            $result->saveToFile($path.'properties/'.$dir.'/'.$namePng);
         }
 
         return $namePng;
