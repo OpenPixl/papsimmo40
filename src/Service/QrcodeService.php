@@ -72,7 +72,7 @@ class QrcodeService
         $dateString = $objDateTime->format('d-m-Y H:i:s');
 
         $path = dirname(__DIR__, 2).'/public/';
-        
+
         $dir = $this->propertyService->getDir($property);
 
         // set qrcode

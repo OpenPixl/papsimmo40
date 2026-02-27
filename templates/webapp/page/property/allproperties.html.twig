@@ -36,10 +36,16 @@
                         <div class="price">
                             {{ property.priceFai }} €
                         </div>
-                        {% else %}
+                        {% endif %}
+                        {% if property.rent >= 1 %}
                         <div class="price">
                             {{ property.rent }} €
                         </div>
+                        {% endif %}
+                        {% if property.commerceAnnualRentGlobal >= 1 %}
+                            <div class="price">
+                                {{ property.rent }} €
+                            </div>
                         {% endif %}
                     </div>
                     {# intégration SVG #}
