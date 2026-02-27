@@ -848,6 +848,7 @@ class PropertyRepository extends ServiceEntityRepository
                 p.annonce as annonce,
                 p.priceFai as priceFai,
                 p.rent as rent,
+                p.commerceAnnualRentGlobal as commerceAnnualRentGlobal,
                 p.surfaceHome as surfaceHome,
                 p.surfaceLand as surfaceLand,
                 d.name as denomination,
