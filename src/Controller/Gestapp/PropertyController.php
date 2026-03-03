@@ -651,8 +651,9 @@ class PropertyController extends AbstractController
                     $em->flush();
                 }
             }
+
             $photos = $photoRepository->findBy(['property'=>$property], ['position'=>'ASC']);
-            $em->flush();
+
             return $this->json([
                 'code'=> 200,
                 'message' => "La photo du bien a été ajoutée",

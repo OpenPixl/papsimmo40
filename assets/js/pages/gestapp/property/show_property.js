@@ -193,7 +193,7 @@ export function initShowPropertyPage() {
                             }
                         });
 
-                        document.getElementById('property_image_images').addEventListener('change', maxSizePhotos);
+                        //document.getElementById('property_image_images').addEventListener('change', maxSizePhotos);
 
 
                         let btnAddVideo = document.getElementById('btnAddVideo');
@@ -808,15 +808,20 @@ export function initShowPropertyPage() {
         if(!inputFilesPhotos){
             alert('Vous n\'avez pas charger de photos.');
         }else{
+            let listephotos = document.getElementById('listephoto');
+            console.log(document.querySelectorAll('#listephoto').length);
             axios
                 .post(action, data)
                 .then(function (response){
-                    document.getElementById('listephoto').innerHTML = response.data.liste;
+                    console.log(document.querySelectorAll('#listephoto').length);
+                    listephotos.innerHTML = response.data.liste;
                     toasterMessage(response.data.message);
+                    declareEvent();
                 })
-                .catch()
+                .catch(function(error) {
+                    console.log(error);
+                })
             ;
-            declareEvent();
         }
     }
 
