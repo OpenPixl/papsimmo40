@@ -562,10 +562,10 @@ class PropertyController extends AbstractController
 
             $property = $propertyService->add_NewProperty($employed, $family, $rubric, $rubricss, $lastproperty, $refNumDate, $isNomandat, $RefMandat, $typeMandat);
 
-            $qrCode = $qrcodeService->qrcodeOneProperty($property);
-            $property->setQrcodeUrl($qrCode);
             $em->persist($property);
             $em->flush();
+
+            $qrCode = $qrcodeService->qrcodeOneProperty($property);
 
             return $this->json([
                 'code' => 200,

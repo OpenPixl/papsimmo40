@@ -3,6 +3,7 @@
 namespace App\Service;
 
 use App\Entity\Gestapp\Property;
+use App\Repository\Gestapp\PropertyRepository;
 use App\Service\PropertyService;
 use Endroid\QrCode\Builder\Builder;
 use Endroid\QrCode\Encoding\Encoding;
@@ -64,12 +65,7 @@ class QrcodeService
         $request = $this->request->getCurrentRequest();
         $url_www = $request->getSchemeAndHttpHost().'/';
         $url = $url_www.$url_property;
-
-        // récupération de la référence pour le nom du répertoire de la propriété
-        $refnumdate = $property->getRefnumdate();
-
-        $objDateTime = new \DateTime('NOW');
-        $dateString = $objDateTime->format('d-m-Y H:i:s');
+        //dd($url);
 
         $path = dirname(__DIR__, 2).'/public/';
 
@@ -99,9 +95,14 @@ class QrcodeService
         $namePng = 'qc-'.$dir.'.png';
 
         if (is_dir($path.'properties/'.$dir)){
-            //Save img png
+            if(file_exists($url)){
+                unlink($url);
+            }
             $result->saveToFile($path.'properties/'.$dir.'/'.$namePng);
         }else{
+            if(file_exists($url)){
+                unlink($url);
+            }
             // Création du répertoire s'il n'existe pas.
             mkdir($path.'properties/'.$dir, 0775, true);
             //Save img png
