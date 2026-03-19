@@ -7,6 +7,7 @@ use App\Entity\Gestapp\choice\PropertyEnergy;
 use App\Repository\Admin\EmployedRepository;
 use App\Repository\Gestapp\choice\PropertyEnergyRepository;
 use App\Repository\Gestapp\ComplementRepository;
+use App\Repository\Gestapp\CustomerRepository;
 use App\Repository\Gestapp\PhotoRepository;
 use App\Repository\Gestapp\PropertyRepository;
 use App\Service\PropertyService;
@@ -75,10 +76,40 @@ class AdaptbddController extends AbstractController
 
     }
 
-    #[Route('/admin/adaptbdd/renameDirectory', name: 'op_admin_adaptbdd_renameDirectory')]
-    public function renameDirectory(PropertyRepository $propertyRepository){
+    #[Route('/admin/adaptbdd/withoutci', name: 'op_admin_adaptbdd_withoutci')]
+    public function withoutci(CustomerRepository $customerRepository){
 
-        $properties = $propertyRepository->findAll();
+        $customers = $customerRepository->findAll();
+        $lists = [];
+        $customerswtCI = [];
+        $customersCI = [];
+        // liste des customers possédant une CI en BDD
+        foreach ($customers as $customer){
+            if (!empty($customer->getCifilename())) {
+                $lists[] = $customer->getSlug();
+            }
+
+        }
+
+        asort($lists);
+
+        // Extraction des customers ou la CI est maquantes dans le répertoire
+        foreach ($lists as $l){
+            $customer = $customerRepository->findOneBy(['slug' => $l]);
+            $customerFileCi = $customer->getCifilename();
+            $slug = $customer->getSlug();
+            $id = $customer->getId();
+            $repertory = $slug."_".$id;
+            $pathCustomer = $this->getParameter('customer_ci_directory').$repertory;
+            if (!is_dir($pathCustomer)) {
+                $customerswtCI[] = $customer->getId().' - '.$pathCustomer;
+            }
+            if (is_dir($pathCustomer)) {
+                $customersCI[] = $customer->getId().' - '.$pathCustomer;
+            }
+        }
+
+        dd($customerswtCI, $customersCI);
 
     }
 }

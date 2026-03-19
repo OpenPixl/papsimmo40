@@ -64,7 +64,6 @@ class Application
     #[ORM\Column(type: 'string', length: 100, nullable: true)]
     private $urlGooglebusiness;
 
-
     #[ORM\Column(type: 'string', nullable: true)]
     #[Ignore]
     private $logoFile;

@@ -74,7 +74,8 @@ class PropertyService
             $commerceSurfaceDivisible = "";
             $commerceSurfaceDivisibleMin = "";
             $commerceSurfaceDivisibleMax = "";
-        }elseif($famille == 5){
+        }
+        elseif($famille == 5){
             //dd('location immobilier');
             $destination = 'location';
             $typeBien = $property->getRubric()->getName();
@@ -103,12 +104,13 @@ class PropertyService
             $commerceSurfaceDivisible = "";
             $commerceSurfaceDivisibleMin = "";
             $commerceSurfaceDivisibleMax = "";
-        }elseif($famille == 4 && $rubric == 8){
+        }
+        elseif($famille == 4 && $rubric == 8){
             //dd('location pro');
             $destination = 'location';
             $typeBien = $property->getRubricss()->getName();
             $price = $property->getCommerceAnnualRentGlobal();
-            $priceFai = "";
+            $priceFai = $property->getCommerceAnnualRentGlobal();
             $rent = "";
             $rentCharge = "";
             $rentWithCharge = "";
@@ -672,6 +674,7 @@ class PropertyService
 
     // Génération des lignes du tableau au format POLIRIS 4.11
     public function arrayRow(Property $propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version){
+
         $data = array(
             1 => '"' . $infos['refDossier'] . '"',                                  // 1 - Identifiant Agence
             2 => '"' . $property['ref'] . '"',                                      // 2 - Référence agence du bien
@@ -683,7 +686,9 @@ class PropertyService
             8 => '"' . $property['adress'] . '"',                                   // 8 - Adresse
             9 => '""',                                                              // 9 - Quartier / Proximité
             10 => '""',                                                             // 10 - Activités commerciales
+
             11 => '"' . $property['priceFai'] . '"',                                // 11 - Prix / Loyer / Prix de cession
+
             12 => '"' . $destination['rent'] . '"',                                 // 12 - Loyer / mois murs
             13 => '"' . $destination['rentCC'] . '"',                               // 13 - Loyer CC
             14 => '"' . $destination['rentHT'] . '"',                               // 14 - Loyer HT
