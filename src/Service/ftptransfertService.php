@@ -942,13 +942,16 @@ class ftptransfertService
             // Création d'une ligne du tableau
             $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
             $row = [];
+
             for ($i = 0; $i < count($data); $i++) {
                 //dd($data[$i+1]);
                 array_push($row, $data[$i+1]);
             }
             $rows[] = implode('!#', $row);
+
         }
         $content = implode("\n", $rows);
+        dd($content);
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------

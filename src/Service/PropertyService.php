@@ -686,9 +686,7 @@ class PropertyService
             8 => '"' . $property['adress'] . '"',                                   // 8 - Adresse
             9 => '""',                                                              // 9 - Quartier / Proximité
             10 => '""',                                                             // 10 - Activités commerciales
-
-            11 => '"' . $property['priceFai'] . '"',                                // 11 - Prix / Loyer / Prix de cession
-
+            11 => '"' . $destination['priceFai'] . '"',                             // 11 - Prix / Loyer / Prix de cession
             12 => '"' . $destination['rent'] . '"',                                 // 12 - Loyer / mois murs
             13 => '"' . $destination['rentCC'] . '"',                               // 13 - Loyer CC
             14 => '"' . $destination['rentHT'] . '"',                               // 14 - Loyer HT
