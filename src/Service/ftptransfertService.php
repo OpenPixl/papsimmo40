@@ -951,7 +951,6 @@ class ftptransfertService
 
         }
         $content = implode("\n", $rows);
-        dd($content);
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
