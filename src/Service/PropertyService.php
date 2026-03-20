@@ -76,7 +76,7 @@ class PropertyService
             $commerceSurfaceDivisibleMax = "";
         }
         elseif($famille == 5){
-            //dd('location immobilier');
+            // Location immobilier
             $destination = 'location';
             $typeBien = $property->getRubric()->getName();
             $price = $property->getRent();
@@ -106,7 +106,7 @@ class PropertyService
             $commerceSurfaceDivisibleMax = "";
         }
         elseif($famille == 4 && $rubric == 8){
-            //dd('location pro');
+            // Location pro
             $destination = 'location';
             $typeBien = $property->getRubricss()->getName();
             $price = $property->getCommerceAnnualRentGlobal();
