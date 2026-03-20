@@ -38,10 +38,12 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur "Se Loger" ?',
                 'required' => false
             ])
-            ->add('isPublishfigaro', CheckboxType::class, [
-                'label' => 'Publié sur "Figaro Immo" ?',
-                'required' => false
-            ])
+
+            //->add('isPublishfigaro', CheckboxType::class, [
+            //    'label' => 'Publié sur "Figaro Immo" ?',
+            //    'required' => false
+            //])
+
             ->add('isPublishgreenacres', CheckboxType::class, [
                 'label' => 'Publié sur "Green Acres" ?',
                 'required' => false
@@ -50,10 +52,10 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur "Superimmo" ?',
                 'required' => false
             ])
-            ->add('isPublishalentoor', CheckboxType::class, [
-                'label' => 'Publié sur "Alentoor" ?',
-                'required' => false
-            ])
+            //->add('isPublishalentoor', CheckboxType::class, [
+            //    'label' => 'Publié sur "Alentoor" ?',
+            //    'required' => false
+            //])
             ->add('isPublishhtlouer', CheckboxType::class, [
                 'label' => 'Publié sur "Acheter-Louer" ?',
                 'required' => false
@@ -62,10 +64,10 @@ class PublicationType extends AbstractType
                 'label' => 'Publié sur "Bien\'ici" ?',
                 'required' => false
             ])
-            ->add('isPublishClefsmoi', CheckboxType::class, [
-                'label' => 'Publié sur "Les clefs de chez moi" ?',
-                'required' => false
-            ])
+            //->add('isPublishClefsmoi', CheckboxType::class, [
+            //    'label' => 'Publié sur "Les clefs de chez moi" ?',
+            //    'required' => false
+            //])
             ->add('isPublishEtreProprio', CheckboxType::class, [
                 'label' => 'Publié sur "Etre Proprio" ?',
                 'required' => false
