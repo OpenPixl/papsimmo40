@@ -11,13 +11,16 @@ use Symfony\Component\HttpFoundation\RequestStack;
 use Symfony\Component\Mailer\Exception\TransportExceptionInterface;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Address;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class EmailService
 {
+
     public function __construct(
         public TransactionRepository $transactionRepository,
-        protected MailerInterface    $mailer,
+        protected MailerInterface $mailer,
         protected RequestStack $request,
+        protected UrlGeneratorInterface $router
     ){}
 
     public function submitEmailFromTransac($email_expediteur, $expediteur_name, $email_destinataire, $subject, $idtransaction){
@@ -26,7 +29,6 @@ class EmailService
         $state = preg_split("/[\s|]+/", $transaction->getState())[0];
         $typeDoc = preg_split("/[\s|]+/", $transaction->getState())[1];
 
-        $transaction = $this->transactionRepository->find($idtransaction);
         $email = (new TemplatedEmail())
             ->from(new Address($email_expediteur, $expediteur_name))
             ->to($email_destinataire)
@@ -41,7 +43,7 @@ class EmailService
                 ->context([
                     'transaction' => $transaction,
                     'typeDoc' => $typeDoc,
-                    'url' => $this->request->getCurrentRequest()
+                    'url' => $this->router->generate('op_webapp_public_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL)
                 ]);
             ;
         }
@@ -51,7 +53,7 @@ class EmailService
                 ->context([
                     'transaction' => $transaction,
                     'typeDoc' => $typeDoc,
-                    'url' => $this->request->getCurrentRequest()
+                    'url' => $this->router->generate('op_webapp_public_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL)
                 ]);
             ;
         }
@@ -60,13 +62,14 @@ class EmailService
                 ->htmlTemplate('admin/mail/messageTransaction.html.twig')
                 ->context([
                     'transaction' => $transaction,
-                    'url' => $this->request->getCurrentRequest()
+                    'url' => $this->router->generate('op_webapp_public_homepage', [], UrlGeneratorInterface::ABSOLUTE_URL)
                 ]);
             ;
         };
 
         try {
             $this->mailer->send($email);
+            dump('MAIL ENVOYÉ');
         } catch (TransportExceptionInterface $e) {
             // some error prevented the email sending; display an
             // error message or try to resend the message
