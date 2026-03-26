@@ -40,6 +40,7 @@
          openModal {{ isCancelled }}" data-bs-data="ADDINVOICES-Ajouter une facture">
         <i class="fa-duotone fa-light fa-plus"></i> Factures
     </a>
+    {{ transaction.step }}
 </div>
 <div class="col-6 d-flex align-items-center justify-content-end">
     {% if access == 'read' %}

@@ -371,7 +371,7 @@ class TransactionController extends AbstractController
      *    - l'état de la transaction du bien,
      *    - crée une entité de transaction correspondante,
      *    - le statut de la transaction du bien,
-     *    - envoie un courriel de notification au contact administratif validé dans les paramètres de l'application.
+     *    - envoie un courriel de notification au contact administratif.
      *
      * Si le bien fait déjà partie d'une transaction, il redirige l'utilisateur vers
      * l'index de la transaction sans créer une autre transaction.
@@ -417,13 +417,12 @@ class TransactionController extends AbstractController
         $entityManager->persist($property);
         $entityManager->flush();
 
-        // envoie d'un mail vers l'admin du site
         if($this->submit == true){
              $this->emailService->submitEmailFromTransac(
                  'contact@papsimmo.fr',
                  $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                  $this->application->getAdminEmail(),
-                 '[SoftPAPs - Transaction] - Un nouveau dossier de transaction a été ouvert sur SoftPAPs.'.$transaction->getName().'.',
+                 '[SoftPAPs] Un nouveau dossier de transaction a été ouvert sur SoftPAPs.',
                  $transaction->getId()
              );
         }
@@ -536,7 +535,6 @@ class TransactionController extends AbstractController
 
                 $this->step($transaction);
 
-                // envoie d'un mail vers le mandataire de la transaction
                 if($this->submit === true && $access === 'edit'){
                      $this->emailService->submitEmailFromTransac(
                          $transaction->getRefEmployed()->getEmail(),
@@ -804,17 +802,6 @@ class TransactionController extends AbstractController
             $transaction->setProject($project);
             $em->flush();
 
-            // envoie d'un mail vers l'admin du site
-            if($this->submit == true){
-                $this->emailService->submitEmailFromTransac(
-                    'contact@papsimmo.fr',
-                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                    $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Un nouveau dossier de transaction a été ouvert sur SoftPAPs.'.$transaction->getName().'.',
-                    $transaction->getId()
-                );
-            }
-
             if($this->submit === true && $access === 'edit' && $transaction->getStep() === 5){
                 $this->emailService->submitEmailFromTransac(
                     $transaction->getRefEmployed()->getEmail(),
@@ -1014,23 +1001,12 @@ class TransactionController extends AbstractController
                 $em->flush();
                 $this->step($transaction);
 
-                // envoie d'un mail vers l'admin du site
-                if($this->submit == true){
-                    $this->emailService->submitEmailFromTransac(
-                        'contact@papsimmo.fr',
-                        $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                        $this->application->getAdminEmail(),
-                        '[SoftPAPs - Transaction] - Ajout d\'un document sur la transaction : '.$transaction->getName().'.',
-                        $transaction->getId()
-                    );
-                }
-
                 if($this->submit === true && $access === 'edit'){
                     $this->emailService->submitEmailFromTransac(
                         $transaction->getRefEmployed()->getEmail(),
                         $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                         $this->application->getAdminEmail(),
-                        '[SoftPAPs - Transaction] - Ajout d\'un document sur la transaction :'.$transaction->getName().'.',
+                        '[SoftPAPs - Transaction] - Ajout d\'un document au dossier de vente :'.$transaction->getName().'.',
                         $transaction->getId(),
                     );
                 }
@@ -1069,23 +1045,12 @@ class TransactionController extends AbstractController
                     $em->flush();
                     $this->step($transaction);
 
-                    // envoie d'un mail vers l'admin du site
-                    if($this->submit == true){
+                    if($this->submit === true && $access === 'edit'){
                         $this->emailService->submitEmailFromTransac(
-                            'contact@papsimmo.fr',
+                            $transaction->getRefEmployed()->getEmail(),
                             $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
                             $this->application->getAdminEmail(),
-                            '[SoftPAPs - Transaction] - Ajout d\'un document sur la transaction : '.$transaction->getName().'.',
-                            $transaction->getId()
-                        );
-                    }
-
-                    if($this->submit == true && $access === 'edit'){
-                        $this->emailService->submitEmailFromTransac(
-                            $this->getUser()->getEmail(),
-                            $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
-                            $this->application->getAdminEmail(),
-                            '[SoftPAPs - Transaction] - Ajout d\'un document sur la transaction : ',
+                            '[SoftPAPs - Transaction] - Ajout d\'un document au dossier de vente :'.$transaction->getName().'.',
                             $transaction->getId(),
                         );
                     }
@@ -1225,26 +1190,16 @@ class TransactionController extends AbstractController
                 $em->flush();
             }
 
-            // envoie d'un mail vers l'admin du site
-            if($this->submit == true){
-                $this->emailService->submitEmailFromTransac(
-                    'contact@papsimmo.fr',
-                    $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-                    $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Modification d\'un document sur la transaction : '.$transaction->getName().'.',
-                    $transaction->getId()
-                );
-            }
-
             if($this->submit == true && $access === 'edit'){
                 $this->emailService->submitEmailFromTransac(
                     $this->getUser()->getEmail(),
                     $this->getUser()->getFirstName()." ".$this->getUser()->getlastName(),
                     $this->application->getAdminEmail(),
-                    '[SoftPAPs - Transaction] - Modification d\'un document sur la transaction : ',
+                    'Modification du document sur une transaction.',
                     $transaction->getId(),
                 );
             }
+
 
             return $this->json(array_merge([
                 'code'=> 200,
@@ -1620,10 +1575,8 @@ class TransactionController extends AbstractController
             elseif($typeDoc == 'fact'){
                 $transaction->setIsValidInvoicepdf(1);
                 $transaction->setInvoiceValidBy($this->getUser());
-                $message = "
-                    Vous venez de valider la facture de la vente de votre collaborateur. <br>
-                    Un mail lui a été adressé afin qu'il puisse continuer le processus de vente."
-                ;
+                $message = "Vous venez de valider la facture de la vente de votre collaborateur. <br>
+                          Un mail lui a été adressé afin qu'il puisse continuer le processus de vente.";
                 $view = 'gestapp/transaction/show/_invoices.html.twig';
                 $block = 'Block_Invoices';
             }
@@ -1633,7 +1586,11 @@ class TransactionController extends AbstractController
             $em->flush();
             $this->step($transaction);
 
-            if($this->submit == true && $access == "admin" && ($transaction->getStep() == 4 || $transaction->getStep() == 9)){
+            if(
+                $this->submit
+                && $access === 'admin'
+                && in_array($transaction->getStep(), [4, 8, 9], true)
+            ){
                 $this->emailService->submitEmailFromTransac(
                     $this->application->getAdminEmail(),
                     'Administrateur SoftPAPs',
@@ -1713,22 +1670,6 @@ class TransactionController extends AbstractController
             'code'=> 200,
             'path' => $pathdir,
         ], 200);
-
-    }
-
-    public function MailtoAdmin($transaction)
-    {
-        $this->emailService->submitEmailFromTransac(
-            $this->getUser()->getEmail(),
-            $this->getUser()->getFirstName()." ".$this->getUser()->getlastName()." de PAPs immo - ".$this->getUser()->getEmail(),
-            $this->application->getAdminEmail(),
-            '[SoftPAPs - Transaction] - Un nouveau dossier de transaction a été ouvert sur SoftPAPs.'.$transaction->getName().'.',
-            $transaction->getId()
-        );
-    }
-
-    public function MailtoMandataire($transaction)
-    {
 
     }
 
