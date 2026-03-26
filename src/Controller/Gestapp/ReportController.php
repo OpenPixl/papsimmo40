@@ -116,6 +116,7 @@ class ReportController extends AbstractController
                     }
                 }
             }
+
             // si bien en situation de vente
             If($property['price'] > 0){
                 $price = $property['price'];
@@ -136,6 +137,7 @@ class ReportController extends AbstractController
                 $rentChargeModsPayment = $property['rentChargeModsPayment'];
                 $rentChargeHonoraire = $property['rentChargeHonoraire'];
             }
+
             // Situation de viager
             $viager = 0;
 
@@ -162,11 +164,11 @@ class ReportController extends AbstractController
                 '"' . $url4 . '"',                                          // 19 - Chemin de la 4ème photo
                 '"' . $url5 . '"',                                          // 20 - Chemin de la 5ème photo
                 '"' . $url6 . '"',                                          // 21 - Chemin de la 6ème photo
-                '"' . $priceFai . '"',                                      // 22 - Prix
-                '"' . $rentWithCharge . '"',                                // 23 - Loyer Charges comprises
-                '"' . $rent . '"',                                          // 24 - Loyer sans charges
-                '"' . $rentCharge . '"',                                    // 25 - Charges
-                '"' . $rentChargeHonoraire . '"',                           // 26 - Honoraires Charges Locataires
+                '"' . $destination['priceFai'] . '"',                       // 22 - Prix
+                '"' . $destination['rentWithCharge'] . '"',                 // 23 - Loyer Charges comprises
+                '"' . $destination['rent'] . '"',                           // 24 - Loyer sans charges
+                '"' . $destination['rentCharge'] . '"',                     // 25 - Charges
+                '"' . $destination['rentChargeHonoraire'] . '"',            // 26 - Honoraires Charges Locataires
                 '"0"',                                                      // 27 - A ajouter dans la BDD - Terrain ou bien Constructible
                 '"' . $property['surfaceHome'] . '"',                       // 28
                 '"' . $property['surfaceLand'] . '"',                       // 29

@@ -43,8 +43,6 @@ class PropertyService
     {
         $famille = $property->getFamily()->getId();
         $rubric = $property->getRubric()->getId();
-        //$rubricss = $property->getRubricss()->getId();
-        //dd($famille);
         if($famille == 8 || $famille == 6){
             //dd($famille);
             $destination = 'vente';
