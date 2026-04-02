@@ -1,81 +1,58 @@
-{% set pv = 0 %}
-{% set sl = 0 %}
-{% set lb = 0 %}
-{% set fig = 0 %}
-{% set ma = 0 %}
-{% set ga = 0 %}
-{% set si = 0 %}
-{% set al = 0 %}
-{% set ht = 0 %}
-{% set bi = 0 %}
-{% set cm = 0 %}
-{% for property in listproperties|filter(p => p.isPublishParven == 1) %}
-    {% set pv = pv + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishseloger == 1) %}
-    {% set sl = sl + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishleboncoin == 1) %}
-    {% set lb = lb + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishfigaro == 1) %}
-    {% set fig = fig + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishMeilleur == 1) %}
-    {% set ma = ma + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishgreenacres == 1) %}
-    {% set ga = ga + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishsuperimmo == 1) %}
-    {% set si = si + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishalentoor == 1) %}
-    {% set al = al + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishhtlouer == 1) %}
-    {% set ht = ht + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublisBienici == 1) %}
-    {% set bi = bi + 1 %}
-{% endfor %}
-{% for property in listproperties|filter(p => p.isPublishClefsmoi == 1) %}
-    {% set cm = cm + 1 %}
+{% set diffuseurs = {
+    pv: {'count': 0, 'actif': 1, 'prop': 'isPublishParven', label: 'PV', name: 'Paru Vendu', href: '#'},
+    sl: {'count': 0, 'actif': 0, 'prop': 'isPublishseloger', label: 'SL', name: 'Se loger', href: '#' },
+    lb: {'count': 0, 'actif': 1, 'prop': 'isPublishleboncoin', label: 'LB', name: 'LeBonCoin', href: asset('doc/report/ubiflow/ubiflow.xlsx')},
+    fig: {'count': 0, 'actif': 1, 'prop': 'isPublishfigaro', label: 'FIG', name: 'Figaro', href: asset('doc/report/figaro/Annonces.xlsx')},
+    ma: {'count': 0, 'actif': 0, 'prop': 'isPublishMeilleur', label: 'MA', name: 'Meilleur Agent', href: '#'},
+    ga: {'count': 0, 'actif': 1, 'prop': 'isPublishgreenacres', label: 'MA', name: 'Green ACRES', href: asset('doc/report/Green/892318a.xlsx')},
+    si: {'count': 0, 'actif': 1, 'prop': 'isPublishsuperimmo', label: 'SI', name: 'Super Immo', href: asset('doc/report/Superimmo/paps_superimmo.xlsx')},
+    al: {'count': 0, 'actif': 0, 'prop': 'isPublishalentoor', label: 'Alentour', name: 'Alentoor', href: asset('doc/report/Alentour/paps_alentour.xlsx')},
+    ht: {'count': 0, 'actif': 1, 'prop': 'isPublishhtlouer', label: 'HT', name: 'HtLouer', href: asset('doc/report/Htlouer/g46426.xlsx')},
+    bi: {'count': 0, 'actif': 1, 'prop': 'isPublisBienici', label: 'BI', name: 'BienICI', href: asset('doc/report/ubiflow/ubiflow.xlsx')},
+    cm: {'count': 0, 'actif': 0, 'prop': 'isPublishClefsmoi', label: 'CM', name: 'Chez Moi', href: asset('doc/report/lcdcm/paps_lcdcm.xlsx')},
+} %}
+
+{% for property in listproperties %}
+    {% for key, diffuseur in diffuseurs %}
+        {% if attribute(property, diffuseur.prop) == 1 %}
+            {% set diffuseurs = diffuseurs|merge({ (key) : diffuseur|merge({'count': diffuseur.count + 1}) }) %}
+        {% endif %}
+    {% endfor %}
 {% endfor %}
 
+{% if is_granted('ROLE_ADMIN') %}
 <div class="mt-2">
     <p>
         <b>Support des diffusions :</b>
     </p>
-    <p style="font-size: 0.8rem;"> |
-        <span class="badge bg-light text-dark">PV :</span> Paru Vendu <span class="badge rounded-pill bg-warning">{{ pv }}</span> |
-        <span class="badge bg-light text-dark">LB :</span> {% if is_granted('ROLE_ADMIN') %}<a href="{{ asset('doc/report/ubiflow/ubiflow.xlsx') }}" download>Le Bon Coin, A vendre et à louer</a>{% endif %} <span class="badge rounded-pill bg-warning">{{ lb }}</span> |
-        <span class="badge bg-light text-dark">FIG :</span> {% if is_granted('ROLE_ADMIN') %}<a href="{{ asset('doc/report/ubiflow/ubiflow.xlsx') }}" download>Le Figaro Immobilier</a>{% endif %} <span class="badge rounded-pill bg-warning">{{ fig }}</span> |
-        <span class="badge bg-light text-dark">GA :</span> {% if is_granted('ROLE_ADMIN') %}<a href="{{ asset('doc/report/Green/892318a.xlsx') }}" download>Green ACRES</a>{% endif %} <span class="badge rounded-pill bg-warning">{{ ga }}</span> |
-        <span class="badge bg-light text-dark">SI :</span> {% if is_granted('ROLE_ADMIN') %}<a href="{{ asset('doc/report/Superimmo/paps_superimmo.xlsx') }}" download>Superimmo</a>{% endif %} <span class="badge rounded-pill bg-warning">{{ si }}</span> |
-        <span class="badge bg-light text-dark">AL :</span> {% if is_granted('ROLE_ADMIN') %}<a href="{{ asset('doc/report/Alentour/paps_alentour.xlsx') }}" download>Alentoor</a>{% endif %} <span class="badge rounded-pill bg-warning">{{ al }}</span> |
-        <span class="badge bg-light text-dark">HT :</span> {% if is_granted('ROLE_ADMIN') %}<a href="{{ asset('doc/report/Htlouer/g46426.xlsx') }}" download>Acheter-Louer</a>{% endif %} <span class="badge rounded-pill bg-warning">{{ ht }}</span> |
-        <span class="badge bg-light text-dark">BI :</span> {% if is_granted('ROLE_ADMIN') %}<a href="{{ asset('doc/report/ubiflow/ubiflow.xlsx') }}" download>Bien'ici</a>{% endif %} <span class="badge rounded-pill bg-warning">{{ bi }}</span> |
-        <span class="badge bg-light text-dark">CM :</span> {% if is_granted('ROLE_ADMIN') %}<a href="{{ asset('doc/report/lcdcm/paps_lcdcm.xlsx') }}" download>Les clefs..moi</a>{% endif %} <span class="badge rounded-pill bg-warning">{{ cm }}</span> |
+    <p style="font-size: 0.8rem;">
+        |
+        {% for d in diffuseurs %}
+            {% if d.actif == 1 %}
+                <span class="badge bg-light text-dark">{{ d.label }} : {{ d.count }}</span> <a href="{{ d.href }}" download>{{ d.name }}</a> |
+            {% endif%}
+        {% endfor %}
     </p>
 </div>
+{% endif %}
+
 <table class="table">
     <thead>
-    <tr>
-        {% if is_granted('ROLE_ADMIN') %}
-            <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
+        <tr>
+            {% if is_granted('ROLE_ADMIN') %}
+                <th><input type="checkbox" id="CheckAllProperties" name="CheckAllProperties"></th>
+                <th></th>
+                <th>Collaborateur</th>
+            {% else %}
             <th></th>
-            <th>Collaborateur</th>
-        {% else %}
-        <th></th>
-        {% endif %}
-        <th>Mandat</th>
-        <th>Prix</th>
-        <th>Titre annonce</th>
-        <th>En ligne</th>
-        <th>Publication</th>
-        <th>actions</th>
-    </tr>
+            {% endif %}
+            <th>Mandat</th>
+            <th>Prix</th>
+            <th>Titre annonce</th>
+            <th>En ligne</th>
+            <th>Publication</th>
+            <th>actions</th>
+        </tr>
     </thead>
     <tbody>
     {% set user = app.user.id %}
@@ -121,15 +98,11 @@
                 {% if property.isWebpublish == 1 %}<i class="fa-thin fa-globe text-success"></i>{% else %}<i class="fa-thin fa-globe text-danger"></i>{% endif %}
             </td>
             <td>
-                {% if property.isPublishParven == 1 %}<span class="badge bg-light text-dark">PV</span>{% endif %}
-                {% if property.isPublishleboncoin == 1 %}<span class="badge bg-light text-dark">LB</span>{% endif %}
-                {% if property.isPublishfigaro == 1 %}<span class="badge bg-light text-dark">FIG</span>{% endif %}
-                {% if property.isPublishgreenacres == 1 %}<span class="badge bg-light text-dark">GA</span>{% endif %}
-                {% if property.isPublishsuperimmo == 1 %}<span class="badge bg-light text-dark">SI</span>{% endif %}
-                {% if property.isPublishalentoor == 1 %}<span class="badge bg-light text-dark">AL</span>{% endif %}
-                {% if property.isPublishhtlouer == 1 %}<span class="badge bg-light text-dark">HT</span>{% endif %}
-                {% if property.isPublisBienici == 1 %}<span class="badge bg-light text-dark">BI</span>{% endif %}
-                {% if property.isPublishClefsmoi == 1 %}<span class="badge bg-light text-dark">CM</span>{% endif %}
+                {% for d in diffuseurs %}
+                    {% if d.actif == 1 %}
+                        <span class="badge bg-light text-dark">{{ d.label }}</span>
+                    {% endif%}
+                {% endfor %}
             </td>
             <td>
                 {% include('gestapp/property/include/_btnchoice.html.twig') %}

@@ -35,6 +35,7 @@ const SupprRows = document.getElementById('SupprRows');
 axios
     .get('/gestapp/property/propertyDiffusion')
     .then(function(response){
+        console.log(response.data.listdiffusion);
         document.getElementById('listDiffusion').innerHTML = response.data.listdiffusion;
     });
 axios

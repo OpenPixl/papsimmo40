@@ -216,12 +216,16 @@ class PropertyController extends AbstractController
             $listProperties = $propertyRepository->listPublicationEmployed($user->getId());
         }
 
+        $view = $this->renderView('gestapp/property/_listdiffusion.html.twig', [
+            'listproperties' => $listProperties
+        ]);
+
+        //dd($view);
+
         return $this->json([
             'code' => 200,
             'message' => 'affichage de la liste',
-            'listdiffusion' => $this->renderView('gestapp/property/_listdiffusion.html.twig', [
-                'listproperties' => $listProperties
-            ])
+            'listdiffusion' => $view
         ],200);
     }
 
