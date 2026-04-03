@@ -2,10 +2,14 @@
 
 namespace App\Entity\Gestapp\Transaction;
 
+use App\Entity\Enum\Transaction\ActeName;
+use App\Entity\Gestapp\Transaction;
 use App\Repository\Gestapp\Transaction\ActeRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\File;
 
 #[ORM\Entity(repositoryClass: ActeRepository::class)]
+#[ORM\HasLifecycleCallbacks]
 class Acte
 {
     #[ORM\Id]
@@ -13,8 +17,14 @@ class Acte
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $name = null;
+    #[ORM\Column(enumType: ActeName::class)]
+    private ?acteName $acteName = null;
+
+    #[ORM\Column(type:'string', nullable: true)]
+    private $acteFilename;
+
+    #[ORM\Column(type:'integer', nullable: true)]
+    private $acteFilesize;
 
     #[ORM\Column(length: 255)]
     private ?string $path = null;
@@ -25,21 +35,41 @@ class Acte
     #[ORM\Column(type: 'datetime')]
     private $updatedAt;
 
-    public function getId(): ?int
+    #[ORM\ManyToOne(inversedBy: 'actes')]
+    private ?Transaction $transaction = null;
+
+    public function getActeName(): ?ActeName
     {
-        return $this->id;
+        return $this->acteName;
     }
 
-    public function getName(): ?string
+    public function setActeName(ActeName $acteName): static
     {
-        return $this->name;
-    }
-
-    public function setName(string $name): static
-    {
-        $this->name = $name;
+        $this->acteName = $acteName;
 
         return $this;
+    }
+
+    public function setActeFilename(string $acteFilename = null): self
+    {
+        $this->acteFilename = $acteFilename;
+
+        return $this;
+    }
+
+    public function getActeFilename(): ?string
+    {
+        return $this->acteFilename;
+    }
+
+    public function setActeFilesize(?int $acteFilesize): void
+    {
+        $this->acteFilesize = $acteFilesize;
+    }
+
+    public function getActeFilesize(): ?int
+    {
+        return $this->acteFilesize;
     }
 
     public function getPath(): ?string
@@ -81,8 +111,20 @@ class Acte
         return $this;
     }
 
+    public function getTransaction(): ?Transaction
+    {
+        return $this->transaction;
+    }
+
+    public function setTransaction(?Transaction $transaction): static
+    {
+        $this->transaction = $transaction;
+
+        return $this;
+    }
+
     public function __toString(){
 
-        return $this->name;
+        return $this->fileName;
     }
 }

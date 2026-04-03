@@ -25,7 +25,7 @@
                 {% elseif access == "edit" or access == "admin" %}
                     | <a href="{{ path(urlEdit, {'id': transaction.id, 'typeFile': slugDocument }) }}" class="text-primary text-decoration-none openModal" data-bs-data="EDITDOCUMENTS-Actualiser le document initial-"><i class="fa-light fa-arrows-rotate"></i>
                     Actualiser le document </a>
-                    | <a class="text-primary text-decoration-none openModal" data-bs-data="ADDAVENANT-Ajout d'un avenant-{{ transaction.id }}"><i class="fa-light fa-file-circle-plus"></i> Déposer un avenant</a>
+                    | <a href="{{ path('app_gestapp_transaction_acte_new', {'idtransaction': transaction.id }) }}" class="text-primary text-decoration-none openModal" data-bs-data="ADDAVENANT-Ajout d'un avenant-{{ transaction.id }}"><i class="fa-light fa-file-circle-plus"></i> Déposer un avenant</a>
                 {% endif %}
             {% endif %}
 

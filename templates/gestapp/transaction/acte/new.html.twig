@@ -1,0 +1,20 @@
+<div class="row">
+    <div class="col-6">
+        <h4 class="h6 border-bottom border-1 border-dark">Liste des avenants</h4>
+        <p class="mb-1">Les avenants présents dans ce dossier.</p>
+
+        <ul class="list-group">
+            {% for a in actes %}
+                <li class="list-group-item">{{ a.acteFilename }}</li>
+            {% else %}
+                <li class="list-group-item">Pas d'avenant présent</li>
+            {% endfor %}
+        </ul>
+
+
+    </div>
+    <div class="col-6">
+        <h4 class="h6 border-bottom border-1 border-dark">Ajout d'un avenant</h4>
+        {{ include('gestapp/transaction/acte/_form.html.twig') }}
+    </div>
+</div>

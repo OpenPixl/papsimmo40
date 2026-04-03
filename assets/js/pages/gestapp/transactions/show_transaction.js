@@ -138,6 +138,7 @@ export function initShowTransactionPage() {
             axios
                 .get(url)
                 .then(({data}) => {
+                    modalEl.querySelector('.modal-dialog').classList.add('modal-lg');
                     modalEl.querySelector('.modal-body').innerHTML = data.formView;
                     const confirmBtn = modalEl.querySelector('.modal-footer a');
                     confirmBtn.textContent = 'Ajouter l\'avenant';
@@ -428,7 +429,7 @@ export function initShowTransactionPage() {
         e.preventDefault();
         delete modal.dataset.deleteUrl;
 
-        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit', 'FormAddcollaborator', 'FormAddcollaboratorInvoice', 'formDocsCancelled_add'];
+        const listForm = ['formCustomer_add', 'formCustomer_edit', 'formAppointment_add', 'formAppointment_edit', 'formDocuments_add', 'formDocuments_edit', 'formInvoice_add', 'formInvoice_edit', 'FormAddcollaborator', 'FormAddcollaboratorInvoice', 'formDocsCancelled_add', 'formActe_addAvenant'];
         const list = ['dateAtPromise', 'dateAtActe', 'Promise', 'valid'];
         let modalContent = e.currentTarget.parentNode.parentElement;
         let form = modalContent.querySelector('form');
@@ -533,6 +534,10 @@ export function initShowTransactionPage() {
                         }
                         else if(nameForm === 'formDocsCancelled_add' || nameForm === 'formDocsCancelled_edit'){
                             document.getElementById('Block_Cancelled').innerHTML = data.view;
+                            modalBs.hide();
+                            declareEvent();
+                        }
+                        else if(nameForm === 'formActe_addAvenant'){
                             modalBs.hide();
                             declareEvent();
                         }
