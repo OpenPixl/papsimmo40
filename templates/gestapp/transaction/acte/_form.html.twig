@@ -1,0 +1,19 @@
+<div class="row">
+    {{ form_start(form) }}
+    <div class="col-md-12">
+        {% include 'composants/inputs/input_select.html.twig' with {
+            form: form.acteName,
+            show_label: false,
+            disabled: ''
+        } %}
+    </div>
+    <div class="col-md-12">
+        {% include 'composants/inputs/input_text.html.twig' with {
+            form: form.acteFile,
+            show_label: false,
+            disabled: ''
+        } %}
+    </div>
+    {{ form_end(form) }}
+</div>
+

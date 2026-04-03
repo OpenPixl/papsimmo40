@@ -1,0 +1,13 @@
+<!-- Civilité -->
+<div class="{{ class_block }}">
+    {{ form_label(form.civility, 'Responsable :', {'label_attr': {'class': 'form-label fw-semibold'}}) }}
+    <div class="row">
+        <div class="col-12">
+            <div class="input-group">
+                {{ form_widget(civility, {'attr': {'class': 'form-select w-25 form-select-sm shadow-sm'}}) }}
+                {{ form_widget(firstname, {'attr': {'class': 'form-control w-auto form-control-sm shadow-sm'}}) }}
+                {{ form_widget(lastname, {'attr': {'class': 'form-control w-auto form-control-sm shadow-sm'}}) }}
+            </div>
+        </div>
+    </div>
+</div>

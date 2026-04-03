@@ -9,6 +9,7 @@ use ApiPlatform\Metadata\GetCollection;
 use ApiPlatform\Metadata\Link;
 use ApiPlatform\Metadata\Patch;
 use App\Entity\Admin\Employed;
+use App\Entity\Gestapp\Transaction\Acte;
 use App\Entity\Gestapp\Transaction\AddCollTransac;
 use App\Entity\Gestapp\Transaction\Annulation;
 use App\Repository\Gestapp\TransactionRepository;
@@ -191,10 +192,17 @@ class Transaction
     #[ORM\Column]
     private ?bool $isCancelled = false;
 
+    /**
+     * @var Collection<int, Acte>
+     */
+    #[ORM\OneToMany(mappedBy: 'transaction', targetEntity: Acte::class)]
+    private Collection $actes;
+
     public function __construct()
     {
         $this->customer = new ArrayCollection();
         $this->addCollTransacs = new ArrayCollection();
+        $this->actes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -715,6 +723,36 @@ class Transaction
     public function setIsCancelled(bool $isCancelled): static
     {
         $this->isCancelled = $isCancelled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Acte>
+     */
+    public function getActes(): Collection
+    {
+        return $this->actes;
+    }
+
+    public function addActe(Acte $acte): static
+    {
+        if (!$this->actes->contains($acte)) {
+            $this->actes->add($acte);
+            $acte->setTransaction($this);
+        }
+
+        return $this;
+    }
+
+    public function removeActe(Acte $acte): static
+    {
+        if ($this->actes->removeElement($acte)) {
+            // set the owning side to null (unless already changed)
+            if ($acte->getTransaction() === $this) {
+                $acte->setTransaction(null);
+            }
+        }
 
         return $this;
     }
