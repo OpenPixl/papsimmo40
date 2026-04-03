@@ -13,7 +13,7 @@
     <dd class="col-sm-4 mb-0">
         <p class="mb-0">{% if nameDocument is not null %}{{ nameDocument }}{% else %}<span class="text-secondary">Non défini</span>{% endif %}</p>
     </dd>
-    <dd class="col-sm-3 mb-0">
+    <dd class="col-sm-5 mb-0">
         {% if nameDocument is not null %}
 
             <a href="{{ asset('/properties/'~ref~'/documents/'~nameDocument) }}" class="text-primary text-decoration-none" download><i class="fa-light fa-arrow-down-to-line"></i> Télécharger</a>
@@ -25,6 +25,7 @@
                 {% elseif access == "edit" or access == "admin" %}
                     | <a href="{{ path(urlEdit, {'id': transaction.id, 'typeFile': slugDocument }) }}" class="text-primary text-decoration-none openModal" data-bs-data="EDITDOCUMENTS-Actualiser le document initial-"><i class="fa-light fa-arrows-rotate"></i>
                     Actualiser le document </a>
+                    | <a class="text-primary text-decoration-none openModal" data-bs-data="ADDAVENANT-Ajout d'un avenant-{{ transaction.id }}"><i class="fa-light fa-file-circle-plus"></i> Déposer un avenant</a>
                 {% endif %}
             {% endif %}
 
@@ -53,7 +54,8 @@
         {% endif %}
     </dd>
     {% if access == "admin" and nameDocument is not null %}
-    <dd class="col-sm-3 mb-0">
+    <dd class="col-sm-1 mb-0">
+        {# Validation du document #}
         {% if valid is null or valid == 0 %}
             {% if transaction.annulation|length == 0 %}
                 <a href="{{ path('op_gestapp_transaction_validfile', {'id': transaction.id, 'file': nameDocument }) }}" class="text-warning text-decoration-none openModal" data-bs-data="SHOWFILE-Validation du document"><i class="fa-light fa-file-check"></i> Voir le fichier pour validation</a>
@@ -61,6 +63,7 @@
                 <a href="{{ path('op_gestapp_transaction_annulation_validfiles', {'id': transaction.annulation.id, 'file': slugDocument }) }}" class="text-warning text-decoration-none openModal" data-bs-data="SHOWCANCELLED-Validation du document"><i class="fa-light fa-file-check"></i> Voir le document pour validation</a>
             {% endif %}
         {% endif %}
+
         {% set suffixe = nameDocument|split('-')|first %}
         {% if suffixe == 'fhc' %}
             <a href="{{ path('op_gestapp_transaction_addcollaborator_supprinvoice', {'id': transac.id }) }}" class="text-danger text-decoration-none openModal" data-bs-data="DELDOCUMENTS-Suppression d'un document-{{ slugDocument }}"><i class="fa-light fa-trash-xmark"></i> Supprimer </a>

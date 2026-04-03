@@ -134,6 +134,17 @@ export function initShowTransactionPage() {
                 })
             ;
         }
+        else if (crud === 'ADDAVENANT'){
+            axios
+                .get(url)
+                .then(({data}) => {
+                    modalEl.querySelector('.modal-body').innerHTML = data.formView;
+                    const confirmBtn = modalEl.querySelector('.modal-footer a');
+                    confirmBtn.textContent = 'Ajouter l\'avenant';
+                    confirmBtn.href = url;
+                })
+            ;
+        }
         else if (crud === 'ADDCOLLAB'){
             axios
                 .get(url)
