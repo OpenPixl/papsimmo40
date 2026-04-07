@@ -63,7 +63,7 @@ class TransactionController extends AbstractController
         public PropertyService $propertyService,
     )
     {
-        $this->submit = false; // Initialisation de la variable $public
+        $this->submit = true; // Initialisation de la variable $public
         $this->application = $entityManager->getRepository(Application::class)->find(1);
     }
 
