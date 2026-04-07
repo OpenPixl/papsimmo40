@@ -35,7 +35,6 @@
     </p>
 </div>
 {% endif %}
-
 <table class="table">
     <thead>
         <tr>
@@ -99,6 +98,7 @@
             </td>
             <td>
                 {% for d in diffuseurs %}
+
                     {% if d.actif == 1 %}
                         <span class="badge bg-light text-dark">{{ d.label }}</span>
                     {% endif%}
