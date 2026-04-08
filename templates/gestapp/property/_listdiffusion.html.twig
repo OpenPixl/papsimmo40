@@ -97,12 +97,26 @@
                 {% if property.isWebpublish == 1 %}<i class="fa-thin fa-globe text-success"></i>{% else %}<i class="fa-thin fa-globe text-danger"></i>{% endif %}
             </td>
             <td>
-                {% for d in diffuseurs %}
 
-                    {% if d.actif == 1 %}
-                        <span class="badge bg-light text-dark">{{ d.label }}</span>
-                    {% endif%}
+                {# On initialise le tableau des diffuseurs actifs pour cette propriété #}
+                {% set diffuseursWithProperty = {} %}
+
+                {% for key, diffuseur in diffuseurs %}
+                    {% if attribute(property, diffuseur.prop) == 1 %}
+                        {% set diffuseursWithProperty = diffuseursWithProperty|merge({ (key) : diffuseur }) %}
+                    {% endif %}
                 {% endfor %}
+
+                {# Affichage des diffuseurs actifs pour cette propriété #}
+                {% if diffuseursWithProperty is not empty %}
+
+                        {% for key, diffuseur in diffuseursWithProperty %}
+                            <span class="badge bg-light text-dark">{{ diffuseur.label }}</span>
+                        {% endfor %}
+
+                {% else %}
+                {% endif %}
+
             </td>
             <td>
                 {% include('gestapp/property/include/_btnchoice.html.twig') %}
