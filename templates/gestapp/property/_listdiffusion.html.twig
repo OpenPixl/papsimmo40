@@ -111,7 +111,9 @@
                 {% if diffuseursWithProperty is not empty %}
 
                         {% for key, diffuseur in diffuseursWithProperty %}
-                            <span class="badge bg-light text-dark">{{ diffuseur.label }}</span>
+                            {% if diffuseur.actif == 1 %}
+                                <span class="badge bg-light text-dark">{{ diffuseur.label }}</span>
+                            {% endif %}
                         {% endfor %}
 
                 {% else %}
