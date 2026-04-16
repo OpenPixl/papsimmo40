@@ -32,17 +32,17 @@
                         <div class="annonce d-none d-lg-block">
                             {{ property.annonceSlug|u.truncate(60, ' ...') }}
                         </div>
-                        {% if property.priceFai >= 1 %}
+                        {% if property.priceFai is defined %}
                         <div class="price">
                             {{ property.priceFai }} €
                         </div>
                         {% endif %}
-                        {% if property.rent >= 1 %}
+                        {% if property.rent is defined %}
                         <div class="price">
                             {{ property.rent }} €
                         </div>
                         {% endif %}
-                        {% if property.commerceAnnualRentGlobal >= 1 %}
+                        {% if property.commerceAnnualRentGlobal is defined %}
                             <div class="price">
                                 {{ property.commerceAnnualRentGlobal }} €
                             </div>

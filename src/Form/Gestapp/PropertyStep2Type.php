@@ -239,6 +239,23 @@ class PropertyStep2Type extends AbstractType
                         ])
                     ;
             }
+            // Champs pour la vente d'un bien immobilier ou professionnel
+            if ($family->getId() === 6) {
+                $form
+                    ->add('price', IntegerType::class, [
+                        'label' => 'Prix net vendeur',
+                        'required' => false
+                    ])
+                    ->add('honoraires', IntegerType::class, [
+                        'label' => 'honoraires',
+                        'required' => false
+                    ])
+                    ->add('priceFai', IntegerType::class, [
+                        'label' => 'Prix FAI',
+                        'required' => false
+                    ])
+                ;
+            }
         });
     }
 
