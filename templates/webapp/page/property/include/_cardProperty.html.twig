@@ -29,7 +29,7 @@
         <div class="annonce d-none d-lg-block">
             {{ property.annonceSlug|u.truncate(60, ' ...') }}
         </div>
-        {% if property.idfamily == 8 and property.priceFai is defined %}
+        {% if property.idfamily in [6,8] and property.priceFai is defined %}
             <div class="price">
                 {{ property.priceFai }} €
             </div>
