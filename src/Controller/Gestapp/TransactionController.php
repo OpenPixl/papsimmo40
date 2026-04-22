@@ -63,7 +63,7 @@ class TransactionController extends AbstractController
         public PropertyService $propertyService,
     )
     {
-        $this->submit = true; // Initialisation de la variable $public
+        $this->submit = false; // Initialisation de la variable $public
         $this->application = $entityManager->getRepository(Application::class)->find(1);
     }
 
@@ -1334,7 +1334,8 @@ class TransactionController extends AbstractController
                     $transaction->setHonorairesPdfFilename($newFilename);
                     $em->flush();
                     $this->step($transaction);
-                }elseif ($access == 'admin'){
+                }
+                elseif ($access == 'admin'){
                     $transaction->setHonorairesPdfFilename($newFilename);
                     $transaction->setIsValidHonoraires(1);
                     $transaction->setHonorairesValidBy($this->getUser());
