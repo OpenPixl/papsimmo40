@@ -108,6 +108,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.annonceSlug as annonceSlug,
                 fa.name as family,
+                fa.id as idfamily,
                 rus.name as rubricss,
                 ru.id as idrubric,
                 ru.name as rubric,
@@ -549,6 +550,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.annonceSlug as annonceSlug,
                 fa.name as family,
+                fa.idname as idfamily,
                 rus.name as rubricss,
                 ru.id as idrubric,
                 ru.name as rubric,
@@ -734,6 +736,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.annonceSlug as annonceSlug,
                 fa.name as family,
+                fa.id as idfamily,
                 rus.name as rubricss,
                 ru.id as idrubric,
                 ru.name as rubric,
@@ -785,6 +788,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.annonceSlug as annonceSlug,
                 fa.name as family,
+                fa.id as idfamily,
                 rus.name as rubricss,
                 ru.id as idrubric,
                 ru.name as rubric,
@@ -838,6 +842,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.annonceSlug as annonceSlug,
                 fa.name as family,
+                fa.id as idfamily,
                 rus.name as rubricss,
                 ru.id as idrubric,
                 ru.name as rubric,
@@ -891,6 +896,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.annonceSlug as annonceSlug,
                 fa.name as family,
+                fa.id as idfamily,
                 rus.name as rubricss,
                 ru.id as idrubric,
                 ru.name as rubric,
@@ -945,6 +951,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->addSelect('
                 p.annonceSlug as annonceSlug,
                 fa.name as family,
+                fa.id as idfamily,
                 rus.name as rubricss,
                 ru.id as idrubric,
                 ru.name as rubric,
@@ -999,6 +1006,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->addSelect('
                 p.annonceSlug as annonceSlug,
                 fa.name as family,
+                fa.id as idfamily,
                 rus.name as rubricss,
                 ru.id as idrubric,
                 ru.name as rubric,

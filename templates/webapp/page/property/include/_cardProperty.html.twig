@@ -1,6 +1,7 @@
 <div id="card-property" class="card">
     {{ render(controller('App\\Controller\\Gestapp\\PhotoController::byPropertyPublic', {'idproperty' : property.id })) }}
     <div class="card-img-overlay">
+        {# {{ dump(property) }}  #}
         {# Instertion de la bannière #}
         {% if property.bannerFilename is not null %}
             <div class="banner">
@@ -28,17 +29,17 @@
         <div class="annonce d-none d-lg-block">
             {{ property.annonceSlug|u.truncate(60, ' ...') }}
         </div>
-        {% if property.family == 8 and property.priceFai is defined %}
+        {% if property.idfamily == 8 and property.priceFai is defined %}
             <div class="price">
                 {{ property.priceFai }} €
             </div>
         {% endif %}
-        {% if property.family == 5 and property.rent is defined %}
+        {% if property.idfamily == 5 and property.rent is defined %}
             <div class="price">
                 {{ property.rent }} €
             </div>
         {% endif %}
-        {% if property.family == 4 and property.commerceAnnualRentGlobal is defined %}
+        {% if property.idfamily == 4 and property.commerceAnnualRentGlobal is defined %}
             <div class="price">
                 {{ property.commerceAnnualRentGlobal }} €
             </div>
