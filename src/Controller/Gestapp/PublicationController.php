@@ -118,6 +118,13 @@ class PublicationController extends AbstractController
                 $complementRepository
             );
 
+            // Service de dépot sur serveur le serveur FTP "leboncoin"
+            $ftptransfertService->leboncoin(
+                $propertyRepository,
+                $photoRepository,
+                $complementRepository
+            );
+
             // Service de dépot sur serveur le serveur FTP "clefsmoi"
             $ftptransfertService->clefsmoi(
                 $propertyRepository,

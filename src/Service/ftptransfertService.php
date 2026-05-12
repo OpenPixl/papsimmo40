@@ -914,9 +914,6 @@ class ftptransfertService
             if ($property['seloger'] == 1) {
                 array_push($diffuseurs, 'MEILLEURSAGENTS');
             }
-            if ($property['leboncoin'] == 1) {
-                array_push($diffuseurs, 'LEBONCOIN_IMMO_V2');
-            }
             if ($property['bienici'] == 1) {
                 array_push($diffuseurs, 'INSOON_EB');
             }
@@ -958,6 +955,76 @@ class ftptransfertService
         $nameFile = 'ubiflow';                          // Nom du Fichier sans extension
         $Rep = 'doc/report/ubiflow/';                   // nom du répertoire final
         $this->directoryZip($Rep, $nameRep, $nameFile, $content, "ubiflow");
+        $this->generateExcel($properties, $Rep, $nameFile);
+    }
+
+    public function leboncoin(
+        PropertyRepository $propertyRepository,
+        PhotoRepository $photoRepository,
+        ComplementRepository $complementRepository,
+    ){
+        $request = $this->requestStack->getCurrentRequest();
+        $partenaire = 'CM';
+        $properties = $propertyRepository->reportpropertycsv4($partenaire);            // On récupère les biens à publier sur les plateformes rattachées à UBIFLOW
+
+        $rows = array();
+        foreach ($properties as $property){
+            $propriete = $propertyRepository->find($property['id']);
+            //destination du bien
+            $destination = $this->propertyService->getDestination($propriete);
+            $energies = $this->propertyService->getEnergies($propriete);
+            // Description de l'annonce
+            $annonce = $this->propertyService->getAnnonce($propriete);
+
+            $dates = $this->propertyService->getDates($property);
+
+            // Récupération des images liées au bien
+            $url = $this->propertyService->getUrlPhotos($property);
+            $titrephoto = $this->propertyService->getTitrePhotos($property);
+
+            // Orientation
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
+
+            $publications = 'leboncoin';
+            // version du document
+            $version = '4.12';
+
+            // Transformation terrace en booléen
+            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+
+            $infos = ['refDossier' => 'SOFTPAPS', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+
+            // Complements du bien
+            $complement = $propriete->getOptions();
+
+            // Récupération DPE & GES
+            $bilanDpe = $this->propertyService->getClasseDpe($propriete);
+            $bilanGes = $this->propertyService->getClasseGes($propriete);
+            if($bilanGes > $bilanDpe){
+                $bilanDpe = $bilanGes;
+            }
+
+            // Création d'une ligne du tableau
+            $data = $this->propertyService->arrayRow($propriete, $destination, $energies, $dates, $infos, $url, $titrephoto, $property, $version);
+            $row = [];
+
+            for ($i = 0; $i < count($data); $i++) {
+                //dd($data[$i+1]);
+                array_push($row, $data[$i+1]);
+            }
+            $rows[] = implode('!#', $row);
+        }
+        $content = implode("\n", $rows);
+
+        // PARTIE II : Génération du dossier et création fichier CSV
+        // ---------------------------------------------------------
+        $nameRep = 'leboncoin';                           // Nom du dossier
+        $nameFile = 'leboncoin';                          // Nom du Fichier sans extension
+        $Rep = 'doc/report/leboncoin/';                   // nom du répertoire final
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "leboncoin");
         $this->generateExcel($properties, $Rep, $nameFile);
     }
 

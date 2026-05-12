@@ -974,7 +974,7 @@ class PropertyService
             298 => '""',// 298 - Latitude
             299 => '""',// 299 - Longitude
             300 => '""',// 300 - Précision GPS
-            301 => '"' . $infos['version'] . '"',                                                 // 301 - Version Format
+            301 => '"' . $infos['version'] . '"',                                    // 301 - Version Format
             302 => '""',// 302 - Honoraires à la charge de l'acquéreur
             303 => '""',// 303 - Prix hors honoraires acquéreur
             304 => '""',// 304 - Modalités charges locataire
