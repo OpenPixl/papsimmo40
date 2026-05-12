@@ -964,7 +964,7 @@ class ftptransfertService
         ComplementRepository $complementRepository,
     ){
         $request = $this->requestStack->getCurrentRequest();
-        $partenaire = 'CM';
+        $partenaire = 'LBC';
         $properties = $propertyRepository->reportpropertycsv4($partenaire);            // On récupère les biens à publier sur les plateformes rattachées à UBIFLOW
 
         $rows = array();
