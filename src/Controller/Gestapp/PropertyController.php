@@ -1192,7 +1192,7 @@ class PropertyController extends AbstractController
             // Suppression des fichiers
             $path = $this->getParameter('property_photo_directory');             // Chemin vers le dossier public
             $dir = $this->propertyService->getDir($property);               // répertoire spécifique du bien
-            if(file_exists($path.'/'.$dir)){
+            if(file_exists($path.$dir)){
                 //dd($path.'properties/'.$dir);
                 $directoryService->delRepertory($path.$dir);
             }
