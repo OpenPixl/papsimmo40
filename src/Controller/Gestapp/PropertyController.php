@@ -1178,7 +1178,7 @@ class PropertyController extends AbstractController
         $hasAccess = $this->isGranted('ROLE_ADMIN');
         $user = $this->getUser();
 
-        // on vérifie si le bine est en cours de transaction et que le dossier est clos ou pas
+        // on vérifie si le bien est en cours de transaction et que le dossier est clos ou pas
         $closedFolder = $property->isClosedFolder();
 
         if( $closedFolder === true){
@@ -1192,9 +1192,10 @@ class PropertyController extends AbstractController
             // Suppression des fichiers
             $path = $this->getParameter('property_photo_directory');             // Chemin vers le dossier public
             $dir = $this->propertyService->getDir($property);               // répertoire spécifique du bien
-            //dd($path.'properties/'.$dir);
-            $directoryService->delRepertory($path.$dir);
-
+            if(file_exists($path.'/'.$dir)){
+                //dd($path.'properties/'.$dir);
+                $directoryService->delRepertory($path.$dir);
+            }
             $publication = $property->getPublication();
             $complement = $property->getOptions();
             // Supression des images liées à la propriété
