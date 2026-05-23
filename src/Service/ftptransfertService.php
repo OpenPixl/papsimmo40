@@ -914,6 +914,9 @@ class ftptransfertService
             if ($property['seloger'] == 1) {
                 array_push($diffuseurs, 'MEILLEURSAGENTS');
             }
+            if ($property['leboncoin'] == 1) {
+                array_push($diffuseurs, 'LEBONCOIN_IMMO_V2');
+            }
             if ($property['bienici'] == 1) {
                 array_push($diffuseurs, 'INSOON_EB');
             }
