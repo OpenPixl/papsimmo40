@@ -31,6 +31,9 @@ class PropertyService
     )
     {}
 
+    // Filtre de balise sur les annonces produites par les agents commerciaux
+    // Objectifs :
+    // Eviter la déstructuration des pages par des balises html interdites
     public function getAnnonce(Property $property){
         $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property->getAnnonce()) );
         $annonce = strip_tags($data, '<br>');
@@ -200,7 +203,7 @@ class PropertyService
     {
         // Vérification si property été dupliqué
         $properties = $propertyRepository->findBy(['RefMandat' => $property->getRefMandat()]);
-        //dd(count($properties));
+
         if(count($properties) > 1)
         {
             $lastProperty = end($properties);
@@ -383,14 +386,14 @@ class PropertyService
         if($lastproperty){
             $lastRefNum = $lastproperty->getReflastnumber();
             $oldRefNum = $lastproperty->getRef();
-            $newNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
+            $newNumDate = $date->format('Y').'-'.$date->format('m').$date->format('d').$date->format('s');
             if($oldRefNum == $newNumDate){
                 $ref = $newNumDate . '-' . ($lastRefNum + 1);
             }else{
                 $ref = $newNumDate.'-'.$lastRefNum;
             }
         }else{
-            $newNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
+            $newNumDate = $date->format('Y').'-'.$date->format('m').$date->format('d').$date->format('s');
             $ref = $newNumDate.'-1';
         }
         return $ref;
@@ -399,11 +402,7 @@ class PropertyService
 
     public function getDir(Property $property){
 
-        // Construction du nom de dossier attaché à la propriété lors de sa création
-        $numdate = explode("/", $property->getRefnumdate());            // on sépare en 2 variables : AAAA et MMDDSS
-        $numdiff = explode("-", $property->getRef());                   // On recupére la valeur de séparation entre deux ref identiques
-
-        $dir = $numdate[0].'-'.$numdate[1].'-'.$numdiff[1];
+        $dir = $property->getRef();
 
         return $dir;
     }

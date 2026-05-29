@@ -28,18 +28,26 @@ class AdaptbddController extends AbstractController
         ]);
     }
 
+    // Cette fonction est amenée à évoluée selon les besoins du développment
     #[Route('/admin/adaptbdd/entity', name: 'op_admin_adaptbdd_entity')]
-    public function AdaptEntity(EmployedRepository $employedRepository, EntityManagerInterface $em)
+    public function AdaptEntity(PropertyRepository $propertyRepository, EntityManagerInterface $em)
     {
-        $complements = $employedRepository->findAll();
-        foreach($complements as $c){
-            $name = $c->getFirstName();
-            $c->setFirstName($name);
+        $properties = $propertyRepository->findAll();
+        foreach($properties as $p){
+            $reference = $p->getRef();
+            $result = str_replace('/', '-', $reference);
+            $p->setRef($result);
+
+            $numDate = $p->getRefnumdate();
+            $result = str_replace('/', '-', $numDate);
+            $p->setRefnumdate($result);
+
             $em->flush();
         }
 
         return $this->json(['message' => 'Mise à jour BDD effectuée.'],200);
     }
+
     #[Route('/admin/adaptbdd/renameFiles', name: 'op_admin_adaptbdd_renamefiles')]
     public function renameFiles(
         PropertyRepository $propertyRepository,

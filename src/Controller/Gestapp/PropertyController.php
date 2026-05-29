@@ -537,6 +537,7 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            // Partie mandat du bien
             $refMandat = $form->get('refMandat')->getData();
             if($refMandat == null){
                 $refMandat = 0;
@@ -547,14 +548,15 @@ class PropertyController extends AbstractController
 
             // ---
             // Contruction de la référence pour chaque propriété
+            // A ne pas confondre avec le mandat
             // ---
             $date = new \DateTime();
             $lastproperty = $propertyRepository->findOneBy([], ['id'=>'desc']);
             if($lastproperty){
-                $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
+                $refNumDate = $date->format('Y').'-'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
                 $RefMandat = $refMandat;
             }else{
-                $refNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
+                $refNumDate = $date->format('Y').'-'.$date->format('m').$date->format('d').$date->format('s');        // contruction de la première partie de référence
                 $RefMandat = 22;
             }
 
