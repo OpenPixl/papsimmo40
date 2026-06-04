@@ -31,7 +31,7 @@ class PublicationType extends AbstractType
                 'required' => false
             ])
             ->add('isPublishleboncoin', CheckboxType::class, [
-                'label' => 'Publié sur "LeBonCoin", "A vendre et à louer" ?',
+                'label' => 'Publié sur "LeBonCoin" ?',
                 'required' => false
             ])
             ->add('isPublishseloger', CheckboxType::class, [

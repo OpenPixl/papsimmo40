@@ -380,12 +380,6 @@ class ftptransfertService
 
             }
 
-            // Orientation
-            $orientations = ['nord', 'est', 'sud', 'ouest'];
-            $orientation = $property['orientation'];
-
-            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
-
             // publication sur les réseaux
             // $publications = 'SL';
 
