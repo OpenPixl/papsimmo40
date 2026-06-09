@@ -31,9 +31,6 @@ class PropertyService
     )
     {}
 
-    // Filtre de balise sur les annonces produites par les agents commerciaux
-    // Objectifs :
-    // Eviter la déstructuration des pages par des balises html interdites
     public function getAnnonce(Property $property){
         $data = str_replace(array( "\n", "\r" ), array( '', '' ), html_entity_decode($property->getAnnonce()) );
         $annonce = strip_tags($data, '<br>');
@@ -203,7 +200,7 @@ class PropertyService
     {
         // Vérification si property été dupliqué
         $properties = $propertyRepository->findBy(['RefMandat' => $property->getRefMandat()]);
-
+        //dd(count($properties));
         if(count($properties) > 1)
         {
             $lastProperty = end($properties);
@@ -349,7 +346,13 @@ class PropertyService
     public function getEnergies(Property $property){
         $energiesArray = $property->getOptions()->getEnergies()->toArray();
         if($energiesArray){
-            $energies = implode(" - ", $energiesArray);
+            $first = $energiesArray[0];
+            if($first->getName() == 'A définir'){
+                $energies = "";
+            }else{
+                $e = $this->propertyEnergyRepository->findOneBy(['name' => $first->getName()]);
+                $energies = $e->getSlCode();
+            }
         }else{
             $energies = "";
         }
@@ -386,14 +389,14 @@ class PropertyService
         if($lastproperty){
             $lastRefNum = $lastproperty->getReflastnumber();
             $oldRefNum = $lastproperty->getRef();
-            $newNumDate = $date->format('Y').'-'.$date->format('m').$date->format('d').$date->format('s');
+            $newNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
             if($oldRefNum == $newNumDate){
                 $ref = $newNumDate . '-' . ($lastRefNum + 1);
             }else{
                 $ref = $newNumDate.'-'.$lastRefNum;
             }
         }else{
-            $newNumDate = $date->format('Y').'-'.$date->format('m').$date->format('d').$date->format('s');
+            $newNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
             $ref = $newNumDate.'-1';
         }
         return $ref;
@@ -402,7 +405,11 @@ class PropertyService
 
     public function getDir(Property $property){
 
-        $dir = $property->getRef();
+        // Construction du nom de dossier attaché à la propriété lors de sa création
+        $numdate = explode("/", $property->getRefnumdate());            // on sépare en 2 variables : AAAA et MMDDSS
+        $numdiff = explode("-", $property->getRef());                   // On recupére la valeur de séparation entre deux ref identiques
+
+        $dir = $numdate[0].'-'.$numdate[1].'-'.$numdiff[1];
 
         return $dir;
     }
@@ -755,7 +762,7 @@ class PropertyService
             80 => '""',                                                             // 80 - Longueur façade (m)
             81 => '"0"',                                                            // 81 - Duplex
             82 => '"' . $infos['publications'] . '"',                               // 82 - Publications
-            83 => '"0"',                                                            // 83 - Mandat en exclusivité
+            83 => '"' . $infos['typeMandat'] . '"',                                 // 83 - Mandat en exclusivité
             84 => '"0"',                                                            // 84 - Coup de cœur
             85 => '"' . $url[0] . '"',                                              // 85 - Photo 1
             86 => '"' . $url[1] . '"',                                              // 86 - Photo 2

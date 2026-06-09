@@ -156,27 +156,10 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $publications = 'SL';
@@ -247,30 +230,10 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }
-            elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }
-            elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }
-            else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $publications = 'Figaro';
@@ -278,8 +241,9 @@ class ftptransfertService
             $version = '4.11';
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '107428', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -415,31 +379,6 @@ class ftptransfertService
                     array_push($pics, $pic);
                 }
 
-            }
-
-            // Orientation
-            $orientation = $options->getPropertyOrientation();
-            //dd($orientation);
-            if ($orientation = 'nord') {
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            } elseif ($orientation = 'est') {
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            } elseif ($orientation = 'sud') {
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            } else {
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
             }
 
             // publication sur les réseaux
@@ -599,27 +538,10 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $publications = 'SI';
@@ -628,8 +550,9 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -697,27 +620,10 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $publications = 'AL';
@@ -726,8 +632,9 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -795,27 +702,10 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $publications = 'HT';
@@ -824,7 +714,9 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
-            $infos = ['refDossier' => 'g46426', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
+
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $complement = $propriete->getComplement();
@@ -887,27 +779,11 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            // Orientation
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $diffuseurs = [];
@@ -926,8 +802,9 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => 'RC1860977', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Complements du bien
             $complement = $propriete->getOptions();
@@ -988,8 +865,7 @@ class ftptransfertService
             // Orientation
             $orientations = ['nord', 'est', 'sud', 'ouest'];
             $orientation = $property['orientation'];
-
-            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => $o === $orientation ? 'oui' : 'non', $orientations);
 
             $publications = 'leboncoin';
             // version du document
@@ -997,8 +873,9 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Complements du bien
             $complement = $propriete->getOptions();
@@ -1063,27 +940,10 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $publications = 'SI';
@@ -1092,8 +952,9 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -1161,27 +1022,10 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $publications = 'EP';
@@ -1189,8 +1033,9 @@ class ftptransfertService
             $version = '4.10';
 
             // Transformation terrace en booléen
-            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
-            $infos = ['refDossier' => 'ag166469', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
+
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $complement = $propriete->getComplement();
@@ -1254,27 +1099,10 @@ class ftptransfertService
             $titrephoto = $this->propertyService->getTitrePhotos($property);
 
             // Orientation
-            if($property['orientation'] = 'nord'){
-                $nord = 1;
-                $est = 0;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'est'){
-                $nord = 0;
-                $est = 1;
-                $sud = 0;
-                $ouest = 0;
-            }elseif($property['orientation'] = 'sud'){
-                $nord = 0;
-                $est = 0;
-                $sud = 1;
-                $ouest = 0;
-            }else{
-                $nord = 0;
-                $est = 0;
-                $sud = 0;
-                $ouest = 1;
-            }
+            $orientations = ['nord', 'est', 'sud', 'ouest'];
+            $orientation = $property['orientation'];
+
+            [$nord, $est, $sud, $ouest] = array_map(fn($o) => (int)($o === $orientation), $orientations);
 
             // publication sur les réseaux
             $publications = 'SI';
@@ -1283,8 +1111,9 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => 'papsimmo', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
