@@ -4,7 +4,7 @@
         <div class="col-xs-12 col-md-6 d-lg-none">
             {% if article.articleFrontName is null %}
             {% else %}
-            <div class="card">
+            <div id="card_actu_img" class="card">
                 <img class="card-img-top" src="{{ asset('images/article/'~article.articleFrontName)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
                 <div class="border_actu"></div>
                 <div class="actu_overlay">
@@ -29,7 +29,7 @@
         <div class="col-lg-4 d-none d-lg-block">
             {% if article.articleFrontName is null %}
             {% else %}
-                <div class="card">
+                <div id="card_actu_img" class="card">
                     <img class="card-img-top" src="{{ asset('images/article/'~article.articleFrontName)|imagine_filter('card_actualites') }}" alt="{{ article.name }}">
                     <div class="border_actu"></div>
                     <div class="actu_overlay">
