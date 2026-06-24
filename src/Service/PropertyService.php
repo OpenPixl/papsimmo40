@@ -346,7 +346,13 @@ class PropertyService
     public function getEnergies(Property $property){
         $energiesArray = $property->getOptions()->getEnergies()->toArray();
         if($energiesArray){
-            $energies = implode(" - ", $energiesArray);
+            $first = $energiesArray[0];
+            if($first->getName() == 'A définir'){
+                $energies = "";
+            }else{
+                $e = $this->propertyEnergyRepository->findOneBy(['name' => $first->getName()]);
+                $energies = $e->getSlCode();
+            }
         }else{
             $energies = "";
         }
@@ -756,7 +762,7 @@ class PropertyService
             80 => '""',                                                             // 80 - Longueur façade (m)
             81 => '"0"',                                                            // 81 - Duplex
             82 => '"' . $infos['publications'] . '"',                               // 82 - Publications
-            83 => '"0"',                                                            // 83 - Mandat en exclusivité
+            83 => '"' . $infos['typeMandat'] . '"',                                 // 83 - Mandat en exclusivité
             84 => '"0"',                                                            // 84 - Coup de cœur
             85 => '"' . $url[0] . '"',                                              // 85 - Photo 1
             86 => '"' . $url[1] . '"',                                              // 86 - Photo 2

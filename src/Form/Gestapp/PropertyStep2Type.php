@@ -74,13 +74,13 @@ class PropertyStep2Type extends AbstractType
                 'label' => 'Diagnostique',
                 'choices'  => [
                     'Obligatoire' => "obligatoire",
-                    'Non obligatoire' => 'non_obligatoire',
+                    'Non soumis' => 'non soumis',
                     'Vierge' => 'vierge'
                 ],
                 'choice_attr' => [
-                    'Obligatoire' => ['data-data' => 'Obligatoire'],
-                    'Non obligatoire' => ['data-data' => 'Non obligatoire'],
-                    'Vierge' => ['data-data' => 'Vierge']
+                    'Obligatoire' => ['data-data' => 'obligatoire'],
+                    'Non soumis' => ['data-data' => 'non soumis'],
+                    'Vierge' => ['data-data' => 'vierge']
                 ],
             ])
             // Champs commun - Bloc Surfaces
