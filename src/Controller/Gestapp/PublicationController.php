@@ -78,7 +78,9 @@ class PublicationController extends AbstractController
             $publicationRepository->add($publication);
             // mettre la propriété en fin de parcours création
             $property->setIsIncreating(0);
+
             $propertyRepository->add($property);
+
             // Service de dépot sur serveur le serveur FTP "figaroImmo"
             $ftptransfertService->figaroFTP(
                 $propertyRepository,
@@ -92,6 +94,7 @@ class PublicationController extends AbstractController
                 $photoRepository,
                 $complementRepository
             );
+
             // Service de dépot sur serveur le serveur FTP "Superimmo"
             $ftptransfertService->superimmo(
                 $propertyRepository,

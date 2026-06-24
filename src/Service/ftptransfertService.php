@@ -848,6 +848,7 @@ class ftptransfertService
         $properties = $propertyRepository->reportpropertycsv4($partenaire);            // On récupère les biens à publier sur les plateformes rattachées à UBIFLOW
 
         $rows = array();
+
         foreach ($properties as $property){
             $propriete = $propertyRepository->find($property['id']);
             //destination du bien
@@ -875,7 +876,7 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $infos = ['refDossier' => '1a27e5a1-fe96-4aa1-a995-a77281691267', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Complements du bien
             $complement = $propriete->getOptions();
@@ -898,6 +899,8 @@ class ftptransfertService
             $rows[] = implode('!#', $row);
         }
         $content = implode("\n", $rows);
+
+
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
