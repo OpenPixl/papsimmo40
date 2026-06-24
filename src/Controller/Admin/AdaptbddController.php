@@ -42,6 +42,10 @@ class AdaptbddController extends AbstractController
             $result = str_replace('/', '-', $numDate);
             $p->setRefnumdate($result);
 
+            if($p->getDiagChoice() == 'non_obligatoire'){
+                $p->setDiagChoice('non soumis');
+            }
+
             $em->flush();
         }
 
