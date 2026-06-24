@@ -11,9 +11,11 @@
             </div>
         </div>
         <div class="row">
-            <col-12>
-                {{ article.content|markdown_to_html }}
-            </col-12>
+            <div class="col-12">
+                <article>
+                    {{ article.content|markdown_to_html }}
+                </article>
+            </div>
         </div>
     </section>
 {% endblock %}

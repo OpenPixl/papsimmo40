@@ -904,7 +904,7 @@ class ftptransfertService
         $nameRep = 'leboncoin';                             // Nom du dossier
         $nameFile = 'Annonces'; // Nom du Fichier sans extension
         $Rep = 'doc/report/leboncoin/';                     // nom du répertoire final
-        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "2f89e80b-a101-42b2-a0a5-be2fb7e11372");
+        $this->directoryZip($Rep, $nameRep, $nameFile, $content, "1a27e5a1-fe96-4aa1-a995-a77281691267");
         $this->generateExcel($properties, $Rep, $nameFile);
     }
 
