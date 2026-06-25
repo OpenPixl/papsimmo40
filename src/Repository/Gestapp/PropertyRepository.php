@@ -1191,7 +1191,7 @@ class PropertyRepository extends ServiceEntityRepository
         $query->leftjoin('p.family', 'f');
         $query->leftjoin('p.rubric', 'ru');
         $query->leftjoin('p.rubricss', 'rus');
-        $query->where('pu.isPublishMeilleur = 1 OR pu.isPublishleboncoin = 1 OR pu.isPublishBienici = 1');            // filtre sur la publication Paru-Vendu
+        $query->where('pu.isPublishMeilleur = 1 OR pu.isPublishBienici = 1');            // filtre sur la publication Paru-Vendu
         $query->andWhere('p.isArchived = 0');
         $query->andWhere('p.isNomandat = 0');
         $query->orderBy('p.RefMandat', "desc");
