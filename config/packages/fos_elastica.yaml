@@ -7,6 +7,8 @@ fos_elastica:
             persistence:
                 driver: orm
                 model: App\Entity\Gestapp\Property
+                elastica_to_model_transformer:
+                    ignore_missing: true
                 listener:
                     enabled: true
                     defer: false   # false = update direct, true = différé

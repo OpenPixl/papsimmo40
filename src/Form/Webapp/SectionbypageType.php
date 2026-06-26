@@ -15,6 +15,7 @@ class SectionbypageType extends AbstractType
         $builder
             ->add('name')
             ->add('content', ChoiceType::class, [
+                'label' => "Contenu",
                 'choices'  => [
                     'aucun' => 'none',
                     'ARTICLES' => [

@@ -3,72 +3,98 @@
 
 <div class="modal-body">
     <div class="row">
+        <div class="col-12">
+            <div class="card bg-light mb-1">
+                <div class="card-body p-2">
+                    <div class="row">
+                        <div class="col-12">
+                            <p class="border-bottom mb-1"><b>CONTENU DE SECTION</b></p>
+                        </div>
+                        <div class="col-4">
+                            {% include 'composants/inputs/input_select.html.twig' with {
+                                form: form.content,
+                                disabled: '',
+                                show_label: false
+                            } %}
+                        </div>
+                        <div class="col-4">
+                            {% include 'composants/inputs/input_select.html.twig' with {
+                                form: form.oneArticle,
+                                disabled: '',
+                                show_label: false
+                            } %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="col-8">
-            <div class="row g-0">
-                <div class="col-sm-12">
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.name, "Titre de l'article", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.name, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
-                    }
-                    %}
+            <div class="card border-dark">
+                <div class="card-body p-2">
+                    <div class="col-12 p-2">
+                        <div class="row g-0">
+                            <div class="col-sm-12">
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.name, "Titre de l'article", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_input':form_widget(form.name, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                                }
+                                %}
+                            </div>
+                            <div class="col-sm-12">
+                                {% include('include/form/textarea.html.twig') with {
+                                    'form_label':form_label(form.description, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_text':form_widget(form.description, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
+                                }
+                                %}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <p class="border-bottom mb-1"><b>STYLE</b></p>
+                        <div class="row g-0">
+                            <div class="col-sm-12">
+                                {% include('include/form/oneSwitch.html.twig') with {
+                                    'form_label':form_label(form.isSectionfluid, "rendre la section fluide", {'label_attr': {'class':'form-check-label'}}),
+                                    'form_switch':form_widget(form.isSectionfluid, {'attr': {'class': 'form-check-input'}})
+                                }
+                                %}
+                            </div>
+                            <div class="col-sm-12">
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.baliseClass, "Class", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_input':form_widget(form.baliseClass, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                                }
+                                %}
+                            </div>
+                            <div class="col-sm-12">
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.baliseId, "Id", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_input':form_widget(form.baliseId, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                                }
+                                %}
+                            </div>
+                            <div class="col-sm-12">
+                                {% include('include/form/input.html.twig') with {
+                                    'form_label':form_label(form.baliseName, "Titre de l'article", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
+                                    'form_input':form_widget(form.baliseName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
+                                }
+                                %}
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="col-sm-12">
-                    {% include('include/form/textarea.html.twig') with {
-                        'form_label':form_label(form.description, '', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_text':form_widget(form.description, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'description'}})
-                    }
-                    %}
-                </div>
+
             </div>
-            <div class="row g-0">
-                <h6>STYLE</h6>
-                <hr>
-                <div class="col-sm-12">
-                    {% include('include/form/oneSwitch.html.twig') with {
-                        'form_label':form_label(form.isSectionfluid, "rendre la section fluide", {'label_attr': {'class':'form-check-label'}}),
-                        'form_switch':form_widget(form.isSectionfluid, {'attr': {'class': 'form-check-input'}})
-                    }
-                    %}
-                </div>
-                <div class="col-sm-12">
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.baliseClass, "Class", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.baliseClass, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
-                    }
-                    %}
-                </div>
-                <div class="col-sm-12">
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.baliseId, "Id", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.baliseId, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
-                    }
-                    %}
-                </div>
-                <div class="col-sm-12">
-                    {% include('include/form/input.html.twig') with {
-                        'form_label':form_label(form.baliseName, "Titre de l'article", {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-                        'form_input':form_widget(form.baliseName, {'attr': {'class': 'form-control form-control-sm', 'placeholder':'titre'}})
-                    }
-                    %}
-                </div>
-            </div>
+
+
 
 
         </div>
         <div class="col-4">
             <div class="row g-0">
                 <div class="col-sm-12">
-                    <h6>CONTENU DE SECTION</h6>
                     <hr>
                     <table class="table table-borderless">
-                        <tr>
-                            <td>{{ form_label(form.content,'Contenu', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                            <td>{{ form_widget(form.content, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                        </tr>
-                        <tr>
-                            <td>{{ form_label(form.oneArticle,'', {'label_attr': {'class':'col-form-label'}}) }}</td>
-                            <td>{{ form_widget(form.oneArticle, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>
-                        </tr>
                         <tr>
                             <td>{{ form_label(form.OneCategory,'', {'label_attr': {'class':'col-form-label'}}) }}</td>
                             <td>{{ form_widget(form.OneCategory, {'attr': {'class': 'form-select form-select-sm'}}) }}</td>

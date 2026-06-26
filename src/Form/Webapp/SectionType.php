@@ -2,7 +2,10 @@
 
 namespace App\Form\Webapp;
 
+use App\Entity\Webapp\choice\Category;
 use App\Entity\Webapp\Section;
+use App\Entity\Webapp\Articles;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -16,6 +19,7 @@ class SectionType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('content', ChoiceType::class, [
+                'label' => "Contenu",
                 'choices'  => [
                     'aucun' => 'none',
                     'ARTICLES' => [
@@ -48,9 +52,18 @@ class SectionType extends AbstractType
             ->add('baliseClass')
             ->add('baliseId')
             ->add('baliseName')
-            ->add('oneArticle')
-            ->add('OneCategory')
-            ->add('oneEmployed')
+            ->add('oneArticle', EntityType::class, [
+                'label' => "Un article",
+                'class' => Articles::class,
+            ])
+            ->add('OneCategory', EntityType::class, [
+                'label' => "Une catégorie",
+                'class' => Category::class,
+            ])
+            ->add('oneEmployed', EntityType::class, [
+                'label' => "Un mandataire",
+                'class' => Category::class,
+            ])
         ;
     }
 

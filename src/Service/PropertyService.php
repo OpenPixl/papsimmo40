@@ -389,14 +389,14 @@ class PropertyService
         if($lastproperty){
             $lastRefNum = $lastproperty->getReflastnumber();
             $oldRefNum = $lastproperty->getRef();
-            $newNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
+            $newNumDate = $date->format('Y').'-'.$date->format('m').$date->format('d').$date->format('s');
             if($oldRefNum == $newNumDate){
                 $ref = $newNumDate . '-' . ($lastRefNum + 1);
             }else{
                 $ref = $newNumDate.'-'.$lastRefNum;
             }
         }else{
-            $newNumDate = $date->format('Y').'/'.$date->format('m').$date->format('d').$date->format('s');
+            $newNumDate = $date->format('Y').'-'.$date->format('m').$date->format('d').$date->format('s');
             $ref = $newNumDate.'-1';
         }
         return $ref;

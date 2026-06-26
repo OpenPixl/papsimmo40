@@ -230,7 +230,7 @@ class SearchController extends AbstractController
             ]);
 
             $results = $this->finder->createPaginatorAdapter($query);
-            $properties = $this->paginator->paginate($results, $page);
+            $properties = $this->paginator->paginate($results, $page, 7);
 
             return $this->json([
                 'list' => $this->renderView('gestapp/property/include/_list-dashboard.html.twig', [

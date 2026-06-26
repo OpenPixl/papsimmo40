@@ -22,11 +22,11 @@
 </div>
 <div class="row g-0">
     <div class="col-sm-12">
-        {% include('include/form/select.html.twig') with {
-            'form_label':form_label(form.state, 'Etat', {'label_attr': {'class':'col-sm-4 col-form-label'}}),
-            'form_select':form_widget(form.state, {'attr': {'class': 'form-select form-select-sm'}})
-        }
-        %}
+        {% include 'composants/inputs/input_select.html.twig' with {
+            form: form.state,
+            disabled: '',
+            show_label: true
+        } %}
     </div>
 </div>
 <div class="row g-0">

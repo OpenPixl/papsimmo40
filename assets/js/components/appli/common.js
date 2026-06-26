@@ -218,7 +218,7 @@ export function initializeTinyMCE(maxChars) {
                 }
             });
         },
-        plugins: 'image table lists visualchars wordcount',
+        plugins: 'image table lists visualchars wordcount link',
         toolbar: 'undo redo | styles | bold italic alignleft aligncenter alignright alignjustify numlist bullist | link image',
         images_file_types: 'jpg,svg,webp',
         language: 'fr_FR',
@@ -226,7 +226,7 @@ export function initializeTinyMCE(maxChars) {
         entity_encoding: "raw",
         encoding: "html",
         paste_as_text: true,
-        valid_elements: 'p,br,b,i,u,strong,em,ul,ol,li', // Exemple : limiter les balises autorisées
+        valid_elements: 'p,br,b,i,u,strong,em,ul,ol,li,a[href|target|rel|title]', // Exemple : limiter les balises autorisées
         valid_children: '+body[p,br,b,i,u,strong,em,ul,ol,li]', // Exemple : limiter les enfants autorisés
     });
 
