@@ -609,6 +609,20 @@ class PropertyController extends AbstractController
             $photoFiles = $form->get('images')->getData();
             if ($photoFiles) {
                 foreach($photoFiles as $photoFile){
+
+                    // test de l'extension
+                    $extension = $photoFile->guessExtension();
+                    if($extension != 'jpg' && $extension != 'jpeg'){
+
+                        return $this->json([
+                            'code'=> 400,
+                            'message' => "Le fichier '.$photoFile->getClientOriginalName().' n\'est pas une image",
+                            'formView' => $this->renderView('gestapp/property/_formimage.html.twig', [
+                                'form' => $form->createView()
+                            ])
+                        ], 200);
+                    }
+
                     $lastphoto = $photoRepository->Lastphoto($property->getId());
                     if($lastphoto){
                         $position = $lastphoto->getPosition() + 1;
@@ -670,7 +684,7 @@ class PropertyController extends AbstractController
             ], 200);
         }
 
-        return $this->render('gestapp/property/editimage.html.twig', [
+        return $this->render('gestapp/property/_formimage.html.twig', [
             'form' => $form,
         ]);
     }
