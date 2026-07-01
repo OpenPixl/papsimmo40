@@ -881,6 +881,22 @@ class PropertyController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
+            if($form->get('dpeEstimateEnergyDown') > $form->get('dpeEstimateEnergyUp'))
+            {
+                $view = $this->render('gestapp/property/Step/chiffres.html.twig', [
+                    'form' => $form,
+                    'property' => $property,
+                    'avenants' => $avenants,
+                ]);
+
+                return $this->json([
+                    'code'=> 200,
+                    'message' => "les consommations basses d'énergie ne peuvent être supérieures aux consommations hautes.",
+                    'data'=> [$property->getFamily()->getId(), $property->getRubric()->getId()],
+                    'form' => $view->getContent(),
+                ], 200);
+            }
+
             //$rentalAnnual = $form->get('commerceRentalAnnual')->getData();
 
             $propertyRepository->add($property);

@@ -1,4 +1,7 @@
-{% set ref = transaction.property.refnumdate|split('/')|join('-') %}
+{% set refNumDate = transaction.property.refnumdate|split('/')|join('-') %}
+{% set splitRef = transaction.property.ref|split('-') %}
+
+{% set ref = refNumDate~'-'~splitRef[2] %}
 
 <dl class="row g-1 align-items-center mb-1" >
     <dt class="col-sm-2 mb-0">
