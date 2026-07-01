@@ -168,8 +168,11 @@ class ftptransfertService
 
             // Transformation terrace en booléen
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => 'RC1860977', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace];
+            $refDossier = 'RC1860977';
+
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Complements du bien
             $complement = $propriete->getOptions();
@@ -243,7 +246,9 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = '107428';
+
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -552,7 +557,8 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = 'papsimmo';
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -634,7 +640,8 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = 'papsimmo';
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -716,7 +723,8 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = 'g46426';
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $complement = $propriete->getComplement();
@@ -804,7 +812,8 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = 'RC1860977';
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Complements du bien
             $complement = $propriete->getOptions();
@@ -876,7 +885,9 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '1a27e5a1-fe96-4aa1-a995-a77281691267', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = '1a27e5a1-fe96-4aa1-a995-a77281691267';
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+
 
             // Complements du bien
             $complement = $propriete->getOptions();
@@ -957,7 +968,8 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = 'paps_lcdcm';
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
@@ -1036,9 +1048,11 @@ class ftptransfertService
             $version = '4.10';
 
             // Transformation terrace en booléen
-            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
+            if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
+            if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = 'ag166469';
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $complement = $propriete->getComplement();
@@ -1116,7 +1130,8 @@ class ftptransfertService
             if($property['terrace']){$terrace = 1;}else{$terrace = 0;}
             if($property['isWithExclusivity'] === 1){$typeMandat = 'oui';}else{$typeMandat = 'non';}
 
-            $infos = ['refDossier' => '2f89e80b-a101-42b2-a0a5-be2fb7e11372', 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
+            $refDossier = 'papsimmo';
+            $infos = ['refDossier' => $refDossier, 'publications' => $publications, 'version' => $version, 'nord' => $nord, 'ouest' => $ouest, 'sud' => $sud, 'est' => $est, 'terrace' => $terrace, 'typeMandat' => $typeMandat];
 
             // Equipements
             $idcomplement = $property['idComplement'];
