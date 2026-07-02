@@ -406,10 +406,10 @@ class PropertyService
     public function getDir(Property $property){
 
         // Construction du nom de dossier attaché à la propriété lors de sa création
-        $numdate = explode("/", $property->getRefnumdate());            // on sépare en 2 variables : AAAA et MMDDSS
+        $numdate = explode("-", $property->getRefnumdate());            // on sépare en 2 variables : AAAA et MMDDSS
         $numdiff = explode("-", $property->getRef());                   // On recupére la valeur de séparation entre deux ref identiques
 
-        $dir = $numdate[0].'-'.$numdate[1].'-'.$numdiff[1];
+        $dir = $numdate[0].'-'.$numdate[1].'-'.$numdiff[2];
 
         return $dir;
     }
