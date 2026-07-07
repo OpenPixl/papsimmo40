@@ -2940,11 +2940,11 @@ class TransactionController extends AbstractController
             $transactions = $transactionRepository->findBy(['isClosedfolder' => 0]);
         }else{
             $transactions = $transactionRepository->findBy(['refEmployed' => $user->getId(), 'isClosedfolder' => 0]);
-            dd($transaction);
         }
 
         return $this->json([
-            'message' => 'Le dossier de vente à été fermé.',
+            'code' => 200,
+            'message' => 'Le dossier de vente à été cloturé.',
             'liste' => $this->renderView('gestapp/transaction/include/_liste.html.twig', [
                 'transactions' => $transactions
             ])

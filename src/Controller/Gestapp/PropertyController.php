@@ -897,8 +897,6 @@ class PropertyController extends AbstractController
                 ], 200);
             }
 
-            //$rentalAnnual = $form->get('commerceRentalAnnual')->getData();
-
             $propertyRepository->add($property);
 
             $view = $this->render('gestapp/property/Step/chiffres.html.twig', [
@@ -909,7 +907,7 @@ class PropertyController extends AbstractController
 
             return $this->json([
                 'code'=> 200,
-                'message' => "Les ations du bien ont été correctement ajoutées.",
+                'message' => "Les informations du bien ont été correctement ajoutées.",
                 'data'=> [$property->getFamily()->getId(), $property->getRubric()->getId()],
                 'form' => $view->getContent(),
             ], 200);

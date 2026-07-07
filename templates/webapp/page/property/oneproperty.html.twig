@@ -420,35 +420,35 @@
                     {% if property.diagGes > 0  %}
                         {% if property.diagGes > 0 and property.diagGes <= 6 %}
                             {% set ges = 'A'%}
-                        {% elseif property.diagGes > 7 and property.diagGes <= 11 %}
+                        {% elseif property.diagGes >= 7 and property.diagGes <= 11 %}
                             {% set ges = 'B'%}
-                        {% elseif property.diagGes > 12 and property.diagGes <= 30 %}
+                        {% elseif property.diagGes >= 12 and property.diagGes <= 30 %}
                             {% set ges = 'C'%}
-                        {% elseif property.diagGes > 31 and property.diagGes <= 50 %}
+                        {% elseif property.diagGes >= 31 and property.diagGes <= 50 %}
                             {% set ges = 'D'%}
-                        {% elseif property.diagGes > 51 and property.diagGes <= 70 %}
+                        {% elseif property.diagGes >= 51 and property.diagGes <= 70 %}
                             {% set ges = 'E'%}
-                        {% elseif property.diagGes > 71 and property.diagGes <= 100 %}
+                        {% elseif property.diagGes >= 71 and property.diagGes <= 100 %}
                             {% set ges = 'F'%}
-                        {% elseif property.diagGes > 100 %}
+                        {% elseif property.diagGes >= 100 %}
                             {% set ges = 'G'%}
                         {% endif %}
                     {% endif %}
                     {% if property.diagDpe > 0  %}
                         {% set dpe = '' %}
-                        {% if property.diagDpe > 0 and property.diagDpe <= 70 %}
+                        {% if property.diagDpe >= 0 and property.diagDpe <= 70 %}
                             {% set dpe = 'A'%}
-                        {% elseif property.diagDpe > 70 and property.diagDpe <= 110 %}
+                        {% elseif property.diagDpe >= 70 and property.diagDpe <= 110 %}
                             {% set dpe = 'B'%}
-                        {% elseif property.diagDpe > 110 and property.diagDpe <= 180 %}
+                        {% elseif property.diagDpe >= 110 and property.diagDpe <= 180 %}
                             {% set dpe = 'C'%}
-                        {% elseif property.diagDpe > 180 and property.diagDpe <= 250 %}
+                        {% elseif property.diagDpe >= 180 and property.diagDpe <= 250 %}
                             {% set dpe = 'D'%}
-                        {% elseif property.diagDpe > 250 and property.diagDpe <= 330 %}
+                        {% elseif property.diagDpe >= 250 and property.diagDpe <= 330 %}
                             {% set dpe = 'E'%}
-                        {% elseif property.diagDpe > 330 and property.diagDpe <= 420 %}
+                        {% elseif property.diagDpe >= 330 and property.diagDpe <= 420 %}
                             {% set dpe = 'F'%}
-                        {% elseif property.diagDpe > 420 %}
+                        {% elseif property.diagDpe >= 420 %}
                             {% set dpe = 'G'%}
                         {% endif %}
                     {% endif %}
