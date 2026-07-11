@@ -904,14 +904,13 @@ class ftptransfertService
             $row = [];
 
             for ($i = 0; $i < count($data); $i++) {
-                //dd($data[$i+1]);
+
                 array_push($row, $data[$i+1]);
             }
             $rows[] = implode('!#', $row);
         }
+
         $content = implode("\n", $rows);
-
-
 
         // PARTIE II : Génération du dossier et création fichier CSV
         // ---------------------------------------------------------
