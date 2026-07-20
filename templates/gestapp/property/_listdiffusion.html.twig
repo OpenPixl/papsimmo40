@@ -21,20 +21,21 @@
 {% endfor %}
 
 {% if is_granted('ROLE_ADMIN') %}
-<div class="mt-2">
-    <p>
-        <b>Support des diffusions :</b>
-    </p>
-    <p style="font-size: 0.8rem;">
-        |
-        {% for d in diffuseurs %}
-            {% if d.actif == 1 %}
-                <span class="badge bg-light text-dark">{{ d.label }} : {{ d.count }}</span> <a href="{{ d.href }}" download>{{ d.name }}</a> |
-            {% endif%}
-        {% endfor %}
-    </p>
-</div>
+    <div class="mt-2">
+        <p>
+            <b>Support des diffusions :</b>
+        </p>
+        <p style="font-size: 0.8rem;">
+            |
+            {% for d in diffuseurs %}
+                {% if d.actif == 1 %}
+                    <span class="badge bg-light text-dark">{{ d.label }} : {{ d.count }}</span> <a href="{{ d.href }}" download>{{ d.name }}</a> |
+                {% endif%}
+            {% endfor %}
+        </p>
+    </div>
 {% endif %}
+
 <table class="table">
     <thead>
         <tr>

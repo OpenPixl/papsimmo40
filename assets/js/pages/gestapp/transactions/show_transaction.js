@@ -7,6 +7,7 @@ import flatpickr from "flatpickr";
 
 export function initShowTransactionPage() {
 
+    console.log('Bienvenue sur la page d\'édition dédiée à une transaction de vente.');
     const modalEl = document.getElementById('modal');
     if (!modalEl) return;
     const modalBs = new bootstrap.Modal(modalEl);
@@ -84,6 +85,17 @@ export function initShowTransactionPage() {
                             change_selectcity(customer_proZipcode, customer_proCity, customer_proSelectcity);
                         });
                     }
+                    // Ajout des fonctionnalités de responsable en cas de déclaration d'acquéreur professionnel
+                    const btnAddResp = document.getElementById('btnAddResp');
+                    console.log(btnAddResp);
+                    btnAddResp.addEventListener('click', addResponsable);
+                    // Ajout des fonctions de suppression de responsable en cas de déclaration d'acquéreur professionnel
+                    let btnSupprResps = document.querySelectorAll('.btnSupprResp');
+                    console.log(btnSupprResps);
+                    btnSupprResps.forEach(function(btn){
+                        btn.addEventListener('click', dellResponsable);
+                    });
+
                     declareEvent();
                 });
         }
@@ -746,6 +758,41 @@ export function initShowTransactionPage() {
             toasterMessage(message);
         }
         declareEvent(); // réappliquer les événements
+    }
+
+    function addResponsable(event){
+        event.preventDefault();
+        let form = document.getElementById('AddRespStructure');
+        let action = form.action;
+        let data = new FormData(form);
+        axios
+            .post(action, data)
+            .then(function(response){
+                document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+                toasterMessage(response.data.message);
+                form.reset();
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
+        declareEvent();
+    }
+
+    function dellResponsable(event){
+        event.preventDefault();
+        let url = this.href;
+        axios
+            .post(url)
+            .then(function(response){
+                document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
+                toasterMessage(response.data.message);
+            })
+            .catch(function(error){
+                console.log(error);
+            })
+        ;
+        declareEvent();
     }
 
     function declareEvent() {

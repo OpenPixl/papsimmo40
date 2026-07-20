@@ -14,7 +14,7 @@
                 <p class="mb-0">
                     {{ loop.index }} |
                     {% if customer.typeClient == "professionnel" %}
-                        {{ customer.nameStructure }} | {{ customer.gsmStructure }}
+                        {{ customer.typeStructure|upper }}&nbsp;{{ customer.nameStructure }} | {{ customer.gsmStructure }}
                     {% else %}
                         {% if customer.civility == 2 %}Mme. {{ customer.firstname }} {{ customer.maidenName }}{% elseif customer.civility == 3 %}Mlle. {{ customer.firstname }} {{ customer.lastName }}{% else %}M. {{ customer.firstname }} {{ customer.lastName }}{% endif %} |
                         {% if customer.gsm is defined %}{{ customer.gsm }}{% endif %}
