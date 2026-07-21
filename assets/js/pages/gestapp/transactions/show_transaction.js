@@ -16,6 +16,17 @@ export function initShowTransactionPage() {
     let btnSubmitModal = document.getElementById('btnModalSubmit');
     let btnsOpenModal = document.querySelectorAll('.openModal');
 
+    /** Délégation d'événement pour la suppression de responsable : #liste_respcustomer
+     *  est régénéré via innerHTML (ajout/suppression), ce qui détruit les listeners posés
+     *  directement sur ses boutons. En écoutant sur modalEl (jamais recréé), on survit
+     *  à ces re-render sans avoir à réattacher quoi que ce soit. */
+    modalEl.addEventListener('click', function (e) {
+        const btn = e.target.closest('.btnSupprResp');
+        if (btn && modalEl.contains(btn)) {
+            dellResponsable.call(btn, e);
+        }
+    });
+
     /** reset modal automatique après fermeture */
     modalEl.addEventListener('hidden.bs.modal', () => {
         const deleteUrl = modal.dataset.deleteUrl;
@@ -86,14 +97,11 @@ export function initShowTransactionPage() {
                             change_selectcity(customer_proZipcode, customer_proCity, customer_proSelectcity);
                         });
                     }
+
                     // Ajout des fonctionnalités de responsable en cas de déclaration d'acquéreur professionnel
                     const btnAddResp = document.getElementById('btnAddResp');
                     btnAddResp.addEventListener('click', addResponsable);
-                    // Ajout des fonctions de suppression de responsable en cas de déclaration d'acquéreur professionnel
-                    let btnSupprResps = document.querySelectorAll('#liste_respcustomer .btnSupprResp');
-                    btnSupprResps.forEach(function(btn){
-                        btn.addEventListener('click', dellResponsable);
-                    });
+                    // La suppression de responsable est gérée par délégation sur modalEl (voir plus haut)
 
                     declareEvent();
                 });
