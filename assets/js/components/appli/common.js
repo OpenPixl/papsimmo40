@@ -226,6 +226,7 @@ export function initializeTinyMCE(maxChars) {
         entity_encoding: "raw",
         encoding: "html",
         paste_as_text: true,
+        contextmenu: false, // laisse le navigateur afficher son propre menu clic droit (avec Copier/Coller natifs)
         valid_elements: 'p,br,b,i,u,strong,em,ul,ol,li,a[href|target|rel|title]', // Exemple : limiter les balises autorisées
         valid_children: '+body[p,br,b,i,u,strong,em,ul,ol,li]', // Exemple : limiter les enfants autorisés
     });
