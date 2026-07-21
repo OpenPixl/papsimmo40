@@ -2,7 +2,6 @@
     {{ form_start(form) }}
     <div class="row g-1 mt-2">
         <div class="col-4">
-
             {# Bloc des Estimations #}
             {% if property.family.id == 6 %}
                 <div id="business_assets" class="card text-dark border-dark">
@@ -107,181 +106,181 @@
                         </div>
                     </div>
                 </div>
-
             {% elseif property.family.id == 8 %}
-            <div id="sale" class="card text-dark border-dark">
-                <div class="card-body p-2">
-                    <div class="row mb-1">
-                        <div class="col-12">
-                            <p class="border-bottom"><b>VENTE IMMOBILIERE</b></p>
+                <div id="sale" class="card text-dark border-dark">
+                    <div class="card-body p-2">
+                        <div class="row mb-1">
+                            <div class="col-12">
+                                <p class="border-bottom"><b>VENTE IMMOBILIERE</b></p>
+                            </div>
+                        </div>
+                        <div id="detailPrice">
+                            {% if property.isIncreating > 0 %}
+                                <div class="row mb-1">
+                                    <div class="col-5">
+                                        <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                    </div>
+                                    <div class="col-7">
+                                        {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-5">
+                                        {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-7">
+                                        {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="row mb-1">
+                                    <div class="col-5">
+                                        {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-7">
+                                        {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
+                            {% else %}
+                                <div class="row mb-1">
+                                    <div class="col-12">
+                                        <p>
+                                            <small>Le prix de vente et les honoraires ont été fixés à la création du bien. <br>
+                                                Pour toute modification, cliquez sur le bouton ci-dessous.
+                                            </small>
+                                        </p>
+                                    </div>
+                                </div>
+
+                                <div class="row mb-1">
+                                    <div class="col">
+                                        <a id="addAvenant" href="{{ path('op_gestapp_property_avenant_new', {'idproperty':property.id}) }}" class="btn btn-sm btn-outline-dark w-100 openModal" data-bs-data="ADDAVENANT-Ajouter un Avenant sur le prix du bien-{{ property.id }}">Créer un avenant</a>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col">
+                                        <p class="mb-0 text-center">
+                                            {% set filteredAvenants = avenants|filter(avenant => avenant.isFirstAvenant == 0) %}
+                                            {% for avenant in filteredAvenants %}
+                                                <a href="{{ path('op_gestapp_property_avenant_edit', {'id': avenant.id}) }}" class="openModal" data-bs-data="EDITAVENANT-Ajout d'un PDF sur l'avenant-{{ avenant.id }}"><span class="badge rounded-pill text-bg-dark">{{ loop.index }}</span>&nbsp;Avenant du {{ avenant.dateAvenant|format_datetime('short', 'none', locale='fr') }}</a> {% if loop.last %}{% else %} | {% endif %}
+                                            {% else %}
+                                                <small>Vous n'avez pas généré d'avenant</small>
+                                            {% endfor %}
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+
+                                <div class="row mb-1">
+                                    <div class="col-5">
+                                        <span class="align-middle">Prix net vendeur</span>
+                                    </div>
+                                    <div class="col-7">
+                                        <input value="{{ property.price }}" class="form-control form-control-sm" disabled>
+                                    </div>
+                                    <div class="col-7 d-none">
+                                        {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-5">
+                                        {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-7">
+                                        <input value="{{ property.honoraires }}" class="form-control form-control-sm" disabled>
+                                    </div>
+                                    <div class="col-7 d-none">
+                                        {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
+                                <div class="row mb-1">
+                                    <div class="col-5">
+                                        {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
+                                    </div>
+                                    <div class="col-7">
+                                        <input value="{{ property.priceFai }}" class="form-control form-control-sm" disabled>
+                                    </div>
+                                    <div class="col-7 d-none">
+                                        {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
+                            {% endif %}
                         </div>
                     </div>
-                    <div id="detailPrice">
-                        {% if property.isIncreating > 0 %}
-                            <div class="row mb-1">
-                                <div class="col-5">
-                                    <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
-                                </div>
-                                <div class="col-7">
-                                    {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-5">
-                                    {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
-                                </div>
-                                <div class="col-7">
-                                    {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
-                            </div>
-                            <hr>
-                            <div class="row mb-1">
-                                <div class="col-5">
-                                    {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
-                                </div>
-                                <div class="col-7">
-                                    {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
-                            </div>
-                        {% else %}
-                            <div class="row mb-1">
-                                <div class="col-12">
-                                    <p>
-                                        <small>Le prix de vente et les honoraires ont été fixés à la création du bien. <br>
-                                            Pour toute modification, cliquez sur le bouton ci-dessous.
-                                        </small>
-                                    </p>
-                                </div>
-                            </div>
-
-                            <div class="row mb-1">
-                                <div class="col">
-                                    <a id="addAvenant" href="{{ path('op_gestapp_property_avenant_new', {'idproperty':property.id}) }}" class="btn btn-sm btn-outline-dark w-100 openModal" data-bs-data="ADDAVENANT-Ajouter un Avenant sur le prix du bien-{{ property.id }}">Créer un avenant</a>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <p class="mb-0 text-center">
-                                        {% set filteredAvenants = avenants|filter(avenant => avenant.isFirstAvenant == 0) %}
-                                        {% for avenant in filteredAvenants %}
-                                            <a href="{{ path('op_gestapp_property_avenant_edit', {'id': avenant.id}) }}" class="openModal" data-bs-data="EDITAVENANT-Ajout d'un PDF sur l'avenant-{{ avenant.id }}"><span class="badge rounded-pill text-bg-dark">{{ loop.index }}</span>&nbsp;Avenant du {{ avenant.dateAvenant|format_datetime('short', 'none', locale='fr') }}</a> {% if loop.last %}{% else %} | {% endif %}
-                                        {% else %}
-                                            <small>Vous n'avez pas généré d'avenant</small>
-                                        {% endfor %}
-                                    </p>
-                                </div>
-                            </div>
-                            <hr>
-
-                            <div class="row mb-1">
-                                <div class="col-5">
-                                    <span class="align-middle">Prix net vendeur</span>
-                                </div>
-                                <div class="col-7">
-                                    <input value="{{ property.price }}" class="form-control form-control-sm" disabled>
-                                </div>
-                                <div class="col-7 d-none">
-                                    {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-5">
-                                    {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
-                                </div>
-                                <div class="col-7">
-                                    <input value="{{ property.honoraires }}" class="form-control form-control-sm" disabled>
-                                </div>
-                                <div class="col-7 d-none">
-                                    {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
-                            </div>
-                            <div class="row mb-1">
-                                <div class="col-5">
-                                    {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
-                                </div>
-                                <div class="col-7">
-                                    <input value="{{ property.priceFai }}" class="form-control form-control-sm" disabled>
-                                </div>
-                                <div class="col-7 d-none">
-                                    {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                                </div>
-                            </div>
-                        {% endif %}
-                    </div>
                 </div>
-            </div>
             {% elseif property.family.id == 5 %}
-            <div id="rent" class="card text-dark border-dark">
-                <div class="card-body">
-                    <div class="row mb-1">
-                        <div class="col-12">
-                            <p class="border-bottom"><b>LOCATION IMMOBILIERE</b></p>
-                        </div>
-                    </div>
-                    <div id="detailPrice">
+                <div id="rent" class="card text-dark border-dark">
+                    <div class="card-body">
                         <div class="row mb-1">
-                            <div class="col-5">
-                                <span class="align-middle">{{ form_label(form.rent, '', {'label_attr': {'class':'form-label'}}) }}</span>
-                            </div>
-                            <div class="col-7">
-                                {{ form_widget(form.rent, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                            <div class="col-12">
+                                <p class="border-bottom"><b>LOCATION IMMOBILIERE</b></p>
                             </div>
                         </div>
-                        <div class="row mb-1">
-                            <div class="col-5">
-                                {{ form_label(form.rentCharge, '', {'label_attr': {'class':'form-label'}}) }}
-                            </div>
-                            <div class="col-7">
-                                {{ form_widget(form.rentCharge, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-5">
-                                <span class="align-middle">{{ form_label(form.rentChargeModsPayment, '', {'label_attr': {'class':'form-label'}}) }}</span>
-                            </div>
-                            <div class="col-7">
-                                {{ form_widget(form.rentChargeModsPayment, {'attr': {'class': 'form-select form-select-sm'}}) }}
-                            </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-5">
-                                <span class="align-middle">{{ form_label(form.rentChargeHonoraire, '', {'label_attr': {'class':'form-label'}}) }}</span>
-                            </div>
-                            <div class="col-7">
-                                {{ form_widget(form.rentChargeHonoraire, {'attr': {'class': 'form-control form-control-sm'}}) }}
-                            </div>
-                        </div>
-                        {% if property.family.id == 5 %}
-                            <div class="row mb-1" id="warrantyDeposit">
+                        <div id="detailPrice">
+                            <div class="row mb-1">
                                 <div class="col-5">
-                                    <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                    <span class="align-middle">{{ form_label(form.rent, '', {'label_attr': {'class':'form-label'}}) }}</span>
                                 </div>
                                 <div class="col-7">
-                                    {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    {{ form_widget(form.rent, {'attr': {'class': 'form-control form-control-sm'}}) }}
                                 </div>
                             </div>
-                        {% endif %}
-                        <div class="row mb-1">
-                            <div class="col-6">
-                                {{ form_label(form.rentCC) }}
+                            <div class="row mb-1">
+                                <div class="col-5">
+                                    {{ form_label(form.rentCharge, '', {'label_attr': {'class':'form-label'}}) }}
+                                </div>
+                                <div class="col-7">
+                                    {{ form_widget(form.rentCharge, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-                                {{ form_widget(form.rentCC) }}
+                            <div class="row mb-1">
+                                <div class="col-5">
+                                    <span class="align-middle">{{ form_label(form.rentChargeModsPayment, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                </div>
+                                <div class="col-7">
+                                    {{ form_widget(form.rentChargeModsPayment, {'attr': {'class': 'form-select form-select-sm'}}) }}
+                                </div>
                             </div>
-                        </div>
-                        <div class="row mb-1">
-                            <div class="col-6">
-                                {{ form_label(form.rentHT) }}
+                            <div class="row mb-1">
+                                <div class="col-5">
+                                    <span class="align-middle">{{ form_label(form.rentChargeHonoraire, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                </div>
+                                <div class="col-7">
+                                    {{ form_widget(form.rentChargeHonoraire, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                </div>
                             </div>
-                            <div class="col-sm-4">
-                                {{ form_widget(form.rentHT) }}
+                            {% if property.family.id == 5 %}
+                                <div class="row mb-1" id="warrantyDeposit">
+                                    <div class="col-5">
+                                        <span class="align-middle">{{ form_label(form.warrantyDeposit, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                    </div>
+                                    <div class="col-7">
+                                        {{ form_widget(form.warrantyDeposit, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                    </div>
+                                </div>
+                            {% endif %}
+                            <div class="row mb-1">
+                                <div class="col-6">
+                                    {{ form_label(form.rentCC) }}
+                                </div>
+                                <div class="col-sm-4">
+                                    {{ form_widget(form.rentCC) }}
+                                </div>
+                            </div>
+                            <div class="row mb-1">
+                                <div class="col-6">
+                                    {{ form_label(form.rentHT) }}
+                                </div>
+                                <div class="col-sm-4">
+                                    {{ form_widget(form.rentHT) }}
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
-            </div>
             {% elseif property.family.id == 4 %}
-            <div id="rentCommerce" class="card text-dark border-dark">
+                {% if property.rubric.id == 8 %}
+                    <div id="rentCommerce" class="card text-dark border-dark">
                 <div class="card-body">
                     <div class="row mb-1">
                         <div class="col-12">
@@ -452,6 +451,109 @@
                     </div>
                 </div>
             </div>
+                {% elseif property.rubric.id == 9 %}
+                    <div id="sale" class="card text-dark border-dark">
+                        <div class="card-body p-2">
+                            <div class="row mb-1">
+                                <div class="col-12">
+                                    <p class="border-bottom"><b>VENTE IMMOBILIERE</b></p>
+                                </div>
+                            </div>
+                            <div id="detailPrice">
+                                {% if property.isIncreating > 0 %}
+                                    <div class="row mb-1">
+                                        <div class="col-5">
+                                            <span class="align-middle">{{ form_label(form.price, '', {'label_attr': {'class':'form-label'}}) }}</span>
+                                        </div>
+                                        <div class="col-7">
+                                            {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-5">
+                                            {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
+                                        </div>
+                                        <div class="col-7">
+                                            {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row mb-1">
+                                        <div class="col-5">
+                                            {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
+                                        </div>
+                                        <div class="col-7">
+                                            {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                {% else %}
+                                    <div class="row mb-1">
+                                        <div class="col-12">
+                                            <p>
+                                                <small>Le prix de vente et les honoraires ont été fixés à la création du bien. <br>
+                                                    Pour toute modification, cliquez sur le bouton ci-dessous.
+                                                </small>
+                                            </p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row mb-1">
+                                        <div class="col">
+                                            <a id="addAvenant" href="{{ path('op_gestapp_property_avenant_new', {'idproperty':property.id}) }}" class="btn btn-sm btn-outline-dark w-100 openModal" data-bs-data="ADDAVENANT-Ajouter un Avenant sur le prix du bien-{{ property.id }}">Créer un avenant</a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col">
+                                            <p class="mb-0 text-center">
+                                                {% set filteredAvenants = avenants|filter(avenant => avenant.isFirstAvenant == 0) %}
+                                                {% for avenant in filteredAvenants %}
+                                                    <a href="{{ path('op_gestapp_property_avenant_edit', {'id': avenant.id}) }}" class="openModal" data-bs-data="EDITAVENANT-Ajout d'un PDF sur l'avenant-{{ avenant.id }}"><span class="badge rounded-pill text-bg-dark">{{ loop.index }}</span>&nbsp;Avenant du {{ avenant.dateAvenant|format_datetime('short', 'none', locale='fr') }}</a> {% if loop.last %}{% else %} | {% endif %}
+                                                {% else %}
+                                                    <small>Vous n'avez pas généré d'avenant</small>
+                                                {% endfor %}
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <hr>
+
+                                    <div class="row mb-1">
+                                        <div class="col-5">
+                                            <span class="align-middle">Prix net vendeur</span>
+                                        </div>
+                                        <div class="col-7">
+                                            <input value="{{ property.price }}" class="form-control form-control-sm" disabled>
+                                        </div>
+                                        <div class="col-7 d-none">
+                                            {{ form_widget(form.price, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-5">
+                                            {{ form_label(form.honoraires, '', {'label_attr': {'class':'form-label'}}) }}
+                                        </div>
+                                        <div class="col-7">
+                                            <input value="{{ property.honoraires }}" class="form-control form-control-sm" disabled>
+                                        </div>
+                                        <div class="col-7 d-none">
+                                            {{ form_widget(form.honoraires, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                    <div class="row mb-1">
+                                        <div class="col-5">
+                                            {{ form_label(form.priceFai, '', {'label_attr': {'class':'form-label'}}) }}
+                                        </div>
+                                        <div class="col-7">
+                                            <input value="{{ property.priceFai }}" class="form-control form-control-sm" disabled>
+                                        </div>
+                                        <div class="col-7 d-none">
+                                            {{ form_widget(form.priceFai, {'attr': {'class': 'form-control form-control-sm'}}) }}
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
             {% endif %}
         </div>
         <div class="col-4">

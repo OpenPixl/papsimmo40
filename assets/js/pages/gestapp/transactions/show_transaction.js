@@ -8,6 +8,7 @@ import flatpickr from "flatpickr";
 export function initShowTransactionPage() {
 
     console.log('Bienvenue sur la page d\'édition dédiée à une transaction de vente.');
+
     const modalEl = document.getElementById('modal');
     if (!modalEl) return;
     const modalBs = new bootstrap.Modal(modalEl);
@@ -87,11 +88,9 @@ export function initShowTransactionPage() {
                     }
                     // Ajout des fonctionnalités de responsable en cas de déclaration d'acquéreur professionnel
                     const btnAddResp = document.getElementById('btnAddResp');
-                    console.log(btnAddResp);
                     btnAddResp.addEventListener('click', addResponsable);
                     // Ajout des fonctions de suppression de responsable en cas de déclaration d'acquéreur professionnel
-                    let btnSupprResps = document.querySelectorAll('.btnSupprResp');
-                    console.log(btnSupprResps);
+                    let btnSupprResps = document.querySelectorAll('#liste_respcustomer .btnSupprResp');
                     btnSupprResps.forEach(function(btn){
                         btn.addEventListener('click', dellResponsable);
                     });

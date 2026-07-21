@@ -107,79 +107,97 @@ class PropertyStep2Type extends AbstractType
 
             // Champs pour la location Commerciale
             if ($family->getId() === 4) {
-                $form
-                    ->add('commerceRentalAnnual',CheckboxType::class, [
-                        'label' => "Le loyer et les charges présentés sont-ils annuels ?",
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceAnnualRentGlobal', NumberType::class, [
-                        'label' => 'Loyer global'
-                    ])
-                    ->add('commerceAnnualChargeRentGlobal', NumberType::class, [
-                        'label' => 'Charge global'
-                    ])
-                    ->add('commerceAnnualRentMeter', NumberType::class, [
-                        'label' => 'Loyer au M²'
-                    ])
-                    ->add('commerceAnnualChargeRentMeter', NumberType::class, [
-                        'label' => 'Charge au M²'
-                    ])
-                    ->add('commerceChargeRentMonthHt', CheckboxType::class, [
-                        'label' => 'Charges mensuelles HT',
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceRentAnnualCc', CheckboxType::class, [
-                        'label' => 'Loyer annuel CC',
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceRentAnnualHt', CheckboxType::class, [
-                        'label' => 'Loyer annuel HT',
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceChargeRentAnnualHt', CheckboxType::class, [
-                        'label' => 'Charge annuelle HT',
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceRentAnnualMeterCc', CheckboxType::class, [
-                        'label' => 'Charge annuelle par M² CC ?',
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceRentAnnualMeterHt', CheckboxType::class, [
-                        'label' => 'Loyer annuel par M² HT ?',
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceChargeRentAnnualMeterHt', CheckboxType::class, [
-                        'label' => 'Charge annuelle par M² HT ?',
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceSurfaceDivisible', CheckboxType::class, [
-                        'label' => 'Surface Divisible ?',
-                        'label_attr' => [
-                            'class' => 'checkbox-inline checkbox-switch',
-                        ],
-                    ])
-                    ->add('commerceSurfaceDivisibleMin')
-                    ->add('commerceSurfaceDivisibleMax')
-                    ->add('warrantyDeposit', NumberType::class, [
-                        'label' => 'Dépôt de garantie'
-                    ])
-                ;
+                if($rubric->getId() === 8){
+                    $form
+                        ->add('commerceRentalAnnual',CheckboxType::class, [
+                            'label' => "Le loyer et les charges présentés sont-ils annuels ?",
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceAnnualRentGlobal', NumberType::class, [
+                            'label' => 'Loyer global'
+                        ])
+                        ->add('commerceAnnualChargeRentGlobal', NumberType::class, [
+                            'label' => 'Charge global'
+                        ])
+                        ->add('commerceAnnualRentMeter', NumberType::class, [
+                            'label' => 'Loyer au M²'
+                        ])
+                        ->add('commerceAnnualChargeRentMeter', NumberType::class, [
+                            'label' => 'Charge au M²'
+                        ])
+                        ->add('commerceChargeRentMonthHt', CheckboxType::class, [
+                            'label' => 'Charges mensuelles HT',
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceRentAnnualCc', CheckboxType::class, [
+                            'label' => 'Loyer annuel CC',
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceRentAnnualHt', CheckboxType::class, [
+                            'label' => 'Loyer annuel HT',
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceChargeRentAnnualHt', CheckboxType::class, [
+                            'label' => 'Charge annuelle HT',
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceRentAnnualMeterCc', CheckboxType::class, [
+                            'label' => 'Charge annuelle par M² CC ?',
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceRentAnnualMeterHt', CheckboxType::class, [
+                            'label' => 'Loyer annuel par M² HT ?',
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceChargeRentAnnualMeterHt', CheckboxType::class, [
+                            'label' => 'Charge annuelle par M² HT ?',
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceSurfaceDivisible', CheckboxType::class, [
+                            'label' => 'Surface Divisible ?',
+                            'label_attr' => [
+                                'class' => 'checkbox-inline checkbox-switch',
+                            ],
+                        ])
+                        ->add('commerceSurfaceDivisibleMin')
+                        ->add('commerceSurfaceDivisibleMax')
+                        ->add('warrantyDeposit', NumberType::class, [
+                            'label' => 'Dépôt de garantie'
+                        ])
+                    ;
+                }
+                elseif ($rubric->getId() === 9){
+                    $form
+                        ->add('price', IntegerType::class, [
+                            'label' => 'Prix net vendeur',
+                            'required' => false
+                        ])
+                        ->add('honoraires', IntegerType::class, [
+                            'label' => 'honoraires',
+                            'required' => false
+                        ])
+                        ->add('priceFai', IntegerType::class, [
+                            'label' => 'Prix FAI',
+                            'required' => false
+                        ])
+                    ;
+                }
             }
             // Champs pour la location immobilière
             if ($family->getId() === 5) {
