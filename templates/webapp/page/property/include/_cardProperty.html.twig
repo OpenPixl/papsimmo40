@@ -43,6 +43,10 @@
             <div class="price">
                 {{ property.commerceAnnualRentGlobal }} €
             </div>
+        {% else %}
+            <div class="price">
+                {{ property.priceFai }} €
+            </div>
         {% endif %}
     </div>
     {# intégration SVG #}
