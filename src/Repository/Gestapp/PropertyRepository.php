@@ -980,7 +980,7 @@ class PropertyRepository extends ServiceEntityRepository
             ->andWhere('p.isArchived = 0')
             ->andWhere('pu.isWebpublish = 1')
             ->andWhere('p.family IN (4, 6)')
-            ->andWhere('p.rubric NOT IN (1, 2, 3, 4, 5)')
+            ->andWhere('p.rubric NOT IN (8)')
             ->orderBy('p.id', 'DESC')
             ->getQuery()
             ->getResult()
