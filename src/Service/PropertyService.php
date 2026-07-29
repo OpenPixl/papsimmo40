@@ -104,66 +104,98 @@ class PropertyService
             $commerceSurfaceDivisibleMax = "";
         }
         elseif($famille == 4 && $rubric == 8){
-            // Location pro
-            $destination = 'location';
-            $typeBien = $property->getRubricss()->getName();
-            $price = $property->getCommerceAnnualRentGlobal();
-            $priceFai = $property->getCommerceAnnualRentGlobal();
-            $rent = "";
-            $rentCharge = "";
-            $rentWithCharge = "";
-            $warrantyDeposit = $property->getWarrantyDeposit();
-            $rentChargeModsPayment = $property->getRentChargeModsPayment();
-            $rentChargeHonoraire = $property->getRentChargeHonoraire();
-            $rentCC = $property->isRentCC();
-            $rentHT = $property->isRentHT();
-            $rentWallMonth = $property->getRentWallMonth();
-            $commerceAnnualRentGlobal = $property->getCommerceAnnualRentGlobal();
-            $commerceAnnualChargeRentGlobal = $property->getCommerceAnnualChargeRentGlobal();
-            $commerceAnnualRentMeter = $property->getCommerceAnnualRentMeter();
-            $commerceAnnualChargeRentMeter = $property->getCommerceAnnualChargeRentMeter();
-            if($property->IsCommerceChargeRentMonthHt() == 0){
-                $commerceChargeRentMonthHt = 'non';
-            }else{
-                $commerceChargeRentMonthHt = 'oui';
+            if($rubric == 8){
+                // Location pro
+                $destination = 'location';
+                $typeBien = $property->getRubricss()->getName();
+                $price = $property->getCommerceAnnualRentGlobal();
+                $priceFai = $property->getCommerceAnnualRentGlobal();
+                $rent = "";
+                $rentCharge = "";
+                $rentWithCharge = "";
+                $warrantyDeposit = $property->getWarrantyDeposit();
+                $rentChargeModsPayment = $property->getRentChargeModsPayment();
+                $rentChargeHonoraire = $property->getRentChargeHonoraire();
+                $rentCC = $property->isRentCC();
+                $rentHT = $property->isRentHT();
+                $rentWallMonth = $property->getRentWallMonth();
+                $commerceAnnualRentGlobal = $property->getCommerceAnnualRentGlobal();
+                $commerceAnnualChargeRentGlobal = $property->getCommerceAnnualChargeRentGlobal();
+                $commerceAnnualRentMeter = $property->getCommerceAnnualRentMeter();
+                $commerceAnnualChargeRentMeter = $property->getCommerceAnnualChargeRentMeter();
+                if($property->IsCommerceChargeRentMonthHt() == 0){
+                    $commerceChargeRentMonthHt = 'non';
+                }else{
+                    $commerceChargeRentMonthHt = 'oui';
+                }
+                if($property->IsCommerceRentAnnualCc() == 0){
+                    $commerceRentAnnualCc = 'non';
+                }else{
+                    $commerceRentAnnualCc = 'oui';
+                }
+                if($property->IsCommerceRentAnnualHt() == 0){
+                    $commerceRentAnnualHt = 'non';
+                }else{
+                    $commerceRentAnnualHt = 'oui';
+                }
+                if($property->IsCommerceChargeRentAnnualHt() == 0){
+                    $commerceChargeRentAnnualHt = 'non';
+                }else{
+                    $commerceChargeRentAnnualHt = 'oui';
+                }
+                if($property->IsCommerceRentAnnualMeterCc() == 0){
+                    $commerceRentAnnualMeterCc = 'non';
+                }else{
+                    $commerceRentAnnualMeterCc = 'oui';
+                }
+                if($property->IsCommerceRentAnnualMeterHt() == 0){
+                    $commerceRentAnnualMeterHt = 'non';
+                }else{
+                    $commerceRentAnnualMeterHt = 'oui';
+                }
+                if($property->IsCommerceChargeRentAnnualMeterHt() == 0){
+                    $commerceChargeRentAnnualMeterHt = 'non';
+                }else{
+                    $commerceChargeRentAnnualMeterHt = 'oui';
+                }
+                if($property->IsCommerceSurfaceDivisible() == 0){
+                    $commerceSurfaceDivisible = 'non';
+                }else{
+                    $commerceSurfaceDivisible = 'oui';
+                }
+                $commerceSurfaceDivisibleMin = $property->getCommerceSurfaceDivisibleMin();
+                $commerceSurfaceDivisibleMax = $property->getCommerceSurfaceDivisibleMax();
             }
-            if($property->IsCommerceRentAnnualCc() == 0){
-                $commerceRentAnnualCc = 'non';
-            }else{
-                $commerceRentAnnualCc = 'oui';
+            elseif ($rubric == 9){
+                $destination = 'vente';
+                $typeBien = $property->getRubric()->getName();
+                $price = $property->getPrice();
+                $priceFai = $property->getPriceFai();
+                $rent = "";
+                $rentCharge = "";
+                $rentWithCharge = "";
+                $rentChargeModsPayment = "";
+                $warrantyDeposit = "";
+                $rentChargeHonoraire = "";
+                $commerceAnnualRentGlobal = "";
+                $rentCC = "";
+                $rentHT = "";
+                $rentWallMonth = "";
+                $commerceAnnualChargeRentGlobal = "";
+                $commerceAnnualRentMeter = "";
+                $commerceAnnualChargeRentMeter = "";
+                $commerceChargeRentMonthHt = "";
+                $commerceRentAnnualCc = "";
+                $commerceRentAnnualHt = "";
+                $commerceChargeRentAnnualHt = "";
+                $commerceRentAnnualMeterCc = "";
+                $commerceRentAnnualMeterHt = "";
+                $commerceChargeRentAnnualMeterHt = "";
+                $commerceSurfaceDivisible = "";
+                $commerceSurfaceDivisibleMin = "";
+                $commerceSurfaceDivisibleMax = "";
             }
-            if($property->IsCommerceRentAnnualHt() == 0){
-                $commerceRentAnnualHt = 'non';
-            }else{
-                $commerceRentAnnualHt = 'oui';
-            }
-            if($property->IsCommerceChargeRentAnnualHt() == 0){
-                $commerceChargeRentAnnualHt = 'non';
-            }else{
-                $commerceChargeRentAnnualHt = 'oui';
-            }
-            if($property->IsCommerceRentAnnualMeterCc() == 0){
-                $commerceRentAnnualMeterCc = 'non';
-            }else{
-                $commerceRentAnnualMeterCc = 'oui';
-            }
-            if($property->IsCommerceRentAnnualMeterHt() == 0){
-                $commerceRentAnnualMeterHt = 'non';
-            }else{
-                $commerceRentAnnualMeterHt = 'oui';
-            }
-            if($property->IsCommerceChargeRentAnnualMeterHt() == 0){
-                $commerceChargeRentAnnualMeterHt = 'non';
-            }else{
-                $commerceChargeRentAnnualMeterHt = 'oui';
-            }
-            if($property->IsCommerceSurfaceDivisible() == 0){
-                $commerceSurfaceDivisible = 'non';
-            }else{
-                $commerceSurfaceDivisible = 'oui';
-            }
-            $commerceSurfaceDivisibleMin = $property->getCommerceSurfaceDivisibleMin();
-            $commerceSurfaceDivisibleMax = $property->getCommerceSurfaceDivisibleMax();
+
         }
 
         return array(
@@ -456,6 +488,8 @@ class PropertyService
             }elseif($property['rubric'] == 'Garage'){
                 $bien = 'Parking/box';
             }elseif($property['rubric'] == 'Location'){
+                $bien = $property['rubricss'];
+            }elseif($property['rubric'] == 'vente'){
                 $bien = $property['rubricss'];
             }else{
                 $bien = $property['rubric'];
