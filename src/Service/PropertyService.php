@@ -103,7 +103,7 @@ class PropertyService
             $commerceSurfaceDivisibleMin = "";
             $commerceSurfaceDivisibleMax = "";
         }
-        elseif($famille == 4 && $rubric == 8){
+        elseif($famille == 4){
             if($rubric == 8){
                 // Location pro
                 $destination = 'location';
