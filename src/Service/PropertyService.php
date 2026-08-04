@@ -473,27 +473,29 @@ class PropertyService
             }
         }else if($property['family'] == 'Immobilier professionnel')
         {
-            if($property['rubric'] == 'Propriété / Château') {
-                $bien = 'Château';
-            }elseif($property['rubric'] == 'vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
-                $bien = 'Immeuble';
-            }elseif($property['rubric'] == 'A définir'){
-                $bien = 'Inconnu';
-            }elseif($property['rubric'] == 'Loft'){
-                $bien = 'loft/atelier/surface';
-            }elseif($property['rubric'] == 'Atelier'){
-                $bien = 'loft/atelier/surface';
-            }elseif($property['rubric'] == 'Parking'){
-                $bien = 'Parking/box';
-            }elseif($property['rubric'] == 'Garage'){
-                $bien = 'Parking/box';
-            }elseif($property['rubric'] == 'Location'){
-                $bien = $property['rubricss'];
-            }elseif($property['rubric'] == 'vente'){
-                $bien = $property['rubricss'];
-            }else{
-                $bien = $property['rubric'];
+            if($property['rubric'] == 'Location'){
+                if(in_array($property['ssrubric'], [
+                    'Autres locaux professionnels',
+                    'Bureau',
+                    'Entrepôt',
+                    'Local commercial',
+                    'Local industriel'], true)){
+                    $bien = 'local';
+                }
             }
+            elseif ($property['rubric'] == 'Vente'){
+                if(in_array($property['ssrubric'], [
+                    'Autres locaux professionnels',
+                    'Bureau',
+                    'Entrepôt',
+                    'Local commercial',
+                    'Local industriel'], true)){
+                    $bien = 'local';
+                }else{
+                    $bien = 'terrain';
+                }
+            }
+
         }else if($property['family'] == 'Vente commerce, Reprise')
         {
             if($property['rubric'] == 'vente') {
