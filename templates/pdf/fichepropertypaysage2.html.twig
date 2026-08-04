@@ -74,15 +74,15 @@
                                     {% if property.diagGes > 0  %}
                                         {% if property.diagGes > 0 and property.diagGes <= 6 %}
                                             {% set ges = 'A'%}
-                                        {% elseif property.diagGes > 7 and property.diagGes <= 11 %}
+                                        {% elseif property.diagGes > 6 and property.diagGes <= 11 %}
                                             {% set ges = 'B'%}
-                                        {% elseif property.diagGes > 12 and property.diagGes <= 30 %}
+                                        {% elseif property.diagGes > 11 and property.diagGes <= 30 %}
                                             {% set ges = 'C'%}
-                                        {% elseif property.diagGes > 31 and property.diagGes <= 50 %}
+                                        {% elseif property.diagGes > 30 and property.diagGes <= 50 %}
                                             {% set ges = 'D'%}
-                                        {% elseif property.diagGes > 51 and property.diagGes <= 70 %}
+                                        {% elseif property.diagGes > 50 and property.diagGes <= 70 %}
                                             {% set ges = 'E'%}
-                                        {% elseif property.diagGes > 71 and property.diagGes <= 100 %}
+                                        {% elseif property.diagGes > 70 and property.diagGes <= 100 %}
                                             {% set ges = 'F'%}
                                         {% elseif property.diagGes > 100 %}
                                             {% set ges = 'G'%}
