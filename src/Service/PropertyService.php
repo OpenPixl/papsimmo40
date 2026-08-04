@@ -452,7 +452,7 @@ class PropertyService
         {
             if($property['rubric'] == 'Propriété / Château') {
                 $bien = 'Château';
-            }elseif($property['rubric'] == 'vente'){                                    // A CORRIGER D'URGENCE POUR LE BON FOCNTIONNEEMTN
+            }elseif($property['rubric'] == 'vente'){
                 $bien = 'Immeuble';
             }elseif($property['rubric'] == 'A définir'){
                 $bien = 'Inconnu';
@@ -474,7 +474,7 @@ class PropertyService
         }else if($property['family'] == 'Immobilier professionnel')
         {
             if($property['rubric'] == 'Location'){
-                if(in_array($property['ssrubric'], [
+                if(in_array($property['rubricss'], [
                     'Autres locaux professionnels',
                     'Bureau',
                     'Entrepôt',
@@ -484,7 +484,7 @@ class PropertyService
                 }
             }
             elseif ($property['rubric'] == 'Vente'){
-                if(in_array($property['ssrubric'], [
+                if(in_array($property['rubricss'], [
                     'Autres locaux professionnels',
                     'Bureau',
                     'Entrepôt',
