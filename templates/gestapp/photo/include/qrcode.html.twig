@@ -1,7 +1,7 @@
 {% if property.qrcodeUrl is not null %}
-    {% set refyear = property.refnumdate|split('/',2) | first %}           {# on récupère AAAA #}
-    {% set numdate = property.refnumdate|split('/',2) | last %}            {# on récupère MMDDSS #}
-    {% set numdiff = property.ref|split('-',2) | last %}            {# on récupère numéro de différenciation entre bien du même jour#}
+    {% set refyear = property.refnumdate|split('-',2) | first %}           {# on récupère AAAA #}
+    {% set numdate = property.refnumdate|split('-',2) | last %}            {# on récupère MMDDSS #}
+    {% set numdiff = property.ref|split('-') | last %}            {# on récupère numéro de différenciation entre bien du même jour#}
 
     {% set directory =  refyear ~ '-' ~ numdate ~ '-' ~ numdiff %}
     <div class="card mt-2">
