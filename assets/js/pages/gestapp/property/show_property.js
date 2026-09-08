@@ -40,7 +40,6 @@ export function initShowPropertyPage() {
     });
 
     function declareEvent(){
-
         const defaultActiveNavLink = document.querySelector('#admin-tab .nav-link.active');
         const navLinks = document.querySelectorAll('#admin-tab .nav-link');
         const btnUpdateProperty = document.getElementById('btnUpdateProperty');
@@ -336,6 +335,7 @@ export function initShowPropertyPage() {
                 });
         }
         else if(crud === 'ADDAVENANT'){
+            console.log('ADDAVENANT');
             axios
                 .get(url)
                 .then(function(response){

@@ -35,7 +35,7 @@ final class AvenantController extends AbstractController
     ): Response
     {
         $property = $propertyRepository->find($idproperty);
-        $ref = explode("/", $property->getRef());
+        $ref = explode("-", $property->getRef());
         $newref = $ref[0].'-'.$ref[1];
 
         $hasAvenants = count($property->getAvenants());
