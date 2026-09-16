@@ -64,12 +64,12 @@ export function initNewEditCustomerPage() {
                 document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
                 toasterMessage(response.data.message);
                 form.reset();
+                declareEvent();
             })
             .catch(function(error){
                 console.log(error);
             })
         ;
-        declareEvent();
     }
 
     function dellResponsable(event){
@@ -80,12 +80,12 @@ export function initNewEditCustomerPage() {
             .then(function(response){
                 document.getElementById('liste_respcustomer').innerHTML = response.data.listeResp;
                 toasterMessage(response.data.message);
+                declareEvent();
             })
             .catch(function(error){
                 console.log(error);
             })
         ;
-        declareEvent();
     }
 
     function openModal(e){
