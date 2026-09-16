@@ -1113,6 +1113,8 @@ class CustomerController extends AbstractController
     {
         $fiche = $customerRepository->find($idFiche);
         $fiche->removeResponsable($customer);
+
+        $em->remove($customer);
         $em->flush();
 
         return $this->json([
